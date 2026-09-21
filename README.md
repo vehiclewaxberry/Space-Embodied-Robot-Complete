@@ -53,6 +53,61 @@
 
 ---
 
+## 协作者快速上手 / Getting started for collaborators
+
+仓库含 **13 GB Git LFS 内容**（7,328 个对象，主要是 CAD）。**克隆方式选错会出问题**，请按下面来。
+
+### ① 先装 Git LFS —— 不装的话你拿到的是一堆占位符
+
+这是最常见的坑：没装 LFS 就 `git clone`，所有 CAD 文件会变成约 130 字节的指针文本。**文件名看着都在，但一个都打不开。**
+
+```bash
+git lfs install
+```
+
+*Install [Git LFS](https://git-lfs.com/) first. Without it every CAD file clones as a ~130-byte pointer stub — the filenames all look right, but nothing opens.*
+
+### ② 推荐：先不拉 CAD，按需取件
+
+完整克隆会下载 13 GB，**消耗仓库的 LFS 带宽配额**；配额耗尽后**所有人**的 LFS 下载都会被阻断。除非确实需要全部 CAD，否则请用：
+
+```bash
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/vehiclewaxberry/Space-Embodied-Robot-Complete.git
+```
+
+这样能拿到全部代码、文档、仿真结果与机器裁决（约 256 MB），CAD 先留作指针。需要某个具体部件时再单独拉：
+
+```bash
+# 例：只取最新整星总装
+git lfs pull --include="20_engineering/SERVICE_STAR_CORE_INSTALLATION_R6H_20260920/**"
+
+# 例：只取某一批 STEP
+git lfs pull --include="20_engineering/SERVICE_STAR_HARDWARE_COMPACT_20260921/**"
+```
+
+*Full clones pull 13 GB and consume the repository's shared LFS bandwidth quota; once it is exhausted, LFS downloads are blocked for everyone. Prefer the skip-smudge clone above and fetch only what you need.*
+
+### ③ 确实需要全部 CAD 时
+
+```bash
+git clone https://github.com/vehiclewaxberry/Space-Embodied-Robot-Complete.git
+```
+
+请先知会仓库所有者——这一次操作会占用约 13 GB 带宽配额。
+
+### 打开 CAD 需要什么
+
+| 格式 | 仓库内文件数 | 需要的软件 |
+|---|---|---|
+| `.STEP` | 3,404 | **任意 CAD 软件**（FreeCAD、Fusion、CATIA、NX…）— 没有 SolidWorks 就用这个 |
+| `.SLDASM` / `.SLDPRT` | 6,233 | SolidWorks 2024 及以上 |
+| `.FCStd` | 89 | FreeCAD |
+| `.glb` / `.stl` | 873 | 任意三维查看器（仅可视化，非设计源） |
+
+全部 CAD 合计 13 GB LFS（7,328 个去重对象——同内容的文件共享一份存储，所以实际下载量小于按文件数的估计）。
+
+---
+
 ## 研究线 / Research programme
 
 ### 六层架构
@@ -103,12 +158,7 @@
 
 ### CAD 格式说明
 
-原生件为 SolidWorks（`.SLDPRT` / `.SLDASM`），中性交换格式为 `.STEP`。两者通过 Git LFS 存储 —— 克隆前请先安装 [Git LFS](https://git-lfs.com/)：
-
-```bash
-git lfs install
-git clone https://github.com/vehiclewaxberry/Space-Embodied-Robot-Complete.git
-```
+原生件为 SolidWorks（`.SLDPRT` / `.SLDASM`），中性交换格式为 `.STEP`，二者均通过 Git LFS 存储。**克隆方式与所需软件见上文[协作者快速上手](#协作者快速上手--getting-started-for-collaborators)**——直接 `git clone` 而未装 LFS 会拿到占位符而非真实 CAD。
 
 ---
 
