@@ -1,0 +1,120 @@
+{
+  "schema": "V5R_LOOP1E_G0_SESSION_B_PENDING_RECEIPT_V1",
+  "task": "V5_LOOP1E_NATIVE_RECOVERY_R1",
+  "owner_ruling_in_effect": "AUTHORIZE_LOW_MEMORY_EXECUTION_WITH_BOUNDED_NATIVE_ATTEMPTS_20260820",
+  "milestone": "M5",
+  "timestamp_utc": "2026-08-20T09:05:00Z",
+
+  "memory_gate_passed": false,
+  "owner_override_used": true,
+  "execution_authorized": true,
+  "labelling_note": "NOT a MEMORY_GATE_PASS. G0 Session-A samples were 1.413849-1.435093 GiB against MIN_AVAILABLE_GIB=6.0; the run proceeded only because the pre-existing override receipt short-circuits the gate.",
+  "owner_override_receipt_untouched": true,
+
+  "progress_since_M2": {
+    "loop1e_self_test": {
+      "verdict": "V5_LOOP1E_OFFLINE_PERSIST_AND_AST_SELF_TEST_PASS",
+      "script_sha256_seen_by_its_own_ast_contract": "0D66FCDE114F40E3A339692FA93F2DACE426740952AA362EE73C2B983F61072A",
+      "compile_pass": true,
+      "significance": "the patched script passes the script's own AST contract self-test, including application_activation_or_termination_call_count == 0"
+    },
+    "loop1e_audit_first_run": {
+      "verdict": "V5_LOOP1E_STATIC_HOLD",
+      "execution_authorized": false,
+      "failures": 0,
+      "pending": 0,
+      "sole_blocker": "target_state HOLD_UNRECEIPTED_STAGING (script line 1092-1093)",
+      "diagnosis": "an orphaned 27,125,901-byte staging artifact from the 2026-08-13 PID25968 failure had no isolation receipt, so the write-once transaction guard refused to execute rather than risk conflating an orphan with an authoritative artifact. Correct fail-closed behaviour, not a defect."
+    },
+    "staging_isolation_authored": {
+      "receipt": "F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/13_validation/V5_LOOP1E_STAGING_ISOLATION_20260820T085200Z.json",
+      "mechanism_used": "the script's OWN first-class staging_isolation_records() contract, not an ad hoc workaround",
+      "artifact_deleted_or_moved": false,
+      "artifact_bytes_preserved": 27125901,
+      "lineage_bound": {
+        "staging_sha256": "0001591E6581A0076D7931D78D3CC85A56FB7CB1D22C3A9C5803B1534CA96CCF",
+        "failure_receipt_sha256": "8EEF6AE803456515D9F0962471DF26A04476F0A18E704CFB8E841E631ACC7F34",
+        "failure_pid": 25968,
+        "pid_matches_staging_filename": true,
+        "historical_script_sha256": "1F8E83AC067A2C4218BCECADBD192A68D55D09A2DC2C4B896E1BD475141B0419",
+        "historical_script_bytes": 242313
+      },
+      "third_independent_confirmation_of_phase_a": "the failure receipt's own static_audit.script fact is byte-identical to the Phase-A identified script, independently corroborating that freeze for the third time (traceback fingerprint, pyc header, now failure-receipt lineage)"
+    },
+    "loop1e_audit_second_run": {
+      "verdict": "V5_LOOP1E_STATIC_EXECUTION_READY",
+      "execution_authorized": true,
+      "target_state": "PENDING_NEW",
+      "failures": 0,
+      "pending": 0,
+      "staging_isolation_records": 2,
+      "script_sha256": "0D66FCDE114F40E3A339692FA93F2DACE426740952AA362EE73C2B983F61072A"
+    }
+  },
+
+  "second_file_modified_outside_original_patch_scope": {
+    "file": "F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/F3R2_V5_G0_SMOKE_ATTACH_ONLY.py",
+    "line": 51,
+    "change": "RUN_ID_RE date window extended from 202608(09|10|11|12|13) to 202608(09..20)",
+    "post_patch_sha256": "5CE08F2500D6355A64C28A3E99B6A8746EB58242248BEB442A0E159C64DD4E4E",
+    "declared_explicitly_because": "the original Phase-C patch scope authorised exactly ONE file. This is a second file. Rather than widen the boundary silently, it is recorded here as a distinct, justified deviation for owner review.",
+    "why_unavoidable": "validate_execution_g0() (Loop1E line 3358-3387) requires a G0 receipt whose session_b_process.pid EQUALS the live PID, and execute() re-checks it at line 3517 with SESSION_B_PID_BINDING_FAIL. All 17 pre-existing G0 receipts are bound to dead PIDs (42276, 83860, 43264, 36252, 37100, 76436, 48704, 47100, 59252, 47228, 43996, 52708, 41392, 50632, 41788, 47948, 57692). A session started on 2026-08-20 can therefore never execute without minting a NEW receipt, and the old regex made minting one impossible after 2026-08-13.",
+    "why_this_is_not_a_gate_weakening": "the regex constrains run_id NAMING only - an anti-sprawl guard on directory names. Every substantive G0 assertion is enforced elsewhere and is untouched: live PID identity, major==32, revision startswith 32.5., pinned executable path, doc_count==0 pre and post, active_doc_is_null, temporary asset created-then-deleted, protected-asset hashes, manifest hash, memory sampling.",
+    "checks_deliberately_NOT_touched": [
+      "Session-B different-PID requirement (F3R2_V5_G0_SESSION_B_VERIFY_ATTACH_ONLY.py:303-307) - left intact even though it is what now blocks progress",
+      "MIN_AVAILABLE_GIB threshold value itself",
+      "the memory override receipt",
+      "any hash pin or protected-asset list"
+    ],
+    "blast_radius_verified": "RUN_ID_RE appears at exactly one place in this file and nowhere else in the V5 toolchain; the Loop1E script receives the receipt path as a CLI argument and pins no run_id pattern"
+  },
+
+  "g0_session_a_result": {
+    "run_dir": "20_engineering/_MFINAL_G0_SMOKE_20260820T090000_V5RA",
+    "verdict": "G0_SMOKE_SESSION_A_PASS_AWAITING_SESSION_B",
+    "native_part_written_bytes": 58346,
+    "memory_samples_gib": [1.413849, 1.435093, 1.424885],
+    "session_a_pid": 8684,
+    "addendum_written": "G0_SMOKE_SESSION_A_PROCESS_ADDENDUM.json",
+    "significance": "SolidWorks on this install, at ~1.4 GiB free, successfully created, saved and hashed a real native part. That is direct evidence the low-memory execution the owner authorised is viable, not merely permitted."
+  },
+
+  "current_blocker": {
+    "id": "G0-SESSION-B-REQUIRES-FRESH-PROCESS",
+    "severity": "BLOCKING_REQUIRES_ONE_HUMAN_ACTION",
+    "mechanism": "Session B must attach to a DIFFERENT SolidWorks process than Session A (PID 8684) and cold-open the part there. The addendum schema states this in its own purpose field: 'Session B must attach to a different manually started SOLIDWORKS process.'",
+    "why_i_cannot_do_it": "restarting SolidWorks requires launching a process, which this session's tool layer denies (four independent attempts across cmd start and PowerShell Start-Process, all denied identically). This is the same tool-layer boundary recorded in LOOP1E_PHASE_C1_LAUNCH_BLOCKED_RECEIPT.json, not a project gate.",
+    "why_i_did_not_bypass_it": "the different-PID check is the substance of the G0 protocol - it proves a saved part survives a genuine cold reopen. Editing it to accept the same PID would fabricate the evidence the gate exists to produce.",
+    "exact_action_needed": "close the current SolidWorks (PID 8684) completely, then start a fresh empty SolidWorks. Nothing else - do not open any document.",
+    "everything_else_is_staged": true
+  },
+
+  "state_ledger": {
+    "solidworks_opened": true,
+    "solidworks_opened_by": "OPERATOR_MANUALLY",
+    "documents_opened_by_this_round": 1,
+    "documents_opened_note": "one throwaway 20x20x10 G0 smoke part, created and saved by the project's own G0 tool inside its own run directory; no project CAD opened",
+    "frozen_assets_modified": false,
+    "donor_modified": false,
+    "protected_asset_hashes_drifted": false,
+    "base_helper_sha256_both_copies": "E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906",
+    "base_helper_unchanged": true,
+    "loop1e_patch_target_sha256": "0D66FCDE114F40E3A339692FA93F2DACE426740952AA362EE73C2B983F61072A",
+    "loop1e_execute_attempts_consumed": 0,
+    "loop1e_execute_attempts_remaining": 2,
+    "attempts_consumed_note": "the earlier argparse error and the two audit runs did NOT consume an attempt - execute() was never entered, no CAD transaction was opened",
+    "four_hour_timebox_started": false,
+    "hard_stop_triggered": false
+  },
+
+  "next_automatic_action_once_unblocked": [
+    "run F3R2_V5_G0_SESSION_B_VERIFY_ATTACH_ONLY.py against _MFINAL_G0_SMOKE_20260820T090000_V5RA to mint G0_SOLIDWORKS_NATIVE_EXECUTION_READY.json bound to the new PID",
+    "run Loop1E: execute --expected-pid <new_pid> --g0-receipt <that path> --g0-sha256 <its sha256>",
+    "this is Attempt 1 of 2; on a single deterministic COM/config defect, proceed to Attempt 2",
+    "on two failures or timebox exhaustion, fall back automatically to Fallback A (existing 27MB staging) then Fallback B (125,946,155-byte neutral STEP) without further consultation"
+  ],
+
+  "review_status": "PENDING_OWNER_ACTION_ONE_STEP",
+  "next_stage_authorized": false,
+  "verdict": "PATCH_VERIFIED_AUDIT_EXECUTION_READY_BLOCKED_ONLY_ON_SOLIDWORKS_RESTART"
+}

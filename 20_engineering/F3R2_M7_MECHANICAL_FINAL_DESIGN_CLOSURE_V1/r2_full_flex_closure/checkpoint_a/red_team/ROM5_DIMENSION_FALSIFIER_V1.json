@@ -1,0 +1,1633 @@
+{
+  "schema": "ROM5_DIMENSION_FALSIFIER_V1",
+  "evidence_id": "CHECKPOINT_A_RED_TEAM_ROM5_DIMENSION_FALSIFIER_V1",
+  "verdict": "ROM5_FULL_FIELD_TRUNCATION_FALSIFIED_AT_1PCT",
+  "scope": "Independent linear Solar R2 per-wing HF-to-ROM dimension falsifier; nominal 20 ms undamped contact plus bounded contact-window sensitivity",
+  "deterministic_recompute": true,
+  "source_hashes": {
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round3_hf_rom_v2/R2_HF_ROM_NUMERICAL_DATA_V2.npz": {
+      "expected_sha256": "8D10E085385EDF2FACE92B9B48D1172939A31FD3B57E55242ED11C9EEEDF50DA",
+      "actual_sha256": "8D10E085385EDF2FACE92B9B48D1172939A31FD3B57E55242ED11C9EEEDF50DA",
+      "match": true
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round3_hf_rom_v2/R2_FIVE_MODE_ROM_V2.json": {
+      "expected_sha256": "9E4FE903AE7E34584F39F16275EF20FC31831AFB7F78B3B625418B86D0FBC817",
+      "actual_sha256": "9E4FE903AE7E34584F39F16275EF20FC31831AFB7F78B3B625418B86D0FBC817",
+      "match": true
+    }
+  },
+  "input_contract": {
+    "base_delta_twist_6": [
+      -0.009692455771418815,
+      0.0038929116736479714,
+      -0.0020413946008322834,
+      -0.04501982207187775,
+      -0.0015129575188143466,
+      0.02812660573609509
+    ],
+    "base_delta_twist_units": "[m/s,m/s,m/s,rad/s,rad/s,rad/s]",
+    "base_delta_authority": "DIAGNOSTIC_INPUT_ONLY__NOT_REDERIVED_OR_GRANTED_COUPLED_AUTHORITY",
+    "contact_window_nominal_ms": 20.0,
+    "post_window_s": 5.0,
+    "contact_samples": 401,
+    "post_samples": 5001,
+    "damping_ratio": 0.0,
+    "relative_limit": 0.01,
+    "relative_denominator_floor": 1e-14,
+    "forcing_equation": "f_impulse = -(B_t*delta_v_base + B_r*delta_omega_base); f(t)=f_impulse*pi/(2*Tc)*sin(pi*t/Tc)"
+  },
+  "algebra_audit": {
+    "M_shape": [
+      183,
+      183
+    ],
+    "K_shape": [
+      183,
+      183
+    ],
+    "Phi_shape": [
+      183,
+      5
+    ],
+    "Bt_Br_shape_per_wing": [
+      183,
+      3
+    ],
+    "Gamma_shape_per_wing": [
+      5,
+      3
+    ],
+    "M_symmetry_max_abs": 0.0,
+    "K_symmetry_max_abs": 0.0,
+    "M_min_eigenvalue": 1.6367769490747454e-09,
+    "K_min_eigenvalue": 0.1026489260643135,
+    "Phi_T_M_Phi_minus_I_max_abs": 2.220446049250313e-15,
+    "Mrom_projection_max_abs": 0.0,
+    "Krom_projection_max_abs": 0.0,
+    "Gamma_projection_max_abs": {
+      "L": {
+        "translation": 0.0,
+        "rotation": 0.0
+      },
+      "R": {
+        "translation": 0.0,
+        "rotation": 0.0
+      }
+    },
+    "operator_projection_max_abs": {
+      "w_nodes": 0.0,
+      "theta_dofs": 0.0,
+      "hinge_relative": 0.0,
+      "torsion_nodes": 0.0,
+      "tip_w": 0.0
+    },
+    "wing_symmetry": {
+      "Bt_L_minus_Bt_R_max_abs": 0.0,
+      "Br_L_plus_Br_R_max_abs": 0.0
+    }
+  },
+  "analytic_numeric_crosscheck": {
+    "analytic_forcing": {
+      "shape": "pi/(2*Tc) * sin(pi*t/Tc)",
+      "Tc_s": 0.02,
+      "spectral_center_hz": 25.0,
+      "analytic_integral": 1.0,
+      "401_point_trapezoid_integral": 0.9999948595757563,
+      "trapezoid_absolute_error": 5.1404242437103065e-06
+    },
+    "numerical_method": "DOP853 two-stage contact/free response",
+    "post_crosscheck_duration_s": 0.2,
+    "rtol": 1e-12,
+    "atol": 1e-14,
+    "contact_success": true,
+    "free_success": true,
+    "contact_nfev": 1517,
+    "free_nfev": 15002,
+    "q_max_abs_difference": 2.1187478854711728e-15,
+    "q_relative_to_peak_scale": 3.709800720217517e-12,
+    "qdot_max_abs_difference": 9.187615945815963e-14,
+    "qdot_relative_to_peak_scale": 5.953594012032747e-12,
+    "tip_peak_relative_difference": 3.574977901792641e-12,
+    "torsion_peak_relative_difference": 3.1940281015199696e-15
+  },
+  "mode_inventory_first12": [
+    {
+      "hf_index_0based": 0,
+      "hf_index_1based": 1,
+      "label": "B1",
+      "family": "BENDING",
+      "frequency_hz": 4.30046323263928,
+      "torsion_mass_fraction": 0.0
+    },
+    {
+      "hf_index_0based": 1,
+      "hf_index_1based": 2,
+      "label": "T1",
+      "family": "TORSION",
+      "frequency_hz": 6.258339174164938,
+      "torsion_mass_fraction": 1.0000000000000004
+    },
+    {
+      "hf_index_0based": 2,
+      "hf_index_1based": 3,
+      "label": "T2",
+      "family": "TORSION",
+      "frequency_hz": 18.779307164809904,
+      "torsion_mass_fraction": 0.9999999999999999
+    },
+    {
+      "hf_index_0based": 3,
+      "hf_index_1based": 4,
+      "label": "B2",
+      "family": "BENDING",
+      "frequency_hz": 25.785014830803572,
+      "torsion_mass_fraction": 0.0
+    },
+    {
+      "hf_index_0based": 4,
+      "hf_index_1based": 5,
+      "label": "T3",
+      "family": "TORSION",
+      "frequency_hz": 31.31314700020132,
+      "torsion_mass_fraction": 1.0000000000000009
+    },
+    {
+      "hf_index_0based": 5,
+      "hf_index_1based": 6,
+      "label": "T4",
+      "family": "TORSION",
+      "frequency_hz": 43.86844952995683,
+      "torsion_mass_fraction": 1.0000000000000002
+    },
+    {
+      "hf_index_0based": 6,
+      "hf_index_1based": 7,
+      "label": "T5",
+      "family": "TORSION",
+      "frequency_hz": 56.453819658918185,
+      "torsion_mass_fraction": 1.0000000000000013
+    },
+    {
+      "hf_index_0based": 7,
+      "hf_index_1based": 8,
+      "label": "B3",
+      "family": "BENDING",
+      "frequency_hz": 67.42978721838807,
+      "torsion_mass_fraction": 0.0
+    },
+    {
+      "hf_index_0based": 8,
+      "hf_index_1based": 9,
+      "label": "T6",
+      "family": "TORSION",
+      "frequency_hz": 69.07788121068947,
+      "torsion_mass_fraction": 1.0000000000000004
+    },
+    {
+      "hf_index_0based": 9,
+      "hf_index_1based": 10,
+      "label": "T7",
+      "family": "TORSION",
+      "frequency_hz": 81.74928100989115,
+      "torsion_mass_fraction": 1.0000000000000009
+    },
+    {
+      "hf_index_0based": 10,
+      "hf_index_1based": 11,
+      "label": "T8",
+      "family": "TORSION",
+      "frequency_hz": 94.4766919269601,
+      "torsion_mass_fraction": 1.0000000000000002
+    },
+    {
+      "hf_index_0based": 11,
+      "hf_index_1based": 12,
+      "label": "T9",
+      "family": "TORSION",
+      "frequency_hz": 107.26881460379023,
+      "torsion_mass_fraction": 1.0000000000000002
+    }
+  ],
+  "round3_mode_mapping": {
+    "stored_mode_labels": [
+      "BENDING_1",
+      "BENDING_2",
+      "BENDING_3",
+      "TORSION_1",
+      "TORSION_2"
+    ],
+    "stored_column_to_hf_index_0based": [
+      0,
+      3,
+      7,
+      1,
+      2
+    ],
+    "stored_column_mac": [
+      0.9999999999999978,
+      1.0000000000000004,
+      1.0000000000000002,
+      1.0000000000000004,
+      0.9999999999999999
+    ],
+    "stored_nominal_frequencies_hz": [
+      4.30046323263928,
+      25.785014830803572,
+      67.42978721838807,
+      6.258339174164938,
+      18.779307164809904
+    ]
+  },
+  "current_round3_rom5": {
+    "selection_rule": "three lowest BENDING modes plus two lowest TORSION modes",
+    "stored_hf_indices_0based": [
+      0,
+      3,
+      7,
+      1,
+      2
+    ],
+    "sorted_hf_indices_0based": [
+      0,
+      1,
+      2,
+      3,
+      7
+    ],
+    "per_wing": {
+      "L": {
+        "hf_metrics": {
+          "tip_peak_m": 0.0015796447768759347,
+          "node_peak_m": 0.0015796447768759347,
+          "slope_peak_rad": 0.00383618755480503,
+          "hinge_peak_rad": 0.0006669860334972608,
+          "torsion_peak_rad": 5.496536692972348e-05,
+          "modal_energy_peak_J": 0.0001241331727665493,
+          "modal_energy_final_J": 0.00012413317276654923
+        },
+        "rom5_metrics": {
+          "tip_peak_m": 0.0015796364102023338,
+          "node_peak_m": 0.0015796364102023338,
+          "slope_peak_rad": 0.003836098299659795,
+          "hinge_peak_rad": 0.0006672199622984421,
+          "torsion_peak_rad": 5.303835228846798e-05,
+          "modal_energy_peak_J": 0.00012413301536412985,
+          "modal_energy_final_J": 0.00012413301536412974
+        },
+        "relative_errors": {
+          "tip_peak_m": 5.296553834997826e-06,
+          "node_peak_m": 5.296553834997826e-06,
+          "slope_peak_rad": 2.326662707703894e-05,
+          "hinge_peak_rad": 0.0003507251867850515,
+          "torsion_peak_rad": 0.035058706034279866,
+          "modal_energy_peak_J": 1.2680125379251548e-06,
+          "modal_energy_final_J": 1.2680125383618647e-06
+        },
+        "max_relative_error": 0.035058706034279866,
+        "forcing_impulse_generalized_norm": 0.0015364450592634125,
+        "projected_force_gamma_max_abs_residual": 1.734723475976807e-18
+      },
+      "R": {
+        "hf_metrics": {
+          "tip_peak_m": 0.00132989870781412,
+          "node_peak_m": 0.00132989870781412,
+          "slope_peak_rad": 0.0031785243983809153,
+          "hinge_peak_rad": 0.0005463052582623315,
+          "torsion_peak_rad": 5.496536692972348e-05,
+          "modal_energy_peak_J": 8.766256790035035e-05,
+          "modal_energy_final_J": 8.766256790035032e-05
+        },
+        "rom5_metrics": {
+          "tip_peak_m": 0.001329883729671933,
+          "node_peak_m": 0.001329883729671933,
+          "slope_peak_rad": 0.0031784721530497845,
+          "hinge_peak_rad": 0.0005464216129276074,
+          "torsion_peak_rad": 5.303835228846798e-05,
+          "modal_energy_peak_J": 8.766246220233427e-05,
+          "modal_energy_final_J": 8.766246220233424e-05
+        },
+        "relative_errors": {
+          "tip_peak_m": 1.1262618798736145e-05,
+          "node_peak_m": 1.1262618798736145e-05,
+          "slope_peak_rad": 1.643697659121592e-05,
+          "hinge_peak_rad": 0.0002129847068394704,
+          "torsion_peak_rad": 0.035058706034279866,
+          "modal_energy_peak_J": 1.2057371648229604e-06,
+          "modal_energy_final_J": 1.2057371648229608e-06
+        },
+        "max_relative_error": 0.035058706034279866,
+        "forcing_impulse_generalized_norm": 0.0012749805958686673,
+        "projected_force_gamma_max_abs_residual": 2.6020852139652106e-18
+      }
+    },
+    "global_max_relative_error": 0.035058706034279866,
+    "passes_1pct_all_published_metrics": false,
+    "direct_eigen_subset_recompute": {
+      "hf_indices_0based": [
+        0,
+        1,
+        2,
+        3,
+        7
+      ],
+      "modes": [
+        {
+          "hf_index_0based": 0,
+          "label": "B1",
+          "family": "BENDING",
+          "frequency_hz": 4.30046323263928
+        },
+        {
+          "hf_index_0based": 1,
+          "label": "T1",
+          "family": "TORSION",
+          "frequency_hz": 6.258339174164938
+        },
+        {
+          "hf_index_0based": 2,
+          "label": "T2",
+          "family": "TORSION",
+          "frequency_hz": 18.779307164809904
+        },
+        {
+          "hf_index_0based": 3,
+          "label": "B2",
+          "family": "BENDING",
+          "frequency_hz": 25.785014830803572
+        },
+        {
+          "hf_index_0based": 7,
+          "label": "B3",
+          "family": "BENDING",
+          "frequency_hz": 67.42978721838807
+        }
+      ],
+      "bending_mode_count": 3,
+      "torsion_mode_count": 2,
+      "per_wing": {
+        "L": {
+          "candidate_metrics": {
+            "tip_peak_m": 0.001579636967771399,
+            "node_peak_m": 0.001579636967771399,
+            "slope_peak_rad": 0.003836099862152059,
+            "hinge_peak_rad": 0.0006672202672695617,
+            "torsion_peak_rad": 5.3038352288464096e-05,
+            "modal_energy_peak_J": 0.00012413301526813914
+          },
+          "relative_errors": {
+            "tip_peak_m": 4.943582664960649e-06,
+            "node_peak_m": 4.943582664960649e-06,
+            "slope_peak_rad": 2.2859323669235408e-05,
+            "hinge_peak_rad": 0.0003511824244245556,
+            "torsion_peak_rad": 0.03505870603435051,
+            "modal_energy_peak_J": 1.2687858260363293e-06
+          },
+          "max_relative_error": 0.03505870603435051
+        },
+        "R": {
+          "candidate_metrics": {
+            "tip_peak_m": 0.0013298841215394611,
+            "node_peak_m": 0.0013298841215394611,
+            "slope_peak_rad": 0.003178473488208411,
+            "hinge_peak_rad": 0.0005464218730545244,
+            "torsion_peak_rad": 5.3038352288464096e-05,
+            "modal_energy_peak_J": 8.766246213294956e-05
+          },
+          "relative_errors": {
+            "tip_peak_m": 1.0967959118322546e-05,
+            "node_peak_m": 1.0967959118322546e-05,
+            "slope_peak_rad": 1.601692047110749e-05,
+            "hinge_peak_rad": 0.00021346086355411716,
+            "torsion_peak_rad": 0.03505870603435051,
+            "modal_energy_peak_J": 1.2065286624063927e-06
+          },
+          "max_relative_error": 0.03505870603435051
+        }
+      },
+      "global_max_relative_error": 0.03505870603435051,
+      "governing_metrics": [
+        "L_torsion_peak_rad",
+        "R_torsion_peak_rad"
+      ],
+      "passes_1pct": false
+    }
+  },
+  "dimension_combination_falsifier": {
+    "eigenmode_pool": "first 12 nominal HF eigenmodes",
+    "five_dimensional_combination_count": 792,
+    "expected_five_dimensional_combination_count": 792,
+    "all_792_five_dimensional_subsets_evaluated": true,
+    "metrics": [
+      "tip_peak_m",
+      "node_peak_m",
+      "slope_peak_rad",
+      "hinge_peak_rad",
+      "torsion_peak_rad",
+      "modal_energy_peak_J"
+    ],
+    "score": "max over LEFT/RIGHT and metrics of abs(candidate_peak-HF_peak)/max(abs(HF_peak),1e-14)",
+    "best_by_dimension_1_to_7": {
+      "1": {
+        "hf_indices_0based": [
+          0
+        ],
+        "modes": [
+          {
+            "hf_index_0based": 0,
+            "label": "B1",
+            "family": "BENDING",
+            "frequency_hz": 4.30046323263928
+          }
+        ],
+        "bending_mode_count": 1,
+        "torsion_mode_count": 0,
+        "per_wing": {
+          "L": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0015407415480807364,
+              "node_peak_m": 0.0015407415480807364,
+              "slope_peak_rad": 0.0034758501753915203,
+              "hinge_peak_rad": 0.0005707948168520115,
+              "torsion_peak_rad": 0.0,
+              "modal_energy_peak_J": 0.00011907417822230781
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.02462783365266292,
+              "node_peak_m": 0.02462783365266292,
+              "slope_peak_rad": 0.09393111631420835,
+              "hinge_peak_rad": 0.14421773742529848,
+              "torsion_peak_rad": 1.0,
+              "modal_energy_peak_J": 0.040754573749239985
+            },
+            "max_relative_error": 1.0
+          },
+          "R": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0013047734312733542,
+              "node_peak_m": 0.0013047734312733542,
+              "slope_peak_rad": 0.002943515715265203,
+              "hinge_peak_rad": 0.000483376275965798,
+              "torsion_peak_rad": 0.0,
+              "modal_energy_peak_J": 8.539416854453796e-05
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.018892624222534023,
+              "node_peak_m": 0.018892624222534023,
+              "slope_peak_rad": 0.07393641000063483,
+              "hinge_peak_rad": 0.11519014570113384,
+              "torsion_peak_rad": 1.0,
+              "modal_energy_peak_J": 0.025876487651958494
+            },
+            "max_relative_error": 1.0
+          }
+        },
+        "global_max_relative_error": 1.0,
+        "governing_metrics": [
+          "L_torsion_peak_rad",
+          "R_torsion_peak_rad"
+        ],
+        "passes_1pct": false
+      },
+      "2": {
+        "hf_indices_0based": [
+          0,
+          1
+        ],
+        "modes": [
+          {
+            "hf_index_0based": 0,
+            "label": "B1",
+            "family": "BENDING",
+            "frequency_hz": 4.30046323263928
+          },
+          {
+            "hf_index_0based": 1,
+            "label": "T1",
+            "family": "TORSION",
+            "frequency_hz": 6.258339174164938
+          }
+        ],
+        "bending_mode_count": 1,
+        "torsion_mode_count": 1,
+        "per_wing": {
+          "L": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0015407415480807364,
+              "node_peak_m": 0.0015407415480807364,
+              "slope_peak_rad": 0.0034758501753915203,
+              "hinge_peak_rad": 0.0005707948168520115,
+              "torsion_peak_rad": 4.827805369895356e-05,
+              "modal_energy_peak_J": 0.00011907782704718779
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.02462783365266292,
+              "node_peak_m": 0.02462783365266292,
+              "slope_peak_rad": 0.09393111631420835,
+              "hinge_peak_rad": 0.14421773742529848,
+              "torsion_peak_rad": 0.12166412423517614,
+              "modal_energy_peak_J": 0.04072517931100355
+            },
+            "max_relative_error": 0.14421773742529848
+          },
+          "R": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0013047734312733542,
+              "node_peak_m": 0.0013047734312733542,
+              "slope_peak_rad": 0.002943515715265203,
+              "hinge_peak_rad": 0.000483376275965798,
+              "torsion_peak_rad": 4.827805369895356e-05,
+              "modal_energy_peak_J": 8.539781736941794e-05
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.018892624222534023,
+              "node_peak_m": 0.018892624222534023,
+              "slope_peak_rad": 0.07393641000063483,
+              "hinge_peak_rad": 0.11519014570113384,
+              "torsion_peak_rad": 0.12166412423517614,
+              "modal_energy_peak_J": 0.025834864129315096
+            },
+            "max_relative_error": 0.12166412423517614
+          }
+        },
+        "global_max_relative_error": 0.14421773742529848,
+        "governing_metrics": [
+          "L_hinge_peak_rad"
+        ],
+        "passes_1pct": false
+      },
+      "3": {
+        "hf_indices_0based": [
+          0,
+          1,
+          3
+        ],
+        "modes": [
+          {
+            "hf_index_0based": 0,
+            "label": "B1",
+            "family": "BENDING",
+            "frequency_hz": 4.30046323263928
+          },
+          {
+            "hf_index_0based": 1,
+            "label": "T1",
+            "family": "TORSION",
+            "frequency_hz": 6.258339174164938
+          },
+          {
+            "hf_index_0based": 3,
+            "label": "B2",
+            "family": "BENDING",
+            "frequency_hz": 25.785014830803572
+          }
+        ],
+        "bending_mode_count": 2,
+        "torsion_mode_count": 1,
+        "per_wing": {
+          "L": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0015801785237515799,
+              "node_peak_m": 0.0015801785237515799,
+              "slope_peak_rad": 0.0038338761045001923,
+              "hinge_peak_rad": 0.0006626000610584318,
+              "torsion_peak_rad": 4.827805369895356e-05,
+              "modal_energy_peak_J": 0.00012412449813174292
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.0003378904443951843,
+              "node_peak_m": 0.0003378904443951843,
+              "slope_peak_rad": 0.0006025383982966475,
+              "hinge_peak_rad": 0.006575808515557166,
+              "torsion_peak_rad": 0.12166412423517614,
+              "modal_energy_peak_J": 6.988168120606976e-05
+            },
+            "max_relative_error": 0.12166412423517614
+          },
+          "R": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0013302380478211323,
+              "node_peak_m": 0.0013302380478211323,
+              "slope_peak_rad": 0.003177423068607154,
+              "hinge_peak_rad": 0.0005438859713037239,
+              "torsion_peak_rad": 4.827805369895356e-05,
+              "modal_energy_peak_J": 8.765928783834708e-05
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.00025516229545791835,
+              "node_peak_m": 0.00025516229545791835,
+              "slope_peak_rad": 0.0003464908982048801,
+              "hinge_peak_rad": 0.004428452631597958,
+              "torsion_peak_rad": 0.12166412423517614,
+              "modal_energy_peak_J": 3.741690532041187e-05
+            },
+            "max_relative_error": 0.12166412423517614
+          }
+        },
+        "global_max_relative_error": 0.12166412423517614,
+        "governing_metrics": [
+          "L_torsion_peak_rad",
+          "R_torsion_peak_rad"
+        ],
+        "passes_1pct": false
+      },
+      "4": {
+        "hf_indices_0based": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "modes": [
+          {
+            "hf_index_0based": 0,
+            "label": "B1",
+            "family": "BENDING",
+            "frequency_hz": 4.30046323263928
+          },
+          {
+            "hf_index_0based": 1,
+            "label": "T1",
+            "family": "TORSION",
+            "frequency_hz": 6.258339174164938
+          },
+          {
+            "hf_index_0based": 2,
+            "label": "T2",
+            "family": "TORSION",
+            "frequency_hz": 18.779307164809904
+          },
+          {
+            "hf_index_0based": 3,
+            "label": "B2",
+            "family": "BENDING",
+            "frequency_hz": 25.785014830803572
+          }
+        ],
+        "bending_mode_count": 2,
+        "torsion_mode_count": 2,
+        "per_wing": {
+          "L": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0015801785237515799,
+              "node_peak_m": 0.0015801785237515799,
+              "slope_peak_rad": 0.0038338761045001923,
+              "hinge_peak_rad": 0.0006626000610584318,
+              "torsion_peak_rad": 5.3038352288464096e-05,
+              "modal_energy_peak_J": 0.00012412481729201174
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.0003378904443951843,
+              "node_peak_m": 0.0003378904443951843,
+              "slope_peak_rad": 0.0006025383982966475,
+              "hinge_peak_rad": 0.006575808515557166,
+              "torsion_peak_rad": 0.03505870603435051,
+              "modal_energy_peak_J": 6.731056937744822e-05
+            },
+            "max_relative_error": 0.03505870603435051
+          },
+          "R": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0013302380478211323,
+              "node_peak_m": 0.0013302380478211323,
+              "slope_peak_rad": 0.003177423068607154,
+              "hinge_peak_rad": 0.0005438859713037239,
+              "torsion_peak_rad": 5.3038352288464096e-05,
+              "modal_energy_peak_J": 8.765960699861589e-05
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.00025516229545791835,
+              "node_peak_m": 0.00025516229545791835,
+              "slope_peak_rad": 0.0003464908982048801,
+              "hinge_peak_rad": 0.004428452631597958,
+              "torsion_peak_rad": 0.03505870603435051,
+              "modal_energy_peak_J": 3.377612366804631e-05
+            },
+            "max_relative_error": 0.03505870603435051
+          }
+        },
+        "global_max_relative_error": 0.03505870603435051,
+        "governing_metrics": [
+          "L_torsion_peak_rad",
+          "R_torsion_peak_rad"
+        ],
+        "passes_1pct": false
+      },
+      "5": {
+        "hf_indices_0based": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "modes": [
+          {
+            "hf_index_0based": 0,
+            "label": "B1",
+            "family": "BENDING",
+            "frequency_hz": 4.30046323263928
+          },
+          {
+            "hf_index_0based": 1,
+            "label": "T1",
+            "family": "TORSION",
+            "frequency_hz": 6.258339174164938
+          },
+          {
+            "hf_index_0based": 2,
+            "label": "T2",
+            "family": "TORSION",
+            "frequency_hz": 18.779307164809904
+          },
+          {
+            "hf_index_0based": 3,
+            "label": "B2",
+            "family": "BENDING",
+            "frequency_hz": 25.785014830803572
+          },
+          {
+            "hf_index_0based": 4,
+            "label": "T3",
+            "family": "TORSION",
+            "frequency_hz": 31.31314700020132
+          }
+        ],
+        "bending_mode_count": 2,
+        "torsion_mode_count": 3,
+        "per_wing": {
+          "L": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0015801785237515799,
+              "node_peak_m": 0.0015801785237515799,
+              "slope_peak_rad": 0.0038338761045001923,
+              "hinge_peak_rad": 0.0006626000610584318,
+              "torsion_peak_rad": 5.437011192739246e-05,
+              "modal_energy_peak_J": 0.00012412488662807793
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.0003378904443951843,
+              "node_peak_m": 0.0003378904443951843,
+              "slope_peak_rad": 0.0006025383982966475,
+              "hinge_peak_rad": 0.006575808515557166,
+              "torsion_peak_rad": 0.010829637562359794,
+              "modal_energy_peak_J": 6.675200743433407e-05
+            },
+            "max_relative_error": 0.010829637562359794
+          },
+          "R": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0013302380478211323,
+              "node_peak_m": 0.0013302380478211323,
+              "slope_peak_rad": 0.003177423068607154,
+              "hinge_peak_rad": 0.0005438859713037239,
+              "torsion_peak_rad": 5.437011192739246e-05,
+              "modal_energy_peak_J": 8.765967633468209e-05
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.00025516229545791835,
+              "node_peak_m": 0.00025516229545791835,
+              "slope_peak_rad": 0.0003464908982048801,
+              "hinge_peak_rad": 0.004428452631597958,
+              "torsion_peak_rad": 0.010829637562359794,
+              "modal_energy_peak_J": 3.2985180990234535e-05
+            },
+            "max_relative_error": 0.010829637562359794
+          }
+        },
+        "global_max_relative_error": 0.010829637562359794,
+        "governing_metrics": [
+          "L_torsion_peak_rad",
+          "R_torsion_peak_rad"
+        ],
+        "passes_1pct": false
+      },
+      "6": {
+        "hf_indices_0based": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "modes": [
+          {
+            "hf_index_0based": 0,
+            "label": "B1",
+            "family": "BENDING",
+            "frequency_hz": 4.30046323263928
+          },
+          {
+            "hf_index_0based": 1,
+            "label": "T1",
+            "family": "TORSION",
+            "frequency_hz": 6.258339174164938
+          },
+          {
+            "hf_index_0based": 2,
+            "label": "T2",
+            "family": "TORSION",
+            "frequency_hz": 18.779307164809904
+          },
+          {
+            "hf_index_0based": 3,
+            "label": "B2",
+            "family": "BENDING",
+            "frequency_hz": 25.785014830803572
+          },
+          {
+            "hf_index_0based": 4,
+            "label": "T3",
+            "family": "TORSION",
+            "frequency_hz": 31.31314700020132
+          },
+          {
+            "hf_index_0based": 5,
+            "label": "T4",
+            "family": "TORSION",
+            "frequency_hz": 43.86844952995683
+          }
+        ],
+        "bending_mode_count": 2,
+        "torsion_mode_count": 4,
+        "per_wing": {
+          "L": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0015801785237515799,
+              "node_peak_m": 0.0015801785237515799,
+              "slope_peak_rad": 0.0038338761045001923,
+              "hinge_peak_rad": 0.0006626000610584318,
+              "torsion_peak_rad": 5.4816169425352706e-05,
+              "modal_energy_peak_J": 0.00012412490186247376
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.0003378904443951843,
+              "node_peak_m": 0.0003378904443951843,
+              "slope_peak_rad": 0.0006025383982966475,
+              "hinge_peak_rad": 0.006575808515557166,
+              "torsion_peak_rad": 0.002714391128536163,
+              "modal_energy_peak_J": 6.66292812082108e-05
+            },
+            "max_relative_error": 0.006575808515557166
+          },
+          "R": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0013302380478211323,
+              "node_peak_m": 0.0013302380478211323,
+              "slope_peak_rad": 0.003177423068607154,
+              "hinge_peak_rad": 0.0005438859713037239,
+              "torsion_peak_rad": 5.4816169425352706e-05,
+              "modal_energy_peak_J": 8.765969156907793e-05
+            },
+            "relative_errors": {
+              "tip_peak_m": 0.00025516229545791835,
+              "node_peak_m": 0.00025516229545791835,
+              "slope_peak_rad": 0.0003464908982048801,
+              "hinge_peak_rad": 0.004428452631597958,
+              "torsion_peak_rad": 0.002714391128536163,
+              "modal_energy_peak_J": 3.281139648666835e-05
+            },
+            "max_relative_error": 0.004428452631597958
+          }
+        },
+        "global_max_relative_error": 0.006575808515557166,
+        "governing_metrics": [
+          "L_hinge_peak_rad"
+        ],
+        "passes_1pct": true
+      },
+      "7": {
+        "hf_indices_0based": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "modes": [
+          {
+            "hf_index_0based": 0,
+            "label": "B1",
+            "family": "BENDING",
+            "frequency_hz": 4.30046323263928
+          },
+          {
+            "hf_index_0based": 1,
+            "label": "T1",
+            "family": "TORSION",
+            "frequency_hz": 6.258339174164938
+          },
+          {
+            "hf_index_0based": 2,
+            "label": "T2",
+            "family": "TORSION",
+            "frequency_hz": 18.779307164809904
+          },
+          {
+            "hf_index_0based": 3,
+            "label": "B2",
+            "family": "BENDING",
+            "frequency_hz": 25.785014830803572
+          },
+          {
+            "hf_index_0based": 4,
+            "label": "T3",
+            "family": "TORSION",
+            "frequency_hz": 31.31314700020132
+          },
+          {
+            "hf_index_0based": 5,
+            "label": "T4",
+            "family": "TORSION",
+            "frequency_hz": 43.86844952995683
+          },
+          {
+            "hf_index_0based": 7,
+            "label": "B3",
+            "family": "BENDING",
+            "frequency_hz": 67.42978721838807
+          }
+        ],
+        "bending_mode_count": 3,
+        "torsion_mode_count": 4,
+        "per_wing": {
+          "L": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.001579636967771399,
+              "node_peak_m": 0.001579636967771399,
+              "slope_peak_rad": 0.003836099862152059,
+              "hinge_peak_rad": 0.0006672202672695617,
+              "torsion_peak_rad": 5.4816169425352706e-05,
+              "modal_energy_peak_J": 0.00012413309983860116
+            },
+            "relative_errors": {
+              "tip_peak_m": 4.943582664960649e-06,
+              "node_peak_m": 4.943582664960649e-06,
+              "slope_peak_rad": 2.2859323669235408e-05,
+              "hinge_peak_rad": 0.0003511824244245556,
+              "torsion_peak_rad": 0.002714391128536163,
+              "modal_energy_peak_J": 5.874976567989104e-07
+            },
+            "max_relative_error": 0.002714391128536163
+          },
+          "R": {
+            "candidate_metrics": {
+              "tip_peak_m": 0.0013298841215394611,
+              "node_peak_m": 0.0013298841215394611,
+              "slope_peak_rad": 0.003178473488208411,
+              "hinge_peak_rad": 0.0005464218730545244,
+              "torsion_peak_rad": 5.4816169425352706e-05,
+              "modal_energy_peak_J": 8.76625467034116e-05
+            },
+            "relative_errors": {
+              "tip_peak_m": 1.0967959118322546e-05,
+              "node_peak_m": 1.0967959118322546e-05,
+              "slope_peak_rad": 1.601692047110749e-05,
+              "hinge_peak_rad": 0.00021346086355411716,
+              "torsion_peak_rad": 0.002714391128536163,
+              "modal_energy_peak_J": 2.4180148102842545e-07
+            },
+            "max_relative_error": 0.002714391128536163
+          }
+        },
+        "global_max_relative_error": 0.002714391128536163,
+        "governing_metrics": [
+          "L_torsion_peak_rad",
+          "R_torsion_peak_rad"
+        ],
+        "passes_1pct": true
+      }
+    },
+    "best_five_dimensional_subset": {
+      "hf_indices_0based": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "modes": [
+        {
+          "hf_index_0based": 0,
+          "label": "B1",
+          "family": "BENDING",
+          "frequency_hz": 4.30046323263928
+        },
+        {
+          "hf_index_0based": 1,
+          "label": "T1",
+          "family": "TORSION",
+          "frequency_hz": 6.258339174164938
+        },
+        {
+          "hf_index_0based": 2,
+          "label": "T2",
+          "family": "TORSION",
+          "frequency_hz": 18.779307164809904
+        },
+        {
+          "hf_index_0based": 3,
+          "label": "B2",
+          "family": "BENDING",
+          "frequency_hz": 25.785014830803572
+        },
+        {
+          "hf_index_0based": 4,
+          "label": "T3",
+          "family": "TORSION",
+          "frequency_hz": 31.31314700020132
+        }
+      ],
+      "bending_mode_count": 2,
+      "torsion_mode_count": 3,
+      "per_wing": {
+        "L": {
+          "candidate_metrics": {
+            "tip_peak_m": 0.0015801785237515799,
+            "node_peak_m": 0.0015801785237515799,
+            "slope_peak_rad": 0.0038338761045001923,
+            "hinge_peak_rad": 0.0006626000610584318,
+            "torsion_peak_rad": 5.437011192739246e-05,
+            "modal_energy_peak_J": 0.00012412488662807793
+          },
+          "relative_errors": {
+            "tip_peak_m": 0.0003378904443951843,
+            "node_peak_m": 0.0003378904443951843,
+            "slope_peak_rad": 0.0006025383982966475,
+            "hinge_peak_rad": 0.006575808515557166,
+            "torsion_peak_rad": 0.010829637562359794,
+            "modal_energy_peak_J": 6.675200743433407e-05
+          },
+          "max_relative_error": 0.010829637562359794
+        },
+        "R": {
+          "candidate_metrics": {
+            "tip_peak_m": 0.0013302380478211323,
+            "node_peak_m": 0.0013302380478211323,
+            "slope_peak_rad": 0.003177423068607154,
+            "hinge_peak_rad": 0.0005438859713037239,
+            "torsion_peak_rad": 5.437011192739246e-05,
+            "modal_energy_peak_J": 8.765967633468209e-05
+          },
+          "relative_errors": {
+            "tip_peak_m": 0.00025516229545791835,
+            "node_peak_m": 0.00025516229545791835,
+            "slope_peak_rad": 0.0003464908982048801,
+            "hinge_peak_rad": 0.004428452631597958,
+            "torsion_peak_rad": 0.010829637562359794,
+            "modal_energy_peak_J": 3.2985180990234535e-05
+          },
+          "max_relative_error": 0.010829637562359794
+        }
+      },
+      "global_max_relative_error": 0.010829637562359794,
+      "governing_metrics": [
+        "L_torsion_peak_rad",
+        "R_torsion_peak_rad"
+      ],
+      "passes_1pct": false
+    },
+    "minimum_passing_dimension_within_first12": 6,
+    "best_six_dimensional_subset": {
+      "hf_indices_0based": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "modes": [
+        {
+          "hf_index_0based": 0,
+          "label": "B1",
+          "family": "BENDING",
+          "frequency_hz": 4.30046323263928
+        },
+        {
+          "hf_index_0based": 1,
+          "label": "T1",
+          "family": "TORSION",
+          "frequency_hz": 6.258339174164938
+        },
+        {
+          "hf_index_0based": 2,
+          "label": "T2",
+          "family": "TORSION",
+          "frequency_hz": 18.779307164809904
+        },
+        {
+          "hf_index_0based": 3,
+          "label": "B2",
+          "family": "BENDING",
+          "frequency_hz": 25.785014830803572
+        },
+        {
+          "hf_index_0based": 4,
+          "label": "T3",
+          "family": "TORSION",
+          "frequency_hz": 31.31314700020132
+        },
+        {
+          "hf_index_0based": 5,
+          "label": "T4",
+          "family": "TORSION",
+          "frequency_hz": 43.86844952995683
+        }
+      ],
+      "bending_mode_count": 2,
+      "torsion_mode_count": 4,
+      "per_wing": {
+        "L": {
+          "candidate_metrics": {
+            "tip_peak_m": 0.0015801785237515799,
+            "node_peak_m": 0.0015801785237515799,
+            "slope_peak_rad": 0.0038338761045001923,
+            "hinge_peak_rad": 0.0006626000610584318,
+            "torsion_peak_rad": 5.4816169425352706e-05,
+            "modal_energy_peak_J": 0.00012412490186247376
+          },
+          "relative_errors": {
+            "tip_peak_m": 0.0003378904443951843,
+            "node_peak_m": 0.0003378904443951843,
+            "slope_peak_rad": 0.0006025383982966475,
+            "hinge_peak_rad": 0.006575808515557166,
+            "torsion_peak_rad": 0.002714391128536163,
+            "modal_energy_peak_J": 6.66292812082108e-05
+          },
+          "max_relative_error": 0.006575808515557166
+        },
+        "R": {
+          "candidate_metrics": {
+            "tip_peak_m": 0.0013302380478211323,
+            "node_peak_m": 0.0013302380478211323,
+            "slope_peak_rad": 0.003177423068607154,
+            "hinge_peak_rad": 0.0005438859713037239,
+            "torsion_peak_rad": 5.4816169425352706e-05,
+            "modal_energy_peak_J": 8.765969156907793e-05
+          },
+          "relative_errors": {
+            "tip_peak_m": 0.00025516229545791835,
+            "node_peak_m": 0.00025516229545791835,
+            "slope_peak_rad": 0.0003464908982048801,
+            "hinge_peak_rad": 0.004428452631597958,
+            "torsion_peak_rad": 0.002714391128536163,
+            "modal_energy_peak_J": 3.281139648666835e-05
+          },
+          "max_relative_error": 0.004428452631597958
+        }
+      },
+      "global_max_relative_error": 0.006575808515557166,
+      "governing_metrics": [
+        "L_hinge_peak_rad"
+      ],
+      "passes_1pct": true
+    },
+    "minimum_passing_dimension_preserving_all_three_bending_modes": 7,
+    "best_seven_dimensional_subset_preserving_three_bending_modes": {
+      "hf_indices_0based": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7
+      ],
+      "modes": [
+        {
+          "hf_index_0based": 0,
+          "label": "B1",
+          "family": "BENDING",
+          "frequency_hz": 4.30046323263928
+        },
+        {
+          "hf_index_0based": 1,
+          "label": "T1",
+          "family": "TORSION",
+          "frequency_hz": 6.258339174164938
+        },
+        {
+          "hf_index_0based": 2,
+          "label": "T2",
+          "family": "TORSION",
+          "frequency_hz": 18.779307164809904
+        },
+        {
+          "hf_index_0based": 3,
+          "label": "B2",
+          "family": "BENDING",
+          "frequency_hz": 25.785014830803572
+        },
+        {
+          "hf_index_0based": 4,
+          "label": "T3",
+          "family": "TORSION",
+          "frequency_hz": 31.31314700020132
+        },
+        {
+          "hf_index_0based": 5,
+          "label": "T4",
+          "family": "TORSION",
+          "frequency_hz": 43.86844952995683
+        },
+        {
+          "hf_index_0based": 7,
+          "label": "B3",
+          "family": "BENDING",
+          "frequency_hz": 67.42978721838807
+        }
+      ],
+      "bending_mode_count": 3,
+      "torsion_mode_count": 4,
+      "per_wing": {
+        "L": {
+          "candidate_metrics": {
+            "tip_peak_m": 0.001579636967771399,
+            "node_peak_m": 0.001579636967771399,
+            "slope_peak_rad": 0.003836099862152059,
+            "hinge_peak_rad": 0.0006672202672695617,
+            "torsion_peak_rad": 5.4816169425352706e-05,
+            "modal_energy_peak_J": 0.00012413309983860116
+          },
+          "relative_errors": {
+            "tip_peak_m": 4.943582664960649e-06,
+            "node_peak_m": 4.943582664960649e-06,
+            "slope_peak_rad": 2.2859323669235408e-05,
+            "hinge_peak_rad": 0.0003511824244245556,
+            "torsion_peak_rad": 0.002714391128536163,
+            "modal_energy_peak_J": 5.874976567989104e-07
+          },
+          "max_relative_error": 0.002714391128536163
+        },
+        "R": {
+          "candidate_metrics": {
+            "tip_peak_m": 0.0013298841215394611,
+            "node_peak_m": 0.0013298841215394611,
+            "slope_peak_rad": 0.003178473488208411,
+            "hinge_peak_rad": 0.0005464218730545244,
+            "torsion_peak_rad": 5.4816169425352706e-05,
+            "modal_energy_peak_J": 8.76625467034116e-05
+          },
+          "relative_errors": {
+            "tip_peak_m": 1.0967959118322546e-05,
+            "node_peak_m": 1.0967959118322546e-05,
+            "slope_peak_rad": 1.601692047110749e-05,
+            "hinge_peak_rad": 0.00021346086355411716,
+            "torsion_peak_rad": 0.002714391128536163,
+            "modal_energy_peak_J": 2.4180148102842545e-07
+          },
+          "max_relative_error": 0.002714391128536163
+        }
+      },
+      "global_max_relative_error": 0.002714391128536163,
+      "governing_metrics": [
+        "L_torsion_peak_rad",
+        "R_torsion_peak_rad"
+      ],
+      "passes_1pct": true
+    },
+    "round3_three_bending_two_torsion_subset": {
+      "hf_indices_0based": [
+        0,
+        1,
+        2,
+        3,
+        7
+      ],
+      "modes": [
+        {
+          "hf_index_0based": 0,
+          "label": "B1",
+          "family": "BENDING",
+          "frequency_hz": 4.30046323263928
+        },
+        {
+          "hf_index_0based": 1,
+          "label": "T1",
+          "family": "TORSION",
+          "frequency_hz": 6.258339174164938
+        },
+        {
+          "hf_index_0based": 2,
+          "label": "T2",
+          "family": "TORSION",
+          "frequency_hz": 18.779307164809904
+        },
+        {
+          "hf_index_0based": 3,
+          "label": "B2",
+          "family": "BENDING",
+          "frequency_hz": 25.785014830803572
+        },
+        {
+          "hf_index_0based": 7,
+          "label": "B3",
+          "family": "BENDING",
+          "frequency_hz": 67.42978721838807
+        }
+      ],
+      "bending_mode_count": 3,
+      "torsion_mode_count": 2,
+      "per_wing": {
+        "L": {
+          "candidate_metrics": {
+            "tip_peak_m": 0.001579636967771399,
+            "node_peak_m": 0.001579636967771399,
+            "slope_peak_rad": 0.003836099862152059,
+            "hinge_peak_rad": 0.0006672202672695617,
+            "torsion_peak_rad": 5.3038352288464096e-05,
+            "modal_energy_peak_J": 0.00012413301526813914
+          },
+          "relative_errors": {
+            "tip_peak_m": 4.943582664960649e-06,
+            "node_peak_m": 4.943582664960649e-06,
+            "slope_peak_rad": 2.2859323669235408e-05,
+            "hinge_peak_rad": 0.0003511824244245556,
+            "torsion_peak_rad": 0.03505870603435051,
+            "modal_energy_peak_J": 1.2687858260363293e-06
+          },
+          "max_relative_error": 0.03505870603435051
+        },
+        "R": {
+          "candidate_metrics": {
+            "tip_peak_m": 0.0013298841215394611,
+            "node_peak_m": 0.0013298841215394611,
+            "slope_peak_rad": 0.003178473488208411,
+            "hinge_peak_rad": 0.0005464218730545244,
+            "torsion_peak_rad": 5.3038352288464096e-05,
+            "modal_energy_peak_J": 8.766246213294956e-05
+          },
+          "relative_errors": {
+            "tip_peak_m": 1.0967959118322546e-05,
+            "node_peak_m": 1.0967959118322546e-05,
+            "slope_peak_rad": 1.601692047110749e-05,
+            "hinge_peak_rad": 0.00021346086355411716,
+            "torsion_peak_rad": 0.03505870603435051,
+            "modal_energy_peak_J": 1.2065286624063927e-06
+          },
+          "max_relative_error": 0.03505870603435051
+        }
+      },
+      "global_max_relative_error": 0.03505870603435051,
+      "governing_metrics": [
+        "L_torsion_peak_rad",
+        "R_torsion_peak_rad"
+      ],
+      "passes_1pct": false
+    }
+  },
+  "contact_window_sensitivity": {
+    "TC_5MS": {
+      "Tc_ms": 5.0,
+      "half_sine_spectral_center_hz": 100.0,
+      "hf_torsion_peak_rad": 5.898913839692943e-05,
+      "current_first_two_torsion_peak_rad": 5.434676073626346e-05,
+      "current_first_two_relative_error": 0.07869885519310488,
+      "minimum_first_n_torsion_modes_for_1pct": 8,
+      "convergence_curve_until_pass_or_n10": [
+        {
+          "first_n_torsion_modes": 1,
+          "peak_rad": 4.894689098953073e-05,
+          "relative_error": 0.17023892330526777
+        },
+        {
+          "first_n_torsion_modes": 2,
+          "peak_rad": 5.434676073626346e-05,
+          "relative_error": 0.07869885519310488
+        },
+        {
+          "first_n_torsion_modes": 3,
+          "peak_rad": 5.626245498597755e-05,
+          "relative_error": 0.04622348257749452
+        },
+        {
+          "first_n_torsion_modes": 4,
+          "peak_rad": 5.721697653687488e-05,
+          "relative_error": 0.03004217230856854
+        },
+        {
+          "first_n_torsion_modes": 5,
+          "peak_rad": 5.777700546424033e-05,
+          "relative_error": 0.020548408836434044
+        },
+        {
+          "first_n_torsion_modes": 6,
+          "peak_rad": 5.813334415535553e-05,
+          "relative_error": 0.014507657932132946
+        },
+        {
+          "first_n_torsion_modes": 7,
+          "peak_rad": 5.837986861795519e-05,
+          "relative_error": 0.010328507849606998
+        },
+        {
+          "first_n_torsion_modes": 8,
+          "peak_rad": 5.855108287067709e-05,
+          "relative_error": 0.007426037032524928
+        }
+      ]
+    },
+    "TC_10MS": {
+      "Tc_ms": 10.0,
+      "half_sine_spectral_center_hz": 50.0,
+      "hf_torsion_peak_rad": 5.769121027991574e-05,
+      "current_first_two_torsion_peak_rad": 5.407975589698966e-05,
+      "current_first_two_relative_error": 0.0625997333979203,
+      "minimum_first_n_torsion_modes_for_1pct": 5,
+      "convergence_curve_until_pass_or_n10": [
+        {
+          "first_n_torsion_modes": 1,
+          "peak_rad": 4.881258582857797e-05,
+          "relative_error": 0.1538990845964055
+        },
+        {
+          "first_n_torsion_modes": 2,
+          "peak_rad": 5.407975589698966e-05,
+          "relative_error": 0.0625997333979203
+        },
+        {
+          "first_n_torsion_modes": 3,
+          "peak_rad": 5.586671624832598e-05,
+          "relative_error": 0.03162516478224984
+        },
+        {
+          "first_n_torsion_modes": 4,
+          "peak_rad": 5.669887915441858e-05,
+          "relative_error": 0.017200733364448467
+        },
+        {
+          "first_n_torsion_modes": 5,
+          "peak_rad": 5.7142490600740476e-05,
+          "relative_error": 0.009511322028310659
+        }
+      ]
+    },
+    "TC_20MS": {
+      "Tc_ms": 20.0,
+      "half_sine_spectral_center_hz": 25.0,
+      "hf_torsion_peak_rad": 5.496536692972348e-05,
+      "current_first_two_torsion_peak_rad": 5.3038352288464096e-05,
+      "current_first_two_relative_error": 0.03505870603435051,
+      "minimum_first_n_torsion_modes_for_1pct": 4,
+      "convergence_curve_until_pass_or_n10": [
+        {
+          "first_n_torsion_modes": 1,
+          "peak_rad": 4.827805369895356e-05,
+          "relative_error": 0.12166412423517614
+        },
+        {
+          "first_n_torsion_modes": 2,
+          "peak_rad": 5.3038352288464096e-05,
+          "relative_error": 0.03505870603435051
+        },
+        {
+          "first_n_torsion_modes": 3,
+          "peak_rad": 5.437011192739246e-05,
+          "relative_error": 0.010829637562359794
+        },
+        {
+          "first_n_torsion_modes": 4,
+          "peak_rad": 5.4816169425352706e-05,
+          "relative_error": 0.002714391128536163
+        }
+      ]
+    },
+    "TC_50MS": {
+      "Tc_ms": 50.0,
+      "half_sine_spectral_center_hz": 10.0,
+      "hf_torsion_peak_rad": 4.671475152044669e-05,
+      "current_first_two_torsion_peak_rad": 4.6770139674012815e-05,
+      "current_first_two_relative_error": 0.0011856673055808016,
+      "minimum_first_n_torsion_modes_for_1pct": 2,
+      "convergence_curve_until_pass_or_n10": [
+        {
+          "first_n_torsion_modes": 1,
+          "peak_rad": 4.46548311330769e-05,
+          "relative_error": 0.044095715385924224
+        },
+        {
+          "first_n_torsion_modes": 2,
+          "peak_rad": 4.6770139674012815e-05,
+          "relative_error": 0.0011856673055808016
+        }
+      ]
+    },
+    "TC_100MS": {
+      "Tc_ms": 100.0,
+      "half_sine_spectral_center_hz": 5.0,
+      "hf_torsion_peak_rad": 3.3093770291409586e-05,
+      "current_first_two_torsion_peak_rad": 3.3031559808408304e-05,
+      "current_first_two_relative_error": 0.0018798245849137975,
+      "minimum_first_n_torsion_modes_for_1pct": 2,
+      "convergence_curve_until_pass_or_n10": [
+        {
+          "first_n_torsion_modes": 1,
+          "peak_rad": 3.347922802252959e-05,
+          "relative_error": 0.011647440824234594
+        },
+        {
+          "first_n_torsion_modes": 2,
+          "peak_rad": 3.3031559808408304e-05,
+          "relative_error": 0.0018798245849137975
+        }
+      ]
+    }
+  },
+  "sampling_and_denominator_audit": {
+    "official_grid_full_torsion_peak_rad": 5.496536692972348e-05,
+    "official_grid_rom5_torsion_peak_rad": 5.303835228846798e-05,
+    "official_grid_relative_error": 0.035058706034279866,
+    "dense_full": {
+      "peak": 5.496584867874807e-05,
+      "operator_row_0based": 60,
+      "post_contact_tau_s": 0.5090619999999051,
+      "total_time_s": 0.5290619999999051,
+      "coarse_step_s": 1e-05,
+      "local_refinement_step_s": 1e-07
+    },
+    "dense_rom5": {
+      "peak": 5.3038585998052115e-05,
+      "operator_row_0based": 60,
+      "post_contact_tau_s": 0.029942399999999394,
+      "total_time_s": 0.049942399999999394,
+      "coarse_step_s": 1e-05,
+      "local_refinement_step_s": 1e-07
+    },
+    "dense_relative_error": 0.03506291137174987,
+    "hf_peak_to_denominator_floor_ratio": 5496584867.874807,
+    "near_zero_denominator": false
+  },
+  "physical_cause": {
+    "contact_spectral_center_hz": 25.0,
+    "T3": {
+      "hf_index_0based": 4,
+      "hf_index_1based": 5,
+      "label": "T3",
+      "family": "TORSION",
+      "frequency_hz": 31.31314700020132,
+      "torsion_mass_fraction": 1.0000000000000009
+    },
+    "T4": {
+      "hf_index_0based": 5,
+      "hf_index_1based": 6,
+      "label": "T4",
+      "family": "TORSION",
+      "frequency_hz": 43.86844952995683,
+      "torsion_mass_fraction": 1.0000000000000002
+    },
+    "full_torsion_energy_J": 4.055154154114582e-09,
+    "first_two_torsion_energy_J": 3.967985148791143e-09,
+    "first_two_torsion_energy_coverage": 0.9785041450927353,
+    "tip_torsion_mode_contributions_at_dense_full_peak_rad": {
+      "T1": 4.827581160835059e-05,
+      "T2": 4.7600033687218556e-06,
+      "T3": 1.3316117827022802e-06,
+      "T4": 4.42578202775262e-07,
+      "T5": 1.2841589063638125e-07,
+      "T6": 1.7530302631267913e-08,
+      "T7": -5.056767070846134e-09,
+      "T8": 3.788415852354955e-09
+    },
+    "tail_after_T2_at_dense_full_peak_rad": 1.9300337016756366e-06,
+    "interpretation": "The 25 Hz contact band lies between T2 and T3.  T3/T4 are physically excited and their post-contact free response is omitted by the two-torsion-mode Round3 basis."
+  },
+  "static_residual_assessment": {
+    "formula": "q_res=(K^-1-Phi*Krom^-1*Phi^T)*f(t)",
+    "contact_end_s": 0.02,
+    "full_dense_peak_time_s": 0.5290619999999051,
+    "rom_dense_peak_time_s": 0.049942399999999394,
+    "force_after_contact": 0.0,
+    "static_residual_at_reported_post_contact_peaks": 0.0,
+    "can_close_dynamic_tail_without_new_states": false,
+    "disposition": "A static/mode-acceleration residual cannot repair a free-response peak after the half-sine force has ended; a persistent dynamic residual kernel is additional dynamics, not a five-mode ROM."
+  },
+  "contract_disposition": {
+    "owner_P2_mode_count_contract": "3-5 dominant modes per wing",
+    "round3_selection_rule": "three lowest BENDING modes plus two lowest TORSION modes",
+    "best_five_dimensional_result": "FAIL_1PCT",
+    "minimum_nominal_20ms_passing_dimension": 6,
+    "minimum_dimension_preserving_three_bending_modes": 7,
+    "silent_mode_count_extension_forbidden": true,
+    "round3_component_gate_changed_by_this_falsifier": false,
+    "e15_inheritance": "NOT_INHERITED",
+    "legacy_ancf_status": "REPEAT_ANCF_CERTIFICATION",
+    "recommended_checkpoint_a_disposition": "DIAGNOSTIC_COMPLETE_WITH_PROVISIONAL_PHYSICS__ROM5_FULL_FIELD_TRUNCATION_FAIL__NO_E15_OR_RELEASE_CREDIT"
+  },
+  "nonclaims": [
+    "No e22 module, result, runner, or gate is imported or modified.",
+    "The diagnostic base delta twist is not independently re-derived here.",
+    "The first-12 eigenmode enumeration is not a proof over arbitrary nonmodal or response-trained bases.",
+    "No threshold is widened and no torsion observable is removed from the score.",
+    "No coupled spacecraft-arm-target dynamics claim is made.",
+    "No ANCF/e15 certification or inheritance claim is made.",
+    "No flight qualification, release, or Owner acceptance claim is made.",
+    "The accepted Round3 component artifacts are not mutated by this evidence."
+  ],
+  "review_status": "PENDING_OWNER_REVIEW",
+  "owner_accepted": false,
+  "next_stage_authorized": false,
+  "release_credit": false
+}

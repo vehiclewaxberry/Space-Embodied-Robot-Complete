@@ -1,0 +1,337 @@
+{
+  "schema_version": "wave1-integration-gate-v2",
+  "task_id": "W1-INTEGRATE-R",
+  "integration_round": "integrator-R (repeat preregistration item R-6)",
+  "generated_at_utc": "2026-07-19T16:05:00Z",
+  "planning_baseline_commit": "7dc6cd7368b4e40fb766cc5246d2b642433cc614",
+  "launch_manifest_commit": "926522f199cae3b9d88ee6797089d57300fea994",
+  "repeat_preregistration_commit": "3a353a475567a55edd7051075376e4e89605ffd1",
+  "previous_integration_verdict_commit": "635fc39",
+  "module_merge_commits": {
+    "CTRL-01-R": "08010df (merge of wave1/ctrl-01, source 3c74c2c1e8fbe61241ba20b369cca1da964b46b6)",
+    "CTRL-02-R": "00f9b8a (merge of wave1/ctrl-02, source 13a0c9692acdedcb39bc45f1a824f761715202f2)",
+    "SAFE-00": "unchanged bytes since previous integration PASS adjudication (git diff empty vs 635fc39)"
+  },
+  "verdict": "WAVE1_REPEAT",
+  "verdict_character": "ALL_IMPLEMENTATION_DEFECTS_RESOLVED_REMAINDER_IS_PRESERVED_GENUINE_NEGATIVES",
+  "next_wave_authorized": false,
+  "main_branch_merge_authorized": false,
+  "decision_rule": {
+    "blocked_when": "A frozen baseline, ownership, required input, or executable evidence path is unavailable.",
+    "repeat_when": "Execution completed but any mandatory scientific Gate is REPEAT or a required evaluation remains open.",
+    "pass_when": "All mandatory module and integration Gates pass with complete independent review and governance evidence.",
+    "rule_frozen_from_previous_round": true,
+    "applied_reason": "CTRL-01-R machine verdict remains REPEAT on four subgates (A2/D/E/F). Every previously open required evaluation (T3 target/combined collision, CTRL-02 Stage-B transient stability) is now closed, and every REPEAT remainder is machine-attributed as a genuine negative result under frozen thresholds, but the frozen rule does not distinguish negative-result REPEAT from defect REPEAT; reclassifying that is a PI governance decision (CP6), not an integrator decision."
+  },
+  "repeat_remainder_classification_per_preregistration_item_2": {
+    "defect_resolved": [
+      {
+        "item": "CTRL-01 GC1_B energy audit",
+        "v0": 0.0789595238864667,
+        "now": 5.6325998524987115e-12,
+        "threshold_unchanged": 1e-09,
+        "diagnosis": "W_ctrl was already in the v0 ledger; residual was a rectangle-rule ledger over a first-order state map (accounting/discretization). Preregistration item-4 first suspicion (missing W_ctrl) refuted; same defect category (accounting, not physics). Fix: FOH command ramp + per-interval DOP853 co-integration of state and ledgers.",
+        "independent_replication": "integrator-R regenerated all 18 scenarios; worst audit 5.633e-12 reproduced bit-identically"
+      },
+      {
+        "item": "CTRL-01 GC1_E T3 collision subitem + plan contract",
+        "v0": "static margin -0.0253744871764651 m, target/combined NOT_EVALUATED, PLAN_CONTRACT_MISMATCH",
+        "now": "static +0.01461760187499997 m, target +0.11475899847849909 m, combined +0.01461760187499997 m, all 6x501 fixed nodes, MATCHED_T2_T15_TRIGGER_AND_CONST_OMEGA_CONTINUATION",
+        "diagnosis": "v0 negative margin attributed to the contract-mismatched v0 T3 setup (started from T2.q_initial_rad); remediated per preregistration R-2 with fail-closed method-specific t=15 s full-state snapshot and omega*(15+t) target phase"
+      },
+      {
+        "item": "CTRL-01 GC1_D comparator methodology",
+        "v0": "isolated nullspace claim not measurable (C1_MATCH5 confounds feedforward)",
+        "now": "C2_MATCH5 preregistered and executed before any isolation comparison (R-3)",
+        "diagnosis": "methodology defect resolved; the resulting measurement is a genuine null (see below)"
+      }
+    ],
+    "genuine_negative_result_preserved": [
+      {
+        "item": "CTRL-01 GC1_A2 closed-loop C1_T1 anchor",
+        "value_deg": 0.15504136331859542,
+        "threshold_deg": 0.05,
+        "attribution": "C2_T1 plant-fidelity diagnostic is 0.006448 deg, so the plant/integrator reproduces the anchor and the C1 residual is frozen-gain pure-feedback lag; eliminating it would require tuning gains on the plant, forbidden by contract (gains_tuned_on_plant=false)"
+      },
+      {
+        "item": "CTRL-01 GC1_D C2 position increment",
+        "value_pct": -38.26038923416019,
+        "threshold_pct": 30.0,
+        "v0_preserved_pct": -51.9137123236204,
+        "attribution": "frozen hypothesis pinned position on a station-kept T2 reference where feedforward adds joint motion; orientation improves +99.85% (context only)"
+      },
+      {
+        "item": "CTRL-01 GC1_D C3 isolated nullspace effect",
+        "value_pct": 1.8387128071932317e-05,
+        "threshold_pct": 5.0,
+        "attribution": "genuine null with the fair preregistered C2_MATCH5 comparator (same 5D task, same feedforward, only the nullspace term differs); command reduction 9.98e-6%, tracking degradation -1.5e-5%"
+      },
+      {
+        "item": "CTRL-01 GC1_E joint limit margin",
+        "value_rad": -1.4728426913978847,
+        "threshold_rad": 0.0,
+        "attribution": "T1 anchor keeps the preregistered q2=+60 deg out-of-URDF conflict (-1.0476 rad, arithmetically 60 deg past the frozen upper limit 0); the frozen 0.5 m T3 retreat folds the arm past limits from the 15 s state"
+      },
+      {
+        "item": "CTRL-01 GC1_E task singularity",
+        "value": 6.639830276911244e-05,
+        "threshold": 0.0001,
+        "attribution": "frozen T1 starts at the singular stretched q=0 configuration"
+      },
+      {
+        "item": "CTRL-01 GC1_E joint speed / acceleration",
+        "value": [1.8365906028735075, 9.108554855103153],
+        "threshold": [0.7, 2.0],
+        "attribution": "T3 retreat rate demand and the t=0 command-engage FOH transient exceed the frozen PROVISIONAL class limits"
+      },
+      {
+        "item": "CTRL-01 GC1_F bounded error C1_T3 / C1_MATCH5_T3",
+        "value_m": 0.19020933129999656,
+        "bound_m": 0.11,
+        "attribution": "arithmetically structural: quintic T3 peak rate 1.875*0.5/3 = 0.3125 m/s exceeds the frozen 0.12 m/s disturbance-bound assumption, so pure-feedback C1 violates the 0.12/1.2+0.01 = 0.11 m bound by construction; C2/C3 with feedforward stay within 0.0024 m"
+      }
+    ]
+  },
+  "module_results": {
+    "SAFE-00": {
+      "schema_version": "safety-00-gate-v1",
+      "gate_json": "30_simulation/safety_00_runtime_gate/results/safety_00_gate_check.json",
+      "evidence_manifest": "30_simulation/safety_00_runtime_gate/results/evidence_manifest.json",
+      "machine_verdict": "PASS",
+      "tests": {"passed": 47, "total": 47},
+      "preregistered_cases": {"passed": 16, "total": 16},
+      "gates": {"GS-A": "PASS", "GS-B": "PASS", "GS-C": "PASS"},
+      "metrics": {
+        "unknown_allow_count": 0,
+        "bypass_success_count": 0,
+        "false_abort_rate": 0.0,
+        "authorization_provenance_complete_rate": 1.0,
+        "gate_raw_sha256": "7a352fe3d511804da3c182ee6380e3c86003173796ab912f5390ec43bb66836c"
+      },
+      "integrator_R_replication": "full rerun in integration worktree: 47/47 tests, gate PASS, gate raw SHA-256 bit-identical to the frozen value; zero artifact drift",
+      "carryover": "module bytes unchanged since the previous integration PASS adjudication, previous three-perspective review carries over",
+      "next_stage_authorized_by_module": false
+    },
+    "CTRL-01": {
+      "schema_version": "control-01-gate-v2",
+      "remediation_loop": "CTRL-01-R",
+      "gate_json": "30_simulation/control_01_end_effector_tracking/results/control_01_gate_check.json",
+      "evidence_manifest": "30_simulation/control_01_end_effector_tracking/results/loop7_evidence_manifest.json",
+      "machine_verdict": "REPEAT",
+      "self_reported_verdict_confirmed": true,
+      "tests": {"passed": 22, "total": 22},
+      "experiment_scenarios": 18,
+      "gates": {
+        "GC1_A1_open_loop_flexible_anchor": "PASS",
+        "GC1_A2_closed_loop_C1_T1_anchor": "REPEAT_GENUINE_NEGATIVE",
+        "GC1_A3_open_loop_rigid_anchor": "PASS",
+        "GC1_B_conservation_and_energy": "PASS",
+        "GC1_C_C0_C1_differentiation": "PASS",
+        "GC1_D_incremental_effectiveness": "REPEAT_GENUINE_NEGATIVE",
+        "GC1_E_constraints": "REPEAT_GENUINE_NEGATIVE_COLLISION_SUBITEM_PASS",
+        "GC1_F_bounded_error_C1_C2_C3": "REPEAT_GENUINE_NEGATIVE",
+        "GC1_G_hash_lock": "PASS",
+        "GC1_H_fast_plant_ssot_equivalence": "PASS"
+      },
+      "confirmed_metrics": {
+        "open_loop_flexible_anchor_delta_deg": 3.509370571919135e-11,
+        "open_loop_rigid_anchor_delta_deg": 3.6137137726655055e-10,
+        "closed_loop_C1_T1_anchor_delta_deg": 0.15504136331859542,
+        "C2_T1_plant_fidelity_diagnostic_deg": 0.006448261681828882,
+        "momentum_conservation_max_abs": 7.216449660063518e-16,
+        "energy_audit_relative_max": 5.6325998524987115e-12,
+        "C0_over_C1_T2_position_p95_ratio": 1238.4228941020472,
+        "direction_map_identity_max_abs_error": 3.469446951953614e-18,
+        "C2_vs_C1_T2_position_improvement_pct": -38.26038923416019,
+        "C3_vs_C2_MATCH5_isolated_base_rate_improvement_pct": 1.8387128071932317e-05,
+        "T3_static_collision_all_fixed_nodes_min_m": 0.01461760187499997,
+        "T3_target_collision_all_fixed_nodes_min_m": 0.11475899847849909,
+        "T3_combined_collision_all_fixed_nodes_min_m": 0.01461760187499997,
+        "fast_plant_ssot_worst_normalized_error": 4.440892098500626e-16
+      },
+      "previous_negatives_preserved_verbatim": {
+        "source_commit": "7aecf6e36069823f0a0e6094f3c1f71407784ed5",
+        "C2_vs_C1_T2_position_improvement_pct": -51.9137123236204,
+        "C3_vs_C1_MATCH5_T2_overall_scheme_base_rate_change_pct": -7.989562016686814,
+        "energy_audit_relative_max_v0": 0.0789595238864667
+      },
+      "integrator_R_replication": {
+        "scope": "full 18-scenario matrix regenerated from scratch in a detached verification worktree (2457.5 s), then tests and gates rerun",
+        "gate_json_bit_identical": true,
+        "collision_timeseries_bit_identical": true,
+        "comparison_png_bit_identical": true,
+        "summary_csv_drift_columns": ["runtime_s", "mean_step_wall_ms", "max_step_wall_ms", "real_time_ratio"],
+        "summary_csv_scientific_columns_bit_identical": true,
+        "residual_drift_scope": "wall-clock columns, raw-hash provenance of those files, test timings only"
+      },
+      "next_stage_authorized_by_module": false
+    },
+    "CTRL-02": {
+      "schema_version": "control02-gate-v3",
+      "remediation_loop": "CTRL-02-R",
+      "gate_json": "30_simulation/control_02_base_attitude/results/control_02_gate_check.json",
+      "evidence_manifest": "30_simulation/control_02_base_attitude/results/evidence_manifest_pre_review.json",
+      "machine_verdict": "PASS",
+      "self_reported_verdict_confirmed": true,
+      "tests": {"passed": 24, "total": 24},
+      "gates": {
+        "GC0_momentum_attribution": "PASS",
+        "GC1_stage_A_anchor_and_reduction": "PASS",
+        "GC2_four_case_independent_replay": "PASS",
+        "GC3_sim08_budget_and_wheel_box": "PASS",
+        "GC4_outcomes_and_propellant_lower_bound": "PASS",
+        "GC5_registry_and_claim_discipline": "PASS",
+        "GC6_determinism": "PASS",
+        "GC7_transient_stability_window": "PASS"
+      },
+      "confirmed_metrics": {
+        "capture_conservation_eps_H_max": 3.849848861643484e-16,
+        "stage_A_generalized_momentum_residual_max": 5.551115123125783e-17,
+        "M2_registered_start_deg": [0.0, -15.0, -15.0, 0.0, 0.0, 0.0],
+        "M2_joint_limit_margin_min_rad": 0.2617993877991494,
+        "A1_all_task_endpoints_completed": true,
+        "A2_M1_wheel_box_utilization": 0.8020183292488509,
+        "A2_M2_wheel_box_utilization": 0.4556376783273781,
+        "honest_negative_A1_vs_A0_peak_deg_M2": [9.237348801700483, 8.728056572440526],
+        "stage_B_transient_n_stabilized": 7,
+        "stage_B_transient_n_rows": 16,
+        "pulse_quantum_Nms": 0.00034,
+        "worst_realized_residual_rate_dps": 0.010766717133497848,
+        "rate_settle_threshold_dps": 0.05,
+        "independent_propellant_max_abs_difference_g": 0.0
+      },
+      "stage_B_scope": {
+        "L0": "MOMENTUM_LEVEL_TERMINAL_FEASIBILITY",
+        "transient": "EVALUATED_TIME_WINDOW_PROVISIONAL_ACTUATORS",
+        "model_fidelity": "PROVISIONAL_L1_MOMENTUM_ACTUATOR",
+        "A_low": "WHEELS_ONLY_FEASIBLE (B1 stabilizes)",
+        "B_anchor": "INFEASIBLE_RATE (thruster rows counterfactual-only)",
+        "C_transition": "THRUSTER_REQUIRED_FEASIBLE (only B2/B3 stabilize)",
+        "D_extreme": "INFEASIBLE_RATE (no controller stabilizes in window)",
+        "in_domain_consistency": "GC7 stability outcomes agree case-by-case with the frozen sim_10/sim_12 region labels"
+      },
+      "contract_checks": {
+        "thresholds_widened": false,
+        "repeat_revision_thresholds_changed": false,
+        "withdrawn_minus5deg_probe_reused": false,
+        "flex_status": "UNKNOWN_NOT_IN_CRITERIA",
+        "formal_region_uses_per_axis_wheel_box": true,
+        "hardware_valid_claims": false
+      },
+      "integrator_R_replication": {
+        "scope": "full experiment/test/gate pipeline rerun in a detached verification worktree (about 5.5 min)",
+        "verdict_reproduced": "PASS",
+        "adjudicated_values_bit_identical": true,
+        "residual_drift_scope": "actual_raw provenance hashes of frozen inputs (LF checkout; gate adjudicates normalized_lf which matches) and test timings only"
+      }
+    }
+  },
+  "integration_checks": {
+    "threshold_freeze_audit": {
+      "status": "PASS",
+      "method": "semantic YAML comparison of gate_thresholds / analytic_error_bounds / provisional_actuator_limits / controller blocks against the previous integration commit 635fc39",
+      "CTRL01_blocks_identical": ["gate_thresholds", "analytic_error_bounds", "provisional_actuator_limits", "controller"],
+      "CTRL02_blocks_identical": ["gates", "anchors", "frozen_inputs", "policy"],
+      "CTRL02_added_blocks_authorized_by_preregistration": ["repeat_revision", "stage_a (R-4 trajectories)", "stage_b (R-5 PROVISIONAL actuator_dynamics + stability_window)"]
+    },
+    "baseline_reproduction": {
+      "status": "PASS",
+      "sim_05_tests": "22/22",
+      "sim_10_tests": "6/6",
+      "sim_11_tests": "27/27",
+      "sim_12_tests": "3/3",
+      "total": "58/58",
+      "environment_note": "sim_10 frozen raw input hashes anchor CRLF bytes; after core.autocrlf was set false during the CTRL-02 recovery round, worktree checkouts produce LF and the raw-hash check fail-closes. Baselines were run after restoring the frozen byte encoding (hash-verified) in the disposable verification worktree. Recorded as risk W1-R11."
+    },
+    "integrator_module_tests": {
+      "status": "PASS",
+      "SAFE-00": "47/47",
+      "CTRL-01": "22/22",
+      "CTRL-02": "24/24",
+      "total": "93/93",
+      "tests_are_not_scientific_gate": true
+    },
+    "scope_ownership_guard": {
+      "status": "PASS",
+      "functional_changed_paths_vs_previous_round": 54,
+      "all_within": ["30_simulation/control_01_end_effector_tracking/", "20_engineering/config/control_scene/", "30_simulation/control_02_base_attitude/", "20_engineering/config/attitude_stab/", "10_research/partner_requirement_closure/"],
+      "scope_violations": [],
+      "frozen_path_changes": [],
+      "merge_conflict_resolution_rule": "owned directories taken wholesale from the module branch; verified byte-equal to branch heads after merge",
+      "module_source_commits_reachable_from_HEAD": true
+    },
+    "shared_contract": {
+      "status": "PASS",
+      "unknown_to_allow_count": 0,
+      "control_modules_emit_formal_safety_classification": false,
+      "C3_zero_nullity_execution_count": 0,
+      "unit_or_reference_frame_conflicts": [],
+      "capture_residual_and_Nms_ledger_units_separated": true
+    },
+    "red_team_completeness": {
+      "status": "PASS",
+      "planned_reviewers": ["physics", "control_and_safety", "implementation"],
+      "reviewed_tasks": ["SAFE-00 (carryover: unchanged bytes + full replication)", "CTRL-01-R (focused re-review)", "CTRL-02-R (focused re-review)"],
+      "planned_review_units": 9,
+      "completed_review_units": 9,
+      "missing_reviews": [],
+      "coverage_ratio": 1.0,
+      "key_findings_this_round": [
+        "CLOSED: CTRL-01 energy-ledger fix independently replicated to 5.633e-12 with thresholds machine-verified unchanged",
+        "CLOSED: C2_MATCH5 comparator structurally fair (identical contract except the nullspace term; same task/gains/plant); C3 null result stands",
+        "CLOSED: T3 trigger contract fail-closed at t=15 s with omega*(15+t) target phase; all margins positive at every fixed node",
+        "CLOSED: CTRL-02 R-4 interior M2 start satisfies the a-priori 0.25 rad rule (realized 0.2618 rad) and the withdrawn -5 deg probe was not reused; honest negative (A1 worse than A0 on M2) preserved",
+        "CONFIRMED_NEGATIVE: CTRL-01 A2/D/E/F attributions verified arithmetically by the integrator (bound math, quintic peak rate, URDF limit offsets, singular start)",
+        "OPEN_NEW W1-R12: Stage-A A2 implied wheel torque 0.033/0.021 N.m exceeds the R-5 PROVISIONAL 0.01 N.m wheel torque used by the Stage-B transient layer (3.3x/2.1x); A2 zero-peak claim is momentum-level-ideal only",
+        "OPEN_NEW W1-R13: GC7 worst realized residual 0.0108 dps is 21.5% of the 0.05 dps settle threshold; thruster-terminated stability verdicts flip if the hardware pulse quantum grows by about 4.6x",
+        "OPEN_CARRYOVER: W1-R01 production key qualification; W1-R08 preregistration timing (improved: prereg commit 3a353a4 now independently precedes module execution commits, but R-5 numeric window values still landed with results); W1-R09 PROVISIONAL panel/contact parameters"
+      ],
+      "module_embedded_review_status_note": "Module manifests intentionally retain PENDING_REVIEW because implementation agents may not self-certify. Independent review completion is adjudicated here by the unique integrator."
+    },
+    "governance_checkpoints": {
+      "status": "PASS",
+      "CP1_launch": "CONFIRMED_BY_USER_CONTINUATION_REQUEST",
+      "CP2_SAFE_contract_freeze": "APPROVED_RECORDED (repeat_preregistration.md, commit 3a353a4, cherry-picked as 5eb418d)",
+      "CP3_CTRL02_GC0_ledger": "APPROVED_RECORDED (same document)",
+      "CP4_repeat_remediation": "PREREGISTERED_AND_EXECUTED (R-1..R-6 all closed by this round)",
+      "CP5_main_branch_merge": "PENDING_NOT_AUTHORIZED",
+      "CP6_wave1_final_human_decision": "PENDING_PI_TWO_OPTION_ADJUDICATION"
+    }
+  },
+  "global_stop_audit": {
+    "stop_triggered": true,
+    "trigger": "SCIENTIFIC_GATE_CONTAINS_REPEAT_ALL_ITEMS_CLASSIFIED_GENUINE_NEGATIVE",
+    "disposition": "Freeze evidence, issue WAVE1_REPEAT, do not merge to the main branch, do not start Wave 2, submit the two-option analysis to the PI (CP6).",
+    "other_hard_stop_checks": {
+      "frozen_gate_artifact_changed": false,
+      "legacy_baseline_failed": false,
+      "unknown_produced_allow": false,
+      "momentum_accounting_violated": false,
+      "C3_ran_under_zero_task_nullity": false,
+      "ownership_violation": false,
+      "shared_unit_or_frame_conflict": false,
+      "safety_decision_without_provenance": false,
+      "threshold_softened_to_manufacture_pass": false
+    }
+  },
+  "two_option_analysis_for_PI": {
+    "option_A_continue_repeat": {
+      "description": "Launch another preregistered remediation loop targeting the four remaining REPEAT subgates.",
+      "scientific_gain_assessment": "LOW. No diagnosed implementation defect remains. Flipping A2 requires gain redesign (only allowed as a preregistered analytic redesign, since tuning on the plant is forbidden); flipping E/F requires replacing the frozen T1 anchor (out-of-URDF by preregistered design) and the frozen T3 rate demand, i.e. new scenarios, which constitutes a new experiment rather than a remediation; flipping D-C2 requires a new hypothesis (orientation- or task-weighted) which must be preregistered as new science. None of these corrects an error; they change the question.",
+      "cost_and_risk": "Another full matrix cycle (about 40 min compute plus agent cycles) before the 2026-09-01 deadline; each further loop against known results erodes the preregistration discipline (design-to-pass risk explicitly forbidden by preregistration item 2)."
+    },
+    "option_B_close_with_documented_negatives": {
+      "description": "Accept the four remaining REPEAT subgates as final documented negative results per preregistration item 1 (they enter the paper as honest findings), close Wave 1 at governance level (CP6), and scope any scenario redesign as new Wave-2 preregistrations.",
+      "scientific_gain_assessment": "HIGH. The negatives are informative: frozen-gain feedback lag quantified against a plant-fidelity diagnostic; feedforward/nullspace null results established with a fair comparator; the frozen benchmark's infeasibility against PROVISIONAL flight-class limits quantified. These are publishable characterizations of the capture-control design space.",
+      "cost_and_risk": "The wave1 verdict remains WAVE1_REPEAT on the frozen rule; closing requires an explicit PI record (CP6) stating that the REPEAT set is accepted as negative-result science, so that no later reader mistakes it for unresolved defects."
+    },
+    "integrator_recommendation": "Option B, with W1-R12/W1-R13 carried into the hardware-parameter round and any T1-anchor split or rate-feasible T3 redesign preregistered as new Wave-2 experiments. Final authority: PI (CP6)."
+  },
+  "repeat_requirements_if_option_A": [
+    "Preregister an analytic (not plant-tuned) gain redesign before any A2 rerun.",
+    "Preregister a URDF-feasible operational T1 anchor split from the 19.20 deg benchmark anchor.",
+    "Preregister a rate-feasible T3 corridor consistent with the 0.12 m/s disturbance-bound assumption or preregister a revised bound derivation.",
+    "Preregister any new C2/C3 hypothesis (orientation- or task-weighted) as new science, not as remediation.",
+    "No threshold, scenario, or negative-result rewriting under preregistration items 1-2."
+  ]
+}

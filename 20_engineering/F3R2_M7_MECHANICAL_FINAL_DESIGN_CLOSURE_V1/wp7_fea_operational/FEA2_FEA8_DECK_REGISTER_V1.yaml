@@ -1,0 +1,206 @@
+# M7 WP7 FEA-2..FEA-8 deck register (ODR-06 operational scope)
+schema: M7_WP7_FEA_OPERATIONAL_FEA2_FEA8_DECK_REGISTER_V1
+generated_local: '2026-08-22T02:11:08+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+work_package: WP7_FEA_OPERATIONAL
+register_role: Register of the ODR-06 authorized operational structural load cases and their decking state. NOTHING in this register has been run except FEA-1. PLANNED_NOT_DECKED means no input deck exists; it does not mean queued, and it does not inherit any PASS.
+authorization_basis: ODR-06 (FEA_STRATEGY_SPLIT)
+odr_06_authorized_operational_case_list_verbatim:
+  - arm maneuver
+  - emergency stop
+  - 22 kg capture
+  - 150 kg capture
+  - gripper clamp
+  - panel deployment
+  - single-panel-failure
+  - M3R interface
+  - on-orbit system modal
+odr_06_excluded_and_held:
+  - quasi-static launch
+  - sine
+  - random
+  - acoustic
+  - shock
+summary:
+  entries: 9
+  decked_and_solved: 1
+  planned_not_decked: 7
+  hold_not_authorized: 1
+  total_decks_on_disk: 13
+  total_jobs_solved: 13
+cases:
+  - 
+    fea_id: FEA-1
+    title: M3R load-bridge / Stage B / Stage A interface, operational quasi-static
+    odr_06_case_names_covered:
+      - M3R interface
+      - arm maneuver
+      - emergency stop
+      - 22 kg capture
+      - 150 kg capture
+    odr_06_authorization: AUTHORIZED_OPERATIONAL
+    status: DECKED_AND_SOLVED
+    decks: 13
+    mesh_levels:
+      - COARSE
+      - MEDIUM
+      - FINE
+    materials:
+      - AL6061_T6_CAND
+      - AL7075_T651_CAND (fine, 150 kg only)
+    result_status: SOLVED_NOT_MESH_CONVERGED_CANDIDATE_LEVEL
+    inputs_still_needed:
+      - B601 gripper contact duration (dt_contact) measurement to replace the declared 0.1 s assumption
+      - dynamic amplification authority to replace the declared DAF=2.0
+      - BC-BUS-001 bus-side interface stiffness to replace ENCASTRE
+      - bolt preload / friction authority to replace rigid coupling disks
+      - flight material allowables (A-basis/B-basis) for any margin claim
+      - element formulation upgrade (C3D8I or C3D20R) or >=4 elements through thickness to remove hourglass contamination
+    blocking_holds:
+      - CDR_JOINT_MECHANICS_HOLD
+      - BC_BUS_001_STIFFNESS_HOLD
+      - MATERIAL_ALLOWABLES_HOLD
+  - 
+    fea_id: FEA-2
+    title: Gripper clamp / grasp reaction on R1 jaw, rail and palm
+    odr_06_case_names_covered:
+      - gripper clamp
+    odr_06_authorization: AUTHORIZED_OPERATIONAL
+    status: PLANNED_NOT_DECKED
+    decks: 0
+    result_status: NOT_RUN
+    inputs_still_needed:
+      - authorized gripper actuation force / clamp preload (no numeric authority exists; WP5 gripper pack is analytical)
+      - jaw-target contact patch definition and friction coefficient
+      - R1 jaw / rail / palm solid geometry extracted as an FEA-ready body from the neutral FreeCAD/STEP chain (ODR-03)
+      - material assignment for the gripper structure
+    blocking_holds:
+      - HOLD_GRIPPER_ELASTIC_AND_WEAR_TERMS_REQUIRE_AUTHORIZED_LOAD_AND_LIFE_TEST
+  - 
+    fea_id: FEA-3
+    title: 'Solar panel deployment: hinge-driven deployment loads and end-of-travel latch-up'
+    odr_06_case_names_covered:
+      - panel deployment
+    odr_06_authorization: AUTHORIZED_OPERATIONAL
+    status: PLANNED_NOT_DECKED
+    decks: 0
+    result_status: NOT_RUN
+    inputs_still_needed:
+      - hinge spring torque / damping and hard-stop geometry (WP5 records these as HOLD_HINGE_HARDWARE_NOMINALS_FITS_AND_STOP_GEOMETRY)
+      - deployment kinematic profile and latch-up angular velocity
+      - 'panel structural lay-up: the 0.348 kg/panel SSOT value is a known PLACEHOLDER (real panels are 2-5 kg/m^2, a 5-10x discrepancy) so no panel stress case can be closed on the current mass model'
+    blocking_holds:
+      - HOLD_HINGE_HARDWARE_NOMINALS_FITS_AND_STOP_GEOMETRY
+      - PANEL_MASS_AND_MODAL_PARAMETERS_ARE_PLACEHOLDERS
+  - 
+    fea_id: FEA-4
+    title: Single-panel-failure configuration (failed panel remains mechanically ATTACHED per ODR-02, never jettisoned)
+    odr_06_case_names_covered:
+      - single-panel-failure
+    odr_06_authorization: AUTHORIZED_OPERATIONAL
+    status: PLANNED_NOT_DECKED
+    decks: 0
+    result_status: NOT_RUN
+    inputs_still_needed:
+      - stuck-panel restrained angle set (WP1/G2 state_policy.json records PARTIAL/SERVICE angles as null, so the stuck pose is undefined)
+      - asymmetric inertia configuration from WP2 for the failed states
+      - same panel structural definition gap as FEA-3
+    blocking_holds:
+      - STUCK_PANEL_ANGLE_UNDEFINED
+      - PANEL_MASS_AND_MODAL_PARAMETERS_ARE_PLACEHOLDERS
+    odr_note: ODR-02 fixes the semantics (attached-stuck); it does not supply the restrained angle.
+  - 
+    fea_id: FEA-5
+    title: On-orbit system modal (deployed spacecraft, free-free, arm stowed and arm extended)
+    odr_06_case_names_covered:
+      - on-orbit system modal
+    odr_06_authorization: AUTHORIZED_OPERATIONAL
+    status: PLANNED_NOT_DECKED
+    decks: 0
+    result_status: NOT_RUN
+    inputs_still_needed:
+      - system-level FEA mesh of the deployed spacecraft (only the M3R interface region is meshed today)
+      - 'real panel modal parameters: sim_11 v1.1 records the solar panel modal parameters as PLACEHOLDERS, so no system frequency would be meaningful'
+      - joint/appendage stiffness representation consistent with the accepted URDF kinematics
+      - free-free extraction settings and a rigid-body-mode check
+    blocking_holds:
+      - PANEL_MODAL_PARAMETERS_ARE_PLACEHOLDERS
+      - NO_SYSTEM_LEVEL_FEA_MESH_EXISTS
+  - 
+    fea_id: FEA-6
+    title: 'M3R interface joint-mechanics upgrade: bolt preload, face contact, friction and slip at the M6/M5/M4 joints'
+    odr_06_case_names_covered:
+      - M3R interface (refinement of FEA-1)
+    odr_06_authorization: AUTHORIZED_OPERATIONAL
+    status: PLANNED_NOT_DECKED
+    decks: 0
+    result_status: NOT_RUN
+    inputs_still_needed:
+      - fastener grade, preload and torque authority (WP4 records HOLD_FASTENER_PRELOAD_GRADE_AND_MOS)
+      - faying-surface friction coefficient and finish
+      - hole geometry cut as real voids rather than represented by coupling disks
+    blocking_holds:
+      - CDR_JOINT_MECHANICS_HOLD
+      - HOLD_FASTENER_PRELOAD_GRADE_AND_MOS
+    why_registered: FEA-1 models all joints as rigid kinematic coupling disks with no preload, contact or friction. That is a declared Level-1 idealization, and it is the single largest modelling gap between FEA-1 and a joint strength statement.
+  - 
+    fea_id: FEA-7
+    title: Arm maneuver and emergency stop at SYSTEM level (whole spacecraft, reaction-coupled, not M3R-local)
+    odr_06_case_names_covered:
+      - arm maneuver
+      - emergency stop
+    odr_06_authorization: AUTHORIZED_OPERATIONAL
+    status: PLANNED_NOT_DECKED
+    decks: 0
+    result_status: NOT_RUN
+    already_covered_at_interface_level_by: FEA-1
+    inputs_still_needed:
+      - system-level FEA mesh (see FEA-5)
+      - 'full arm inertia tensor reduction: FEA-1 declares ARM_LOADS_BOUNDED_BY_ASSUMPTION and uses only m_arm x a_eq with r_eff = 0.7 m, an assumed effective radius'
+      - authorized joint torque limits and e-stop deceleration profile (FEA-1 uses a declared estop_factor = 2.0 policy)
+    blocking_holds:
+      - NO_SYSTEM_LEVEL_FEA_MESH_EXISTS
+      - ARM_ACTUATOR_LIMITS_NOT_AUTHORIZED
+    note: 'FEA-1 shows the arm cases are NOT governing at the M3R interface: peak stress is 0.0126-0.0252 MPa versus 1.0596 MPa for the 150 kg capture, i.e. 42-84x lower.'
+  - 
+    fea_id: FEA-8
+    title: 22 kg and 150 kg capture at SYSTEM level, including flexible panel participation
+    odr_06_case_names_covered:
+      - 22 kg capture
+      - 150 kg capture
+    odr_06_authorization: AUTHORIZED_OPERATIONAL
+    status: PLANNED_NOT_DECKED
+    decks: 0
+    result_status: NOT_RUN
+    already_covered_at_interface_level_by: FEA-1
+    inputs_still_needed:
+      - system-level FEA mesh (see FEA-5)
+      - 'capture contact-window authority: sim_11 v1.1 uses T_c = 20 ms PROVISIONAL pending B601 gripper measurement, and FEA-1 independently assumes dt_contact = 0.1 s -- these two are inconsistent and must be reconciled before any system capture stress case'
+      - panel flexible representation (sim_07 shows ~92x amplification of point capture versus rigid lock, so a rigid system model would be non-conservative)
+      - 'structurally-authoritative capture load set: the CDR envelope rows are stamped authority_status = NOT_STRUCTURAL_DESIGN_AUTHORITY'
+    blocking_holds:
+      - CAPTURE_CONTACT_DURATION_NOT_MEASURED
+      - PANEL_MODAL_PARAMETERS_ARE_PLACEHOLDERS
+      - CAPTURE_LOADS_NOT_STRUCTURAL_DESIGN_AUTHORITY
+  - 
+    fea_id: FEA-L
+    title: 'Launch qualification: quasi-static launch, sine, random, acoustic, shock'
+    odr_06_case_names_covered:
+      - NONE -- explicitly excluded by ODR-06
+    odr_06_authorization: NOT_AUTHORIZED_HOLD
+    status: HOLD
+    decks: 0
+    result_status: NOT_RUN_AND_NOT_AUTHORIZED
+    hold_id: LAUNCH_QUALIFICATION_FEA_HOLD
+    hold_reason: ODR-06 retains LAUNCH_QUALIFICATION_FEA_HOLD pending the launcher ICD. Gate B (MECHANICAL_FLIGHT_QUALIFICATION_RELEASED) stays HOLD.
+    inputs_still_needed:
+      - launcher / dispenser interface control document
+      - quasi-static launch load factors
+      - sine and random vibration input spectra
+      - shock and acoustic environments
+      - flight material allowables (A-basis or B-basis)
+    prohibition: No launch, launcher, flight-qualification or manufacturing-release claim may be made from any WP7 output.
+standing_prohibitions:
+  - No launch, launcher, flight-qualification or manufacturing-release claim from any entry in this register.
+  - Gate B (MECHANICAL_FLIGHT_QUALIFICATION_RELEASED) stays HOLD.
+  - No entry may be reported as run, passed or converged on the basis of FEA-1.

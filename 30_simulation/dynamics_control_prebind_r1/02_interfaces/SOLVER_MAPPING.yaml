@@ -1,0 +1,94 @@
+schema: PREBIND_SOLVER_MAPPING_V1
+mapping_id: UNIFIED_R2_BACKEND_TO_PREBIND_STATE_V1
+status: LIMITED
+backend:
+  id: SIM13_V2_UNIFIED_R2_FREE_FLOATING_DYNAMICS_BACKEND_V1
+  source:
+    path: 30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/runtime_fail_closed_backends_v2/sim13_v2_backends/dynamics_backend.py
+    bytes: 24361
+    sha256: 3A6A890D9ABABBC4E7E64315E461F56278BF3F9D4C56DDE89607598C01632DB7
+    hash_mode: RAW_BYTES_SHA256
+  kernel:
+    path: 30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/free_floating_dynamics.py
+    bytes: 30769
+    sha256: 8ED47D66F3805394FF369492ABD56A5F0E832AFD6D003C6FA18E66F510836813
+    hash_mode: RAW_BYTES_SHA256
+  scope: ZERO_MOMENTUM_FREE_FLOATING_STATE_EVOLUTION_NOT_CONTACT_NOT_PRODUCTION_AUTHORIZED
+input:
+  q:
+    channels:
+    - joint1
+    - joint2
+    - joint3
+    - joint4
+    - joint5
+    - joint6
+    - gripper_joint1
+    - gripper_joint2
+    units:
+    - rad
+    - rad
+    - rad
+    - rad
+    - rad
+    - rad
+    - m
+    - m
+  qdot:
+    units:
+    - rad/s
+    - rad/s
+    - rad/s
+    - rad/s
+    - rad/s
+    - rad/s
+    - m/s
+    - m/s
+  effort:
+    units:
+    - N*m
+    - N*m
+    - N*m
+    - N*m
+    - N*m
+    - N*m
+    - N
+    - N
+output:
+  base_position:
+    unit: m
+    frame: I
+  base_quaternion:
+    order: wxyz
+    mapping: body_to_inertial
+  base_twist:
+    linear_unit: m/s
+    angular_unit: rad/s
+    expressed_in: body/root
+  momentum:
+    linear_unit: N*s
+    angular_unit: N*m*s
+    reference_point: root
+  energy:
+    unit: J
+solver:
+  method: fixed_step_RK4_reduced_zero_momentum
+  coarse_step_s: 0.002
+  fine_step_s: 0.001
+  terminal_time_s: 0.02
+  random_seed: 260826
+finite_difference:
+  method: centered_Richardson
+  revolute_step_rad: 2.0e-05
+  prismatic_step_m: 2.0e-06
+unsupported_fields:
+- target state/covariance
+- wheel dynamics
+- flex eta/eta_dot
+- contact/compliance
+- actuator electrical dynamics
+- sensor/estimator covariance
+approximation_class: RIGID_SOURCE_ONLY_ZERO_CONTACT_DIAGNOSTIC
+classification_flip_policy: Any missing source, hash drift, unsupported required field,
+  unit/frame ambiguity, or Route-C contamination => HOLD/UNKNOWN; never ALLOW.
+next_stage_authorized: false

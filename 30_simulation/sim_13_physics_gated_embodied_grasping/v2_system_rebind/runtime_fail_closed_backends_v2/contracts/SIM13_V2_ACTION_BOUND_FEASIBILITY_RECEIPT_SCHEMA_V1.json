@@ -1,0 +1,70 @@
+{
+  "schema": "SIM13_V2_ACTION_BOUND_FEASIBILITY_RECEIPT_SCHEMA_V1",
+  "artifact_class": "RECEIPT_SCHEMA_DEFINITION_ONLY",
+  "work_order": "WO-NC20",
+  "receipt_schema_name": "SIM13_V2_ACTION_BOUND_FEASIBILITY_RECEIPT_V1",
+  "description": "Action-bound 150 kg feasibility / post-grasp evaluator receipt. Binds the requested action hash and target hash to a feasibility verdict derived from hash-pinned sim10/sim12 anchors (3.0633304945807067 deg/s INFEASIBLE_RATE; B_anchor INFEASIBLE for all four strategies with negative wheel margin). A non-ABORT 150 kg request without a FEASIBILITY_PASS receipt is masked to the canonical ABORT.",
+  "required_payload_fields": [
+    "schema",
+    "evaluator_id",
+    "key_class",
+    "requested_action_sha256",
+    "target_sha256",
+    "target",
+    "evaluation",
+    "anchor_hashes",
+    "historical_sim10_sim12_pass_inherited_to_current_r2",
+    "release_credit",
+    "next_stage_authorized"
+  ],
+  "field_rules": {
+    "schema": {"exact_value": "SIM13_V2_ACTION_BOUND_FEASIBILITY_RECEIPT_V1"},
+    "evaluator_id": {"exact_value": "SIM13_V2_ACTION_BOUND_FEASIBILITY_EVALUATOR_V1"},
+    "key_class": {"exact_value": "PUBLIC_NON_SECRET_COOPERATIVE_FAIL_CLOSED_BOUNDARY_NOT_CRYPTO_ROOT"},
+    "requested_action_sha256": {"type": "sha256_upper_hex", "rule": "canonical digest of the requested action mapping"},
+    "target_sha256": {"type": "sha256_upper_hex"},
+    "target": {"required_fields": ["target_id", "target_mass_kg", "tumble_rate_dps"]},
+    "evaluation": {"required_fields": ["feasibility_verdict", "post_grasp_verdict", "reason_code", "feasibility_pass"]},
+    "anchor_hashes": {"rule": "exact six-entry path-to-SHA-256 map of the sim10/sim12 anchors; any drift rejects the receipt"},
+    "historical_sim10_sim12_pass_inherited_to_current_r2": {"exact_value": false},
+    "release_credit": {"exact_value": false},
+    "next_stage_authorized": {"exact_value": false}
+  },
+  "anchor_set": {
+    "sim10": [
+      "30_simulation/sim_10_mission_feasibility/results/sim_10_gate_check.json",
+      "30_simulation/sim_10_mission_feasibility/results/sim_10_scan_summary.json",
+      "20_engineering/config/mission_feasibility/scan_v0.yaml",
+      "30_simulation/sim_10_mission_feasibility/src/scan_grid.py"
+    ],
+    "sim12": [
+      "30_simulation/sim_12_strategy_feasibility/results/sim_12_gate_check.json",
+      "30_simulation/sim_12_strategy_feasibility/results/strategy_results.csv"
+    ]
+  },
+  "signature": {
+    "algorithm": "HMAC-SHA256 over canonical JSON payload",
+    "key_class": "public non-secret cooperative fail-closed boundary constant; tamper-evidence only, not a cryptographic root of trust",
+    "field": "signature_hmac_sha256"
+  },
+  "rejection_reasons": [
+    "FEASIBILITY_RECEIPT_MISSING",
+    "FEASIBILITY_RECEIPT_MALFORMED",
+    "FEASIBILITY_RECEIPT_SIGNATURE_INVALID",
+    "FEASIBILITY_RECEIPT_SCOPE_INVALID",
+    "FEASIBILITY_RECEIPT_ACTION_MISMATCH",
+    "FEASIBILITY_RECEIPT_TARGET_MISMATCH",
+    "FEASIBILITY_RECEIPT_ANCHOR_HASH_DRIFT",
+    "FEASIBILITY_RECEIPT_EVALUATION_DRIFT",
+    "MISSION_VETO_INFEASIBLE_RATE"
+  ],
+  "fail_closed_invariants": [
+    "UNKNOWN is never PASS",
+    "a non-ABORT 150 kg / 3 deg/s request without FEASIBILITY_PASS is masked to ABORT",
+    "historical sim10/sim12 PASS is never inherited as current-R2 or production PASS",
+    "no receipt grants release credit or next-stage authorization"
+  ],
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

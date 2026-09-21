@@ -1,0 +1,31 @@
+schema: B51R1_AUTONOMOUS_SESSION_PLAN_V5_POOL_A_S02_R3_TRANSFORM_DIAGNOSTIC_EXTENSION
+generated_at: '2026-08-03T00:15:34+08:00'
+status: POOL_A_ONE_SLOT_DIAGNOSTIC_EXTENSION_AUTHORIZED_FOR_S02_R3_ONLY
+base_plan: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V3_PHASED.yaml
+prior_recovery_extension: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V4_POOL_A_S02_R2_RECOVERY_EXTENSION.yaml
+effective_pool_a_capacity: 14
+added_slot:
+  id: A14_S02_R3_TRANSFORM_DIAGNOSTIC
+  envelope: S02_R3
+  substages:
+    - TRANSFORM_CONVENTION_PROBE_READ_ONLY
+  additional_slots_added: 1
+  additional_slots_beyond_a14: 0
+  cad_write_allowed: false
+  save_api_allowed: false
+  active_candidate_pointer_allowed: false
+trigger:
+  incident: 07_VERIFICATION/AUTONOMOUS/S02_R2/B51R1_S02_R2_TRANSFORM_CONVENTION_ASSERTION_FAIL_CLOSED_INCIDENT.json
+  prior_slot: A13_S02_R2_RECOVERY
+  prior_slot_status: FAIL_CLOSED_COORDINATE_TRANSFORM_ASSERTION
+exit_rule:
+  pass: TRANSFORM_CONVENTION_EVIDENCE_CAPTURED_AND_CLASSIFIED
+  fail: PRESERVE_ALL_OUTPUTS_AND_KEEP_S02_BLOCKED
+downstream_hold:
+  s02_cold_reopen_pass: true
+  active_candidate_pointer: true
+  property_writer_qualification: true
+  s03: true
+  carrier_creation: true
+  joint_creation: true
+claim_limit: SINGLE_READ_ONLY_DIAGNOSTIC_SLOT_ONLY_NO_S02_PASS_ACTIVE_CANDIDATE_OR_S03_CREDIT

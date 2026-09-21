@@ -1,0 +1,80 @@
+schema_version: v2-robot-mount-load-interface-v0.1
+contract_id: SV2_IF_RM_LOAD_HANDOFF
+created_on: "2026-07-24"
+status: FIELD_CONTRACT_READY_VALUES_UNKNOWN
+
+interface:
+  interface_id: IF-RM-001
+  expression_frame: M
+  transform_to_spacecraft: T_SM
+  sign_convention: to_be_supplied_by_loads_owner
+  time_basis: null
+  combination_rule: null
+  safety_factor_authority: null
+
+wrench_fields:
+  Fx_N: null
+  Fy_N: null
+  Fz_N: null
+  Mx_Nm: null
+  My_Nm: null
+  Mz_Nm: null
+  state: UNKNOWN_BLOCKED
+
+candidate_load_cases:
+  - load_case_id: LC-RM-OPERATION
+    description: B601_nominal_operation_interface_wrench
+    configuration: null
+    time_history_or_envelope: null
+    source: null
+    owner: Loads_and_Dynamics_Owner
+    status: UNKNOWN_BLOCKED
+
+  - load_case_id: LC-RM-CAPTURE
+    description: capture_transient_interface_wrench
+    configuration: null
+    target_or_contact_state: null
+    time_history_or_envelope: null
+    source: null
+    owner: Loads_and_Dynamics_Owner
+    status: UNKNOWN_BLOCKED
+
+  - load_case_id: LC-RM-LAUNCH
+    description: launch_or_external_support_case_if_authorized
+    configuration: null
+    boundary_condition: null
+    time_history_or_envelope: null
+    source: null
+    owner: Verification_Owner
+    status: UNKNOWN_BLOCKED
+
+  - load_case_id: LC-RM-GROUND
+    description: integration_and_ground_handling_case
+    configuration: null
+    boundary_condition: null
+    time_history_or_envelope: null
+    source: null
+    owner: Integration_and_Maintenance_Owner
+    status: UNKNOWN_BLOCKED
+
+required_metadata:
+  - source_path_or_test_id
+  - coordinate_frame_and_sign
+  - units
+  - arm_joint_configuration
+  - spacecraft_configuration
+  - target_contact_state
+  - time_basis
+  - uncertainty_or_confidence
+  - load_combination_authority
+  - acceptance_owner
+
+consumption_rules:
+  simulation_result_auto_promotes_to_structural_load: false
+  CAD_may_generate_load_value: false
+  FEA_may_start_with_null_loads: false
+  visual_arrow_is_load_evidence: false
+
+blocked_by:
+  - V2-UNK-005
+  - V2-UNK-009

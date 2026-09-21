@@ -1,0 +1,3423 @@
+schema: M7_SYSTEM_DESIGN_MASS_PROPERTIES_V1
+generated_local: '2026-08-22T01:28:47+08:00'
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP2_DESIGN_MASS
+scope: NINE_CONFIGURATION_DESIGN_MASS_COM_INERTIA_MODEL_WITH_DECLARED_UNCERTAINTIES
+status: DESIGN_MASS_MODEL_ACTIVE_DECLARED_UNCERTAINTY_PENDING_CALIBRATION
+design_not_flight_qualified: true
+units:
+  mass: kg
+  center_of_mass: m
+  inertia: kg*m^2
+  angle: rad
+authority_basis:
+  ODR-01: M frame authority T_SM=[185.25,0,0] mm + Ry(90 deg); legacy flange allocated to BUS_PRIMARY_STRUCTURE by design ruling
+  ODR-02: panel failure = attached-stuck, never jettison (C02/C03/C04 keep panel mass at the stowed endpoint)
+  ODR-05: M3R 0.7619 kg design-budget authority (DESIGN_BUDGET, confidence B); as-built measurement open
+  contract: M7_EXECUTION_PLAN_V1.md pinned contract values
+composition_ruling:
+  single_design_composition:
+  - 'bus_primary_structure (= M4 bus_no_panels record: bus core 22.927194215348 kg + legacy flange 0.376019184652 kg merged with declared uncertainty)'
+  - solar_array_left (0.3483933 kg, state transform per configuration)
+  - solar_array_right (0.3483933 kg, state transform per configuration)
+  - b601_complete_arm_including_gripper_urdf_links (4.695555949342986 kg, ACCEPTED_URDF, named-pose digital properties)
+  - m3r_stage_a_plus_stage_b_budget_envelope (0.7619 kg, ODR-05, ring+plate analytic idealization)
+  - spacecraft_load_bridge_candidate (0.702195458 kg, MATERIAL_DERIVED, candidate member pending WP1 structure confirmation)
+  - target scenario member in C08/C09 only (PROVISIONAL, M5 display transform binding)
+  branch_convergence: M4 Branch A / Branch B dual diagnostic semantics converge into this single DESIGN composition; old branch ledgers retained
+    as references under branch_reconciliation per configuration
+  design_mass_uncaptured_without_bridge_kg: 29.457455949342986
+  design_mass_uncaptured_with_bridge_kg: 30.159651407342984
+aggregation_contract:
+  target_frame: spacecraft_assembly_frame (frozen identity alias of S, M4 frame tree)
+  mass_model: m_system = sum(m_i) over the declared non-overlapping member set
+  center_of_mass_model: r_system = sum(m_i*r_i)/sum(m_i)
+  inertia_model: rotate each own-COM tensor into S, then parallel-axis shift to the configuration system CG
+  tensor_matrix_order:
+  - - Ixx
+    - Ixy
+    - Ixz
+  - - Ixy
+    - Iyy
+    - Iyz
+  - - Ixz
+    - Iyz
+    - Izz
+  uncertainty_model_ref: wp2_design_mass/DESIGN_MASS_UNCERTAINTY_POLICY_V1.yaml (declared, PENDING_CALIBRATION, never measured)
+  zero_fill_forbidden: true
+  measured_or_as_built_claims_forbidden: true
+uncertainty_policy:
+  path: wp2_design_mass/DESIGN_MASS_UNCERTAINTY_POLICY_V1.yaml
+  sha256: 22817DB6632F5E89EC066FF2A38A95EDF68D5981DCD5AE603F91CB45DE091EDE
+  status: ACTIVE_DECLARED_ENGINEERING_POLICY_PENDING_CALIBRATION
+aggregator:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/aggregate_m7_design_mass.py
+  rerun_command: python 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/aggregate_m7_design_mass.py
+m3r_analytic_idealization:
+  method: ring+plate composite of exact primitives (cylindrical shell, box, bore, pocket), uniform notional density, normalized to the ODR-05
+    budget
+  idealized_volume_mm3: 288813.9898444095
+  stage_a_idealized_volume_mm3: 131318.57292005344
+  stage_b_idealized_volume_mm3: 157495.41692435605
+  stage_a_allocated_mass_kg: 0.3464223487293283
+  stage_b_allocated_mass_kg: 0.4154776512706716
+  stage_allocation_status: PENDING_OWNER_ALLOCATION_VOLUME_PROPORTIONAL_ENGINEERING_RULE
+  brep_volume_crosscheck: &id001
+    stage_a_idealized_vs_brep_volume_ratio: 1.027654091706092
+    stage_b_idealized_vs_brep_volume_ratio: 0.9723978216781242
+    bridge_idealized_vs_freecad_volume_ratio: 1.0005677114071376
+  freecad_run: false
+source_register:
+  m7_owner_decision_register:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+  m7_execution_plan:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    sha256: AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B
+  m7_design_mass_uncertainty_policy:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/DESIGN_MASS_UNCERTAINTY_POLICY_V1.yaml
+    sha256: 22817DB6632F5E89EC066FF2A38A95EDF68D5981DCD5AE603F91CB45DE091EDE
+  m4_system_mass_properties_v3:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/SYSTEM_MASS_PROPERTIES_V3.yaml
+    sha256: 3F88318666C8A7DA57A74D65F94E8B27A7D84E32741039A893C21FC247A9FE9F
+  m4_configuration_library_v1:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/CONFIGURATION_LIBRARY_V1.yaml
+    sha256: DCE40C1DB8A318A077F0DD92A47F236BE55EAF2FD32B4E514D2BB67C9B19B4A2
+  m4_frame_tree:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+    sha256: 67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA
+  b601_named_pose_revalidation:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/11_validation/B601_NAMED_POSE_REVALIDATION_V1.json
+    sha256: 68D0356F889E5888399631E6C735D404140AC5933B7FA172AB1F9E26BA26B844
+  m5_configuration_geometry_contract:
+    path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/M5_CONFIGURATION_GEOMETRY_CONTRACT_V1.yaml
+    sha256: DA18F5A6E2F553FC709E90BA1035CDD7770A6FCEECA13EDC1FDB448CAF75838D
+  m6_configuration_transform_candidates:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp2_mass_properties/CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml
+    sha256: F43D871FAA6831652441C75916B1E890D760EAE3D5781DDF3650CFB65159DE51
+  m6_system_mass_properties_v4_diagnostic:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp2_mass_properties/SYSTEM_MASS_PROPERTIES_V4_DIAGNOSTIC.yaml
+    sha256: 8D5C75FE320992395245F1395095683DA3FC651223BEF65B2785640DD9BC5A7D
+  m6_load_bridge_datums:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_DATUMS_V1.yaml
+    sha256: 0F9B413E7B6CD451E2724AD25CA4DA41E52E02C86F1D2874460274EADBAA47A2
+  m3r_stage_a_parameter_table:
+    path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_STAGE_A_PARAMETER_TABLE.yaml
+    sha256: 9262AF213CCE3A9A7453387D98FEB4D029E5027AFA958A2A1D54B5EE6C3B454B
+  m3r_stage_b_parameter_table:
+    path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_STAGE_B_PARAMETER_TABLE.yaml
+    sha256: 80EC3F878AD26F3E89AB8740D6CE4750FB0B28F0EC70DD6D40AFC596805ED36F
+  m3r_tsm_physical_stack:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+    sha256: 172F3603E458F670323925E644BC68623EE9C85FCA7AF1200FAE2576EB43C68B
+  m3r_mass_ruling:
+    path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/M3R_MASS_RULING.json
+    sha256: 4DDFD3F160E448FEF614A27C9A96957118C2A785533D811EAD503CEA340B4FCB
+  cdr_system_mass_properties_authority_v2:
+    path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/SYSTEM_MASS_PROPERTIES_AUTHORITY_V2.yaml
+    sha256: 32E5B0EEEC784731A05B649CCF8583325CDF569302F1532E0EB4B84D712F455B
+  stage1_mass_budget:
+    path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+    sha256: 073C802527E35C9495188EEFD5D8BA51F524D326142CF2AB31E436BAD0899392
+  target_models_ssot:
+    path: 20_engineering/config/geometry/target_models_v1.yaml
+    sha256: 45666D9D37460FD825F0ED7301BF69113016689FDF00A13DFF8046358A76AE45
+  accepted_b601_urdf_L0_witness:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+design_checks:
+  urdf_arm_mass_pinned_exactly: true
+  m3r_budget_normalized_exactly_kg: 0.7619
+  bridge_candidate_mass_kg: 0.702195458
+  idealization_volume_crosscheck_vs_brep: *id001
+  branch_mass_delta_constant_9_of_9:
+    pass: true
+    detail:
+    - configuration_id: C01
+      design_mass_kg: 30.159651407342988
+      legacy_A_reference_kg: 28.695555949342985
+      m3r_B_reference_kg: 29.081436764691
+      design_minus_legacy_A_kg: 1.4640954580000027
+      design_minus_m3r_B_kg: 1.0782146426519894
+      expected_delta_A_kg: 1.464095458
+      expected_delta_B_kg: 1.078214642652
+      pass: true
+    - configuration_id: C02
+      design_mass_kg: 30.159651407342988
+      legacy_A_reference_kg: 28.695555949342985
+      m3r_B_reference_kg: 29.081436764691
+      design_minus_legacy_A_kg: 1.4640954580000027
+      design_minus_m3r_B_kg: 1.0782146426519894
+      expected_delta_A_kg: 1.464095458
+      expected_delta_B_kg: 1.078214642652
+      pass: true
+    - configuration_id: C03
+      design_mass_kg: 30.159651407342988
+      legacy_A_reference_kg: 28.695555949342985
+      m3r_B_reference_kg: 29.081436764691
+      design_minus_legacy_A_kg: 1.4640954580000027
+      design_minus_m3r_B_kg: 1.0782146426519894
+      expected_delta_A_kg: 1.464095458
+      expected_delta_B_kg: 1.078214642652
+      pass: true
+    - configuration_id: C04
+      design_mass_kg: 30.159651407342988
+      legacy_A_reference_kg: 28.695555949342985
+      m3r_B_reference_kg: 29.081436764691
+      design_minus_legacy_A_kg: 1.4640954580000027
+      design_minus_m3r_B_kg: 1.0782146426519894
+      expected_delta_A_kg: 1.464095458
+      expected_delta_B_kg: 1.078214642652
+      pass: true
+    - configuration_id: C05
+      design_mass_kg: 30.159651407342988
+      legacy_A_reference_kg: 28.695555949342985
+      m3r_B_reference_kg: 29.081436764691
+      design_minus_legacy_A_kg: 1.4640954580000027
+      design_minus_m3r_B_kg: 1.0782146426519894
+      expected_delta_A_kg: 1.464095458
+      expected_delta_B_kg: 1.078214642652
+      pass: true
+    - configuration_id: C06
+      design_mass_kg: 30.159651407342988
+      legacy_A_reference_kg: 28.695555949342985
+      m3r_B_reference_kg: 29.081436764691
+      design_minus_legacy_A_kg: 1.4640954580000027
+      design_minus_m3r_B_kg: 1.0782146426519894
+      expected_delta_A_kg: 1.464095458
+      expected_delta_B_kg: 1.078214642652
+      pass: true
+    - configuration_id: C07
+      design_mass_kg: 30.159651407342988
+      legacy_A_reference_kg: 28.695555949342985
+      m3r_B_reference_kg: 29.081436764691
+      design_minus_legacy_A_kg: 1.4640954580000027
+      design_minus_m3r_B_kg: 1.0782146426519894
+      expected_delta_A_kg: 1.464095458
+      expected_delta_B_kg: 1.078214642652
+      pass: true
+    - configuration_id: C08
+      design_mass_kg: 52.15965140734299
+      legacy_A_reference_kg: 50.69555594934299
+      m3r_B_reference_kg: 51.081436764691
+      design_minus_legacy_A_kg: 1.4640954580000027
+      design_minus_m3r_B_kg: 1.078214642651993
+      expected_delta_A_kg: 1.464095458
+      expected_delta_B_kg: 1.078214642652
+      pass: true
+    - configuration_id: C09
+      design_mass_kg: 180.15965140734298
+      legacy_A_reference_kg: 178.69555594934297
+      m3r_B_reference_kg: 179.081436764691
+      design_minus_legacy_A_kg: 1.4640954580000027
+      design_minus_m3r_B_kg: 1.0782146426519716
+      expected_delta_A_kg: 1.464095458
+      expected_delta_B_kg: 1.078214642652
+      pass: true
+  stripped_composition_rebuilds_m6_v4_branch_A_9_of_9:
+    pass: true
+    detail:
+    - configuration_id: C01
+      mass_abs_err_kg: 3.552713678800501e-15
+      cg_max_abs_err_m: 1.3877787807814457e-17
+      inertia_max_abs_err_kg_m2: 0.0
+      pass: true
+    - configuration_id: C02
+      mass_abs_err_kg: 3.552713678800501e-15
+      cg_max_abs_err_m: 1.3877787807814457e-17
+      inertia_max_abs_err_kg_m2: 2.220446049250313e-16
+      pass: true
+    - configuration_id: C03
+      mass_abs_err_kg: 3.552713678800501e-15
+      cg_max_abs_err_m: 1.3877787807814457e-17
+      inertia_max_abs_err_kg_m2: 2.220446049250313e-16
+      pass: true
+    - configuration_id: C04
+      mass_abs_err_kg: 3.552713678800501e-15
+      cg_max_abs_err_m: 1.3877787807814457e-17
+      inertia_max_abs_err_kg_m2: 1.3877787807814457e-17
+      pass: true
+    - configuration_id: C05
+      mass_abs_err_kg: 3.552713678800501e-15
+      cg_max_abs_err_m: 6.938893903907228e-18
+      inertia_max_abs_err_kg_m2: 1.1102230246251565e-16
+      pass: true
+    - configuration_id: C06
+      mass_abs_err_kg: 3.552713678800501e-15
+      cg_max_abs_err_m: 1.3877787807814457e-17
+      inertia_max_abs_err_kg_m2: 4.440892098500626e-16
+      pass: true
+    - configuration_id: C07
+      mass_abs_err_kg: 3.552713678800501e-15
+      cg_max_abs_err_m: 1.3877787807814457e-17
+      inertia_max_abs_err_kg_m2: 1.734723475976807e-18
+      pass: true
+    - configuration_id: C08
+      mass_abs_err_kg: 0.0
+      cg_max_abs_err_m: 0.0
+      inertia_max_abs_err_kg_m2: 1.3552527156068805e-20
+      pass: true
+    - configuration_id: C09
+      mass_abs_err_kg: 0.0
+      cg_max_abs_err_m: 0.0
+      inertia_max_abs_err_kg_m2: 0.0
+      pass: true
+  target_capture_transforms_match_m5_display_rows:
+    pass: true
+    detail:
+    - configuration_id: C07
+      max_abs_err_m: 0.0
+      pass: true
+    - configuration_id: C08
+      max_abs_err_m: 0.0
+      pass: true
+    - configuration_id: C09
+      max_abs_err_m: 0.0
+      pass: true
+  inertia_symmetric_positive_definite_9_of_9:
+    pass: true
+    detail:
+    - configuration_id: C01
+      min_eigenvalue_kg_m2: 0.3756741111901941
+      symmetric: true
+      pass: true
+    - configuration_id: C02
+      min_eigenvalue_kg_m2: 0.3716669373845463
+      symmetric: true
+      pass: true
+    - configuration_id: C03
+      min_eigenvalue_kg_m2: 0.3680741651915339
+      symmetric: true
+      pass: true
+    - configuration_id: C04
+      min_eigenvalue_kg_m2: 0.3640415352532624
+      symmetric: true
+      pass: true
+    - configuration_id: C05
+      min_eigenvalue_kg_m2: 0.39486359523797054
+      symmetric: true
+      pass: true
+    - configuration_id: C06
+      min_eigenvalue_kg_m2: 0.24819256413693772
+      symmetric: true
+      pass: true
+    - configuration_id: C07
+      min_eigenvalue_kg_m2: 0.25940803480498686
+      symmetric: true
+      pass: true
+    - configuration_id: C08
+      min_eigenvalue_kg_m2: 0.496714385400941
+      symmetric: true
+      pass: true
+    - configuration_id: C09
+      min_eigenvalue_kg_m2: 52.46250662713552
+      symmetric: true
+      pass: true
+  uncertainty_positive_no_zero_fill_9_of_9:
+    pass: true
+    detail:
+    - configuration_id: C01
+      min_standard_uncertainty: 0.015623586789735558
+      pass: true
+    - configuration_id: C02
+      min_standard_uncertainty: 0.01564908368760659
+      pass: true
+    - configuration_id: C03
+      min_standard_uncertainty: 0.01564908368760803
+      pass: true
+    - configuration_id: C04
+      min_standard_uncertainty: 0.015676432717227132
+      pass: true
+    - configuration_id: C05
+      min_standard_uncertainty: 0.01551290908115901
+      pass: true
+    - configuration_id: C06
+      min_standard_uncertainty: 0.015489869813044389
+      pass: true
+    - configuration_id: C07
+      min_standard_uncertainty: 0.015486141871623907
+      pass: true
+    - configuration_id: C08
+      min_standard_uncertainty: 0.022914275197524172
+      pass: true
+    - configuration_id: C09
+      min_standard_uncertainty: 0.04171052060266682
+      pass: true
+  deployed_panels_whole_sat_closure_vs_stage1_row:
+    reference_row: servicer_12U_v0 (stage1 mass_inertia_budget_v1.csv, CSV 7-decimal rounding)
+    mass_abs_err_kg: 3.552713678800501e-15
+    cg_max_abs_err_m: 4.223892500012944e-08
+    inertia_max_abs_err_kg_m2: 3.0537093353988354e-08
+    tolerances:
+      mass_kg: 1.0e-09
+      cg_m: 5.0e-06
+      inertia_kg_m2: 5.0e-06
+    pass: true
+configurations:
+- configuration_id: C01
+  name: DEPLOYED_NOMINAL
+  legacy_mapping: DEPLOYED_NOMINAL
+  configuration_semantics:
+    panel_failure_rule: ODR-02_ATTACHED_STUCK_NEVER_JETTISON
+    arm_pose_ref: Q_DEPLOYED_HOME
+    target_membership: null
+  composition:
+  - component_id: bus_primary_structure
+    mass_kg: 23.3032134
+    mass_class: 'MERGED_RSS(bus_core: BUDGETED, legacy_flange: MATERIAL_DERIVED)'
+    mass_standard_uncertainty_kg: 4.5855930137555525
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_class: BUDGETED
+    com_standard_uncertainty_m_per_axis: 0.02
+    inertia_about_own_com_S_kg_m2:
+    - - 0.193585
+      - 0.0
+      - -0.0007228
+    - - 0.0
+      - 0.3485384
+      - 0.0
+    - - -0.0007228
+      - 0.0
+      - 0.347072
+    inertia_class: BUDGETED
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.04839625
+      - 0.07409961666666666
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.0871346
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.07409961666666666
+      - 0.086768
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    membership_status: DESIGN_MEMBER
+    source_ref: m4_system_mass_properties_v3
+    pedigree_note: M4 bus record = bus core 22.927194215348 kg (BUDGETED block-model recomposition) + legacy flange 0.376019184652 kg (MATERIAL_DERIVED),
+      merged into BUS_PRIMARY_STRUCTURE per ODR-01 scope-note design ruling
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_LEFT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - -0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - -0.000319006314
+    - - -0.000319006314
+      - -0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_RIGHT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_class: ACCEPTED_URDF
+    mass_standard_uncertainty_kg: 0.09391111898685972
+    com_S_m:
+    - 0.376934164889081
+    - -0.17567666955456437
+    - -0.08674287405126006
+    com_class: ACCEPTED_URDF
+    com_standard_uncertainty_m_per_axis: 0.005
+    inertia_about_own_com_S_kg_m2:
+    - - 0.12052227030002151
+      - 0.0057099925852098846
+      - 0.0004517176034004025
+    - - 0.0057099925852098846
+      - 0.08785283174500624
+      - -0.04577608277163549
+    - - 0.0004517176034004042
+      - -0.04577608277163549
+      - 0.155038425702139
+    inertia_class: ACCEPTED_URDF
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.003615668109000645
+      - 0.0036341352774716673
+      - 0.0036341352774716673
+    - - 0.0036341352774716673
+      - 0.0026355849523501873
+      - 0.0036341352774716673
+    - - 0.0036341352774716673
+      - 0.0036341352774716673
+      - 0.0046511527710641695
+    inertia_reference_frame_declared: S
+    transform_classification: DESIGN_BINDING_OF_NAMED_POSE_DIGITAL_PROPERTIES
+    membership_status: DESIGN_MEMBER
+    source_ref: b601_named_pose_revalidation
+    pedigree_note: URDF link inertials + joint FK, rigid combination by parallel-axis theorem (M4 revalidation); L0 mass never overridden
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_DEPLOYED_HOME
+    pose_status: PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD
+  - component_id: m3r_stage_a_plus_stage_b_budget_envelope
+    mass_kg: 0.7619
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.15238000000000002
+    com_S_m:
+    - 0.2033879448873743
+    - 1.5994e-05
+    - -8.6366e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0035940027551963787
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0018089624667639822
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0018089624667639822
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0006469204959353482
+      - 0.0004327156613234606
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0003256132440175168
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0004327156613234606
+      - 0.0003256132440175168
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: DESIGN_MEMBER
+    source_ref: m3r_mass_ruling
+    pedigree_note: ODR-05 budget 0.7619 kg (DESIGN_BUDGET, confidence B); CoM/inertia from ring+plate analytic idealization (Stage A shell dia
+      150/40 x 8 mm at x 202.405..210.405 mm; Stage B 160x160x12 mm plate, dia 100 bore, dia 150.4/100 x 5.595 mm pocket at x 196..208 mm), normalized
+      to the budget; stage split proportional to idealized volumes (A 0.346422 kg / B 0.415478 kg), stage allocation itself PENDING owner allocation;
+      excludes fasteners/locator/harness/mating structure
+  - component_id: spacecraft_load_bridge_candidate
+    mass_kg: 0.702195458
+    mass_class: MATERIAL_DERIVED
+    mass_standard_uncertainty_kg: 0.0702195458
+    com_S_m:
+    - 0.19062500000000007
+    - 1.5994000000005556e-05
+    - -8.636600000000464e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0031222893683617043
+      - 2.232120452943751e-21
+      - 0.0
+    - - 2.232120452943751e-21
+      - 0.001567906972732106
+      - -3.659347861698557e-22
+    - - 0.0
+      - -3.659347861698557e-22
+      - 0.001567906972732097
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0005620120863051068
+      - 0.00037548619882955445
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.0002822232550917791
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.00037548619882955445
+      - 0.0002822232550917774
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: CANDIDATE_MEMBER_AWAITING_WP1_STRUCTURE_CONFIRMATION
+    source_ref: m6_load_bridge_datums
+    pedigree_note: M6 candidate plate 160x160x10.75 mm at x 185.25..196.0 mm, 4x dia 6.6 at (+/-70,+/-70), dia 40 centre, candidate mass 702.195458
+      g (MATERIAL_DERIVED, 6061-T6 2700 kg/m3); clocked 25.000014 deg about +X_S (tensor invariant under the 4-fold pattern); excluded from the
+      M3R budget (mating spacecraft structure)
+  mass:
+    value_kg: 30.159651407342988
+    standard_uncertainty_kg: 4.59068004397166
+    relative_standard_uncertainty: 0.15221263608020233
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  center_of_mass:
+    reference_frame: spacecraft_assembly_frame
+    reference_frame_resolution: frozen identity alias of S (M4 frame tree)
+    xyz_m:
+    - 0.0663353953272051
+    - -0.027350323218394635
+    - -0.013055637639802487
+    standard_uncertainty_xyz_m:
+    - 0.01858962645539564
+    - 0.016054792278057936
+    - 0.015623586789735558
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  inertia:
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    matrix_kg_m2:
+    - - 0.5073585477709637
+      - 0.2619197369662154
+      - 0.12717250433320673
+    - - 0.2619197369662154
+      - 1.0666803703620644
+      - -0.10656096058667898
+    - - 0.12717250433320673
+      - -0.10656096058667898
+      - 1.2585339043127652
+    components_kg_m2:
+      Ixx: 0.5073585477709637
+      Iyy: 1.0666803703620644
+      Izz: 1.2585339043127652
+      Ixy: 0.2619197369662154
+      Ixz: 0.12717250433320673
+      Iyz: -0.10656096058667898
+    standard_uncertainty_matrix_kg_m2:
+    - - 0.05732743826062031
+      - 0.0825569892392913
+      - 0.08128590216488216
+    - - 0.0825569892392913
+      - 0.11175115869977163
+      - 0.07569240999513314
+    - - 0.08128590216488216
+      - 0.07569240999513314
+      - 0.11472081543304191
+    standard_uncertainty_components_kg_m2:
+      Ixx: 0.05732743826062031
+      Iyy: 0.11175115869977163
+      Izz: 0.11472081543304191
+      Ixy: 0.0825569892392913
+      Ixz: 0.08128590216488216
+      Iyz: 0.07569240999513314
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  principal_inertia:
+    moments_kg_m2:
+    - 0.3756741111901941
+    - 1.1507297123660605
+    - 1.3061689988895382
+    moment_standard_uncertainties_kg_m2:
+    - 0.07078495534918908
+    - 0.12157833498456694
+    - 0.11945677141994922
+    axes_S_unit_vectors:
+    - - 0.911136672011521
+      - -0.37253179626604976
+      - -0.1762101747532201
+    - - 0.41166094706198675
+      - 0.842587151525129
+      - 0.34724941576451535
+    - - 0.019110980607969685
+      - -0.3889305244584942
+      - 0.9210688451818584
+    axes_order: ascending moments; each axis listed as [x,y,z] in S
+    axis_angular_standard_uncertainty_rad:
+    - 0.12759317174748677
+    - 0.45489662777300466
+    - 0.45374538262447256
+    degeneracy_flags: []
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  branch_reconciliation:
+    legacy_A_reference_kg: 28.695555949342985
+    m3r_B_reference_kg: 29.081436764691
+    design_minus_legacy_A_kg: 1.4640954580000027
+    design_minus_m3r_B_kg: 1.0782146426519894
+    explanation: DESIGN = legacy_A + M3R 0.7619 kg + load bridge 0.702195458 kg = m3r_B + legacy flange 0.376019184652 kg + load bridge 0.702195458
+      kg (exact constant per configuration)
+    old_branch_references_retained:
+    - M4-DIAG-LEGACY-A
+    - M4-DIAG-M3R-B
+  status: DESIGN_MODEL_VALUES_WITH_DECLARED_UNCERTAINTY_NOT_MEASURED_NOT_FLIGHT_QUALIFIED
+- configuration_id: C02
+  name: LEFT_PANEL_FAIL
+  legacy_mapping: LEFT_PANEL_FAIL
+  configuration_semantics:
+    panel_failure_rule: ODR-02_ATTACHED_STUCK_NEVER_JETTISON
+    arm_pose_ref: Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH
+    target_membership: null
+  composition:
+  - component_id: bus_primary_structure
+    mass_kg: 23.3032134
+    mass_class: 'MERGED_RSS(bus_core: BUDGETED, legacy_flange: MATERIAL_DERIVED)'
+    mass_standard_uncertainty_kg: 4.5855930137555525
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_class: BUDGETED
+    com_standard_uncertainty_m_per_axis: 0.02
+    inertia_about_own_com_S_kg_m2:
+    - - 0.193585
+      - 0.0
+      - -0.0007228
+    - - 0.0
+      - 0.3485384
+      - 0.0
+    - - -0.0007228
+      - 0.0
+      - 0.347072
+    inertia_class: BUDGETED
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.04839625
+      - 0.07409961666666666
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.0871346
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.07409961666666666
+      - 0.086768
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    membership_status: DESIGN_MEMBER
+    source_ref: m4_system_mass_properties_v3
+    pedigree_note: M4 bus record = bus core 22.927194215348 kg (BUDGETED block-model recomposition) + legacy flange 0.376019184652 kg (MATERIAL_DERIVED),
+      merged into BUS_PRIMARY_STRUCTURE per ODR-01 scope-note design ruling
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - 0.11315
+    - -0.1
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0026573408
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.001497075
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - -0.000319006314
+    - - 0.000319006314
+      - 0.000478321344
+      - -0.000319006314
+    - - -0.000319006314
+      - -0.000319006314
+      - 0.0002694735
+    inertia_reference_frame_declared: F_LEFT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_stowed
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - -0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - -0.000319006314
+    - - -0.000319006314
+      - -0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_RIGHT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_class: ACCEPTED_URDF
+    mass_standard_uncertainty_kg: 0.09391111898685972
+    com_S_m:
+    - 0.376934164889081
+    - -0.17567666955456437
+    - -0.08674287405126006
+    com_class: ACCEPTED_URDF
+    com_standard_uncertainty_m_per_axis: 0.005
+    inertia_about_own_com_S_kg_m2:
+    - - 0.12052227030002151
+      - 0.0057099925852098846
+      - 0.0004517176034004025
+    - - 0.0057099925852098846
+      - 0.08785283174500624
+      - -0.04577608277163549
+    - - 0.0004517176034004042
+      - -0.04577608277163549
+      - 0.155038425702139
+    inertia_class: ACCEPTED_URDF
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.003615668109000645
+      - 0.0036341352774716673
+      - 0.0036341352774716673
+    - - 0.0036341352774716673
+      - 0.0026355849523501873
+      - 0.0036341352774716673
+    - - 0.0036341352774716673
+      - 0.0036341352774716673
+      - 0.0046511527710641695
+    inertia_reference_frame_declared: S
+    transform_classification: DESIGN_BINDING_OF_NAMED_POSE_DIGITAL_PROPERTIES
+    membership_status: DESIGN_MEMBER
+    source_ref: b601_named_pose_revalidation
+    pedigree_note: URDF link inertials + joint FK, rigid combination by parallel-axis theorem (M4 revalidation); L0 mass never overridden
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH
+    pose_status: PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD_DISPLAY_ONLY_BINDING
+  - component_id: m3r_stage_a_plus_stage_b_budget_envelope
+    mass_kg: 0.7619
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.15238000000000002
+    com_S_m:
+    - 0.2033879448873743
+    - 1.5994e-05
+    - -8.6366e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0035940027551963787
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0018089624667639822
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0018089624667639822
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0006469204959353482
+      - 0.0004327156613234606
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0003256132440175168
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0004327156613234606
+      - 0.0003256132440175168
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: DESIGN_MEMBER
+    source_ref: m3r_mass_ruling
+    pedigree_note: ODR-05 budget 0.7619 kg (DESIGN_BUDGET, confidence B); CoM/inertia from ring+plate analytic idealization (Stage A shell dia
+      150/40 x 8 mm at x 202.405..210.405 mm; Stage B 160x160x12 mm plate, dia 100 bore, dia 150.4/100 x 5.595 mm pocket at x 196..208 mm), normalized
+      to the budget; stage split proportional to idealized volumes (A 0.346422 kg / B 0.415478 kg), stage allocation itself PENDING owner allocation;
+      excludes fasteners/locator/harness/mating structure
+  - component_id: spacecraft_load_bridge_candidate
+    mass_kg: 0.702195458
+    mass_class: MATERIAL_DERIVED
+    mass_standard_uncertainty_kg: 0.0702195458
+    com_S_m:
+    - 0.19062500000000007
+    - 1.5994000000005556e-05
+    - -8.636600000000464e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0031222893683617043
+      - 2.232120452943751e-21
+      - 0.0
+    - - 2.232120452943751e-21
+      - 0.001567906972732106
+      - -3.659347861698557e-22
+    - - 0.0
+      - -3.659347861698557e-22
+      - 0.001567906972732097
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0005620120863051068
+      - 0.00037548619882955445
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.0002822232550917791
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.00037548619882955445
+      - 0.0002822232550917774
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: CANDIDATE_MEMBER_AWAITING_WP1_STRUCTURE_CONFIRMATION
+    source_ref: m6_load_bridge_datums
+    pedigree_note: M6 candidate plate 160x160x10.75 mm at x 185.25..196.0 mm, 4x dia 6.6 at (+/-70,+/-70), dia 40 centre, candidate mass 702.195458
+      g (MATERIAL_DERIVED, 6061-T6 2700 kg/m3); clocked 25.000014 deg about +X_S (tensor invariant under the 4-fold pattern); excluded from the
+      M3R budget (mating spacecraft structure)
+  mass:
+    value_kg: 30.159651407342988
+    standard_uncertainty_kg: 4.59068004397166
+    relative_standard_uncertainty: 0.15221263608020233
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  center_of_mass:
+    reference_frame: spacecraft_assembly_frame
+    reference_frame_resolution: frozen identity alias of S (M4 frame tree)
+    xyz_m:
+    - 0.0663353953272051
+    - -0.02850548676884329
+    - -0.014210801190251138
+    standard_uncertainty_xyz_m:
+    - 0.01858962645539564
+    - 0.016094804388223645
+    - 0.01564908368760659
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  inertia:
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    matrix_kg_m2:
+    - - 0.49657848393507587
+      - 0.25763152426023045
+      - 0.12288429162722177
+    - - 0.25763152426023045
+      - 1.0703746247017394
+      - -0.10117092866873514
+    - - 0.12288429162722177
+      - -0.10117092866873514
+      - 1.2440595861372024
+    components_kg_m2:
+      Ixx: 0.49657848393507587
+      Iyy: 1.0703746247017394
+      Izz: 1.2440595861372024
+      Ixy: 0.25763152426023045
+      Ixz: 0.12288429162722177
+      Iyz: -0.10117092866873514
+    standard_uncertainty_matrix_kg_m2:
+    - - 0.057944722225849656
+      - 0.08265290653732302
+      - 0.08135208994596585
+    - - 0.08265290653732302
+      - 0.11191528025947459
+      - 0.07583421805157282
+    - - 0.08135208994596585
+      - 0.07583421805157282
+      - 0.11491544521030876
+    standard_uncertainty_components_kg_m2:
+      Ixx: 0.057944722225849656
+      Iyy: 0.11191528025947459
+      Izz: 0.11491544521030876
+      Ixy: 0.08265290653732302
+      Ixz: 0.08135208994596585
+      Iyz: 0.07583421805157282
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  principal_inertia:
+    moments_kg_m2:
+    - 0.3716669373845463
+    - 1.1487633453482369
+    - 1.2905824120412346
+    moment_standard_uncertainties_kg_m2:
+    - 0.06991648909316725
+    - 0.12217883105386503
+    - 0.1201046182310719
+    axes_S_unit_vectors:
+    - - 0.9161175749784866
+      - -0.36256955631495935
+      - -0.17109034352969818
+    - - 0.4008223009785853
+      - 0.837236546128327
+      - 0.37198985048700156
+    - - 0.008370893247973231
+      - -0.4093632649135521
+      - 0.912333078149394
+    axes_order: ascending moments; each axis listed as [x,y,z] in S
+    axis_angular_standard_uncertainty_rad:
+    - 0.1288480883337985
+    - 0.49302923367838664
+    - 0.49209422022052357
+    degeneracy_flags: []
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  branch_reconciliation:
+    legacy_A_reference_kg: 28.695555949342985
+    m3r_B_reference_kg: 29.081436764691
+    design_minus_legacy_A_kg: 1.4640954580000027
+    design_minus_m3r_B_kg: 1.0782146426519894
+    explanation: DESIGN = legacy_A + M3R 0.7619 kg + load bridge 0.702195458 kg = m3r_B + legacy flange 0.376019184652 kg + load bridge 0.702195458
+      kg (exact constant per configuration)
+    old_branch_references_retained:
+    - M4-DIAG-LEGACY-A
+    - M4-DIAG-M3R-B
+  status: DESIGN_MODEL_VALUES_WITH_DECLARED_UNCERTAINTY_NOT_MEASURED_NOT_FLIGHT_QUALIFIED
+- configuration_id: C03
+  name: RIGHT_PANEL_FAIL
+  legacy_mapping: RIGHT_PANEL_FAIL
+  configuration_semantics:
+    panel_failure_rule: ODR-02_ATTACHED_STUCK_NEVER_JETTISON
+    arm_pose_ref: Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH
+    target_membership: null
+  composition:
+  - component_id: bus_primary_structure
+    mass_kg: 23.3032134
+    mass_class: 'MERGED_RSS(bus_core: BUDGETED, legacy_flange: MATERIAL_DERIVED)'
+    mass_standard_uncertainty_kg: 4.5855930137555525
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_class: BUDGETED
+    com_standard_uncertainty_m_per_axis: 0.02
+    inertia_about_own_com_S_kg_m2:
+    - - 0.193585
+      - 0.0
+      - -0.0007228
+    - - 0.0
+      - 0.3485384
+      - 0.0
+    - - -0.0007228
+      - 0.0
+      - 0.347072
+    inertia_class: BUDGETED
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.04839625
+      - 0.07409961666666666
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.0871346
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.07409961666666666
+      - 0.086768
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    membership_status: DESIGN_MEMBER
+    source_ref: m4_system_mass_properties_v3
+    pedigree_note: M4 bus record = bus core 22.927194215348 kg (BUDGETED block-model recomposition) + legacy flange 0.376019184652 kg (MATERIAL_DERIVED),
+      merged into BUS_PRIMARY_STRUCTURE per ODR-01 scope-note design ruling
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_LEFT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - -0.11315
+    - -0.1
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0026573408
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.001497075
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.000478321344
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.000319006314
+      - 0.0002694735
+    inertia_reference_frame_declared: F_RIGHT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_stowed
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_class: ACCEPTED_URDF
+    mass_standard_uncertainty_kg: 0.09391111898685972
+    com_S_m:
+    - 0.376934164889081
+    - -0.17567666955456437
+    - -0.08674287405126006
+    com_class: ACCEPTED_URDF
+    com_standard_uncertainty_m_per_axis: 0.005
+    inertia_about_own_com_S_kg_m2:
+    - - 0.12052227030002151
+      - 0.0057099925852098846
+      - 0.0004517176034004025
+    - - 0.0057099925852098846
+      - 0.08785283174500624
+      - -0.04577608277163549
+    - - 0.0004517176034004042
+      - -0.04577608277163549
+      - 0.155038425702139
+    inertia_class: ACCEPTED_URDF
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.003615668109000645
+      - 0.0036341352774716673
+      - 0.0036341352774716673
+    - - 0.0036341352774716673
+      - 0.0026355849523501873
+      - 0.0036341352774716673
+    - - 0.0036341352774716673
+      - 0.0036341352774716673
+      - 0.0046511527710641695
+    inertia_reference_frame_declared: S
+    transform_classification: DESIGN_BINDING_OF_NAMED_POSE_DIGITAL_PROPERTIES
+    membership_status: DESIGN_MEMBER
+    source_ref: b601_named_pose_revalidation
+    pedigree_note: URDF link inertials + joint FK, rigid combination by parallel-axis theorem (M4 revalidation); L0 mass never overridden
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH
+    pose_status: PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD_DISPLAY_ONLY_BINDING
+  - component_id: m3r_stage_a_plus_stage_b_budget_envelope
+    mass_kg: 0.7619
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.15238000000000002
+    com_S_m:
+    - 0.2033879448873743
+    - 1.5994e-05
+    - -8.6366e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0035940027551963787
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0018089624667639822
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0018089624667639822
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0006469204959353482
+      - 0.0004327156613234606
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0003256132440175168
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0004327156613234606
+      - 0.0003256132440175168
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: DESIGN_MEMBER
+    source_ref: m3r_mass_ruling
+    pedigree_note: ODR-05 budget 0.7619 kg (DESIGN_BUDGET, confidence B); CoM/inertia from ring+plate analytic idealization (Stage A shell dia
+      150/40 x 8 mm at x 202.405..210.405 mm; Stage B 160x160x12 mm plate, dia 100 bore, dia 150.4/100 x 5.595 mm pocket at x 196..208 mm), normalized
+      to the budget; stage split proportional to idealized volumes (A 0.346422 kg / B 0.415478 kg), stage allocation itself PENDING owner allocation;
+      excludes fasteners/locator/harness/mating structure
+  - component_id: spacecraft_load_bridge_candidate
+    mass_kg: 0.702195458
+    mass_class: MATERIAL_DERIVED
+    mass_standard_uncertainty_kg: 0.0702195458
+    com_S_m:
+    - 0.19062500000000007
+    - 1.5994000000005556e-05
+    - -8.636600000000464e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0031222893683617043
+      - 2.232120452943751e-21
+      - 0.0
+    - - 2.232120452943751e-21
+      - 0.001567906972732106
+      - -3.659347861698557e-22
+    - - 0.0
+      - -3.659347861698557e-22
+      - 0.001567906972732097
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0005620120863051068
+      - 0.00037548619882955445
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.0002822232550917791
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.00037548619882955445
+      - 0.0002822232550917774
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: CANDIDATE_MEMBER_AWAITING_WP1_STRUCTURE_CONFIRMATION
+    source_ref: m6_load_bridge_datums
+    pedigree_note: M6 candidate plate 160x160x10.75 mm at x 185.25..196.0 mm, 4x dia 6.6 at (+/-70,+/-70), dia 40 centre, candidate mass 702.195458
+      g (MATERIAL_DERIVED, 6061-T6 2700 kg/m3); clocked 25.000014 deg about +X_S (tensor invariant under the 4-fold pattern); excluded from the
+      M3R budget (mating spacecraft structure)
+  mass:
+    value_kg: 30.159651407342988
+    standard_uncertainty_kg: 4.59068004397166
+    relative_standard_uncertainty: 0.15221263608020233
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  center_of_mass:
+    reference_frame: spacecraft_assembly_frame
+    reference_frame_resolution: frozen identity alias of S (M4 frame tree)
+    xyz_m:
+    - 0.0663353953272051
+    - -0.026195159667945982
+    - -0.014210801190251138
+    standard_uncertainty_xyz_m:
+    - 0.01858962645539564
+    - 0.016005655742538233
+    - 0.01564908368760803
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  inertia:
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    matrix_kg_m2:
+    - - 0.5003899516799252
+      - 0.2662079496722004
+      - 0.12288429162722177
+    - - 0.2662079496722004
+      - 1.0703746247017394
+      - -0.11004525863219825
+    - - 0.12288429162722177
+      - -0.11004525863219825
+      - 1.2478710538820517
+    components_kg_m2:
+      Ixx: 0.5003899516799252
+      Iyy: 1.0703746247017394
+      Izz: 1.2478710538820517
+      Ixy: 0.2662079496722004
+      Ixz: 0.12288429162722177
+      Iyz: -0.11004525863219825
+    standard_uncertainty_matrix_kg_m2:
+    - - 0.05703756341879788
+      - 0.08242584439669363
+      - 0.08135208994596382
+    - - 0.08242584439669363
+      - 0.11191528025966414
+      - 0.07565078886409689
+    - - 0.08135208994596382
+      - 0.07565078886409689
+      - 0.11437595735102091
+    standard_uncertainty_components_kg_m2:
+      Ixx: 0.05703756341879788
+      Iyy: 0.11191528025966414
+      Izz: 0.11437595735102091
+      Ixy: 0.08242584439669363
+      Ixz: 0.08135208994596382
+      Iyz: 0.07565078886409689
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  principal_inertia:
+    moments_kg_m2:
+    - 0.3680741651915339
+    - 1.1500340348537983
+    - 1.3005274302183847
+    moment_standard_uncertainties_kg_m2:
+    - 0.07067795721522162
+    - 0.12208802618088387
+    - 0.12004955938352557
+    axes_S_unit_vectors:
+    - - 0.911483384707148
+      - -0.37275320933014094
+      - -0.1739341379283589
+    - - 0.41125845963999874
+      - 0.8175709228541803
+      - 0.4030437513197539
+    - - -0.00803235814296283
+      - -0.43889956828122334
+      - 0.8985002226962546
+    axes_order: ascending moments; each axis listed as [x,y,z] in S
+    axis_angular_standard_uncertainty_rad:
+    - 0.12685097747292687
+    - 0.4608812083145767
+    - 0.45983981494774406
+    degeneracy_flags: []
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  branch_reconciliation:
+    legacy_A_reference_kg: 28.695555949342985
+    m3r_B_reference_kg: 29.081436764691
+    design_minus_legacy_A_kg: 1.4640954580000027
+    design_minus_m3r_B_kg: 1.0782146426519894
+    explanation: DESIGN = legacy_A + M3R 0.7619 kg + load bridge 0.702195458 kg = m3r_B + legacy flange 0.376019184652 kg + load bridge 0.702195458
+      kg (exact constant per configuration)
+    old_branch_references_retained:
+    - M4-DIAG-LEGACY-A
+    - M4-DIAG-M3R-B
+  status: DESIGN_MODEL_VALUES_WITH_DECLARED_UNCERTAINTY_NOT_MEASURED_NOT_FLIGHT_QUALIFIED
+- configuration_id: C04
+  name: BOTH_PANEL_FAIL
+  legacy_mapping: BOTH_PANEL_FAIL
+  configuration_semantics:
+    panel_failure_rule: ODR-02_ATTACHED_STUCK_NEVER_JETTISON
+    arm_pose_ref: Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH
+    target_membership: null
+  composition:
+  - component_id: bus_primary_structure
+    mass_kg: 23.3032134
+    mass_class: 'MERGED_RSS(bus_core: BUDGETED, legacy_flange: MATERIAL_DERIVED)'
+    mass_standard_uncertainty_kg: 4.5855930137555525
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_class: BUDGETED
+    com_standard_uncertainty_m_per_axis: 0.02
+    inertia_about_own_com_S_kg_m2:
+    - - 0.193585
+      - 0.0
+      - -0.0007228
+    - - 0.0
+      - 0.3485384
+      - 0.0
+    - - -0.0007228
+      - 0.0
+      - 0.347072
+    inertia_class: BUDGETED
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.04839625
+      - 0.07409961666666666
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.0871346
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.07409961666666666
+      - 0.086768
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    membership_status: DESIGN_MEMBER
+    source_ref: m4_system_mass_properties_v3
+    pedigree_note: M4 bus record = bus core 22.927194215348 kg (BUDGETED block-model recomposition) + legacy flange 0.376019184652 kg (MATERIAL_DERIVED),
+      merged into BUS_PRIMARY_STRUCTURE per ODR-01 scope-note design ruling
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - 0.11315
+    - -0.1
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0026573408
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.001497075
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - -0.000319006314
+    - - 0.000319006314
+      - 0.000478321344
+      - -0.000319006314
+    - - -0.000319006314
+      - -0.000319006314
+      - 0.0002694735
+    inertia_reference_frame_declared: F_LEFT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_stowed
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - -0.11315
+    - -0.1
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0026573408
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.001497075
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.000478321344
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.000319006314
+      - 0.0002694735
+    inertia_reference_frame_declared: F_RIGHT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_stowed
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_class: ACCEPTED_URDF
+    mass_standard_uncertainty_kg: 0.09391111898685972
+    com_S_m:
+    - 0.376934164889081
+    - -0.17567666955456437
+    - -0.08674287405126006
+    com_class: ACCEPTED_URDF
+    com_standard_uncertainty_m_per_axis: 0.005
+    inertia_about_own_com_S_kg_m2:
+    - - 0.12052227030002151
+      - 0.0057099925852098846
+      - 0.0004517176034004025
+    - - 0.0057099925852098846
+      - 0.08785283174500624
+      - -0.04577608277163549
+    - - 0.0004517176034004042
+      - -0.04577608277163549
+      - 0.155038425702139
+    inertia_class: ACCEPTED_URDF
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.003615668109000645
+      - 0.0036341352774716673
+      - 0.0036341352774716673
+    - - 0.0036341352774716673
+      - 0.0026355849523501873
+      - 0.0036341352774716673
+    - - 0.0036341352774716673
+      - 0.0036341352774716673
+      - 0.0046511527710641695
+    inertia_reference_frame_declared: S
+    transform_classification: DESIGN_BINDING_OF_NAMED_POSE_DIGITAL_PROPERTIES
+    membership_status: DESIGN_MEMBER
+    source_ref: b601_named_pose_revalidation
+    pedigree_note: URDF link inertials + joint FK, rigid combination by parallel-axis theorem (M4 revalidation); L0 mass never overridden
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH
+    pose_status: PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD_DISPLAY_ONLY_BINDING
+  - component_id: m3r_stage_a_plus_stage_b_budget_envelope
+    mass_kg: 0.7619
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.15238000000000002
+    com_S_m:
+    - 0.2033879448873743
+    - 1.5994e-05
+    - -8.6366e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0035940027551963787
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0018089624667639822
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0018089624667639822
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0006469204959353482
+      - 0.0004327156613234606
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0003256132440175168
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0004327156613234606
+      - 0.0003256132440175168
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: DESIGN_MEMBER
+    source_ref: m3r_mass_ruling
+    pedigree_note: ODR-05 budget 0.7619 kg (DESIGN_BUDGET, confidence B); CoM/inertia from ring+plate analytic idealization (Stage A shell dia
+      150/40 x 8 mm at x 202.405..210.405 mm; Stage B 160x160x12 mm plate, dia 100 bore, dia 150.4/100 x 5.595 mm pocket at x 196..208 mm), normalized
+      to the budget; stage split proportional to idealized volumes (A 0.346422 kg / B 0.415478 kg), stage allocation itself PENDING owner allocation;
+      excludes fasteners/locator/harness/mating structure
+  - component_id: spacecraft_load_bridge_candidate
+    mass_kg: 0.702195458
+    mass_class: MATERIAL_DERIVED
+    mass_standard_uncertainty_kg: 0.0702195458
+    com_S_m:
+    - 0.19062500000000007
+    - 1.5994000000005556e-05
+    - -8.636600000000464e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0031222893683617043
+      - 2.232120452943751e-21
+      - 0.0
+    - - 2.232120452943751e-21
+      - 0.001567906972732106
+      - -3.659347861698557e-22
+    - - 0.0
+      - -3.659347861698557e-22
+      - 0.001567906972732097
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0005620120863051068
+      - 0.00037548619882955445
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.0002822232550917791
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.00037548619882955445
+      - 0.0002822232550917774
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: CANDIDATE_MEMBER_AWAITING_WP1_STRUCTURE_CONFIRMATION
+    source_ref: m6_load_bridge_datums
+    pedigree_note: M6 candidate plate 160x160x10.75 mm at x 185.25..196.0 mm, 4x dia 6.6 at (+/-70,+/-70), dia 40 centre, candidate mass 702.195458
+      g (MATERIAL_DERIVED, 6061-T6 2700 kg/m3); clocked 25.000014 deg about +X_S (tensor invariant under the 4-fold pattern); excluded from the
+      M3R budget (mating spacecraft structure)
+  mass:
+    value_kg: 30.159651407342988
+    standard_uncertainty_kg: 4.59068004397166
+    relative_standard_uncertainty: 0.15221263608020233
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  center_of_mass:
+    reference_frame: spacecraft_assembly_frame
+    reference_frame_resolution: frozen identity alias of S (M4 frame tree)
+    xyz_m:
+    - 0.0663353953272051
+    - -0.027350323218394635
+    - -0.01536596474069979
+    standard_uncertainty_xyz_m:
+    - 0.01858962645539564
+    - 0.01604394036942454
+    - 0.015676432717227132
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  inertia:
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    matrix_kg_m2:
+    - - 0.48960988784403736
+      - 0.2619197369662154
+      - 0.11859607892123683
+    - - 0.2619197369662154
+      - 1.0739883887931383
+      - -0.10465522671425435
+    - - 0.11859607892123683
+      - -0.10465522671425435
+      - 1.2334772259547653
+    components_kg_m2:
+      Ixx: 0.48960988784403736
+      Iyy: 1.0739883887931383
+      Izz: 1.2334772259547653
+      Ixy: 0.2619197369662154
+      Ixz: 0.11859607892123683
+      Iyz: -0.10465522671425435
+    standard_uncertainty_matrix_kg_m2:
+    - - 0.057658912272269894
+      - 0.08251711347310474
+      - 0.08142308935930358
+    - - 0.08251711347310474
+      - 0.11209151835235567
+      - 0.07579249194798762
+    - - 0.08142308935930358
+      - 0.07579249194798762
+      - 0.11455980937456021
+    standard_uncertainty_components_kg_m2:
+      Ixx: 0.057658912272269894
+      Iyy: 0.11209151835235567
+      Izz: 0.11455980937456021
+      Ixy: 0.08251711347310474
+      Ixz: 0.08142308935930358
+      Iyz: 0.07579249194798762
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  principal_inertia:
+    moments_kg_m2:
+    - 0.3640415352532624
+    - 1.1475206937768405
+    - 1.2855132735618375
+    moment_standard_uncertainties_kg_m2:
+    - 0.06981794483850291
+    - 0.12274166848828545
+    - 0.12077392007908164
+    axes_S_unit_vectors:
+    - - 0.916408690916207
+      - -0.36295694336960144
+      - -0.1686931192225679
+    - - 0.39971095105799076
+      - 0.8081878306614391
+      - 0.43250848081288934
+    - - -0.02064623010527753
+      - -0.4637830178332891
+      - 0.8857082169382234
+    axes_order: ascending moments; each axis listed as [x,y,z] in S
+    axis_angular_standard_uncertainty_rad:
+    - 0.12811215709021745
+    - 0.4961892618539301
+    - 0.49531016123367494
+    degeneracy_flags: []
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  branch_reconciliation:
+    legacy_A_reference_kg: 28.695555949342985
+    m3r_B_reference_kg: 29.081436764691
+    design_minus_legacy_A_kg: 1.4640954580000027
+    design_minus_m3r_B_kg: 1.0782146426519894
+    explanation: DESIGN = legacy_A + M3R 0.7619 kg + load bridge 0.702195458 kg = m3r_B + legacy flange 0.376019184652 kg + load bridge 0.702195458
+      kg (exact constant per configuration)
+    old_branch_references_retained:
+    - M4-DIAG-LEGACY-A
+    - M4-DIAG-M3R-B
+  status: DESIGN_MODEL_VALUES_WITH_DECLARED_UNCERTAINTY_NOT_MEASURED_NOT_FLIGHT_QUALIFIED
+- configuration_id: C05
+  name: ARM_STOWED_ONORBIT
+  legacy_mapping: ARM_STOWED_ONORBIT
+  configuration_semantics:
+    panel_failure_rule: ODR-02_ATTACHED_STUCK_NEVER_JETTISON
+    arm_pose_ref: Q_STOW_ENGINEERING_CANDIDATE
+    target_membership: null
+  composition:
+  - component_id: bus_primary_structure
+    mass_kg: 23.3032134
+    mass_class: 'MERGED_RSS(bus_core: BUDGETED, legacy_flange: MATERIAL_DERIVED)'
+    mass_standard_uncertainty_kg: 4.5855930137555525
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_class: BUDGETED
+    com_standard_uncertainty_m_per_axis: 0.02
+    inertia_about_own_com_S_kg_m2:
+    - - 0.193585
+      - 0.0
+      - -0.0007228
+    - - 0.0
+      - 0.3485384
+      - 0.0
+    - - -0.0007228
+      - 0.0
+      - 0.347072
+    inertia_class: BUDGETED
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.04839625
+      - 0.07409961666666666
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.0871346
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.07409961666666666
+      - 0.086768
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    membership_status: DESIGN_MEMBER
+    source_ref: m4_system_mass_properties_v3
+    pedigree_note: M4 bus record = bus core 22.927194215348 kg (BUDGETED block-model recomposition) + legacy flange 0.376019184652 kg (MATERIAL_DERIVED),
+      merged into BUS_PRIMARY_STRUCTURE per ODR-01 scope-note design ruling
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_LEFT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - -0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - -0.000319006314
+    - - -0.000319006314
+      - -0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_RIGHT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_class: ACCEPTED_URDF
+    mass_standard_uncertainty_kg: 0.09391111898685972
+    com_S_m:
+    - 0.2304408932564203
+    - 0.027541065962195514
+    - 0.185990409637921
+    com_class: ACCEPTED_URDF
+    com_standard_uncertainty_m_per_axis: 0.005
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0793335308780468
+      - 0.0017593358234887675
+      - 0.027974103935440243
+    - - 0.0017593358234887675
+      - 0.1531181460946435
+      - -0.01023229074456216
+    - - 0.027974103935440243
+      - -0.01023229074456216
+      - 0.08207826968290606
+    inertia_class: ACCEPTED_URDF
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.002380005926341404
+      - 0.0031452994665559634
+      - 0.0031452994665559634
+    - - 0.0031452994665559634
+      - 0.004593544382839305
+      - 0.0031452994665559634
+    - - 0.0031452994665559634
+      - 0.0031452994665559634
+      - 0.0024623480904871816
+    inertia_reference_frame_declared: S
+    transform_classification: DESIGN_BINDING_OF_NAMED_POSE_DIGITAL_PROPERTIES
+    membership_status: DESIGN_MEMBER
+    source_ref: b601_named_pose_revalidation
+    pedigree_note: URDF link inertials + joint FK, rigid combination by parallel-axis theorem (M4 revalidation); L0 mass never overridden
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_STOW_ENGINEERING_CANDIDATE
+    pose_status: HELD_CANDIDATE_FK_REGRESSION_FAIL_MAX_RESIDUAL_567P734_MM_RETAINED_FACT_NOT_ABSORBED_BY_UNCERTAINTY
+  - component_id: m3r_stage_a_plus_stage_b_budget_envelope
+    mass_kg: 0.7619
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.15238000000000002
+    com_S_m:
+    - 0.2033879448873743
+    - 1.5994e-05
+    - -8.6366e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0035940027551963787
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0018089624667639822
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0018089624667639822
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0006469204959353482
+      - 0.0004327156613234606
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0003256132440175168
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0004327156613234606
+      - 0.0003256132440175168
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: DESIGN_MEMBER
+    source_ref: m3r_mass_ruling
+    pedigree_note: ODR-05 budget 0.7619 kg (DESIGN_BUDGET, confidence B); CoM/inertia from ring+plate analytic idealization (Stage A shell dia
+      150/40 x 8 mm at x 202.405..210.405 mm; Stage B 160x160x12 mm plate, dia 100 bore, dia 150.4/100 x 5.595 mm pocket at x 196..208 mm), normalized
+      to the budget; stage split proportional to idealized volumes (A 0.346422 kg / B 0.415478 kg), stage allocation itself PENDING owner allocation;
+      excludes fasteners/locator/harness/mating structure
+  - component_id: spacecraft_load_bridge_candidate
+    mass_kg: 0.702195458
+    mass_class: MATERIAL_DERIVED
+    mass_standard_uncertainty_kg: 0.0702195458
+    com_S_m:
+    - 0.19062500000000007
+    - 1.5994000000005556e-05
+    - -8.636600000000464e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0031222893683617043
+      - 2.232120452943751e-21
+      - 0.0
+    - - 2.232120452943751e-21
+      - 0.001567906972732106
+      - -3.659347861698557e-22
+    - - 0.0
+      - -3.659347861698557e-22
+      - 0.001567906972732097
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0005620120863051068
+      - 0.00037548619882955445
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.0002822232550917791
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.00037548619882955445
+      - 0.0002822232550917774
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: CANDIDATE_MEMBER_AWAITING_WP1_STRUCTURE_CONFIRMATION
+    source_ref: m6_load_bridge_datums
+    pedigree_note: M6 candidate plate 160x160x10.75 mm at x 185.25..196.0 mm, 4x dia 6.6 at (+/-70,+/-70), dia 40 centre, candidate mass 702.195458
+      g (MATERIAL_DERIVED, 6061-T6 2700 kg/m3); clocked 25.000014 deg about +X_S (tensor invariant under the 4-fold pattern); excluded from the
+      M3R budget (mating spacecraft structure)
+  mass:
+    value_kg: 30.159651407342988
+    standard_uncertainty_kg: 4.59068004397166
+    relative_standard_uncertainty: 0.15221263608020233
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  center_of_mass:
+    reference_frame: spacecraft_assembly_frame
+    reference_frame_resolution: frozen identity alias of S (M4 frame tree)
+    xyz_m:
+    - 0.043527858732601676
+    - 0.004288644823039915
+    - 0.029406205685707093
+    standard_uncertainty_xyz_m:
+    - 0.016922332575933653
+    - 0.01551290908115901
+    - 0.016099940381518286
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  inertia:
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    matrix_kg_m2:
+    - - 0.4529824442444119
+      - -0.02241597302684184
+      - -0.13535941408208976
+    - - -0.02241597302684184
+      - 0.8958842645650683
+      - -0.030481165855929127
+    - - -0.13535941408208976
+      - -0.030481165855929127
+      - 0.7240035486575319
+    components_kg_m2:
+      Ixx: 0.4529824442444119
+      Iyy: 0.8958842645650683
+      Izz: 0.7240035486575319
+      Ixy: -0.02241597302684184
+      Ixz: -0.13535941408208976
+      Iyz: -0.030481165855929127
+    standard_uncertainty_matrix_kg_m2:
+    - - 0.05651638524350928
+      - 0.07723738472684992
+      - 0.078677787834367
+    - - 0.07723738472684992
+      - 0.10205405710517679
+      - 0.07551793350589323
+    - - 0.078677787834367
+      - 0.07551793350589323
+      - 0.09753388009688695
+    standard_uncertainty_components_kg_m2:
+      Ixx: 0.05651638524350928
+      Iyy: 0.10205405710517679
+      Izz: 0.09753388009688695
+      Ixy: 0.07723738472684992
+      Ixz: 0.078677787834367
+      Iyz: 0.07551793350589323
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  principal_inertia:
+    moments_kg_m2:
+    - 0.39486359523797054
+    - 0.776874805985154
+    - 0.9011318562438876
+    moment_standard_uncertainties_kg_m2:
+    - 0.0695414358333132
+    - 0.10577868398758172
+    - 0.10309489616404205
+    axes_S_unit_vectors:
+    - - 0.9207947254495172
+      - 0.06459897941447912
+      - 0.3846609486846253
+    - - -0.39003946671517864
+      - 0.1588373782182284
+      - 0.9069949843771457
+    - - -0.00250758626718736
+      - -0.985189148914749
+      - 0.17145277154874305
+    axes_order: ascending moments; each axis listed as [x,y,z] in S
+    axis_angular_standard_uncertainty_rad:
+    - 0.23561838118068854
+    - 0.6156111311336396
+    - 0.6091836241206522
+    degeneracy_flags: []
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  branch_reconciliation:
+    legacy_A_reference_kg: 28.695555949342985
+    m3r_B_reference_kg: 29.081436764691
+    design_minus_legacy_A_kg: 1.4640954580000027
+    design_minus_m3r_B_kg: 1.0782146426519894
+    explanation: DESIGN = legacy_A + M3R 0.7619 kg + load bridge 0.702195458 kg = m3r_B + legacy flange 0.376019184652 kg + load bridge 0.702195458
+      kg (exact constant per configuration)
+    old_branch_references_retained:
+    - M4-DIAG-LEGACY-A
+    - M4-DIAG-M3R-B
+  status: DESIGN_MODEL_VALUES_WITH_DECLARED_UNCERTAINTY_NOT_MEASURED_NOT_FLIGHT_QUALIFIED
+- configuration_id: C06
+  name: ARM_TASK_READY
+  legacy_mapping: ARM_TASK_READY
+  configuration_semantics:
+    panel_failure_rule: ODR-02_ATTACHED_STUCK_NEVER_JETTISON
+    arm_pose_ref: Q_SERVICE_READY
+    target_membership: null
+  composition:
+  - component_id: bus_primary_structure
+    mass_kg: 23.3032134
+    mass_class: 'MERGED_RSS(bus_core: BUDGETED, legacy_flange: MATERIAL_DERIVED)'
+    mass_standard_uncertainty_kg: 4.5855930137555525
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_class: BUDGETED
+    com_standard_uncertainty_m_per_axis: 0.02
+    inertia_about_own_com_S_kg_m2:
+    - - 0.193585
+      - 0.0
+      - -0.0007228
+    - - 0.0
+      - 0.3485384
+      - 0.0
+    - - -0.0007228
+      - 0.0
+      - 0.347072
+    inertia_class: BUDGETED
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.04839625
+      - 0.07409961666666666
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.0871346
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.07409961666666666
+      - 0.086768
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    membership_status: DESIGN_MEMBER
+    source_ref: m4_system_mass_properties_v3
+    pedigree_note: M4 bus record = bus core 22.927194215348 kg (BUDGETED block-model recomposition) + legacy flange 0.376019184652 kg (MATERIAL_DERIVED),
+      merged into BUS_PRIMARY_STRUCTURE per ODR-01 scope-note design ruling
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_LEFT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - -0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - -0.000319006314
+    - - -0.000319006314
+      - -0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_RIGHT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_class: ACCEPTED_URDF
+    mass_standard_uncertainty_kg: 0.09391111898685972
+    com_S_m:
+    - 0.60863864530168
+    - 0.042799075135589205
+    - 0.0197212566501584
+    com_class: ACCEPTED_URDF
+    com_standard_uncertainty_m_per_axis: 0.005
+    inertia_about_own_com_S_kg_m2:
+    - - 0.015119946351716556
+      - -0.023912022128100074
+      - -0.01123645532111622
+    - - -0.023912022128100074
+      - 0.3282801675924696
+      - -0.003519554649051768
+    - - -0.01123645532111622
+      - -0.0035195546490517696
+      - 0.33417429342832206
+    inertia_class: ACCEPTED_URDF
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0004535983905514967
+      - 0.006775744073725081
+      - 0.006775744073725081
+    - - 0.006775744073725081
+      - 0.009848405027774088
+      - 0.006775744073725081
+    - - 0.006775744073725081
+      - 0.006775744073725081
+      - 0.01002522880284966
+    inertia_reference_frame_declared: S
+    transform_classification: DESIGN_BINDING_OF_NAMED_POSE_DIGITAL_PROPERTIES
+    membership_status: DESIGN_MEMBER
+    source_ref: b601_named_pose_revalidation
+    pedigree_note: URDF link inertials + joint FK, rigid combination by parallel-axis theorem (M4 revalidation); L0 mass never overridden
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_SERVICE_READY
+    pose_status: PASS_RUNTIME_FK_AND_INERTIA_WITH_SOURCE_CONFIGURATION_RATIFICATION_HOLD
+  - component_id: m3r_stage_a_plus_stage_b_budget_envelope
+    mass_kg: 0.7619
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.15238000000000002
+    com_S_m:
+    - 0.2033879448873743
+    - 1.5994e-05
+    - -8.6366e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0035940027551963787
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0018089624667639822
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0018089624667639822
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0006469204959353482
+      - 0.0004327156613234606
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0003256132440175168
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0004327156613234606
+      - 0.0003256132440175168
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: DESIGN_MEMBER
+    source_ref: m3r_mass_ruling
+    pedigree_note: ODR-05 budget 0.7619 kg (DESIGN_BUDGET, confidence B); CoM/inertia from ring+plate analytic idealization (Stage A shell dia
+      150/40 x 8 mm at x 202.405..210.405 mm; Stage B 160x160x12 mm plate, dia 100 bore, dia 150.4/100 x 5.595 mm pocket at x 196..208 mm), normalized
+      to the budget; stage split proportional to idealized volumes (A 0.346422 kg / B 0.415478 kg), stage allocation itself PENDING owner allocation;
+      excludes fasteners/locator/harness/mating structure
+  - component_id: spacecraft_load_bridge_candidate
+    mass_kg: 0.702195458
+    mass_class: MATERIAL_DERIVED
+    mass_standard_uncertainty_kg: 0.0702195458
+    com_S_m:
+    - 0.19062500000000007
+    - 1.5994000000005556e-05
+    - -8.636600000000464e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0031222893683617043
+      - 2.232120452943751e-21
+      - 0.0
+    - - 2.232120452943751e-21
+      - 0.001567906972732106
+      - -3.659347861698557e-22
+    - - 0.0
+      - -3.659347861698557e-22
+      - 0.001567906972732097
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0005620120863051068
+      - 0.00037548619882955445
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.0002822232550917791
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.00037548619882955445
+      - 0.0002822232550917774
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: CANDIDATE_MEMBER_AWAITING_WP1_STRUCTURE_CONFIRMATION
+    source_ref: m6_load_bridge_datums
+    pedigree_note: M6 candidate plate 160x160x10.75 mm at x 185.25..196.0 mm, 4x dia 6.6 at (+/-70,+/-70), dia 40 centre, candidate mass 702.195458
+      g (MATERIAL_DERIVED, 6061-T6 2700 kg/m3); clocked 25.000014 deg about +X_S (tensor invariant under the 4-fold pattern); excluded from the
+      M3R budget (mating spacecraft structure)
+  mass:
+    value_kg: 30.159651407342988
+    standard_uncertainty_kg: 4.59068004397166
+    relative_standard_uncertainty: 0.15221263608020233
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  center_of_mass:
+    reference_frame: spacecraft_assembly_frame
+    reference_frame_resolution: frozen identity alias of S (M4 frame tree)
+    xyz_m:
+    - 0.10240946451309475
+    - 0.006664164181059259
+    - 0.003519762239818196
+    standard_uncertainty_xyz_m:
+    - 0.022113818364735294
+    - 0.015532557044906437
+    - 0.015489869813044389
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  inertia:
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    matrix_kg_m2:
+    - - 0.2581253491382221
+      - -0.12564881944732295
+      - -0.057413489754286576
+    - - -0.12564881944732295
+      - 2.1670636850263834
+      - -0.006775410850568299
+    - - -0.057413489754286576
+      - -0.006775410850568299
+      - 2.2112700732531736
+    components_kg_m2:
+      Ixx: 0.2581253491382221
+      Iyy: 2.1670636850263834
+      Izz: 2.2112700732531736
+      Ixy: -0.12564881944732295
+      Ixz: -0.057413489754286576
+      Iyz: -0.006775410850568299
+    standard_uncertainty_matrix_kg_m2:
+    - - 0.04922386947964749
+      - 0.08962484357137157
+      - 0.08944382623805279
+    - - 0.08962484357137157
+      - 0.1432146373595348
+      - 0.07451234912271804
+    - - 0.08944382623805279
+      - 0.07451234912271804
+      - 0.14337795965145034
+    standard_uncertainty_components_kg_m2:
+      Ixx: 0.04922386947964749
+      Iyy: 0.1432146373595348
+      Izz: 0.14337795965145034
+      Ixy: 0.08962484357137157
+      Ixz: 0.08944382623805279
+      Iyz: 0.07451234912271804
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  principal_inertia:
+    moments_kg_m2:
+    - 0.24819256413693772
+    - 2.1750603456191753
+    - 2.2132061976616666
+    moment_standard_uncertainties_kg_m2:
+    - 0.04962646337763615
+    - 0.14370271309858215
+    - 0.14359131724373816
+    axes_S_unit_vectors:
+    - - 0.9974249766124935
+      - 0.06541577865449923
+      - 0.02939714157179924
+    - - -0.06755737350569847
+      - 0.9945840505576553
+      - 0.07898460395126888
+    - - -0.024071088770107437
+      - -0.0807672104220073
+      - 0.9964422915583565
+    axes_order: ascending moments; each axis listed as [x,y,z] in S
+    axis_angular_standard_uncertainty_rad:
+    - 0.06494499976340848
+    - 1.9441301117268786
+    - 1.9441110461529316
+    degeneracy_flags:
+    - AXIS_1_NEAR_DEGENERATE_RELATIVE_GAP_0.0175_FIRST_ORDER_ANGULAR_UNCERTAINTY_ILL_CONDITIONED
+    - AXIS_2_NEAR_DEGENERATE_RELATIVE_GAP_0.0172_FIRST_ORDER_ANGULAR_UNCERTAINTY_ILL_CONDITIONED
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  branch_reconciliation:
+    legacy_A_reference_kg: 28.695555949342985
+    m3r_B_reference_kg: 29.081436764691
+    design_minus_legacy_A_kg: 1.4640954580000027
+    design_minus_m3r_B_kg: 1.0782146426519894
+    explanation: DESIGN = legacy_A + M3R 0.7619 kg + load bridge 0.702195458 kg = m3r_B + legacy flange 0.376019184652 kg + load bridge 0.702195458
+      kg (exact constant per configuration)
+    old_branch_references_retained:
+    - M4-DIAG-LEGACY-A
+    - M4-DIAG-M3R-B
+  status: DESIGN_MODEL_VALUES_WITH_DECLARED_UNCERTAINTY_NOT_MEASURED_NOT_FLIGHT_QUALIFIED
+- configuration_id: C07
+  name: PREGRASP
+  legacy_mapping: PREGRASP
+  configuration_semantics:
+    panel_failure_rule: ODR-02_ATTACHED_STUCK_NEVER_JETTISON
+    arm_pose_ref: PREGRASP_SCENE_CANDIDATE
+    target_membership: null
+  composition:
+  - component_id: bus_primary_structure
+    mass_kg: 23.3032134
+    mass_class: 'MERGED_RSS(bus_core: BUDGETED, legacy_flange: MATERIAL_DERIVED)'
+    mass_standard_uncertainty_kg: 4.5855930137555525
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_class: BUDGETED
+    com_standard_uncertainty_m_per_axis: 0.02
+    inertia_about_own_com_S_kg_m2:
+    - - 0.193585
+      - 0.0
+      - -0.0007228
+    - - 0.0
+      - 0.3485384
+      - 0.0
+    - - -0.0007228
+      - 0.0
+      - 0.347072
+    inertia_class: BUDGETED
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.04839625
+      - 0.07409961666666666
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.0871346
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.07409961666666666
+      - 0.086768
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    membership_status: DESIGN_MEMBER
+    source_ref: m4_system_mass_properties_v3
+    pedigree_note: M4 bus record = bus core 22.927194215348 kg (BUDGETED block-model recomposition) + legacy flange 0.376019184652 kg (MATERIAL_DERIVED),
+      merged into BUS_PRIMARY_STRUCTURE per ODR-01 scope-note design ruling
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_LEFT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - -0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - -0.000319006314
+    - - -0.000319006314
+      - -0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_RIGHT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_class: ACCEPTED_URDF
+    mass_standard_uncertainty_kg: 0.09391111898685972
+    com_S_m:
+    - 0.5452191319893124
+    - 0.00028415086978255945
+    - -0.011459460126495074
+    com_class: ACCEPTED_URDF
+    com_standard_uncertainty_m_per_axis: 0.005
+    inertia_about_own_com_S_kg_m2:
+    - - 0.02666206203280771
+      - 2.940656786315e-05
+      - 0.03231862145159012
+    - - 2.940656786315e-05
+      - 0.2518640476306964
+      - -3.4065340064156725e-05
+    - - 0.03231862145159012
+      - -3.406534006415674e-05
+      - 0.22953947914824518
+    inertia_class: ACCEPTED_URDF
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0007998618609842313
+      - 0.0050806558881174935
+      - 0.0050806558881174935
+    - - 0.0050806558881174935
+      - 0.007555921428920892
+      - 0.0050806558881174935
+    - - 0.0050806558881174935
+      - 0.0050806558881174935
+      - 0.006886184374447355
+    inertia_reference_frame_declared: S
+    transform_classification: DESIGN_BINDING_OF_NAMED_POSE_DIGITAL_PROPERTIES
+    membership_status: DESIGN_MEMBER
+    source_ref: b601_named_pose_revalidation
+    pedigree_note: URDF link inertials + joint FK, rigid combination by parallel-axis theorem (M4 revalidation); L0 mass never overridden
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.PREGRASP_SCENE_CANDIDATE
+    pose_status: DIAGNOSTIC_CANDIDATE_HOLD_FOR_CAPTURE_DYNAMICS
+  - component_id: m3r_stage_a_plus_stage_b_budget_envelope
+    mass_kg: 0.7619
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.15238000000000002
+    com_S_m:
+    - 0.2033879448873743
+    - 1.5994e-05
+    - -8.6366e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0035940027551963787
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0018089624667639822
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0018089624667639822
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0006469204959353482
+      - 0.0004327156613234606
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0003256132440175168
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0004327156613234606
+      - 0.0003256132440175168
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: DESIGN_MEMBER
+    source_ref: m3r_mass_ruling
+    pedigree_note: ODR-05 budget 0.7619 kg (DESIGN_BUDGET, confidence B); CoM/inertia from ring+plate analytic idealization (Stage A shell dia
+      150/40 x 8 mm at x 202.405..210.405 mm; Stage B 160x160x12 mm plate, dia 100 bore, dia 150.4/100 x 5.595 mm pocket at x 196..208 mm), normalized
+      to the budget; stage split proportional to idealized volumes (A 0.346422 kg / B 0.415478 kg), stage allocation itself PENDING owner allocation;
+      excludes fasteners/locator/harness/mating structure
+  - component_id: spacecraft_load_bridge_candidate
+    mass_kg: 0.702195458
+    mass_class: MATERIAL_DERIVED
+    mass_standard_uncertainty_kg: 0.0702195458
+    com_S_m:
+    - 0.19062500000000007
+    - 1.5994000000005556e-05
+    - -8.636600000000464e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0031222893683617043
+      - 2.232120452943751e-21
+      - 0.0
+    - - 2.232120452943751e-21
+      - 0.001567906972732106
+      - -3.659347861698557e-22
+    - - 0.0
+      - -3.659347861698557e-22
+      - 0.001567906972732097
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0005620120863051068
+      - 0.00037548619882955445
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.0002822232550917791
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.00037548619882955445
+      - 0.0002822232550917774
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: CANDIDATE_MEMBER_AWAITING_WP1_STRUCTURE_CONFIRMATION
+    source_ref: m6_load_bridge_datums
+    pedigree_note: M6 candidate plate 160x160x10.75 mm at x 185.25..196.0 mm, 4x dia 6.6 at (+/-70,+/-70), dia 40 centre, candidate mass 702.195458
+      g (MATERIAL_DERIVED, 6061-T6 2700 kg/m3); clocked 25.000014 deg about +X_S (tensor invariant under the 4-fold pattern); excluded from the
+      M3R budget (mating spacecraft structure)
+  mass:
+    value_kg: 30.159651407342988
+    standard_uncertainty_kg: 4.59068004397166
+    relative_standard_uncertainty: 0.15221263608020233
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  center_of_mass:
+    reference_frame: spacecraft_assembly_frame
+    reference_frame_resolution: frozen identity alias of S (M4 frame tree)
+    xyz_m:
+    - 0.09253568086034931
+    - 4.501587341102975e-05
+    - -0.0013347633708374748
+    standard_uncertainty_xyz_m:
+    - 0.02106403208934799
+    - 0.01549900662783602
+    - 0.015486141871623907
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  inertia:
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    matrix_kg_m2:
+    - - 0.2615163613675319
+      - -0.0005770371145114798
+      - 0.057243974283329536
+    - - -0.0005770371145114798
+      - 1.8042033853439725
+      - -2.0585734207315354e-05
+    - - 0.057243974283329536
+      - -2.0585734207315354e-05
+      - 1.8138193934148084
+    components_kg_m2:
+      Ixx: 0.2615163613675319
+      Iyy: 1.8042033853439725
+      Izz: 1.8138193934148084
+      Ixy: -0.0005770371145114798
+      Ixz: 0.057243974283329536
+      Iyz: -2.0585734207315354e-05
+    standard_uncertainty_matrix_kg_m2:
+    - - 0.048755193563499145
+      - 0.08682373576001873
+      - 0.08676271399427592
+    - - 0.08682373576001873
+      - 0.13291146967062098
+      - 0.07429966364511699
+    - - 0.08676271399427592
+      - 0.07429966364511699
+      - 0.13280368885708807
+    standard_uncertainty_components_kg_m2:
+      Ixx: 0.048755193563499145
+      Iyy: 0.13291146967062098
+      Izz: 0.13280368885708807
+      Ixy: 0.08682373576001873
+      Ixz: 0.08676271399427592
+      Iyz: 0.07429966364511699
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  principal_inertia:
+    moments_kg_m2:
+    - 0.25940803480498686
+    - 1.8042034509450273
+    - 1.8159276543762986
+    moment_standard_uncertainties_kg_m2:
+    - 0.048982448251704586
+    - 0.13291180785943232
+    - 0.13284676319405875
+    axes_S_unit_vectors:
+    - - 0.9993225136252072
+      - 0.00037279280184921576
+      - -0.03680183130394849
+    - - 0.0002413038997576747
+      - -0.9999935724450498
+      - -0.0035772672550531404
+    - - -0.036802928337638506
+      - 0.0035659632798166196
+      - -0.9993161803811949
+    axes_order: ascending moments; each axis listed as [x,y,z] in S
+    axis_angular_standard_uncertainty_rad:
+    - 0.07911519610190945
+    - 6.337302295208904
+    - 6.337297652650097
+    degeneracy_flags:
+    - AXIS_1_NEAR_DEGENERATE_RELATIVE_GAP_0.0065_FIRST_ORDER_ANGULAR_UNCERTAINTY_ILL_CONDITIONED
+    - AXIS_2_NEAR_DEGENERATE_RELATIVE_GAP_0.0065_FIRST_ORDER_ANGULAR_UNCERTAINTY_ILL_CONDITIONED
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  branch_reconciliation:
+    legacy_A_reference_kg: 28.695555949342985
+    m3r_B_reference_kg: 29.081436764691
+    design_minus_legacy_A_kg: 1.4640954580000027
+    design_minus_m3r_B_kg: 1.0782146426519894
+    explanation: DESIGN = legacy_A + M3R 0.7619 kg + load bridge 0.702195458 kg = m3r_B + legacy flange 0.376019184652 kg + load bridge 0.702195458
+      kg (exact constant per configuration)
+    old_branch_references_retained:
+    - M4-DIAG-LEGACY-A
+    - M4-DIAG-M3R-B
+  status: DESIGN_MODEL_VALUES_WITH_DECLARED_UNCERTAINTY_NOT_MEASURED_NOT_FLIGHT_QUALIFIED
+- configuration_id: C08
+  name: TARGET_CAPTURE_22KG
+  legacy_mapping: POST_CAPTURE_22KG
+  configuration_semantics:
+    panel_failure_rule: ODR-02_ATTACHED_STUCK_NEVER_JETTISON
+    arm_pose_ref: PREGRASP_SCENE_CANDIDATE
+    target_membership:
+      pose_ref: capture_22kg_satellite
+      system_mass_member: true
+      scenario_mass_kg: 22.0
+  composition:
+  - component_id: bus_primary_structure
+    mass_kg: 23.3032134
+    mass_class: 'MERGED_RSS(bus_core: BUDGETED, legacy_flange: MATERIAL_DERIVED)'
+    mass_standard_uncertainty_kg: 4.5855930137555525
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_class: BUDGETED
+    com_standard_uncertainty_m_per_axis: 0.02
+    inertia_about_own_com_S_kg_m2:
+    - - 0.193585
+      - 0.0
+      - -0.0007228
+    - - 0.0
+      - 0.3485384
+      - 0.0
+    - - -0.0007228
+      - 0.0
+      - 0.347072
+    inertia_class: BUDGETED
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.04839625
+      - 0.07409961666666666
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.0871346
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.07409961666666666
+      - 0.086768
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    membership_status: DESIGN_MEMBER
+    source_ref: m4_system_mass_properties_v3
+    pedigree_note: M4 bus record = bus core 22.927194215348 kg (BUDGETED block-model recomposition) + legacy flange 0.376019184652 kg (MATERIAL_DERIVED),
+      merged into BUS_PRIMARY_STRUCTURE per ODR-01 scope-note design ruling
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_LEFT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - -0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - -0.000319006314
+    - - -0.000319006314
+      - -0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_RIGHT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_class: ACCEPTED_URDF
+    mass_standard_uncertainty_kg: 0.09391111898685972
+    com_S_m:
+    - 0.5452191319893124
+    - 0.00028415086978255945
+    - -0.011459460126495074
+    com_class: ACCEPTED_URDF
+    com_standard_uncertainty_m_per_axis: 0.005
+    inertia_about_own_com_S_kg_m2:
+    - - 0.02666206203280771
+      - 2.940656786315e-05
+      - 0.03231862145159012
+    - - 2.940656786315e-05
+      - 0.2518640476306964
+      - -3.4065340064156725e-05
+    - - 0.03231862145159012
+      - -3.406534006415674e-05
+      - 0.22953947914824518
+    inertia_class: ACCEPTED_URDF
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0007998618609842313
+      - 0.0050806558881174935
+      - 0.0050806558881174935
+    - - 0.0050806558881174935
+      - 0.007555921428920892
+      - 0.0050806558881174935
+    - - 0.0050806558881174935
+      - 0.0050806558881174935
+      - 0.006886184374447355
+    inertia_reference_frame_declared: S
+    transform_classification: DESIGN_BINDING_OF_NAMED_POSE_DIGITAL_PROPERTIES
+    membership_status: DESIGN_MEMBER
+    source_ref: b601_named_pose_revalidation
+    pedigree_note: URDF link inertials + joint FK, rigid combination by parallel-axis theorem (M4 revalidation); L0 mass never overridden
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.PREGRASP_SCENE_CANDIDATE
+    pose_status: DIAGNOSTIC_CANDIDATE_HOLD_FOR_CAPTURE_DYNAMICS
+  - component_id: m3r_stage_a_plus_stage_b_budget_envelope
+    mass_kg: 0.7619
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.15238000000000002
+    com_S_m:
+    - 0.2033879448873743
+    - 1.5994e-05
+    - -8.6366e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0035940027551963787
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0018089624667639822
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0018089624667639822
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0006469204959353482
+      - 0.0004327156613234606
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0003256132440175168
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0004327156613234606
+      - 0.0003256132440175168
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: DESIGN_MEMBER
+    source_ref: m3r_mass_ruling
+    pedigree_note: ODR-05 budget 0.7619 kg (DESIGN_BUDGET, confidence B); CoM/inertia from ring+plate analytic idealization (Stage A shell dia
+      150/40 x 8 mm at x 202.405..210.405 mm; Stage B 160x160x12 mm plate, dia 100 bore, dia 150.4/100 x 5.595 mm pocket at x 196..208 mm), normalized
+      to the budget; stage split proportional to idealized volumes (A 0.346422 kg / B 0.415478 kg), stage allocation itself PENDING owner allocation;
+      excludes fasteners/locator/harness/mating structure
+  - component_id: spacecraft_load_bridge_candidate
+    mass_kg: 0.702195458
+    mass_class: MATERIAL_DERIVED
+    mass_standard_uncertainty_kg: 0.0702195458
+    com_S_m:
+    - 0.19062500000000007
+    - 1.5994000000005556e-05
+    - -8.636600000000464e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0031222893683617043
+      - 2.232120452943751e-21
+      - 0.0
+    - - 2.232120452943751e-21
+      - 0.001567906972732106
+      - -3.659347861698557e-22
+    - - 0.0
+      - -3.659347861698557e-22
+      - 0.001567906972732097
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0005620120863051068
+      - 0.00037548619882955445
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.0002822232550917791
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.00037548619882955445
+      - 0.0002822232550917774
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: CANDIDATE_MEMBER_AWAITING_WP1_STRUCTURE_CONFIRMATION
+    source_ref: m6_load_bridge_datums
+    pedigree_note: M6 candidate plate 160x160x10.75 mm at x 185.25..196.0 mm, 4x dia 6.6 at (+/-70,+/-70), dia 40 centre, candidate mass 702.195458
+      g (MATERIAL_DERIVED, 6061-T6 2700 kg/m3); clocked 25.000014 deg about +X_S (tensor invariant under the 4-fold pattern); excluded from the
+      M3R budget (mating spacecraft structure)
+  - component_id: target_22kg_scenario
+    mass_kg: 22.0
+    mass_class: PROVISIONAL
+    mass_standard_uncertainty_kg: 6.6
+    com_S_m:
+    - 1.20173
+    - 0.0
+    - -0.09979
+    com_class: PROVISIONAL
+    com_standard_uncertainty_m_per_axis: 0.05
+    inertia_about_own_com_S_kg_m2:
+    - - 0.231629
+      - 0.0
+      - -0.000649
+    - - 0.0
+      - 0.422149
+      - 0.0
+    - - -0.000649
+      - 0.0
+      - 0.489336
+    inertia_class: PROVISIONAL
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0926516
+      - 0.1524152
+      - -0.1524152
+    - - 0.1524152
+      - 0.1688596
+      - -0.1524152
+    - - -0.1524152
+      - -0.1524152
+      - 0.1957344
+    inertia_reference_frame_declared: T
+    transform_classification: DESIGN_BINDING_FROM_M5_DISPLAY_TRANSFORM_UNRATIFIED
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: scenario anchor, never measured (RA-003); rigidly retained after capture is a scenario assumption
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.target_capture_pose_candidates.capture_22kg_satellite
+  mass:
+    value_kg: 52.15965140734299
+    standard_uncertainty_kg: 8.039548698233817
+    relative_standard_uncertainty: 0.15413348213255154
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  center_of_mass:
+    reference_frame: spacecraft_assembly_frame
+    reference_frame_resolution: frozen identity alias of S (M4 frame tree)
+    xyz_m:
+    - 0.5603738347333828
+    - 2.6028990095639453e-05
+    - -0.042861406041931824
+    standard_uncertainty_xyz_m:
+    - 0.09771112785115721
+    - 0.022914275197524172
+    - 0.024318932682528365
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  inertia:
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    matrix_kg_m2:
+    - - 0.616453587305678
+      - 5.812946032308615e-05
+      - 1.4457821806110651
+    - - 5.812946032308615e-05
+      - 18.000210116800623
+      - -7.696492254717028e-05
+    - - 1.4457821806110651
+      - -7.696492254717028e-05
+      - 17.9537049504889
+    components_kg_m2:
+      Ixx: 0.616453587305678
+      Iyy: 18.000210116800623
+      Izz: 17.9537049504889
+      Ixy: 5.812946032308615e-05
+      Ixz: 1.4457821806110651
+      Iyz: -7.696492254717028e-05
+    standard_uncertainty_matrix_kg_m2:
+    - - 0.16977190993144758
+      - 0.7714227638345218
+      - 0.8184366020739504
+    - - 0.7714227638345218
+      - 3.4521527912666676
+      - 0.1818883420447901
+    - - 0.8184366020739504
+      - 0.1818883420447901
+      - 3.4305131745821873
+    standard_uncertainty_components_kg_m2:
+      Ixx: 0.16977190993144758
+      Iyy: 3.4521527912666676
+      Izz: 3.4305131745821873
+      Ixy: 0.7714227638345218
+      Ixz: 0.8184366020739504
+      Iyz: 0.1818883420447901
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  principal_inertia:
+    moments_kg_m2:
+    - 0.496714385400941
+    - 18.0002100464377
+    - 18.073444222756535
+    moment_standard_uncertainties_kg_m2:
+    - 0.10802640411891906
+    - 3.4521527986657587
+    - 3.453531977934175
+    axes_S_unit_vectors:
+    - - 0.9965879936686597
+      - -3.672613961988591e-06
+      - -0.08253708779686705
+    - - 8.469860246506843e-05
+      - 0.999999517984595
+      - 0.000978190535437351
+    - - 0.08253704442020304
+      - -0.0009818437191253526
+      - 0.9965875136089596
+    axes_order: ascending moments; each axis listed as [x,y,z] in S
+    axis_angular_standard_uncertainty_rad:
+    - 0.06241744292316258
+    - 2.316514020737273
+    - 2.316510353441194
+    degeneracy_flags:
+    - AXIS_1_NEAR_DEGENERATE_RELATIVE_GAP_0.0041_FIRST_ORDER_ANGULAR_UNCERTAINTY_ILL_CONDITIONED
+    - AXIS_2_NEAR_DEGENERATE_RELATIVE_GAP_0.0041_FIRST_ORDER_ANGULAR_UNCERTAINTY_ILL_CONDITIONED
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  branch_reconciliation:
+    legacy_A_reference_kg: 50.69555594934299
+    m3r_B_reference_kg: 51.081436764691
+    design_minus_legacy_A_kg: 1.4640954580000027
+    design_minus_m3r_B_kg: 1.078214642651993
+    explanation: DESIGN = legacy_A + M3R 0.7619 kg + load bridge 0.702195458 kg = m3r_B + legacy flange 0.376019184652 kg + load bridge 0.702195458
+      kg (exact constant per configuration)
+    old_branch_references_retained:
+    - M4-DIAG-LEGACY-A
+    - M4-DIAG-M3R-B
+  status: DESIGN_MODEL_VALUES_WITH_DECLARED_UNCERTAINTY_NOT_MEASURED_NOT_FLIGHT_QUALIFIED
+- configuration_id: C09
+  name: TARGET_CAPTURE_150KG
+  legacy_mapping: POST_CAPTURE_150KG
+  configuration_semantics:
+    panel_failure_rule: ODR-02_ATTACHED_STUCK_NEVER_JETTISON
+    arm_pose_ref: PREGRASP_SCENE_CANDIDATE
+    target_membership:
+      pose_ref: capture_150kg_debris
+      system_mass_member: true
+      scenario_mass_kg: 150.0
+  composition:
+  - component_id: bus_primary_structure
+    mass_kg: 23.3032134
+    mass_class: 'MERGED_RSS(bus_core: BUDGETED, legacy_flange: MATERIAL_DERIVED)'
+    mass_standard_uncertainty_kg: 4.5855930137555525
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_class: BUDGETED
+    com_standard_uncertainty_m_per_axis: 0.02
+    inertia_about_own_com_S_kg_m2:
+    - - 0.193585
+      - 0.0
+      - -0.0007228
+    - - 0.0
+      - 0.3485384
+      - 0.0
+    - - -0.0007228
+      - 0.0
+      - 0.347072
+    inertia_class: BUDGETED
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.04839625
+      - 0.07409961666666666
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.0871346
+      - 0.07409961666666666
+    - - 0.07409961666666666
+      - 0.07409961666666666
+      - 0.086768
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    membership_status: DESIGN_MEMBER
+    source_ref: m4_system_mass_properties_v3
+    pedigree_note: M4 bus record = bus core 22.927194215348 kg (BUDGETED block-model recomposition) + legacy flange 0.376019184652 kg (MATERIAL_DERIVED),
+      merged into BUS_PRIMARY_STRUCTURE per ODR-01 scope-note design ruling
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - 0.000319006314
+    - - 0.000319006314
+      - 0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_LEFT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.06967866
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0011623561
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.001497075
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0026573408
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.000209224098
+      - 0.000319006314
+      - -0.000319006314
+    - - 0.000319006314
+      - 0.0002694735
+      - -0.000319006314
+    - - -0.000319006314
+      - -0.000319006314
+      - 0.000478321344
+    inertia_reference_frame_declared: F_RIGHT_LOCAL_COM
+    transform_classification: DESIGN_BINDING_FROM_M6_CANDIDATE
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: thin-plate spec (0.227x0.200x0.006 m) under the bound M6 candidate transform; physical hinge kinematics ratification remains
+      open
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_class: ACCEPTED_URDF
+    mass_standard_uncertainty_kg: 0.09391111898685972
+    com_S_m:
+    - 0.5452191319893124
+    - 0.00028415086978255945
+    - -0.011459460126495074
+    com_class: ACCEPTED_URDF
+    com_standard_uncertainty_m_per_axis: 0.005
+    inertia_about_own_com_S_kg_m2:
+    - - 0.02666206203280771
+      - 2.940656786315e-05
+      - 0.03231862145159012
+    - - 2.940656786315e-05
+      - 0.2518640476306964
+      - -3.4065340064156725e-05
+    - - 0.03231862145159012
+      - -3.406534006415674e-05
+      - 0.22953947914824518
+    inertia_class: ACCEPTED_URDF
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0007998618609842313
+      - 0.0050806558881174935
+      - 0.0050806558881174935
+    - - 0.0050806558881174935
+      - 0.007555921428920892
+      - 0.0050806558881174935
+    - - 0.0050806558881174935
+      - 0.0050806558881174935
+      - 0.006886184374447355
+    inertia_reference_frame_declared: S
+    transform_classification: DESIGN_BINDING_OF_NAMED_POSE_DIGITAL_PROPERTIES
+    membership_status: DESIGN_MEMBER
+    source_ref: b601_named_pose_revalidation
+    pedigree_note: URDF link inertials + joint FK, rigid combination by parallel-axis theorem (M4 revalidation); L0 mass never overridden
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.PREGRASP_SCENE_CANDIDATE
+    pose_status: DIAGNOSTIC_CANDIDATE_HOLD_FOR_CAPTURE_DYNAMICS
+  - component_id: m3r_stage_a_plus_stage_b_budget_envelope
+    mass_kg: 0.7619
+    mass_class: BUDGETED
+    mass_standard_uncertainty_kg: 0.15238000000000002
+    com_S_m:
+    - 0.2033879448873743
+    - 1.5994e-05
+    - -8.6366e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0035940027551963787
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0018089624667639822
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0018089624667639822
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0006469204959353482
+      - 0.0004327156613234606
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0003256132440175168
+      - 0.0004327156613234606
+    - - 0.0004327156613234606
+      - 0.0004327156613234606
+      - 0.0003256132440175168
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: DESIGN_MEMBER
+    source_ref: m3r_mass_ruling
+    pedigree_note: ODR-05 budget 0.7619 kg (DESIGN_BUDGET, confidence B); CoM/inertia from ring+plate analytic idealization (Stage A shell dia
+      150/40 x 8 mm at x 202.405..210.405 mm; Stage B 160x160x12 mm plate, dia 100 bore, dia 150.4/100 x 5.595 mm pocket at x 196..208 mm), normalized
+      to the budget; stage split proportional to idealized volumes (A 0.346422 kg / B 0.415478 kg), stage allocation itself PENDING owner allocation;
+      excludes fasteners/locator/harness/mating structure
+  - component_id: spacecraft_load_bridge_candidate
+    mass_kg: 0.702195458
+    mass_class: MATERIAL_DERIVED
+    mass_standard_uncertainty_kg: 0.0702195458
+    com_S_m:
+    - 0.19062500000000007
+    - 1.5994000000005556e-05
+    - -8.636600000000464e-05
+    com_class: ANALYTIC_IDEALIZATION
+    com_standard_uncertainty_m_per_axis: 0.015
+    inertia_about_own_com_S_kg_m2:
+    - - 0.0031222893683617043
+      - 2.232120452943751e-21
+      - 0.0
+    - - 2.232120452943751e-21
+      - 0.001567906972732106
+      - -3.659347861698557e-22
+    - - 0.0
+      - -3.659347861698557e-22
+      - 0.001567906972732097
+    inertia_class: ANALYTIC_IDEALIZATION
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 0.0005620120863051068
+      - 0.00037548619882955445
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.0002822232550917791
+      - 0.00037548619882955445
+    - - 0.00037548619882955445
+      - 0.00037548619882955445
+      - 0.0002822232550917774
+    inertia_reference_frame_declared: S
+    transform_classification: NOT_REQUIRED_PLACED_BY_STATION_STACK
+    membership_status: CANDIDATE_MEMBER_AWAITING_WP1_STRUCTURE_CONFIRMATION
+    source_ref: m6_load_bridge_datums
+    pedigree_note: M6 candidate plate 160x160x10.75 mm at x 185.25..196.0 mm, 4x dia 6.6 at (+/-70,+/-70), dia 40 centre, candidate mass 702.195458
+      g (MATERIAL_DERIVED, 6061-T6 2700 kg/m3); clocked 25.000014 deg about +X_S (tensor invariant under the 4-fold pattern); excluded from the
+      M3R budget (mating spacecraft structure)
+  - component_id: target_150kg_scenario
+    mass_kg: 150.0
+    mass_class: PROVISIONAL
+    mass_standard_uncertainty_kg: 45.0
+    com_S_m:
+    - 1.60973
+    - 0.0
+    - -1.12054
+    com_class: PROVISIONAL
+    com_standard_uncertainty_m_per_axis: 0.05
+    inertia_about_own_com_S_kg_m2:
+    - - 74.805599
+      - 0.0
+      - 0.014769
+    - - 0.0
+      - 74.829903
+      - 0.0
+    - - 0.014769
+      - 0.0
+      - 26.592617
+    inertia_class: PROVISIONAL
+    inertia_standard_uncertainty_S_kg_m2:
+    - - 29.9222396
+      - 23.497082533333334
+      - -23.497082533333334
+    - - 23.497082533333334
+      - 29.931961200000003
+      - -23.497082533333334
+    - - -23.497082533333334
+      - -23.497082533333334
+      - 10.6370468
+    inertia_reference_frame_declared: D
+    transform_classification: DESIGN_BINDING_FROM_M5_DISPLAY_TRANSFORM_UNRATIFIED
+    membership_status: DESIGN_MEMBER
+    source_ref: stage1_mass_budget
+    pedigree_note: scenario anchor, never measured (RA-003); rigidly retained after capture is a scenario assumption
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.target_capture_pose_candidates.capture_150kg_debris
+  mass:
+    value_kg: 180.15965140734298
+    standard_uncertainty_kg: 45.23355328747704
+    relative_standard_uncertainty: 0.2510748268778755
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  center_of_mass:
+    reference_frame: spacecraft_assembly_frame
+    reference_frame_resolution: frozen identity alias of S (M4 frame tree)
+    xyz_m:
+    - 1.355743874777136
+    - 7.535888525916638e-06
+    - -0.9331792922814428
+    standard_uncertainty_xyz_m:
+    - 0.08341780096166047
+    - 0.04171052060266682
+    - 0.0670521498227411
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  inertia:
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    matrix_kg_m2:
+    - - 106.52137819482603
+      - 0.0011379739746670693
+      - 42.711403181370294
+    - - 0.0011379739746670693
+      - 165.89031511718048
+      - -0.001285716619336248
+    - - 42.711403181370294
+      - -0.001285716619336248
+      - 86.2083823935632
+    components_kg_m2:
+      Ixx: 106.52137819482603
+      Iyy: 165.89031511718048
+      Izz: 86.2083823935632
+      Ixy: 0.0011379739746670693
+      Ixz: 42.711403181370294
+      Iyz: -0.001285716619336248
+    standard_uncertainty_matrix_kg_m2:
+    - - 30.37299894669861
+      - 23.58279948461275
+      - 24.427267563913116
+    - - 23.58279948461275
+      - 33.101454398107734
+      - 23.54322650447308
+    - - 24.427267563913116
+      - 23.54322650447308
+      - 14.456787540579004
+    standard_uncertainty_components_kg_m2:
+      Ixx: 30.37299894669861
+      Iyy: 33.101454398107734
+      Izz: 14.456787540579004
+      Ixy: 23.58279948461275
+      Ixz: 24.427267563913116
+      Iyz: 23.54322650447308
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  principal_inertia:
+    moments_kg_m2:
+    - 52.46250662713552
+    - 140.26725393498566
+    - 165.8903151434486
+    moment_standard_uncertainties_kg_m2:
+    - 26.471438668642758
+    - 32.37659458175399
+    - 33.10145438935196
+    axes_S_unit_vectors:
+    - - -0.6199424179470739
+      - 1.5113687239720619e-05
+      - 0.7846473081592213
+    - - 0.7846473082083035
+      - -3.7403004052860567e-06
+      - 0.6199424180578982
+    - - -1.2304432457876539e-05
+      - -0.9999999998787934
+      - 9.540143132480416e-06
+    axes_order: ascending moments; each axis listed as [x,y,z] in S
+    axis_angular_standard_uncertainty_rad:
+    - 0.28409713444714857
+    - 0.93753448828313
+    - 0.9407343883523509
+    degeneracy_flags: []
+    status: DESIGN_DECLARED_UNCERTAINTY_PENDING_CALIBRATION_NOT_MEASURED
+  branch_reconciliation:
+    legacy_A_reference_kg: 178.69555594934297
+    m3r_B_reference_kg: 179.081436764691
+    design_minus_legacy_A_kg: 1.4640954580000027
+    design_minus_m3r_B_kg: 1.0782146426519716
+    explanation: DESIGN = legacy_A + M3R 0.7619 kg + load bridge 0.702195458 kg = m3r_B + legacy flange 0.376019184652 kg + load bridge 0.702195458
+      kg (exact constant per configuration)
+    old_branch_references_retained:
+    - M4-DIAG-LEGACY-A
+    - M4-DIAG-M3R-B
+  status: DESIGN_MODEL_VALUES_WITH_DECLARED_UNCERTAINTY_NOT_MEASURED_NOT_FLIGHT_QUALIFIED
+summary:
+  configuration_count: 9
+  design_mass_count: 9
+  design_cg_count: 9
+  design_inertia_count: 9
+  design_principal_inertia_count: 9
+  all_checks_pass: true
+  use_authorization: ENGINEERING_DESIGN_ANALYSIS_ONLY_NOT_FLIGHT_NOT_QUALIFICATION_NOT_MEASURED
+retained_holds:
+- 'PENDING_CALIBRATION: all uncertainties are declared Type-B policy values; as-built weighing and a controlled uncertainty budget do not exist
+  (M3R as-built measurement open per ODR-05)'
+- Q_STOW_ENGINEERING_CANDIDATE FK regression failure 567.734 mm and support-contact hold retained as facts; not absorbed by any uncertainty class
+  (C05)
+- Q_SERVICE_READY service-configuration ratification hold retained (C06)
+- PREGRASP scene candidate not dynamics-validated for 22 kg / 150 kg capture (C07..C09)
+- target identity, physical mass properties and capture transforms unratified (PROVISIONAL scenario anchors, M5 display-derived binding)
+- panel physical full hinge kinematics and stowed-configuration collision/standoff relief remain open; bound transforms are DESIGN bindings, not
+  ratified kinematics
+- spacecraft load bridge remains a candidate member (MATERIAL_DERIVED) pending WP1 structure confirmation; M3R excludes fasteners/locator/harness/mating
+  structure
+- bus coverage of camera/HDRM/sensor/harness placeholders is not configuration-controlled (carried as limitation, not numeric allowance)
+- launch-qualification FEA and launcher ICD remain HOLD (ODR-06); nothing here is a flight margin input
+- correlation review required before any calibration upgrade (panel L/R shared budget source declared)
+release_prohibitions:
+- DO_NOT_REPORT_ANY_VALUE_HERE_AS_MEASURED_OR_AS_INSTALLED
+- DO_NOT_USE_FOR_FLIGHT_MARGIN_QUALIFICATION_OR_LAUNCHER_ICD
+- DO_NOT_ZERO_FILL_OR_DROP_ANY_UNCERTAINTY_FIELD
+- DO_NOT_OVERRIDE_ACCEPTED_URDF_MASSES_WITH_CAD_OR_CANDIDATE_VALUES
+- DO_NOT_WRITE_ANY_VALUE_OF_THIS_FILE_BACK_INTO_M4_M5_M6_CDR_OR_SIM_BASELINES

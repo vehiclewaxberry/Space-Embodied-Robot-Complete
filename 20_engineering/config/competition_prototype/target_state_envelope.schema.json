@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:space-embodied-agent:comp-prot-01:target-state-envelope:v1",
+  "title": "Space Embodied Agent V1 Target State Envelope",
+  "$comment": "STATUS=PROTOTYPE_CONTRACT; CLASSIFICATION=PROTOTYPE_CONTRACT_ONLY; no execution authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "vector3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"type": "number"}
+    },
+    "matrix9": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {"type": "number"}
+    },
+    "interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lower", "upper"],
+      "properties": {
+        "lower": {"type": "number"},
+        "upper": {"type": "number"}
+      }
+    },
+    "sourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref_id", "uri", "sha256", "qualification"],
+      "properties": {
+        "ref_id": {"$ref": "#/$defs/identifier"},
+        "uri": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "qualification": {
+          "type": "string",
+          "enum": ["QUALIFIED", "PROVISIONAL", "UNQUALIFIED", "UNKNOWN"]
+        }
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "contract_status",
+    "envelope_id",
+    "observation_id",
+    "captured_at",
+    "valid_until",
+    "source_channel",
+    "perception_branch",
+    "envelope_quality",
+    "scenario_hash",
+    "pose",
+    "angular_velocity",
+    "mass_properties",
+    "geometry",
+    "contact_constraints",
+    "uncertainty_model",
+    "ood",
+    "unknown_fields",
+    "source_refs",
+    "calibration_refs",
+    "provisional_flags"
+  ],
+  "properties": {
+    "schema_version": {"const": "comp-prot-01.target-state-envelope.v1"},
+    "contract_status": {"const": "PROTOTYPE_CONTRACT"},
+    "envelope_id": {"$ref": "#/$defs/identifier"},
+    "observation_id": {"$ref": "#/$defs/identifier"},
+    "captured_at": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": "string", "format": "date-time"},
+    "source_channel": {
+      "type": "string",
+      "enum": ["HARNESS_TRUTH", "QUALIFIED_ESTIMATOR", "UNQUALIFIED_INPUT"]
+    },
+    "perception_branch": {
+      "type": "string",
+      "enum": [
+        "U0_COOPERATIVE_MARKER_KNOWN_CAD",
+        "U1_KNOWN_CAD_MARKERLESS",
+        "U2_BOUNDED_TARGET_FAMILY",
+        "U3_PARTIAL_OBSERVATION_BOUNDED_GEOMETRY",
+        "U4_OPEN_SET_UNKNOWN"
+      ]
+    },
+    "envelope_quality": {
+      "type": "string",
+      "enum": ["QUALIFIED_FOR_OFFLINE_EVALUATION", "UNQUALIFIED", "UNKNOWN"]
+    },
+    "scenario_hash": {"$ref": "#/$defs/sha256"},
+    "pose": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame_id",
+        "position_m",
+        "orientation_quaternion_xyzw",
+        "covariance_6x6_row_major",
+        "covariance_status"
+      ],
+      "properties": {
+        "frame_id": {"$ref": "#/$defs/identifier"},
+        "position_m": {"$ref": "#/$defs/vector3"},
+        "orientation_quaternion_xyzw": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"type": "number"}
+        },
+        "covariance_6x6_row_major": {
+          "type": "array",
+          "minItems": 36,
+          "maxItems": 36,
+          "items": {"type": "number"}
+        },
+        "covariance_status": {
+          "type": "string",
+          "enum": ["CALIBRATED", "UNCALIBRATED", "UNKNOWN"]
+        }
+      }
+    },
+    "angular_velocity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frame_id", "lower_rad_s", "upper_rad_s", "interval_status"],
+      "properties": {
+        "frame_id": {"$ref": "#/$defs/identifier"},
+        "lower_rad_s": {"$ref": "#/$defs/vector3"},
+        "upper_rad_s": {"$ref": "#/$defs/vector3"},
+        "interval_status": {
+          "type": "string",
+          "enum": ["BOUNDED", "UNBOUNDED", "UNKNOWN"]
+        }
+      }
+    },
+    "mass_properties": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mass_kg", "inertia_kg_m2", "qualification", "source_ref_ids"],
+      "properties": {
+        "mass_kg": {"$ref": "#/$defs/interval"},
+        "inertia_kg_m2": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["frame_id", "lower_matrix_row_major", "upper_matrix_row_major"],
+          "properties": {
+            "frame_id": {"$ref": "#/$defs/identifier"},
+            "lower_matrix_row_major": {"$ref": "#/$defs/matrix9"},
+            "upper_matrix_row_major": {"$ref": "#/$defs/matrix9"}
+          }
+        },
+        "qualification": {
+          "type": "string",
+          "enum": ["BOUNDED_FROM_SOURCE", "PROVISIONAL", "UNKNOWN"]
+        },
+        "source_ref_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_family_id", "geometry_class", "hypotheses", "forbidden_zone_refs"],
+      "properties": {
+        "target_family_id": {"$ref": "#/$defs/identifier"},
+        "geometry_class": {
+          "type": "string",
+          "enum": ["G1_slender", "G2_cubesat", "G3_compact", "OTHER_BOUNDED", "UNKNOWN"]
+        },
+        "hypotheses": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["hypothesis_id", "probability", "mesh_ref", "surface_map_ref"],
+            "properties": {
+              "hypothesis_id": {"$ref": "#/$defs/identifier"},
+              "probability": {"type": "number", "minimum": 0, "maximum": 1},
+              "mesh_ref": {"type": ["string", "null"]},
+              "surface_map_ref": {"type": ["string", "null"]}
+            }
+          }
+        },
+        "forbidden_zone_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "contact_constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_contact_modes", "surface_constraint_refs", "unknown_contact_properties"],
+      "properties": {
+        "allowed_contact_modes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["NO_CONTACT", "POINT_CONTACT", "GRASP_CLOSURE", "TRANSFER_HOLD"]
+          }
+        },
+        "surface_constraint_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "unknown_contact_properties": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9._:-]{1,128}$"}
+        }
+      }
+    },
+    "uncertainty_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["representation", "correlation_ref", "worst_case_policy"],
+      "properties": {
+        "representation": {
+          "type": "string",
+          "enum": ["BOUNDED_INTERVAL", "COVARIANCE", "HYBRID", "UNKNOWN"]
+        },
+        "correlation_ref": {"type": ["string", "null"]},
+        "worst_case_policy": {
+          "type": "string",
+          "enum": ["EXACT_ENDPOINTS_ONLY", "NOT_DEFINED"]
+        }
+      }
+    },
+    "ood": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reason_codes"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["IN_SCOPE", "OUT_OF_DISTRIBUTION", "UNKNOWN"]
+        },
+        "reason_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Z0-9_:-]{1,128}$"}
+        }
+      }
+    },
+    "unknown_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9._:-]{1,128}$"}
+    },
+    "source_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sourceRef"}
+    },
+    "calibration_refs": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sourceRef"}
+    },
+    "provisional_flags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z0-9_:-]{1,128}$"}
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "anyOf": [
+          {"properties": {"source_channel": {"const": "UNQUALIFIED_INPUT"}}, "required": ["source_channel"]},
+          {"properties": {"perception_branch": {"const": "U4_OPEN_SET_UNKNOWN"}}, "required": ["perception_branch"]},
+          {"properties": {"ood": {"properties": {"status": {"enum": ["OUT_OF_DISTRIBUTION", "UNKNOWN"]}}, "required": ["status"]}}, "required": ["ood"]}
+        ]
+      },
+      "then": {
+        "properties": {"envelope_quality": {"enum": ["UNQUALIFIED", "UNKNOWN"]}}
+      }
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+schema_version: comp-prot-03-solidworks-skeleton-input-v0.1
+input_id: candidate_12u_b601_solidworks_master_skeleton_input_v0_1
+phase: COMP-PROT-03-A3-G0-EVIDENCE-CLOSURE
+created_on: "2026-07-23"
+status: PARAMETRIC_INPUT_CONTRACT_READY_CAD_NOT_CREATED
+
+authority:
+  solidworks_execution_authorized: false
+  cad_file_creation_authorized: false
+  geometry_only_request_may_consume_after_separate_approval: true
+  urdf_export_authorized: false
+  dynamics_export_authorized: false
+
+consumer_contract:
+  intended_consumer: future_SolidWorks_Master_Skeleton
+  consumption_mode: manual_design_table_or_future_reviewed_importer
+  expected_future_output:
+    file_name: 12U_Master_Skeleton.SLDASM
+    current_status: NOT_CREATED
+  prohibited_interpretation: this_yaml_is_not_a_SolidWorks_model
+
+units:
+  length: mm
+  angle: deg
+  mass: kg
+
+selected_profile:
+  profile_id: COMPETITION_DISPLAY_V0
+  source: cad_profile_decision_v0_1.yaml
+  claim_limit: NON_FLIGHT_COMPETITION_DISPLAY
+
+global_parameters:
+  BODY_X_MM:
+    value: 340.5
+    state: BOUND
+  BODY_Y_MM:
+    value: 226.3
+    state: BOUND
+  BODY_Z_MM:
+    value: 226.3
+    state: BOUND
+  BODY_HALF_X_MM:
+    value: 170.25
+    derivation: BODY_X_MM_div_2
+    state: DERIVED
+  TASK_FACE_X_MM:
+    value: 170.25
+    derivation: positive_X_body_face
+    state: DERIVED
+  MOUNT_ORIGIN_X_MM:
+    value: 185.25
+    state: BOUND
+  MOUNT_OFFSET_FROM_TASK_FACE_MM:
+    value: 15.0
+    derivation: MOUNT_ORIGIN_X_MM_minus_TASK_FACE_X_MM
+    state: DERIVED
+  MOUNT_RY_DEG:
+    value: 90.0
+    state: BOUND
+  SERVICER_FLANGE_X_MM:
+    value: 15.0
+    state: SOURCE_BOUND
+  SERVICER_FLANGE_Y_MM:
+    value: 160.0
+    state: SOURCE_BOUND
+  SERVICER_FLANGE_Z_MM:
+    value: 160.0
+    state: SOURCE_BOUND
+  ADAPTER_PLATE_X_MM:
+    value: 12.0
+    state: SOURCE_BOUND_REFERENCE_ONLY
+  ADAPTER_PLATE_Y_MM:
+    value: 160.0
+    state: SOURCE_BOUND_REFERENCE_ONLY
+  ADAPTER_PLATE_Z_MM:
+    value: 160.0
+    state: SOURCE_BOUND_REFERENCE_ONLY
+  ADAPTER_BOSS_D_MM:
+    value: 100.0
+    state: SOURCE_BOUND_REFERENCE_ONLY
+  ADAPTER_BOSS_H_MM:
+    value: 15.0
+    state: SOURCE_BOUND_REFERENCE_ONLY
+  ADAPTER_AXIAL_STACK_MM:
+    value: null
+    state: UNKNOWN
+    reason: embedding_and_mating_definition_not_signed
+  PHYSICAL_TCP_OFFSET_MM:
+    value: null
+    state: UNKNOWN
+    reason: gripper_contact_datum_not_measured
+
+master_reference_geometry:
+  - reference_id: CS_S
+    reference_type: coordinate_system
+    definition: body_envelope_center
+    status: BOUND
+  - reference_id: PLANE_TASK_FACE
+    reference_type: plane
+    parent: CS_S
+    offset_along_X_S_mm: 170.25
+    status: DERIVED
+  - reference_id: CS_M
+    reference_type: coordinate_system
+    parent: CS_S
+    transform_ref: T_SM
+    status: BOUND
+  - reference_id: CS_A0
+    reference_type: coordinate_system
+    parent: CS_M
+    transform_ref: T_MA0
+    status: DESIGN_BOUND
+  - reference_id: CS_E_LOCAL
+    reference_type: arm_local_coordinate_system
+    parent: link6
+    transform_ref: T_link6_E
+    status: DESIGN_BOUND_NOT_GLOBAL_WITHOUT_Q
+  - reference_id: CS_B
+    reference_type: coordinate_system
+    parent: CS_S
+    transform_ref: T_SB
+    status: DISABLED_UNKNOWN
+
+component_plan:
+  - component_id: body_envelope
+    future_file: 12U_bus.SLDPRT
+    representation: bounding_box_only
+    placement_frame: S
+    status: READY_FOR_FUTURE_GEOMETRY_ONLY_AUTHORING
+  - component_id: servicer_flange_160
+    future_file: contained_in_12U_bus_or_separate_interface_part_to_be_decided_in_A3
+    representation: interface_envelope
+    placement_rule: task_face_to_M_reference
+    status: READY_AS_REFERENCE_GEOMETRY
+  - component_id: robot_mount_adapter_v0
+    future_file: B601_mount_adapter.SLDPRT
+    representation: plate_and_boss_reference_dimensions
+    placement_rule: null
+    status: HOLD_UNTIL_AXIAL_STACKUP_REVIEW
+  - component_id: arm_b601_v1
+    future_file: B601_vendor_or_project_reviewed_assembly
+    representation: insertion_placeholder_at_A0
+    placement_rule: T_MA0
+    status: REFERENCE_ONLY_NO_VENDOR_STEP_IMPORTED
+  - component_id: sensor_package
+    future_file: null
+    representation: no_geometry
+    placement_rule: null
+    status: PROPOSED_NOT_MODELED
+
+suppressed_branches:
+  - branch_id: free_flyer_dynamics_frame
+    reason: T_SB_unknown
+  - branch_id: physical_contact_TCP
+    reason: T_E_TCP_unknown
+  - branch_id: target_and_debris
+    reason: target_geometry_and_interface_semantics_excluded
+  - branch_id: panels_stowed_or_deployed_configuration
+    reason: configuration_not_selected
+  - branch_id: camera_and_force_sensor_geometry
+    reason: hardware_not_selected
+
+future_A3_required_outputs:
+  - profile_bound_master_skeleton
+  - adapter_stackup_and_mate_definition
+  - interference_report
+  - rail_and_protrusion_overlay
+  - component_path_and_hash_manifest
+  - frame_export_for_S_M_A0_E
+  - screenshot_or_model_tree_review_record
+
+stop_rules:
+  create_SLDASM_now: false
+  create_SLDPRT_now: false
+  import_vendor_STEP_now: false
+  export_URDF_now: false
+  calculate_aggregate_mass_properties_now: false
+  run_interference_detection_now: false

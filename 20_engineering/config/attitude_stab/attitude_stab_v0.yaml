@@ -1,0 +1,199 @@
+schema_version: control02-attitude-stab-v1
+task_id: CTRL-02
+baseline_commit: 926522f199cae3b9d88ee6797089d57300fea994
+policy:
+  thresholds_widened: false
+  formal_safety_classification: forbidden
+  flex_in_absolute_criteria: false
+  gains_tuned_on_plant: false
+  result_verdict_vocabulary: [PASS, REPEAT, BLOCKED]
+
+repeat_revision:
+  id: CTRL-02-R_R4_R5_20260719
+  registered_in: 10_research/partner_requirement_closure/wave1_repeat/repeat_preregistration.md
+  items:
+    R4: >-
+      Stage-A trajectory redesign registered BEFORE this rerun: task-valid
+      endpoint identity plus positive joint-limit margin. The withdrawn
+      post-result -5 deg probe is prohibited and is not reused.
+    R5: >-
+      PROVISIONAL wheel torque, minimum thruster pulse width, and time-window
+      stability criterion frozen here; Stage-B transient stability evaluated
+      against them. All thresholds from the previous round stay unchanged.
+  thresholds_changed: false
+
+frozen_inputs:
+  threshold_registry:
+    path: 30_simulation/e15_core_coverage/config/threshold_registry_core_v1.yaml
+    sha256: 400bcedce5af6ad5c4135e67f87bb524ee2fdafb1c26aeae07e495ff387b2873
+    hash_mode: normalized_lf
+  sim05_dynamics:
+    path: 30_simulation/sim_05_free_floating_arm/dynamics.py
+    sha256: 86c512dffc9aec2c7840f4af3e1a7380f613d302a56c9021f10bdb40f0d705e9
+    hash_mode: normalized_lf
+  sim05_headline:
+    path: 30_simulation/sim_05_free_floating_arm/sim_05_headline.py
+    sha256: 40ab526f87472762c89f64b24369e663b9fb2543cd921a863a7046ef0781b46d
+    hash_mode: normalized_lf
+  sim08_assumptions:
+    path: 30_simulation/sim_08_detumble_actuator_budget/assumptions.yaml
+    sha256: 850f49da90d50c55984bde20e4f93193725f798eea9e4f3346836e76511ec890
+    hash_mode: normalized_lf
+  sim10_config:
+    path: 20_engineering/config/mission_feasibility/scan_v0.yaml
+    sha256: b98cdea8f22b8313bcb0026123f5c89782ca7e1739555c4eb3ceaa8491636ce1
+    hash_mode: normalized_lf
+  sim12_config:
+    path: 20_engineering/config/strategy_feasibility/strategies_v0.yaml
+    sha256: fb228cf1b832354b9cc8865724df356d5519e3602f6c31838687bb1d923fb66e
+    hash_mode: normalized_lf
+  sim12_results:
+    path: 30_simulation/sim_12_strategy_feasibility/results/strategy_results.csv
+    sha256: 78182f4342421cffee6e14e74b1e81c5285dc561ca56b3b517add56871e05446
+    hash_mode: normalized_lf
+
+gates:
+  conservation_abs: 1.0e-12
+  attribution_abs: 1.0e-12
+  anchor_identity_abs: 1.0e-12
+  sim12_crosscheck_abs: 1.0e-12
+  base_attitude_change_max_deg: 20.0
+  post_capture_rate_max_dps: 2.0
+  external_removal_capacity_Nms: 5.475
+  thruster_impulse_max_Ns: 32.205882352941174
+  propellant_budget_max_g: 54.73476731425644
+  detumble_time_max_s: 3600.0
+  a2_peak_reduction_min_fraction: 0.50
+
+anchors:
+  sim05_direct_solver_peak_deg: 19.199851620693828
+  sim05_frozen_csv_peak_deg: 19.199852
+  launch_card_value_sim11_A1_peak_deg: 19.199885629572467
+  launch_card_anchor_note: >-
+    The launch card calls 19.199885629572467 the sim_05 anchor, but that exact
+    value is the flexible sim_11 A1 result. The direct sim_05 solver and frozen
+    CSV are retained separately; both round to 19.20 deg.
+  sim10_debris_rate_dps: 3.0633304945807067
+  sim10_debris_H_Nms: 3.650992635553959
+
+stage_a:
+  model_level: L0_MOMENTUM
+  time_step_s: 0.1
+  maneuver_duration_s: 8.0
+  end_time_s: 12.0
+  reference_frame: S
+  attitude_metric: dev_angle
+  maneuvers:
+    M1_headline:
+      q_start_deg: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+      q_end_deg: [0.0, 60.0, -40.0, 0.0, 0.0, 0.0]
+      flight_trajectory: false
+      note: >-
+        sim_05 dynamics benchmark retained unchanged as the GC1 anchor; joint2
+        exceeds the URDF flight limit, so M1 stays excluded from the flight
+        joint-margin gate and from any flight-valid claim.
+    M2_limit_compliant:
+      q_start_deg: [0.0, -15.0, -15.0, 0.0, 0.0, 0.0]
+      q_end_deg: [0.0, -60.0, -40.0, 0.0, 0.0, 0.0]
+      flight_trajectory: true
+      joint_limit_margin_min_rad: 0.05
+      preregistration_note: >-
+        CTRL-02-R R4 revision, registered before this rerun via
+        repeat_preregistration.md. Selection rule (a priori): every joint starts
+        at least 0.25 rad inside its active limit (q2/q3 start at -15 deg =
+        0.2618 rad below their 0.0 upper limits, more than 5x the frozen 0.05
+        rad margin gate); the nominal min-jerk trajectory is monotone per
+        joint, so its full-trajectory margin equals the endpoint minimum by
+        construction. The endpoint is unchanged from the previous round.
+      prohibited_probe_note: >-
+        The withdrawn post-result -5 deg start probe (q2=q3=-5 deg) is
+        explicitly NOT reused; this start point differs from it and was fixed
+        before results were produced.
+  A0:
+    description: nominal arm motion with no compensation
+  A1:
+    description: >-
+      task-valid two-segment reaction-aware trajectory: a reaction-projected
+      segment on [0, t_switch_s] followed by an analytic quintic closure with
+      matched joint rates that lands exactly on the registered joint endpoint
+      at t = maneuver_duration_s. A1 is therefore endpoint-complete by
+      construction and is NOT a reactionless trajectory (the closure segment
+      pays back base reaction).
+    constraint: angular_rows_of_Hbb_inverse_Hbm
+    projection_regularization: 1.0e-8
+    t_switch_s: 4.8
+    closure: quintic_matched_rate_zero_accel
+    endpoint_policy: EXACT_REGISTERED_ENDPOINT
+    hard_timeout_s: 120
+  A2:
+    description: nominal arm motion plus ideal wheel momentum allocation
+    wheel_envelope: per_axis_box
+    wheel_capacity_per_axis_Nms: [0.1, 0.1, 0.1]
+    legacy_scalar_sum_Nms: 0.3
+    wheel_torque_limit_Nm: null
+    fidelity_note: PROVISIONAL_IDEAL_MOMENTUM_TRACKING_NO_TORQUE_DYNAMICS
+  A3:
+    evaluation_status: NOT_APPLICABLE_WITH_MISSING_FROZEN_ACTUATOR_DYNAMICS
+    missing_frozen_inputs: [wheel_torque_limit_Nm, thruster_minimum_pulse_s]
+    claim_forbidden: true
+    scope_note: >-
+      The PROVISIONAL Stage-B actuator parameters below are authorized by R5
+      for the Stage-B transient evaluation only; they are placeholders, not
+      frozen hardware inputs, and do not unlock A3.
+
+stage_b:
+  model_level: L0_RIGID_MOMENTUM
+  cases_source: 20_engineering/config/strategy_feasibility/strategies_v0.yaml
+  cases: [A_low, B_anchor, C_transition, D_extreme]
+  controllers: [B0_no_control, B1_wheel_storage, B2_thruster_removal, B3_wheel_thruster]
+  wheel_capacity_per_axis_Nms: [0.1, 0.1, 0.1]
+  thruster_force_N: 0.1
+  lever_arm_m: 0.17
+  isp_s: 60.0
+  g0_mps2: 9.80665
+  B_anchor_domain_label: OUT_OF_FEASIBLE_REGION
+  flex_status: UNKNOWN_NOT_IN_CRITERIA
+  actuator_dynamics:
+    status: PROVISIONAL
+    wheel_max_torque_Nm: 0.01
+    wheel_max_torque_source_note: >-
+      PROVISIONAL placeholder pending a hardware datasheet freeze. Order set by
+      the 0.1 Nms-per-axis wheel class already frozen in this module:
+      catalog-level torque for that class (e.g. Sinclair RW-0.03 /
+      CubeSpace CW0057-type small reaction wheels) spans roughly 2-20 mNm; the
+      mid-order value 10 mNm is taken. Must be replaced and re-run when the
+      hardware group freezes the actual wheel torque (same discipline as the
+      sim_11 T_c=20 ms gripper placeholder).
+    thruster_min_pulse_s: 0.02
+    thruster_min_pulse_source_note: >-
+      PROVISIONAL placeholder pending thruster hardware freeze. Cold-gas
+      minimum electrical pulse widths are typically in the
+      milliseconds-to-tens-of-milliseconds class; 20 ms is taken, deliberately
+      matching the sim_11 PROVISIONAL contact-window discipline. With the
+      frozen 0.1 N force and 0.17 m lever arm this sets the angular impulse
+      quantum F*t_min*L = 3.4e-4 Nms, which bounds the achievable terminal
+      momentum residual per pulse train.
+    inertia_model_note: >-
+      PROVISIONAL_L1_MOMENTUM_ACTUATOR: momentum bookkeeping is exact in the
+      inertial frame; the rate map omega = I^-1 * H_body uses the combined
+      inertia frozen at the capture attitude and no gyroscopic Euler coupling
+      is modeled. Not a hardware-valid closed-loop stability model.
+  stability_window:
+    status: PROVISIONAL
+    window_s: 300.0
+    rate_settle_dps: 0.05
+    hold_min_s: 60.0
+    time_step_s: 0.02
+    criterion: >-
+      STABILIZED_WITHIN_WINDOW iff there exists t* <= window_s - hold_min_s
+      such that the body rate norm stays <= rate_settle_dps for every sample in
+      [t*, window_s]; otherwise NOT_STABILIZED_WITHIN_WINDOW. Deterministic
+      fixed-grid evaluation with time_step_s equal to the thruster minimum
+      pulse width so every pulse is grid-aligned.
+    source_note: >-
+      PROVISIONAL engineering criterion registered under R5 before the rerun:
+      300 s window and 60 s hold sit inside the frozen 3600 s detumble budget;
+      rate_settle_dps = 0.05 = 1/40 of the frozen 2.0 dps post-capture
+      feasibility threshold. It intentionally sits near the pulse-quantization
+      rate floor quantum/I of the smallest combined stack, which the transient
+      evaluation must expose rather than hide.

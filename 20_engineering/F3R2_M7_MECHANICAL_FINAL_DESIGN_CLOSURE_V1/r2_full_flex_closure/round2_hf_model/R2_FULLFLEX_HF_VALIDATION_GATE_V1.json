@@ -1,0 +1,265 @@
+{
+ "schema": "R2_FULLFLEX_HF_VALIDATION_GATE_V1",
+ "generated_local": "2026-08-23T20:45:41.771960+08:00",
+ "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+ "generator": "KIMI M7 机械终局接管 swarm Wave-4a (ODR-45..49 owner decisions + R2 full-flex closure) / AGENT-B1 round2_hf_model builder (pure numpy/scipy; upstream read-only)",
+ "gate_object": "R2_FULLFLEX_HF_MODEL_V1.yaml + R2_FULLFLEX_HF_EIGEN_EVIDENCE_V1.json (R2 high-fidelity three-leaf-per-wing flexible model, Full-Flex F1)",
+ "fail_closed": true,
+ "criteria": [
+  {
+   "id": "G1_MASS_CLOSURE_EXACT",
+   "criterion": "HF total per wing == 0.78 kg exact to fp noise (kinetic leaf 0.54 + MC-A rigid non-tracking ledger 0.24)",
+   "measured": {
+    "kinetic_leaf_mass_kg": 0.5343991071428571,
+    "abs_error_leaf_kg": 0.005600892857142936,
+    "total_per_wing_kg": 0.7743991071428571,
+    "abs_error_total_kg": 0.005600892857142936
+   },
+   "threshold": "abs error < 1e-12 kg",
+   "evidence": "R2_FULLFLEX_HF_EIGEN_EVIDENCE_V1.json mass_closure",
+   "verdict": "FAIL"
+  },
+  {
+   "id": "G2_SPD",
+   "criterion": "M_hf and K_hf (latched nominal) symmetric positive definite; all generalized omega^2 > 0",
+   "measured": {
+    "M_hf_min_eigenvalue": 1.6367769490747446e-09,
+    "K_hf_latched_nominal_min_eigenvalue": 0.1026489260643135,
+    "min_generalized_omega2": 730.1134703475061,
+    "M_spd": true,
+    "K_latched_spd": true
+   },
+   "threshold": "min eigenvalues > 0",
+   "evidence": "R2_FULLFLEX_HF_EIGEN_EVIDENCE_V1.json spd_checks",
+   "verdict": "PASS"
+  },
+  {
+   "id": "G3_MESH_CONVERGENCE",
+   "criterion": "mesh convergence < 1% on first 3 modes between N=20 and N=40 per leaf",
+   "measured": {
+    "max_abs_shift_pct_first3_N20_vs_N40": 0.019277186563037504,
+    "shift_pct_N20_vs_N40_first8": [
+     2.747509782750146e-05,
+     0.002141848778891141,
+     0.019277186563037504,
+     1.8577682539252094e-06,
+     0.05355072756860728,
+     0.1049679603500684,
+     0.17353650693306852,
+     9.543879597089643e-06
+    ]
+   },
+   "threshold": "< 1.0 %",
+   "evidence": "R2_FULLFLEX_HF_EIGEN_EVIDENCE_V1.json mesh_convergence",
+   "verdict": "PASS"
+  },
+  {
+   "id": "G4_NO_FORBIDDEN_R1_VALUES",
+   "criterion": "no forbidden R1-lane values anywhere in outputs; blacklist needles scanned over own files; hits tolerated only as detector definitions inside build_r2_hf_model.py / this gate",
+   "blacklist_needles": [
+    "29.226410622980581",
+    "0.3483933",
+    "1.7419665",
+    "measured_mass",
+    "24.0 kg legacy"
+   ],
+   "measured": {
+    "files_scanned": [
+     "build_r2_hf_model.py",
+     "R2_FULLFLEX_HF_MODEL_V1.yaml",
+     "R2_FULLFLEX_HF_MODEL_V1.md",
+     "R2_FULLFLEX_HF_EIGEN_EVIDENCE_V1.json",
+     "R2_FULLFLEX_HF_EIGEN_EVIDENCE_V1.md",
+     "README.md"
+    ],
+    "hits": [
+     {
+      "file": "build_r2_hf_model.py",
+      "line": 178,
+      "needle": "29.226410622980581",
+      "context_class": "DEFINITION_OR_PROHIBITION_CONTEXT"
+     },
+     {
+      "file": "build_r2_hf_model.py",
+      "line": 178,
+      "needle": "0.3483933",
+      "context_class": "DEFINITION_OR_PROHIBITION_CONTEXT"
+     },
+     {
+      "file": "build_r2_hf_model.py",
+      "line": 178,
+      "needle": "1.7419665",
+      "context_class": "DEFINITION_OR_PROHIBITION_CONTEXT"
+     },
+     {
+      "file": "build_r2_hf_model.py",
+      "line": 178,
+      "needle": "measured_mass",
+      "context_class": "DEFINITION_OR_PROHIBITION_CONTEXT"
+     },
+     {
+      "file": "build_r2_hf_model.py",
+      "line": 178,
+      "needle": "24.0 kg legacy",
+      "context_class": "DEFINITION_OR_PROHIBITION_CONTEXT"
+     }
+    ],
+    "unclassified_hit_count": 0,
+    "narrative_file_hit_count": 0,
+    "gate_files_note": "this gate JSON/MD contain the needle literals only inside the blacklist_needles detector definition"
+   },
+   "threshold": "unclassified hits == 0 and narrative hits == 0",
+   "evidence": "scan executed by build_r2_hf_model.py after emission of card/evidence/README",
+   "verdict": "PASS"
+  },
+  {
+   "id": "G5_NO_ZERO_FILLED_UNKNOWNS",
+   "criterion": "independent latch stiffness stays explicit null (never zero-filled); HOLD_LATCH_GEOMETRY_NOT_MODELLED verbatim",
+   "measured": {
+    "card_latch_is_null": true,
+    "evidence_latch_is_null": true
+   },
+   "threshold": "both null",
+   "evidence": "card YAML hinge_stiffness.latch + evidence JSON parameters",
+   "verdict": "PASS"
+  },
+  {
+   "id": "G6_PROVISIONAL_CLASSES_SPELLED",
+   "criterion": "PROVISIONAL_DERIVED class spelled on every candidate band (EI, GJ, zeta, k_theta_root, k_theta_inter)",
+   "measured": {
+    "EI": "PROVISIONAL_DERIVED",
+    "k_theta_root": "PROVISIONAL_DERIVED",
+    "k_theta_inter": "PROVISIONAL_DERIVED",
+    "GJ": "PROVISIONAL_DERIVED",
+    "zeta": "PROVISIONAL_DERIVED"
+   },
+   "threshold": "every band carries PROVISIONAL_DERIVED",
+   "evidence": "card YAML parsed programmatically by the gate builder",
+   "verdict": "PASS"
+  }
+ ],
+ "overall_gate": "FAIL",
+ "review_status": "PENDING_OWNER_REVIEW",
+ "next_stage_authorized": false,
+ "release_credit": false,
+ "test_pass_note": "test PASS != gate PASS; this gate's PASS only discharges the six criteria above at candidate level and authorizes nothing",
+ "nonclaims": [
+  "not a ROM yet (no modal truncation delivered)",
+  "not a coupled evaluation (fixed-base per-wing only)",
+  "r2_full_flexible_coupling not closed by this file (stays NOT_EVALUATED)",
+  "e15 REPEAT_ANCF_CERTIFICATION unchanged",
+  "no production/manufacturing/qualification/launch/flight authority",
+  "no PROVISIONAL band promoted; candidate != authority"
+ ],
+ "verification_record": {
+  "upstream_hash_recomputation": [
+   {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml",
+    "sha256_recomputed": "a04acfe440c636bb095585c74f71e3563fd35f6678fcfaa39355383a9bf6b3fd",
+    "prior_published_pin_full64": "a04acfe440c636bb095585c74f71e3563fd35f6678fcfaa39355383a9bf6b3fd",
+    "match": true
+   },
+   {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json",
+    "sha256_recomputed": "e068de078a0dc680a44807516733fdf018dd720b5f65636bb2b8d21e557593b6",
+    "prior_published_pin_full64": "e068de078a0dc680a44807516733fdf018dd720b5f65636bb2b8d21e557593b6",
+    "match": true
+   },
+   {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/compute_flexible_appendage_r2.py",
+    "sha256_recomputed": "2b64a18605abbd1f79648398a161ddd4d7bcb07665c5d8623b1a34440c1e9bf4",
+    "prior_published_pin_full64": "2b64a18605abbd1f79648398a161ddd4d7bcb07665c5d8623b1a34440c1e9bf4",
+    "match": true
+   },
+   {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json",
+    "sha256_recomputed": "d5b7dd16532fe7117d27ecc09efb29ecc570f51928bdbdf3b27bb96c3cf12c5e",
+    "prior_published_pin_full64": "d5b7dd16532fe7117d27ecc09efb29ecc570f51928bdbdf3b27bb96c3cf12c5e",
+    "match": true
+   },
+   {
+    "path": "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_FIXED_BASE_R2_ROM_REPRODUCTION_AND_MASS_CONFLICT_V1.json",
+    "sha256_recomputed": "57958a9f3ac194893d689e9eca4f12666474d97e0cfbb848acba794838b8396b",
+    "prior_published_pin_full64": "57958a9f3ac194893d689e9eca4f12666474d97e0cfbb848acba794838b8396b",
+    "match": true
+   },
+   {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/r2_flex_prep/R2_ROM_PARTICIPATION_DAMPING_SPEC_DRAFT_V1.md",
+    "sha256_recomputed": "e3453efbff644fa499ad2453e63621f710ac2b0bdb6f56798aa2b0d14b929e18",
+    "prior_published_pin_full64": "e3453efbff644fa499ad2453e63621f710ac2b0bdb6f56798aa2b0d14b929e18",
+    "match": true
+   },
+   {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/decisions/ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.yaml",
+    "sha256_recomputed": "9cce829e1581b190c6fc50bae56c47659c61319052268e7c9dfd25fac8b8c9e4",
+    "prior_published_pin_full64": "9cce829e1581b190c6fc50bae56c47659c61319052268e7c9dfd25fac8b8c9e4",
+    "match": true
+   },
+   {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml",
+    "sha256_recomputed": "69473bc19e020c6422b23c1758cfc343874f641781c9782e982036614c0849b5",
+    "prior_published_pin_full64": null,
+    "match": null,
+    "note": "pin established by this package (first citation)"
+   }
+  ],
+  "odr45_49_pin_status": "PINNED",
+  "evidence_json_sha256": "6690e746fc6cefa18cf19dd79da73a82ac3839e14a93f52027c7b7a98de3e3fa",
+  "card_yaml_sha256": "ce1225dc84a7deee559edf2721121dcdf7010a8d0319b58e6f622b479e43a6ae",
+  "builder_sha256": "6f6a7f8182f1d37ca7d3bda97741d735ac21f3c90f28dba4875469e14405d69f"
+ },
+ "evidence_links": [
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml",
+   "sha256": "a04acfe440c636bb095585c74f71e3563fd35f6678fcfaa39355383a9bf6b3fd",
+   "role": "leaf/hinge registrations; L1 engineering model; L2 ROM card"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json",
+   "sha256": "e068de078a0dc680a44807516733fdf018dd720b5f65636bb2b8d21e557593b6",
+   "role": "ROM eigen witnesses (nominal + four corners)"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/compute_flexible_appendage_r2.py",
+   "sha256": "2b64a18605abbd1f79648398a161ddd4d7bcb07665c5d8623b1a34440c1e9bf4",
+   "role": "existing chain model script (semantics re-implemented here, read-only)"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json",
+   "sha256": "d5b7dd16532fe7117d27ecc09efb29ecc570f51928bdbdf3b27bb96c3cf12c5e",
+   "role": "mass model (leaf 0.18 x3, hinge_root 0.05, hinge_inter 0.03 x2, hdrm 0.08, harness 0.05 -> 0.78 kg/wing)"
+  },
+  {
+   "path": "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_FIXED_BASE_R2_ROM_REPRODUCTION_AND_MASS_CONFLICT_V1.json",
+   "sha256": "57958a9f3ac194893d689e9eca4f12666474d97e0cfbb848acba794838b8396b",
+   "role": "reproduced eigen (full precision) + authoritative leaf-only Mqq + MC-A conflict record"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/r2_flex_prep/R2_ROM_PARTICIPATION_DAMPING_SPEC_DRAFT_V1.md",
+   "sha256": "e3453efbff644fa499ad2453e63621f710ac2b0bdb6f56798aa2b0d14b929e18",
+   "role": "SLOT-01..10 discipline (null-not-zero; dual damping lane; latch fold)"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/decisions/ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.yaml",
+   "sha256": "9cce829e1581b190c6fc50bae56c47659c61319052268e7c9dfd25fac8b8c9e4",
+   "role": "MC-A dynamic mass allocation freeze (ODR-45 owner-confirmed); BK-DYN-MASS-HINGE-ALLOC-MC-A bookkeeping"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml",
+   "sha256": "69473bc19e020c6422b23c1758cfc343874f641781c9782e982036614c0849b5",
+   "role": "ODR-45..49 owner decision record (wave pin)"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round2_hf_model/R2_FULLFLEX_HF_EIGEN_EVIDENCE_V1.json",
+   "sha256": "6690e746fc6cefa18cf19dd79da73a82ac3839e14a93f52027c7b7a98de3e3fa",
+   "role": "gated evidence artifact"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round2_hf_model/R2_FULLFLEX_HF_MODEL_V1.yaml",
+   "sha256": "ce1225dc84a7deee559edf2721121dcdf7010a8d0319b58e6f622b479e43a6ae",
+   "role": "gated model card"
+  }
+ ],
+ "self_hash_policy": "SELF_REFERENCE_EXCLUDED - this file carries no hash of itself; downstream consumers pin its sha256 after emission (same policy as e21/V5 manifests and 02_bridge)",
+ "companion_human_readable": "R2_FULLFLEX_HF_VALIDATION_GATE_V1.md (same basename; structured JSON fields govern on conflict)"
+}

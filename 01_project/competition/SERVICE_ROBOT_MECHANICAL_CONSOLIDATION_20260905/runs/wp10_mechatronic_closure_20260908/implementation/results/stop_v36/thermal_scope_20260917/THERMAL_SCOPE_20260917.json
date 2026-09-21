@@ -1,0 +1,75 @@
+{
+ "schema": "WP10_V36_STOP_THERMAL_SCOPE",
+ "date": "2026-09-17",
+ "board": "ecad/revisions/v36/wp10_stop_control.kicad_pcb",
+ "board_sha256": "d58b0240e63de229a4d64b3863b4b775a5507f75349d44feb258b0a19d0627e6",
+ "purpose": "Bound the power-thermal UNKNOWN from the 2026-09-17 engineering review: what is calculable now, which inputs are missing, closure criteria, and the PCB-level vs WP-level boundary.",
+ "dissipation_inventory": {
+  "R124_24R_2W": {
+   "circuit": "WP10_BRAKE_STOP_3V3 -> ARM_RETURN (static bleed/preload)",
+   "calculation": "V^2/R = 3.3^2/24",
+   "P_W": 0.4537,
+   "basis": "static rail voltage, calculable; TSR-1 requires no minimum load so function is bleed/legacy - removal NOT authorized in this scope",
+   "evidence_class": "CALCULATED_STATIC"
+  },
+  "R125_39R_2W": {
+   "circuit": "STOP_5V -> ARM_RETURN (static bleed/preload)",
+   "calculation": "V^2/R = 5.0^2/39",
+   "P_W": 0.641,
+   "basis": "static rail voltage, calculable",
+   "evidence_class": "CALCULATED_STATIC"
+  },
+  "Q101_IRL630PbF": {
+   "circuit": "low-side switch, drain WP10_LEGACY_080 -> J104 -> external contactor coil K1; source ARM_RETURN; gate K1_GATE via R113 22R from UCC27517 (5 V drive)",
+   "P_W": null,
+   "missing_inputs": [
+    "K1 coil resistance / steady coil current",
+    "coil duty profile (continuous vs pulsed)",
+    "IRL630 Rds(on) at Vgs=5 V from datasheet for conduction estimate",
+    "flyback/clamp disposition for switching loss bound"
+   ],
+   "evidence_class": "UNKNOWN_MISSING_INPUTS"
+  },
+  "U120_TSR_1_2433": {
+   "circuit": "24 V -> 3.3 V buck, SIP-3",
+   "datasheet_efficiency": "91% typ at Vin min (TRACO TSR 1 datasheet, PUBLIC_SOURCES.json 2026-09-17)",
+   "P_W": null,
+   "missing_inputs": [
+    "3V3 rail load current budget (sum of IC quiescent + R124 bleed 137.5 mA + dynamic)"
+   ],
+   "note": "P_diss = P_out*(1/eta - 1); R124 bleed alone gives P_out=0.454 W -> ~0.045 W in converter at eta 0.91",
+   "evidence_class": "PARTIALLY_BOUNDED"
+  },
+  "U121_TSR_1_2450": {
+   "circuit": "24 V -> 5 V buck, SIP-3",
+   "datasheet_efficiency": "94% typ at Vin min",
+   "P_W": null,
+   "missing_inputs": [
+    "5V rail load current budget (IC quiescent + R125 bleed 128.2 mA + dynamic)"
+   ],
+   "note": "R125 bleed alone gives P_out=0.641 W -> ~0.041 W in converter at eta 0.94",
+   "evidence_class": "PARTIALLY_BOUNDED"
+  }
+ },
+ "static_known_heat_sources_W": {
+  "R124": 0.4537,
+  "R125": 0.641,
+  "sum_bleed_only": 1.0947
+ },
+ "closure_criteria": [
+  "T1: K1 coil current and duty provided by owner/hardware team -> Q101 conduction loss computable",
+  "T2: CLOSED 2026-09-17 by THERMAL_BUDGET_20260917.json - 3V3 139.6mA/0.461W, 5V 131.4mA/0.657W static budgets; converter losses screened 0.178W/0.188W; board subtotal excl Q101 = 1.483W",
+  "T3: board-level steady-state thermal estimate (component theta-JA from datasheets, 0..50 C declared ambient, still air) with all margins >= 25 C to part rating, OR hardware temperature measurement",
+  "T4: if margins fail, PCB-level mitigation ECO candidates: copper pour under Q101 (CONFLICTS with declared zones=0 silkscreen decision - would need owner disposition), thermal vias under PR02 resistors, TO-220 clip heatsink footprint"
+ ],
+ "wp_level_boundary": "STOP-board thermal closure does NOT close WP-level thermal architecture: commit ff74b803 records architecture A NOT closing (carrier 137 C vs 95 C limit; +/-Y inner webs reach radiator panels only through distant bridge blocks). That failure lives in the main-input/mechanical thermal path, not on this board, and requires WP-level redesign, not a STOP-board ECO.",
+ "declared_limits": [
+  "0..50 C conditional static design per CALCULATIONS.json",
+  "no transient, no airflow credit, no hardware measurement in this scope"
+ ],
+ "whole_design_complete": false,
+ "manufacturing_release": false,
+ "thermal_budget": {
+  "path": "results/stop_v36/thermal_scope_20260917/THERMAL_BUDGET_20260917.json"
+ }
+}

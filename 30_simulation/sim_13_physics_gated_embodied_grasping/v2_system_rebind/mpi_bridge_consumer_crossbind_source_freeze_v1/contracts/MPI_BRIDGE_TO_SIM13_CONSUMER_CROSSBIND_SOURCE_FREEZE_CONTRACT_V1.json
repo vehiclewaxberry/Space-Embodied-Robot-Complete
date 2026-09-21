@@ -1,0 +1,82 @@
+{
+  "schema": "MPI_BRIDGE_TO_SIM13_CONSUMER_CROSSBIND_SOURCE_FREEZE_CONTRACT_V1",
+  "artifact_id": "MPI_BRIDGE_TO_SIM13_CONSUMER_CROSSBIND_SOURCE_FREEZE_V1",
+  "ceiling": "PASS_MPI_BRIDGE_TO_SIM13_CROSSBIND_SOURCE_FREEZE_ONLY",
+  "scope": "Source receipts, immutable bridge semantics, a signed synthetic seven-receipt preexecution composition fixture, fail-closed consumer plan validation, negative controls and evidence DAG only.",
+  "authority_resolution": {
+    "owner_overlay": "ODR-45 upgrades the effective bridge status to CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE without modifying the frozen bridge file.",
+    "physical_installation_authority": "WP11",
+    "dynamics_reference_authority": "ODR-01 T_SM",
+    "unique_bridge": "T_PHYSICAL_TO_DYNAMIC",
+    "matrix_semantics": "row-major p_parent=T_parent_child@p_child"
+  },
+  "consumer_rule": {
+    "channels_exact": [
+      "frame",
+      "mass",
+      "inertia",
+      "wrench",
+      "collision_geometry"
+    ],
+    "application": "Each channel shall carry exactly one physical-to-dynamics bridge application in its complete lineage. Frame, wrench and collision apply at the consumer boundary; mass and inertia bind the already-bridged ledger and shall not numerically reapply the bridge.",
+    "induced_operators": {
+      "frame": "rigid pose/point transform",
+      "mass": "mass invariant plus CG re-expression frozen in the bridged ledger",
+      "inertia": "R I R^T plus parallel-axis terms frozen in the bridged ledger",
+      "wrench": "dual adjoint with explicitly declared application point",
+      "collision_geometry": "rigid transform of every collision geometry frame"
+    },
+    "forbidden": [
+      "skip",
+      "inverse",
+      "double application",
+      "ODR01/WP11 mixing",
+      "averaging",
+      "selective consumption",
+      "M_DYNAMICS_NONPHYSICAL as a physical load path",
+      "unbridged V3_R2 mass/inertia with bridged dynamics",
+      "numeric equality as semantic alias",
+      "0.3688895107529362 deg as random uncertainty",
+      "V6/R3 candidate as release",
+      "legacy V2 URDF-only receipt as sufficient binding"
+    ]
+  },
+  "uncertainty_rule": {
+    "bridge_standard_uncertainty": null,
+    "bridge_uncertainty_status": "UNKNOWN",
+    "zero_fill_forbidden": true,
+    "branch_delta_classification": "DETERMINISTIC_FRAME_CONSUMPTION_DIFFERENCE_NOT_RANDOM_UNCERTAINTY",
+    "mass_inertia_member_uncertainties": "PRESERVED_VERBATIM_FROM_BRIDGED_LEDGER",
+    "bridge_transform_uncertainty_is_not_member_uncertainty": true
+  },
+  "composition_rule": {
+    "current_fixture_kind": "SYNTHETIC_SIGNED_COMPOSITION_FIXTURE",
+    "production_composite_producer_status": "NOT_IMPLEMENTED_NO_PRODUCER",
+    "raw_preexecution_receipt_count": 7,
+    "raw_receipts_verified_by_pinned_final_preexecution_parser_and_hmac_verifier": true,
+    "decision": "ABORT/SOURCE_FREEZE_SCOPE_LOCK",
+    "v3_nonce_store": "IN_PROCESS_SYNTHETIC_ONLY_NOT_DURABLE",
+    "successful_fixture_verification_consumes_v3_nonce": true,
+    "failed_verification_consumes_v3_nonce": false,
+    "production_authenticated_receipt_present": false
+  },
+  "source_lock": {
+    "actual_system_binding_v3_receipt_present": false,
+    "production_authenticated_composite_present": false,
+    "system_urdf_available": false,
+    "interface_instantiated": false,
+    "current_system_bound": false,
+    "production_dynamics_ready": false,
+    "physical_contact_ready": false,
+    "next_stage_authorized": false,
+    "release_credit": false
+  },
+  "nonclaims": [
+    "Does not repeat or replace the current-system intake package.",
+    "Does not repeat or replace evidence admission or preexecution authorization/security.",
+    "Does not repeat the MPI producer bridge derivation or producer Gate.",
+    "Does not instantiate a system interface or URDF.",
+    "Does not close NC18, NC19, contact, grasp, production or release.",
+    "Does not run dynamics, contact, grasp, CAD or the Unified-R2 generator."
+  ]
+}

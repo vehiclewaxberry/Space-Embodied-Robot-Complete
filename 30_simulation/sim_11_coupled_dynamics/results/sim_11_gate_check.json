@@ -1,0 +1,530 @@
+{
+  "schema_version": "sim11-gate-v3",
+  "model": "路线A 浮动基座树形多体 + FFR 帆板 (m=3) + B601 6R + 有限接触带宽捕获(v1.1)",
+  "PROVISIONAL_PARAMS": true,
+  "provisional_fields": [
+    "n_modes",
+    "mode_shape",
+    "stiffness_case",
+    "zeta_modal",
+    "contact_T_c"
+  ],
+  "provisional_note": "帆板模态设定为占位（D-4 频率指派 + 解析悬臂模态 + zeta=0.005 任务书默认）；杨恒数值案例到位后替换 20_engineering/config/coupled_scene/coupled_model_v0.yaml 并重跑全部 Gate；接触时长 T_c=20 ms 名义值为占位（scene_A2 contact 段），待 B601 夹爪闭合时间实测替换",
+  "gates": {
+    "G1_momentum": {
+      "pass": true,
+      "values": {
+        "A1_reduced_dP": 7.567731163948821e-17,
+        "A1_reduced_dL": 5.0334085857639543e-17,
+        "A2_reduced_dP": 2.491062911502695e-15,
+        "A2_reduced_dL": 6.217248937900877e-15,
+        "A2_bw20_reduced_dP": 2.34708086299662e-15,
+        "A2_bw20_reduced_dL": 4.884981308350689e-15,
+        "A2_bw20_window_drift": 2.7346180875298387e-14,
+        "A1_full_mode_dP": 2.64742413053949e-12,
+        "A1_full_mode_dL": 1.398346741819843e-12
+      },
+      "thresholds": {
+        "reduced": 1e-12,
+        "full_mode_cross": 1e-09
+      },
+      "note": "reduced=动量流形约简(主证据); full=二阶全量积分(装配交叉证据); bw20_window_drift=接触窗内追踪星+目标组合动量守恒(作用反作用同点)",
+      "repro": [
+        "python src/scene_a1_arm_slew.py",
+        "python src/scene_a1_arm_slew.py --mode full --tag fullmode",
+        "python src/scene_a2_capture.py",
+        "python src/scene_a2_capture.py --contact-ms 20 --t-post 4 --n-out 201 --tag bw20 --no-plot"
+      ]
+    },
+    "G2_energy_audit": {
+      "pass": true,
+      "values": {
+        "A1_undamped_audit_rel": 3.9569052238959404e-13,
+        "A2_post_undamped_audit_rel": 5.625619937934997e-14,
+        "A2_bw20_window_audit_rel": 8.459748222451578e-11,
+        "A1_damped_audit_rel_with_dissipation": 8.113436261051533e-12,
+        "A2_post_damped_audit_rel_with_dissipation": 5.83657596446255e-14
+      },
+      "threshold": 1e-08,
+      "note": "A2只审计捕获后保持段；捕获瞬间塑性耗散单列dT_J",
+      "repro": [
+        "python src/scene_a1_arm_slew.py --zeta 0 --tag undamped",
+        "python src/scene_a2_capture.py --zeta 0 --t-post 1 --n-out 101 --tag undamped --no-plot"
+      ]
+    },
+    "G3a_locked_joints_vs_sim07": {
+      "pass": true,
+      "worst_tip_rel_diff": 0.003799719782140739,
+      "worst_freq_rel_diff": 5.416315653216968e-05,
+      "thresholds": {
+        "tip": 0.05,
+        "freq": 0.02
+      },
+      "cases": [
+        {
+          "case": "6dof_rigid_lock/flexible_low",
+          "tip_peak_mm_ffr": 5.2556835310384145,
+          "tip_peak_mm_ancf": 5.235789,
+          "tip_rel_diff": 0.003799719782140739,
+          "f1_hz_ffr": 0.7001379196258881,
+          "f_dom_hz_ancf": 0.7001,
+          "freq_rel_diff": 5.416315653216968e-05
+        },
+        {
+          "case": "6dof_rigid_lock/nominal",
+          "tip_peak_mm_ffr": 3.6789539622804277,
+          "tip_peak_mm_ancf": 3.674004,
+          "tip_rel_diff": 0.001347293655757494,
+          "f1_hz_ffr": 1.000203676127154,
+          "f_dom_hz_ancf": 1.0002,
+          "freq_rel_diff": 3.6753920756024295e-06
+        },
+        {
+          "case": "6dof_rigid_lock/flexible_high",
+          "tip_peak_mm_ffr": 2.830021227867315,
+          "tip_peak_mm_ancf": 2.827378,
+          "tip_rel_diff": 0.0009348689376925158,
+          "f1_hz_ffr": 1.3002173405192092,
+          "f_dom_hz_ancf": 1.3002,
+          "freq_rel_diff": 1.3336809113373314e-05
+        },
+        {
+          "case": "3dof_point/flexible_low",
+          "tip_peak_mm_ffr": 0.05665965565712883,
+          "tip_peak_mm_ancf": 0.056821,
+          "tip_rel_diff": 0.0028395195943608288,
+          "f1_hz_ffr": 0.7001379196258881,
+          "f_dom_hz_ancf": 0.7001,
+          "freq_rel_diff": 5.416315653216968e-05
+        },
+        {
+          "case": "3dof_point/nominal",
+          "tip_peak_mm_ffr": 0.03966105433362665,
+          "tip_peak_mm_ancf": 0.039768,
+          "tip_rel_diff": 0.0026892392469661415,
+          "f1_hz_ffr": 1.000203676127154,
+          "f_dom_hz_ancf": 1.0002,
+          "freq_rel_diff": 3.6753920756024295e-06
+        },
+        {
+          "case": "3dof_point/flexible_high",
+          "tip_peak_mm_ffr": 0.03050851614197318,
+          "tip_peak_mm_ancf": 0.030597,
+          "tip_rel_diff": 0.0028919128681511273,
+          "f1_hz_ffr": 1.3002173405192092,
+          "f_dom_hz_ancf": 1.3002,
+          "freq_rel_diff": 1.3336809113373314e-05
+        }
+      ],
+      "evidence_scope": "帆板组件级退化对比；非自由漂浮整星逐点等价",
+      "note": "FFR(3模态,模态阻尼取sim_07a.ZETA) vs ANCF(8单元,Rayleigh) 在sim_07固支根部同激励口径下对比；整星锁关节路径另由A2/G1/G5与回归测试覆盖",
+      "repro": "python src/run_gates.py --inline"
+    },
+    "G3b_rigid_panels_vs_sim05": {
+      "pass": true,
+      "peak_deg_sim11_rigid": 19.199850770410567,
+      "peak_deg_sim05_ref": 19.2,
+      "peak_rel_diff": 7.77237444959944e-06,
+      "pointwise_max_diff_deg": 1.3213725011951283e-06,
+      "thresholds": {
+        "peak_rel": 0.001,
+        "pointwise_deg": 0.001
+      },
+      "residual_source": "servicer_12U_bus_v1/panel 行 7 位小数舍入（H_bb 差 ~1e-6）",
+      "repro": [
+        "python src/scene_a1_arm_slew.py --rigid-panels --tag rigid",
+        "python src/run_gates.py --inline"
+      ]
+    },
+    "G3c_all_rigid_vs_sim01": {
+      "pass": true,
+      "max_attitude_diff_deg": 2.4148365394514667e-06,
+      "momentum_max_drift": 1.249000902703301e-16,
+      "w0_dps": [
+        1.0,
+        5.0,
+        2.0
+      ],
+      "t_end_s": 60.0,
+      "composite": {
+        "mass_kg": 29.895555949342995,
+        "I_diag_kgm2": [
+          0.300672,
+          0.915042,
+          0.882904
+        ]
+      },
+      "thresholds": {
+        "angle_deg": 1e-05,
+        "momentum": 1e-12
+      },
+      "evidence_scope": "同一全刚化组合体退化为sim_01式单刚体无力矩传播；不是与24 kg sim_01冻结工件逐点同构",
+      "repro": "python src/run_gates.py --inline"
+    },
+    "G4_convergence": {
+      "pass": true,
+      "criterion": "A1 全扫掠 + A2@有限接触带宽(T_c=20ms名义, PROVISIONAL 待B601夹爪实测)前向加密链 m3->m4->m5",
+      "rel_changes": {
+        "A1_arm_slew": {
+          "peak_dev_m2_vs_m3": 4.614595474963699e-11,
+          "peak_dev_m4_vs_m3": 2.5812839084276657e-13,
+          "modal_E_m2_vs_m3": 2.049271869764954e-05,
+          "modal_E_m4_vs_m3": 3.1684121260548776e-07,
+          "peak_dev_rtol1e8_vs_1e10": 1.839650510217967e-12,
+          "modal_E_rtol1e8_vs_1e10": 2.7626989973522606e-06
+        },
+        "A2_capture_bandwidth_Tc20ms": {
+          "base_rate_m4_vs_m3": 3.209037202374047e-07,
+          "base_rate_m5_vs_m4": 1.0249642010079482e-07,
+          "tip_L_m4_vs_m3": 0.0021949134633396207,
+          "tip_L_m5_vs_m4": 0.00023647953899589688,
+          "modal_E_peak_m4_vs_m3": 0.0048028483876277825,
+          "modal_E_peak_m5_vs_m4": 0.00026542819056671823
+        }
+      },
+      "A2_bandwidth_coarse_m2_diagnostic": {
+        "gated": false,
+        "base_rate_m2_vs_m3": 7.857937878055391e-07,
+        "tip_L_m2_vs_m3": 0.00828410997897576,
+        "modal_E_peak_m2_vs_m3": 0.021816466171414996,
+        "note": "f3=17.55 Hz < 接触带边 25 Hz：三阶模态在带内，m=2 为分辨率不足（缺带内模态），不构成 m=3 未收敛证据；收敛 Gate 用前向加密链。"
+      },
+      "threshold": 0.01,
+      "ideal_impulse_diagnostic": {
+        "gated": false,
+        "rel_changes": {
+          "base_rate_m2_vs_m3": 1.988300856514205e-06,
+          "base_rate_m4_vs_m3": 9.450078482306017e-07,
+          "tip_L_m2_vs_m3": 0.007316848719711533,
+          "tip_L_m4_vs_m3": 0.0010186208959877922,
+          "modal_E_peak_m2_vs_m3": 0.027797502327848632,
+          "modal_E_peak_m4_vs_m3": 0.012688652364701462,
+          "base_rate_rtol1e8_vs_1e10": 5.923995395527772e-13,
+          "tip_L_rtol1e8_vs_1e10": 1.1582056224805398e-08,
+          "modal_E_peak_rtol1e8_vs_1e10": 3.735098033703687e-09
+        },
+        "modal_E_peak_curve_J": {
+          "m2": 1.258324905070754e-05,
+          "m3": 1.2943033041816866e-05,
+          "m4": 1.3109373322626769e-05,
+          "m5": 1.32043528399779e-05,
+          "m7": 1.3308299958038954e-05
+        },
+        "physics_note": "理想冲量 Δt=0 频谱平坦，逐阶注入能量 ∝ (B_t,i·J)^2 而悬臂 B_t,i 衰减缓慢（0.462/0.256/0.150/...），模态能量级数为慢收敛尾 （m=2..7 逐阶 +2.86%/+1.29%/+0.72%/~+0.4%）——对能量指标不适定，系模型域边界而非装配缺陷；基座角速率/tip 挠度等动量级量已收敛。物理修复=有限接触带宽（contact_window.py，半正弦等冲量），带宽下同一 1% 判据恢复适定并作为 G4 主判据。"
+      },
+      "bandwidth_sweep_diagnostic": {
+        "Tc_5ms": {
+          "modal_E_peak_J": 1.29262061815752e-05,
+          "tip_L_peak_mm": 2.0743404949048654,
+          "lockup_rel_to_lam": 9.483313560833784e-05
+        },
+        "Tc_10ms": {
+          "modal_E_peak_J": 1.289409900791687e-05,
+          "tip_L_peak_mm": 2.0733073900807746,
+          "lockup_rel_to_lam": 0.00018466556679895644
+        },
+        "Tc_20ms": {
+          "modal_E_peak_J": 1.2789845032388716e-05,
+          "tip_L_peak_mm": 2.0707046567740877,
+          "lockup_rel_to_lam": 0.0003533587053109225
+        },
+        "Tc_50ms": {
+          "modal_E_peak_J": 1.2309352846623529e-05,
+          "tip_L_peak_mm": 2.068825839298196,
+          "lockup_rel_to_lam": 0.0008542055661851539
+        },
+        "Tc_100ms": {
+          "modal_E_peak_J": 1.1535259191163409e-05,
+          "tip_L_peak_mm": 2.036640824439762,
+          "lockup_rel_to_lam": 0.0017394735593865337
+        }
+      },
+      "values": {
+        "A1": {
+          "m2": [
+            19.199885630458464,
+            9.002183049768263e-10
+          ],
+          "m3": [
+            19.199885629572467,
+            9.00199857056336e-10
+          ],
+          "m4": [
+            19.19988562956751,
+            9.002001422768406e-10
+          ],
+          "rtol1e-8": [
+            19.199885629607788,
+            9.002023440444493e-10
+          ]
+        },
+        "A2_bandwidth": {
+          "m2": {
+            "modal_energy_peak_J": 1.2510815810901967e-05,
+            "tip_L_peak_mm": 2.088001894101131,
+            "base_rate_peak_dps": 2.471623864257069
+          },
+          "m3": {
+            "modal_energy_peak_J": 1.2789845032388716e-05,
+            "tip_L_peak_mm": 2.0707046567740877,
+            "base_rate_peak_dps": 2.4716258064452736
+          },
+          "m4": {
+            "modal_energy_peak_J": 1.28515691706585e-05,
+            "tip_L_peak_mm": 2.075259672168456,
+            "base_rate_peak_dps": 2.4716250132913573
+          },
+          "m5": {
+            "modal_energy_peak_J": 1.2854981245070148e-05,
+            "tip_L_peak_mm": 2.074768915717885,
+            "base_rate_peak_dps": 2.4716247599586416
+          }
+        },
+        "A2_ideal": {
+          "m2": {
+            "t_post_s": 1.0,
+            "H_total_about_inertial_origin_Nms": 3.6782586304198444,
+            "L_total_about_com_Nms": 3.721399175348847,
+            "P_total_Ns": 0.29895555949343117,
+            "base_rate_peak_dps": 2.471573855012322,
+            "base_rate_final_dps": 2.4714442172802986,
+            "base_dev_final_deg": 19.785545347541337,
+            "tip_L_peak_mm": 2.0902158757206633,
+            "tip_R_peak_mm": 1.6101095917129962,
+            "tip_L_dominant_freq_hz": 1.091086957560004,
+            "panel_modal_energy_peak_J": 1.258324905070754e-05,
+            "panel_modal_energy_final_J": 1.1471722977975297e-05,
+            "E_damp_final_J": 1.107070245398362e-06,
+            "W_joint_final_J": 0.0,
+            "energy_audit_rel": 2.70137456107254e-13,
+            "momentum_max_abs_dP": 1.6150275561344074e-15,
+            "momentum_max_abs_dL": 4.440892098500626e-15,
+            "L_about_com_initial_Nms": {
+              "base": 0.6321285649309942,
+              "arm": 0.09336938597668051,
+              "panels": 0.019328195706635177,
+              "target": 3.000006141048828
+            },
+            "L_about_com_final_Nms": {
+              "base": 0.6324492750071021,
+              "arm": 0.09321494927802512,
+              "panels": 0.019468684411981404,
+              "target": 2.9996963779878025
+            },
+            "L_total_check_Nms": [
+              3.721399175348847,
+              3.7213991753488496
+            ]
+          },
+          "m3": {
+            "t_post_s": 4.0,
+            "H_total_about_inertial_origin_Nms": 3.6782586304198084,
+            "L_total_about_com_Nms": 3.7213991753489832,
+            "P_total_Ns": 0.298955559493431,
+            "base_rate_peak_dps": 2.471578769254506,
+            "base_rate_final_dps": 2.471166748983372,
+            "base_dev_final_deg": 22.91245236632886,
+            "tip_L_peak_mm": 2.074922082366476,
+            "tip_R_peak_mm": 1.5981457389319265,
+            "tip_L_dominant_freq_hz": 1.0008786363157154,
+            "panel_modal_energy_peak_J": 1.2943033041816866e-05,
+            "panel_modal_energy_final_J": 9.04828944200847e-06,
+            "E_damp_final_J": 3.890519418619118e-06,
+            "W_joint_final_J": 0.0,
+            "energy_audit_rel": 5.83657596446255e-14,
+            "momentum_max_abs_dP": 1.798908244587949e-15,
+            "momentum_max_abs_dL": 4.884981308350689e-15,
+            "L_about_com_initial_Nms": {
+              "base": 0.6321334283523117,
+              "arm": 0.09337052096347678,
+              "panels": 0.01930363149045869,
+              "target": 3.000023894055466
+            },
+            "L_about_com_final_Nms": {
+              "base": 0.6334167628449326,
+              "arm": 0.09283601501871036,
+              "panels": 0.019549688009058853,
+              "target": 2.9989954035877964
+            },
+            "L_total_check_Nms": [
+              3.7213991753489832,
+              3.7213991753489806
+            ]
+          },
+          "m4": {
+            "t_post_s": 1.0,
+            "H_total_about_inertial_origin_Nms": 3.678258630419807,
+            "L_total_about_com_Nms": 3.721399175348989,
+            "P_total_Ns": 0.29895555949343044,
+            "base_rate_peak_dps": 2.4715811049180476,
+            "base_rate_final_dps": 2.4714409644114372,
+            "base_dev_final_deg": 19.785545335289324,
+            "tip_L_peak_mm": 2.0770377964677142,
+            "tip_R_peak_mm": 1.5993341114681985,
+            "tip_L_dominant_freq_hz": 1.091085388827605,
+            "panel_modal_energy_peak_J": 1.3109373322626769e-05,
+            "panel_modal_energy_final_J": 1.1609686748243274e-05,
+            "E_damp_final_J": 1.4943630603242189e-06,
+            "W_joint_final_J": 0.0,
+            "energy_audit_rel": 2.8251393723562273e-14,
+            "momentum_max_abs_dP": 2.1978946440626146e-15,
+            "momentum_max_abs_dL": 3.9968028886505635e-15,
+            "L_about_com_initial_Nms": {
+              "base": 0.6321357169773858,
+              "arm": 0.0933710501110074,
+              "panels": 0.019292184945104186,
+              "target": 3.000032140369224
+            },
+            "L_about_com_final_Nms": {
+              "base": 0.6324460443915451,
+              "arm": 0.09321419015158781,
+              "panels": 0.019485079982849585,
+              "target": 2.999684559058634
+            },
+            "L_total_check_Nms": [
+              3.721399175348989,
+              3.721399175348987
+            ]
+          },
+          "rtol1e-8": {
+            "t_post_s": 1.0,
+            "H_total_about_inertial_origin_Nms": 3.678258630419779,
+            "L_total_about_com_Nms": 3.721399175348964,
+            "P_total_Ns": 0.29895555949343033,
+            "base_rate_peak_dps": 2.47157876925597,
+            "base_rate_final_dps": 2.4714415784835975,
+            "base_dev_final_deg": 19.785545330919316,
+            "tip_L_peak_mm": 2.0749221063983403,
+            "tip_R_peak_mm": 1.5989610556972753,
+            "tip_L_dominant_freq_hz": 1.091085106361175,
+            "panel_modal_energy_peak_J": 1.2943033090160364e-05,
+            "panel_modal_energy_final_J": 1.1590522997844155e-05,
+            "E_damp_final_J": 1.3474815168710168e-06,
+            "W_joint_final_J": 0.0,
+            "energy_audit_rel": 8.58565437310576e-14,
+            "momentum_max_abs_dP": 2.5379004453540688e-15,
+            "momentum_max_abs_dL": 4.884981308350689e-15,
+            "L_about_com_initial_Nms": {
+              "base": 0.6321334283533847,
+              "arm": 0.09337052096363493,
+              "panels": 0.019303631487110496,
+              "target": 3.0000238940573305
+            },
+            "L_about_com_final_Nms": {
+              "base": 0.6324466489204918,
+              "arm": 0.09321433095845952,
+              "panels": 0.019482038298875726,
+              "target": 2.999686743723507
+            },
+            "L_total_check_Nms": [
+              3.721399175348964,
+              3.721399175348964
+            ]
+          }
+        }
+      },
+      "repro": [
+        "python src/scene_a1_arm_slew.py --n-modes 2 --tag m2",
+        "python src/scene_a1_arm_slew.py --n-modes 4 --tag m4",
+        "python src/scene_a1_arm_slew.py --rtol 1e-8 --tag rtol8",
+        "python src/scene_a2_capture.py --contact-ms 20 --t-post 4 --n-out 201 --tag bw20 --no-plot",
+        "python src/scene_a2_capture.py --contact-ms 20 --n-modes 2 --t-post 1 --n-out 101 --tag bw20_m2 --no-plot",
+        "python src/scene_a2_capture.py --contact-ms 20 --n-modes 4 --t-post 1 --n-out 101 --tag bw20_m4 --no-plot",
+        "python src/scene_a2_capture.py --contact-ms 20 --n-modes 5 --t-post 1 --n-out 101 --tag bw20_m5 --no-plot",
+        "python src/scene_a2_capture.py --n-modes 2 --t-post 1 --n-out 101 --tag m2 --no-plot",
+        "python src/scene_a2_capture.py --t-post 4 --n-out 201 --tag conv_m3 --no-plot",
+        "python src/scene_a2_capture.py --n-modes 4 --t-post 1 --n-out 101 --tag m4 --no-plot",
+        "python src/scene_a2_capture.py --n-modes 5 --t-post 1 --n-out 101 --tag m5 --no-plot",
+        "python src/scene_a2_capture.py --n-modes 7 --t-post 1 --n-out 101 --tag m7 --no-plot",
+        "python src/scene_a2_capture.py --rtol 1e-8 --t-post 1 --n-out 101 --tag rtol8 --no-plot"
+      ],
+      "window_note": "A2比较量均为t<=0.26 s出现的峰值或守恒量；1 s变体窗已覆盖首周期，m3基准另保留4 s特征窗；bandwidth 口径峰值取接触窗与捕获后窗的合并最大值(combined)"
+    },
+    "G5_cross_solver": {
+      "pass": true,
+      "radau_vs_bdf_rel": {
+        "A1_peak_dev": 5.860236121052099e-11,
+        "A1_modal_E_final": 2.572269594451408e-06,
+        "A1_tip_L_peak": 3.4552290741778973e-07,
+        "A2_tip_L_peak": 1.653605146870543e-08,
+        "A2_base_rate_peak": 7.78725994668868e-12,
+        "A2_modal_E_peak": 2.1597162300533705e-08,
+        "A2_H_origin": 3.259805758841704e-15,
+        "A2_L_about_com": 1.2004993929929968e-13,
+        "A2_bw20_modal_E_peak": 2.1850698848401564e-09,
+        "A2_bw20_tip_L_peak": 0.0015585526933384042,
+        "A2_bw20_base_rate_peak": 2.060152822026121e-12
+      },
+      "threshold": 0.05,
+      "repro": [
+        "python src/scene_a1_arm_slew.py --method BDF --tag bdf",
+        "python src/scene_a2_capture.py --t-post 4 --n-out 201 --tag conv_m3 --no-plot",
+        "python src/scene_a2_capture.py --method BDF --t-post 1 --n-out 101 --tag bdf --no-plot",
+        "python src/scene_a2_capture.py --contact-ms 20 --method BDF --t-post 1 --n-out 101 --tag bw20_bdf --no-plot"
+      ]
+    }
+  },
+  "verdict": "SIM11_GATES_PASS_WITH_PROVISIONAL_PARAMS",
+  "next_stage_authorized": true,
+  "base_git_commit": "6c0035b",
+  "artifacts_sha256": {
+    "baseline_verification_20260717.log": "a42b05c98872c5c12c876b4c1cd1f6e4456ceebdcc7aad45cb5ccf018d94db74",
+    "gates_inline_partial.json": "67de2251fb686f7bb13284f0b1a48ff9ccbac7ebd332e6c49c77e8c74b2c7772",
+    "sim_11_scene_A1.csv": "a29862a0c32489fab6e1ec212739b4b6062f0cdaff85a4a0021724e0cb22472d",
+    "sim_11_scene_A1.png": "14396555c634f3ab2fccf3a98d3a146f2f65dd2401dd806c20be918dcffa82b0",
+    "sim_11_scene_A1_bdf.csv": "c88133b731d7f5ae974cfc1883fcbca41513a7dd55eceb21cb59487ad4945518",
+    "sim_11_scene_A1_fullmode.csv": "3cf6b50526f17353b146dcaaf62fd8137b7765cdddbd7435f84b068fcd1335a9",
+    "sim_11_scene_A1_m2.csv": "94ab91c95973d92b0a1bea935e52fe91954c2ea1761d4448f582080d89fe296b",
+    "sim_11_scene_A1_m4.csv": "27406c33ee9e5c9314f077c78cc9df3326ff05029e37ee10a5adc61f0651fb12",
+    "sim_11_scene_A1_rigid.csv": "49197ac81e3c1e671f7e21142b0b6a7582feba21750577e776fa07e8a0676468",
+    "sim_11_scene_A1_rigid.png": "4269ff140f971984e0df858a0edd5244fcc6c797b3fc784a553156f74d66728b",
+    "sim_11_scene_A1_rtol8.csv": "27e617e06dd920d2fcd2b8bd1303f08789f60a512f3ea8bc517396d43934297b",
+    "sim_11_scene_A1_summary.json": "05bb1923c90ae79d6d407558170806772b93331192cd0e58065cbd4877448c8c",
+    "sim_11_scene_A1_summary_bdf.json": "2081bc5b8e44602fb73534dddeff1b953f1edaeaee55d372ddcca87aee02c9b1",
+    "sim_11_scene_A1_summary_fullmode.json": "7f71918c1403dc6fdc2a10b99b883c6ff90e34bc12105166a5fc6f6704de16e3",
+    "sim_11_scene_A1_summary_m2.json": "f39462fd2e40a3167c93ac586246144c7465fde0db2c9a175c069b038c0770b4",
+    "sim_11_scene_A1_summary_m4.json": "886987740d09ba9f290d16efcefd13cf9a7d4450d6c8dcc806a45cc3abcc3e20",
+    "sim_11_scene_A1_summary_rigid.json": "f48274d9f37dcfed2747d6479ed7bac7c2c5ca64d18cad72f94a9e9e09410473",
+    "sim_11_scene_A1_summary_rtol8.json": "794df5e5a4af09b404d382446048e7e54f87ea9f6438ff1b8e55cabfa766b1e7",
+    "sim_11_scene_A1_summary_undamped.json": "96e293f157b6e2d16015225954543d825edf5407512ba69f4c4e2e440e43a433",
+    "sim_11_scene_A1_undamped.csv": "274ab97c70051ed3f7bf902006c76d2efbd21cfb7a22e18d14f872e77e8dc11a",
+    "sim_11_scene_A2.csv": "6b1d634e6a19853507e215a139b5060cb27be623a474b5e053963b884e51d21c",
+    "sim_11_scene_A2.png": "98c1feee29af38d85da446649457e2ac7c82e2f772aa0e6a3dccb87297ed5759",
+    "sim_11_scene_A2_bdf.csv": "cff2bb2f5fd88ccafff9c01486a4828d779f0b23298caded04cbb6f32426a034",
+    "sim_11_scene_A2_bw10.csv": "3d98544911a4ec5de6327441bdc41bd40887f9a9852bf4c92701f62ef30f81f1",
+    "sim_11_scene_A2_bw100.csv": "6348972ba9c309cea25608b58edf13633f7c390d505bfcaa6e1f6eb25501f13f",
+    "sim_11_scene_A2_bw20.csv": "10dc1c548cd789e1c5379f35f3d65a3b0cc8e0d15d1ed360355857b20098a032",
+    "sim_11_scene_A2_bw20_bdf.csv": "59a0eeeab2ea3511c77e61af4a3eb3b7e09a4b1250c70a77ae79a8be9594c2cc",
+    "sim_11_scene_A2_bw20_m2.csv": "9bdd9b2ae0dc27ac62e10e95399f05ae69227e1ff8b7acad75aeba2d0a776fc8",
+    "sim_11_scene_A2_bw20_m4.csv": "bbef2d149319f3d63c15fe2cd2e87742dabec62bb62cbf9de529a186a5df088e",
+    "sim_11_scene_A2_bw20_m5.csv": "ebebd4edc8e9c1558b6edd59284bb6b8a0b2e68d6f34ea97dc157cbf35420960",
+    "sim_11_scene_A2_bw5.csv": "36eb560927ab0ded3b88b50a3981105ffb1d644c5ee4b5e2c1ed6166bddeb81b",
+    "sim_11_scene_A2_bw50.csv": "65950c8c6b0a2ff4d609dc0278c70ec90e289da92a888e77a5210be866f34b77",
+    "sim_11_scene_A2_conv_m3.csv": "5bd0457661df8fc9af2ae6d3d120d6577b35bdf4dce012581ceeda68f6267059",
+    "sim_11_scene_A2_m2.csv": "333c61a3c00c2787d0cc1981fbe7e5ba25a1eeaf4ac94c553c24df3bb1343252",
+    "sim_11_scene_A2_m4.csv": "a0c88092c8f3328b33e379a1b0b072c46e9e792b4b29ece34cb70b55206d0479",
+    "sim_11_scene_A2_m5.csv": "dda18f57357f88b9442f79a21005bd0e0b14a5aa52225aadc64d1474b0e6afc4",
+    "sim_11_scene_A2_m7.csv": "b21af185e105b164fc1cb79b4475a08d463e422eb2663590c3c84130a3fdb94c",
+    "sim_11_scene_A2_rtol8.csv": "7f12efbfef6903f2e9f5b9a49c9faa55fe21c0156a7a026c2e638185a3337e07",
+    "sim_11_scene_A2_summary.json": "7e97deb26e7d309909a4dd6a41363d2eb96e49a231e9cd03a6eb105a519b69b8",
+    "sim_11_scene_A2_summary_bdf.json": "6a5b412075f906bb5f5f7f156d27c9b69fe8b2dfa5a7b866c24a076dda9f3cb9",
+    "sim_11_scene_A2_summary_bw10.json": "c6fae8f2cfdbce6a2b5bf0eb3a321aa2e51a5c83f68beebb46e718e6b0bf8b8d",
+    "sim_11_scene_A2_summary_bw100.json": "b95245a74675bcd4463f9de28e1bd44712ebeb66e031bf4f1dffa92c8a4a168a",
+    "sim_11_scene_A2_summary_bw20.json": "2dbf8aea4267a739452c0cd143a14de5e61993e38d138dd6e913a5281f7623d6",
+    "sim_11_scene_A2_summary_bw20_bdf.json": "1e3bebba81e42a3a1936bc0fda34801cf42e8a637e82c1c2aac6e0b8d9c68cf2",
+    "sim_11_scene_A2_summary_bw20_m2.json": "4376bf583c3260a3d56c2297a1f330145a50fb346c1fa7fce23d970e52deedcd",
+    "sim_11_scene_A2_summary_bw20_m4.json": "b4fec2acd959f0ed85dc6634ff58a6eefd77b4a2437338cb75cd4813795518f4",
+    "sim_11_scene_A2_summary_bw20_m5.json": "f4d7c94c70589fd1ad5f6ef3e8d2187d80388b000ea0a0e2abe110eb53337a02",
+    "sim_11_scene_A2_summary_bw5.json": "92ec3b4ab1c3cef3d39edc87847298a58d9cfe08a4a72ccdc897d20833f91861",
+    "sim_11_scene_A2_summary_bw50.json": "e52a2e8e5afe27ac8609358a3576f963164029038bd9a55aa646c3763938d0d5",
+    "sim_11_scene_A2_summary_conv_m3.json": "ba9964cecf9f1e2da3efcdc3a6ca71602620cabdaf1f39a8278835f27317ad68",
+    "sim_11_scene_A2_summary_m2.json": "a66a467154d1ad8bfdb7f3000d438725a446fc3db41267cfd14de570eaecd78a",
+    "sim_11_scene_A2_summary_m4.json": "27729ceb263e47a1df4656c735cb86734e551d5368d87d032d831568cf2b5461",
+    "sim_11_scene_A2_summary_m5.json": "10c4133dc86b7e9eca033cd567a7437eaec6713024134690ab9d6da682391659",
+    "sim_11_scene_A2_summary_m7.json": "e4714a43de8b9d87e99f0dd3ff4498bf7f7f72a6025094113740b22c896fdf6b",
+    "sim_11_scene_A2_summary_rtol8.json": "44fc11f149761155fb36c5b58a35fa3851127d7dd3e5d0456f87a2d539c4cf89",
+    "sim_11_scene_A2_summary_undamped.json": "38e34e46cb950802cdef97667d9a34b94b4e2db65104cdbb314eb0e08bef3c83",
+    "sim_11_scene_A2_undamped.csv": "8db52d73c8c868f8fe8194c400a8acba3c3ebdeeb67d288ab4d901f19674301b",
+    "sim_11_tests_22of22.log": "7721e81a5cf120d5917cba847b0fad3f53eaf82371696447ec4a8be81dab55e7"
+  }
+}

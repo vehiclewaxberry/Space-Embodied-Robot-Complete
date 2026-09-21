@@ -1,0 +1,120 @@
+{
+  "run": "r01_deck_fastening_20260917",
+  "candidate_version": "V2",
+  "ticket": "R01_DECK_ANGLE_FASTENER_MINIMUM_PROPOSAL_R1",
+  "scope_authorized": "digital_geometry / nominal_digital_assembly 子项；父票不关闭；R07 不自动关闭",
+  "builder": "WP03 R01 唯一构建者（CAD 重任务，串行）",
+  "date": "2026-09-17",
+  "v1_fail_history_preserved": {
+    "review_run": "runs/r01_deck_fastening_20260917_review/（提交 9c5e6276）",
+    "review_verdict": "FAIL（对候选 V1）",
+    "defect": "全部 16 件 angle_web_fastener 头侧垫圈承压面嵌入剪力腹板 0.5mm，布尔交集 9.597566 mm3/件；acc4 腹板件承压面到杆尖 9.5mm≠名义 10mm；acc5 采样口径对垫圈环形承压区有盲区（假阴性）",
+    "v1_artifacts_preserved": [
+      "evidence/acc5_builder_self_check.json",
+      "evidence/acc3_acc4_bearing_notch_stack.json",
+      "evidence/r01_bom_mass_delta.json",
+      "exports/v1_superseded/（16 件 V1 缺陷 STEP + 边车）",
+      "ACCEPTANCE_SUMMARY.json（V1 汇总）"
+    ],
+    "note": "V1 FAIL 历史与审阅裁决原样保留引用，未被 V2 任何文件覆盖或改写"
+  },
+  "v2_fix": {
+    "change": "spacecraft_model.py deck_fastening_parts 腹板紧固件行两常数：头侧垫圈 side*102.9->103.4、头 side*104.65->105.15（沿 +side 外移 0.5mm）；杆/螺母侧垫圈/螺母不动",
+    "linked_parts": ["head_side_washer", "head"],
+    "unchanged": "甲板紧固件、孔系、角材、腹板、甲板几何、design_parameters.json",
+    "source_sha256_v1": "eb40ff8019e57cf31730856775bb57dad9e93fa545e23866fc1a30c3cc05e788",
+    "source_sha256_v2": "c48c43aebe4f3fc5d456e6f91a067871124efbafa1fe56b0c0884fac1d467c4b",
+    "parameters_sha256_unchanged": "15c2a9673be08d97ef9e4a269841b3f89118e9ffa7e501db3e840e61c9ba104e",
+    "export_compare": "exports/EXPORT_MANIFEST_V2.json：几何指纹对照 16 件腹板紧固件变化、其余 28 件完全一致（V1 重建保真度经 v1_superseded 备份 16/16 校验）"
+  },
+  "acceptance_items": [
+    {
+      "item": 1,
+      "requirement": "最终 BRep/STEP 读回两甲板共 16 个所需闭孔，原四处破边被消除",
+      "status_v2": "PASS（沿用 V1 证据：甲板几何指纹与 V1 完全一致，EXPORT_MANIFEST_V2 证明）",
+      "evidence": "evidence/acc1_deck_closed_holes.json, exports/EXPORT_MANIFEST_V2.json",
+      "key_numbers": {"closed_holes": "16/16", "min_hole_to_column_notch_mm": 9.8, "min_hole_to_deck_outer_edge_mm": 3.8, "old_pattern_residual_faces": 0}
+    },
+    {
+      "item": 2,
+      "requirement": "两层连接的基准、孔轴、方向、单位、实际夹层与配对一致",
+      "status_v2": "PASS（沿用 V1 证据：12 结构件几何指纹与 V1 完全一致）",
+      "evidence": "evidence/acc2_connection_consistency.json, evidence/r01_dual_hole_pairs_32.json/.csv, exports/EXPORT_MANIFEST_V2.json",
+      "key_numbers": {"groups": "32/32", "coaxial_deviation_mm": 0.0, "parallelism_deviation": 0.0, "deck_angle_stackup_mm": "3.0+3.0=6.0", "angle_web_stackup_mm": "3.0+2.0=5.0"}
+    },
+    {
+      "item": 3,
+      "requirement": "头、垫、螺母/螺纹承压区完整，柱避口保留；名义几何余量与结构许用边距分别记录",
+      "status_v2": "PASS（结构许用边距 UNKNOWN 显式保留）；V1 垫圈嵌入缺陷已闭环",
+      "evidence": "evidence/acc3_acc4_bearing_notch_stack_v2.json",
+      "key_numbers": {
+        "washer_web_common_volume_mm3_16件_max": 0.0,
+        "v1_common_volume_recomputed_mm3": 9.597565556717031,
+        "fastener_envelopes_complete": "32/32",
+        "column_notches_preserved": "两甲板各 12 壁、开口侧无封闭、深 12.5mm",
+        "nominal_margins_mm": "3.8（角材Y边/甲板外边）/ 9.8（柱避口）",
+        "structural_allowable_edge_margin": "UNKNOWN（须绑定材料/载荷）"
+      }
+    },
+    {
+      "item": 4,
+      "requirement": "装配用标准件长度、有效啮合和防脱意图可审查；材料/等级/预紧/防松未定项保留 UNKNOWN",
+      "status_v2": "PASS_WITH_UNKNOWNS_PRESERVED",
+      "evidence": "evidence/acc3_acc4_bearing_notch_stack_v2.json, evidence/r01_fastener_stacks_32.json/.csv",
+      "key_numbers": {
+        "bearing_face_to_shank_tip_web_mm": "10.0 = 名义 10（V1 为 9.5，审阅反例闭环）",
+        "bearing_face_to_shank_tip_deck_mm": "12.0 = 名义 12",
+        "tip_match": "32/32",
+        "material_grade": "UNKNOWN", "effective_thread_engagement": "UNKNOWN",
+        "preload": "UNKNOWN", "locking": "UNKNOWN", "unknown_zero_fill": false
+      }
+    },
+    {
+      "item": 5,
+      "requirement": "紧固件、邻近设备、立柱、侧盖及工具进入/退出均纳入具名检查集合",
+      "status_v2": "PASS_BUILDER_SELF_CHECK（V2 布尔交集口径已固化进 scripts/s06_acc5_paths.py 第 1b 节，封闭 V1 采样盲区）",
+      "evidence": "evidence/acc5_builder_self_check_v2.json",
+      "key_numbers": {
+        "named_check_set_size": 108,
+        "boolean_common_entries": 32,
+        "boolean_common_max_mm3": 0.0,
+        "violations": 0,
+        "penetration_sample_hits": 0,
+        "fastener_pairwise_min_distance_mm": 4.545797,
+        "sequence_constraints_recorded": 46
+      }
+    },
+    {
+      "item": 6,
+      "requirement": "独立读回能检出旧破边、一个缺对偶/错轴线、一个垫圈或工具冲突；新候选没有新增相关未处置干涉",
+      "status_v2": "NOT_RUN（独立复验属审阅者；本轮 builder 已按审阅反例将布尔交集口径固化进自检脚本，供审阅者复用）",
+      "evidence": "scripts/s06_acc5_paths.py（1b 节）",
+      "note": "V1 独立复验（9c5e6276）成功检出垫圈冲突一次；V2 候选侧布尔交集 32 件全 0，无新增未处置干涉"
+    },
+    {
+      "item": 7,
+      "requirement": "新几何、局部图纸、BOM 和质量变动同源；R07 不自动关闭",
+      "status_v2": "PARTIAL：同源 PASS；局部尺寸图 NOT_RUN；整星全装重建/BOM.csv 重导出 NOT_RUN；R07 未触碰",
+      "evidence": "evidence/r01_bom_mass_delta_v2_compare.json, logs/s08_build_smoke_log_v2.json, PATCH_NOTES.md",
+      "key_numbers": {
+        "single_source": "design_parameters.json deck_fastening_r01（V2 未变）+ spacecraft_model.deck_fastening_parts（V2 单行两常数）",
+        "mass_delta_kg_AL_candidate": -0.0031447701211326394,
+        "structural_delta_identical_to_v1": true,
+        "web_fastener_envelope_delta_each_mm3": 3.534292,
+        "drawings": "NOT_RUN",
+        "full_assembly_rebuild": "NOT_RUN（烟测 V2 通过，results 回执逐字节恢复）",
+        "issues_json_modified": false,
+        "R07_status_touched": false
+      }
+    }
+  ],
+  "whole_design_complete": false,
+  "manufacturing_release": false,
+  "not_run_register": [
+    "验收6 独立复验（审阅者）",
+    "验收3 局部尺寸图（图纸部分）",
+    "整星 361 实例全装重建与正式 BOM/STEP 重导出",
+    "材料/载荷/有效啮合/预紧/防松/结构许用边距评定（保持 UNKNOWN）"
+  ],
+  "fail_policy": "FAIL 不被 PASS 覆盖：V1 FAIL（9c5e6276）历史与物证原样保留；V2 无 FAIL 项；UNKNOWN 全部显式保留"
+}

@@ -1,0 +1,223 @@
+schema_version: comp-prot-03-digital-body-claim-evidence-v0.1
+ledger_id: digital_body_method_claim_evidence_ledger_v0_1
+phase: COMP-PROT-03-A3-G0-DIGITAL-BODY-METHOD
+created_on: "2026-07-23"
+status: METHOD_CLAIMS_BOUND_CANDIDATE_EVIDENCE_PARTIAL
+
+authority:
+  scientific_gate: false
+  implementation_authority: false
+  may_override_a2_blocker_ledger: false
+  may_override_cad_skeleton_g0: false
+
+evidence_records:
+  - evidence_id: method_document
+    path: digital_body_construction_method.md
+    sha256: aabd23f5aa2a074560682ebbceca5faa6e162f34a849e13cf6280b325c776a61
+    role: METHOD_DEFINITION
+  - evidence_id: method_contract
+    path: digital_body_method_contract.yaml
+    sha256: 5b903426d704dbd6c9497b46db2058acdcf82b0230b9e2a03fa09eccb19a2aa4
+    role: MACHINE_READABLE_METHOD_CONTRACT
+  - evidence_id: instance_schema
+    path: digital_body_record.schema.json
+    sha256: eb221afbe65b59642f01ffa01e2566c4470c31a85ee64636c0c3199630cfbbae
+    role: STRUCTURAL_CONTRACT
+  - evidence_id: candidate_instance
+    path: candidate_12u_b601_digital_body_v0_1.yaml
+    sha256: 7eb0f299a273255f3ddcfe19389d4fccdeefe2537be508d96ee63e60c305375d
+    role: METHOD_INSTANCE
+  - evidence_id: a2_mechanical_standard
+    path: ../comp_prot_03_a2_candidate_model_review/mechanical_configuration_design_standard.md
+    sha256: 61fb5695f9f3e03788a5a3e226c344217b10c5cbe121e15c2161aeab52f3242e
+    role: A2_DESIGN_CONTRACT
+  - evidence_id: a2_candidate_configuration
+    path: ../comp_prot_03_a2_candidate_model_review/candidate_configuration_v0.yaml
+    sha256: a055fb70c7e39047a84381c22bafed61a63932c334e81986a7b14599dce0a820
+    role: A2_CANDIDATE_RECORD
+  - evidence_id: a2_digital_skeleton
+    path: ../comp_prot_03_a2_candidate_model_review/digital_skeleton_model_v0.yaml
+    sha256: 5d0f87aaabc00e43466873d67213455f75c568521eb5acaa84dbeed6d3d7248d
+    role: A2_LOGICAL_SKELETON
+  - evidence_id: a2_db_blocker_ledger
+    path: ../comp_prot_03_a2_candidate_model_review/db_blocker_resolution_ledger.yaml
+    sha256: c71308c2b5d3cab5ebb93d2340771eb7bcddb4b9e4654c316bff5bfd1a40e7b8
+    role: A2_BLOCKER_LEDGER
+  - evidence_id: a2_cad_entry_gate
+    path: ../comp_prot_03_a2_candidate_model_review/cad_entry_gate.md
+    sha256: f2846219a6bd0ca906f9b95636b707120d22ac158c960314705dc133e5b91353
+    role: A2_CAD_ENTRY_GATE
+
+claims:
+  - claim_id: DBM-CLM-001
+    statement: a_project_specific_four_layer_digital_body_method_is_defined
+    claim_type: METHOD_DEFINED
+    field_refs:
+      - digital_body_method_contract.definition.digital_body.required_layers
+    supported_by:
+      - method_document
+      - method_contract
+    allowed_wording: "已建立空间具身智能数字身体四层构建方法。"
+    forbidden_extension:
+      - method_is_scientifically_validated
+      - digital_mechanical_prototype_is_complete
+    limitations:
+      - method_contract_only
+
+  - claim_id: DBM-CLM-002
+    statement: digital_body_instances_require_geometry_physical_semantic_and_evidence_layers
+    claim_type: METHOD_DEFINED
+    field_refs:
+      - digital_body_record.schema.json#required
+    supported_by:
+      - instance_schema
+      - method_contract
+    allowed_wording: "数字身体实例必须同时包含几何、物理、任务语义和证据链。"
+    forbidden_extension:
+      - schema_pass_implies_physical_correctness
+    limitations:
+      - structural_validation_only
+
+  - claim_id: DBM-CLM-003
+    statement: candidate_12u_b601_has_a_partial_four_layer_instance_with_explicit_unknowns
+    claim_type: METHOD_DEFINED
+    field_refs:
+      - candidate_instance.status
+      - candidate_instance.unknown_register
+    supported_by:
+      - candidate_instance
+      - instance_schema
+    allowed_wording: "12U+B601 候选已形成保留未知量的四层文档级实例。"
+    forbidden_extension:
+      - candidate_instance_is_review_ready_for_cad
+      - candidate_instance_is_runtime_model
+    limitations:
+      - partial_with_explicit_unknowns
+
+  - claim_id: DBM-CLM-004
+    statement: A_CENTERLINE_TASK_FACE_SINGLE_ARM_is_the_single_primary_candidate
+    claim_type: DESIGN_BOUND
+    field_refs:
+      - candidate_instance.identity.selected_topology
+    supported_by:
+      - a2_mechanical_standard
+      - a2_candidate_configuration
+      - candidate_instance
+    allowed_wording: "A 构型是为减少证据漂移而选择的唯一主候选。"
+    forbidden_extension:
+      - optimal_configuration
+      - lower_reaction_torque
+      - reachable_or_collision_free
+    limitations:
+      - selection_is_not_performance_proof
+
+  - claim_id: DBM-CLM-005
+    statement: A2_logical_skeleton_contains_30_nodes_32_edges_and_21_transform_references
+    claim_type: DESIGN_BOUND
+    field_refs:
+      - a2_digital_skeleton.nodes
+      - a2_digital_skeleton.edges
+      - a2_digital_skeleton.transform_reference_registry
+    supported_by:
+      - a2_digital_skeleton
+    allowed_wording: "A2 逻辑骨架包含 30 个节点、32 条边和 21 个已登记变换引用。"
+    forbidden_extension:
+      - integrated_cad_exists
+      - integrated_urdf_exists
+    limitations:
+      - logical_skeleton_only
+
+  - claim_id: DBM-CLM-006
+    statement: accepted_B601_representation_contains_10_links_and_9_joints
+    claim_type: DESIGN_BOUND
+    field_refs:
+      - a2_digital_skeleton.joint_registry
+      - candidate_instance.geometry_layer.entities.arm_b601_v1
+    supported_by:
+      - a2_digital_skeleton
+      - candidate_instance
+    allowed_wording: "候选沿用 accepted B601 的 10-link、9-joint 表示。"
+    forbidden_extension:
+      - free_floating_performance_verified
+      - physical_hardware_mass_verified
+    limitations:
+      - accepted_digital_representation_only
+
+  - claim_id: DBM-CLM-007
+    statement: candidate_design_ledger_total_is_29_8955559493429862_kg
+    claim_type: PROVISIONAL_VALUE
+    field_refs:
+      - candidate_instance.physical_layer.properties.candidate_total_mass_kg
+    supported_by:
+      - a2_candidate_configuration
+      - a2_digital_skeleton
+      - a2_db_blocker_ledger
+      - candidate_instance
+    allowed_wording: "当前候选的暂定设计账本总和为 29.8955559493429862 kg。"
+    forbidden_extension:
+      - final_system_mass
+      - measured_mass
+      - aggregate_com_or_inertia_verified
+    limitations:
+      - PROVISIONAL_DESIGN_LEDGER_TOTAL
+      - mass_owner_signoff_pending
+
+  - claim_id: DBM-CLM-008
+    statement: task_semantics_distinguish_candidate_patch_keepout_virtual_tool_and_physical_tcp
+    claim_type: DESIGN_BOUND
+    field_refs:
+      - candidate_instance.semantic_layer.features
+    supported_by:
+      - a2_candidate_configuration
+      - a2_digital_skeleton
+      - a2_db_blocker_ledger
+      - candidate_instance
+    allowed_wording: "任务语义已经区分候选抓取特征、禁入区、虚拟工具 Frame 和未闭合物理 TCP。"
+    forbidden_extension:
+      - qualified_grasp_interface
+      - contact_physics_verified
+      - safe_capture_implemented
+    limitations:
+      - interface_1_open
+      - interface_2_deferred
+
+  - claim_id: DBM-CLM-009
+    statement: all_15_DB_blockers_are_addressed_but_not_all_evidence_closed
+    claim_type: DESIGN_BOUND
+    field_refs:
+      - a2_db_blocker_ledger.summary
+    supported_by:
+      - a2_db_blocker_ledger
+    allowed_wording: "15 项 DB blocker 已全部进入账本，但只有 1 项达到当前项目证据关闭口径。"
+    forbidden_extension:
+      - all_15_DB_blockers_closed
+      - CAD_entry_ready
+    limitations:
+      - six_design_state_open_blocking
+      - fourteen_open_or_limited_at_project_evidence_level
+
+  - claim_id: DBM-CLM-010
+    statement: CAD_entry_remains_blocked_and_A3_is_not_authorized
+    claim_type: NOT_EVALUATED
+    field_refs:
+      - candidate_instance.consumer_readiness.CAD_SKELETON
+    supported_by:
+      - a2_cad_entry_gate
+      - a2_db_blocker_ledger
+      - candidate_instance
+    allowed_wording: "CAD-SKELETON-G0 仍为 CAD_ENTRY_BLOCKED_BY_EVIDENCE，A3 未授权。"
+    forbidden_extension:
+      - method_packet_automatically_authorizes_CAD
+      - CAD_acceptance_evaluated
+    limitations:
+      - separate_human_A3_authorization_required
+
+summary:
+  claim_denominator: 10
+  method_defined_claims: 3
+  design_bound_claims: 5
+  provisional_value_claims: 1
+  not_evaluated_or_blocked_claims: 1
+  scientific_claims_created: 0
+  cad_entry_verdict: CAD_ENTRY_BLOCKED_BY_EVIDENCE
+  a3_authorized: false

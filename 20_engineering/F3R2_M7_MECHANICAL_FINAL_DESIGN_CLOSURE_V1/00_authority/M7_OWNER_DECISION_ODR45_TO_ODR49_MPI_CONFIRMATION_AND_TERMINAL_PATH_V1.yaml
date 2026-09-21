@@ -1,0 +1,406 @@
+schema: M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1
+generated_local: '2026-08-23T20:37:08+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+generator: KIMI M7 机械终局接管 swarm Wave-4a (ODR-45..49 owner decisions + R2 full-flex closure) — AGENT-A1 OWNER_DECISION_REGISTER_RECORD
+class: OWNER_DECISION_REGISTER_ENTRY
+extends: M7_OWNER_DECISION_ODR35_TO_ODR41_B601_HARNESS_RATED_ENVELOPE_V1.yaml
+extends_sha256: 7655FA44BA4CD2B0369184100A18DF1001B8C40CC6B4D9731D4E4ACEE9D6433E
+authority: OWNER_DIRECTIVE_20260823_MPI_CONFIRMATION_AND_TERMINAL_PATH
+review_status: RECORDED_AS_DIRECTED
+next_stage_authorized: false
+release_credit: false
+
+numbering_note: >-
+  ODR-45..ODR-49 由本文件登记分配。登记链现状：M7_OWNER_DECISION_REGISTER_V1.yaml 承载
+  ODR-01..ODR-06；addendum 文件依次承载 ODR-18、ODR-19、ODR-20..ODR-26、ODR-27..ODR-34、
+  ODR-35..ODR-41；ODR-07..ODR-17 在工作包/合同文件中被消费引用。ODR-42 保持为申请编号
+  （ecr_b601_harness_rated_envelope/08_route_c/ROUTE_C_OWNER_DECISION_REQUEST_ODR42_V1.yaml，
+  record_type=APPROVAL_REQUEST_NOT_AUTHORIZATION_RECORD），由 ODR-44 裁决关闭，不占决定编号位。
+  ODR-43/ODR-44（round1_bridge/00_authority/ODR43_ODR44_OWNER_AUTHORIZATION_RECORD_V1.yaml）
+  经本文件 ODR-45 正式并入登记链，原候选文件不改一字。本登记不擅自重排任何编号；任何编号
+  调整必须走显式 Owner/ECR 动作，禁止静默重号。
+
+standing_prohibitions_carried_unchanged:
+  - no_flight_or_launcher_or_manufacturing_release_claims
+  - no_zero_fill_of_unknowns
+  - no_cad_mass_override_of_accepted_urdf_masses
+  - no_typical_property_as_design_allowable_for_flight_margin
+  - memory_gate_6gib_remains_failed
+  - no_file_exists_then_pass
+  - no_null_coerced_to_zero
+  - no_PROVISIONAL_as_authority
+  - no_frame_averaging
+  - no_silent_reuse_of_legacy_24kg_mass_model_or_Solar_R1_flex_model
+  - no_renaming_of_Route_B_negative_results
+
+decisions:
+
+  - id: ODR-45
+    subject: MPI_BRIDGE_OWNER_CONFIRMATION
+    ruling: >-
+      FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION 升级为 CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE。
+      WP11 保持物理安装权威；ODR-01 T_SM 保持动力学参考权威；B = T_PHYSICAL_TO_DYNAMICS
+      为唯一显式桥；全部 mass/CG/inertia/wrench/collision-geometry 传递只能经 B；禁止混用、
+      禁止平均、禁止选择性消费；桥继续由冻结 frame 定义解析生成（Trans(z,+0.02275 m)·
+      Rot(z,+25.000014°) 为解析闭式，永不被重打为第二权威）；e21 29.04197°/29.41086°
+      保留为历史诊断，此后只消费桥接后的单一结果。本决定同时正式将 ODR-43/ODR-44 并入登记链，
+      并 Owner 确认工程裁决 ENG-RULING-DYN-MASS-ALLOC-MC-A-V1。
+    ruling_verbatim: >-
+      CONFIRM MPI bridge. Upgrade FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION to
+      CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE. WP11 remains physical-installation authority.
+      ODR-01 T_SM remains dynamics-frame authority. All mass/CG/inertia/wrench/geometry
+      transfers shall use the single explicit physical→dynamics bridge. No mixing,
+      averaging or selective consumption is permitted.
+    structured_decomposition:
+      note: 结构化分解仅为登记索引，与逐字文本冲突时以逐字文本为准。
+      bridge_status_upgrade:
+        from: FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION
+        from_frozen_file_status_field_literal: FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION_AND_MPI_FB08_GATE
+        to: CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE
+        mechanics: >-
+          升级发生在登记层：冻结桥文件 B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml 自身不改一字；
+          MPI_FB08 门肢体已落地（MPI_BRIDGE_GATE_V1.json：mpi_gate=PASS，21/21 判据 PASS，
+          review_status=PENDING_OWNER_REVIEW）；本 Owner 决定解除 Owner 确认肢体。自此有效权威
+          状态 = CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE。
+      frame_authorities:
+        - frame: WP11 physical installation context
+          role: PHYSICAL_INSTALLATION_AUTHORITY
+        - frame: ODR-01 T_SM
+          role: DYNAMICS_REFERENCE_AUTHORITY
+      unique_bridge:
+        id: T_PHYSICAL_TO_DYNAMICS
+        closed_form: B = Trans(z_A0, +0.02275 m) . Rot(z_A0, +25.000014 deg)
+        generation_rule: >-
+          桥继续由冻结 frame 定义（e21 authority contract 的 ODR01_DYNAMICS_T_SM 与
+          WP11_PHYSICAL_GEOMETRY_CONTEXT 放置假设，hash-pinned 矩阵）解析生成；
+          Trans(z,+0.02275 m)·Rot(z,+25.000014°) 是解析结果闭式，永不被重打为第二权威来源。
+        channel_rule: >-
+          mass/CG/inertia/wrench/collision-geometry 从物理安装系进入动力学系只能经此唯一显式桥 B。
+        prohibitions: [no_mixing, no_averaging, no_selective_consumption]
+      e21_historical_diagnostics:
+        odr01_dynamics_t_sm_peak_base_attitude_deviation_deg: 29.041965867604112
+        wp11_physical_geometry_context_peak_base_attitude_deviation_deg: 29.41085537835705
+        disposition: >-
+          保留为历史诊断（historical diagnostics），不作当前消费值；此后只消费桥接后的单一结果。
+      odr43_odr44_formal_incorporation:
+        incorporated_record: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/00_authority/ODR43_ODR44_OWNER_AUTHORIZATION_RECORD_V1.yaml
+        incorporated_record_sha256: B695311B2885AEC601C336FFA4E1695BCAB063F725AD12133BA771F8BD25D06D
+        effect: >-
+          ODR-43/ODR-44 自本决定起为登记链受控条目（不再是 addendum candidate）；
+          原候选记录文件不改一字。
+      mc_a_owner_confirmation:
+        ruling_id: ENG-RULING-DYN-MASS-ALLOC-MC-A-V1
+        ruling_file: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/decisions/ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.yaml
+        ruling_file_sha256: 9CCE829E1581B190C6FC50BAE56C47659C61319052268E7C9DFD25FAC8B8C9E4
+        effect: >-
+          工程级裁决升级为 Owner 确认；dynamic_mass_allocation_frozen 保持；逆转仍走 ECR 或
+          Owner 显式动作（RC-1..RC-4 逆转条件逐字保持）。
+    closes:
+      - ODR43_ODR44_ADDENDUM_FORMAL_INCORPORATION
+      - OI-R1-06_OWNER_CONFIRMATION
+      - MPI_BRIDGE_OWNER_CONFIRMATION
+    does_not_close:
+      - GAP-12 24 kg 整星预算重分配（保持 OPEN）
+      - r2_full_flexible_coupling（保持 NOT_EVALUATED）
+      - e15 REPEAT_ANCF_CERTIFICATION（逐字保持，本决定不授权重认证运行）
+    does_not_grant:
+      - 任何 release/production/manufacturing/qualification/launcher/flight 权威
+      - Route-C CAD 候选生成（仍受 ODR-46 准入裁决门约束）
+
+  - id: ODR-46
+    subject: ROUTE_C_RFI_AND_FREEZE
+    ruling: >-
+      按 route_c_prep/ROUTE_C_RFI_GAP_MEMO_V1.md §3.1–3.3 已定界范围发出 RFI-E/RFI-F/RFI-G
+      （非约束性 RFI，可在授权范围内索取样件）。ROUTE_C = FROZEN_PENDING_PHYSICAL_AUTHORITY；
+      13 个物理能力字段任一为 null 即禁止 Route-C CAD；证据白名单与禁用类明确；有可溯源
+      来源时字段可 null→CANDIDATE_RANGE 升级，无源保持显式 null；Route-C CAD 解禁要求
+      MPI PASS + C2-01 物理注册表齐备；准入裁决门 = ROUTE_C_C2_ADMISSION_GATE。
+    ruling_verbatim: >-
+      ISSUE RFI-E, RFI-F and RFI-G using the already prepared scoped RFI definitions.
+      Route-C remains FROZEN_PENDING_PHYSICAL_AUTHORITY. No Route-C CAD may be generated
+      while any required physical capability field remains null.
+    structured_decomposition:
+      note: 结构化分解仅为登记索引，与逐字文本冲突时以逐字文本为准。
+      rfi_issuance:
+        - id: RFI-E
+          scope_source: ROUTE_C_RFI_GAP_MEMO_V1.md §3.1
+          target: 微型电缆载体（mini cable-carrier / energy chain）
+          covers_fields: [P12 carrier_size_mm, P04 carrier_travel_mm]
+        - id: RFI-F
+          scope_source: ROUTE_C_RFI_GAP_MEMO_V1.md §3.2
+          target: 导向/衬垫材料对（guide/liner material pair）
+          covers_fields: [P10 guide_friction_candidate]
+        - id: RFI-G
+          scope_source: ROUTE_C_RFI_GAP_MEMO_V1.md §3.3
+          target: 夹具/固定硬件（clamp / fastening hardware）
+          covers_fields: [P13 clamp_spacing_mm, P05 夹具接口产品与设计规则输入]
+      freeze_state: ROUTE_C = FROZEN_PENDING_PHYSICAL_AUTHORITY
+      cad_prohibition_rule: >-
+        C2-01 注册表 13 个物理能力字段任一为 null，即禁止生成任何 Route-C CAD。
+      acceptable_evidence_classes:
+        - manufacturer datasheet
+        - vendor application note
+        - traceable catalogue data
+        - peer-reviewed or public engineering source
+        - existing project test evidence
+      forbidden_evidence_classes:
+        - LLM-guessed values
+        - generic web articles
+        - unsourced rules-of-thumb
+      field_upgrade_rule: >-
+        有可溯源来源时字段可 null→CANDIDATE_RANGE 升级；无来源保持显式 null，禁止压 0；
+        CANDIDATE_RANGE ≠ AVAILABLE，目录值永不自动成为项目选定件。
+      cad_unblock_requirements: [MPI PASS, C2-01 physical registry complete]
+      admission_gate:
+        id: ROUTE_C_C2_ADMISSION_GATE
+        logic: >-
+          bridge CONFIRMED AND RFI-E/F/G resolved AND 13/13 fields non-null AND all sources
+          traceable → ROUTE_C_CAD_AUTHORIZED = true；否则 ROUTE_C_CAD_AUTHORIZED = false。
+    closes: []
+    does_not_close:
+      - OI-R1-05 remains HIGH OPEN pending responses
+    does_not_grant:
+      - Route-C CAD 生成（RFI 发出不等于准入门通过）
+      - MPI-06/07 闭合（evidence_class_non_equivalence：RFI 响应永不单独闭合 MPI）
+
+  - id: ODR-47
+    subject: TOPOLOGY_NOMENCLATURE_FUNCTIONAL_RENAME
+    ruling: >-
+      解决 OI-R1-03。语义更正登记：M1/M2 是两个处置选项（M1 = 交接侧改名；M2 = 双命名空间
+      强制限定符），不是拓扑名；相冲突的拓扑标签是交接书 C-A/C-B/C-C 与仓库 RC-A..RC-D。
+      裁决：对两套标签集按 TOPOLOGY_<FUNCTION>_<ARCHITECTURE>_V1 模式赋功能规范名；交接书
+      C-*、仓库 RC-* 及 M1/M2 选项标签全部冻结为 LEGACY_ALIAS；生成
+      TOPOLOGY_ALIAS_REGISTER_V1.yaml（READ_ONLY_NO_API_LOOKUP）；历史不改写。
+    ruling_verbatim: >-
+      Do not choose opaque M1/M2 as final canonical names. Freeze M1 and M2 as LEGACY_ALIAS
+      only. Generate explicit functional canonical topology names and an alias register.
+    structured_decomposition:
+      note: 结构化分解仅为登记索引，与逐字文本冲突时以逐字文本为准。
+      semantic_correction:
+        M1_M2_are: >-
+          两个处置选项（M1 = handover rename 交接侧改名；M2 = dual namespace 双命名空间强制限定符）
+        M1_M2_are_not: topology names
+        colliding_label_sets:
+          handover: [C-A, C-B, C-C]
+          repo: [RC-A, RC-B, RC-C, RC-D]
+      canonical_naming_pattern: TOPOLOGY_<FUNCTION>_<ARCHITECTURE>_V1
+      canonical_names_minted: null
+      canonical_names_minted_note: >-
+        规范名在 TOPOLOGY_ALIAS_REGISTER_V1.yaml 生成动作中铸造；本登记不预造、不暗示任何具体名称。
+      legacy_alias_freeze: [handover C-*, repo RC-*, M1, M2]
+      alias_register:
+        file: TOPOLOGY_ALIAS_REGISTER_V1.yaml
+        generation: AUTHORIZED_BY_ODR47_PENDING_GENERATION
+        access_rule: READ_ONLY_NO_API_LOOKUP
+      common_prohibition_verbatim: >-
+        无论 M1/M2，均禁止把交接书 C-C 与仓库 RC-C 互相绑定证据、需求或就绪度；禁止借改名/限定符把任何 HOLD 量提升为 AVAILABLE。
+      history_policy: 历史文本不改写；两侧既有标签以 LEGACY_ALIAS 注记形式存续。
+    closes: [OI-R1-03]
+    does_not_grant:
+      - topology selection（CAD remains forbidden）
+      - 任何 HOLD 量升格（共同禁令逐字保持）
+
+  - id: ODR-48
+    subject: ROUTE_B_NEGATIVE_RESULT_TERMINAL_FREEZE
+    ruling: >-
+      冻结 ROUTE_B_FULL_RANGE_FIXED_EXTERNAL_HARNESS = REJECTED_BY_EXACT_KINEMATIC_SWEEP
+      为规范机器头条，锚定 V2 扫掠头条；V1 机器头条与圆整叙述保留为逐字历史引用（三套拼写
+      永不合并、永不取平均）；根因保留；Route-B 不重开、不迭代、不改判据；成为 Route-C
+      需求输入（必须克服 Route-B 失效模式）。
+    ruling_verbatim: >-
+      Freeze Route-B full-range fixed external harness as: REJECTED_BY_EXACT_KINEMATIC_SWEEP.
+      Preserve it as a documented negative result and a Route-C design requirement.
+      Do not reopen Route-B.
+    structured_decomposition:
+      note: 结构化分解仅为登记索引，与逐字文本冲突时以逐字文本为准。
+      canonical_machine_headline: ROUTE_B_FULL_RANGE_FIXED_EXTERNAL_HARNESS = REJECTED_BY_EXACT_KINEMATIC_SWEEP
+      anchor_v2_sweep_headline:
+        clearance_worst_mm: -11.9938
+        clearance_worst_state: SWEEP_joint2_09
+        clearance_worst_against: link3
+        min_bend_radius_mm: 0.1
+        min_bend_argmin: CORNER_110000:span_link5
+        pinch_worst_mm: -11.9902
+        pinch_worst_state: HARDSTOP_joint4_hi
+        pinch_worst_joint: joint5
+        source_file: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V2.json
+        source_file_sha256: DB86348B8276FB2DCEB48DA30D1969948B37AAC4DF6D67D7588D928CF8281FAE
+      historical_spellings_retained_verbatim_not_merged:
+        v1_machine_headline_mm: [-11.8667, 1.081, -11.3573]
+        rounded_narrative_mm: [-11.86, 2.26, -11.83]
+        discipline: >-
+          三套拒收数字拼写永不合并、永不取平均、永不互相替代；V2 机器头条为终拒锚点，
+          V1 头条与圆整叙述仅为逐字历史引用。
+      root_cause_preserved: >-
+        j2/j3 折叠包络消耗固定外置线束走廊；collision/bend/pinch 不能同时满足。
+      wording_discipline:
+        permitted_claim: 当前受测试的固定外置线束架构无法覆盖完整 accepted B601 hardware envelope。
+        forbidden_overclaim: 任何外部走线从数学上绝对不可能。
+      route_b_status: not_reopened / not_iterated / not_re_critered
+      route_c_requirement_input: >-
+        Route-C 设计必须克服 Route-B 失效模式（collision/bend/pinch 三重约束在完整
+        accepted 硬件包络上不可同时满足）。
+    closes: [OI-R1-04]
+    does_not_close:
+      - R2-HRN-04 FAIL_REDESIGN_REQUIRED（逐字保持）
+    does_not_grant:
+      - Route-B 重开或重判
+      - 将负结果泛化为全部外部拓扑的数学不可能性证明
+
+  - id: ODR-49
+    subject: SOLAR_R2_BUILD_REPORT_CM_REISSUE
+    ruling: >-
+      OI-R1-01 是 CM/manifest 缺陷，不是几何缺陷。授权
+      REISSUE_BUILD_REPORT_WITH_SELF_REFERENCE_EXCLUDED_HASHING；Solar R2
+      STEP/FCStd/geometry/mass model/harness/flex input 一律不改；重发报告必须证明
+      old payload digest == new payload digest（仅 self-reference 字段除外）；
+      OI-R1-01 在重发核验落入 CM 刷新后关闭。
+    ruling_verbatim: >-
+      Solar R2 self-hash DRIFT is a CM defect, not a geometry defect. Reissue the build
+      report using self-reference-excluded hashing. Do not modify Solar R2 geometry or
+      frozen assets.
+    structured_decomposition:
+      note: 结构化分解仅为登记索引，与逐字文本冲突时以逐字文本为准。
+      defect_classification: CM/manifest defect, not a geometry defect
+      authorized_action: REISSUE_BUILD_REPORT_WITH_SELF_REFERENCE_EXCLUDED_HASHING
+      frozen_unchanged: [Solar R2 STEP, Solar R2 FCStd, geometry, mass model, harness, flex input]
+      reissue_proof_requirement: >-
+        重发报告必须证明 old payload digest == new payload digest（仅 self-reference 字段除外）。
+      current_drift_record:
+        artifact: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_BUILD_REPORT_V1.json
+        artifact_sha256_recomputed: 6160C1D0970B7EA19075B4A83C988C16CA2F1AFCA782BCAD90A89B14F17E6586
+        self_recorded_hash: AFE4CA26A2CC7A1838DEF4FAD3E068DB1F364F4265A85903D9407D462711CEC9
+        state: >-
+          DRIFT 持续（自记录哈希不可复现；两个真实工件 STEP/FCStd 复算 PASS 结论不变）。
+      closure_condition: OI-R1-01 closes after the reissue verification lands in the CM refresh
+    closes:
+      - OI-R1-01 (conditional: after the reissue verification lands in the CM refresh)
+    does_not_grant:
+      - Solar R2 几何或任何冻结资产的修改
+      - 借重发动作改动 payload 任何非 self-reference 字段
+
+autonomous_next_actions:
+  - continue R2 Full-Flex closure
+  - build HF three-leaf/wing model
+  - derive 3-5 mode/wing ROM
+  - regress against 6.9726/39.3586/98.0042 Hz witnesses
+  - run Rigid vs Legacy-R1-Flex vs R2-Flex at 22kg/0.5dps and 150kg/3dps anchors
+  - propagate bounded EI/GJ/hinge/damping/latch uncertainties
+  - prepare MECH_DYNAMICS_INTERFACE_V6 + EMBODIED_MECHANICAL_CONTRACT_R3 for candidate rebinding
+  - no Route-C CAD until C2 admission gate passes
+  - preserve all external/flight/full-range harness gaps as explicit deferred HOLDs
+  - return only at Full-Flex Gate / Route-C C2 Admission Gate / Terminal Mechanical Release candidate
+
+terminal_release_policy:
+  structure: DUAL_LAYER
+  gate_a:
+    id: TERMINAL_MECHANICAL_RELEASE_GATE_A
+    wording: >-
+      MECHANICAL_ENGINEERING_DESIGN_RELEASED FOR_R2_OPERATIONAL_DIGITAL_TWIN_AND_EMBODIED_CONTROL
+      WITH_BOUNDED_OPERATIONAL_ENVELOPE
+    requires_all:
+      - bridge confirmed
+      - R2 mass/frame consistent
+      - Solar R2 frozen
+      - Gripper R1 closed
+      - mission harness envelope valid
+      - R2 full-flex closed
+      - MECH→Embodied gate PASS
+      - HIGH open items = 0
+  gate_b:
+    id: TERMINAL_MECHANICAL_RELEASE_GATE_B
+    wording: FULL_HARDWARE_RANGE_AND_FLIGHT_MECHANICAL_QUALIFICATION
+    status: FUTURE
+  scoped_release_rule: SCOPED_MECHANICAL_RELEASE permitted while FULL_JOINT_RANGE_HARNESS = HOLD
+  tmg_board_snapshot_owner_directed:
+    - {gate: TMG-1, name: Product, status: PASS}
+    - {gate: TMG-2, name: Mass, status: PASS_CONFIRMED}
+    - {gate: TMG-3, name: Mechanism, status: PASS}
+    - {gate: TMG-4, name: Harness, status: PARTIAL}
+    - {gate: TMG-5, name: Flexibility, status: ACTIVE}
+    - {gate: TMG-6, name: Mechanical-to-Embodied, status: CANDIDATE_REBIND_READY}
+    - {gate: TMG-7, name: Adversarial, status: PASS_WITH_CM_OPEN_ITEMS}
+
+verification_record:
+  recomputation_method: sha256 over raw bytes, full 64-hex, recomputed by this agent at emission (2026-08-23T20:37+08:00 host local)
+  pins:
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR35_TO_ODR41_B601_HARNESS_RATED_ENVELOPE_V1.yaml
+      sha256: 7655FA44BA4CD2B0369184100A18DF1001B8C40CC6B4D9731D4E4ACEE9D6433E
+      check: recomputed; matches ODR-43/44 record sha256_16 prefix 7655FA44BA4CD2B0
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+      sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+      check: recomputed; matches ODR-43/44 record sha256_16 prefix F5B1572C0CFCEC35
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/00_authority/ODR43_ODR44_OWNER_AUTHORIZATION_RECORD_V1.yaml
+      sha256: B695311B2885AEC601C336FFA4E1695BCAB063F725AD12133BA771F8BD25D06D
+      check: recomputed; matches OPEN_ITEMS_REFRESH_V1.csv RT2-F03 recorded value
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/decisions/ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.yaml
+      sha256: 9CCE829E1581B190C6FC50BAE56C47659C61319052268E7C9DFD25FAC8B8C9E4
+      check: recomputed; matches owner-cited pin (case-insensitive) and MPI manifests
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml
+      sha256: 0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C
+      check: recomputed; matches MPI_BRIDGE_GATE_V1.json bridge pin
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/MPI_BRIDGE_GATE_V1.json
+      sha256: 60911E3C88387E2ED53601F2B541649BF90D689C57C4E74225226AE6FD10C721
+      check: recomputed; matches OPEN_ITEMS_REFRESH_V1.csv RT2-F01 recorded value
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V2.json
+      sha256: DB86348B8276FB2DCEB48DA30D1969948B37AAC4DF6D67D7588D928CF8281FAE
+      check: recomputed; headline values re-extracted from JSON (clearance -11.9938 @SWEEP_joint2_09 vs link3; bend 0.1 @CORNER_110000:span_link5; pinch -11.9902 @HARDSTOP_joint4_hi joint5)
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_RFI_GAP_MEMO_V1.md
+      sha256: 771DC8FCC4E448BFD007951D4D623C6EBAAB7440730A94A635DABD06BD2CA74E
+      check: recomputed; RFI-E/F/G scoped definitions §3.1-3.3 carried by reference
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/TOPOLOGY_ID_MAPPING_PROPOSAL_V1.md
+      sha256: 42176DA851274B9DCD5378A9D8F780C782F6FD5F625462C483CDF8434288FC9D
+      check: recomputed; matches OPEN_ITEMS_REFRESH_V1.csv OI-R1-03 recorded value
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml
+      sha256: 6264A0A45F6A497787F3D96205CEF7799A19A225CD23CEA66D5AD31E335A3E8E
+      check: recomputed; 13/13 entries HOLD all-null verified by gate
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_BUILD_REPORT_V1.json
+      sha256: 6160C1D0970B7EA19075B4A83C988C16CA2F1AFCA782BCAD90A89B14F17E6586
+      check: recomputed; DRIFT vs self-recorded AFE4CA26A2CC7A1838DEF4FAD3E068DB1F364F4265A85903D9407D462711CEC9 confirmed (OI-R1-01)
+
+evidence_links:
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR35_TO_ODR41_B601_HARNESS_RATED_ENVELOPE_V1.yaml
+    sha256: 7655FA44BA4CD2B0369184100A18DF1001B8C40CC6B4D9731D4E4ACEE9D6433E
+    role: extends 模板与格式基准（ODR-35..41）
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+    role: 登记链根（ODR-01..ODR-06；ODR-01 T_SM 动力学参考权威源）
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/00_authority/ODR43_ODR44_OWNER_AUTHORIZATION_RECORD_V1.yaml
+    sha256: B695311B2885AEC601C336FFA4E1695BCAB063F725AD12133BA771F8BD25D06D
+    role: ODR-43/44 候选记录（经 ODR-45 正式并入；11 项 standing prohibitions 逐字来源）
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/decisions/ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.yaml
+    sha256: 9CCE829E1581B190C6FC50BAE56C47659C61319052268E7C9DFD25FAC8B8C9E4
+    role: MC-A 工程裁决（ODR-45 Owner 确认对象）
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml
+    sha256: 0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C
+    role: 唯一显式桥 B 冻结载体（ODR-45 确认对象；自身不改一字）
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/MPI_BRIDGE_GATE_V1.json
+    sha256: 60911E3C88387E2ED53601F2B541649BF90D689C57C4E74225226AE6FD10C721
+    role: MPI-FB08 门落地证据（mpi_gate=PASS，21/21）
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V2.json
+    sha256: DB86348B8276FB2DCEB48DA30D1969948B37AAC4DF6D67D7588D928CF8281FAE
+    role: Route-B 终拒锚点（ODR-48 头条来源）
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_RFI_GAP_MEMO_V1.md
+    sha256: 771DC8FCC4E448BFD007951D4D623C6EBAAB7440730A94A635DABD06BD2CA74E
+    role: RFI-E/F/G 已定界范围来源（ODR-46 §3.1-3.3）
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/TOPOLOGY_ID_MAPPING_PROPOSAL_V1.md
+    sha256: 42176DA851274B9DCD5378A9D8F780C782F6FD5F625462C483CDF8434288FC9D
+    role: 拓扑命名冲突与 M1/M2 选项提案（ODR-47 输入）
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml
+    sha256: 6264A0A45F6A497787F3D96205CEF7799A19A225CD23CEA66D5AD31E335A3E8E
+    role: C2-01 13 字段注册表骨架（ODR-46 准入门对象）
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_BUILD_REPORT_V1.json
+    sha256: 6160C1D0970B7EA19075B4A83C988C16CA2F1AFCA782BCAD90A89B14F17E6586
+    role: OI-R1-01 DRIFT 工件（ODR-49 重发对象；重发前原样冻结）
+
+nonclaims:
+  - 本登记不授予任何 release、production、manufacturing、qualification、launcher 或 flight 权威
+  - 本登记不关闭 Route-C（ROUTE_C 保持 FROZEN_PENDING_PHYSICAL_AUTHORITY；OI-R1-05 保持 HIGH OPEN）
+  - 本登记不重开 Route-B（REJECTED_BY_EXACT_KINEMATIC_SWEEP 终态冻结，不重开/不迭代/不改判据）
+  - 本登记不修改 Solar R2 几何或任何冻结资产（ODR-49 仅授权 CM 重发，不改 payload）
+  - e15 REPEAT_ANCF_CERTIFICATION 逐字保持；R2-HRN-04 FAIL_REDESIGN_REQUIRED 逐字保持
+  - candidate ≠ authority；test PASS ≠ gate PASS；PROVISIONAL 不静默升格；unknown 保持显式 null 不压 0
+  - 逐字文本的权威来源为 Owner 指令；结构化分解仅为登记索引，冲突时以逐字文本为准
+
+self_hash_policy: SELF_REFERENCE_EXCLUDED - this file carries no hash of itself; downstream consumers pin its sha256 after emission (same policy as e21/V5 manifests and 02_bridge)
+companion_human_readable: M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.md（同目录，人读版；与本文本冲突时以 YAML 结构化字段为准）

@@ -1,0 +1,24 @@
+{
+  "schema": "ROUTE_C_CAD_ENTRY_GATE_V1",
+  "generated_local": "2026-08-23T11:40:00+08:00",
+  "gate": "HOLD",
+  "verdict": "ROUTE_C_PARAMETRIC_CAD_ENTRY_NOT_AUTHORIZED",
+  "next_stage_authorized": false,
+  "criteria": [
+    {"id": "RC-CEG-01", "layer": "DETAILED_DESIGN_START", "name": "Owner detailed-design authorization", "state": "HOLD", "evidence": "ODR-42 request is PENDING"},
+    {"id": "RC-CEG-02", "layer": "DOWNSTREAM_RELEASE", "name": "Eight continuous mission trajectories released", "state": "HOLD", "evidence": "0/8 released; 8/8 UNKNOWN; required after C2 for C3/C4 release, not before CAD start"},
+    {"id": "RC-CEG-03", "layer": "DETAILED_DESIGN_START", "name": "Minimum product and interface inputs controlled", "state": "HOLD", "evidence": "bundle OD, applicable bend limit, conductor/connector definition, installation interfaces and life target unresolved"},
+    {"id": "RC-CEG-04", "layer": "DOWNSTREAM_RELEASE", "name": "Final mass properties and restoring-load evidence", "state": "HOLD", "evidence": "C5 output; Route-B 0.68406762184 kg is forbidden to inherit; not a prerequisite to C2 start"},
+    {"id": "RC-CEG-05", "layer": "DETAILED_DESIGN_START", "name": "Accepted URDF preserved", "state": "PASS", "evidence": "hash pinned and modification forbidden"},
+    {"id": "RC-CEG-06", "layer": "DETAILED_DESIGN_START", "name": "Solar R2 preserved", "state": "PASS", "evidence": "hash pinned and modification forbidden"},
+    {"id": "RC-CEG-07", "layer": "DETAILED_DESIGN_START", "name": "CAD brief and verification matrix prepared", "state": "PASS", "evidence": "authorization-front preparation only"},
+    {"id": "RC-CEG-08", "layer": "DOWNSTREAM_RELEASE", "name": "Abrasion TVAC life and post-install electrical verification plan", "state": "HOLD", "evidence": "C6 output; may be developed in parallel after C2 starts"}
+  ],
+  "detailed_design_start_blockers": ["RC-CEG-01", "RC-CEG-03"],
+  "parallel_and_downstream_release_blockers": ["RC-CEG-02", "RC-CEG-04", "RC-CEG-08"],
+  "gate_derivation": "CAD entry is the logical AND of DETAILED_DESIGN_START criteria only. Downstream criteria remain visible HOLDs but do not create a C2-before-C3/C5 cycle.",
+  "authorized_now": ["Owner decision review", "minimum product/interface data acquisition", "concept trade refinement", "verification planning"],
+  "prohibited_now": ["create or modify CAD/STEP/STL/GLB geometry", "modify accepted URDF", "modify Solar R2", "production dynamics", "physical-contact RL", "hardware motion"],
+  "cad_artifacts_created_by_this_package": 0,
+  "snapshot_status": "NOT_APPLICABLE__NO_GEOMETRY_CREATED_OR_MODIFIED"
+}

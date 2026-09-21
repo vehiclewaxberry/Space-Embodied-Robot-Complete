@@ -1,0 +1,131 @@
+schema: B51R1_AUTONOMOUS_ENGINEERING_CHARTER_V1
+effective_date: "2026-08-01"
+project: COMP-PROT-03-A4-B5.1R1-PHASE2
+status: STANDING_DELEGATION_CANDIDATE
+authority_basis: USER_REQUEST_FOR_AUTONOMOUS_LOOP_ENGINEERING_AND_MULTIAGENT_EXECUTION
+purpose: >
+  Eliminate repeated human approvals for reversible, isolated candidate engineering
+  while preserving fail-closed protection of authoritative baselines, hardware,
+  manufacturing, launch and flight claims.
+
+delegated_scope:
+  autonomous:
+    - read_parse_hash_and_audit
+    - regenerate_manifests_input_locks_and_receipts
+    - quarantine_stale_temporary_lockfiles_with_hash_receipt
+    - create_and_modify_files_only_under_B5_1R1_isolated_candidate_root
+    - visible_SolidWorks_sessions_with_unique_session_ids_and_single_purpose
+    - create_final_master_skeleton_candidate
+    - create_10_native_carriers
+    - create_6R_1fixed_2P_native_carrier_chain
+    - run_carrier_only_T005_A0_B0_C0
+    - attach_fine_geometry_by_link_visual_mount
+    - run_formal_T005_A_B_C
+    - generate_adapter_A_B_C_candidates_and_trade
+    - generate_G07_G08_HDRM_candidates
+    - execute_H10_rework_and_evidence
+    - create_top_integration_candidate
+    - execute_rigid_nominal_and_robust_clearance_candidates
+    - execute_preliminary_unit_load_and_modal_candidates
+    - generate_three_mass_ledgers
+    - generate_draft_mechanics_control_handoff
+    - generate_candidate_drawings_BOM_ICD_STEP_PDF
+  non_delegable:
+    - modify_or_overwrite_V2_2_B5_0_B5_1_or_Stage_A_protected_files
+    - modify_accepted_URDF_or_vendor_STEP
+    - change_accepted_topology_mass_or_inertia_authority
+    - delete_non_temporary_assets_outside_candidate_quarantine
+    - actuate_real_hardware_or_issue_robot_commands
+    - procure_components_or_release_purchase_orders
+    - publish_manufacturing_ready_launch_qualified_or_flight_ready_claims
+    - overwrite_negative_results_or_relax_final_acceptance_gates
+    - choose_a_final_launcher_or_deployer_without_authoritative_ICD
+    - sign_public_or_external_release
+
+autonomy_levels:
+  L0:
+    name: READ_ONLY_AUTONOMY
+    actions: [read, parse, inspect, hash, compare, report]
+    quorum: A0_PLUS_A6
+  L1:
+    name: REVERSIBLE_FILE_AUTONOMY
+    actions:
+      - create_candidate_text_machine_records
+      - refreeze_input_locks
+      - regenerate_manifest
+      - quarantine_stale_lockfiles
+    quorum: A0_PLUS_A6
+  L2:
+    name: ISOLATED_NATIVE_CAD_AUTONOMY
+    actions:
+      - bounded_visible_SolidWorks_launch
+      - create_save_close_cold_reopen_candidate_CAD
+      - incremental_joint_authoring
+    quorum: A0_PLUS_A2_PLUS_A6
+    red_team_veto: true
+  L3:
+    name: CANDIDATE_DESIGN_AUTONOMY
+    actions:
+      - adapter_trade
+      - stowage_mechanism_candidate
+      - harness_sensor_and_maintenance_candidate
+      - preliminary_structure_and_mass
+    quorum: THREE_OF_A1_A2_A3_A4_A5_PLUS_A6
+    red_team_veto: true
+  L4:
+    name: NON_DELEGABLE_AUTHORITY
+    actions: non_delegable
+    human_approval_required: true
+
+decision_quorum:
+  required_roles:
+    authority: A0
+    evidence: A6
+    red_team: A7
+  pass_rule: >
+    Required technical quorum approves, A0 confirms scope and hashes,
+    A6 confirms machine evidence, and A7 has no open Critical or High finding
+    scoped to the current Gate.
+  downstream_hold_rule: >
+    Findings outside the current Gate may be retained as named DEFERRED_HOLD
+    with explicit reactivation Gate; they may not be silently closed.
+  tie_rule: FAIL_CLOSED_SELECT_LOWER_RISK_BRANCH_OR_RETAIN_DUAL_BRANCH
+
+solidworks_session_pool:
+  standing_visible_launch_budget: 20
+  concurrent_processes_max: 1
+  each_launch_requires_unique_session_id: true
+  session_must_have_single_primary_goal: true
+  auto_continue_to_next_session: true
+  prerequisites_must_be_machine_verified: true
+  protected_files_open_mode: READ_ONLY
+  protected_files_save_permitted: false
+  hang_containment:
+    heartbeat_timeout_seconds: 30
+    responsiveness_probe_required: true
+    exact_pid_only: true
+    force_terminate_only_if_candidate_documents_are_identified: true
+    preserve_incident_receipt: true
+
+automatic_stop_conditions:
+  - protected_hash_changed
+  - accepted_URDF_or_vendor_STEP_write_attempt
+  - unresolved_external_reference
+  - multiple_SolidWorks_processes
+  - current_gate_critical_or_high_red_team_finding_open
+  - save_or_cold_reopen_failure
+  - joint_axis_sign_or_parent_child_conflict
+  - T005_B_or_T005_B0_failure
+  - attempt_to_use_cold_reopen_to_mask_sequential_reset_failure
+  - H10_row_closed_without_machine_measurement_and_hash
+  - CAD_mass_overwrites_accepted_dynamics
+  - attempt_to_release_non_delegable_claim
+
+reporting_policy:
+  routine_progress_requires_user_approval: false
+  notify_user_only_on:
+    - non_delegable_decision
+    - authority_source_conflict_with_no_safe_dual_branch
+    - protected_baseline_integrity_event
+    - repeated_tool_failure_after_two_distinct_recovery_methods
+    - final_candidate_package_ready

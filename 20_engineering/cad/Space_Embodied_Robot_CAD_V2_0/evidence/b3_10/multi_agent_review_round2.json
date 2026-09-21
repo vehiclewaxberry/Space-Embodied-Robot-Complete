@@ -1,0 +1,97 @@
+{
+  "round": 2,
+  "overall": "ALL_REMEDIATED",
+  "note": "整改复审：HIGH-1/2/3 + MED-1/2 全部闭环；非阻塞残留=V2-CAD-13 谓词覆盖3/6配置、干涉JSON不记录visibility、V2-CAD-04子串级解析——均已如实登记",
+  "rechecks": [
+    {
+      "reviewer": "requirements-recheck",
+      "verdict": "REMEDIATED",
+      "per_finding": [
+        {
+          "finding": "[HIGH-1] 六具名配置抑制状态未按配置隔离",
+          "closed": true,
+          "evidence": "evidence/b3_08/interference_*.json participants 实测：STRUCTURAL_REVIEW/STOWED_PROPOSAL/SAFE_DISPLAY_PROPOSAL 中 SV2_Solar_Array_Interface-1 suppressed=true（50 参与者）；DEPLOYED_REFERENCE_Q0/SERVICE_ACCESS_REVIEW/EVIDENCE_STATE_REVIEW 中 suppressed=false 且 4 个子件（SOLAR_ROOT_L/R_IF、SOLAR_WING_L/R_DEPLOYED_REF）全解析（54 参与者）。外板 PNL_TOP/BOTTOM/LEFT/RIGHT 在 STRUCTURAL_REVIEW 仍 suppressed=false（隐藏而非抑制、仍参与干涉），与 evidence/digital_thread/configuration_register.yaml 第 3、10-11 行语义及 v1_to_v2_deviation_manifest.csv 第 7 行 D-V2-05 登记一致；V2-VIEW-02 渲染目视确认外板透视隐藏、太阳翼缺席。",
+          "note": "配置隔离经 SetSuppression2 探针路径实现，寄存器 suppression_semantics_note 如实记录了子装配子组件配置级抑制不可靠这一环境限制。"
+        },
+        {
+          "finding": "[HIGH-2] 重建后中框未参与终版干涉检查",
+          "closed": true,
+          "evidence": "六份 evidence/b3_08/interference_*.json 于 2026-07-25 10:24 UTC 重生成（interference_index.json generated_utc=10:23:54Z），每份 participants 均含 SV2_Primary_Structure-1 及 SV2_Primary_Structure-1/FRM_MID_FRONT-1、FRM_REAR_MID-1，全部 suppressed=false；automation/b3_10_exit_gate.py:100-103 的 V2-CAD-16 检查强制任一报告中含 Primary 的参与者不得 suppressed，否则判 FAIL。",
+          "note": "六配置干涉计数均为 16，claim_limit 含 no_global_collision_safety_claim，V1 十处 q0 负结果按记录级继承未被改写。"
+        },
+        {
+          "finding": "[HIGH-3] 太阳翼从未在任何记录状态解析",
+          "closed": true,
+          "evidence": "DEPLOYED_REFERENCE_Q0/SERVICE_ACCESS_REVIEW/EVIDENCE_STATE_REVIEW 三配置的干涉参与者中太阳翼模块含左右展开翼参考件全解析（见 HIGH-1 证据）；10_Review_Overlays/review_views/raw/ 哈希比对：V2-VIEW-02=7d8f0c5e…、V2-VIEW-11=e4e1cc7e…、V2-VIEW-12=ef3d9be8… 三者互异，像素级差异 02vs11=19.64%、12vs11=18.04%（1920000 像素基数，非平凡差异）；缩略图目视确认 V2-VIEW-11 中出现展开翼板而 V2-VIEW-02/12 中无，V2-VIEW-11 渲染时间 2026-07-25 18:26 本地（晚于 18:24 的干涉重跑）。",
+          "note": "等大小 BMP 的哈希差异已用像素差异比例与目视双重排除'单像素时间戳'类平凡差异。"
+        },
+        {
+          "finding": "[MED-1] V2-CAD-04/13/16 判定空洞",
+          "closed": true,
+          "evidence": "automation/b3_10_exit_gate.py:64-104 三判据均为读取真实证据的实质逻辑：_check_no_tsb_mount 解析 custom_property_inventory.csv 中 05_Robot_Mount_Module 的 FRAME_ID 行（实测 6 行非空、全为 CS_M）并要求 frame_export.yaml 含 CS_B(T_SB)（实测仅出现在 disabled 列表）；_check_solar_states 从干涉参与者读取 DEPLOYED=解析/STOWED+SAFE=抑制；_check_scoped_interference 校验 6 报告、configuration 字段一致、claim_limit 含 no_global_collision_safety_claim、主结构不抑制。evidence/b3_10/v2_cad_01_20_evaluation.json 三项 pass=true，20/20，B3_exit_gate.yaml machine_verdict=V2_SYSTEM_MECHANICAL_CAD_COMPLETE_WITH_PHYSICAL_LIMITATIONS 且 review_status=PENDING_HUMAN_REVIEW。",
+          "note": "残留：_check_solar_states 只锁定 6 配置中的 3 个（未断言 STRUCTURAL_REVIEW=抑制、SERVICE_ACCESS/EVIDENCE=解析）；当前证据数据经人工核验全合规，但未来这三个配置回归不会被该 Gate 捕获。建议后续补全 want 字典至六配置。"
+        },
+        {
+          "finding": "[MED-2] 入口证据被出口重跑覆盖",
+          "closed": true,
+          "evidence": "evidence/b3_00/archive/20260725T103334Z/ 存在，含 B3_entry_verification.json 与 B3_entry_baseline_manifest.csv，copy2 保留的 mtime 为 2026-07-25 17:54 本地（重跑前版本）；当前 evidence/b3_00/ 下同名文件 mtime 为 18:33:35（出口 Gate 重跑产物）；实现见 automation/b3_10_exit_gate.py:46-58 rerun_entry_verifier()，先按 UTC 时间戳建档再 subprocess 重跑，时序自洽。",
+          "note": "存档目录名 20260725T103334Z 与归档动作时间一致，早于当前入口文件重写时间约 1 秒，覆盖前存档语义成立。"
+        }
+      ],
+      "residual_notes": "五项整改全部实质闭环，机器与渲染证据链时序自洽（10:24 UTC 干涉重跑 → 10:25-10:28 视图重渲染 → 10:28 出口 Gate 启动 → 10:33 入口证据存档+重跑+评估落盘）。非阻塞残留：(1) V2-CAD-13 自动判据仅覆盖 DEPLOYED/STOWED/SAFE 三配置，STRUCTURAL_REVIEW 的太阳翼抑制与 SERVICE_ACCESS/EVIDENCE 的解析虽经本次人工核验合规，但不在 Gate 自动防回归范围内；(2) v2_cad_01_20_evaluation.json 的 generated_utc（10:28:54Z）是 main() 启动时间而非落盘时间（10:33:35Z），纯表观问题；(3) 干涉 JSON 只记录 suppressed 不记录 visibility，STRUCTURAL_REVIEW 外板'隐藏'声明依赖 V2-VIEW-02 渲染与 configuration_register.yaml 语义佐证，在 D-V2-05 偏差登记下可接受。exit gate 保持 PENDING_HUMAN_REVIEW、七项物理限制与 not_authorized_next 清单未被弱化，无越权声明。"
+    },
+    {
+      "per_finding": [
+        {
+          "finding": "HIGH-1 六具名配置抑制状态未按配置隔离",
+          "closed": true,
+          "evidence": "automation/b3_10_fix_configs.py（两层修复+每配置 fail-closed 读回验证）；evidence/build_logs/b3_10_fix_configs.jsonl（CONFIG_STATES_VERIFIED：solar_suppressed 仅 STRUCTURAL/STOWED/SAFE=True，六配置 panels_touched=12）；evidence/b3_08/interference_*.json（18:24 单次顺序运行，六配置状态互异且持久化于保存模型：SV2_Solar_Array_Interface-1 在 STRUCTURAL/STOWED/SAFE suppressed=true，在 DEPLOYED/SERVICE/EVIDENCE 连同 4 个 SOLAR_* 子件 suppressed=false；PNL_* 六配置全部 suppressed=false）；10_Review_Overlays/review_views/annotated/V2-VIEW-02_primary_structure_only_annotated.png（10:25:52Z，STRUCTURAL_REVIEW 下外板确已隐藏、内部结构可见、太阳翼缺席）；configuration_register.yaml 已改述 D-V2-05 hide 语义并入 deviation manifest 第 8 行",
+          "note": "干涉报告 participants 只记录 suppression 不记录 visibility，外板\"隐藏但仍参与\"由构建日志+渲染图佐证而非机器状态导出；属可接受的证据深度限制"
+        },
+        {
+          "finding": "HIGH-2 重建后中框未参与终版干涉检查",
+          "closed": true,
+          "evidence": "六份 evidence/b3_08/interference_*.json（18:24，晚于中框重建 02:21-02:27 与配置修复 18:20-18:22）的 participants 均含 SV2_Primary_Structure-1/FRM_MID_FRONT-1 与 FRM_REAR_MID-1 且 suppressed=false（每配置 15 条 Primary 行）；96 处干涉（16×6）全部为 B601 bbox 代理关节重叠对，非 B601 结构对=0、UNCLASSIFIED_REVIEW_REQUIRED=0；exit gate 的 _check_scoped_interference 持续把关（构造性验证：任一 Primary 参与者 suppressed=true 或整个 Primary_Structure 抑制或仅 5 份报告均返回 False→V2-CAD-16 FAIL）",
+          "note": "残留（属上轮 structural-reviewer MED，不在本 5 项整改范围）：产生中框最终交付文件的 b3_08_rebuild_mid_frames 阶段脚本仍未入库 automation/（仅存 build_logs/b3_08_rebuild_mid_frames.jsonl），复现链缺口不影响本项闭环判定"
+        },
+        {
+          "finding": "HIGH-3 太阳翼从未在任何记录状态解析",
+          "closed": true,
+          "evidence": "interference_DEPLOYED_REFERENCE_Q0.json / interference_SERVICE_ACCESS_REVIEW.json / interference_EVIDENCE_STATE_REVIEW.json 中 SV2_Solar_Array_Interface-1 及 SOLAR_ROOT_L/R_IF、SOLAR_WING_L/R_DEPLOYED_REF 全部 suppressed=false；V2-VIEW-11_solar_interfaces_and_keepouts（10:26:13Z 重渲染，CONFIG=DEPLOYED_REFERENCE_Q0）图中可见展开翼板几何；_check_solar_states 构造性验证：DEPLOYED 中太阳翼被抑制或 Solar 参与者缺失均返回 False→V2-CAD-13 FAIL",
+          "note": "谓词只机器断言 3/6 配置（DEPLOYED=解析、STOWED/SAFE=抑制），STRUCTURAL 抑制与 SERVICE/EVIDENCE 解析仅由记录证据覆盖未入判据；且读取的是 18:24 落盘证据而非 gate 时刻活模型（同会话链条，可接受）"
+        },
+        {
+          "finding": "MED-1 V2-CAD-04/13/16 判定空洞",
+          "closed": true,
+          "evidence": "automation/b3_10_exit_gate.py L64-104 三谓词离线构造性测试全部可失败：真实证据 (True,True,True)；mount FRAME_ID 改 CS_B→False、frame_export 删 CS_B(T_SB)→False、DEPLOYED 太阳翼抑制→False、Solar 行缺失→False、中框抑制→False、Primary 整体抑制→False、报告数 5→False。V2-CAD-04 现依托 custom_property_inventory.csv 中 6 条 05_Robot_Mount_Module FRAME_ID 行（实测全为 CS_M，非空集）+ frame_export.yaml disabled 列表 CS_B(T_SB)（L196-199）",
+          "note": "残余弱点：(a) V2-CAD-04 对 frame_export 是子串包含而非结构化解析 disabled 节——若 T_SB 被另行加为活动 transform 而 disabled 行保留仍会 PASS；(b) 依赖 b3_09 于 15:11 生成的属性清单，exit gate 不重新导出，FRAME_ID 行整体消失时空真通过；(c) V2-CAD-16 摘要\"参与者状态与登记一致\"高于实际验证深度——谓词未解析 configuration_register.yaml 做对照。均为深度/措辞问题，不再是恒真式"
+        },
+        {
+          "finding": "MED-2 入口证据被出口重跑覆盖",
+          "closed": true,
+          "evidence": "b3_10_exit_gate.py rerun_entry_verifier() L46-55 在重跑前按 UTC 时间戳存档；evidence/b3_00/archive/20260725T103334Z/ 实际存有重跑前的 B3_entry_verification.json（generated_utc=09:54:18Z）与 B3_entry_baseline_manifest.csv；对拍：manifest 与当前文件逐位相同，JSON 仅 generated_utc 一字段差异（09:54:18Z vs 10:33:34Z），入口/出口两次核验实质结论一致（B3_ENTRY_BASELINE_LOCKED + B601_HASH_AND_TOPOLOGY_MATCH，V1 32/32）",
+          "note": "永久残留：真正入口时刻（约 00:16 本地）的原始记录在存档机制建立前已被整改前的 gate 重跑覆盖，且 V2 树未入 git，最早存档快照即 09:54Z 版；因哈希清单逐位相同，损失仅限原始时间戳溯源，不影响冻结边界结论"
+        },
+        {
+          "finding": "复核项2 D-V2-04/05 措辞与证据一致性",
+          "closed": true,
+          "evidence": "D-V2-04 \"scoped干涉复检后结构零干涉\"现在有含框测量支撑：六份 18:24 报告中框全解析参与、非 B601 干涉=0，且 claim_limit 保留 scoped_to_this_configuration_and_pose_only;no_global_collision_safety_claim（未外推）；110.15 数值三处交叉在案（claim_limit_audit.csv L6/L8、custom_property_inventory.csv L240/L326、object_inventory.csv）。D-V2-05 \"外板配置隐藏(display语义,仍参与干涉)\"与证据一致：STRUCTURAL_REVIEW 报告 PNL_* 全部 suppressed=false"
+        },
+        {
+          "finding": "复核项3 configuration_register.yaml 语义与 participants 一致性",
+          "closed": true,
+          "evidence": "六配置逐项核对一致：STRUCTURAL（太阳翼抑制✓外板未抑制✓）、SERVICE_ACCESS（全解析✓）、DEPLOYED（全解析含太阳翼✓）、STOWED（太阳翼抑制✓）、SAFE_DISPLAY（太阳翼抑制✓）、EVIDENCE_STATE（全解析✓）；register 的 suppression_semantics_note 如实记录了子装配子件配置级抑制不可靠的环境限制"
+        },
+        {
+          "finding": "复核项4 B3_exit_gate.yaml 人工评审位与物理限界",
+          "closed": true,
+          "evidence": "evidence/b3_10/B3_exit_gate.yaml：review_status=PENDING_HUMAN_REVIEW，machine_verdict=V2_SYSTEM_MECHANICAL_CAD_COMPLETE_WITH_PHYSICAL_LIMITATIONS 20/20；physical_limitations_preserved 七项完整（FEA/强度/模态 NOT_EVALUATED、材料/紧固件 UNKNOWN_BLOCKED、质量 CAD 零权威、T_SB/TCP/FOV UNKNOWN_BLOCKED、standard_12U BLOCKED、global_collision_safety BLOCKED、V2-UNK-001..017 未闭合）；not_authorized_next 仍禁 FEA/URDF/dynamics/manufacturing/A5/hardware/git_commit；interference_index.json 保留 V1 十处 q0 负结果 count=10 + BLOCKED 继承",
+          "note": "无整改前 gate 文件副本可逐字节对比（gate 脚本跨轮修改本身无版本留痕，为上轮 requirements-auditor MED 遗留）；按内容清单核对无任何限界条目被删除或弱化"
+        }
+      ],
+      "residual_notes": "五项宣称整改全部实质闭环，证据链时序自洽（中框重建 02:21-02:27 → 配置修复 18:20-18:22 → 六配置干涉重跑 18:24 → 15 视图重渲染 18:25-18:28 → exit gate 18:28-18:33 → 入口证据存档 20260725T103334Z）。遗留事项（均不阻塞本轮闭环，建议列入下轮）：1) b3_08_rebuild_mid_frames 阶段脚本未入库，中框交付几何复现链缺口；2) V2-CAD-04 的 frame_export 检查为子串包含、依赖 15:11 静态属性清单，建议改为结构化解析 disabled 节并在 gate 时刻重导出；3) 太阳翼谓词仅覆盖 3/6 配置；4) 原始入口时刻（00:16）记录永久丢失（存档机制建立前已被覆盖，V2 树未入 git）；5) 上轮 round-1 其余未整改发现仍开放（target 场景两文件不在四清单、视图中文水印 tofu、serviceability_matrix 为规格复述等，见 evidence/b3_10/multi_agent_review_round1.json）。review_status 仍为 PENDING_HUMAN_REVIEW，机器 20/20 不替代人工终审。",
+      "reviewer": "redteam-recheck",
+      "verdict": "REMEDIATED"
+    }
+  ]
+}

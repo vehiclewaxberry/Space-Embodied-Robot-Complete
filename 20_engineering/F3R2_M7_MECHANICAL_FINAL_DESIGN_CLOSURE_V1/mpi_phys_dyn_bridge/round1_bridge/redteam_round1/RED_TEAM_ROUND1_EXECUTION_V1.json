@@ -1,0 +1,141 @@
+{
+  "schema": "RED_TEAM_ROUND1_EXECUTION_V1",
+  "generated_local": "2026-08-23T17:40:00+08:00",
+  "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+  "agent": "AGENT-4_READ_ONLY_RED_TEAM (Wave-2a round1 attack execution)",
+  "attack_plan_reference": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round0_handover/04_red_team/RED_TEAM_ATTACK_PLAN_V1.md section 3",
+  "authority_basis": "ODR-43 (DUAL_FRAME_EXPLICIT_BRIDGE) / ODR-44 (APPROVE_BOUNDED_DETAILED_DESIGN) as transcribed by owner; this report itself is not authority",
+  "tool_policy_compliance": "pure python 3.13.9 + numpy 2.3.5 + hashlib only; no CAD/FEA process started; git read-only (not used); no upstream file written or regenerated; all writes confined to this output directory",
+  "decision_rule": "Authority > Evidence > Independent reproduction > Agent opinion; voting FORBIDDEN",
+  "verdict_vocabulary": "attack surface: SAFE / FINDING; falsification: SURVIVED / FALSIFIED / NOT_INDEPENDENTLY_REPRODUCIBLE",
+  "reproduction_bundle": {
+    "script": "round1_verify.py (this directory)",
+    "raw_output": "round1_verify_output.json (this directory)",
+    "method_note": "every number below is recomputed by the bundle from hash-pinned source files, not copied from artifact self-reports"
+  },
+
+  "task_a_round1_hash_pins": {
+    "verdict": "6/6 MATCH",
+    "detail": [
+      {"name": "accepted_urdf_b601", "sha256_16": "1BC2B7483CD8025D", "bytes": 11321, "match": true},
+      {"name": "solar_r2_step", "sha256_16": "21FF77B882DBFAB8", "bytes": 131834, "match": true},
+      {"name": "e21_gate", "sha256_16": "B03B7C7AF571AA00", "bytes": 22675, "match": true},
+      {"name": "harness_fk_sweep_v2", "sha256_16": "DB86348B8276FB2D", "bytes": 20197, "match": true},
+      {"name": "route_c_precad_gate", "sha256_16": "B43745081B4D0F22", "bytes": 17306, "match": true},
+      {"name": "route_c_precad_validation", "sha256_16": "84D89F631F7904DA", "bytes": 32996, "match": true}
+    ]
+  },
+
+  "task_b_round1_bridge_file": {
+    "path_checked": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml",
+    "exists": false,
+    "status": "PENDING_NEXT_SWEEP",
+    "deferred_attacks": ["ATK-04 frame mixing on bridge file", "ATK-11 orthogonality/chirality on bridge file", "ATK-12 Steiner omission on bridge file", "silent-average witness 29.226410622980581 deg scan on bridge file"],
+    "preregistered_witness_values": {
+      "silent_average_discriminant_deg": 29.22641062298058,
+      "average_matrix_det_discriminant_approx": 0.976,
+      "steiner_witness_kg_m2": 0.0024302436760318294,
+      "bridge_translation_m": [0.0, 0.0, 0.02275],
+      "bridge_angle_deg_full_precision": 25.000014,
+      "bridge_angle_deg_contract_spelling": 25.000013999964253
+    }
+  },
+
+  "artifact_attacks": {
+    "receipt_00": {
+      "target": "round0_handover/00_receipt/KIMI_M7_TERMINAL_HANDOVER_RECEIPT.json",
+      "coverage": "6/6 planned items executed",
+      "results": [
+        {"attack": "ATK-01 empty/degenerate evidence", "fired": false, "evidence": "receipt parses; 29/29 baseline entries bytes>0 (recomputed sizes 2562..223714 B); all referenced evidence files exist and non-empty", "falsification": "SURVIVED"},
+        {"attack": "ATK-14 hash pins", "fired": false, "evidence": "29/29 entries recomputed full 64-hex sha256 + bytes: 26 PASS entries hash_match=true bytes_match=true expected_match=true; 2 NO_RECORDED_HASH entries recompute cleanly; 1 DRIFT entry (solar_r2_build_report) reproduces exactly: recomputed 6160C1D0970B7EA19075B4A83C988C16CA2F1AFCA782BCAD90A89B14F17E6586 == declared actual, expected AFE4CA26A2CC7A1838DEF4FAD3E068DB1F364F4265A85903D9407D462711CEC9 mismatch confirmed; receipt does not list itself; URDF LF-normalized hash 408147DDC9CC0BBA... also MATCH; 1-byte in-memory mutation control on e21 gate file detected", "falsification": "SURVIVED"},
+        {"attack": "ATK-02 null+PASS", "fired": false, "evidence": "recursive scan: 0 null-and-PASS coexistence; only 2 nulls in file, both expected_sha256=null on NO_RECORDED_HASH entries (correct fail-closed semantics); next_stage_authorized=false; release_credit=false; every PASS entry carries recorded_in evidence pointer", "falsification": "SURVIVED"},
+        {"attack": "ATK-07 count audit", "fired": false, "evidence": "independent count 29 == declared files_checked 29; pass 26/26; no_recorded_hash 2/2; drift 1/1", "falsification": "SURVIVED"},
+        {"attack": "discipline tools_started", "fired": false, "evidence": "scope_compliance declares cpython 3.13 sha256 only; receipt file mtime 2026-08-23T16:46:31.579 matches generated_local 16:46:31; no CAD/FEA trace", "falsification": "SURVIVED"},
+        {"attack": "authority declaration coverage", "fired": false, "evidence": "authority_basis carries ODR-43/ODR-44 verbatim blocks and v5 required owner statement; no new release semantics introduced (overall_status=HASH_DRIFT_DETECTED, no grant fields)", "falsification": "SURVIVED"}
+      ],
+      "artifact_verdict": "SAFE"
+    },
+
+    "frame_authority_01": {
+      "targets": ["round0_handover/01_frame_authority/MPI01_FRAME_AUTHORITY_MATRIX.csv", "round0_handover/01_frame_authority/FRAME_DEFINITIONS_DISCOVERED_V1.md", "round0_handover/01_frame_authority/MPI01_BRIDGE_DERIVATION_PLAN_V1.md"],
+      "coverage": "9/9 planned items executed",
+      "results": [
+        {"attack": "ATK-11 bridge 16 elements vs independent rebuild", "fired": false, "evidence": "B rebuilt from E21_AUTHORITY_CONTRACT_V1.yaml transform_S_A0 rows (regex extraction, numpy inv): elementwise max|B_rebuilt - B_plan| = 6.94e-18; det(R_B)=1.0000000000005196 (plan claims 1.0000000000005196); orthogonality max|RtR-I|=5.195843755245733e-13 (plan 5.20e-13); angle 25.000013999932346 deg (plan 25.000013999932); translation [0,0,0.02275] recomputed 0.022749999999999992 (float tail); T_dyn@B==T_phys max-abs 0.0; roundtrip inv(B)@B max-abs 5.55e-17; quaternion wxyz [0.9762959806769665,0,0,0.21643973321489815] vs plan [0.976295980677,0,0,0.216439733215] delta ~1e-13; chirality discriminator: +theta vs -theta candidates differ 49.98620578936153 deg (no tolerance can absorb); direction semantics and inverse bridge documented in plan section a.4; truncation witness two-spelling comparison documented in plan a.5.1 (full-precision 25.000014 deg pinned as bridge constant, rounded 24.999981252 deg registered as known 1.1e-4 mm difference)", "falsification": "SURVIVED"},
+        {"attack": "ATK-04 frame mixing positive control", "fired": false, "evidence": "recomputed |CG_wp11 - CG_odr01| = 0.003524348142565558 m == published exactly; C_S = T_dyn@inv(T_phys) applied to V2-ledger C01 arm CG [0.376934164889081,-0.17567666955456437,-0.08674287405126006] gives [0.354184164889081,-0.19587625733601946,-0.004371525645573665], residual vs e21 ODR01-lane computed value = 1.1314150167e-4 mm == e21 published ledger residual 1.1314150166e-4 mm (rounded-spelling origin, not bridge error); implied arm-level displacement from system delta = 0.003524348142565558*31.022864807342987/4.695555949342986 = 0.0232849 m, structurally consistent with bridge displacement at arm CG radius; every cross-frame quantity in the three artifacts carries explicit frame labels and the bridge is declared NON-AUTHORITATIVE_PENDING_MPI-FB-02", "falsification": "SURVIVED"},
+        {"attack": "ATK-05 mass double count", "fired": false, "evidence": "26.327308858000002 (fixed residual) + 4.695555949342986 (arm) = 31.022864807342987 kg == e21 system mass, abs error 0.0; URDF inertial mass sum independently recomputed from 10 <mass> tags = 4.695555949342986 kg (error 0.0); wing closure 3*0.18+0.05+2*0.03+0.08+0.05 = 0.78 kg, two wings 1.56 kg", "falsification": "SURVIVED"},
+        {"attack": "ATK-12 Steiner omission", "fired": false, "evidence": "plan section (c).4 contains correct Steiner construction (d formed in target frame first) plus explicit prohibition of the wrong source-frame pattern and of element-wise rotation; channel inertia delta max|I_wp11-I_odr01| recomputed = 0.10311953522836159 kg m2 == published exactly; Steiner witness m_arm*d^2 = 4.695555949342986*0.02275^2 = 2.4302436760318294e-3 kg m2 (10 orders above float noise); plan (c).6 requires SPD/eigenvalue/trace invariants per member", "falsification": "SURVIVED"},
+        {"attack": "ATK-06 silent average", "fired": false, "evidence": "blacklist scan over all 8 artifacts: 29.226410622980581 (and prefix 29.22641062298) 0 hits; CG midpoint [0.09295719411704582,0.00040826015860379337,-0.006192314500934297] 0 hits; inertia midpoint 0 hits; average/mean/midpoint/blend keyword hits all in prohibition contexts (averaging_forbidden / never averages / no averaging); branches_selected=false branches_averaged=false branch_delta_is_uncertainty=false verified verbatim in e21 sensitivity JSON and quoted correctly", "falsification": "SURVIVED"},
+        {"attack": "ATK-03 PROVISIONAL as authority", "fired": false, "evidence": "M4 statuses quoted verbatim (FROZEN_V1, FROZEN_F3R2_MAPPING, AXIAL_STATION_FROZEN_GEOMETRIC_ENTITY_NOT_PRESENT_IN_M4, MEASURED_COMPETITION_DATUM_NOT_OEM verified against DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml lines 61-97); no PROVISIONAL item upgraded; bridge plan marks every number NON-AUTHORITATIVE_PENDING_MPI-FB-02", "falsification": "SURVIVED"},
+        {"attack": "ATK-14 frame definition pins", "fired": true, "finding_id": "RT1-F02", "evidence": "all 45 CSV rows recompute prefix-MATCH at 12 hex (36 unique paths, 0 bad pins, 7 CONFLICT_CANDIDATE rows as expected); e21 contract pin 7D2E0792B3FF matches full hash 7D2E0792B3FF6BAB9BD9AE11A605341B20BAAB821961A7BA8E119996D1515D81; BUT pins are 12-hex short only (column honestly named sha256_short; full 64-hex pins for the same paths exist in receipt and Route-C inventory)", "falsification": "SURVIVED (format violation directly observed; content integrity verified by full-hash recompute of every unique path)", "severity": "LOW"},
+        {"attack": "HOLD preservation (no resolved-by-selection)", "fired": false, "evidence": "V5 gate today still shows single_consumption_rule_resolved=false; bridge plan section (f).8 keeps all mandatory holds verbatim; no artifact rewrites UNRESOLVED to resolved; e21 contract flags selected=false/averaging_forbidden=true/single_consumption_semantics_resolved=false quoted correctly", "falsification": "SURVIVED"},
+        {"attack": "M3R stack semantics separation", "fired": true, "finding_id": "RT1-F03", "evidence": "four stations 185.25/198.0/208.0/210.405 kept semantically distinct in both artifacts (verified against M4 frame tree and M3R stack anchors); bridge plan a.5.3 explicitly excludes the 210.405 as-built datum from the bridge; HOWEVER the consumer-caution number 'misplaces the datum by 25.07 mm' (FRAME_DEFINITIONS section 4.4 and CSV row m3r_frame_to_flange_transform) does not reproduce as a 3D norm: naive T_dyn(mm)@T_M_flange datum lands at [185.16363393,0.015994151,-25.155] mm, error norm vs M4 M3R_LOCAL = 33.9107 mm (vs FASTENER_END_PLANE = 35.5748 mm); 25.07 mm equals only the dominant z-component 25.0686 mm; the intended stack-axis reading verified exactly: t_dyn+t_json=[210.405,0.015994151,-0.08636607] == M4 B601_FASTENER_END_PLANE origin", "falsification": "SURVIVED (quantitative imprecision confirmed by independent recomputation; qualitative warning valid and its correct-reading claim reproduces exactly)", "severity": "LOW"}
+      ],
+      "artifact_verdict": "FINDING (2x LOW, format/hygiene class only)"
+    },
+
+    "route_c_inventory_02": {
+      "targets": ["round0_handover/02_route_c_inputs/ROUTE_C_PHYSICAL_INPUT_INVENTORY_V1.json", "round0_handover/02_route_c_inputs/ROUTE_C_PHYSICAL_INPUT_INVENTORY_V1.md"],
+      "coverage": "7/7 planned items executed",
+      "results": [
+        {"attack": "MPI status verbatim", "fired": false, "evidence": "MPI gate recomputed (hash MATCH 348C9D60...): MPI-01..06/08 HOLD_NOT_CONTROLLED, MPI-07 HOLD_PARTIAL_LOCAL_KINEMATICS_ONLY, 0/8 controlled; inventory carries no controlled/closed claim for any MPI row (scan: 'controlled' occurs only as mpi_controlled:0 / '0/8 controlled' HOLD-consistent contexts)", "falsification": "SURVIVED"},
+        {"attack": "ATK-10 Route-B verbatim carriage", "fired": false, "evidence": "NRB-01 V1 headline verified verbatim against HARNESS_B601_FULL_FK_SWEEP_V1.json (clearance -11.8667 @LHS_06 vs link5; bend 1.081 @SWEEP_joint5_00:fillet_node_12; pinch -11.3573 @HARDSTOP_joint4_lo joint5); NRB-02 V2 headline verbatim (clearance -11.9938 @SWEEP_joint2_09 vs link3; bend 0.1 @CORNER_110000:span_link5; pinch -11.9902 @HARDSTOP_joint4_hi joint5) incl. redesign_history[0].worst rounded note (-11.86/2.26/-11.83); NRB-03 work order line 155 verbatim; NRB-04 role label == precad gate source_bindings role verbatim; NRB-05 terminal gate route_b=REJECTED route_c=TRIGGERED TMG-4=FAIL_ROUTE_B_MANDATORY_STATES_OR_TRAJECTORIES mechanical_design=NOT_RELEASED next_stage_authorized=false; V1/V2 hashes 10EA7420.../DB86348B... recompute MATCH; route_b_values_not_inherited four values (OD 10.0 / R25 25.0 / R30 30.0 / cut 4001.158 mm) inherited=false verified in MPI audit JSON", "falsification": "SURVIVED"},
+        {"attack": "ATK-02 frontier nulls", "fired": false, "evidence": "all 13 P-rows current_value=null with status=HOLD; frontier source file verified: D_max/R_path/carrier_travel/deltaL null+UNKNOWN with the exact reason string quoted by the inventory, manufacturing_coordinates_status NULL_UNTIL_... verbatim; gate physical_capacity_frontier five nulls + state UNKNOWN_NOT_COMPUTABLE; scan-axis boundary flags (bundle_OD_is_scan_axis_not_known_value etc.) present in gate and honored in inventory texts; null-and-PASS coexistence scan: 0 hits", "falsification": "SURVIVED"},
+        {"attack": "predicate 47/47 scope discipline (ATK-03 variant)", "fired": false, "evidence": "precad gate verified: tests 47/47 (11 positive + 36 negative), state PASS_SYNTHETIC_SEMANTICS_ONLY, grants_design_authority=false, comparison_sets_nonempty=true; inventory P11 quotes synthetic arc R_path_min 49.99999999999991 mm with 'SYNTHETIC SEMANTICS ONLY and grants no design authority' — value verified at ROUTE_C_PREDICATE_QUALIFICATION_V1.json line 651", "falsification": "SURVIVED"},
+        {"attack": "ODR-44 boundary", "fired": false, "evidence": "inventory prohibited-checklist item 1 carries the verbatim ban on any Route-C independent versioned CAD candidate; precad gate cad_entry_authorized=false; CAD entry gate today: HOLD / ROUTE_C_PARAMETRIC_CAD_ENTRY_NOT_AUTHORIZED / prohibited_now includes create-or-modify-CAD", "falsification": "SURVIVED"},
+        {"attack": "eight forbidden_shortcuts conformance", "fired": false, "evidence": "gate forbidden_shortcuts 8 items read verbatim; inventory performs none of them (no joint-range reduction, no Route-B seed inheritance (explicitly quarantined), no scan-axis-as-measured, no topology averaging (3 candidates separately NOT_READY), no J4-bypass/guided-loop merge, no contact exemption, no predicate-as-authority, no candidate-found claim)", "falsification": "SURVIVED"},
+        {"attack": "ATK-07 counts and template mapping", "fired": false, "evidence": "independent counts: 13 P-rows / 5 NRB anchors / 3 topology candidates / 21 source pins — all equal the summary block; 21/21 pins full 64-hex recompute MATCH (list includes MPI gate, precad gate, both sweeps, terminal gate, URDF, STEP); owner-template mapping verified against MPI gate: MPI-01/02 -> B601_ELECTRICAL_AND_DATA_ICD, 03/04 -> WIRE_LIST_PINOUT, 05/06 -> INSTALLED_CONSTRUCTION, 07 -> INSTALLATION_ICD, 08 -> MISSION_LIFE_ALLOCATION", "falsification": "SURVIVED"}
+      ],
+      "artifact_verdict": "SAFE"
+    },
+
+    "r2_flex_inventory_03": {
+      "targets": ["round0_handover/03_r2_flex_inputs/R2_FLEX_INPUT_INVENTORY_V1.json", "round0_handover/03_r2_flex_inputs/R2_FLEX_INPUT_INVENTORY_V1.md"],
+      "coverage": "7/7 planned items executed",
+      "results": [
+        {"attack": "ATK-14 source pins", "fired": true, "finding_id": "RT1-F01", "evidence": "all 16 source_files_sha256 entries are stored as 16-hex + '...' truncated strings, violating the plan rule that new artifacts must not pin 16-hex truncated values only; independent full-sha256 recompute: 16/16 prefix MATCH (files intact, no substitution evidence); includes e21 gate b03b7c7af571aa00 == V5/receipt full pin B03B7C7AF571AA00FE..., contract 7d2e0792b3ff6bab == 7D2E0792B3FF6BAB..., geometry candidate 46a9512d064f617d == precad gate pin 46A9512D064F617D...", "falsification": "SURVIVED (format violation directly observed; content integrity verified by full recompute)", "severity": "MEDIUM"},
+        {"attack": "ATK-09 five-case frequency fidelity", "fired": false, "evidence": "inventory five_case_frequency_evidence arrays float-identical to e21 ROM JSON for all 5 cases x {leaf_only_reproduced, conflict, conflict_minus_leaf_only}; conflict deltas all negative preserved (nominal -0.244709673614544 / -2.731933323664009 / -13.132601977563311 Hz, no abs()); published 4-dp table matches FLEXIBLE_APPENDAGE_R2_MODES.json modes_hz_per_case; relative shift recomputed [-3.5096,-6.9411,-13.4000] pct vs inventory [-3.51,-6.94,-13.40] pct; e21 max published abs error 4.840419126761475e-05 Hz == inventory claim 4.84e-05; R1 blacklist values (0.3483933/1.7419665/4.3630e-3/8.9042e-3/1.5047e-2) 0 silent hits (0.3483933 occurs only in explicit legacy-only NOTE-2)", "falsification": "SURVIVED"},
+        {"attack": "ATK-03 class preservation", "fired": false, "evidence": "14 parameter rows each carry non-empty status/uncertainty_interval/source; class values verbatim vs FLEXIBLE_APPENDAGE_R2.yaml (PROVISIONAL / PROVISIONAL_DERIVED; zeta 0.01 with status TBD_cite_literature; leaf GJ demoted to NULL_EFFECTIVE with the card's own 'band not yet assigned' note quoted — conservative direction, not an upgrade); no MEASURED/AUTHORITATIVE promotion found", "falsification": "SURVIVED"},
+        {"attack": "ATK-05 mass closure", "fired": false, "evidence": "wing 0.78 = 3*0.18+0.05+2*0.03+0.08+0.05 (recomputed 0.7800000000000001 float tail); two wings 1.56 kg; R2-R1 delta 1.56-2*0.3483933=0.8632134 kg; whole-sat-with-R2 24.8632134 kg — all match SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json ledger values (leaf 0.18/hinge_root 0.05/hinge_inter 0.03/hdrm 0.08/harness 0.05/wing 0.78/both 1.56/delta 0.8632134/whole 24.8632134 greps verified); no double count", "falsification": "SURVIVED"},
+        {"attack": "e21-G21 conflict semantics", "fired": false, "evidence": "e21 ROM JSON flags verified: selected=false, propagated_to_free_floating_dynamics=false, dynamic_mass_allocation_frozen=false; Mqq*-Mqq = [[0.006,0.0024,0],[0.0024,0.0012,0],[0,0,0]] matches inventory; inventory this_inventory_selects=null and carries MC-A/B/C options without choosing", "falsification": "SURVIVED"},
+        {"attack": "ATK-02 null preservation", "fired": false, "evidence": "e21 ROM JSON verified null: damping_matrix / participation_factors / forced_response / standard_uncertainty; inventory keeps all as NULL with HOLD semantics (9 nulls, 0 null-and-PASS coexistence); zero_fill_for_unknown=false policy quoted", "falsification": "SURVIVED"},
+        {"attack": "e15 verbatim status", "fired": false, "evidence": "e15 gate_summary.json verified: overall=REPEAT_ANCF_CERTIFICATION, cross-solver max rel diff 0.05637349419858036 > 0.05, final_candidate_cross_solver.available=false — all quoted verbatim in inventory; not written as closed anywhere", "falsification": "SURVIVED"}
+      ],
+      "artifact_verdict": "FINDING (1x MEDIUM: truncated pin format)"
+    }
+  },
+
+  "findings": [
+    {"id": "RT1-F01", "severity": "MEDIUM", "status": "SURVIVED_FALSIFICATION", "artifact": "03_r2_flex_inputs/R2_FLEX_INPUT_INVENTORY_V1.json", "rule": "ATK-14 pin-width discipline (new artifacts must not pin 16-hex truncated values only)", "detail": "16/16 source pins stored as 16-hex + '...'; independent full-hash recompute 16/16 prefix MATCH (no content substitution); fix: republish with full 64-hex pins before owner sign-off", "impact": "does not overturn any engineering content; blocks hash-collision-grade tamper evidence for this artifact"},
+    {"id": "RT1-F02", "severity": "LOW", "status": "SURVIVED_FALSIFICATION", "artifact": "01_frame_authority/MPI01_FRAME_AUTHORITY_MATRIX.csv", "rule": "ATK-14 pin-width discipline", "detail": "45/45 pins are 12-hex short; column explicitly named sha256_short and full 64-hex pins for identical paths exist in receipt + Route-C inventory; 45/45 prefix MATCH on recompute", "impact": "hygiene; mitigated by honest label and cross-file full pins"},
+    {"id": "RT1-F03", "severity": "LOW", "status": "SURVIVED_FALSIFICATION", "artifact": "01_frame_authority/FRAME_DEFINITIONS_DISCOVERED_V1.md section 4.4 + MPI01_FRAME_AUTHORITY_MATRIX.csv row m3r_frame_to_flange_transform", "rule": "numeric reproducibility of quoted values", "detail": "claimed naive-composition misplacement 25.07 mm; recomputed 3D error norm = 33.9107 mm vs M3R_LOCAL (35.5748 mm vs FASTENER_END_PLANE); 25.07 mm reproduces only as the dominant z-component 25.0686 mm; qualitative warning (pin the composition semantics) stands; stack-axis reading verified exactly against M4 FASTENER_END_PLANE", "impact": "NON-AUTHORITATIVE caution note; no downstream number consumes 25.07 mm"},
+    {"id": "RT1-F04", "severity": "LOW", "status": "SURVIVED_FALSIFICATION", "artifact": "upstream Route-C machine files (not a round0 artifact defect)", "rule": "clock discipline", "detail": "internal generated_local labels (MPI gate 17:35:00; precad gate + frontier 23:15:00) are nominal, not wall clock — file mtimes are 13:09:59 / 15:44:46 and 23:15 had not occurred at execution time 17:26; all pins recompute MATCH and mtimes precede the round0 artifacts that pinned them (receipt mtime 16:46:31); no integrity impact", "impact": "timestamp-plausibility hygiene only"},
+    {"id": "RT1-F05", "severity": "LOW", "status": "SURVIVED_FALSIFICATION", "artifact": "round0_handover/04_red_team/RED_TEAM_ATTACK_PLAN_V1.md section 2 ATK-12 (self-finding)", "rule": "self-audit", "detail": "plan wrote Steiner witness approx 2.4304e-3; exact recompute 4.695555949342986*0.02275^2 = 2.4302436760318294e-3 (4th-digit slip); witness magnitude conclusion (10 orders above float noise) unchanged", "impact": "correct the plan text next revision"}
+  ],
+
+  "findings_totals": {"HIGH": 0, "MEDIUM": 1, "LOW": 4, "falsified_findings": 0, "not_independently_reproducible": 0},
+  "not_independently_reproducible_register": [
+    {"item": "bridge plan a.4 inertia witness 6.42e-8 kg m2 (and e21 counterpart 7.03e-8)", "reason": "requires C01 arm inertia tensor extraction from WP2 V2 ledger; out of this sweep's bounded scope; bridge direction/semantics already validated by the CG-level witness (1.1314150167e-4 mm == e21 published residual)", "blocks_closure": false}
+  ],
+
+  "attack_coverage": {
+    "receipt_00": "6/6",
+    "frame_authority_01": "9/9",
+    "route_c_inventory_02": "7/7",
+    "r2_flex_inventory_03": "7/7",
+    "planned_items_total": "29/29",
+    "additional_tasks": {"task_a_six_pins": "6/6 MATCH", "task_b_bridge_file": "PENDING_NEXT_SWEEP (02_bridge/ not on disk at 2026-08-23T17:26+08:00)"}
+  },
+
+  "next_round_priority_attack_order": [
+    "P1: B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml on landing — ATK-11 (16 elements vs this rebuild, det/orthogonality/chirality/direction/inverse, two-spelling truncation witness) -> ATK-06 (silent-average witness 29.226410622980581 deg and averaged-matrix det~0.976 discriminator) -> ATK-04 (every bridged quantity cites the single bridge id + sha256) -> ATK-12 (Steiner witness 2.4302436760318294e-3 kg m2 must be reproducible, not smoothed to zero)",
+    "P2: MPI-FB-03 roundtrip report — closure <=1e-12, both mutation negative controls (theta sign flip, translation sign flip) must be caught by its own detectors",
+    "P3: MPI-FB-04 mass/CG/inertia transform package — Steiner term constructed with d in target frame; no element-wise rotation; no R U R^T on uncertainty matrices; eigenvalue/trace invariants per member",
+    "P4: MPI-FB-05 e21 single-consumer rerun — consumer_ambiguity_count==0; must NOT use 29.041965867604112 or 29.41085537835705 as pass anchors; directory-level hash scan proving no e21 file overwritten",
+    "P5: MPI-FB-06/07 candidate ledger + V6/R3 candidates — per-configuration mass invariant 0-diff; CANDIDATE naming; R2 files byte-identical; all mandatory holds carried verbatim",
+    "P6: R2 flex next round — dynamic mass allocation ruling (MC-A/B/C) single/explicit/recorded; e15 recertification spec stays text-only until MPI gate"
+  ],
+
+  "baseline_consistency": "no discrepancy vs takeover baseline; V5 gate still HOLD with single_consumption_rule_resolved=false (re-grepped today); e21 dual-lane numbers (29.041965867604112 / 29.41085537835705 / 0.3688895107529362 deg, CG delta 0.003524348142565558 m, inertia delta 0.10311953522836159 kg m2) all reproduced exactly from hash-pinned lane files",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

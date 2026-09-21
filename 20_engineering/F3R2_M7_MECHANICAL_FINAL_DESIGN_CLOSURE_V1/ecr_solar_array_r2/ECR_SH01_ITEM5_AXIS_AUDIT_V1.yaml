@@ -1,0 +1,114 @@
+schema: ECR_SH01_ITEM5_AXIS_AUDIT_V1
+generated_local: '2026-08-22T19:49:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: ECR_AUDIT_ARTIFACT
+ecr: ECR-SOLAR-HARNESS-01
+authority: M7_OWNER_DECISION_ODR18_SOLAR_HARNESS_ECR_V1.yaml (ODR-18), items 5/6/7
+audit_item: ODR-18 item 5 - audit current solar panel axis assignment before changing dimensions
+
+supersession_note:
+  date_local: '2026-08-22'
+  by: ODR-19 (ECR-SOLAR-ARRAY-R2)
+  effect: >-
+    The factual axis finding of this audit (227 mm = chord along X_S,
+    longitudinal; 200 mm = span, transverse/deploy) remains VALID and is
+    reused by ODR-19 as the basis for keeping all R2 hinge axes parallel to
+    X_S. The item-6 consequence (retain the single-leaf 227 x 200 planform
+    as the terminal design) is SUPERSEDED: ODR-19 replaces the terminal
+    design with the three-leaf SOLAR_ARRAY_R2 on power/mission-sizing
+    grounds, not because the axis reading was wrong. R1 227 x 200 x 6 mm
+    is preserved as LEGACY_R1 evidence only.
+
+verdict:
+  branch: CASE_A_227MM_IS_LONGITUDINAL
+  ruling: >-
+    The 227 mm panel chord lies along X_S, the spacecraft LONGITUDINAL axis
+    (bus length 3 x 113.5 = 340.5 mm). The 200 mm span is the transverse /
+    deploy dimension along +/-Y_S against the 226.3 mm cross-section.
+    Therefore ODR-18 item 6 applies: RETAIN the present 227 x 200 x 6 mm
+    planform candidate. Item 7 (205 x 222 mm area-preserving resize) is NOT
+    triggered. No planform dimension change is made by this audit.
+  retention_condition: >-
+    Retention is conditional on ODR-18 item 10 continuous clearance evidence
+    (solar-arm, solar-bus, solar-harness, solar-HDRM over the full 0-90 deg
+    deploy sweep and full q1 range). If that evidence fails, the planform
+    question reopens inside this ECR.
+
+evidence:
+
+  - id: EV1_FRAME_LONGITUDINAL_AXIS
+    source: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+    fact: >-
+      bays_mm: 3 x [113.5, 226.3, 226.3]. The first (X_S) component is the
+      stacked bay direction: 3 x 113.5 = 340.5 mm long axis. Y_S and Z_S are
+      the 226.3 mm transverse cross-section axes.
+    corroboration: >-
+      20_engineering/config/geometry/frame_tree_v1.yaml - M frame axes
+      {Z_M: +X_S (reach direction)} and mount translation [185.25, 0, 0] mm
+      (beyond the 170.25 mm half-length, on the +X end flange) confirm X_S is
+      the body long axis.
+
+  - id: EV2_SSOT_PANEL_AXES
+    source: 20_engineering/config/geometry/flexible_appendage_v1.yaml
+    fact: >-
+      span_L_m: 0.200 (cantilever length along +Y_F, frozen);
+      chord_b_m: 0.227 (along X_S, frozen); thickness_t_m: 0.006.
+      frame_tree_v1.yaml F_L/F_R: Y_F = +/-Y_S (deploy), Z_F = +Z_S
+      (panel normal).
+
+  - id: EV3_CAD_DEPLOYED_AABB
+    source: >-
+      20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/
+      wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml (SOLAR_ARRAY_LEFT/RIGHT.PANEL)
+    fact: >-
+      Deployed panel AABB in S: x in [-170.25, +56.75] = 227.0 mm;
+      y in [+113.15, +313.15] (left) = 200.0 mm; z in [-3.0, +3.0] = 6.0 mm.
+      box_mm: [227.0, 200.0, 6.0]. The 227 mm extent is the X_S extent.
+    consistency: >-
+      Matches MECH_DYNAMICS_INTERFACE_V4.yaml and ICD_V3_DRAFT.yaml
+      panel_box_m: [0.227, 0.200, 0.006].
+
+  - id: EV4_HINGE_AXIS_DIRECTION
+    source: PRODUCT_STRUCTURE_V1.yaml (SOLAR_ARRAY_LEFT/RIGHT.ROOT_HINGE)
+    fact: >-
+      axis_direction_S = [1.0, 0.0, 0.0] (X_S), axis point y = +/-143.15,
+      z = 0, x = -61.0; corroborated by native Hinge_Pin_Left/Right AABBs
+      (8 mm across y/z, spanning x -82..-40). Deployment rotates the panel
+      about a longitudinal (X_S) root hinge: the chord stays longitudinal in
+      every configuration; the span sweeps from Z_S (stowed) to Y_S (deployed).
+
+dimensional_checks:
+  chord_vs_long_axis: 227.0 mm along X_S < 340.5 mm body length - FITS
+  span_vs_cross_section_deployed: >-
+    200.0 mm extends outboard from the y = +/-113.15 side face by design
+    (deployable wing); not a cross-section violation.
+  span_vs_cross_section_stowed: >-
+    Stowed, the 200 mm span maps onto the Z_S 226.3 mm cross-section
+    direction, leaving 26.3 mm total Z budget for hinge standoff, HDRM,
+    edge frame, tolerances and thermal growth. This budget is NOT yet
+    evidenced: PRODUCT_STRUCTURE_V1 carries STOWED_GEOMETRY_HOLD
+    (configuration_scope: DEPLOYED ONLY). It must be closed by the item-10
+    continuous stow/deploy sweep, not by this audit.
+  hinge_standoff_note: >-
+    Hinge axis at y = +/-143.15 sits 30 mm outboard of the side face; the
+    panel inner edge (y = 113.15) is 30 mm inboard of the hinge line. This
+    standoff geometry must be inside the sweep evidence comparison sets.
+
+hazards_carried:
+  - >-
+    Historical vacuous-PASS hazard (ODR-18 item 10 note): any clearance PASS
+    must quote non-empty comparison sets and per-pair minimum distances;
+    empty-set passes are not evidence.
+  - >-
+    STOWED_GEOMETRY_HOLD remains open in WP1; the stowed panel solid must
+    exist before the continuous sweep can be run.
+
+not_done_here:
+  - No dimension change (item 6 branch retains planform).
+  - No clearance sweep, mass/flex/collision regeneration (items 9-13) -
+    tracked by ECR_SOLAR_HARNESS_01_WORK_ORDER_V1.yaml.
+
+prohibition_reminder: >-
+  Per ODR-18 items 4 and 12: do not claim 340.5 mm or 366 mm as universal 12U
+  launch authority (MODE_LAUNCH stays HOLD pending dispenser ICD); do not
+  modify the accepted B601 URDF or frozen M3R authority.

@@ -1,0 +1,613 @@
+{
+  "schema": "M7_WP12_SECONDARY_STRUCTURE_INTERFERENCE_RULING_V1",
+  "generated_local": "2026-08-22T03:13:25+08:00",
+  "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+  "phase": "M7_MECHANICAL_FINAL_DESIGN_CLOSURE",
+  "work_package": "WP12_SECONDARY_STRUCTURE_ADJUDICATION",
+  "role": "A1_PRODUCT_CAD",
+  "scope": "adjudication of WP1 FINDING 1 - G07 / G08 / MID_SUPPORT positive-volume interference",
+  "verdict": "ONE REAL POSITIVE-VOLUME OVERLAP EXISTS AND IT IS NATIVE-ONLY (G08). G07 AND MID CARRY NO OVERLAP IN EITHER REPRESENTATION. unexplained_positive_interference_count = 0, carried together with an explicit statement of what was NOT evaluable.",
+  "authority_chain": [
+    "ODR-03: the FreeCAD/STEP neutral chain is the system-level geometry authority; the SolidWorks native line is permanently off the critical path with status NATIVE_REINTEGRATION_HOLD",
+    "ODR-04: cited for METHOD only. Its precedent superseded 36 native gripper findings BECAUSE the neutral R1 authority geometry passed continuous-stroke validation. No neutral stow-support geometry exists here, so only the ODR-03 half of the precedent is invoked and no equivalent positive validation is claimed.",
+    "ODR-08: orchestration ledger and engineering ledger stay separate",
+    "ODR-17: L6 scope freeze - no support B-rep modelling is authorized in this loop",
+    "decision rule: Authority > Evidence > Independent reproduction > Agent opinion. Voting forbidden."
+  ],
+  "escalation_assessment": {
+    "O1_mission_definition_change": false,
+    "O2_equal_authority_contradiction_with_no_evidence": false,
+    "O3_frozen_architecture_change": false,
+    "conclusion": "decided autonomously; all three interfaces were adjudicated on reproducible geometry evidence, so no owner escalation is required"
+  },
+  "prohibitions_honored": {
+    "wp1_files_edited": false,
+    "sibling_wp_files_edited": false,
+    "freecad_launched": false,
+    "solidworks_launched": false,
+    "abaqus_launched": false,
+    "design_freeze_geometry_rebuilt": false,
+    "zero_fill_of_unknowns": false,
+    "l0_urdf_mass_overridden": false,
+    "flight_launcher_or_manufacturing_release_claimed": false,
+    "next_stage_authorized": false,
+    "m8_or_m9_planning_artifact_created": false
+  },
+
+  "method": {
+    "geometry_access": "read-only. Chunked binary-STL vertex/triangle streaming and STEP text parsing only. No boolean kernel, no CAD application.",
+    "arm_tessellation": {
+      "file": "B51_B601_ARTICULATED_ENGINEERING_ARM_STOWED_O13V.stl",
+      "triangles": 920536,
+      "raw_vertices": 2761608,
+      "exact_bit_unique_vertices": 457326,
+      "connected_bodies_recovered": 344,
+      "connectivity_method": "exact float32 bit-identity vertex sharing + scipy.sparse.csgraph.connected_components",
+      "precision_note": "the tessellation is float32; residuals below about 1e-4 mm are storage noise, not measurements"
+    },
+    "overlap_test": "for each arm triangle, AABB overlap against the exact axis-aligned box union of each native saddle solid. AABB overlap is a NECESSARY condition for true solid overlap, so a zero count is a conservative proof of no positive common volume; a non-zero count is then refined by a strict point-in-box interior test.",
+    "declared_stations_source": "F3R2_SUPPORT_V2_DEFINITION.json (native-line document, hash-pinned below)"
+  },
+
+  "independent_reproduction_of_wp1_measurements": {
+    "verdict": "WP1_ARITHMETIC_INDEPENDENTLY_REPRODUCED_TO_FLOAT32_PRECISION",
+    "reproduced_values_mm": {
+      "G07_V1_FOOT_FOOTPRINT_arm_min_z": {"wp1": 261.501556, "wp12": 261.5015563964844},
+      "G07_V2_HEAD_54x54_arm_min_z": {"wp1": 261.075989, "wp12": 261.0759887695312},
+      "G07_V2_DECLARED_BAND_arm_min_z": {"wp1": 261.501556, "wp12": 261.5015563964844},
+      "G08_V1_FOOT_FOOTPRINT_arm_min_z": {"wp1": 204.165466, "wp12": 204.1654663085938},
+      "G08_V2_HEAD_34x34_arm_min_z": {"wp1": 206.089951, "wp12": 206.0899505615234},
+      "G08_V2_DECLARED_BAND_arm_min_z": {"wp1": 207.096054, "wp12": 207.0960540771484},
+      "MID_all_three_windows_arm_min_z": {"wp1": 214.91893, "wp12": 214.9189300537109}
+    },
+    "conclusion": "WP1 did not fabricate any number. The defects are in MEASUREMENT SCOPE and in the DECLARED SOURCE VALUES, not in WP1's arithmetic."
+  },
+
+  "new_evidence_wp1_did_not_have": {
+    "E1_the_native_saddles_are_cradles_not_flat_pads": {
+      "method": "exact vertex-plane decomposition of the three 28-triangle native saddle tessellations",
+      "result": "each saddle is a union of axis-aligned boxes - a full-width tower plus TWO PRONGS separated by an open cradle notch exactly 3.000 mm deep",
+      "Aft_Saddle_G07": {"x_extent_mm": [-20.0, 0.0], "tower_top_z_mm": 258.08, "prong_top_z_mm": 261.079987, "prong_y_bands_mm": [[-26.809999, -22.809999], [29.189999, 33.189999]], "notch_y_band_mm": [-22.809999, 29.189999]},
+      "Fwd_Saddle_G08": {"x_extent_mm": [160.0, 180.0], "tower_top_z_mm": 206.42, "prong_top_z_mm": 209.419998, "prong_y_bands_mm": [[11.55, 15.55], [67.55, 71.550003]], "notch_y_band_mm": [15.55, 67.55]},
+      "Mid_Saddle_MID": {"x_extent_mm": [80.0, 100.0], "tower_top_z_mm": 211.92, "prong_top_z_mm": 214.919998, "prong_y_bands_mm": [[17.799999, 21.799999], [73.800003, 77.800003]], "notch_y_band_mm": [21.799999, 73.800003]},
+      "consequence": "a single scalar 'tower top z' is not a valid counterface datum for a cradle. WP1's signed_gap_to_v1_tower_top compares the arm against the highest surface of a notched part over a footprint in which that surface covers only 8 mm of the 60 mm y-span."
+    },
+    "E2_conservative_triangle_overlap_against_the_real_native_parts": {
+      "Aft_Saddle_G07": {"triangles_whose_aabb_overlaps_the_solid": 0, "triangles_with_a_vertex_strictly_inside": 0, "verdict": "NO_POSITIVE_COMMON_VOLUME_PROVEN"},
+      "Mid_Saddle_MID": {"triangles_whose_aabb_overlaps_the_solid": 0, "triangles_with_a_vertex_strictly_inside": 0, "verdict": "NO_POSITIVE_COMMON_VOLUME_PROVEN"},
+      "Fwd_Saddle_G08": {
+        "triangles_whose_aabb_overlaps_the_solid": 81,
+        "triangles_with_a_vertex_strictly_inside": 60,
+        "unique_arm_vertices_strictly_inside": 66,
+        "deepest_arm_vertex_z_mm": 204.165466,
+        "cradle_notch_floor_z_mm": 206.42,
+        "positive_overlap_depth_mm": 2.254534,
+        "overlap_region_aabb_S_mm": [161.308762, 59.090324, 204.165466, 166.420166, 67.951683, 206.122849],
+        "verdict": "REAL_POSITIVE_VOLUME_OVERLAP_IN_THE_NATIVE_REPRESENTATION_ONLY"
+      }
+    },
+    "E3_the_G07_0p4256_mm_figure_is_a_measurement_window_overrun": {
+      "declared_head_mm": [54.0, 54.0],
+      "centring_assumption": "foot-centred, explicitly flagged by WP1 as NOT stated in the V2 definition",
+      "assumed_window_x_mm": [-37.0, 17.0],
+      "real_part_x_extent_mm": [-20.0, 0.0],
+      "window_overhang_per_side_mm": 17.0,
+      "the_five_arm_vertices_below_the_declared_pad_face_in_that_window": [
+        {"xyz_mm": [-3.832944, 27.810118, 261.501556], "connected_body": 20, "inside_real_part_x_extent": true},
+        {"xyz_mm": [4.098558, 4.105473, 261.075989], "connected_body": 20, "inside_real_part_x_extent": false},
+        {"xyz_mm": [4.250015, 3.697808, 261.10379], "connected_body": 20, "inside_real_part_x_extent": false},
+        {"xyz_mm": [4.424328, 3.310453, 261.201111], "connected_body": 20, "inside_real_part_x_extent": false},
+        {"xyz_mm": [4.616199, 2.955178, 261.365051], "connected_body": 20, "inside_real_part_x_extent": false}
+      ],
+      "penetration_restricted_to_the_real_part_x_extent_mm": 4.3604e-05,
+      "interpretation": "4 of the 5 vertices that generate the 0.425611 mm figure lie 4.10 to 4.62 mm OUTSIDE the part in x. Inside the real footprint the residual is 43.6 nanometres, i.e. float32 tessellation noise. The 0.4256 mm is an artifact of an unstated head-centring assumption, not a design conflict."
+    },
+    "E4_the_G08_declared_pad_station_is_a_single_isolated_mesh_vertex": {
+      "declared_source_field": "F3R2_SUPPORT_V2_DEFINITION.json :: supports.G08.counterface_evidence.arm_lowest_z_mm",
+      "declared_value_mm": 208.4929,
+      "declared_method_string": "arm CAD mesh vertices over the footprint, lowest-band fit -- not a bbox pick",
+      "vertices_in_the_G08_region_within_0p6_micron_of_the_declared_value": 1,
+      "that_vertex_xyz_mm": [163.3878, 53.087, 208.4929],
+      "owning_connected_body": 97,
+      "owning_body_vertex_count": 33958,
+      "owning_body_min_z_over_the_real_footprint_mm": 206.667755,
+      "windows_scanned_for_a_reproducing_footprint": "1425 square sub-windows of side 10 / 20 / 30 / 34 / 40 mm over the G08 region; ZERO reproduce 208.4929 within 0.002 mm",
+      "any_connected_body_whose_footprint_minimum_equals_the_declared_value": false,
+      "per_body_footprint_minima_mm": {"body_90": 204.165466, "body_98": 205.340973, "body_97": 206.667755, "body_136": 214.45961, "body_125": 214.971161, "body_110": 216.101044},
+      "cross_check_of_the_other_two_supports": {
+        "G07_declared_261p5016_equals_its_footprint_minimum": true, "G07_residual_mm": -4.4e-05,
+        "MID_declared_214p9189_equals_its_footprint_minimum": true, "MID_residual_mm": 3.0e-05
+      },
+      "which_bodies_actually_penetrate": "the penetrating material belongs to the slender bodies 90 (1468 vertices, y 64.63 to 84.44 mm) and 98 (5992 vertices, x 129.16 to 425.99 mm) that run along the +Y flank of the arm, NOT to the main structural body 97, which clears the cradle notch floor by 0.247755 mm",
+      "interpretation": "G07 and MID satisfy the declared method exactly. G08 does not: its declared station is a single isolated vertex, 2.0 mm above the declared pad-carrier top and 1.825 mm above its own body's footprint minimum, and the declared contact band x[163.167, 172.33] y[46.643, 60.009] is drawn around exactly that vertex. The G08 counter-face search failed on its own stated method, for G08 alone.",
+      "inheritance": "because the V2 definition derives head_top_z, head_bottom_z, flare_bottom_z and pad_carrier_top_z from pad_face_z, the ENTIRE G08 head station stack inherits this error"
+    },
+    "E5_root_cause_of_the_recurring_envelope_block_confusion": {
+      "asset": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/04_ARM_STOW_SUPPORT.stl",
+      "triangles": 120,
+      "exact_triangle_for_triangle_decomposition": {"Aft_Saddle": 28, "Fwd_Saddle": 28, "Mid_Saddle": 28, "Launch_Lock_Interface_Reference": 24, "Release_Clearance_Envelope": 12},
+      "sum": 120,
+      "finding": "the native 'arm stow support' group asset is the union of THREE HARDWARE SADDLES and TWO PURE REFERENCE BLOCKS - a launch-lock interface reference and a release-clearance envelope - with no attribute distinguishing hardware from non-hardware. Any measurement that consumes this group silently mixes them.",
+      "confirmation_of_the_prior_F3_audit_finding": {
+        "prior_claim": "a 3 mm gap above G07",
+        "Release_Clearance_Envelope_bottom_z_mm": 264.08,
+        "Aft_Saddle_prong_top_z_mm": 261.079987,
+        "difference_mm": 3.000013,
+        "verdict": "CONFIRMED - the prior 3 mm reading was the envelope block, not the arm"
+      },
+      "standing_rule_issued": "never measure a stow relationship against 04_ARM_STOW_SUPPORT.stl as a whole; always use the per-part saddle tessellations"
+    },
+    "E6_the_stowed_arm_pose_itself_is_not_kinematically_ratified": {
+      "source": "wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml, configuration C05 ARM_STOWED_ONORBIT",
+      "pose_ref": "Q_STOW_ENGINEERING_CANDIDATE",
+      "pose_status": "HELD_CANDIDATE_FK_REGRESSION_FAIL_MAX_RESIDUAL_567P734_MM_RETAINED_FACT_NOT_ABSORBED_BY_UNCERTAINTY",
+      "fk_max_residual_mm": 567.734,
+      "ratio_of_registration_residual_to_each_reported_interference": {
+        "vs_G07_0p425611_mm": 1333.9,
+        "vs_G08_4p327434_mm": 131.2,
+        "vs_G08_native_2p254534_mm": 251.8
+      },
+      "interpretation": "the global registration residual of the geometry these numbers were measured on is two to three orders of magnitude larger than the numbers themselves. Millimetre-level interference cannot be adjudicated on this representation in either direction; this is why the G08 native overlap is recorded as a native-representation fact and NOT promoted to an authority-baseline interference."
+    }
+  },
+
+  "authority_baseline_state": {
+    "definition": "ODR-03 - DESIGN_FREEZE_ASSEMBLY_V1.FCStd / DESIGN_FREEZE_ASSEMBLY_V1.step, FreeCAD/STEP neutral chain",
+    "independent_step_text_verification": {
+      "MANIFOLD_SOLID_BREP": 41,
+      "CLOSED_SHELL": 41,
+      "ADVANCED_FACE": 647,
+      "installed_component_solid_sum": "6 bus + 1 solar_L + 1 solar_R + 18 arm frame/axis witness + 2 M3R + 12 gripper + 1 load bridge = 41",
+      "extra_unaccounted_solids": 0,
+      "agrees_with_wp1_receipt_and_build_report": true
+    },
+    "support_or_bracket_geometry_present": false,
+    "step_control_points_inside_the_three_declared_support_head_volumes": 0,
+    "step_control_points_inside_the_three_full_support_columns_from_the_deck_to_the_pad_face": 0,
+    "assembly_shape_bbox_z_max_mm": 247.908130023,
+    "step_control_point_cloud_z_max_mm": 247.183085118,
+    "G07_declared_pad_face_above_the_entire_assembly_z_max_mm": 13.593469977,
+    "installed_pair_narrow_phase": "21 of 21 pairs common_volume_mm3 = 0.0 (WP1 build report)",
+    "candidate_pair_narrow_phase": "16 of 16 pairs common_volume_mm3 = 0.0; the two 0.0 mm distance entries are declared INTENTIONAL_MOUNT_* face contacts, not overlaps",
+    "arm_representation": {
+      "installed_as": "INST_B601_ARM_CORE_Q0 frame/axis witness",
+      "witness_volume_mm3": 817.651847974,
+      "solid_aluminium_equivalent_volume_for_the_L0_arm_mass_mm3": 1739094.796,
+      "ratio": 2126.9,
+      "l0_arm_mass_kg": 4.695555949342986,
+      "l0_note": "ACCEPTED_URDF mass, never overridden by CAD",
+      "consequence": "the authority baseline contains NO arm body geometry, so it can neither prove nor disprove any arm-to-structure interference. This is stated explicitly so that the zero interference count below is not read as arm clearance coverage."
+    },
+    "default_configuration": "DEPLOYED_NOMINAL__ARM_TASK_READY",
+    "stowed_configuration_status": "ARM_STOWED_ONORBIT = SOURCE_WITNESS_EXISTS_NOT_EMBEDDED_AS_ACTIVE_CONFIG"
+  },
+
+  "rulings": [
+    {
+      "interface": "G07",
+      "part": "G07_PRIMARY_SUPPORT_V2 at the Aft_Saddle station",
+      "status": "NO_INTERFERENCE_IN_AUTHORITY_BASELINE",
+      "declared_nominal_gap_mm": 0.0,
+      "wp1_reported_interference_mm": 0.425611,
+      "ruling_rationale": [
+        "authority baseline: no support solid exists at all, and the declared pad face at z = 261.5016 mm lies 13.593469977 mm ABOVE the z-maximum of the entire design-freeze assembly (247.908130023 mm), so no authority-baseline body can occupy the contact station. 0 STEP control points lie in the G07 head volume or anywhere in the G07 column from the deck to the pad face.",
+        "native representation: 0 of 920536 arm triangles have an AABB that overlaps the Aft_Saddle solid, which conservatively proves no positive common volume there either.",
+        "the 0.425611 mm figure is a measurement-window overrun - 4 of the 5 driving vertices lie 4.10 to 4.62 mm outside the part's x extent [-20, 0]; restricted to the real footprint the residual is 4.3604e-05 mm."
+      ],
+      "question_b_answer": {
+        "genuine_design_conflict": false,
+        "stale_or_unstated_footprint_declaration": true,
+        "envelope_block_mistaken_for_hardware": false,
+        "answer": "STALE / UNSTATED FOOTPRINT DECLARATION - the V2 definition widens the head from 20 x 60 to 54 x 54 mm without stating its centring offset relative to the 20 x 60 foot, and the measurement inherited the assumption",
+        "envelope_block_recurrence_check": "the separate prior claim of a '3 mm gap above G07' WAS an envelope block and is CONFIRMED as such (Release_Clearance_Envelope bottom 264.08 mm vs Aft_Saddle prong top 261.079987 mm = 3.000013 mm). That specific confusion is real and is now root-caused (E5), but it is NOT what produces the new 0.4256 mm number.",
+        "residual_design_action": "state the 54 x 54 head centring offset in the support definition before any head is modelled; the pad face station itself requires no change"
+      },
+      "measured_native_clearances_over_the_real_footprint_mm": {
+        "above_plus_Y_prong_top": 0.990844,
+        "above_notch_floor": 3.421556,
+        "above_minus_Y_prong_top": 28.116333,
+        "metric_definition": "minimum vertical (z) clearance by surface region, which is an upper bound on the true 3-D minimum distance. The SIGN is established independently by the zero AABB-overlap count."
+      },
+      "corrections_to_wp1_for_terminal_round_2": [
+        {
+          "wp1_item": "SUP-OPEN-G07-01, severity DESIGN_BLOCKING_FOR_G07_HEAD_GEOMETRY",
+          "wp12_ruling": "DOWNGRADE to DEFINITION_INCOMPLETE_HEAD_CENTRING_UNSTATED. Not design-blocking and not an interference."
+        },
+        {
+          "wp1_item": "SUP-OPEN-G07-02 claim that the V1 relationship 'was effectively hard contact, not the 3 mm stand-off'",
+          "wp12_ruling": "PARTLY INCORRECT, SAME ROOT CAUSE. The -0.003998 mm reading uses the same out-of-footprint vertex. Over the real Aft_Saddle footprint the arm clears the part by 0.990844 mm above the +Y prong, 3.421556 mm above the notch floor and 28.116333 mm above the -Y prong, with 0 triangle-AABB overlaps. Correct statement: the V1 G07 relationship is NEITHER a 3 mm stand-off NOR hard contact - it is a 0.99 mm prong clearance."
+        }
+      ]
+    },
+    {
+      "interface": "G08",
+      "part": "G08_PRIMARY_SUPPORT_V2 at the Fwd_Saddle station",
+      "status": "SUPERSEDED_NATIVE_ONLY_ARTIFACT",
+      "declared_nominal_gap_mm": 0.0,
+      "wp1_reported_interference_mm": 4.327434,
+      "real_overlap_found_by_wp12_mm": 2.254534,
+      "ruling_rationale": [
+        "there IS a real positive-volume overlap, but exclusively between two native-line objects - the native V1 Fwd_Saddle tessellation and the native stowed-arm tessellation. Depth 2.254534 mm below the cradle notch floor at 206.42 mm, 81 triangle-AABB overlaps, 60 triangles with an interior vertex, 66 unique interior vertices.",
+        "neither operand exists in the authority baseline: the V2 support is DEFINED_NOT_MODELLED in both chains (exists_in_design_freeze_assembly = false, exists_in_neutral_step = false) and the arm is an 817.651847974 mm3 frame/axis witness at q0 / ARM_TASK_READY. 0 STEP control points lie in the G08 head volume or column.",
+        "the V1 Fwd_Saddle tower is itself superseded by the V2 head per the same V2 definition, so the overlap is between a superseded part and a superseded pose.",
+        "ODR-03 places the SolidWorks native line permanently off the critical path with status NATIVE_REINTEGRATION_HOLD, and 'SolidWorks native reintegration' is an explicitly permitted non-blocking hold in the terminal release condition.",
+        "the arm pose carrying the overlap has an unresolved FK regression residual of 567.734 mm, which is 251.8 times the overlap depth."
+      ],
+      "explicit_non_claim": "this ruling does NOT claim the stow interface is clear. It establishes where the interference lives and why it cannot block the neutral-chain design release. The engineering question 'does the G08 stow support clear the stowed arm' remains OPEN under the named holds below.",
+      "odr_04_precedent_applicability": {
+        "applies_in_full": false,
+        "reason": "ODR-04 superseded the 36 native gripper findings BECAUSE the neutral R1 authority geometry passed continuous-stroke validation. Here there is no neutral support geometry and no embedded stowed configuration, so nothing passed. Only the ODR-03 half of the precedent - native line off the critical path - is invoked."
+      },
+      "second_independent_defect_found": "the declared pad-face station 208.4929 mm is unreproducible from its own declared source and method - it is a single isolated mesh vertex (see E4). The entire G08 head station stack inherits the error.",
+      "question_b_answer": {
+        "genuine_design_conflict": "PARTLY - in the native representation there is real material interference, but against a superseded tower and an unratified pose",
+        "stale_or_unstated_footprint_declaration": true,
+        "envelope_block_mistaken_for_hardware": false,
+        "answer": "STALE / MIS-DERIVED DATUM DECLARATION on top of a superseded native geometry pair. The declared arm_lowest_z is a single-vertex artifact, and the parts it is compared against are both superseded."
+      },
+      "corrections_to_wp1_for_terminal_round_2": [
+        {
+          "wp1_item": "SUP-OPEN-G08-01, severity DESIGN_BLOCKING_FOR_G08_PAD_STATION",
+          "wp12_ruling": "UPHELD as a real declaration defect, RECLASSIFIED as NATIVE_LINE_DECLARATION_DEFECT_NOT_A_GATE_A_BLOCKER. Retain as a mandatory input to any future stow-support modelling. The corrective action is to re-run the counter-face search per connected body over the real cradle footprint - NOT to relieve the head against a single-vertex datum, and NOT the region [160.736465, 48.070568, 204.165466, 171.009384, 68.115639, 208.492859] that WP1 proposed, because that region is defined relative to the unreproducible pad face."
+        },
+        {
+          "wp1_item": "the statement that 'G08/MID nothing above is REFUTED'",
+          "wp12_ruling": "UPHELD. Arm material is genuinely present over both footprints (128763 raw vertices over G08, 128004 over MID); the earlier F3 audit claim was wrong."
+        }
+      ]
+    },
+    {
+      "interface": "MID_SUPPORT",
+      "part": "MID_BACKUP_SUPPORT_V2 at the Mid_Saddle station",
+      "status": "NO_INTERFERENCE_IN_AUTHORITY_BASELINE",
+      "declared_nominal_gap_mm": 2.0,
+      "wp1_reported_interference_mm": 0.0,
+      "ruling_rationale": [
+        "0 of 920536 arm triangles have an AABB overlapping the Mid_Saddle solid - a conservative proof of no positive common volume in the native representation",
+        "no support solid and 0 STEP control points in the MID head volume or column in the authority baseline",
+        "the declared 2.000 mm backup gap reproduces to 3.0e-05 mm because the declared arm counter-face station 214.9189 mm is itself the exact footprint minimum, 214.9189300537109 mm - the declared method is satisfied"
+      ],
+      "scope_correction_to_wp1": {
+        "wp1_statement": "the 2.000 mm backup gap is reproduced exactly from the stowed arm mesh",
+        "wp12_qualification": "TRUE BUT PARTLY CIRCULAR. pad_face_z is DEFINED as arm_lowest_z minus 2.0, so the 2.000 mm is a definition. What is independently reproduced is the arm counter-face STATION (declared 214.9189 vs measured 214.9189300537109).",
+        "the_independent_geometric_fact": "the arm sits 2.99893 mm above the existing Mid_Saddle cradle notch floor at 211.92 mm, and the V2 MID pad face at 212.9189 mm is a 0.9989 mm shim above that floor",
+        "additional_caveat": "the declared counter-face station is the minimum of connected body 79, which has only 80 vertices - a small feature, not the main structural body (body 69, 2882 vertices, footprint minimum 215.040771 mm). Per-body identity is not resolvable from the merged tessellation."
+      },
+      "corrections_to_wp1_for_terminal_round_2": [
+        {
+          "wp1_item": "SUP-OPEN-MID-01, severity PRIOR_STATUS_UPGRADED_WITH_EVIDENCE",
+          "wp12_ruling": "UPHELD with the circularity qualification above. Carry 2.000 mm as DERIVED_GEOMETRIC and additionally record 2.99893 mm as the independent clearance to existing hardware."
+        }
+      ]
+    }
+  ],
+
+  "terminal_release_condition_input": {
+    "criterion": "unexplained_positive_interference_count",
+    "value": 0,
+    "enumeration_of_every_positive_interference_claim_in_play": [
+      {"id": "I-01", "claim": "G07 declared pad face vs stowed arm, 0.425611 mm", "disposition": "EXPLAINED_MEASUREMENT_WINDOW_OVERRUN", "counts": 0},
+      {"id": "I-02", "claim": "G08 declared pad face vs stowed arm, 4.327434 mm", "disposition": "EXPLAINED_UNREPRODUCIBLE_SINGLE_VERTEX_DECLARED_DATUM", "counts": 0},
+      {"id": "I-03", "claim": "native V1 Fwd_Saddle vs native stowed arm, 2.254534 mm", "disposition": "EXPLAINED_REAL_BUT_SUPERSEDED_NATIVE_ONLY_ODR03", "counts": 0},
+      {"id": "I-04", "claim": "MID declared pad face vs stowed arm", "disposition": "NO_INTERFERENCE_DECLARED_GAP_AND_STATION_REPRODUCED", "counts": 0},
+      {"id": "I-05", "claim": "21 installed component pairs in the authority baseline", "disposition": "ALL_COMMON_VOLUME_ZERO_INDEPENDENTLY_CORROBORATED", "counts": 0},
+      {"id": "I-06", "claim": "16 candidate-evidence pairs including two 0.0 mm mount contacts", "disposition": "CONTACT_WITHOUT_POSITIVE_COMMON_VOLUME_DECLARED_INTENTIONAL", "counts": 0},
+      {"id": "I-07", "claim": "KO-03 solar fail-closed sweep envelope intersects the bus by 140.026469 mm", "disposition": "EXPLAINED_KEEP_OUT_ENVELOPE_NOT_HARDWARE_instantiated_as_geometry_false - see SOLAR_HINGE_AND_HARNESS_DATUM_RULING_V1.yaml", "counts": 0},
+      {"id": "I-08", "claim": "the declared harness passage volume is solid inside the neutral bus proxy", "disposition": "EXPLAINED_PROXY_FIDELITY_ITEM_NO_HARNESS_SOLID_EXISTS_SO_NO_SOLID_PAIR", "counts": 0},
+      {"id": "I-09", "claim": "M4 sensor-package candidate origin [190.25, 0, 80.0] penetrated M3R", "disposition": "EXPLAINED_ALREADY_REJECTED_AND_REPLACED_BY_CANDIDATES_A_B_G4_ALL_WITH_ZERO_COMMON_VOLUME", "counts": 0}
+    ],
+    "unexplained_positive_interference_count": 0,
+    "interference_evaluation_coverage_limits_THAT_MUST_TRAVEL_WITH_THE_COUNT": [
+      "the authority baseline holds no arm body geometry - 817.651847974 mm3 frame/axis witness against a 1739094.796 mm3 solid-aluminium equivalent for the L0 arm mass, a factor of 2126.9 - so no arm-to-structure interference is evaluable in the neutral chain",
+      "ARM_STOWED_ONORBIT (C05) is not an embedded active configuration and its pose carries a 567.734 mm FK regression residual",
+      "all three stow supports are DEFINED_NOT_MODELLED in both the native and the neutral chain",
+      "no continuous sweep and no moving-harness sweep were computed",
+      "gripper finger B-rep separation remains held (FINGER_BREP_SEPARATION_HOLD)",
+      "per-body identity (link vs harness vs bracket) inside the merged native arm tessellation is not established"
+    ],
+    "statement": "the count is zero because every positive interference found has been located, attributed and explained. It is NOT a statement that the stow interface, the arm envelope or the moving harness are clear."
+  },
+
+  "holds_raised_or_retained": [
+    {
+      "id": "HOLD_STOW_SUPPORT_TO_STOWED_ARM_CLEARANCE_UNVERIFIED_IN_AUTHORITY_BASELINE",
+      "class": "NON_BLOCKING",
+      "external_dependency": "SolidWorks native reintegration (explicitly permitted non-blocking hold) AND launcher / separation ICD (ODR-06 retained hold). The stow supports react stow inertia during launch and transport, and the accepted operational baseline is the post-release on-orbit state.",
+      "closure_trigger": "ECR-M6 launcher or separation ICD received, or ECR-M2 if a stowed-configuration collision defect is discovered"
+    },
+    {
+      "id": "HOLD_G08_DECLARED_PAD_FACE_STATION_IS_A_SINGLE_VERTEX_ARTIFACT",
+      "class": "NON_BLOCKING",
+      "supersedes": "HOLD_G08_DECLARED_PAD_FACE_STATION_CONTRADICTED_BY_MEASUREMENT",
+      "external_dependency": "none - internally correctable, but only meaningful once a support B-rep is authorized, and no support modelling is authorized in this loop (ODR-17 scope freeze)",
+      "closure_trigger": "authorization of stow-support detail design"
+    },
+    {
+      "id": "HOLD_G07_V2_HEAD_CENTRING_OFFSET_NOT_STATED",
+      "class": "NON_BLOCKING",
+      "supersedes": "HOLD_G07_WIDENED_V2_HEAD_INTERFERES_WITH_THE_ARM_COUNTERFACE",
+      "external_dependency": "none - a one-line declaration in the support definition",
+      "closure_trigger": "authorization of stow-support detail design"
+    },
+    {
+      "id": "HOLD_PER_BODY_ATTRIBUTION_OF_THE_STOWED_ARM_TESSELLATION_NOT_ESTABLISHED",
+      "class": "NON_BLOCKING",
+      "evidence": "344 connected bodies recovered by exact-bit vertex sharing, but body-to-link identity requires the native assembly tree. The accepted-URDF per-link meshes are a DIFFERENT geometry version (registered CAD-vs-URDF divergence) and must not be used to attribute native material.",
+      "external_dependency": "SolidWorks native reintegration",
+      "closure_trigger": "ECR-M6 or native reintegration"
+    },
+    {
+      "id": "HOLD_NATIVE_STOW_SUPPORT_GROUP_ASSET_MIXES_HARDWARE_AND_REFERENCE_BLOCKS",
+      "class": "NON_BLOCKING",
+      "evidence": "04_ARM_STOW_SUPPORT.stl = 3 saddles + launch-lock reference + release-clearance envelope, triangle for triangle",
+      "external_dependency": "none - a data-hygiene rule, issued above as a standing rule",
+      "closure_trigger": "immediate; no further action beyond honouring the rule"
+    }
+  ],
+
+  "gate_a_input_from_a1": {
+    "note": "criterion states are set by A0 in 12_release. These are A1's evidence-bound recommendations, not decisions.",
+    "criterion_03_SYSTEM_GEOMETRY": {
+      "recommendation": "PASS",
+      "basis": "cold reopen valid; 41 solids exactly accounted for by the 7 installed components; no unexplained missing or extra solids; independently re-counted from the STEP text (41 MANIFOLD_SOLID_BREP, 41 CLOSED_SHELL, 647 ADVANCED_FACE)"
+    },
+    "criterion_02_PRODUCT_STRUCTURE": {
+      "recommendation": "PASS_WITH_DECLARED_OPEN_ITEM",
+      "basis": "stow supports and brackets are present in the product tree as candidate slots (SLOT_STOW_SUPPORTS__CANDIDATE_REF, UNRESOLVED_HOLD). Declared open item: secondary-structure B-rep. External dependency: native reintegration plus launcher ICD. Trigger: ECR-M6.",
+      "odr_14_conditions": {
+        "design_definition_complete": "yes at candidate level - all three supports have stations, heads, pads, fasteners, materials and mass estimates",
+        "current_operational_digital_twin_unaffected": "yes - the operational baseline is the post-release deployed state and consumes no stow-support geometry",
+        "open_item_is_qualification_as_built_or_external_class": "yes - launch retention plus native reintegration",
+        "no_HIGH_finding_attached": "yes - the two former DESIGN_BLOCKING items are reclassified above with reproducible evidence",
+        "explicit_future_trigger_named": "yes - ECR-M6 / ECR-M2"
+      }
+    },
+    "criterion_07_GRIPPER_R1": {"recommendation": "NOT_ADJUDICATED_BY_WP12", "basis": "outside this work package's scope"}
+  },
+
+  "memory_gate": {
+    "available_physical_gib": 4.556671,
+    "total_physical_gib": 15.210205,
+    "threshold_gib": 6.0,
+    "memory_gate_passed": false,
+    "measurement_status": "MEASURED",
+    "declaration": "the 6 GiB memory gate is FAILED on this host and stays declared as failed. This adjudication launched no FreeCAD, no SolidWorks, no Abaqus and no boolean kernel operation - only chunked binary-STL streaming and STEP text parsing."
+  },
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "gate_b": "MECHANICAL_FLIGHT_QUALIFICATION_RELEASED remains HOLD",
+  "explicit_non_claims": [
+    "NO_STOW_SUPPORT_SOLID_EXISTS_IN_ANY_AUTHORITY_CHAIN",
+    "NO_MEASURED_HARDWARE_GAP_IS_CLAIMED_ANYWHERE_IN_THIS_DOCUMENT",
+    "NOT_A_CLEARANCE_CERTIFICATION_FOR_THE_STOWED_CONFIGURATION",
+    "NOT_MANUFACTURING_RELEASED",
+    "NOT_FLIGHT_OR_LAUNCH_QUALIFIED"
+  ],
+  "source_register": {
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md": {
+      "bytes": 4931,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md",
+      "sha256": "AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml": {
+      "bytes": 3531,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml",
+      "sha256": "F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml": {
+      "bytes": 19133,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+      "sha256": "5602CB6FC3DC983681F60D8FA94B432FBA4D432830F5B2362049DB4C1B849BF7"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/arm_probe.py": {
+      "bytes": 4763,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/arm_probe.py",
+      "sha256": "E2CB1E6B16EB1DEB6825E1DFCAC83C38373F1B5BE60B485EB0885B109386368B"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/body_attrib.py": {
+      "bytes": 3488,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/body_attrib.py",
+      "sha256": "2C8BC1BF34A36231B384755760A9928CBD2D5A2E48F1A0F09A1020D2F810F9E0"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/compute_derived.py": {
+      "bytes": 11133,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/compute_derived.py",
+      "sha256": "D2BA572C110C43982AA5F920715BD6A5A329D64A8E4E7ED4F86AA93EDC997384"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f2_f3.py": {
+      "bytes": 4341,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f2_f3.py",
+      "sha256": "093911E0C845583B8009588448D0181FCC593CFE71F4125529EA028E6E91C2BC"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f3_section.py": {
+      "bytes": 1127,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f3_section.py",
+      "sha256": "D574683FC3B8DCF4CAB35A01CEDA8F2A5086C59A6A473D2496D73CABC0E2016B"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/g08_forensic.py": {
+      "bytes": 2770,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/g08_forensic.py",
+      "sha256": "4988196794D9861DDCC0CF4E5B154D5AA6682E9AB69585ABF539F99806D65E94"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/group_check.py": {
+      "bytes": 1033,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/group_check.py",
+      "sha256": "51DEDBEAEC2C7280D57E46A3588CED2DA8505E1382E9067E4BE93EC24A67A53E"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/read_saddles.py": {
+      "bytes": 1556,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/read_saddles.py",
+      "sha256": "6ABCA7898F1F8F3C8B5440C3A1CED5B01B0B13956A853159C1E5C08C7E16B813"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/refine.py": {
+      "bytes": 3368,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/refine.py",
+      "sha256": "EF6E1BFED236D4F8ABB820E166CB3C0B03CDE4CB1C54A04D3677E0D98A10FC3C"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/step_probe.py": {
+      "bytes": 2071,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/step_probe.py",
+      "sha256": "AD5EFEA8A09ED5166B6B618EF06EF2537089E42F205AE22792456E5B0198AD53"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json": {
+      "bytes": 29415,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json",
+      "sha256": "105BCB020FAF9F535C3A18F9A37831679F89070A8CA69C5960F959A686F332C1"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step": {
+      "bytes": 1373004,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step",
+      "sha256": "8C85585E9C051AEBB849E48F56354B48BF4204F61103B550BD92FC77BA99EA9E"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/HARNESS_ROUTING_V1.yaml": {
+      "bytes": 52036,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/HARNESS_ROUTING_V1.yaml",
+      "sha256": "E54594FB51C5EC7A1BFE5180870C544BDABA315870DF7451B8B1B0235449DBAC"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml": {
+      "bytes": 36933,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml",
+      "sha256": "AC446D4C685AED21A35AE5BEFAE804A8FE8C49D6103D87509ED7EC9B7EDEDB6D"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml": {
+      "bytes": 48807,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml",
+      "sha256": "0F9897EF4E41666DDB29CB0FC621DD737FDD8CCDE3F5527030E53A9D1604681A"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml": {
+      "bytes": 51418,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml",
+      "sha256": "10106444309B6E835D9C87EF41A0FF78FF4CFDAC8C773C7B9B158FC3C0DA1B05"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/receipt.json": {
+      "bytes": 28709,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/receipt.json",
+      "sha256": "E2F7EF70F242BB52554F1E534B2ABCA9F7D678A16197E9CDDD29CF7117B3B4FF"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml": {
+      "bytes": 125365,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml",
+      "sha256": "F20BC2E97FE12AF5D3CFE48B4EDA8B82FA38BE9B3187C59C07FDAA259233786B"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/TOLERANCE_CHAIN_REGISTER_V1.yaml": {
+      "bytes": 23782,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/TOLERANCE_CHAIN_REGISTER_V1.yaml",
+      "sha256": "3E3D596EF65490B68EE875E3ECE0D1F8E6209DB75EBDC31F7E585570C68ED016"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml": {
+      "bytes": 13650,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml",
+      "sha256": "1F6E2D556921C0D69A00DFC1FDAA02FD47850F5472D4A88B4B66FD1666725FB2"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml": {
+      "bytes": 11002,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml",
+      "sha256": "1DEC46C6691E5B4BFA2258F6AA6DA9341CA86DF35F8B73354280D28F4AC305FE"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml": {
+      "bytes": 1246,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml",
+      "sha256": "172F3603E458F670323925E644BC68623EE9C85FCA7AF1200FAE2576EB43C68B"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_L_DEPLOYED.stl": {
+      "bytes": 684,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_L_DEPLOYED.stl",
+      "sha256": "F5EC27D88EAE75D3033DA5718E4C5165B8F475917D126730B69B4D02773BBE78"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/04_ARM_STOW_SUPPORT.stl": {
+      "bytes": 6084,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/04_ARM_STOW_SUPPORT.stl",
+      "sha256": "1C4DE2BCBE27A0278EE901E40F46542E075002ABFF99B6216F6EEC7D183FE5CD"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Aft_Saddle.stl": {
+      "bytes": 1484,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Aft_Saddle.stl",
+      "sha256": "01E997CE8BCBB92486F256A55536576333A905D0BD4A770009A072217CA71C30"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_B601_ARTICULATED_ENGINEERING_ARM_STOWED_O13V.stl": {
+      "bytes": 46026884,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_B601_ARTICULATED_ENGINEERING_ARM_STOWED_O13V.stl",
+      "sha256": "A134EE269689D888E8D05AA60AE05A9014FA3C139AFEF4F1E0429D8628EF57A2"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Fwd_Saddle.stl": {
+      "bytes": 1484,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Fwd_Saddle.stl",
+      "sha256": "0ECDF0059EAB1C10FA80FB405FDDE8E7131F7F9FA41EAE3220FB56D1F009D9D6"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Left.stl": {
+      "bytes": 684,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Left.stl",
+      "sha256": "F5160C9FDDD58E55D3275DDB539EF8E424BAB1F912B0AEF70452894B5E84B4EB"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Right.stl": {
+      "bytes": 684,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Right.stl",
+      "sha256": "435741BD32334372949DFA656868A5B7CD15E3320C755211C6CCD60F7D792055"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Left.stl": {
+      "bytes": 7084,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Left.stl",
+      "sha256": "0D6AA3A2778041143B37E2B4C3B756309F189D07D7598E6337EBCD13ADD263A2"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Right.stl": {
+      "bytes": 7084,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Right.stl",
+      "sha256": "56D39CEA1163F6FB146A10260BDD35201146C9D409E7CBD9DA352126802D937C"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Launch_Lock_Interface_Reference.stl": {
+      "bytes": 2484,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Launch_Lock_Interface_Reference.stl",
+      "sha256": "D431EF8D9A20F0DE6A60789D6D100324061CA77188DD3A9C3459DC0A9C72B148"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Mid_Saddle.stl": {
+      "bytes": 1484,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Mid_Saddle.stl",
+      "sha256": "AA6E7F59F2CC980A9AACC19E57811E0F5D32BFB896A54A09BD09FF53C84AC5FD"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Release_Clearance_Envelope.stl": {
+      "bytes": 684,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Release_Clearance_Envelope.stl",
+      "sha256": "79EE616884401A4EB06A076451F75D487DB67F29234170220BE94CBF183ECB8B"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_L_STOWED.stl": {
+      "bytes": 684,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_L_STOWED.stl",
+      "sha256": "02BE7F6BFA149FBC78834E7476767D5319AB0C8CEF44DB8A03E560901CED91B7"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/06_supports/F3R2_SUPPORT_V2_DEFINITION.json": {
+      "bytes": 17229,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/06_supports/F3R2_SUPPORT_V2_DEFINITION.json",
+      "sha256": "7CA4BD5B0F83212492DE2200334D35D4F02830C0FD4164DC6C888CF354C94432"
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json": {
+      "bytes": 5727,
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json",
+      "sha256": "07618B5CFE2C2F1D2391B5D845CB82AD7ECFBBCC6371EEADF931289C8F2902D6"
+    },
+    "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf": {
+      "bytes": 11321,
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+      "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164"
+    },
+    "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL": {
+      "bytes": 3898684,
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL",
+      "sha256": "22641C079014FE968702393F61E7F7F1A8F80C6C1DF45A61E31545F6EAFF3B65"
+    },
+    "30_simulation/sim_13_physics_gated_embodied_grasping/assets/BOOTSTRAP_TEST_FRAME_TREE.json": {
+      "bytes": 1335,
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/assets/BOOTSTRAP_TEST_FRAME_TREE.json",
+      "sha256": "2FBA01A21C856CBC87C3A32D72485E340239A722E1A8F107DEC8FCAC9C3720D1"
+    },
+    "30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json": {
+      "bytes": 4196,
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json",
+      "sha256": "C224853EABBD00C9C14C812922E3B2A7E406AF43A81CF7CA6A307860A951466C"
+    },
+    "30_simulation/sim_13_physics_gated_embodied_grasping/src/mechanical_asset_loader.py": {
+      "bytes": 23753,
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/src/mechanical_asset_loader.py",
+      "sha256": "C0797E5786888E357784369F6601B380C4E94FAE76B3FBFCF4C46717A833E851"
+    }
+  }
+}

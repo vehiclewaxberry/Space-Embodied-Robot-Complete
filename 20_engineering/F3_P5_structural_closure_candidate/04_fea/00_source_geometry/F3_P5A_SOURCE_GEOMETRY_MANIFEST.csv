@@ -1,0 +1,75 @@
+# F3-P5A Source Geometry Manifest
+
+**文档编号：** `F3-P5A-SOURCE-GEOMETRY-MANIFEST-20260805`
+**生成 UTC：** 2026-08-05
+**状态：** `SOURCE_GEOMETRY_FROZEN`
+
+---
+
+## 1. 结构件来源（V2_3 SolidWorks 原生）
+
+| 件名 | 源路径 | 角色 | FEA 包含 | 备注 |
+|---|---|---|---|---|
+| Adapter_Plate | `V2_3/02_B601_Mount_and_Load_Path/parts/Adapter_Plate.SLDPRT` | 基座适配器 | YES | 160×160×12 |
+| Central_Boss | `V2_3/02_B601_Mount_and_Load_Path/parts/Central_Boss.SLDPRT` | 中央凸台 | YES | Ø100×15 |
+| Spacecraft_Flange | `V2_3/02_B601_Mount_and_Load_Path/parts/Spacecraft_Flange.SLDPRT` | 航天器法兰 | YES | 与前端框连接 |
+| Load_Spreading_Frame | `V2_3/02_B601_Mount_and_Load_Path/parts/Load_Spreading_Frame.SLDPRT` | 载荷扩散板 | YES | 载荷桥 |
+| Load_Bridge_Left | `V2_3/02_B601_Mount_and_Load_Path/parts/Load_Bridge_Left.SLDPRT` | 左载荷桥 | YES | 与纵梁连接 |
+| Load_Bridge_Right | `V2_3/02_B601_Mount_and_Load_Path/parts/Load_Bridge_Right.SLDPRT` | 右载荷桥 | YES | 与纵梁连接 |
+| Aft_Saddle (G07) | `V2_3/04_ARM_STOW_SUPPORT/parts/Aft_Saddle.SLDPRT` | G07 主鞍座 | YES | X[-20,0] z=261.08 |
+| Fwd_Saddle (G08) | `V2_3/04_ARM_STOW_SUPPORT/parts/Fwd_Saddle.SLDPRT` | G08 腕部支撑 | YES | X[160,180] z=209.42 |
+| Mid_Saddle | `V2_3/04_ARM_STOW_SUPPORT/parts/Mid_Saddle.SLDPRT` | Mid 备份鞍座 | YES | X[80,100] z=214.92 |
+| Longerons_4X | `V2_3/01_Primary_Structure/parts/Longerons_4X.SLDPRT` | 四纵梁 | YES | 17×17 角点 ±101.65 |
+| Front_End_Frame | `V2_3/01_Primary_Structure/parts/Front_End_Frame.SLDPRT` | 前端框 | YES | 与 Spacecraft_Flange 连接 |
+
+---
+
+## 2. B601 几何来源（F3-P1 HIFI 视觉包）
+
+| 件名 | 源路径 | 角色 | FEA 包含 | 备注 |
+|---|---|---|---|---|
+| B601_STOWED_HIFI | `F3_P1/01_visual_packages/` | B601 收拢几何 | NO（质量/惯量从 URDF） | 仅作几何参考，质量/惯量从 accepted URDF |
+
+**规则：** B601 质量/惯量**必须**从 accepted URDF 聚合（4.695556 kg），**不得**从 HIFI CAD 获取。
+
+---
+
+## 3. 几何简化规则
+
+| 规则 | 说明 | 状态 |
+|---|---|---|
+| 保留孔 | 所有螺栓孔、定位销孔保留 | FROZEN |
+| 保留法兰 | 所有法兰面保留 | FROZEN |
+| 保留支撑 | G07/G08/Mid 支撑保留 | FROZEN |
+| 保留筋板 | 加强筋保留 | FROZEN |
+| 保留接触面 | 所有接触面保留 | FROZEN |
+| 保留关键圆角 | 影响应力集中的圆角保留 | FROZEN |
+| 删除微小装饰 | 不影响载荷路径的微小装饰删除 | `DESIGN_PROPOSAL` |
+| 记录每项简化 | 每项简化必须记录理由 | FROZEN |
+
+---
+
+## 4. 几何修复规则
+
+| 规则 | 说明 | 状态 |
+|---|---|---|
+| 修复无效边 | 删除或修复无效边 | `DESIGN_PROPOSAL` |
+| 修复自交 | 删除或修复自交面 | `DESIGN_PROPOSAL` |
+| 修复开放边 | 缝合开放边 | `DESIGN_PROPOSAL` |
+| 保留原始副本 | 修复前保留原始副本 | FROZEN |
+| 记录修复 | 每项修复必须记录 | FROZEN |
+
+---
+
+## 5. 几何哈希
+
+| 件名 | 源哈希 | 状态 |
+|---|---|---|
+| V2_3 baseline_freeze_manifest.yaml | E27F44E58B726CDA8A5402F539B0CD96D74DE59C809721FFECF71458057D89E9 | FROZEN |
+| F3-P1 HIFI 视觉包 | 见 F3-P1 报告 | FROZEN |
+
+---
+
+## 6. 下一步
+
+建立 M0 梁/壳快速模型并运行首个 UL_FZ 工况。

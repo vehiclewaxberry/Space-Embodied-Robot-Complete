@@ -1,0 +1,50 @@
+{
+  "schema": "SIM13_V4B3_URDF_TOPOLOGY_LEDGER_V1",
+  "role": "READ_ONLY_TOPOLOGY_AND_FRAME_SEMANTICS__NOT_CONTACT_OR_TIMING_AUTHORITY",
+  "source_urdf": {
+    "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+    "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+    "modified_by_phase_b3": false
+  },
+  "consumer": "SIM13_V4B3_SYNTHETIC_BRANCHED_DUAL_CONTACT_DIAGNOSTIC",
+  "units": {"length": "m", "mass": "kg", "angle": "rad", "time": "s"},
+  "links": [
+    {"name": "gripper_link", "role": "fixed palm", "inertial_source": "existing URDF design model only"},
+    {"name": "gripper_left", "role": "left physical finger design-model link", "parent_joint": "gripper_joint1"},
+    {"name": "gripper_right", "role": "right physical finger design-model link", "parent_joint": "gripper_joint2"}
+  ],
+  "joints": [
+    {
+      "name": "gripper_joint1", "type": "prismatic", "parent": "gripper_link", "child": "gripper_left",
+      "origin_xyz_parent_m": [-0.042091, 0.000027531, -0.000013031],
+      "origin_rpy_parent_rad": [0.0, 0.0, -1.5708], "axis_joint_frame": [1.0, 0.0, 0.0],
+      "axis_palm_frame_analytic": [0.0, -1.0, 0.0], "positive_motion": "opens left finger along palm -Y",
+      "limit_m": [0.0, 0.0715]
+    },
+    {
+      "name": "gripper_joint2", "type": "prismatic", "parent": "gripper_link", "child": "gripper_right",
+      "origin_xyz_parent_m": [-0.042091, -0.000027531, 0.000013031],
+      "origin_rpy_parent_rad": [0.0, 0.0, 1.5708], "axis_joint_frame": [1.0, 0.0, 0.0],
+      "axis_palm_frame_analytic": [0.0, 1.0, 0.0], "positive_motion": "opens right finger along palm +Y",
+      "limit_m": [0.0, 0.0715]
+    }
+  ],
+  "model_limit_exclusions": {
+    "urdf_velocity_literal_m_s": 15.0,
+    "physical_speed_authority": false,
+    "physical_timing_authority": false,
+    "physical_force_authority": false
+  },
+  "analytic_axis_idealization": {
+    "urdf_joint_origin_abs_yaw_rad": 1.5708,
+    "kernel_uses_exact_pi_over_2": true,
+    "absolute_difference_rad": 0.000003673205103416066,
+    "scope": "synthetic topology diagnostic only; source URDF SHA remains authoritative and the idealization grants no physical frame authority"
+  },
+  "missing_spatial_authorities": {
+    "left_contact_frame_T_gripper_link": null,
+    "right_contact_frame_T_gripper_link": null,
+    "target_contact_geometry": null,
+    "rule": "B3 contact pads must be named synthetic assumptions and may not be attributed to this URDF"
+  }
+}

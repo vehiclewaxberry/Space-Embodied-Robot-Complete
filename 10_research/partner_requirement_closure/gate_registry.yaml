@@ -1,0 +1,25 @@
+# Partner Requirement Closure Phase — Gate 注册表 v0（2026-07-19）
+# 既有 Gate（冻结，只引用不修改）+ 新模块 Gate（设计态，实施前须 PI 批准阈值来源）
+version: v0
+frozen_gates:
+  sim_10: {verdict: SIM10_GATES_PASS, path: 30_simulation/sim_10_mission_feasibility/results/sim_10_gate_check.json}
+  sim_11: {verdict: SIM11_GATES_PASS_WITH_PROVISIONAL_PARAMS, path: 30_simulation/sim_11_coupled_dynamics/results/sim_11_gate_check.json}
+  sim_12_phase1: {verdict: SIM12_PHASE1_GATES_PASS, path: 30_simulation/sim_12_strategy_feasibility/results/sim_12_gate_check.json}
+  threshold_registry: {path: 30_simulation/e15_core_coverage/config/threshold_registry_core_v1.yaml,
+                       sha256: 400bcedce5af6ad5c4135e67f87bb524ee2fdafb1c26aeae07e495ff387b2873}
+planned_gates:                      # 各 Agent 计划书细化；此处登记骨架与铁律
+  GA0_state_truth: {status: PASS, report: 10_research/partner_requirement_closure/state_truth_report.md}
+  GC1_trajectory_control:           # control_01（B-Agent 细化）
+    anchors: [sim_05 19.20° 复现(C0 关节空间退化), sim_11 A1 J* 数值一致性]
+    hard: [动量守恒机器精度(自由漂浮方法), 误差指标含 95 分位, 四方法同一轨迹集可比]
+  GC2_attitude_stab:                # control_02（C-Agent 细化）
+    hard: [内部运动不改总H断言, 轮组容量取冻结registry, 反冲抑制与消旋分账出具]
+  GR1_rom_qualification:            # D-Agent 细化
+    hard: [unsafe_false_negative=0, 域外返回UNKNOWN, Top-k排序一致性, e15口径交叉认证(L2)]
+  GV1_vla_protocol:                 # E-Agent 细化
+    hard: [按组留出泛化, AprilTag只称合作标记替身, 非法工具调用率指标必列, EXECUTE须引用gate JSON]
+  GI1_tool_contract:                # F-Agent 细化
+    hard: [工具只读冻结裁决工件, 无绕过Gate执行路径, scenario hash 全链传递]
+iron_rules: [禁改阈值制造PASS, 禁删FAIL/UNKNOWN, 禁改冻结sim, 禁重做已PASS功能,
+             测试PASS≠科学PASS, VLA不输出力矩, 禁RL替代动力学,
+             固定基座不称自由漂浮验证, AprilTag不称非合作泛化, PROVISIONAL不删]

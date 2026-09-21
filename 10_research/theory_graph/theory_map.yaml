@@ -1,0 +1,155 @@
+schema_version: research_os_theory_map_v1
+status: DERIVED_NAVIGATION_NOT_SCIENTIFIC_SSOT
+last_verified_head: b75352c1c226c0f3e9a4bc9c469b766e06f41616
+
+questions:
+  Q1:
+    path: 10_research/research_questions/Q1_capture_feasibility.md
+    role: paper1_core
+  Q2:
+    path: 10_research/research_questions/Q2_flexible_coupling.md
+    role: limitation_and_boundary
+  Q3:
+    path: 10_research/research_questions/Q3_uncertainty_constraint.md
+    role: confidence_audit
+  Q4:
+    path: 10_research/research_questions/Q4_embodied_intelligence.md
+    role: future_interface
+  Q5:
+    path: 10_research/research_questions/Q5_digital_twin.md
+    role: future_validation
+  Q6:
+    path: 10_research/research_questions/Q6_on_orbit_assembly.md
+    role: planned_module_assembly_scope_execution_blocked
+
+nodes:
+  terminal_relative_state:
+    status: ASSUMED_INPUT
+    statement: terminal capture state is supplied by an upstream layer
+    excludes: full_orbital_rendezvous_validation
+  free_floating_coupling:
+    status: EXISTING_MODEL_INTERFACE
+    modules:
+      - 30_simulation/sim_05_free_floating_arm
+    literature_cards:
+      - wilde2018tutorial
+      - yoshida2001zrm
+  contact_momentum_exchange:
+    status: EXISTING_MODEL_INTERFACE
+    modules:
+      - 30_simulation/sim_06_capture_impulse
+      - 30_simulation/common/capture_impulse.py
+    literature_cards:
+      - yoshida2004impedance
+      - uyama2012compliantwrist
+  grasp_candidate_prefilter:
+    status: LIMITED_NO_GLOBAL_VERDICT
+    module: 30_simulation/sim_09_grasp_evaluator
+    gate: 30_simulation/sim_09_grasp_evaluator/results/e1_gate_check.json
+  mission_feasibility_map:
+    status: VERIFIED_WITHIN_FROZEN_CONTRACT
+    module: 30_simulation/sim_10_mission_feasibility
+    gate: 30_simulation/sim_10_mission_feasibility/results/sim_10_gate_check.json
+    original_verdict: SIM10_GATES_PASS
+    flex_status: UNKNOWN_NOT_IN_CRITERIA
+  finite_bandwidth_flexible_side_evidence:
+    status: LIMITED_PROVISIONAL
+    module: 30_simulation/sim_11_coupled_dynamics
+    gate: 30_simulation/sim_11_coupled_dynamics/results/sim_11_gate_check.json
+    original_verdict: SIM11_GATES_PASS_WITH_PROVISIONAL_PARAMS
+  strategy_binding_gate:
+    status: VERIFIED_WITHIN_PHASE1
+    module: 30_simulation/sim_12_strategy_feasibility
+    gate: 30_simulation/sim_12_strategy_feasibility/results/sim_12_gate_check.json
+    original_verdict: SIM12_PHASE1_GATES_PASS
+    flex_status: UNKNOWN_NOT_IN_CRITERIA
+  e15_core_candidate_gate:
+    status: NEGATIVE_RESULT
+    module: 30_simulation/e15_core_coverage
+    gate: 30_simulation/e15_core_coverage/results/core_gate_check.json
+    original_verdict: REPEAT_CORE_NO_SAFE_CANDIDATE
+  e15_flexible_certification:
+    status: NEGATIVE_RESULT_BLOCKED
+    module: 30_simulation/e15_ancf_certification
+    gate: 30_simulation/e15_ancf_certification/results/gate_summary.json
+    original_verdict: REPEAT_ANCF_CERTIFICATION
+  e16_synchronized_capture:
+    status: LIMITED_WITH_ZERO_FORMAL_SAFE
+    module: 30_simulation/e16_sync_capture
+    gate: 30_simulation/e16_sync_capture/results/gate_check.json
+    original_verdict: PASS_WITH_GEOMETRY_AND_FLEX_LIMITATIONS
+  fail_closed_runtime_gate:
+    status: VERIFIED_NOT_AUTHORIZED_FORWARD
+    module: 30_simulation/safety_00_runtime_gate
+    gate: 30_simulation/safety_00_runtime_gate/results/safety_00_gate_check.json
+    original_verdict: PASS
+    next_stage_authorized: false
+  assembly_interface_preflight:
+    status: BLOCKED_NOT_AUTHORIZED
+    module: 30_simulation/asm_00_interface_preflight
+    gate: 30_simulation/asm_00_interface_preflight/results/asm_00_gate_check.json
+    original_verdict: ASM00_AG0_BLOCKED_BY_INTERFACE
+    scientific_execution_authorized: false
+    next_stage_authorized: false
+    contract_freeze_is_hag_a_approval: false
+  module_assembly_theory_contract:
+    status: PLANNED_SCOPE_FROZEN_EXECUTION_BLOCKED
+    question: 10_research/research_questions/Q6_on_orbit_assembly.md
+    theory_chain: 10_research/theory_graph/q6_assembly_theory_chain.md
+    evidence_plan: 10_research/research_os_02/q6_evidence_gap_and_generation_plan.md
+    near_term_object: prepared_interface_1u_2u_module_installation
+    large_truss_role: future_extension_q6_l2
+
+edges:
+  - from: terminal_relative_state
+    to: free_floating_coupling
+    relation: supplies_initial_state
+  - from: free_floating_coupling
+    to: contact_momentum_exchange
+    relation: supplies_effective_system_state
+  - from: contact_momentum_exchange
+    to: grasp_candidate_prefilter
+    relation: supplies_contact_metrics
+  - from: grasp_candidate_prefilter
+    to: mission_feasibility_map
+    relation: candidate_to_mission_space
+  - from: mission_feasibility_map
+    to: strategy_binding_gate
+    relation: region_to_strategy_comparison
+  - from: strategy_binding_gate
+    to: fail_closed_runtime_gate
+    relation: evidence_to_safety_contract
+  - from: finite_bandwidth_flexible_side_evidence
+    to: mission_feasibility_map
+    relation: limitation_only_not_formal_criterion
+  - from: e15_flexible_certification
+    to: finite_bandwidth_flexible_side_evidence
+    relation: certification_blocker
+  - from: e16_synchronized_capture
+    to: strategy_binding_gate
+    relation: limited_extension_boundary
+  - from: free_floating_coupling
+    to: module_assembly_theory_contract
+    relation: method_reuse_only_not_assembly_evidence
+  - from: finite_bandwidth_flexible_side_evidence
+    to: module_assembly_theory_contract
+    relation: limitation_only_target_side_update_required
+  - from: fail_closed_runtime_gate
+    to: assembly_interface_preflight
+    relation: safety_semantics_reuse_not_forward_authorization
+  - from: assembly_interface_preflight
+    to: module_assembly_theory_contract
+    relation: blocked_prerequisite_ag0
+
+forbidden_inferences:
+  - sim09_has_overall_pass
+  - sim10_or_sim12_contains_flexible_gate
+  - e15_coverage_pass_means_scientific_pass
+  - e16_overall_pass_means_safe_candidate_exists
+  - safety_pass_means_next_stage_authorized
+  - sim01_validates_hill_cw_rendezvous
+  - literature_replaces_project_gate
+  - assembly_contract_freeze_means_hag_a_approved
+  - q6_scope_plan_authorizes_scientific_execution
+  - external_isam_ground_demo_proves_project_assembly
+  - module_connection_automatically_means_assembly_success

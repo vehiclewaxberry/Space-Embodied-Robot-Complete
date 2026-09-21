@@ -1,0 +1,141 @@
+schema_version: SYSTEM_MASS_PROPERTIES_V2
+generated_local: '2026-08-21T13:50:00+08:00'
+phase: M3_MECHANICAL_DETAILED_DESIGN_CLOSURE
+scope: WORKING_DIGITAL_MASS_PROPERTY_AUTHORITY
+release_status: M3_WORKING_NOT_RELEASED_TO_PRODUCTION_OR_FLIGHT
+overall_status: PARTIAL_DIGITAL_AUTHORITY_SYSTEM_CONFIGURATIONS_HOLD
+
+units:
+  mass: kg
+  center_of_mass: m
+  inertia: kg*m^2
+  linear_dimension: m unless explicitly mm
+  angle: rad unless explicitly deg
+
+source_classification_vocabulary:
+  MEASURED: controlled physical measurement with traceable uncertainty
+  CAD_DERIVED: released CAD mass property with controlled geometry and material assignment
+  DIGITAL_MODEL_DERIVED: computed from an accepted digital model but not physical metrology
+  MATERIAL_DERIVED: geometry volume multiplied by a candidate density
+  BUDGETED: owner-selected digital allocation; not measured or installed truth
+  PROVISIONAL: placeholder or comparison value; inactive for authoritative aggregation
+  UNKNOWN: no acceptable source exists
+confidence_vocabulary:
+  HIGH_DIGITAL_SCOPE_ONLY: source is frozen and reproducible for its stated digital scope
+  MEDIUM_CANDIDATE_SCOPE_ONLY: locally traceable candidate but not released physical truth
+  LOW: incomplete or indirect evidence
+  NONE: no evidence suitable for a numerical value
+
+input_authorities:
+  wp2_mass_authority:
+    path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/SYSTEM_MASS_PROPERTIES_AUTHORITY_V2.yaml
+    sha256: 32E5B0EEEC784731A05B649CCF8583325CDF569302F1532E0EB4B84D712F455B
+    source_type: CONTROLLED_WORKING_DIGITAL_AUTHORITY
+  wp2_configuration_register:
+    path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/CONFIGURATION_MASS_INERTIA.csv
+    sha256: 96DC595868147A639D2A142AEF2C660316804719EF358E35B27DBB89CE22EE96
+    source_type: FAIL_CLOSED_CONFIGURATION_REGISTER
+  accepted_b601_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    source_type: ACCEPTED_DIGITAL_MODEL
+
+active_component_authorities:
+  b601_complete_arm:
+    authority_id: B601-MASS-INERTIA-ACTIVE-001
+    source_type: ACCEPTED_URDF
+    classification: BUDGETED
+    confidence: HIGH_DIGITAL_SCOPE_ONLY
+    active: true
+    mass_kg: 4.695555949342986
+    mass_standard_uncertainty_kg: null
+    mass_uncertainty_status: HOLD_NOT_A_TRACEABLE_PHYSICAL_MEASUREMENT
+    digital_link_count: 10
+    digital_joint_count: 9
+    standalone_zero_joint_equivalent_properties:
+      classification: DIGITAL_MODEL_DERIVED
+      frame: base_link
+      configuration: URDF_ZERO_JOINT_CONFIGURATION
+      system_configuration_mapping: null
+      mass_kg: 4.695555949342986
+      center_of_mass_m: [-0.022053771798613855, 0.0002835900065300791, 0.15274567150787113]
+      inertia_about_system_com_kg_m2:
+        - [0.02437125609329333, 0.00011839137893314333, -0.004870009662921864]
+        - [0.00011839137893314333, 0.08718922274045429, 0.00000027196011839104257]
+        - [-0.004870009662921864, 0.00000027196011839104257, 0.06715545859441158]
+      standard_uncertainty: null
+      uncertainty_status: HOLD_INPUT_URDF_HAS_NO_TRACEABLE_PHYSICAL_UNCERTAINTY_MODEL
+      usage_status: STANDALONE_DIGITAL_RECOMPUTATION_ONLY
+    physical_weighing_status: HOLD
+    as_installed_status: HOLD
+  m3r_stage_a_plus_stage_b:
+    authority_id: M3R-MASS-V001
+    source_type: OWNER_FROZEN_DIGITAL_BUDGET
+    source_field: owner_frozen_nominal_mass_g
+    source_value_g: 761.9
+    classification: BUDGETED
+    confidence: HIGH_DIGITAL_SCOPE_ONLY
+    active: true
+    mass_kg: 0.7619
+    mass_standard_uncertainty_kg: null
+    center_of_mass_m: null
+    inertia_kg_m2: null
+    includes: [STAGE_A_RING_BUDGET_ENVELOPE, STAGE_B_LOAD_DIFFUSION_PLATE_BUDGET_ENVELOPE]
+    excludes: [FASTENERS, LOCATOR_OR_DOWEL, CABLES_OR_HARNESS, MATING_SPACECRAFT_STRUCTURE]
+    component_allocation_status: HOLD_TOTAL_BUDGET_NOT_OWNER_ALLOCATED_BY_COMPONENT
+    uncertainty_status: HOLD_NO_CONTROLLED_MEASUREMENT_OR_UNCERTAINTY_BUDGET
+    physical_weighing_status: HOLD
+    as_installed_status: HOLD
+
+inactive_comparison_values:
+  - value_id: M3R-MASS-V002
+    mass_kg: 0.761904197
+    classification: MATERIAL_DERIVED
+    confidence: MEDIUM_CANDIDATE_SCOPE_ONLY
+    active: false
+  - value_id: M3R-MASS-V003
+    mass_kg: 0.782327248
+    classification: MATERIAL_DERIVED
+    confidence: MEDIUM_CANDIDATE_SCOPE_ONLY
+    active: false
+  - value_id: M3R-MASS-V004
+    mass_kg: 1.2
+    classification: PROVISIONAL
+    confidence: LOW
+    active: false
+
+system_aggregation_contract:
+  target_frame: spacecraft_assembly_frame
+  mass_equation: m_total = sum(m_i) for a complete non-overlapping active component set
+  center_of_mass_equation: r_total = sum(m_i*r_i)/sum(m_i) after authoritative frame transforms
+  inertia_equation: rotate each CoM tensor into target frame then apply the parallel-axis theorem
+  required_tensor_order: [Ixx, Iyy, Izz, Ixy, Ixz, Iyz]
+  missing_input_policy: NULL_PLUS_HOLD
+  zero_fill_forbidden: true
+  mesh_mass_inference_forbidden: true
+  candidate_material_density_as_measurement_forbidden: true
+
+system_configuration_delivery:
+  path: 03_mass_properties/CONFIGURATION_MASS_INERTIA_V2.csv
+  row_count: 9
+  numerically_evaluable_mass_count: 0
+  numerically_evaluable_center_of_mass_count: 0
+  numerically_evaluable_inertia_count: 0
+  status: HOLD_INPUT_AUTHORITY_MISSING
+
+missing_authorities:
+  spacecraft_bus: [MASS, CENTER_OF_MASS, INERTIA, CONFIGURATION, UNCERTAINTY]
+  solar_array_left: [MASS, CENTER_OF_MASS, INERTIA, DEPLOYED_AND_FAILED_TRANSFORMS, UNCERTAINTY]
+  solar_array_right: [MASS, CENTER_OF_MASS, INERTIA, DEPLOYED_AND_FAILED_TRANSFORMS, UNCERTAINTY]
+  m3r: [STAGE_A_ALLOCATION, STAGE_B_ALLOCATION, FASTENERS, LOCATOR, CABLES, CENTER_OF_MASS, INERTIA, UNCERTAINTY]
+  b601_named_configurations: [ACCEPTED_JOINT_VECTORS, SYSTEM_FRAME_TRANSFORMS]
+  target_22kg: [CONTROLLED_MASS, CENTER_OF_MASS, INERTIA, CAPTURE_TRANSFORM, UNCERTAINTY]
+  target_150kg: [CONTROLLED_MASS, CENTER_OF_MASS, INERTIA, CAPTURE_TRANSFORM, UNCERTAINTY]
+  root_frame: [SPACECRAFT_ASSEMBLY_FRAME_TO_M_FRAME]
+
+release_prohibitions:
+  - DO_NOT_LABEL_B601_OR_M3R_VALUES_AS_MEASURED_OR_AS_INSTALLED
+  - DO_NOT_COMPUTE_A_SYSTEM_TOTAL_FROM_A_PARTIAL_COMPONENT_SET
+  - DO_NOT_RELEASE_ANY_OF_THE_NINE_CONFIGURATIONS_TO_SIM13
+  - DO_NOT_USE_FOR_FORMAL_FLIGHT_LOADS_OR_QUALIFICATION
+  - DO_NOT_REPLACE_UNKNOWN_UNCERTAINTY_WITH_ZERO

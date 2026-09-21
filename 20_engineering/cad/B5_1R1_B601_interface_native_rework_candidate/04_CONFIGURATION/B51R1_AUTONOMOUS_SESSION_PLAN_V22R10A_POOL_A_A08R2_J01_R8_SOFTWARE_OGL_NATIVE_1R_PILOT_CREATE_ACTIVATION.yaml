@@ -1,0 +1,103 @@
+schema: B51R1_AUTONOMOUS_SESSION_PLAN_V22R10A_POOL_A_A08R2_J01_R8_SOFTWARE_OGL_NATIVE_1R_PILOT_CREATE_ACTIVATION
+generated_at: '2026-08-04T02:29:34.7011448+08:00'
+status: POOL_A_A08R2_J01_R8_SOFTWARE_OGL_NATIVE_1R_PILOT_CREATE_ACTIVATED
+activation_mode: CREATE_ONLY
+activation_gate:
+  static_release:
+    path: 08_REVIEWS/B51R1_S05R2_J01_R8_NATIVE_PILOT_TOOL_STATIC_RELEASE_V1.json
+    bytes: 6915
+    sha256: D83FBCDE6485AB8359C62CD9FB3AD4537DA1A230ED64B18BD33B82A1B81BB30A
+    required_status: STATIC_RELEASE_PASS
+    required_gate_pass: true
+  predecessor_failure:
+    path: 07_VERIFICATION/AUTONOMOUS/S05R2_J01_R7/B51R1_S05R2_J01_R7_CREATE_RECEIPT.json
+    bytes: 1586
+    sha256: CAEA4F649697D94657286B269ABCA108DDF2487FBA09174F71BFAABC74629A04
+    required_status: S05R2_J01_R7_NATIVE_1R_PILOT_CREATE_FAIL_CLOSED
+    required_exception_type: System.Runtime.InteropServices.COMException
+    required_hresult: '0x800706BE'
+    required_failed_api: ISldWorks.OpenDoc6
+    required_action_counts_zero: true
+    required_attempt_ledgers_empty: true
+    required_mr2_hashes_stable: true
+  graphics_incident:
+    path: 07_VERIFICATION/AUTONOMOUS/S05R2_J01_R7/B51R1_S05R2_J01_R7_NVIDIA_OPENGL_OOM_FAIL_CLOSED_INCIDENT.json
+    bytes: 2851
+    sha256: 509C7CB94E76C3BAE104FAC3A987000704E06545C3FE69E3373288B8B6DA60C8
+    required_provider: NVIDIA OpenGL Driver
+    required_event_id: 2
+    required_record_id: 1473144
+    required_process_id: 29056
+    required_failure: OPENGL_OUT_OF_MEMORY
+tool:
+  source:
+    path: 08_REVIEWS/B51R1_S05R2_J01_R8_NativePilotTool.cs
+    bytes: 111906
+    sha256: 1D28FBC97F1960E03A2207EEBB3A2E8E8B336ECA76FCFCBEAF776AE14301388A
+    mechanical_logic_normalized_byte_identical_to_r7: true
+  runner:
+    path: 08_REVIEWS/B51R1_Run_S05R2_J01_R8_NativePilot.ps1
+    bytes: 72037
+    sha256: C34AFBFEFFDB9C0AC86E004B5A7C9E7FCD216FA257EC164D671477930A354BCA
+    powershell_parse_error_count: 0
+    recovery_prerequisite_count: 8
+  binary:
+    path: 08_REVIEWS/B51R1_S05R2_J01_R8_NativePilotTool.dll
+    bytes: 72192
+    sha256: C2804F99F4890CBFC4E9D4753F95DDB57A3299A40071C5E371235D8C84AD4D09
+    double_compile_byte_identical: true
+launch_recovery:
+  executable: F:/Windows_profile/solidworks/SOLIDWORKS/SLDWORKS.exe
+  executable_bytes: 707392
+  executable_sha256: 4F4B5A8A3706831B65D871BD1549D98CD6F7AA4EEEF17D15873801A7A1668E60
+  launch_mode: ONE_SESSION_FORCE_SOFTWARE_OPENGL
+  argument_list:
+    - /ForceSoftwareOGL
+  sw_disable_exit_app_requested: false
+  swsafe_mode_requested: false
+  persistent_registry_path: HKCU/Software/SolidWorks/SOLIDWORKS 2024/General/Use Software OGL
+  required_persistent_registry_value_before: 0
+  required_persistent_registry_value_after_launch: 0
+  persistent_registry_change_allowed: false
+inputs:
+  - link: base_link
+    path: 03_CAD/12_DRIVER_READY_CARRIERS/B51R1_CARRIER_MR2_base_link.SLDPRT
+    bytes: 104556
+    sha256: E8695447480FDD11B9C87B81E280334E47A68BECA780C4366DBA3F06279C8DFB
+    mode: READ_ONLY_NO_SAVE
+  - link: link1
+    path: 03_CAD/12_DRIVER_READY_CARRIERS/B51R1_CARRIER_MR2_link1.SLDPRT
+    bytes: 107161
+    sha256: 4E3EDF2D494119F4A4C29E02D16A83CF559BE99ECA57113FE95BE8036721163E
+    mode: READ_ONLY_NO_SAVE
+output: 03_CAD/20_NATIVE_ASSEMBLY/PILOT/B51R1_CARRIER_J01_R8_NATIVE_PILOT.SLDASM
+j00_checkpoint_output: 03_CAD/20_NATIVE_ASSEMBLY/PILOT/CHECKPOINTS/B51R1_CARRIER_J00_ROOT_PILOT_R8.SLDASM
+evidence_root: 07_VERIFICATION/AUTONOMOUS/S05R2_J01_R8
+required_create_mate_postcondition:
+  selection_count_at_return: DIAGNOSTIC_ONLY_NO_VALUE_ASSUMPTION
+  explicit_clear_selection: true
+  selection_count_after_clear: 0
+  feature_returned: true
+  error_status: 1
+  feature_error_code: 0
+  feature_warning: false
+  definition_readback: REQUIRED
+required_counts:
+  select_by_id2: 13
+  create_mate_data: 5
+  create_mate: 5
+  save_as: 2
+  save3: 0
+  add_mate5: 0
+  transform2: 0
+  set_transform_and_solve: 0
+  move_component: 0
+required_alignment: ALIGNED
+required_topology: J00_ROOT_3_COINCIDENT_PLUS_J01_HINGE_NO_ANGLE_PLUS_UNIQUE_LIMIT_ANGLE
+failure_policy: FAIL_CLOSED_PRESERVE_APPEND_ONLY_EVIDENCE
+cold_verify_authorized: false
+formal_s05_authorized: false
+t005_authorized: false
+authorized_command: '& .\08_REVIEWS\B51R1_Run_S05R2_J01_R8_NativePilot.ps1 -Mode Create'
+next_action_on_pass: FREEZE_CREATE_GATE_THEN_SEPARATELY_ACTIVATE_R8_COLD_VERIFY_WITH_FORCE_SOFTWARE_OGL
+claim_limit: J01_R8_CREATE_ONLY_SOFTWARE_OPENGL_RECOVERY_PILOT_NO_FORMAL_S05_G4_T005_STRUCTURAL_MANUFACTURING_OR_FLIGHT_CREDIT

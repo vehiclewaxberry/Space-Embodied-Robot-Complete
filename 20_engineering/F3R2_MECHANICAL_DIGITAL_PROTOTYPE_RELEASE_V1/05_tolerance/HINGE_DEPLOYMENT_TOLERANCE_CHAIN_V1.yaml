@@ -1,0 +1,95 @@
+schema_version: HINGE_DEPLOYMENT_TOLERANCE_CHAIN_V1
+generated_local: '2026-08-21T14:56:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M4_SPACECRAFT_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE
+overall_status: HOLD_FRAME_AXES_AVAILABLE_HINGE_HARDWARE_AND_LIMITS_UNKNOWN
+
+units:
+  length: mm
+  angle: rad
+  temperature: degC
+  force: N
+  torque: N*m
+
+source_frame_tree:
+  path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/SYSTEM_FRAME_TREE.yaml
+  sha256: 71A9FFFAA30A59BB5964949371FB0F9E5E1D61F94E99F38CEAD211AE89AF51CF
+  classification: BREP_PROBE_MAPPING_NOT_MANUFACTURING_DATUM
+
+nominal_axis_candidates:
+  left:
+    point_xyz_mm: [-61.0, 143.15, 0.0]
+    axis_xyz: [1.0, 0.0, 0.0]
+  right:
+    point_xyz_mm: [-61.0, -143.15, 0.0]
+    axis_xyz: [1.0, 0.0, 0.0]
+  standard_uncertainty: null
+  status: HOLD_NOT_A_CMM_OR_RELEASED_DRAWING_DATUM
+
+radial_fit_chain:
+  measurement_model: C_radial = (D_bore - D_pin)/2
+  pin_nominal_diameter_mm: null
+  pin_lower_deviation_mm: null
+  pin_upper_deviation_mm: null
+  bore_nominal_diameter_mm: null
+  bore_lower_deviation_mm: null
+  bore_upper_deviation_mm: null
+  standard_uncertainties_mm: null
+  distributions: null
+  correlations: null
+  worst_case_minimum_clearance_mm: null
+  statistical_standard_uncertainty_mm: null
+  status: HOLD
+
+axial_stack_chain:
+  measurement_model: G_axial = lug_gap - sum(bushing_spacer_washer_and_retainer_thicknesses) + delta_preload + delta_thermal + delta_wear
+  datum_order: null
+  contact_state: null
+  nominal_terms_mm: null
+  limit_terms_mm: null
+  standard_uncertainties_mm: null
+  axial_freeplay_min_mm: null
+  axial_freeplay_max_mm: null
+  status: HOLD
+
+deployed_stop_angle_chain:
+  measurement_model: theta_deployed = theta_nominal + delta_axis_location + delta_radial_freeplay + delta_axial_tilt + delta_stop_geometry + delta_compliance + delta_thermal + delta_wear
+  deployed_angle_requirement_rad: null
+  stop_contact_geometry_mm: null
+  stop_flatness_limit_mm: null
+  hinge_axis_position_limit_mm: null
+  compliance_rad_per_Nm: null
+  authorized_stop_torque_Nm: null
+  approved_temperature_range_degC: null
+  approved_CTE_per_K: null
+  standard_uncertainties: null
+  deployed_angle_min_rad: null
+  deployed_angle_max_rad: null
+  status: HOLD
+
+deployment_clearance_and_collision:
+  left_panel_deployment_transform: null
+  right_panel_deployment_transform: null
+  failed_panel_transform: null
+  sweep_volume_evidence: null
+  harness_bend_and_snag_envelope: null
+  collision_verdict: HOLD_NOT_EVALUATED
+
+required_validation:
+  - released hinge pin lug bushing spacer washer retainer and stop drawings
+  - exact material coating lubricant hardness surface finish and vacuum tribology pair
+  - datum-controlled CMM report and fit calculation
+  - environmental temperature range and thermal stack
+  - deployment torque time angle and repeatability test with uncertainty
+  - end-stop impact or quasi-static load test under authorized torque
+  - life-cycle wear and debris test plus post-test freeplay inspection
+  - left right and failure-state full sweep collision test including harness
+
+gate_metrics:
+  chain_count: 3
+  numeric_limit_complete_count: 0
+  uncertainty_complete_count: 0
+  thermal_complete_count: 0
+  deployment_test_pass_count: 0
+  accepted_chain_count: 0
+  verdict: HOLD

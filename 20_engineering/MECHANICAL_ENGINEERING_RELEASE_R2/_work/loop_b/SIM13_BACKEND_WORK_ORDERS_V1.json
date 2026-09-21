@@ -1,0 +1,90 @@
+{
+  "schema": "SIM13_BACKEND_WORK_ORDERS_V1",
+  "generated_utc": "2026-08-25T07:57:47.665829Z",
+  "owner_directive_item": "7: Upgrade Sim13/current-system handoff from 15/20 to 20/20 by resolving every missing key",
+  "current_state": {
+    "prebind_gate": "SIM13_V2_SOURCE_ONLY_PREBIND_IMPLEMENTATION_PASS__15_OF_20_NC_PASS",
+    "maximum_operational_state": "ABORT_ONLY_WITH_SOURCE_ONLY_ANALYTIC_PREBIND_DIAGNOSTICS",
+    "held": [
+      "NC15",
+      "NC16",
+      "NC18",
+      "NC19",
+      "NC20"
+    ]
+  },
+  "work_orders": [
+    {
+      "id": "WO-NC15",
+      "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+      "missing_key": "fresh action/context-bound snapshot receipt, trusted clock, nonce and replay store",
+      "internally_closable": true,
+      "deliverables": [
+        "receipt schema (action hash, context hash, nonce, trusted timestamp, expiry)",
+        "replay store with single-use nonce consumption (pattern of unified_r2 run consumption)",
+        "gate runner emitting NC15 evidence (stale/replayed snapshot -> snapshot_rejected)"
+      ]
+    },
+    {
+      "id": "WO-NC16",
+      "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+      "missing_key": "backend capability token and mandatory shield-attestation admission interface",
+      "internally_closable": true,
+      "deliverables": [
+        "capability token schema bound to backend source sha256",
+        "shield-attestation admission check in the runtime path",
+        "gate runner emitting NC16 evidence (unshielded backend call -> backend_rejects_unshielded_non_abort)"
+      ]
+    },
+    {
+      "id": "WO-NC18",
+      "future_gate": "SIM13_DYNAMICS_BACKEND_GATE_V2",
+      "missing_key": "integrated non-ABORT joint/base/end-effector state evolution backend",
+      "internally_closable": true,
+      "depends_on": [
+        "unified URDF (EMITTED 2026-08-25)",
+        "MECH_RL_SYSTEM_INTERFACE_V2.yaml instance"
+      ],
+      "deliverables": [
+        "non-ABORT state evolution integrating unified URDF + free_floating_dynamics",
+        "validation receipt",
+        "gate runner emitting NC18 evidence (phase-only step without state evolution -> dynamics_state_update_failure)"
+      ]
+    },
+    {
+      "id": "WO-NC19",
+      "future_gate": "SIM13_CONTACT_GRASP_GATE_V2",
+      "missing_key": "authoritative narrow-phase contact backend and released contact geometry",
+      "internally_closable": true,
+      "depends_on": [
+        "DESIGN_CONTACT_MODEL_V1 (EMITTED 2026-08-25, BOUNDED_PROVISIONAL)",
+        "narrow-phase collision assets (broad-phase exists; narrow-phase must be built)"
+      ],
+      "deliverables": [
+        "narrow-phase contact detection bound to DESIGN_CONTACT_MODEL_V1 envelope (out-of-envelope -> UNKNOWN/ABORT)",
+        "released contact geometry artifact",
+        "gate runner emitting NC19 evidence (overlapping geometry without contact update -> contact_detection_failure)"
+      ]
+    },
+    {
+      "id": "WO-NC20",
+      "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+      "missing_key": "action-bound 150 kg feasibility/post-grasp evaluator receipt",
+      "internally_closable": true,
+      "deliverables": [
+        "evaluator binding sim10/sim12 150kg anchors (3.0633 dps INFEASIBLE_RATE) with post-grasp stability check",
+        "action-bound receipt (requested action hash + feasibility verdict)",
+        "gate runner emitting NC20 evidence (non-ABORT 150kg request without feasibility PASS -> shield_executes_abort)"
+      ]
+    }
+  ],
+  "after_20_of_20": [
+    "rerun full NC registry -> SIM13 20/20",
+    "rerun MECHANICAL_TO_EMBODIED_HANDOFF_GATE_V2 with UNIFIED_R2_SYSTEM_INTERFACE_V1 + resolved harness state",
+    "emit MECH_RL_SYSTEM_INTERFACE_V2.yaml instance (9 GATE artifact slots = backend sources + receipts)"
+  ],
+  "note": "All five NCs are software-implementable inside the project; none requires external measurement. Each must be delivered with its own V2 gate, negative controls preserved, and hash-bound evidence. This is a dedicated software package; it is registered here as the remaining Sim13 work, not silently skipped.",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

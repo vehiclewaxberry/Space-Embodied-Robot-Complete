@@ -1,0 +1,145 @@
+schema_version: comp-prot-03-mechanical-interface-semantics-v0.1
+registry_id: candidate_12u_b601_mechanical_semantics_v0_1
+phase: COMP-PROT-03-A3-G0-EVIDENCE-CLOSURE
+created_on: "2026-07-23"
+status: GEOMETRY_ONLY_SEMANTIC_CONTRACT
+
+authority:
+  scientific_gate: false
+  cad_generation_authorized: false
+  target_integration_authorized: false
+  contact_model_authorized: false
+  semantics_may_not_upgrade_geometry_or_physics_evidence: true
+
+host_semantics:
+  - semantic_id: positive_X_task_face
+    geometry_owner: selected_profile_body_positive_X_face
+    semantic_type: TASK_FACE
+    allowed_actions:
+      - place_arm_mount_reference
+      - place_future_camera_reference
+      - define_target_approach_visualization_direction
+    forbidden_actions:
+      - claim_collision_free
+      - claim_target_reachable
+      - claim_launch_compliant
+    evidence_state: SOURCE_BOUND
+    source_refs:
+      - cad_profile_decision_v0_1.yaml
+  - semantic_id: arm_mount_interface_160
+    geometry_owner: servicer_flange_160x160x15
+    semantic_type: MECHANICAL_INTERFACE
+    dimensions_mm:
+      footprint: [160.0, 160.0]
+      source_thickness: 15.0
+    current_profile_frame: M
+    allowed_actions:
+      - create_master_skeleton_datum
+      - create_future_mate_reference
+    forbidden_actions:
+      - claim_bolt_pattern_verified
+      - claim_adapter_stackup_verified
+      - claim_interference_free
+    evidence_state: SOURCE_BOUND_WITH_A3_EXIT_CHECKS
+    source_refs:
+      - path: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+        sha256: 8dd8f22ff1f893273de2215ea12819e4d41cc0e20b853adc0774052237881432
+  - semantic_id: adapter_plate_and_boss
+    geometry_owner: robot_mount_adapter_v0
+    semantic_type: ADAPTER_ENVELOPE
+    dimensions_mm:
+      plate: [160.0, 160.0, 12.0]
+      boss_diameter: 100.0
+      boss_height: 15.0
+    allowed_actions:
+      - carry_reference_dimensions_into_A3
+    forbidden_actions:
+      - place_axial_stack_without_signed_mating_definition
+      - assign_separate_plate_or_boss_mass
+    evidence_state: SOURCE_BOUND_PLACEMENT_OPEN
+    source_refs:
+      - path: 20_engineering/config/geometry/arm_mount_v1.yaml
+        sha256: b08a0f28e4c4f458cd79e6e907f06389ba6a4280c0c7db2b91e36f76134c985c
+  - semantic_id: b601_arm_insertion
+    geometry_owner: frame_A0
+    semantic_type: COMPONENT_INSERTION_INTERFACE
+    representation: accepted_urdf_full_10link
+    allowed_actions:
+      - bind_future_B601_component_to_A0
+      - preserve_link_and_joint_identity
+    forbidden_actions:
+      - rename_joint_axes
+      - collapse_gripper_mass_into_link6
+      - claim_vendor_STEP_is_packaged
+    evidence_state: SOURCE_BOUND_CONTRACT_ONLY
+  - semantic_id: E_virtual_task_frame
+    geometry_owner: frame_E
+    semantic_type: TASK_COMMAND_DATUM
+    allowed_actions:
+      - express_future_approach_and_alignment_commands
+    forbidden_actions:
+      - treat_as_physical_TCP
+      - claim_contact_patch_defined
+    evidence_state: DESIGN_BOUND
+  - semantic_id: camera_fov_reference
+    geometry_owner: future_camera_placeholder
+    semantic_type: SENSOR_PLACEHOLDER
+    allowed_actions:
+      - reserve_future_task_face_reference
+    forbidden_actions:
+      - claim_camera_selected
+      - claim_FOV_or_occlusion_verified
+    evidence_state: PROPOSED
+  - semantic_id: panel_workspace_keepout
+    geometry_owner: left_and_right_panel_branches
+    semantic_type: KEEPOUT_PLACEHOLDER
+    allowed_actions:
+      - require_future_stowed_and_deployed_clearance_views
+    forbidden_actions:
+      - claim_panel_configuration_selected
+      - claim_arm_workspace_clear
+    evidence_state: UNKNOWN_CONFIGURATION
+
+target_semantics:
+  included_in_geometry_only_host: false
+  interface_levels:
+    visual_patch:
+      status: EXCLUDED_FROM_A3_GEOMETRY_ONLY
+    contact_patch:
+      status: OPEN_BLOCKING_IF_TARGET_ENTERS
+    rigid_lock_6dof:
+      status: DEFERRED_AND_FORBIDDEN
+  debris_semantic_reconciliation:
+    preferred_candidate_label: forward_end_ring_candidate_patch
+    preferred_point_mm_D: [660.0, 0.0, 950.0]
+    preferred_normal: approximately_positive_X_D
+    aft_engine_keepout: z_D_less_than_minus_1000_mm
+    supporting_source:
+      path: 20_engineering/cad/spacecraft_layout/target_debris_v0/target_debris_v0.json
+      sha256: 6da57979ae1b34bf7e18733a256f7264d40cabec22d99598801f721ff4737270
+    conflicting_frozen_sources:
+      - 20_engineering/config/geometry/target_models_v1.yaml
+      - 20_engineering/config/geometry/capture_interface_v1.yaml
+    canonical_harmonization_status: OPEN_FROZEN_SSOT_NOT_MODIFIED
+    geometry_only_treatment: ISOLATED_TARGET_NOT_IN_HOST
+
+blocker_disposition:
+  DB-BLK-004:
+    geometry_only_scope: ISOLATED_TARGET_AND_CONTACT_GEOMETRY_EXCLUDED
+    target_scope: OPEN
+  DB-BLK-011:
+    geometry_only_scope: ISOLATED_TARGET_BRANCH_DISABLED
+    target_scope: OPEN
+  DB-BLK-012:
+    geometry_only_scope: ISOLATED_WITH_EXPLICIT_CONFLICT_RECORD
+    canonical_source_harmonization: OPEN
+
+claim_boundary:
+  allowed:
+    - geometry_objects_have_task_roles_and_forbidden_actions
+    - target_contact_semantics_are_explicitly_excluded
+  forbidden:
+    - target_grasp_interface_is_qualified
+    - camera_or_force_sensor_is_integrated
+    - arm_workspace_is_collision_free
+    - semantic_contract_proves_task_feasibility

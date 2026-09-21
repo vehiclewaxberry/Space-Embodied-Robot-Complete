@@ -1,0 +1,762 @@
+{
+  "as_of_date": "2026-08-28",
+  "authority_flags": {
+    "next_stage_authorized": false,
+    "parent_gate_credit": false,
+    "path_search_authorized": false,
+    "release_credit": false,
+    "system_pair_evaluation_authorized": false,
+    "system_safe": false
+  },
+  "authority_scope": "LOCAL_FAIL_CLOSED_NEGATIVE_CONTROL_EVIDENCE_ONLY",
+  "baseline_bindings": {
+    "accepted_urdf_left_axis_in_parent": [
+      -3.673205103346574e-06,
+      -0.9999999999932537,
+      0.0
+    ],
+    "accepted_urdf_right_axis_in_parent": [
+      -3.673205103346574e-06,
+      0.9999999999932537,
+      0.0
+    ],
+    "contract_minimum_control_count": 20,
+    "excluded_wrapper": "B51_REF_gripper_detail_LINKLOCAL057",
+    "expected_new_container_reopen_counts": {
+      "left": 24,
+      "palm": 12,
+      "right": 24,
+      "total": 60
+    },
+    "frozen_assignment_counts_excluding_wrapper": {
+      "left": 24,
+      "palm_native_lineage": 9,
+      "right": 24
+    }
+  },
+  "contract": {
+    "bytes": 12848,
+    "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_B601_GRIPPER_2P_OPERATIONAL_PROXY_V1/00_contract/GRIPPER_2P_OPERATIONAL_PROXY_CONTRACT_V1.json",
+    "sha256": "66478AD9246E59BFA9C66282E29160CB6C20550835F78C61EAD27B8146705FE0"
+  },
+  "controls": [
+    {
+      "case_count": 2,
+      "cases": [
+        {
+          "case_id": "NC01A_BAD_BYTES",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SOURCE_PIN_BYTES_MISMATCH",
+          "expected_rejection_code": "SOURCE_PIN_BYTES_MISMATCH",
+          "mutation": {
+            "bytes": 37,
+            "sha256": "E23A39CE33968468991BA96984139A6DA79040F4E1C6D48FE69BD43093A05A4F"
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC01B_BAD_SHA256",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SOURCE_PIN_SHA256_MISMATCH",
+          "expected_rejection_code": "SOURCE_PIN_SHA256_MISMATCH",
+          "mutation": {
+            "bytes": 36,
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 2,
+      "control_id": "REJECT_SOURCE_HASH_OR_BYTE_MISMATCH",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 2,
+      "cases": [
+        {
+          "case_id": "NC02A_MISSING_CONTAINER",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "CONTAINER_COUNT_NOT_THREE",
+          "expected_rejection_code": "CONTAINER_COUNT_NOT_THREE",
+          "mutation": {
+            "container_count": 2
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC02B_FOURTH_CONTAINER",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "CONTAINER_COUNT_NOT_THREE",
+          "expected_rejection_code": "CONTAINER_COUNT_NOT_THREE",
+          "mutation": {
+            "container_count": 4,
+            "extra": "UNAUTHORIZED_AGGREGATE"
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 2,
+      "control_id": "REJECT_A_FOURTH_OR_MISSING_CONTAINER",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 1,
+      "cases": [
+        {
+          "case_id": "NC03_PALM_FROM_NEUTRAL_DONOR",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "PALM_SOURCE_NOT_DIRECT_R1_STEP",
+          "expected_rejection_code": "PALM_SOURCE_NOT_DIRECT_R1_STEP",
+          "mutation": {
+            "primary_step_source_id": "neutral_gripper_donor_step"
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 1,
+      "control_id": "REJECT_PALM_SOURCE_OTHER_THAN_DIRECT_R1_STEP",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 2,
+      "cases": [
+        {
+          "case_id": "NC04A_LEFT_OUTSIDE_FROZEN_GROUP",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "FROZEN_FINGER_MEMBERSHIP_MISMATCH",
+          "expected_rejection_code": "FROZEN_FINGER_MEMBERSHIP_MISMATCH",
+          "mutation": {
+            "replacement_member": "OUTSIDE_FROZEN_LEFT_GROUP",
+            "reported_count": 24
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC04B_RIGHT_OUTSIDE_FROZEN_GROUP",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "FROZEN_FINGER_MEMBERSHIP_MISMATCH",
+          "expected_rejection_code": "FROZEN_FINGER_MEMBERSHIP_MISMATCH",
+          "mutation": {
+            "replacement_member": "OUTSIDE_FROZEN_RIGHT_GROUP",
+            "reported_count": 24
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 2,
+      "control_id": "REJECT_LEFT_OR_RIGHT_BODY_OUTSIDE_FROZEN_24_MEMBER_GROUP",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 1,
+      "cases": [
+        {
+          "case_id": "NC05_WRAPPER_INCLUDED",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "AGGREGATE_WRAPPER_INCLUDED_AS_PHYSICAL_BODY",
+          "expected_rejection_code": "AGGREGATE_WRAPPER_INCLUDED_AS_PHYSICAL_BODY",
+          "mutation": {
+            "included_member": "B51_REF_gripper_detail_LINKLOCAL057"
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 1,
+      "control_id": "REJECT_AGGREGATE_WRAPPER_AS_PHYSICAL_BODY",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 4,
+      "cases": [
+        {
+          "case_id": "NC06A_OPEN_SOLID",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SOLID_NOT_CLOSED",
+          "expected_rejection_code": "SOLID_NOT_CLOSED",
+          "mutation": {
+            "closed": false
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC06B_INVALID_BREP",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SOLID_BREP_INVALID",
+          "expected_rejection_code": "SOLID_BREP_INVALID",
+          "mutation": {
+            "brep_valid": false
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC06C_ZERO_VOLUME",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SOLID_VOLUME_NOT_POSITIVE_FINITE",
+          "expected_rejection_code": "SOLID_VOLUME_NOT_POSITIVE_FINITE",
+          "mutation": {
+            "volume_mm3": 0.0
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC06D_NEGATIVE_VOLUME",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SOLID_VOLUME_NOT_POSITIVE_FINITE",
+          "expected_rejection_code": "SOLID_VOLUME_NOT_POSITIVE_FINITE",
+          "mutation": {
+            "volume_mm3": -1.0
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 4,
+      "control_id": "REJECT_ANY_OPEN_INVALID_ZERO_OR_NEGATIVE_VOLUME_SOLID",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 2,
+      "cases": [
+        {
+          "case_id": "NC07A_BOOLEAN_FUSE",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "FORBIDDEN_GEOMETRY_OPERATION:BOOLEAN_FUSE",
+          "expected_rejection_code": "FORBIDDEN_GEOMETRY_OPERATION",
+          "mutation": {
+            "operation": "BOOLEAN_FUSE"
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC07B_OUTER_ENVELOPE",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "FORBIDDEN_GEOMETRY_OPERATION:OUTER_ENVELOPE",
+          "expected_rejection_code": "FORBIDDEN_GEOMETRY_OPERATION",
+          "mutation": {
+            "operation": "OUTER_ENVELOPE"
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 2,
+      "control_id": "REJECT_ANY_INVENTED_CONNECTOR_FUSE_OR_ENVELOPE",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 4,
+      "cases": [
+        {
+          "case_id": "NC08A_NATIVE_9_24_24_REPORTED_AS_OUTPUT",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "PALM_SOLID_COUNT_NOT_12",
+          "expected_rejection_code": "PALM_SOLID_COUNT_NOT_12",
+          "mutation": {
+            "reported_counts": {
+              "left": 24,
+              "palm": 9,
+              "right": 24,
+              "total": 57
+            }
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC08B_LEFT_COUNT_23",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "LEFT_SOLID_COUNT_NOT_24",
+          "expected_rejection_code": "LEFT_SOLID_COUNT_NOT_24",
+          "mutation": {
+            "reported_counts": {
+              "left": 23,
+              "palm": 12,
+              "right": 24,
+              "total": 59
+            }
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC08C_RIGHT_COUNT_23",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "RIGHT_SOLID_COUNT_NOT_24",
+          "expected_rejection_code": "RIGHT_SOLID_COUNT_NOT_24",
+          "mutation": {
+            "reported_counts": {
+              "left": 24,
+              "palm": 12,
+              "right": 23,
+              "total": 59
+            }
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC08D_TOTAL_NOT_60",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "TOTAL_SOLID_COUNT_NOT_60",
+          "expected_rejection_code": "TOTAL_SOLID_COUNT_NOT_60",
+          "mutation": {
+            "reported_counts": {
+              "left": 24,
+              "palm": 12,
+              "right": 24,
+              "total": 59
+            }
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 4,
+      "control_id": "REJECT_REPORTING_NATIVE_57_AS_NEW_OUTPUT_COUNT",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 1,
+      "cases": [
+        {
+          "case_id": "NC09_TOTAL_60_WITHOUT_REOPEN_LEDGER",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "INDEPENDENT_REOPEN_COUNTS_MISSING",
+          "expected_rejection_code": "INDEPENDENT_REOPEN_COUNTS_MISSING",
+          "mutation": {
+            "independent_reopen_counts": null,
+            "reported_counts": {
+              "left": 24,
+              "palm": 12,
+              "right": 24,
+              "total": 60
+            }
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 1,
+      "control_id": "REJECT_REPORTING_60_WITHOUT_INDEPENDENT_PER_CONTAINER_RECOUNT",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 1,
+      "cases": [
+        {
+          "case_id": "NC10_PALM_BOUND_TO_LINK6",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "PALM_FRAME_MUST_BE_GRIPPER_LINK",
+          "expected_rejection_code": "PALM_FRAME_MUST_BE_GRIPPER_LINK",
+          "mutation": {
+            "palm_frame": "link6"
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 1,
+      "control_id": "REJECT_PALM_LINK6_BINDING",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 1,
+      "cases": [
+        {
+          "case_id": "NC11_UNREFRAMED_LEFT_FINGER",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "FINGER_OFFLINE_REFRAME_COUNT_NOT_ONE",
+          "expected_rejection_code": "FINGER_OFFLINE_REFRAME_COUNT_NOT_ONE",
+          "mutation": {
+            "offline_inverse_q0_count": 0,
+            "output_frame": "gripper_link",
+            "source_frame": "gripper_link"
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 1,
+      "control_id": "REJECT_GRIPPER_LINK_LOCAL_FINGER_AS_CHILD_LOCAL_WITHOUT_OFFLINE_INVERSE_Q0_REFRAME",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 2,
+      "cases": [
+        {
+          "case_id": "NC12A_DOUBLE_OFFLINE_REFRAME",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "FINGER_OFFLINE_REFRAME_COUNT_NOT_ONE",
+          "expected_rejection_code": "FINGER_OFFLINE_REFRAME_COUNT_NOT_ONE",
+          "mutation": {
+            "offline_inverse_q0_count": 2
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC12B_DOUBLE_RUNTIME_TRANSFORM",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "BUILDER_RUNTIME_METADATA_REJECTED:finger frame transform must be applied exactly once",
+          "expected_rejection_code": "BUILDER_RUNTIME_METADATA_REJECTED",
+          "mutation": {
+            "transform_application_count": 2
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 2,
+      "control_id": "REJECT_SECOND_OFFLINE_OR_RUNTIME_Q0_TRANSFORM",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 2,
+      "cases": [
+        {
+          "case_id": "NC13A_ZERO_SCALE_APPLICATIONS",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SCALE_APPLICATION_COUNT_NOT_ONE",
+          "expected_rejection_code": "SCALE_APPLICATION_COUNT_NOT_ONE",
+          "mutation": {
+            "application_count": 0,
+            "scale_factor": 0.001
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC13B_TWO_SCALE_APPLICATIONS",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SCALE_APPLICATION_COUNT_NOT_ONE",
+          "expected_rejection_code": "SCALE_APPLICATION_COUNT_NOT_ONE",
+          "mutation": {
+            "application_count": 2,
+            "scale_factor": 0.001
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 2,
+      "control_id": "REJECT_MM_TO_M_SCALE_ZERO_OR_TWO_TIMES",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 3,
+      "cases": [
+        {
+          "case_id": "NC14A_LEFT_FRAME_SWAPPED_TO_RIGHT",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "BUILDER_RUNTIME_METADATA_REJECTED:runtime geometry frame mismatch",
+          "expected_rejection_code": "BUILDER_RUNTIME_METADATA_REJECTED",
+          "mutation": {
+            "frame": "gripper_right",
+            "object_name": "gripper_left"
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC14B_LEFT_AXIS_SWAPPED_TO_RIGHT",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "LEFT_RIGHT_AXIS_BINDING_MISMATCH",
+          "expected_rejection_code": "LEFT_RIGHT_AXIS_BINDING_MISMATCH",
+          "mutation": {
+            "candidate_axis": [
+              -3.673205103346574e-06,
+              0.9999999999932537,
+              0.0
+            ],
+            "expected_axis": [
+              -3.673205103346574e-06,
+              -0.9999999999932537,
+              0.0
+            ]
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC14C_RIGHT_AXIS_SWAPPED_TO_LEFT",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "LEFT_RIGHT_AXIS_BINDING_MISMATCH",
+          "expected_rejection_code": "LEFT_RIGHT_AXIS_BINDING_MISMATCH",
+          "mutation": {
+            "candidate_axis": [
+              -3.673205103346574e-06,
+              -0.9999999999932537,
+              0.0
+            ],
+            "expected_axis": [
+              -3.673205103346574e-06,
+              0.9999999999932537,
+              0.0
+            ]
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 3,
+      "control_id": "REJECT_LEFT_RIGHT_FRAME_OR_AXIS_SWAP",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 1,
+      "cases": [
+        {
+          "case_id": "NC15_Q0_WRITTEN_AS_OWNER_CLOSED",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "Q0_PROMOTED_TO_OWNER_STATE",
+          "expected_rejection_code": "Q0_PROMOTED_TO_OWNER_STATE",
+          "mutation": {
+            "named_state": "CLOSED",
+            "owner_value_m": 0.0,
+            "q0_reference_only": true
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 1,
+      "control_id": "REJECT_Q_ZERO_AS_OWNER_NAMED_STATE",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 2,
+      "cases": [
+        {
+          "case_id": "NC16A_R1_NAMED_WITNESS_PROMOTED",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "CONFLICTING_WITNESS_PROMOTED_TO_AUTHORITY",
+          "expected_rejection_code": "CONFLICTING_WITNESS_PROMOTED_TO_AUTHORITY",
+          "mutation": {
+            "configuration_travel_authority": "R1_NAMED_TRAVEL",
+            "witness": "R1_NAMED_TRAVEL"
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC16B_EQUAL_INCREMENT_WITNESS_PROMOTED",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "CONFLICTING_WITNESS_PROMOTED_TO_AUTHORITY",
+          "expected_rejection_code": "CONFLICTING_WITNESS_PROMOTED_TO_AUTHORITY",
+          "mutation": {
+            "configuration_travel_authority": "ALTERNATE_EQUAL_INCREMENT",
+            "witness": "ALTERNATE_EQUAL_INCREMENT"
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 2,
+      "control_id": "REJECT_R1_OR_EQUAL_INCREMENT_WITNESS_AS_OWNER_AUTHORITY",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 1,
+      "cases": [
+        {
+          "case_id": "NC17_LOCKED_2P_QP_STAR_PROMOTED",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "LOCKED_2P_DIAGNOSTIC_PROMOTED",
+          "expected_rejection_code": "LOCKED_2P_DIAGNOSTIC_PROMOTED",
+          "mutation": {
+            "authority": "OWNER_MECHANICAL_STATE",
+            "qP_star_m": [
+              0.03575,
+              0.03575
+            ]
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 1,
+      "control_id": "REJECT_LOCKED_2P_DIAGNOSTIC_QP_STAR_AS_MECHANICAL_STATE_AUTHORITY",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 2,
+      "cases": [
+        {
+          "case_id": "NC18A_SWEPT_VOLUME_AS_NARROWPHASE_SAFE",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SWEPT_VOLUME_EXCEEDED_BROADPHASE_AUTHORITY",
+          "expected_rejection_code": "SWEPT_VOLUME_EXCEEDED_BROADPHASE_AUTHORITY",
+          "mutation": {
+            "claim": "NARROWPHASE_SAFE"
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC18B_SWEPT_VOLUME_AS_CONTACT",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SWEPT_VOLUME_EXCEEDED_BROADPHASE_AUTHORITY",
+          "expected_rejection_code": "SWEPT_VOLUME_EXCEEDED_BROADPHASE_AUTHORITY",
+          "mutation": {
+            "claim": "CONTACT"
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 2,
+      "control_id": "REJECT_SWEPT_VOLUME_AS_NARROWPHASE_OR_CONTACT_EVIDENCE",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 5,
+      "cases": [
+        {
+          "case_id": "NC19A_LOCAL_PASS_PROMOTED_SYSTEM_SAFE",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "LOCAL_GEOMETRY_PROMOTED_TO_SYSTEM:system_safe",
+          "expected_rejection_code": "LOCAL_GEOMETRY_PROMOTED_TO_SYSTEM",
+          "mutation": {
+            "system_safe": true
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC19B_LOCAL_PASS_PROMOTED_SYSTEM_PAIR_EVALUATION_AUTHORIZED",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "LOCAL_GEOMETRY_PROMOTED_TO_SYSTEM:system_pair_evaluation_authorized",
+          "expected_rejection_code": "LOCAL_GEOMETRY_PROMOTED_TO_SYSTEM",
+          "mutation": {
+            "system_pair_evaluation_authorized": true
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC19C_LOCAL_PASS_PROMOTED_PATH_SEARCH_AUTHORIZED",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "LOCAL_GEOMETRY_PROMOTED_TO_SYSTEM:path_search_authorized",
+          "expected_rejection_code": "LOCAL_GEOMETRY_PROMOTED_TO_SYSTEM",
+          "mutation": {
+            "path_search_authorized": true
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC19D_LOCAL_PASS_PROMOTED_PARENT_GATE_CREDIT",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "LOCAL_GEOMETRY_PROMOTED_TO_SYSTEM:parent_gate_credit",
+          "expected_rejection_code": "LOCAL_GEOMETRY_PROMOTED_TO_SYSTEM",
+          "mutation": {
+            "parent_gate_credit": true
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC19E_LOCAL_PASS_PROMOTED_RELEASE_CREDIT",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "LOCAL_GEOMETRY_PROMOTED_TO_SYSTEM:release_credit",
+          "expected_rejection_code": "LOCAL_GEOMETRY_PROMOTED_TO_SYSTEM",
+          "mutation": {
+            "release_credit": true
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 5,
+      "control_id": "REJECT_LOCAL_GEOMETRY_PASS_AS_SYSTEM_PAIR_EDGE_PATH_OR_RELEASE_CREDIT",
+      "status": "CAUGHT"
+    },
+    {
+      "case_count": 5,
+      "cases": [
+        {
+          "case_id": "NC20A_INCREMENT_ASSET_LEVEL_OPERATIONAL_AUTHORITY_ROWS",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SYSTEM_AUTHORITY_COUNTER_OR_FLAG_CHANGED:asset_level_operational_authority_rows",
+          "expected_rejection_code": "SYSTEM_AUTHORITY_COUNTER_OR_FLAG_CHANGED",
+          "mutation": {
+            "asset_level_operational_authority_rows": 2
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC20B_INCREMENT_SYSTEM_PAIR_QUERIES_EXECUTED",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SYSTEM_AUTHORITY_COUNTER_OR_FLAG_CHANGED:system_pair_queries_executed",
+          "expected_rejection_code": "SYSTEM_AUTHORITY_COUNTER_OR_FLAG_CHANGED",
+          "mutation": {
+            "system_pair_queries_executed": 1
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC20C_INCREMENT_SYSTEM_EDGES_CERTIFIED",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SYSTEM_AUTHORITY_COUNTER_OR_FLAG_CHANGED:system_edges_certified",
+          "expected_rejection_code": "SYSTEM_AUTHORITY_COUNTER_OR_FLAG_CHANGED",
+          "mutation": {
+            "system_edges_certified": 1
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC20D_INCREMENT_STAGE_INSTANCES_BOUND",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SYSTEM_AUTHORITY_COUNTER_OR_FLAG_CHANGED:stage_instances_bound",
+          "expected_rejection_code": "SYSTEM_AUTHORITY_COUNTER_OR_FLAG_CHANGED",
+          "mutation": {
+            "stage_instances_bound": 1
+          },
+          "status": "CAUGHT"
+        },
+        {
+          "case_id": "NC20E_INCREMENT_SYSTEM_SAFE_CERTIFICATES",
+          "caught_exception_type": "ContractViolation",
+          "caught_message": "SYSTEM_AUTHORITY_COUNTER_OR_FLAG_CHANGED:system_safe_certificates",
+          "expected_rejection_code": "SYSTEM_AUTHORITY_COUNTER_OR_FLAG_CHANGED",
+          "mutation": {
+            "system_safe_certificates": 1
+          },
+          "status": "CAUGHT"
+        }
+      ],
+      "caught_count": 5,
+      "control_id": "REJECT_ANY_INCREMENT_TO_CURRENT_SYSTEM_AUTHORITY_COUNTERS",
+      "status": "CAUGHT"
+    }
+  ],
+  "current_system_authority_invariants": {
+    "active_object_rows": 150,
+    "asset_level_operational_authority_rows": 1,
+    "complete_system_operational_collision_asset_set_bound": false,
+    "next_stage_authorized": false,
+    "parent_gate_credit": false,
+    "path_search_authorized": false,
+    "path_search_executed": false,
+    "release_credit": false,
+    "required_pair_queries": 11166,
+    "stage_instances_bound": 0,
+    "stage_instances_required": 3,
+    "system_edges_certified": 0,
+    "system_pair_evaluation_authorized": false,
+    "system_pair_queries_executed": 0,
+    "system_safe_certificates": 0
+  },
+  "execution_isolation": {
+    "cad_or_brep_execution_called": false,
+    "mutations": "IN_MEMORY_OR_SYSTEM_TEMPORARY_DIRECTORY_ONLY",
+    "package_output_written_by_write_mode_only": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_B601_GRIPPER_2P_OPERATIONAL_PROXY_V1/05_results/NEGATIVE_CONTROLS_V1.json",
+    "pair_query_called": false,
+    "path_search_called": false,
+    "real_source_or_output_assets_modified": false,
+    "temporary_directory_deleted_after_cases": true
+  },
+  "generated_utc": "DETERMINISTIC_NO_WALLCLOCK",
+  "next_stage_authorized": false,
+  "parent_gate_credit": false,
+  "release_credit": false,
+  "review_status": "PENDING_INDEPENDENT_REVIEW",
+  "runner": {
+    "bytes": 36709,
+    "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_B601_GRIPPER_2P_OPERATIONAL_PROXY_V1/04_validation/run_negative_controls.py",
+    "sha256": "EA796FCE2AFE011079AA36C1D6426DABBDF81960D367E9CC0BB0FE2A84C2B3FB"
+  },
+  "schema": "B601_GRIPPER_2P_NEGATIVE_CONTROLS_V1",
+  "source_lock": {
+    "bytes": 18953,
+    "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_B601_GRIPPER_2P_OPERATIONAL_PROXY_V1/00_contract/SOURCE_AUTHORITY_LOCK_V1.json",
+    "sha256": "904B33F35ECC151283240350B266CC91415B0273F2A290466BAEE61188C812CE"
+  },
+  "summary": {
+    "all_controls_caught": true,
+    "controls_caught": 20,
+    "controls_executed": 20,
+    "controls_required": 20,
+    "subcases_caught": 44,
+    "subcases_executed": 44
+  },
+  "system_invariant_snapshot": {
+    "after_sha256": "DCD28303AC31FE00CC21C3A44CB8F7DF280CCD035A9F53479992B1426CC6525F",
+    "before_sha256": "DCD28303AC31FE00CC21C3A44CB8F7DF280CCD035A9F53479992B1426CC6525F",
+    "unchanged": true
+  },
+  "verdict": "PASS_20_OF_20_CONTRACT_NEGATIVE_CONTROLS_AND_44_OF_44_MUTATION_SUBCASES_CAUGHT__NO_SYSTEM_AUTHORITY_CHANGE"
+}

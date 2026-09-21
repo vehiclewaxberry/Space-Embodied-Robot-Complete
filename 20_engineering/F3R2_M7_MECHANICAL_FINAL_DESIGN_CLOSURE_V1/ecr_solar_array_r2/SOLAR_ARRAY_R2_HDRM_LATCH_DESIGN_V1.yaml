@@ -1,0 +1,75 @@
+schema: SOLAR_ARRAY_R2_HDRM_LATCH_DESIGN_V1
+generated_local: '2026-08-22T20:35:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: ENGINEERING_CANDIDATE
+authority: ODR-19 (ECR-SOLAR-ARRAY-R2), R2-WI-02
+evidence_base:
+  - SOLAR_ARRAY_R2_BUILD_REPORT_V1.json
+  - SOLAR_ARRAY_R2_CONTINUOUS_CLEARANCE_V1.json
+
+architecture:
+  per_wing:
+    root_hinge: 1 (axis parallel X_S, line y=+/-114.9, z=-108.15)
+    inter_panel_hinges: 2 (axes parallel X_S)
+    hdrm_system: 1 per wing, 2 tie-down stations per wing
+    latch_hardpoints: 3 per wing (one per leaf free edge, end-of-travel)
+  deployment: passive (spring hinges candidate), hard stop + latch per leaf
+  sequencing: HDRM release -> LEAF1 (root 90 deg) -> LEAF2 unfold 180 deg
+    -> LEAF3 unfold 180 deg -> DEPLOYED_LATCHED
+
+design_decisions:
+  - id: D-R2-05
+    subject: HDRM_RETRACTION_DIRECTION
+    ruling: >-
+      Tie-down rods retract INBOARD into bus-resident sleeves before
+      LEAF1_DEPLOY. The R2-WI-04 sweep proved the leaf-1 deployment corridor
+      is a quarter-annulus of radius 200 mm about the root hinge line; any
+      outboard-retracting rod envelope inside that radius is swept.
+      Inboard retraction removes all HDRM hardware from the corridor.
+    consequence: >-
+      Two HDRM states are registered: HDRM_ENGAGED (stowed only, intentional
+      stack interface, 2000 mm3 overlap documented in build report) and
+      HDRM_RETRACTED (bus-interior sleeve slots, explained bus overlap).
+      Deployment clearance evidence is evaluated against HDRM_RETRACTED.
+  - id: D-R2-06
+    subject: HDRM_STATIONS
+    ruling: >-
+      Two stations per wing at x in [-140,-120] and [+120,+140] mm, engaging
+      the stowed stack through its mid-height (z in [-20,+20] mm). Stations
+      sit inside the chord window [-150,+150] with 10 mm edge margin.
+  - id: D-R2-07
+    subject: LATCH_AND_HARD_STOP
+    ruling: >-
+      Each leaf has a positive end-of-travel latch with observable
+      engagement (carries wp5 HNG-SMS-05 semantics forward to R2).
+      End-stop energy budget must be re-derived for R2 leaf mass 0.18 kg
+      and 200 mm span (R1 value 0.2356 J does NOT carry over; see
+      energy_note below).
+
+hdrm_states:
+  HDRM_ENGAGED:
+    envelope_S_mm: {x: [[-140,-120],[120,140]], y_abs: [113.15,125.15],
+                    z: [-20,20]}
+    classification: INTENTIONAL_HDRM_STACK_INTERFACE (stowed only)
+  HDRM_RETRACTED:
+    envelope: bus-interior sleeve slots (y_abs < 113.15)
+    classification: EXPLAINED_BUS_INTERFACE
+
+energy_note: >-
+  R2 end-stop energy candidate: with leaf mass 0.18 kg, span 0.200 m and the
+  R1-heritage tip speed ceiling 2.0 m/s, E = 0.5 * I_root * w^2,
+  I_root = m L^2 / 3 = 2.4e-3 kg m2, w_max = v_tip / L = 10 rad/s gives
+  E_max = 0.12 J per leaf. ENGINEERING_CANDIDATE; final value follows the
+  R2 spring/damper selection in WP5 update.
+
+preload_note: >-
+  WP5 MAV-01 preload margin 0.217 at 5 g was computed for the R1 single-leaf
+  stack and does NOT carry over. R2 HDRM preload must be re-derived against
+  the 3-leaf stack mass (0.54 kg leaves + hardware per wing) under the same
+  quasi-static family; this is OPEN and owned by the WP5 R2 update.
+
+holds:
+  - HOLD_HDRM_ARCHITECTURE_NOT_SELECTED (device part number / release
+    actuator not chosen; envelopes and states only)
+  - HOLD_LATCH_GEOMETRY_NOT_MODELLED (hardpoints defined, hardware not)
+  - HOLD_FREEPLAY_LIMITS_NO_NUMERIC_AUTHORITY

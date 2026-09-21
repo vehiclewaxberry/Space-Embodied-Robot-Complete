@@ -1,0 +1,105 @@
+{
+  "schema": "UNIFIED_R2_SIM13_PREEXECUTION_BINDING_SECURITY_SOURCE_FREEZE_CONTRACT_V1",
+  "artifact_class": "SOURCE_ONLY_CONTRACT_AND_SYNTHETIC_FIXTURE_VALIDATION",
+  "gate_ceiling": "PASS_SOURCE_FREEZE_ONLY",
+  "parent_formal_negative_control_credit": {
+    "passed": 15,
+    "total": 20,
+    "promotion_by_this_package": 0
+  },
+  "additive_source_only_negative_controls": ["NC15", "NC16", "NC20"],
+  "dependency_holds": ["NC18", "NC19"],
+  "high_level_action_contract": {
+    "exact_fields": ["grasp_candidate_id", "capture_timing_id", "strategy_id"],
+    "target_class_location": "CONTEXT_ONLY",
+    "canonical_abort": {
+      "grasp_candidate_id": "__ABORT__",
+      "capture_timing_id": "__ABORT__",
+      "strategy_id": "ABORT"
+    },
+    "requested_strategy_must_equal_action_strategy_id": true,
+    "extra_or_low_level_control_fields": "REJECT"
+  },
+  "context_contract": {
+    "exact_fields": ["episode_id", "configuration_id", "authority_epoch", "target_class"]
+  },
+  "receipt_and_replay_contract": {
+    "known_receipts_verified_before_extra_missing_decision": true,
+    "bundle_nonce_scope": "GLOBAL_SINGLE_USE_AND_UNIQUE_WITHIN_BUNDLE",
+    "public_verify_nonce_consumption": false,
+    "semantic_fail_hold_unknown_nonce_consumption": false,
+    "source_freeze_scope_lock_nonce_consumption": false,
+    "atomic_consume_many_trigger": "FUTURE_ACTUALLY_ALLOWED_ACTION_ONLY",
+    "replay_store_scope": "IN_PROCESS_SYNTHETIC_NONPERSISTENT_NO_PRODUCTION_CREDIT"
+  },
+  "public_boundary_totality": {
+    "arbitrary_precision_integer_overflow": "RECEIPT_ERROR_OR_ABORT_DECISION",
+    "non_bytes_receipt": "RECEIPT_ERROR_OR_ABORT_DECISION",
+    "strict_json_limits": {
+      "max_input_bytes": 262144,
+      "max_container_depth": 64,
+      "max_complexity_units": 8192,
+      "max_domain_nodes": 8193,
+      "max_string_chars": 16384,
+      "max_total_string_chars": 131072,
+      "max_number_literal_chars": 256
+    },
+    "controlled_parser_errors": [
+      "UnicodeDecodeError",
+      "UnicodeEncodeError",
+      "JSONDecodeError",
+      "StrictJSONError",
+      "RecursionError",
+      "numeric_limit_ValueError"
+    ],
+    "forbidden_broad_catches": ["BaseException", "MemoryError", "KeyboardInterrupt"],
+    "hostile_depth_1200": "RECEIPT_ERROR_OR_ABORT_DECISION",
+    "hostile_integer_digits_5000": "RECEIPT_ERROR_OR_ABORT_DECISION",
+    "escaped_or_in_memory_lone_surrogate": "RECEIPT_ERROR_OR_ABORT_DECISION",
+    "admit_and_join_uncaught_boundary_exception": false,
+    "denial_nonce_consumption": 0
+  },
+  "full_package_inventory": {
+    "allowlist": "EXACT_UNION_OF_SOURCE_MANIFEST_FILES_AND_SEVEN_FIXED_DAG_OUTPUTS",
+    "unexpected_file": "FAIL_CLOSED",
+    "unexpected_directory": "FAIL_CLOSED",
+    "extension_blacklist_role": "DEFENCE_IN_DEPTH_ONLY"
+  },
+  "source_static_geometry_contract": {
+    "class": "EXACT_PER_LINK_BROADPHASE_BOX_OR_NO_GEOMETRY",
+    "fields": ["visual.origin.xyz", "visual.origin.rpy", "visual.box.size", "collision.origin.xyz", "collision.origin.rpy", "collision.box.size"],
+    "numeric_comparison": "EXACT_PARSED_FLOAT_NO_TOLERANCE",
+    "mesh_count": 0,
+    "narrowphase_credit": false,
+    "physical_contact_credit": false
+  },
+  "evidence_dag": [
+    "CONTRACTS_AND_SOURCES",
+    "MANIFEST_NEGATIVE_CONTROLS_PYTEST",
+    "VALIDATION",
+    "INDEPENDENT_AUDIT",
+    "GATE",
+    "TERMINAL_BOUND_TO_GATE"
+  ],
+  "prohibited_operations": [
+    "SYSTEM_URDF_GENERATION",
+    "SYSTEM_URDF_FILE_WRITE",
+    "DORMANT_GENERATOR_IMPORT_OR_INVOCATION",
+    "CAD_STEP_FCSTD_CREATE_OR_MODIFY",
+    "PRODUCTION_INTERFACE_INSTANCE_CREATION",
+    "DYNAMICS_OR_CONTACT_EXECUTION",
+    "NON_ABORT_TRAINING"
+  ],
+  "mandatory_false_fields": [
+    "system_urdf_available",
+    "current_system_bound",
+    "interface_instantiated",
+    "physical_contact_ready",
+    "dynamics_backend_ready",
+    "contact_execution_authorized",
+    "grasp_training_authorized",
+    "next_stage_authorized",
+    "release"
+  ],
+  "production_credit": false
+}

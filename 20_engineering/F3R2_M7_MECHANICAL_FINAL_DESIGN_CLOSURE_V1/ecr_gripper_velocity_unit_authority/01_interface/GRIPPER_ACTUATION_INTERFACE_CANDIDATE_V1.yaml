@@ -1,0 +1,61 @@
+schema: GRIPPER_ACTUATION_INTERFACE_CANDIDATE_V1
+generated_local: '2026-08-23T12:55:00+08:00'
+authority_class: CANDIDATE_INTERFACE__FAIL_CLOSED
+joint_coordinate_contract:
+  joint_names:
+  - gripper_joint1
+  - gripper_joint2
+  joint_type: prismatic
+  position_unit: m
+  velocity_unit: m/s
+  acceleration_unit: m/s^2
+  axis_each_in_parent_joint_frame:
+  - 1.0
+  - 0.0
+  - 0.0
+  position_range_each_m:
+  - 0.0
+  - 0.0715
+  symmetry: two independent URDF prismatic coordinates; coupling/transmission authority HOLD
+model_layer:
+  urdf_velocity_limit_literal_m_s: 15.0
+  role: MODEL_LIMIT_ONLY
+  accepted_urdf_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+design_target_layer:
+  first_contact_speed_max_m_s: 0.005
+  original_value_mm_s: 5.0
+  role: DESIGN_TARGET_CANDIDATE__NOT_MEASURED_CAPABILITY
+  uncertainty: null
+physical_actuator_layer:
+  no_load_speed_m_s: null
+  rated_speed_m_s: null
+  first_contact_speed_m_s: null
+  acceleration_m_s2: null
+  command_latency_s: null
+  full_stroke_open_time_s: null
+  full_stroke_close_time_s: null
+  force_speed_curve: null
+  standard_uncertainty: null
+  status: HOLD_PENDING_GVA_PI_01_THROUGH_07
+contact_sequence_layer:
+  states:
+  - PREGRASP
+  - CONTACT
+  - LOCK
+  jaw_travel_m: null
+  contact_time_s: null
+  contact_force_N: null
+  contact_normal_frame: null
+  contact_normal_vector: null
+  lock_confirmation_latency_s: null
+  status: HOLD_TARGET_INTERFACE_AND_BENCH_AUTHORITY_ABSENT
+consumer_rules:
+  kinematic_visualization: may consume position range; model velocity only if explicitly labeled nonphysical
+  mission_trajectory: must not derive duration from URDF velocity; remain HOLD
+  contact_dynamics: must consume measured force-speed/contact inputs; remain HOLD
+  physics_gated_rl: UNKNOWN/HOLD must map to veto; no substitution or zero-fill
+  hardware_control: must consume qualified limits from controlled actuator data; remain HOLD
+units_and_uncertainty_rule: Every physical value shall carry an SI unit, authority class and uncertainty.
+  Unknown values remain null with a named closure input.
+next_stage_authorized: false
+release_credit: false

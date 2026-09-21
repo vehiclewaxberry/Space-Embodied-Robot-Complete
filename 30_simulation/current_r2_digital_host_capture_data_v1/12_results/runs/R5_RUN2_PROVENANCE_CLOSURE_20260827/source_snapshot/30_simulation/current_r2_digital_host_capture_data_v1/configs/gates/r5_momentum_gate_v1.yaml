@@ -1,0 +1,42 @@
+schema: R5_UNIT_SAFE_MOMENTUM_GATE_V1
+status: PREREGISTERED_FOR_R5_EXECUTION
+task_id: R5_UNIT_SAFE_MOMENTUM_LEDGER_AND_VERSIONED_RUNNER
+scope: RIGID_NO_CONTACT_PREBIND_NUMERICAL_DIAGNOSTIC
+comparison: strict_less_than
+momentum:
+  epsilon_P_max: 1.0e-9
+  epsilon_H_max: 1.0e-9
+  roundoff_floor_P: 1.0e-12
+  roundoff_floor_H: 1.0e-12
+  convergence_order_range: [3.0, 5.5]
+  minimum_refinement_points: 3
+  required_dt_ratio: 2.0
+energy:
+  relative_drift_max: 1.0e-9
+base_velocity_crosscheck:
+  epsilon_omega_max: 1.0e-8
+  epsilon_linear_velocity_max: 1.0e-8
+ledger:
+  angular_momentum_about: INERTIAL_ORIGIN_I
+  expressed_in: I
+  origin_motion: FIXED
+  external_wrench_status_required: FROZEN_ZERO_BY_MODEL_SCOPE
+  event_monitor_status_required: VERIFIED
+  unaccounted_event_policy: FAIL_UNACCOUNTED_EVENT_IMPULSE
+scale_contract:
+  timing: COMPUTED_FROM_FROZEN_PLANT_AND_INITIAL_STATE_BEFORE_INTEGRATION
+  P_denominator: max(sum_body_initial_linear_momentum_norms, external_impulse_budget, total_mass_times_L_ref_over_T_ref)
+  H_denominator: max(sum_body_initial_angular_momentum_about_O_norms, external_angular_impulse_budget, system_com_inertia_spectral_norm_over_T_ref)
+  angular_rate_scale: max(initial_base_angular_rate_norm, one_over_T_ref)
+  linear_velocity_scale: max(initial_base_linear_velocity_norm, L_ref_over_T_ref)
+  posterior_residual_scaling_forbidden: true
+hard_rules:
+  no_mixed_dimension_norm: true
+  hard_gate_masking_forbidden: true
+  absent_subsystem_zero_fill_forbidden: true
+  all_s02_cases_require_three_point_refinement: true
+claim_ceiling: R5_UNIT_SAFE_PREBIND_NUMERICAL_LEDGER_VERIFIED__DIAGNOSTIC_ONLY
+control_release: false
+contact_credit: false
+parent_gate_reissue: false
+

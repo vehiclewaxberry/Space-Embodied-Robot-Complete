@@ -1,0 +1,263 @@
+schema: M01_COLLISION_SEMANTICS_DRAFT_V1
+generated_utc: DETERMINISTIC_PREFLIGHT_NO_WALLCLOCK
+authority: READ_ONLY_DRAFT_FROM_PINNED_EXISTING_SEMANTICS__NOT_AN_AUTHORIZED_ACM
+review_status: PENDING_OWNER_DECISION
+next_stage_authorized: false
+release_credit: false
+
+scene_scope:
+  mission_segment: M01_STOW_TO_RELEASE_CLEAR
+  target_present: UNKNOWN_MUST_BE_EXPLICIT_FALSE_OR_TRUE
+  target_attached: UNKNOWN_MUST_BE_EXPLICIT_FALSE_OR_TRUE
+  gripper_joint1_m: null
+  gripper_joint2_m: null
+  solar_state: UNKNOWN_M01_BINDING
+  arm_hdrm_state: UNKNOWN
+  bus_model: ANALYTIC_PROXY_ONLY
+
+input_pins:
+  accepted_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  collision_contract:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/16_EMBODIED_MECHANICAL_CONTRACT.yaml
+    sha256: 5DDA627794A4B29D087D7489BECC7A98ED632BC6EAC0413CD9F7226C03AE1E7C
+  evaluator:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_EXACT_SWEEP_V9F.py
+    sha256: 9F26AC9A8DE5E2EEB57103F07B769EB43AC30A8FBAFD90FE8DF5D501FA8C8A7F
+  centerline:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/B601_ROUTE_C_HARNESS_CENTERLINE_V9F.json
+    sha256: 177B6C5B8E5640018220D9C6E29ACBD6A8E900E573B560D28462B4614AEDBFFB
+  clamp_register:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/B601_ROUTE_C_CLAMP_AND_GUIDE_REGISTER_V9F.csv
+    sha256: EA2D187D62537D0CC6043533AE5F1A24BA58837498C3173CD6556106FB021885
+  mesh_manifest:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_SWEEP_MESH_PACK_V9F/MANIFEST.json
+    sha256: A90123580F73A7FF2DCE3F7A5BDB31DC31A1741D69A3CBFE837CB4DB53A00F25
+  collision_authority_gate:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_COLLISION_AUTHORITY_V1/ODR60_OPTION_A_COLLISION_AUTHORITY_GATE_V1.json
+    sha256: 81D9201F2A7F62C450C45A067E586BAD722688F300F4D3AC816427BF30C0D763
+  system_registry_gate:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_COLLISION_AUTHORITY_V1/system_registry/M01_SYSTEM_COLLISION_REGISTRY_GATE_V1.json
+    sha256: F5E91371648756D43FF7CF6C03028FA95174428D088BAAC08254FAD8D5DCC3FF
+  base_link_proxy_v2_step:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_COLLISION_AUTHORITY_V1/base_link_proxy_v2/B601_BASE_LINK_OPERATIONAL_COLLISION_PROXY_V2.step
+    sha256: D038C641D196B7B89318F120D64BB3A88C219E26699A4B2C33CFDC7225C3152E
+  base_link_proxy_v2_receipt:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_COLLISION_AUTHORITY_V1/base_link_proxy_v2/BASE_LINK_OPERATIONAL_COLLISION_RECEIPT_V2.json
+    sha256: 5871D0AF4F9E31BF19240E4C8E885CB4715DA8936FF74BBB34F2367655BBACDA
+  base_link_proxy_v2_validation:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_COLLISION_AUTHORITY_V1/base_link_proxy_v2/BASE_LINK_OPERATIONAL_COLLISION_VALIDATION_V2.json
+    sha256: 95B8C76F212E1A5F37A729A19AAC89BEC4A7C010A82B4BF3AE79CC65D637124C
+
+collision_defaults:
+  pair_default: FORBID
+  unknown: ABORT
+  missing_asset: ABORT
+  empty_comparison_set: ABORT
+  nonfinite: ABORT
+  hash_mismatch: ABORT
+  wildcard_exemption_allowed: false
+  caller_supplied_exemption_allowed: false
+  manual_exemption_allowed: false
+
+adjacent_link_exclusions:
+  source_policy: ENABLE_ALL_EXCEPT_ADJACENT_LINK_PAIRS
+  pairs:
+    - [base_link, link1]
+    - [link1, link2]
+    - [link2, link3]
+    - [link3, link4]
+    - [link4, link5]
+    - [link5, link6]
+    - [link6, gripper_link]
+    - [gripper_link, gripper_left]
+    - [gripper_link, gripper_right]
+  no_other_arm_pair_inherits_exclusion: true
+  finger_pair:
+    pair: [gripper_left, gripper_right]
+    collision_check: MUST_REMAIN_ENABLED
+
+capture_contacts_for_m01:
+  active: false
+  reason: target state is not explicitly bound and M01 is an arm-release segment, not capture
+  finger_target_inherited: false
+  palm_target_inherited: false
+
+route_c_cable_serving_hardware_rules:
+  qualification_scope: CLEARANCE_ONLY__NOT_PRESSURE_WEAR_FRETTING_OR_ESCAPE
+  fourfold_binding_required: [exact_segment, exact_section, cumulative_arclength_window, explicit_station_and_clamp_with_bore_axis_pass]
+  legacy_euclidean_only_window_allowed: false
+  rules:
+    - rule_id: IF-00-BUS-TO-J1
+      segment: SEG-00_BUS_FEEDTHROUGH_AND_RISER
+      section: 0
+      s_window_mm: [317.251218949, 382.251218949]
+      allowed_part_ids: [RC-GDE-J1-ANNULUS-LOW, RC-GDE-J1-ANNULUS-UP, RC-GDE-J1-ANNULUS-WALL, RC-GDE-J1-LINER]
+      witness_clamp_id: CF-BUS-03
+    - rule_id: IF-01-J1-TO-J2
+      segment: SEG-01_J1_ANNULAR_SERVICE_LOOP
+      section: 1
+      s_window_mm: [506.748727356, 571.748727356]
+      allowed_part_ids: [RC-GDE-J2-MANDREL, RC-GDE-J2-MANDREL-LINER, RC-CLP-J2-FIX]
+      witness_clamp_id: CF-J2-F
+    - rule_id: IF-02-J2-TO-J3
+      segment: SEG-02_J2_GUIDED_U_LOOP_AND_LINK2_CHANNEL
+      section: 1
+      s_window_mm: [438.087327400, 503.087327400]
+      allowed_part_ids: [RC-GDE-J3-SADDLE, RC-GDE-J3-SADDLE-LINER]
+      witness_clamp_id: CM-J3-M
+    - rule_id: IF-03-J3-TO-J4
+      segment: SEG-03_J3_CARRIER_HYBRID_WRAP
+      section: 3
+      s_window_mm: [310.203720321, 375.203720321]
+      allowed_part_ids: [RC-GDE-J4-FIXED-APPROACH, RC-GDE-J4-FIXED-APPROACH-LINER]
+      witness_clamp_id: CF-J4-F
+    - rule_id: IF-04-J4-TO-J5
+      segment: SEG-04_J4_CHAINLESS_TROMBONE_EXTERNAL_ANNULAR_FOLLOWER
+      section: 6
+      s_window_mm: [2064.303280086, 2129.303280086]
+      allowed_part_ids: [RC-GDE-J5-WRAP, RC-GDE-J5-WRAP-LINER, RC-CLP-J5-MOV]
+      witness_clamp_id: CF-J5-F
+    - rule_id: IF-05-J5-CROSS-UPSTREAM
+      segment: SEG-05_J5_WRIST_WRAP
+      section: 0
+      s_window_mm: [0.0, 177.587251390]
+      allowed_part_ids: [RC-GDE-J5-HIGH-BYPASS, RC-GDE-J5-HIGH-BYPASS-LINER, RC-CLP-J5-FIX, RC-GSP-L4-HIGH-E2]
+      witness_clamp_id: CF-J5-F
+    - rule_id: IF-05-J5-TO-J6
+      segment: SEG-05_J5_WRIST_WRAP
+      section: 1
+      s_window_mm: [718.129239040, 783.129239040]
+      allowed_part_ids: [RC-GDE-J6-RING-0, RC-CLP-J6-FIX]
+      witness_clamp_id: CM-J6-F
+    - rule_id: IF-06-J6-FROM-J5
+      segment: SEG-06_J6_HELICAL_WRAP_AND_WRIST_RUN
+      section: 0
+      s_window_mm: [0.0, 65.0]
+      allowed_part_ids: [RC-GDE-J5-HIGH-RETURN, RC-GDE-J5-HIGH-RETURN-LINER, RC-GSP-J5-HIGH-A6]
+      witness_clamp_id: CM-J6-F
+    - rule_id: J4-LOCAL-00-FIXED-APPROACH
+      segment: SEG-04_J4_CHAINLESS_TROMBONE_EXTERNAL_ANNULAR_FOLLOWER
+      section: 0
+      s_window_mm: [0.0, 659.634509987]
+      allowed_part_ids: [RC-CLP-J4-FIX, RC-GDE-J4-FIXED-APPROACH, RC-GDE-J4-FIXED-APPROACH-LINER]
+      witness_clamp_id: CF-J4-F
+    - rule_id: J4-LOCAL-01-PLANE-A-TELESCOPE
+      segment: SEG-04_J4_CHAINLESS_TROMBONE_EXTERNAL_ANNULAR_FOLLOWER
+      section: 1
+      s_window_mm: [659.634509987, 768.759509987]
+      allowed_part_ids: [RC-TEL-J4-A-STAGE-1, RC-TEL-J4-A-STAGE-2, RC-TEL-J4-A-STAGE-3, RC-TEL-J4-A-STAGE-4]
+      witness_clamp_id: CF-J4-F
+    - rule_id: J4-LOCAL-02-U-SADDLE
+      segment: SEG-04_J4_CHAINLESS_TROMBONE_EXTERNAL_ANNULAR_FOLLOWER
+      section: 2
+      s_window_mm: [768.759509987, 941.661307927]
+      allowed_part_ids: [RC-CAR-J4-TROMBONE, RC-GDE-J4-TROMBONE-U, RC-GDE-J4-TROMBONE-U-LINER]
+      witness_clamp_id: CF-J4-F
+    - rule_id: J4-LOCAL-03-PLANE-B-TELESCOPE
+      segment: SEG-04_J4_CHAINLESS_TROMBONE_EXTERNAL_ANNULAR_FOLLOWER
+      section: 3
+      s_window_mm: [941.661307927, 1050.786307927]
+      allowed_part_ids: [RC-TEL-J4-B-STAGE-1, RC-TEL-J4-B-STAGE-2, RC-TEL-J4-B-STAGE-3, RC-TEL-J4-B-STAGE-4, RC-CLP-J4-B]
+      witness_clamp_id: CF-J4-B
+    - rule_id: J4-LOCAL-04-BRIDGE
+      segment: SEG-04_J4_CHAINLESS_TROMBONE_EXTERNAL_ANNULAR_FOLLOWER
+      section: 4
+      s_window_mm: [1050.786307927, 1149.386147927]
+      allowed_part_ids: [RC-GDE-J4-B-TO-ANNULUS, RC-GDE-J4-B-TO-ANNULUS-LINER, RC-CLP-J4-B, RC-CLP-J4-ANN-ENTRY]
+      witness_clamp_id: CF-J4-ANN-E
+    - rule_id: J4-LOCAL-05-ANNULAR-FOLLOWER
+      segment: SEG-04_J4_CHAINLESS_TROMBONE_EXTERNAL_ANNULAR_FOLLOWER
+      section: 5
+      s_window_mm: [1149.386147927, 1254.934769699]
+      allowed_part_ids: [RC-GDE-J4-ANNULAR-FOLLOWER, RC-GDE-J4-ANNULAR-FOLLOWER-LINER, RC-CAR-J4-FOLLOWER-TROLLEY, RC-CLP-J4-FOLLOWER, RC-CLP-J4-ANN-ENTRY]
+      witness_clamp_id: CF-J4-ANN-E
+    - rule_id: J4-LOCAL-06-LINK4-DOWNSTREAM
+      segment: SEG-04_J4_CHAINLESS_TROMBONE_EXTERNAL_ANNULAR_FOLLOWER
+      section: 6
+      s_window_mm: [1254.934769699, 2129.303280086]
+      allowed_part_ids: [RC-CAR-J4-FOLLOWER-TROLLEY, RC-CLP-J4-FOLLOWER, RC-CLP-L4-01, RC-GDE-J5-HIGH-BYPASS, RC-GDE-J5-HIGH-BYPASS-LINER, RC-GSP-L4-HIGH-E1, RC-GSP-L4-HIGH-E2, RC-CLP-J5-FIX]
+      witness_clamp_id: CF-L4-01
+  j4_whole_segment_exemption_allowed: false
+  all_witnesses_require_current_register_bore_axis_pass: true
+  expanded_candidate_object_pair_window_records: 55
+  candidate_windows_active_as_pair_exceptions: false
+  legacy_non_j4_segment_wide_sets_rejected: 8
+  legacy_segment_part_memberships_rejected: 91
+
+fixed_route_c_own_host_attachment_semantics:
+  existing_evaluator_behavior: fixed part versus exact own host may be skipped when the part has no relative host motion
+  adopted_as_complete_acm_authority: false
+  reason: mounting contact surfaces are not individually bounded in a hash-locked interface registry
+  moving_part_own_host_exclusion_allowed: false
+  status: OPEN_BLOCKER
+
+forbidden_rule_classes:
+  - all non-adjacent arm-arm pairs
+  - gripper_left versus gripper_right
+  - cable versus vendor body at any location
+  - cable versus bus, Solar or gripper
+  - cable versus Route-C hardware outside the exact 15 rules
+  - any J4 whole-segment exclusion
+  - moving Route-C hardware versus own host
+  - Route-C hardware versus a non-host vendor link, bus, Solar or gripper
+  - Route-C versus Route-C without an explicit interface rule
+  - arm or gripper versus bus or Solar without evaluated clearance
+  - wildcard, caller-supplied or manual exemptions
+
+required_pair_classes:
+  - {class_id: arm_and_gripper_self_all_unordered, expected_count: 45, excepted_adjacent_count: 9, unassessed_count: 36, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: arm_and_gripper_vs_fixed_platform, expected_count: 40, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: arm_and_gripper_vs_solar, expected_count: 60, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: arm_and_gripper_vs_route_c_hardware, expected_count: 1210, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: arm_and_gripper_vs_bundle_envelopes, expected_count: 90, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: fixed_platform_internal, expected_count: 6, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: fixed_platform_vs_solar, expected_count: 24, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: fixed_platform_vs_route_c_hardware, expected_count: 484, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: fixed_platform_vs_bundle_envelopes, expected_count: 36, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: solar_internal, expected_count: 15, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: solar_vs_route_c_hardware, expected_count: 726, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: solar_vs_bundle_envelopes, expected_count: 54, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: route_c_hardware_internal, expected_count: 7260, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: route_c_hardware_vs_bundle_envelopes, expected_count: 1089, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+  - {class_id: bundle_envelopes_internal, expected_count: 36, evaluated_count: 0, status: ENUMERATED_FAIL_CLOSED}
+
+system_collision_universe:
+  active_object_count: 150
+  object_counts: {F: 4, A: 10, S: 6, R: 121, C: 9}
+  unordered_pair_count: 11175
+  adjacent_pair_exceptions: 9
+  non_excepted_unassessed_fail_closed: 11166
+  conditional_solar_keepout_candidates_not_yet_activated: 10
+  raw_urdf_base_link_mesh_consumed: false
+  fixed_route_c_own_host_object_skip_inherited: false
+  path_search_executed: false
+
+asset_conflicts:
+  - id: BASE-LINK-PHANTOM-DESKTOP-PLATE
+    raw_mesh_sha256: 22641C079014FE968702393F61E7F7F1A8F80C6C1DF45A61E31545F6EAFF3B65
+    legacy_v9f_mesh_pack_consumes_raw_mesh: true
+    current_150_object_registry_consumes_raw_mesh: false
+    disposition: RAW_MESH_REJECTED_AND_CONFLICT_CONTAINED
+    attempted_replacement: STEP_FIRST_V2__66_EXACT_BREP_SOLIDS_PLUS_TWO_STRICT_TOLERANCE_AABBS
+    replacement_diagnostic: 68_OF_68_BREPCHECK_VALID__207490_FINAL_TRIANGLES__ZERO_BOUNDARY_OR_NONMANIFOLD_EDGES
+    replacement_artifacts_written: true
+    replacement_local_geometry_pass: true
+    replacement_system_pair_evaluation_pass: false
+    status: REPLACEMENT_PROXY_LOCAL_GEOMETRY_PASS__SYSTEM_PAIR_HOLD
+
+gate:
+  input_semantics_normalized: true
+  pair_universe_enumerated: true
+  pair_universe_count: 11175
+  non_excepted_pairs_unassessed_fail_closed: 11166
+  base_link_raw_mesh_conflict_contained: true
+  base_link_operational_proxy_pass: true
+  complete_hash_bound_acm: false
+  complete_system_collision_pass: false
+  zero_unknown_auto_allow: true
+  no_new_exemptions_authorized: true
+  verdict: M01_COLLISION_UNIVERSE_ENUMERATED__BASE_LINK_PROXY_LOCAL_PASS__11166_PAIRS_UNASSESSED_FAIL_CLOSED__NO_NEW_EXEMPTIONS_AUTHORIZED
+  next_stage_authorized: false
+  release_credit: false

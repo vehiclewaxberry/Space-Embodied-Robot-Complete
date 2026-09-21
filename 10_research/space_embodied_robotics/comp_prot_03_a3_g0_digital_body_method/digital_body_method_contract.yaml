@@ -1,0 +1,359 @@
+schema_version: comp-prot-03-digital-body-method-v0.1
+method_id: space_embodied_intelligence_digital_body_construction_method_v0_1
+phase: COMP-PROT-03-A3-G0-DIGITAL-BODY-METHOD
+created_on: "2026-07-23"
+status: DIGITAL_BODY_METHOD_CONTRACT_ONLY
+
+authority:
+  scientific_gate: false
+  runtime_configuration: false
+  cad_generation_authorized: false
+  urdf_generation_authorized: false
+  simulation_authorized: false
+  dynamics_integration_authorized: false
+  controller_or_safe_authorized: false
+  rl_or_vla_authorized: false
+  may_close_existing_db_blocker: false
+  separate_human_authorization_required: true
+
+definition:
+  digital_body:
+    required_layers:
+      - GEOMETRY
+      - PHYSICAL_PROPERTIES
+      - TASK_SEMANTICS
+      - EVIDENCE_CHAIN
+    cross_layer_binding_required: true
+    explicit_unknown_register_required: true
+    consumer_specific_projection_required: true
+  excluded_equivalences:
+    - digital_body_is_not_equal_to_cad
+    - digital_body_is_not_equal_to_urdf
+    - digital_body_is_not_equal_to_dynamics_model
+    - digital_body_is_not_equal_to_visualization
+    - schema_pass_is_not_scientific_validation
+
+truth_order:
+  - current_human_scope_authorization
+  - original_scientific_gate_and_bound_configuration
+  - canonical_geometry_frame_and_parameter_sources
+  - accepted_b601_urdf
+  - mass_inertia_budget
+  - reviewed_derived_geometry_assets
+  - consumer_import_outputs
+  - visualization_and_narrative
+
+identity_policy:
+  stable_object_id_required: true
+  stable_feature_id_required: true
+  exactly_one_active_configuration_required: true
+  parallel_identity_without_reentry_gate_forbidden: true
+  object_identity_may_not_be_replaced_by_file_name: true
+  target_is_independent_pre_capture_body: true
+
+layer_contracts:
+  GEOMETRY:
+    purpose: describe_shape_topology_frames_interfaces_envelopes_and_keepouts
+    required_record_types:
+      - body_object
+      - geometry_record
+      - frame_record
+      - transform_record
+      - interface_record
+      - keepout_record
+    mandatory_context:
+      - unit
+      - frame_id
+      - geometry_profile
+      - configuration_state
+      - source_ref_ids
+    prohibited_inferences:
+      - geometry_implies_mass_property
+      - geometry_implies_reachability
+      - geometry_implies_collision_free
+      - geometry_implies_launch_compliance
+
+  PHYSICAL_PROPERTIES:
+    purpose: describe_mass_inertia_com_joints_flexibility_and_contact_properties
+    required_record_types:
+      - property_record
+      - mass_owner_record
+      - exclusive_representation_group
+      - configuration_record
+    mandatory_context:
+      - unit
+      - frame_id
+      - reference_point
+      - configuration_state
+      - source_ref_ids
+    mass_rules:
+      every_active_mass_has_exactly_one_owner: true
+      every_exclusive_group_has_exactly_one_selected_member: true
+      whole_and_decomposed_representation_may_not_coexist: true
+      aggregate_com_and_inertia_require_explicit_recomposition: true
+    prohibited_inferences:
+      - mass_sum_implies_final_system_mass
+      - urdf_value_implies_physical_measurement
+      - nominal_geometry_implies_inertia
+
+  TASK_SEMANTICS:
+    purpose: describe_what_objects_and_features_mean_for_observation_interaction_and_constraints
+    required_record_types:
+      - semantic_feature
+      - task_phase_binding
+      - allowed_action
+      - forbidden_action
+      - semantic_dependency
+    semantic_types:
+      - OBSERVATION_FEATURE
+      - TASK_INTERFACE
+      - AFFORDANCE_CANDIDATE
+      - CONTACT_PATCH
+      - KEEP_OUT
+      - CONFIGURATION_STATE
+      - CONSTRAINT_INTERFACE
+      - FAILURE_MODE
+    interface_levels:
+      INTERFACE_0:
+        meaning: visual_or_candidate_feature
+        may_claim_hard_capture: false
+      INTERFACE_1:
+        meaning: qualified_contact_patch
+        current_project_status: OPEN
+        may_claim_rigid_lock: false
+      INTERFACE_2:
+        meaning: qualified_six_dof_lock_interface
+        current_project_status: DEFERRED
+    required_bindings:
+      - geometry_owner_ref
+      - applicable_task_phases
+      - physical_dependency_refs
+      - evidence_ref_ids
+      - allowed_and_forbidden_actions
+    prohibited_inferences:
+      - candidate_patch_implies_qualified_grasp
+      - semantic_label_implies_contact_physics
+      - task_skill_implies_execution_authority
+
+  EVIDENCE_CHAIN:
+    purpose: explain_source_authority_hash_qualification_review_limit_and_claim_boundary
+    required_record_types:
+      - source_record
+      - field_trace_link
+      - conflict_record
+      - review_record
+      - claim_boundary_record
+    source_hash_algorithm: SHA-256
+    source_hash_mode: RAW_BYTES
+    normalized_hash_may_replace_raw_hash: false
+    field_level_binding_required: true
+    conflict_preservation_required: true
+    limitation_preservation_required: true
+    historical_gate_inheritance_default: false
+
+fact_envelope:
+  required_fields:
+    - property_id
+    - subject_id
+    - evidence_state
+    - value
+    - unit
+    - frame_id
+    - reference_point
+    - configuration_state
+    - source_ref_ids
+    - limitations
+  unknown_requires:
+    - null_value
+    - unknown_reason
+    - blocked_consumers
+  numeric_value_without_unit_forbidden: true
+  frame_dependent_value_without_frame_forbidden: true
+  inertia_without_reference_point_forbidden: true
+  configuration_dependent_value_without_configuration_forbidden: true
+
+state_vocabularies:
+  evidence_state:
+    SOURCE_BOUND: source_field_and_scope_are_identified
+    PROVISIONAL: source_exists_but_measurement_or_signoff_is_incomplete
+    PROPOSED: design_choice_not_yet_canonical
+    UNKNOWN: no_acceptable_value_exists
+    CONFLICTED: sources_disagree_and_no_authoritative_resolution_exists
+    DEFERRED: deliberately_excluded_from_current_scope
+    NOT_APPLICABLE: field_does_not_apply_to_current_object_or_configuration
+  review_state:
+    DRAFT: record_not_ready_for_review
+    PARTIAL_WITH_EXPLICIT_UNKNOWNS: structure_present_with_fail_closed_unknowns
+    REVIEW_READY: method_and_evidence_checks_complete_for_named_consumer
+    REVIEW_READY_WITH_LIMITATIONS: consumer_scope_is_narrow_and_limits_are_explicit
+    REVISION_REQUIRED: inconsistency_or_missing_evidence_requires_change
+    BLOCKED_BY_EVIDENCE: downstream_scope_cannot_be_authorized
+  claim_state:
+    METHOD_DEFINED: project_method_or_schema_exists
+    DESIGN_BOUND: design_identity_or_topology_is_source_bound
+    PROVISIONAL_VALUE: value_must_retain_provisional_watermark
+    HISTORICAL_REFERENCE_ONLY: historical_result_has_no_automatic_inheritance
+    NOT_EVALUATED: no evidence supports_the_claim
+
+cross_layer_rules:
+  each_semantic_feature_has_geometry_owner: true
+  each_physical_property_has_object_owner: true
+  each_non_unknown_fact_has_evidence_ref: true
+  each_trace_link_has_maximum_claim_boundary: true
+  each_consumer_declares_allowed_and_forbidden_fields: true
+  dangling_reference_count_must_equal: 0
+  silent_default_count_must_equal: 0
+  unresolved_conflict_consumed_count_must_equal: 0
+  unqualified_unknown_consumed_count_must_equal: 0
+
+construction_stages:
+  - stage_id: DBM-0
+    name: scope_freeze
+    output: scope_authority_and_consumer_contract
+    fail_closed_if:
+      - human_scope_missing
+      - writable_boundary_missing
+      - prohibited_consumer_not_declared
+  - stage_id: DBM-1
+    name: identity_and_topology
+    output: stable_objects_features_and_exactly_one_configuration
+    fail_closed_if:
+      - parallel_identity_unresolved
+      - topology_source_missing
+  - stage_id: DBM-2
+    name: geometry_binding
+    output: geometry_frames_transforms_interfaces_and_keepouts
+    fail_closed_if:
+      - profile_conflict
+      - unit_missing
+      - frame_parent_unknown_for_required_consumer
+  - stage_id: DBM-3
+    name: physical_binding
+    output: mass_owner_com_inertia_joint_flex_contact_records
+    fail_closed_if:
+      - duplicate_mass_owner
+      - reference_point_missing
+      - aggregate_property_guessed
+  - stage_id: DBM-4
+    name: task_semantic_binding
+    output: observation_interaction_constraint_and_failure_semantics
+    fail_closed_if:
+      - semantic_feature_has_no_geometry_owner
+      - candidate_feature_promoted_to_qualified_interface
+  - stage_id: DBM-5
+    name: evidence_binding
+    output: raw_hash_field_trace_conflict_review_and_claim_boundary
+    fail_closed_if:
+      - source_missing
+      - source_hash_missing
+      - conflict_silently_resolved
+  - stage_id: DBM-6
+    name: cross_layer_consistency
+    output: traceable_record_unknown_register_and_conflict_register
+    fail_closed_if:
+      - dangling_reference
+      - unknown_consumed_as_value
+      - claim_stronger_than_evidence
+  - stage_id: DBM-7
+    name: consumer_projection
+    output: scope_limited_cad_urdf_physics_agent_or_display_view
+    fail_closed_if:
+      - consumer_reads_forbidden_field
+      - consumer_gate_not_satisfied
+      - human_authorization_missing
+
+consumer_projections:
+  CAD_SKELETON:
+    allowed_field_classes:
+      - selected_geometry_profile
+      - source_bound_frames
+      - signed_interfaces
+      - envelopes
+      - keepouts
+    forbidden_field_classes:
+      - unknown_stackup
+      - inferred_mass_properties
+      - task_feasibility
+    reverse_write_to_method_ssot: false
+  URDF:
+    allowed_field_classes:
+      - reviewed_link_joint_topology
+      - signed_fixed_frames
+      - qualified_mass_and_inertia
+      - portable_mesh_provenance
+    forbidden_field_classes:
+      - guessed_tool_frame
+      - silent_link_rename
+      - orbital_dynamics
+    reverse_write_to_method_ssot: false
+  PHYSICS_MODEL:
+    allowed_field_classes:
+      - complete_mass_properties
+      - configuration_state
+      - explicit_frames
+      - bounded_contact_contract
+    forbidden_field_classes:
+      - unknown_com_or_inertia
+      - mixed_reference_points
+      - inherited_historical_gate
+    reverse_write_to_method_ssot: false
+  EMBODIED_AGENT:
+    allowed_field_classes:
+      - task_semantics
+      - state_quality
+      - physics_response_refs
+      - safe_decision_refs
+    forbidden_field_classes:
+      - direct_actuator_command
+      - implicit_physics_parameter
+      - execution_authority
+    reverse_write_to_method_ssot: false
+  COMPETITION_DISPLAY:
+    allowed_field_classes:
+      - watermarked_candidate_geometry
+      - watermarked_task_semantics
+      - evidence_status
+    forbidden_field_classes:
+      - autonomous_capture_claim
+      - launch_compliance_claim
+      - scientific_gate_upgrade
+    reverse_write_to_method_ssot: false
+
+a2_packet_binding:
+  phase: COMP-PROT-03-A2
+  hash_mode: RAW_BYTES
+  records:
+    - record_id: mechanical_configuration_design_standard
+      path: ../comp_prot_03_a2_candidate_model_review/mechanical_configuration_design_standard.md
+      sha256: 61fb5695f9f3e03788a5a3e226c344217b10c5cbe121e15c2161aeab52f3242e
+    - record_id: candidate_configuration
+      path: ../comp_prot_03_a2_candidate_model_review/candidate_configuration_v0.yaml
+      sha256: a055fb70c7e39047a84381c22bafed61a63932c334e81986a7b14599dce0a820
+    - record_id: digital_skeleton
+      path: ../comp_prot_03_a2_candidate_model_review/digital_skeleton_model_v0.yaml
+      sha256: 5d0f87aaabc00e43466873d67213455f75c568521eb5acaa84dbeed6d3d7248d
+    - record_id: db_blocker_ledger
+      path: ../comp_prot_03_a2_candidate_model_review/db_blocker_resolution_ledger.yaml
+      sha256: c71308c2b5d3cab5ebb93d2340771eb7bcddb4b9e4654c316bff5bfd1a40e7b8
+    - record_id: cad_entry_gate
+      path: ../comp_prot_03_a2_candidate_model_review/cad_entry_gate.md
+      sha256: f2846219a6bd0ca906f9b95636b707120d22ac158c960314705dc133e5b91353
+
+current_candidate_application:
+  instance_path: candidate_12u_b601_digital_body_v0_1.yaml
+  record_status: PARTIAL_WITH_EXPLICIT_UNKNOWNS
+  selected_topology: A_CENTERLINE_TASK_FACE_SINGLE_ARM
+  geometry_profile: UNKNOWN_EXACTLY_ONE_REQUIRED
+  provisional_mass_total_kg_source_decimal: "29.8955559493429862"
+  provisional_mass_label: PROVISIONAL_DESIGN_LEDGER_TOTAL
+  cad_entry_verdict: CAD_ENTRY_BLOCKED_BY_EVIDENCE
+  a3_authorized: false
+
+gate_relationship:
+  method_gate: DIGITAL-BODY-METHOD-G0
+  method_gate_is_scientific_gate: false
+  method_completeness_may_not_override_cad_gate: true
+  preserved_cad_gate: CAD-SKELETON-G0
+  preserved_cad_verdict: CAD_ENTRY_BLOCKED_BY_EVIDENCE
+  required_next_human_gate: COMP-PROT-03-A3-G0-EVIDENCE-CLOSURE
+  automatic_transition_to_cad: false

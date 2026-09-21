@@ -1,0 +1,60 @@
+gate_id: COMP-PROT-03-A4-B4-REFERENCE-GROUNDED-STRUCTURE-AND-SOLAR-REFINEMENT
+phase: B4-0
+verdict: B4_0_SOURCE_ADMISSION_AND_DESIGN_FREEZE_COMPLETE_WITH_PRESERVED_CONFLICTS
+date: "2026-07-25"
+authorization: 用户 2026-07-25 会话指令（B4-0 只做来源准入与设计冻结，不碰 SolidWorks）
+
+deliverables:
+  source_admission: 01_source_admission/source_admission_manifest.yaml   # 五条记录覆盖六类来源
+  feature_adoption: 02_feature_adoption/open_source_feature_adoption_matrix.yaml  # 37 特征
+  trade_studies:
+    - 03_trade_studies/primary_structure_trade_study.md
+    - 03_trade_studies/solar_array_mechanism_trade_study.md
+  cad_preparation:
+    - 04_cad_preparation/v2_1_master_skeleton_delta.yaml
+    - 04_cad_preparation/v2_1_drawing_register.yaml
+  adversarial_record:
+    - 05_adversarial_review/adversarial_design_record.yaml
+    - 05_adversarial_review/red_team_corrections_20260725.yaml
+    - 05_adversarial_review/human_conflict_rulings.yaml
+
+source_pins:
+  CDS: CP-CDS-R14.1 (2022-02, Public Domain 分类, 1U-12U)
+  ORESAT_STRUCTURE: 4c02299f908e8b60afd23ca562b4ec418d51ce56   # 与 A4-B2 既有钉定逐位一致
+  ORESAT_SOLAR: af8f6f3def958309f3864055bd1944e20f51357d
+  BIRDSX_CAD: 36bceeacc9f899477f2f10e36f8a65f7b58cb4ed
+  HYPERION_SOLAR: 8860d493125f0cea17049e519a6e9751b4dd9422
+  LIBRECUBE_LC2102: 5b1afaaa54973923adea0ed85e94a315dd549261
+
+frozen_summary:
+  - 混合框架拓扑继承 V2.0；V2.1 增量=承载语义申明（五类 STRUCT_CLASS 三层落地）
+  - 四角纵梁=唯一轴向集中载荷通道；节点唯一交换原则
+  - B601 扩散链 boss→适配板→前框环支承→角撑→纵梁→MID1（条件冻结，扣留于 H6/C1）
+  - 翼根证据归宿 MID2 框；独立支座；固定侧机构集中；扫掠 keepout 一等资产
+  - 七态配置族 {STOWED/DEPLOYED_NOMINAL/DEPLOY_FAILED_BOTH/L_FAIL/R_FAIL/PARTIAL/SERVICE}
+
+resolved_conflicts_human_owned: [C1 开口逐件规则3, C2 MID2节点垫, C3 MID1分段侧板, C4 HDRM限MID2+REAR]
+preserved_open_conflicts: [C5 收拢包络语义(238.3>226.3)]
+hard_blocks: [H1 V2-UNK-001 不闭环, H2 无FEA无结论, H3 五源数值防火墙, H4 零血缘,
+  H5 UNKNOWN 执法, H6 载荷链冻结包扣留, H7 收拢拓扑声明前置, H8 质量SSOT保护, H9 SpeedPak纪律]
+
+next_phase:
+  gate_id: B4-1 (Space_Embodied_Robot_CAD_V2_1 SolidWorks 深化)
+  status: HUMAN_APPROVED_AND_EXECUTED_CONDITIONALLY
+  authorized: true
+  authorization_record: 05_adversarial_review/human_conflict_rulings.yaml
+  entry_preconditions:
+    - 人工裁决 C1-C4（C5 可 named-only 先行）
+    - Solar 侧交付收拢拓扑声明（H7）
+    - B4-1 验收以 adversarial_design_record.yaml 的 A1-A20 为候选合同
+  not_authorized_in_b4_1: [覆盖 V2.0, FEA, 动力学, 控制, 接触, 飞行/制造合规声明, Git 提交]
+
+solidworks_contact_this_phase: NONE   # B4-0 全程未创建/未修改任何 CAD
+v2_0_baseline: UNTOUCHED
+
+red_team_gate:
+  semantic_reference_scaffold: PASS_CONDITIONAL
+  physical_mechanism_detail: HOLD
+  dynamic_arm_solar_safety: NOT_EVALUATED_UNKNOWN_PARAM
+  vision_occlusion: NOT_EVALUATED_UNKNOWN_PARAM
+  controlling_record: 05_adversarial_review/red_team_corrections_20260725.yaml

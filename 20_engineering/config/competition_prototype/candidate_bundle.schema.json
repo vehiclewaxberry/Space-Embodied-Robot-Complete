@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:space-embodied-agent:comp-prot-01:candidate-bundle:v1",
+  "title": "Space Embodied Agent V1 Candidate Bundle",
+  "$comment": "STATUS=PROTOTYPE_CONTRACT; proposal-only interface; trajectory, actuator commands, SAFE decisions and execution authorization are structurally excluded.",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "vector3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"type": "number"}
+    },
+    "taskSkill": {
+      "type": "string",
+      "enum": [
+        "INTERCEPT_TARGET",
+        "APPROACH_TARGET",
+        "CAPTURE_TARGET",
+        "STABILIZE_TARGET",
+        "REDUCE_ROTATION",
+        "TRANSFER_TARGET"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "contract_status",
+    "bundle_id",
+    "created_at",
+    "valid_until",
+    "target_envelope_ref",
+    "scenario_hash",
+    "task_skill_intent",
+    "proposal_disposition",
+    "advisory_request",
+    "proposer",
+    "candidates",
+    "bundle_assumptions",
+    "bundle_unknown_fields",
+    "proposal_only",
+    "execution_authority"
+  ],
+  "properties": {
+    "schema_version": {"const": "comp-prot-01.candidate-bundle.v1"},
+    "contract_status": {"const": "PROTOTYPE_CONTRACT"},
+    "bundle_id": {"$ref": "#/$defs/identifier"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": "string", "format": "date-time"},
+    "target_envelope_ref": {"$ref": "#/$defs/identifier"},
+    "scenario_hash": {"$ref": "#/$defs/sha256"},
+    "task_skill_intent": {"$ref": "#/$defs/taskSkill"},
+    "proposal_disposition": {
+      "type": "string",
+      "enum": ["CANDIDATES_PROPOSED", "ABSTAINED"]
+    },
+    "advisory_request": {
+      "type": "string",
+      "enum": ["NONE", "REQUEST_REOBSERVE"]
+    },
+    "proposer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "model_id", "model_version", "prompt_sha256"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["DETERMINISTIC_RULES", "HUMAN_REVIEW", "VLM_VLA_ADVISORY", "OTHER_ADVISORY"]
+        },
+        "model_id": {"type": ["string", "null"]},
+        "model_version": {"type": ["string", "null"]},
+        "prompt_sha256": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/sha256"}
+          ]
+        }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "target_hypothesis_id",
+          "surface_patch_id",
+          "grasp_pose",
+          "approach_direction",
+          "affordance",
+          "assumptions",
+          "unknown_fields"
+        ],
+        "properties": {
+          "candidate_id": {"$ref": "#/$defs/identifier"},
+          "target_hypothesis_id": {"$ref": "#/$defs/identifier"},
+          "surface_patch_id": {"$ref": "#/$defs/identifier"},
+          "grasp_pose": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["frame_id", "position_m", "orientation_quaternion_xyzw"],
+            "properties": {
+              "frame_id": {"$ref": "#/$defs/identifier"},
+              "position_m": {"$ref": "#/$defs/vector3"},
+              "orientation_quaternion_xyzw": {
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 4,
+                "items": {"type": "number"}
+              }
+            }
+          },
+          "approach_direction": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["frame_id", "unit_vector"],
+            "properties": {
+              "frame_id": {"$ref": "#/$defs/identifier"},
+              "unit_vector": {"$ref": "#/$defs/vector3"}
+            }
+          },
+          "affordance": {
+            "type": "string",
+            "enum": ["OBSERVE", "APPROACH", "GRASP", "STABILIZE", "TRANSFER_HOLD"]
+          },
+          "assumptions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[A-Za-z0-9._:-]{1,160}$"}
+          },
+          "unknown_fields": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[A-Za-z0-9._:-]{1,128}$"}
+          }
+        }
+      }
+    },
+    "bundle_assumptions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9._:-]{1,160}$"}
+    },
+    "bundle_unknown_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9._:-]{1,128}$"}
+    },
+    "proposal_only": {"const": true},
+    "execution_authority": {"const": false}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"proposal_disposition": {"const": "CANDIDATES_PROPOSED"}},
+        "required": ["proposal_disposition"]
+      },
+      "then": {
+        "properties": {"candidates": {"minItems": 1}}
+      },
+      "else": {
+        "properties": {
+          "candidates": {"maxItems": 0},
+          "advisory_request": {"enum": ["NONE", "REQUEST_REOBSERVE"]}
+        }
+      }
+    }
+  ]
+}

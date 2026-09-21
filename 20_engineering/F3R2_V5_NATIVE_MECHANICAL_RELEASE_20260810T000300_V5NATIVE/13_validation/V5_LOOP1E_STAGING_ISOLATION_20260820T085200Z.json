@@ -1,0 +1,55 @@
+{
+  "schema": "F3R2_V5_LOOP1E_STAGING_ISOLATION_V1",
+  "timestamp_utc": "2026-08-20T08:52:00.0000000Z",
+  "intended_target": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/03_top_assembly/SEI_MECH_B601_V5_NATIVE_BASELINE.SLDASM",
+  "intended_target_existed_at_isolation": false,
+  "staging_artifact": {
+    "path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/03_top_assembly/SEI_MECH_B601_V5_NATIVE_BASELINE__LOOP1E_STAGING_20260813T151206.356571Z_PID25968.SLDASM",
+    "bytes": 27125901,
+    "sha256": "0001591E6581A0076D7931D78D3CC85A56FB7CB1D22C3A9C5803B1534CA96CCF"
+  },
+  "source_failure_receipt": {
+    "path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/13_validation/V5_LOOP1E_FAIL_20260813T154720.118687Z.json",
+    "bytes": 2024323,
+    "sha256": "8EEF6AE803456515D9F0962471DF26A04476F0A18E704CFB8E841E631ACC7F34",
+    "transaction_entry_state": "PENDING_NEW",
+    "execution_pid": 25968,
+    "verdict": "V5_LOOP1E_UNEXPECTED_EXCEPTION"
+  },
+  "source_script": {
+    "path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py",
+    "bytes": 242313,
+    "sha256": "1F8E83AC067A2C4218BCECADBD192A68D55D09A2DC2C4B896E1BD475141B0419"
+  },
+  "failure_classification": {
+    "code": "SW2024_IDISPATCH_I_PREFIXED_IMATHTRANSFORM_MEMBERS_NOT_INVOCABLE_IINVERSE_AND_IMULTIPLY",
+    "com_hresult_decimal": -2147352567,
+    "solidworks_error_decimal": 61836,
+    "observed_message": "无法读只写属性。 (cannot read write-only property)",
+    "failing_call_site": "99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py:2613 first_transform.IInverse()",
+    "second_failing_call_site_established_2026_08_20": "same function line 2617 inverse.IMultiply(second_transform) - never reached in this run, proven broken by live step isolation",
+    "root_cause_note": "on this SW2024 SP5 install the I-prefixed IMathTransform members are present in the typelib but are not invocable through IDispatch (IInverse dispid 10 and IMultiply dispid 2 both raise 61836), while the non-prefixed siblings Inverse (dispid 9) and Multiply (dispid 1) work. Established by direct per-call observation, receipt 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/LOOP1E_STEP_ISOLATION_RECEIPT.json",
+    "cad_save_completed_before_failure": true,
+    "staging_cold_reopen_completed": false,
+    "precommit_written": false,
+    "promotion_performed": false
+  },
+  "isolation_policy": {
+    "disposition": "LOGICALLY_ISOLATED_IN_PLACE_EXCLUDED_FROM_ACTIVE_LOOP1E_TRANSACTION",
+    "delete_allowed": false,
+    "overwrite_allowed": false,
+    "promotion_allowed": false,
+    "resume_allowed": false,
+    "physical_file_retained": true,
+    "exact_fact_must_remain_unchanged": true
+  },
+  "authoring_context": {
+    "authored_by_round": "20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820",
+    "owner_ruling": "AUTHORIZE_LOW_MEMORY_EXECUTION_WITH_BOUNDED_NATIVE_ATTEMPTS_20260820",
+    "why_authored": "the Loop1E audit returned V5_LOOP1E_STATIC_HOLD with zero failures and zero pending items; the sole blocker was target_state HOLD_UNRECEIPTED_STAGING (script line 1092) because this orphaned staging artifact from the 2026-08-13 PID25968 failure carried no isolation receipt. The script provides staging_isolation_records() as the first-class mechanism for exactly this state.",
+    "why_not_deleted_or_moved": "the artifact is preserved byte-for-byte as failure evidence. Deleting or moving CAD to clear a gate would be laundering a hold rather than resolving it, and the isolation contract itself forbids delete/overwrite/promote/resume.",
+    "no_science_upgraded": "this receipt changes no engineering value, no Gate threshold and no scientific conclusion. It records a disposition for one orphaned file so the active transaction has an unambiguous single candidate set.",
+    "sibling_precedent": "13_validation/V5_LOOP1E_STAGING_ISOLATION_20260813T140520Z.json isolates the earlier PID46496 artifact under the identical contract"
+  },
+  "verdict": "V5_LOOP1E_FAILED_STAGING_WRITE_ONCE_LOGICAL_ISOLATION_PASS"
+}

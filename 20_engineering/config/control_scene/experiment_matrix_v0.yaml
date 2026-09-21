@@ -1,0 +1,42 @@
+schema_version: control-01-matrix-v1
+frozen_before_results: true
+repeat_revision:
+  loop: CTRL-01-R
+  authorized_by: 10_research/partner_requirement_closure/wave1_repeat/repeat_preregistration.md
+  adds: [C2_MATCH5]
+  reason: >-
+    R-3: the isolated nullspace claim requires a comparator with the same 5D
+    task and the same feedforward as C3; C1_MATCH5 confounds feedforward.
+main_matrix:
+  methods: [C0, C1, C2, C3]
+  trajectories: [T1, T2, T3]
+  task_mode:
+    C0: pose_6d
+    C1: pose_6d
+    C2: pose_6d
+    C3: approach_5d
+supplemental_matched_task:
+  purpose: compare_C3_against_C1_without_task_dimension_confound
+  method: C1
+  label: C1_MATCH5
+  trajectories: [T1, T2, T3]
+  task_mode: approach_5d
+supplemental_matched_feedforward_task:
+  purpose: isolate_C3_nullspace_effect_with_matched_task_and_feedforward
+  method: C2
+  label: C2_MATCH5
+  trajectories: [T1, T2, T3]
+  task_mode: approach_5d
+  isolated_nullspace_comparator_for: C3
+refusal_tests:
+  - method: C3
+    requested_task_mode: pose_6d
+    expected_error_code: TASK_NULLITY_ZERO
+plant_variant:
+  main: flexible_nominal_three_modes_per_panel
+  diagnostics: rigid_panels_anchor_only
+result_policy:
+  negative_results_published: true
+  no_per_method_gain_tuning: true
+  no_post_result_scenario_edits: true
+  provisional_flex_metrics: true

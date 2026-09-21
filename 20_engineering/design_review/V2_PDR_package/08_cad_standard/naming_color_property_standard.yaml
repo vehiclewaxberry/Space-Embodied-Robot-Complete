@@ -1,0 +1,89 @@
+schema_version: v2-solidworks-naming-color-property-standard-v0.1
+standard_id: SV2_CAD_SEMANTIC_STANDARD
+created_on: "2026-07-24"
+status: STANDARD_READY_CAD_NOT_AUTHORIZED
+
+file_naming:
+  pattern: SV2_<TYPE>_<NN>_<FUNCTION>[_<INDEX>]
+  allowed_types: [ASM, STR, PNL, DECK, MNT, IF, REF, KPT, OVR]
+  spaces_allowed: false
+  chinese_characters_allowed: false
+  unstable_suffixes_forbidden: [final, new, copy, test2]
+  controlled_exceptions:
+    - file_name: Spacecraft_Service_Vehicle_V2_0.SLDASM
+      CAD_ID: SV2-ASM-000
+      reason: inherited_B2_5_reserved_root_assembly
+    - file_name: Master_Skeleton_V2_0.SLDPRT
+      CAD_ID: SV2-REF-000
+      reason: inherited_B2_5_reserved_master_skeleton
+
+feature_prefixes:
+  plane: PLN_
+  coordinate_system: CS_
+  reference_sketch: SK_
+  interface_datum: DATUM_
+  volume_owner: VOL_
+  keepout: KPT_
+  load_path: LP_
+  configuration: CFG_
+  unknown_suppressed: UNK_
+
+evidence_display:
+  EVIDENCE_BOUND:
+    display_label: dark_blue
+    RGB: null
+  DERIVED:
+    display_label: blue
+    RGB: null
+  DESIGN_PROPOSAL:
+    display_label: light_blue
+    RGB: null
+  UNKNOWN_BLOCKED:
+    display_label: orange
+    RGB: null
+  EXCLUDED:
+    display_label: grey
+    RGB: null
+  NEGATIVE_RESULT:
+    display_label: red_overlay
+    RGB: null
+
+required_properties:
+  - OBJECT_ID
+  - CAD_ID
+  - SYSTEM_OWNER
+  - PARENT_ID
+  - STRUCTURE_CLASS
+  - REPRESENTATION_LAYER
+  - EVIDENCE_STATE
+  - SOURCE_REFERENCE
+  - SOURCE_SHA256
+  - FRAME_ID
+  - INTERFACE_IDS
+  - MASS_OWNER
+  - MASS_AUTHORITY
+  - DYNAMICS_AUTHORITY
+  - MANUFACTURING_AUTHORITY
+  - EXECUTION_AUTHORITY
+  - CLAIM_LIMIT
+  - BLOCKED_BY
+  - BLOCKED_CONSUMERS
+
+null_policy:
+  zero_replacement_allowed: false
+  default_or_typical_allowed: false
+  unknown_requires_state: UNKNOWN_BLOCKED
+  suppressed_unknown_may_create_solid: false
+
+required_configurations:
+  - STRUCTURAL_REVIEW
+  - SERVICE_ACCESS_REVIEW
+  - DEPLOYED_REFERENCE_Q0
+  - STOWED_PROPOSAL
+  - EVIDENCE_STATE_REVIEW
+
+authority:
+  create_CAD_now: false
+  assign_material_now: false
+  compute_physical_mass_now: false
+  modify_V1_or_URDF_now: false

@@ -1,0 +1,145 @@
+{
+  "schema": "V5R_LOOP1E_SCRIPT_AUTHORITY_V1",
+  "task": "V5_LOOP1E_NATIVE_RECOVERY_R1",
+  "phase": "PHASE_A_AUTHORITATIVE_SCRIPT_FREEZE",
+  "timestamp_utc": "2026-08-20T06:18:54Z",
+  "owner_ruling": "V5_NATIVE_RECOVERY_AND_RESEARCH_RULING_20260820",
+
+  "question_answered": "Which byte-exact script version produced the last Loop1E 61836 failure?",
+  "answer": {
+    "path": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py",
+    "sha256": "1F8E83AC067A2C4218BCECADBD192A68D55D09A2DC2C4B896E1BD475141B0419",
+    "size_bytes": 242313,
+    "line_count": 3635,
+    "mtime_utc": "2026-08-13T14:28:52Z",
+    "confidence": "CONCLUSIVE_TWO_INDEPENDENT_EVIDENCE_LINES"
+  },
+
+  "method_note": "The failure receipt records the traceback (path + line numbers) but carries NO script SHA-256 field. Provenance therefore could not be read directly and was NOT inferred from filename or timestamp, per the owner's acceptance condition. Two independent evidence lines were combined.",
+
+  "evidence_line_1_traceback_line_fingerprint": {
+    "principle": "CPython reports the source line number of each failing frame. A candidate file is byte-compatible with the run only if it carries the reported statement at the reported line for EVERY frame in the chain.",
+    "source_receipt": "13_validation/V5_LOOP1E_FAIL_20260813T154720.118687Z.json",
+    "frame_chain": [
+      {"line": 3509, "expected_statement": "build = build_top(sw, staging_path, audit[\"frame_contracts\"], local_arm, base, types, pythoncom)"},
+      {"line": 3013, "expected_statement": "motion_contract, suppressed_whitelist = build_motion_contract(model, components, local_arm, frame_audit, base, types, pythoncom)"},
+      {"line": 2807, "expected_statement": "\"expected_link6_to_gripper_transform_16\": relative_transform(link6, gripper, base, types, pythoncom),"},
+      {"line": 2613, "expected_statement": "inverse_raw = first_transform.IInverse()"}
+    ],
+    "result": {
+      "99_tools_canonical": "4/4 EXACT MATCH",
+      "root_stray": "0/4 - ALL FOUR LINE NUMBERS FALL PAST END OF FILE (file has only 2168 lines)"
+    }
+  },
+
+  "evidence_line_2_pycache_header": {
+    "principle": "A .pyc embeds the source size and mtime it was compiled from (PEP 552 timestamp invalidation). This is independent of filename and of any later human edit.",
+    "result": {
+      "99_tools_canonical": {
+        "pyc": "99_tools/__pycache__/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.cpython-313.pyc",
+        "pyc_mtime_utc": "2026-08-13T14:29:09Z",
+        "embedded_source_size": 242313,
+        "actual_source_size": 242313,
+        "size_match": true,
+        "embedded_source_mtime_utc": "2026-08-13T14:28:52Z",
+        "mtime_match": true,
+        "temporal_consistency": "compiled 14:29:09Z, failure raised 15:47:20Z - same session, compile precedes failure"
+      },
+      "root_stray": {
+        "pyc": "__pycache__/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.cpython-313.pyc",
+        "pyc_mtime_utc": "2026-08-09T19:11:22Z",
+        "embedded_source_size": 141954,
+        "size_match": true,
+        "note": "internally consistent but four days stale and structurally incapable of producing the traceback"
+      }
+    }
+  },
+
+  "candidate_enumeration": {
+    "search_scope": "entire repository + all 22 git worktrees + cold backup mirror",
+    "python_source_candidates_found": 2,
+    "compiled_artifacts_found": 2,
+    "lock_files_found": 1,
+    "note": "the cold-backup copy is a byte-identical mirror of the canonical file, not an independent version"
+  },
+
+  "excluded_candidate": {
+    "path": "F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py",
+    "location": "REPOSITORY ROOT",
+    "sha256": "675EBCC3B95984EAB301378518B5DE2E11EDA8ACE1E73AD7950FBFDDC5AFF0A2",
+    "size_bytes": 141954,
+    "line_count": 2168,
+    "mtime_utc": "2026-08-09T19:11:16Z",
+    "exclusion_basis": "PHYSICALLY_IMPOSSIBLE - the traceback references lines 2613/2807/3013/3509; this file ends at line 2168. It cannot have raised that traceback under any circumstance.",
+    "exclusion_confidence": "ABSOLUTE_NOT_PROBABILISTIC",
+    "additional_findings": [
+      "1975 differing lines against the canonical version",
+      "violates the REORG04 root-directory freeze",
+      "carries its own stale __pycache__ at the repository root"
+    ],
+    "action_taken_this_round": "recorded only; NOT moved and NOT deleted (outside this round's write boundary)"
+  },
+
+  "patch_scope_constraints_discovered": [
+    {
+      "id": "PSC-1",
+      "severity": "BLOCKING_IF_VIOLATED",
+      "constraint": "BASE_HELPER is pinned by SHA-256 at TWO locations simultaneously",
+      "detail": {
+        "helper": "F3R2_V5_NATIVE_LOOP1_IMPORT_ATTACH_ONLY.py",
+        "pinned_sha256": "E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906",
+        "location_1": "repository ROOT",
+        "location_2": "RUN_ROOT/99_tools/",
+        "both_verified_unchanged": true,
+        "guard": "load_base() raises BASE_HELPER_HASH_FAIL if either copy drifts"
+      },
+      "consequence": "the patch must NOT touch the base helper. The late-binding fix has to live inside the Loop1E script itself."
+    },
+      {
+      "id": "PSC-2",
+      "severity": "INFORMATIONAL",
+      "constraint": "the script self-verifies its own SHA-256",
+      "detail": {
+        "check_1": "line 3560 - sha256(__file__) vs audit['script']['sha256']",
+        "check_2": "line 3563 - sha256(SCRIPT_COPY) vs sha256(__file__)",
+        "semantics": "both are RUN-INTERNAL self-consistency checks against a digest computed in the same execution, NOT against a hardcoded external constant"
+      },
+      "consequence": "editing the script does NOT trip SCRIPT_TOCTOU_FAIL. SCRIPT_COPY resolves to the same path as __file__, so SCRIPT_COPY_DRIFT is satisfied trivially. The patch may be applied in place."
+    },
+    {
+      "id": "PSC-3",
+      "severity": "IMPORTANT",
+      "constraint": "SCRIPT_COPY is hardcoded to RUN_ROOT/99_tools/ and is copied into the final release manifest",
+      "consequence": "a patched copy placed ONLY in this round's isolated directory would not be the file the run executes or manifests. The patch has to be applied to the canonical 99_tools file, with the pre-patch bytes preserved as evidence."
+    }
+  ],
+
+  "defect_analysis": {
+    "failing_call": "first_transform.IInverse()",
+    "file_line": "99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py:2613",
+    "enclosing_function": "relative_transform (defined at line 2610)",
+    "com_error": "(-2147352567, '发生意外。', (61836, 'SOLIDWORKS', '无法读只写属性。', ..., 455052, 0), None)",
+    "binding_mechanism": "base.wrap() does obj._oleobj_.QueryInterface(klass.CLSID, IID_IDispatch) then klass(ole), where klass comes from gencache.GetModuleForTypelib - i.e. a makepy STATIC binding. IMathTransform.IInverse is emitted as InvokeTypes(10, LCID, 1, (9,0), ()) with wFlags=1 (DISPATCH_METHOD|PROPERTYGET semantics), which SolidWorks rejects as 'cannot read write-only property'.",
+    "internal_inconsistency_found": "Within the SAME function, IMultiply and ArrayData are reached through base.value(...) / wrapped accessors, but IInverse alone is invoked directly on the statically-bound object. The defect is a local inconsistency, not a systemic COM-layer flaw.",
+    "precedent": "identical defect class already solved twice in this project: IMateEntity2.Reference raised DISP_E_MEMBERNOTFOUND via the makepy static binding and was fixed by late-bound dynamic dispatch (V5_LOOP1C1_FIX_PROPOSAL_20260810.md section 2 item 6, accessor A2)",
+    "patch_locality": "SINGLE_CALL_SITE",
+    "root_cause_is_memory": false,
+    "root_cause_is_geometry": false
+  },
+
+  "stages_that_passed_before_the_failure": [
+    "explicit G0 session-B smoke receipt PASS (PID 57692, SW 32.5.0, zero open docs)",
+    "static execution readiness audit PASS",
+    "LOOP1 / LOOP1A / LOOP1B / LOOP1C / LOOP1D upstream receipt binding",
+    "SOLAR_R2B_P9 promotion checks PASS",
+    "local arm with six native limit-angle drivers: cold_open errors 0, warnings 0",
+    "verdict at that point: V5_LOOP1E0_LOCAL_ARM_NO_LEGACY_GRIPPER_WITH_SIX_NATIVE_LIMIT_ANGLE_DRIVERS_PASS"
+  ],
+
+  "verdict": "LOOP1E_AUTHORITATIVE_SCRIPT_IDENTIFIED_SINGLE_CALL_SITE_DEFECT_CONFIRMED",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "phase_b_result": "MEMORY_GATE_FAIL_SEE_MEMORY_GATE_RECEIPT",
+  "solidworks_opened": false,
+  "frozen_assets_modified": false
+}

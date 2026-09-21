@@ -1,0 +1,10 @@
+from pathlib import Path
+import json,csv,hashlib
+E=Path(__file__).resolve().parents[1]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+rows=[dict(endpoint='J101.1',old_role='External3V3input',new_role='Internal3V3testoutput',action='Noexternalvoltageinjection'),dict(endpoint='J101.2',old_role='External5V1input',new_role='Internal5Vtestoutput',action='Noexternalvoltageinjection'),dict(endpoint='J101.3',old_role='K1upstreamprotected24Vinput',new_role='K1upstreamprotected24Vinput',action='ConnectQ1protectedsource;coordinationopen'),dict(endpoint='J101.4',old_role='Continuousreturn',new_role='Continuousreturn',action='ConnectPS1return'),dict(endpoint='J104.1',old_role='CoilX1plus24V',new_role='CoilX1plus24V',action='Unchanged'),dict(endpoint='J104.2',old_role='SwitchedcoilX2minus',new_role='SwitchedcoilX2minus',action='Unchanged'),dict(endpoint='J105.1',old_role='T2auxfeed5V1',new_role='T2auxfeedprotected24V',action='DoNotShortToT1'),dict(endpoint='J105.2',old_role='T1auxreturnto10kpulldown',new_role='T1auxreturnto22k3k9divider',action='ContactReturnIs24VWhenClosed')]
+with (E/'STOP_EXTERNAL_INTERFACE_DELTA.csv').open('w',newline='',encoding='utf-8-sig') as f:w=csv.DictWriter(f,fieldnames=rows[0]);w.writeheader();w.writerows(rows)
+files=['wp09_stop_circuit.kicad_sch','WP09STOP.kicad_sym','wp09_stop_circuit.net.xml','STOP_CIRCUIT_CONNECTIVITY.json','STOP_BOM.csv','STOP_PIN_NET_MAP.csv','STOP_FROM_TO_DELTA.csv','STOP_PORT_MAP.json','STOP_SUPPLY_CALCULATIONS.json','STOP_ERC.json','WP10_STOP_SUPPLY.pdf','README.md','tools/build_stop_supply.py','tools/verify_stop_supply.py','sources/SOURCE_LOCK.json','results/STOP_SUPPLY_VERIFICATION.json']
+out=dict(status='FINAL_SOURCE_BINDING_FROZEN_FOR_PARENT_INTEGRATION',scope='GSE0..50Cstaticcandidate',full_stop_chain_closed=False,full_electrical_design_complete=False,hardware_io_count=0,files=[dict(path=n,sha256=sha(E/n),bytes=(E/n).stat().st_size) for n in files])
+(E/'results/STOP_SUPPLY_FINAL_BINDING.json').write_text(json.dumps(out,indent=2),encoding='utf8')
+print(json.dumps(dict(status=out['status'],schematic_sha256=out['files'][0]['sha256'],files=len(files))))

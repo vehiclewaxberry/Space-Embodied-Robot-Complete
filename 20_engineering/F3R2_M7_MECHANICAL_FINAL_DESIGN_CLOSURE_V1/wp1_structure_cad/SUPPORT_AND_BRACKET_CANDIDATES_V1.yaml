@@ -1,0 +1,1151 @@
+schema: M7_WP1_SUPPORT_AND_BRACKET_CANDIDATES_V1
+generated_local: '2026-08-22T02:38:05+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP1_STRUCTURE_CAD
+lifecycle_status: SECONDARY_STRUCTURE_CANDIDATES_NONE_INSTALLED_IN_THE_DESIGN_FREEZE_ASSEMBLY
+release_scope: MECHANICAL_ENGINEERING_DESIGN_CLOSURE_ONLY__GATE_A_SCOPE
+frame: S (spacecraft_assembly_frame), mm
+design_freeze_answer_to_the_support_contact_question:
+  question: did the design-freeze assembly change the G07 / G08 / MID_SUPPORT contact relationships?
+  answer: NO - THE DESIGN-FREEZE ASSEMBLY CANNOT EVALUATE THEM AT ALL
+  three_independent_reasons:
+  - 'no support geometry is installed: the 7 installed components account for all 41 exported solids,
+    and the supports sit in SLOT_STOW_SUPPORTS__CANDIDATE_REF with LifecycleStatus UNRESOLVED_HOLD'
+  - the installed B601 is a 817.651848 mm3 frame/axis witness, so even with supports present there would
+    be no arm counter-face to measure against
+  - the default configuration is DEPLOYED_NOMINAL__ARM_TASK_READY; stow supports can only contact in ARM_STOWED_ONORBIT,
+    which is not an embedded active configuration
+  so_the_truth_was_re_derived_from: the native-derived STOWED tessellation set (SolidWorks line, ODR-03
+    off critical path) - the only geometry in the repository in which a stow support and an arm counter-face
+    coexist
+  prior_claim_status:
+    prior_claim: G07/G08/MID support relationships do not physically contact (G07 3 mm gap to an envelope
+      block, G08/MID nothing above, MID 2 mm CANNOT_EVALUATE)
+    disposition: PARTLY_CONFIRMED_PARTLY_SUPERSEDED_BY_DIRECT_MEASUREMENT
+    detail:
+    - 'the 3 mm figure is confirmed as a real distance but to the WRONG counterpart: the Release_Clearance_Envelope
+      reference block bottom at z = 264.08 mm sits 3.00 mm above the Aft_Saddle top at z = 261.08 mm.
+      It is not an arm gap.'
+    - '''G08/MID nothing above'' is REFUTED: 128763 arm vertices lie over the G08 footprint and 128004
+      over the MID footprint.'
+    - '''MID 2 mm CANNOT_EVALUATE'' is SUPERSEDED: the 2.000 mm backup gap is now reproduced exactly from
+      the stowed arm mesh.'
+supports:
+- id: G07
+  internal_key: G07
+  part_name: G07_PRIMARY_SUPPORT_V2
+  role: primary support, pad in nominal contact
+  load_path_role: primary stow reaction near the gripper end of the stowed arm; carries stow inertia into
+    the deck through a preloaded PTFE pad and a disc-spring stack
+  supported_arm_part: B51_REF_gripper_detail_LINKLOCAL
+  current_geometric_definition:
+    v2_head_mm:
+    - 54.0
+    - 54.0
+    - 12.0
+    v2_pad_face_z_mm: 261.5016
+    v2_pad_carrier_top_z_mm: 258.5016
+    v2_flare_height_mm: 26.0
+    foot_mm:
+    - 20.0
+    - 60.0
+    pad: Disc_Spring_GB1972_D50_25.4_t1.5_pair + PTFE 25% GF 50x50x3
+    brep_status: DEFINED_NOT_MODELLED
+    exists_in_design_freeze_assembly: false
+    exists_in_neutral_step: false
+    v1_tower_geometry_that_it_supersedes:
+      native_part: Aft_Saddle
+      aabb_S_mm: &id001
+      - -20.0
+      - -26.809999
+      - 113.150002
+      - 0.0
+      - 33.189999
+      - 261.079987
+      top_z_mm: 261.079987
+      foot_mm:
+      - 20.0
+      - 60.0
+  interface:
+    to_structure: existing tower foot, 4 x M3 socket cap at 1.3 N.m, 2 x Ø3 dowel
+    foot_station_unchanged_from_v1: true
+    measurable_datum:
+      feature: machined pad seat face
+      nominal_z_mm: 258.5016
+      tolerance_mm: 0.05
+    replaceable_pad: true
+    to_arm: pad face against the stowed-arm counter-face; the counter-face belongs to the B51 native CAD
+      arm, not to the accepted-URDF collision meshes
+  stiffness_for_analysis:
+    kn_N_per_mm: 10.0
+    kt_N_per_mm: 5.0
+    preload_N: 50.0
+    class: P5B RATIFIED PAD RATES, BENCH CALIBRATION STILL GOVERNS
+    hold: PAD_BENCH_CALIBRATION_HOLD_GT_20_PERCENT_DEVIATION_TRIGGERS_RERUN
+  contact_re_derivation:
+    native_part: Aft_Saddle
+    v1_tower_aabb_mm: *id001
+    v1_tower_top_z_mm: 261.079987
+    v2_declared_nominal_gap_mm: 0.0
+    v2_declared_pad_face_z_mm: 261.5016
+    v2_declared_arm_lowest_z_mm: 261.5016
+    v2_declared_points_above_old_top: 177218
+    measurement_windows:
+      V1_TOWER_FOOT_FOOTPRINT:
+        window_x_mm:
+        - -20.0
+        - 0.0
+        window_y_mm:
+        - -26.809999
+        - 33.189999
+        arm_vertices_in_window: 88857
+        measured_arm_min_z_mm: 261.501556
+        v1_tower_top_z_mm: 261.079987
+        signed_gap_to_v1_tower_top_mm: 0.421569
+        v2_declared_pad_face_z_mm: 261.5016
+        signed_gap_to_v2_pad_face_mm: -4.4e-05
+        v2_declared_arm_lowest_z_mm: 261.5016
+        delta_vs_v2_declared_mm: -4.4e-05
+        arm_vertices_below_v2_pad_face: 11
+        sub_pad_material_aabb_mm:
+        - -3.832944
+        - 27.810118
+        - 261.501556
+        - -3.832944
+        - 27.810118
+        - 261.501556
+      V2_HEAD_FOOTPRINT_FOOT_CENTRED_ASSUMPTION:
+        window_x_mm:
+        - -37.0
+        - 17.0
+        window_y_mm:
+        - -23.81
+        - 30.19
+        arm_vertices_in_window: 206087
+        measured_arm_min_z_mm: 261.075989
+        v1_tower_top_z_mm: 261.079987
+        signed_gap_to_v1_tower_top_mm: -0.003998
+        v2_declared_pad_face_z_mm: 261.5016
+        signed_gap_to_v2_pad_face_mm: -0.425611
+        v2_declared_arm_lowest_z_mm: 261.5016
+        delta_vs_v2_declared_mm: -0.425611
+        arm_vertices_below_v2_pad_face: 36
+        sub_pad_material_aabb_mm:
+        - -3.832944
+        - 2.955178
+        - 261.075989
+        - 4.616199
+        - 27.810118
+        - 261.501556
+      V2_DECLARED_CONTACT_BAND:
+        window_x_mm:
+        - -6.762
+        - -1.888
+        window_y_mm:
+        - 24.557
+        - 30.36
+        arm_vertices_in_window: 1943
+        measured_arm_min_z_mm: 261.501556
+        v1_tower_top_z_mm: 261.079987
+        signed_gap_to_v1_tower_top_mm: 0.421569
+        v2_declared_pad_face_z_mm: 261.5016
+        signed_gap_to_v2_pad_face_mm: -4.4e-05
+        v2_declared_arm_lowest_z_mm: 261.5016
+        delta_vs_v2_declared_mm: -4.4e-05
+        arm_vertices_below_v2_pad_face: 11
+        sub_pad_material_aabb_mm:
+        - -3.832944
+        - 27.810118
+        - 261.501556
+        - -3.832944
+        - 27.810118
+        - 261.501556
+  contact_verdict: &id004
+    verdict: V2_DECLARED_GAP_REPRODUCED_ON_THE_DECLARED_FOOTPRINT_BUT_WIDENED_V2_HEAD_INTERFERES
+    declared_nominal_gap_mm: 0.0
+    measured_gap_on_v1_foot_footprint_mm: -4.4e-05
+    measured_gap_in_declared_band_mm: -4.4e-05
+    measured_gap_on_widened_v2_head_mm: -0.425611
+    declared_points_above_old_top: 177218
+    points_metric_reproduced: false
+    points_metric_status: NOT_REPRODUCED_DEFINITION_AMBIGUOUS_NOT_TREATED_AS_A_CONTRADICTION
+  bill_of_parts_declared:
+  - part: G07_PRIMARY_SUPPORT_V2
+    kind: support body
+    qty: 1
+    material: Al7075-T6
+    volume_mm3: 42309.16
+    mass_g: 118.889
+    dimension_source: counter-face search + P5B pad size
+  - part: G07_PAD_CARRIER
+    kind: pad carrier
+    qty: 1
+    material: Al6061-T6
+    volume_mm3: 6998.4
+    mass_g: 18.896
+    dimension_source: pad size + lip rule
+  - part: G07_DISC_SPRING_PAIR
+    kind: disc spring
+    qty: 2
+    material: spring steel
+    volume_mm3: 2185.18
+    mass_g: 34.307
+    dimension_source: F3_P5B_PAD_COMPETITION_SPECIFICATION.md
+  - part: G07_PTFE_PAD
+    kind: contact pad
+    qty: 1
+    material: PTFE 25% GF
+    volume_mm3: 7500.0
+    mass_g: 16.5
+    dimension_source: P5B
+  - part: G07_LOCATING_PIN
+    kind: dowel pin
+    qty: 2
+    material: Ti-6Al-4V
+    volume_mm3: 70.69
+    mass_g: 0.626
+    dimension_source: standard 3 mm dowel
+  - part: G07_SCREW_M3x12
+    kind: socket cap screw
+    qty: 4
+    material: A2-70 steel
+    volume_mm3: 84.82
+    mass_g: 2.663
+    dimension_source: P5D fastening convention
+  declared_total_mass_g: 191.881
+  mass_g_convention: 'in F3R2_SUPPORT_V2_DEFINITION.json the mass_g field is already the total for the
+    stated qty (verified: the three per-support sums reproduce the package total_mass_g of 336.1 g exactly),
+    so mass_g must NOT be multiplied by qty'
+  mass_class: DECLARED_DESIGN_ESTIMATE_NOT_A_MASS_AUTHORITY
+  open_items:
+  - id: SUP-OPEN-G07-01
+    item: the V2 head is widened from 20 x 60 mm to 54 x 54 mm but the counter-face search that set pad_face_z
+      = 261.5016 mm was performed over the OLD 20 x 60 footprint. Re-measured over a foot-centred 54 x
+      54 head, 36 arm vertices lie below the pad face, minimum z = 261.075989 mm, i.e. 0.425611 mm of
+      interference.
+    assumption_flagged: the V2 definition does not state head centring; foot-centred assumed
+    action: either state the head offset explicitly or lower/relieve the pad face; then re-run the counter-face
+      search over the ACTUAL head footprint
+    severity: DESIGN_BLOCKING_FOR_G07_HEAD_GEOMETRY
+  - id: SUP-OPEN-G07-02
+    item: the V1 tower top (261.08 mm) is itself only 0.004 mm below the arm over the widened footprint,
+      so the V1 relationship was effectively hard contact, not the 3 mm stand-off previously reported
+    action: supersede the earlier 3 mm reading, which measured the Release_Clearance_Envelope reference
+      block (bottom z = 264.08 mm) and not the arm
+    severity: PRIOR_FINDING_CORRECTED
+  holds:
+  - SUPPORT_PRODUCT_BREP_HOLD
+  - PAD_BENCH_CALIBRATION_HOLD
+  - HOLD_B51_CAD_ARM_VS_ACCEPTED_URDF_COLLISION_MESH_ARE_DIFFERENT_VERSIONS
+  - HOLD_STOWED_CONFIGURATION_ABSENT_FROM_DESIGN_FREEZE_ASSEMBLY
+- id: G08
+  internal_key: G08
+  part_name: G08_PRIMARY_SUPPORT_V2
+  role: primary support, pad in nominal contact
+  load_path_role: primary stow reaction at link3; soft VMQ pad, lower preload
+  supported_arm_part: B51_REF_link3_LINKLOCAL
+  current_geometric_definition:
+    v2_head_mm:
+    - 34.0
+    - 34.0
+    - 12.0
+    v2_pad_face_z_mm: 208.4929
+    v2_pad_carrier_top_z_mm: 206.4929
+    v2_flare_height_mm: 26.0
+    foot_mm:
+    - 20.0
+    - 60.0
+    pad: VMQ 60A 30x30x2
+    brep_status: DEFINED_NOT_MODELLED
+    exists_in_design_freeze_assembly: false
+    exists_in_neutral_step: false
+    v1_tower_geometry_that_it_supersedes:
+      native_part: Fwd_Saddle
+      aabb_S_mm: &id002
+      - 160.0
+      - 11.55
+      - 113.150002
+      - 180.0
+      - 71.550003
+      - 209.419998
+      top_z_mm: 209.419998
+      foot_mm:
+      - 20.0
+      - 60.0
+  interface:
+    to_structure: existing tower foot, 4 x M3 socket cap at 1.3 N.m, 2 x Ø3 dowel
+    foot_station_unchanged_from_v1: true
+    measurable_datum:
+      feature: machined pad seat face
+      nominal_z_mm: 206.4929
+      tolerance_mm: 0.05
+    replaceable_pad: true
+    to_arm: pad face against the stowed-arm counter-face; the counter-face belongs to the B51 native CAD
+      arm, not to the accepted-URDF collision meshes
+  stiffness_for_analysis:
+    kn_N_per_mm: 5.0
+    kt_N_per_mm: 2.0
+    preload_N: 25.0
+    class: P5B RATIFIED PAD RATES, BENCH CALIBRATION STILL GOVERNS
+    hold: PAD_BENCH_CALIBRATION_HOLD_GT_20_PERCENT_DEVIATION_TRIGGERS_RERUN
+  contact_re_derivation:
+    native_part: Fwd_Saddle
+    v1_tower_aabb_mm: *id002
+    v1_tower_top_z_mm: 209.419998
+    v2_declared_nominal_gap_mm: 0.0
+    v2_declared_pad_face_z_mm: 208.4929
+    v2_declared_arm_lowest_z_mm: 208.4929
+    v2_declared_points_above_old_top: 241098
+    measurement_windows:
+      V1_TOWER_FOOT_FOOTPRINT:
+        window_x_mm:
+        - 160.0
+        - 180.0
+        window_y_mm:
+        - 11.55
+        - 71.550003
+        arm_vertices_in_window: 128763
+        measured_arm_min_z_mm: 204.165466
+        v1_tower_top_z_mm: 209.419998
+        signed_gap_to_v1_tower_top_mm: -5.254532
+        v2_declared_pad_face_z_mm: 208.4929
+        signed_gap_to_v2_pad_face_mm: -4.327434
+        v2_declared_arm_lowest_z_mm: 208.4929
+        delta_vs_v2_declared_mm: -4.327434
+        arm_vertices_below_v2_pad_face: 238
+        sub_pad_material_aabb_mm:
+        - 160.736465
+        - 48.070568
+        - 204.165466
+        - 171.009384
+        - 68.115639
+        - 208.492859
+      V2_HEAD_FOOTPRINT_FOOT_CENTRED_ASSUMPTION:
+        window_x_mm:
+        - 153.0
+        - 187.0
+        window_y_mm:
+        - 24.550002
+        - 58.550002
+        arm_vertices_in_window: 13509
+        measured_arm_min_z_mm: 206.089951
+        v1_tower_top_z_mm: 209.419998
+        signed_gap_to_v1_tower_top_mm: -3.330047
+        v2_declared_pad_face_z_mm: 208.4929
+        signed_gap_to_v2_pad_face_mm: -2.402949
+        v2_declared_arm_lowest_z_mm: 208.4929
+        delta_vs_v2_declared_mm: -2.402949
+        arm_vertices_below_v2_pad_face: 259
+        sub_pad_material_aabb_mm:
+        - 153.005798
+        - 48.070568
+        - 206.089951
+        - 167.865234
+        - 56.062881
+        - 208.492859
+      V2_DECLARED_CONTACT_BAND:
+        window_x_mm:
+        - 163.167
+        - 172.33
+        window_y_mm:
+        - 46.643
+        - 60.009
+        arm_vertices_in_window: 7101
+        measured_arm_min_z_mm: 207.096054
+        v1_tower_top_z_mm: 209.419998
+        signed_gap_to_v1_tower_top_mm: -2.323944
+        v2_declared_pad_face_z_mm: 208.4929
+        signed_gap_to_v2_pad_face_mm: -1.396846
+        v2_declared_arm_lowest_z_mm: 208.4929
+        delta_vs_v2_declared_mm: -1.396846
+        arm_vertices_below_v2_pad_face: 103
+        sub_pad_material_aabb_mm:
+        - 163.387787
+        - 48.070568
+        - 207.096054
+        - 167.865265
+        - 59.656441
+        - 208.492859
+  contact_verdict: &id005
+    verdict: V2_DECLARED_GAP_NOT_REPRODUCIBLE_FROM_THE_SAME_MESH
+    declared_nominal_gap_mm: 0.0
+    measured_gap_on_v1_foot_footprint_mm: -4.327434
+    measured_gap_in_declared_band_mm: -1.396846
+    measured_gap_on_widened_v2_head_mm: -2.402949
+    declared_points_above_old_top: 241098
+    points_metric_reproduced: false
+    points_metric_status: NOT_REPRODUCED_DEFINITION_AMBIGUOUS_NOT_TREATED_AS_A_CONTRADICTION
+  bill_of_parts_declared:
+  - part: G08_PRIMARY_SUPPORT_V2
+    kind: support body
+    qty: 1
+    material: Al7075-T6
+    volume_mm3: 20667.56
+    mass_g: 58.076
+    dimension_source: counter-face search + P5B pad size
+  - part: G08_PAD_CARRIER
+    kind: pad carrier
+    qty: 1
+    material: Al6061-T6
+    volume_mm3: 2774.4
+    mass_g: 7.491
+    dimension_source: pad size + lip rule
+  - part: G08_VMQ_PAD
+    kind: contact pad
+    qty: 1
+    material: VMQ 60A
+    volume_mm3: 1800.0
+    mass_g: 2.25
+    dimension_source: P5B
+  - part: G08_LOCATING_PIN
+    kind: dowel pin
+    qty: 2
+    material: Ti-6Al-4V
+    volume_mm3: 70.69
+    mass_g: 0.626
+    dimension_source: standard 3 mm dowel
+  - part: G08_SCREW_M3x12
+    kind: socket cap screw
+    qty: 4
+    material: A2-70 steel
+    volume_mm3: 84.82
+    mass_g: 2.663
+    dimension_source: P5D fastening convention
+  declared_total_mass_g: 71.106
+  mass_g_convention: 'in F3R2_SUPPORT_V2_DEFINITION.json the mass_g field is already the total for the
+    stated qty (verified: the three per-support sums reproduce the package total_mass_g of 336.1 g exactly),
+    so mass_g must NOT be multiplied by qty'
+  mass_class: DECLARED_DESIGN_ESTIMATE_NOT_A_MASS_AUTHORITY
+  open_items:
+  - id: SUP-OPEN-G08-01
+    item: the declared arm_lowest_z = 208.4929 mm is NOT reproducible from the same stowed arm mesh. Inside
+      the V2 declared contact band the measured minimum is 207.096054 mm (-1.396846 mm relative to the
+      pad face); over the full V1 20 x 60 footprint it is 204.165466 mm (-4.327434 mm), with 238 vertices
+      below the pad face.
+    action: re-run the G08 counter-face search and correct pad_face_z, or relieve the head over the low-material
+      region [160.736465, 48.070568, 204.165466, 171.009384, 68.115639, 208.492859]
+    severity: DESIGN_BLOCKING_FOR_G08_PAD_STATION
+  holds:
+  - SUPPORT_PRODUCT_BREP_HOLD
+  - PAD_BENCH_CALIBRATION_HOLD
+  - HOLD_B51_CAD_ARM_VS_ACCEPTED_URDF_COLLISION_MESH_ARE_DIFFERENT_VERSIONS
+  - HOLD_STOWED_CONFIGURATION_ABSENT_FROM_DESIGN_FREEZE_ASSEMBLY
+- id: MID_SUPPORT
+  internal_key: MID
+  part_name: MID_BACKUP_SUPPORT_V2
+  role: backup only, 2.00 mm nominal gap, 0 N nominal force
+  load_path_role: 'backup only: no nominal contact, catches abnormal -Z deflection at link5'
+  supported_arm_part: B51_REF_link5_LINKLOCAL
+  current_geometric_definition:
+    v2_head_mm:
+    - 34.0
+    - 34.41
+    - 12.0
+    v2_pad_face_z_mm: 212.9189
+    v2_pad_carrier_top_z_mm: 209.9189
+    v2_flare_height_mm: 26.0
+    foot_mm:
+    - 20.0
+    - 60.0
+    pad: Vespel SP-1 30x30x3
+    brep_status: DEFINED_NOT_MODELLED
+    exists_in_design_freeze_assembly: false
+    exists_in_neutral_step: false
+    v1_tower_geometry_that_it_supersedes:
+      native_part: Mid_Saddle
+      aabb_S_mm: &id003
+      - 80.0
+      - 17.799999
+      - 113.150002
+      - 100.0
+      - 77.800003
+      - 214.919998
+      top_z_mm: 214.919998
+      foot_mm:
+      - 20.0
+      - 60.0
+  interface:
+    to_structure: existing tower foot, 4 x M3 socket cap at 1.3 N.m, 2 x Ø3 dowel
+    foot_station_unchanged_from_v1: true
+    measurable_datum:
+      feature: machined pad seat face
+      nominal_z_mm: 209.9189
+      tolerance_mm: 0.05
+    replaceable_pad: true
+    to_arm: pad face against the stowed-arm counter-face; the counter-face belongs to the B51 native CAD
+      arm, not to the accepted-URDF collision meshes
+  stiffness_for_analysis:
+    kn_N_per_mm: null
+    kt_N_per_mm: null
+    preload_N: 0.0
+    class: P5B RATIFIED PAD RATES, BENCH CALIBRATION STILL GOVERNS
+    hold: PAD_BENCH_CALIBRATION_HOLD_GT_20_PERCENT_DEVIATION_TRIGGERS_RERUN
+  contact_re_derivation:
+    native_part: Mid_Saddle
+    v1_tower_aabb_mm: *id003
+    v1_tower_top_z_mm: 214.919998
+    v2_declared_nominal_gap_mm: 2.0
+    v2_declared_pad_face_z_mm: 212.9189
+    v2_declared_arm_lowest_z_mm: 214.9189
+    v2_declared_points_above_old_top: 69636
+    measurement_windows:
+      V1_TOWER_FOOT_FOOTPRINT:
+        window_x_mm:
+        - 80.0
+        - 100.0
+        window_y_mm:
+        - 17.799999
+        - 77.800003
+        arm_vertices_in_window: 128004
+        measured_arm_min_z_mm: 214.91893
+        v1_tower_top_z_mm: 214.919998
+        signed_gap_to_v1_tower_top_mm: -0.001068
+        v2_declared_pad_face_z_mm: 212.9189
+        signed_gap_to_v2_pad_face_mm: 2.00003
+        v2_declared_arm_lowest_z_mm: 214.9189
+        delta_vs_v2_declared_mm: 3.0e-05
+        arm_vertices_below_v2_pad_face: 0
+        sub_pad_material_aabb_mm: null
+      V2_HEAD_FOOTPRINT_FOOT_CENTRED_ASSUMPTION:
+        window_x_mm:
+        - 73.0
+        - 107.0
+        window_y_mm:
+        - 30.595001
+        - 65.005001
+        arm_vertices_in_window: 132340
+        measured_arm_min_z_mm: 214.91893
+        v1_tower_top_z_mm: 214.919998
+        signed_gap_to_v1_tower_top_mm: -0.001068
+        v2_declared_pad_face_z_mm: 212.9189
+        signed_gap_to_v2_pad_face_mm: 2.00003
+        v2_declared_arm_lowest_z_mm: 214.9189
+        delta_vs_v2_declared_mm: 3.0e-05
+        arm_vertices_below_v2_pad_face: 0
+        sub_pad_material_aabb_mm: null
+      V2_DECLARED_CONTACT_BAND:
+        window_x_mm:
+        - 87.995
+        - 99.893
+        window_y_mm:
+        - 34.574
+        - 64.985
+        arm_vertices_in_window: 54241
+        measured_arm_min_z_mm: 214.91893
+        v1_tower_top_z_mm: 214.919998
+        signed_gap_to_v1_tower_top_mm: -0.001068
+        v2_declared_pad_face_z_mm: 212.9189
+        signed_gap_to_v2_pad_face_mm: 2.00003
+        v2_declared_arm_lowest_z_mm: 214.9189
+        delta_vs_v2_declared_mm: 3.0e-05
+        arm_vertices_below_v2_pad_face: 0
+        sub_pad_material_aabb_mm: null
+  contact_verdict: &id006
+    verdict: V2_DECLARED_NOMINAL_GAP_REPRODUCED_FROM_GEOMETRY
+    declared_nominal_gap_mm: 2.0
+    measured_gap_on_v1_foot_footprint_mm: 2.00003
+    measured_gap_in_declared_band_mm: 2.00003
+    measured_gap_on_widened_v2_head_mm: 2.00003
+    declared_points_above_old_top: 69636
+    points_metric_reproduced: false
+    points_metric_status: NOT_REPRODUCED_DEFINITION_AMBIGUOUS_NOT_TREATED_AS_A_CONTRADICTION
+  bill_of_parts_declared:
+  - part: MID_BACKUP_SUPPORT_V2
+    kind: support body
+    qty: 1
+    material: Al7075-T6
+    volume_mm3: 20808.49
+    mass_g: 58.472
+    dimension_source: counter-face search + P5B pad size
+  - part: MID_PAD_CARRIER
+    kind: pad carrier
+    qty: 1
+    material: Al6061-T6
+    volume_mm3: 2774.4
+    mass_g: 7.491
+    dimension_source: pad size + lip rule
+  - part: MID_VESPEL_PAD
+    kind: backup pad
+    qty: 1
+    material: Vespel SP-1
+    volume_mm3: 2700.0
+    mass_g: 3.861
+    dimension_source: F3R2 G3-D
+  - part: MID_LOCATING_PIN
+    kind: dowel pin
+    qty: 2
+    material: Ti-6Al-4V
+    volume_mm3: 70.69
+    mass_g: 0.626
+    dimension_source: standard 3 mm dowel
+  - part: MID_SCREW_M3x12
+    kind: socket cap screw
+    qty: 4
+    material: A2-70 steel
+    volume_mm3: 84.82
+    mass_g: 2.663
+    dimension_source: P5D fastening convention
+  declared_total_mass_g: 73.113
+  mass_g_convention: 'in F3R2_SUPPORT_V2_DEFINITION.json the mass_g field is already the total for the
+    stated qty (verified: the three per-support sums reproduce the package total_mass_g of 336.1 g exactly),
+    so mass_g must NOT be multiplied by qty'
+  mass_class: DECLARED_DESIGN_ESTIMATE_NOT_A_MASS_AUTHORITY
+  open_items:
+  - id: SUP-OPEN-MID-01
+    item: the 2.00 mm nominal backup gap IS reproduced exactly from the stowed arm mesh over both the
+      V1 foot footprint and the widened V2 head footprint; the previous CANNOT_EVALUATE status is superseded
+    action: carry 2.000 mm forward as a DERIVED_GEOMETRIC value (still not a measured hardware gap)
+    severity: PRIOR_STATUS_UPGRADED_WITH_EVIDENCE
+  holds:
+  - SUPPORT_PRODUCT_BREP_HOLD
+  - PAD_BENCH_CALIBRATION_HOLD
+  - HOLD_B51_CAD_ARM_VS_ACCEPTED_URDF_COLLISION_MESH_ARE_DIFFERENT_VERSIONS
+  - HOLD_STOWED_CONFIGURATION_ABSENT_FROM_DESIGN_FREEZE_ASSEMBLY
+support_verdict_summary:
+  G07: *id004
+  G08: *id005
+  MID: *id006
+declared_acceptance_tests_from_support_v2:
+- id: SV2-1
+  test: pad fully supported
+  criterion: head width >= pad + 2 x 2 mm lip, both axes
+  status: PASS_BY_CONSTRUCTION
+- id: SV2-2
+  test: G07/G08 nominal contact
+  criterion: pad face lands on the measured arm counter-face, 0 mm nominal gap
+  status: DEFINED_NOT_MODELLED
+- id: SV2-3
+  test: Mid backup gap
+  criterion: 2.00 mm nominal, 0 N nominal force
+  status: DEFINED_NOT_MODELLED
+- id: SV2-4
+  test: load flare, no pad cantilever
+  criterion: tapered transition + 2 ribs per flared side
+  status: DEFINED
+- id: SV2-5
+  test: tower foot station unchanged
+  criterion: deck interface identical to the released design
+  status: PASS_BY_CONSTRUCTION
+- id: SV2-6
+  test: native interference zero in stow
+  criterion: SolidWorks native interference = 0
+  status: NOT_RUN_HEADS_NOT_MODELLED
+brackets:
+- id: CAMERA_BRACKET_CANDIDATE_A
+  geometric_definition:
+    stub_boxes_S_mm:
+    - - 165.0
+      - -55.0
+      - 113.15
+      - 170.25
+      - -40.0
+      - 130.0
+    - - 165.0
+      - -55.0
+      - 120.0
+      - 195.0
+      - -40.0
+      - 130.0
+    aabb_S_mm:
+    - 165.0
+    - -55.0
+    - 113.15
+    - 195.0
+    - -40.0
+    - 130.0
+    solids: 2
+    volume_mm3: 5826.9375
+    class: DESIGN_CANDIDATE_ENVELOPE_EVIDENCE_SOLID_NOT_EXPORTED
+  load_path_role: deck riser plus forward arm carrying a bus-mounted camera off the top deck
+  interface:
+    to_structure: top deck at z = 113.15 mm, fastener pattern undefined
+    measured_contact_to_bus: CONTACT_WITHOUT_POSITIVE_COMMON_VOLUME (0.0 mm)
+  open_items:
+  - fastener pattern undefined
+  - stiffness and pointing stability undefined
+  - no camera product to size it to
+  holds:
+  - BRACKET_DETAIL_DESIGN_HOLD
+  - FASTENER_PATTERN_HOLD
+  - HOLD_CAMERA_BRACKET_POSE_NO_AUTHORIZED_GEOMETRY_M7_TC_13
+- id: CAMERA_BRACKET_CANDIDATE_B
+  geometric_definition:
+    stub_boxes_S_mm:
+    - - 135.0
+      - -75.0
+      - 113.15
+      - 165.0
+      - -45.0
+      - 118.15
+    aabb_S_mm:
+    - 135.0
+    - -75.0
+    - 113.15
+    - 165.0
+    - -45.0
+    - 118.15
+    solids: 1
+    volume_mm3: 4500.0
+    class: DESIGN_CANDIDATE_ENVELOPE_EVIDENCE_SOLID_NOT_EXPORTED
+  load_path_role: 5 mm deck base plate for a deck-flush forward camera position
+  interface:
+    to_structure: top deck at z = 113.15 mm, fastener pattern undefined
+    measured_contact_to_bus: CONTACT_WITHOUT_POSITIVE_COMMON_VOLUME (0.0 mm)
+  open_items:
+  - fastener pattern undefined
+  - no camera product to size it to
+  holds:
+  - BRACKET_DETAIL_DESIGN_HOLD
+  - FASTENER_PATTERN_HOLD
+- id: CAMERA_BRACKET_CANDIDATE_G4_WRIST
+  geometric_definition:
+    envelope_mm:
+    - 40.0
+    - 34.0
+    - 26.0
+    declared_mass_g: 34.0
+    material: Al 6061-T6
+    host_link: link6
+    brep_status: DEFINED_NOT_MODELLED
+    class: DECLARED_ENVELOPE_ONLY
+  load_path_role: wrist-mounted camera carrier; moves with the arm, no pointing mechanism
+  interface:
+    to_structure: B601 link6; no bolt pattern defined on the neutral link6
+  architectural_conflict: 'mutually exclusive with candidates A and B: bus-mounted vs wrist-mounted changes
+    the harness run, the FOV keep-out, the arm inertia and the pointing error chain'
+  open_items:
+  - architecture selection
+  - link6 mounting provision does not exist
+  - adds mass to the arm side of the joint torque budget
+  holds:
+  - HOLD_CAMERA_MOUNT_ARCHITECTURE_NOT_SELECTED_BUS_MOUNT_VS_WRIST_MOUNT
+other_secondary_structure_found:
+- native_part: Adapter_Plate
+  aabb_S_mm:
+  - 186.0
+  - -80.0
+  - -80.0
+  - 198.0
+  - 80.0
+  - 80.0
+  triangles: 160
+  role: native mount stack plate x 186..198 mm between the bus flange and the central boss; superseded
+    in the neutral chain by the M6 load bridge at x 185.25..196 mm
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: Central_Boss
+  aabb_S_mm:
+  - 198.0
+  - -55.0
+  - -55.0
+  - 208.0
+  - 55.0
+  - 55.0
+  triangles: 288
+  role: native arm-base boss x 198..208 mm; the neutral chain represents this station through the M3R
+    interface assembly (x 196..210.405 mm)
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: Spacecraft_Flange
+  aabb_S_mm:
+  - 183.0
+  - -75.0
+  - -75.0
+  - 186.0
+  - 75.0
+  - 75.0
+  triangles: 304
+  role: native 3 mm plate x 183..186 mm, +/-75 mm; NOT the same body as the 15 mm analytic legacy flange
+    x 170.25..185.25 mm, +/-70 mm inside the design-freeze bus proxy
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: Load_Bridge_Left
+  aabb_S_mm:
+  - 64.0
+  - 68.0
+  - -15.0
+  - 171.0
+  - 92.0
+  - 15.0
+  triangles: 12
+  role: native internal load bridge; NAME COLLISION with the M6 SPACECRAFT_LOAD_BRIDGE and a completely
+    different body
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: Load_Bridge_Right
+  aabb_S_mm:
+  - 64.0
+  - -92.0
+  - -15.0
+  - 171.0
+  - -68.0
+  - 15.0
+  triangles: 12
+  role: native internal load bridge; see name-collision warning
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: Equipment_Decks
+  aabb_S_mm:
+  - -175.0
+  - -93.150002
+  - -40.0
+  - 119.0
+  - 93.150002
+  - -36.0
+  triangles: 36
+  role: native equipment decks at z -40..-36 mm
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: Maintenance_Access_Cover
+  aabb_S_mm:
+  - 126.0
+  - -60.0
+  - -110.150002
+  - 170.0
+  - 60.0
+  - -107.150002
+  triangles: 12
+  role: native access cover on the -Z face
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: Hard_Stop_Left
+  aabb_S_mm:
+  - -64.0
+  - 121.150002
+  - 23.0
+  - -58.0
+  - 129.149994
+  - 37.0
+  triangles: 12
+  role: solar hinge deployed hard stop, left
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: Hard_Stop_Right
+  aabb_S_mm:
+  - -64.0
+  - -129.149994
+  - 23.0
+  - -58.0
+  - -121.150002
+  - 37.0
+  triangles: 12
+  role: solar hinge deployed hard stop, right
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: Hinge_Pin_Left
+  aabb_S_mm:
+  - -82.0
+  - 139.149994
+  - -4.0
+  - -40.0
+  - 147.149994
+  - 4.0
+  triangles: 140
+  role: 'solar hinge pin, left: Ø8 mm, x -82..-40 mm, corroborates the declared hinge axis'
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: Hinge_Pin_Right
+  aabb_S_mm:
+  - -82.0
+  - -147.149994
+  - -4.0
+  - -40.0
+  - -139.149994
+  - 4.0
+  triangles: 140
+  role: solar hinge pin, right
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: 02_B601_Mount_and_Load_Path
+  aabb_S_mm:
+  - 64.0
+  - -93.150002
+  - -110.150002
+  - 208.0
+  - 93.150002
+  - 93.150002
+  triangles: 960
+  role: native sub-assembly grouping the whole arm mount load path
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+- native_part: 01_Primary_Structure_V2_
+  aabb_S_mm:
+  - -183.0
+  - -110.150002
+  - -110.150002
+  - 183.0
+  - 110.150002
+  - 110.150002
+  triangles: 324
+  role: native primary structure; x +/-183 mm, y/z +/-110.15 mm
+  geometry_status: NATIVE_ONLY_NOT_IN_NEUTRAL_DESIGN_FREEZE_CHAIN
+  authority: ODR-03 NATIVE_REINTEGRATION_HOLD, off the critical path
+cross_wp_consumers:
+  wp3_tolerance_alloc: SUPPORT_AND_BRACKET_CANDIDATES_V1 was listed PENDING_SIBLING_HASH in wp3 receipt.json;
+    this artifact closes that reference
+  wp7_fea_operational: pad stiffness kn/kt above are the P5A/P5B rates; bench calibration still governs
+explicit_non_claims:
+- NO_SUPPORT_OR_BRACKET_SOLID_EXISTS_IN_THE_DESIGN_FREEZE_ASSEMBLY
+- NO_SUPPORT_CONTACT_IS_A_MEASURED_HARDWARE_GAP
+- PAD_STIFFNESS_IS_NOT_A_QUALIFIED_ALLOWABLE
+- NOT_MANUFACTURING_RELEASED
+- NOT_FLIGHT_OR_LAUNCH_QUALIFIED
+memory_gate:
+  available_physical_gib: 2.261078
+  total_physical_gib: 15.210205
+  threshold_gib: 6.0
+  memory_gate_passed: false
+  measurement_status: MEASURED
+  declaration: the 6 GiB memory gate is FAILED on this host and stays declared as failed; this artifact
+    builder performs no FreeCAD, no FEA and no full-assembly boolean, only chunked binary-STL and STEP
+    text reads
+source_register:
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/build_design_freeze_assembly.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/build_design_freeze_assembly.py
+    sha256: 268C3048B25D81A5FA75F76D6AAE58CC9634435F3E10C844E055DF7A1D218581
+    bytes: 46972
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json
+    sha256: 105BCB020FAF9F535C3A18F9A37831679F89070A8CA69C5960F959A686F332C1
+    bytes: 29415
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.FCStd:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.FCStd
+    sha256: 013DA84FE9A5C388252DB18516628411C484BB818959FA1A5CF8D950485636E7
+    bytes: 579603
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step
+    sha256: 8C85585E9C051AEBB849E48F56354B48BF4204F61103B550BD92FC77BA99EA9E
+    bytes: 1373004
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+    bytes: 3531
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    sha256: AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B
+    bytes: 4931
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    bytes: 11321
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL
+    sha256: 22641C079014FE968702393F61E7F7F1A8F80C6C1DF45A61E31545F6EAFF3B65
+    bytes: 3898684
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link1.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link1.STL
+    sha256: 9DB637A63D37BC2C6398EA5B8BA32FB54122C637D5D77DC134C8782839B654CD
+    bytes: 499084
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link2.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link2.STL
+    sha256: DEF0D9D82343DCCC1EFF0D9D5572ECA49B3C134DB9807CA12302B99D153DF65E
+    bytes: 5992184
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link3.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link3.STL
+    sha256: CA14D73B5D63F352051F440F4CABC3989567F25EE9D19E7DD749F2D6F0D0561D
+    bytes: 4209984
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link4.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link4.STL
+    sha256: 061909364F20BB387F9FF82CB80E506AF959142F9FBB4A39DC86FC8244EE768A
+    bytes: 2579684
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link5.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link5.STL
+    sha256: 3A32006227C1F9DBC70E77E07055C61E3F195F1054D4D2EB480262F0873BF001
+    bytes: 2119384
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link6.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link6.STL
+    sha256: C586A7D0B8345D2CD32EAB7DFD2E334ABA56E83F582A6298D41BBF718F2EBEF1
+    bytes: 1248184
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_link.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_link.STL
+    sha256: A826E164D420A6922E8AD5EE27813F39FA809F6E4FDF39B42FD8A59E7D12E847
+    bytes: 2676384
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_left.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_left.STL
+    sha256: C4E0DE70F776B3573D975A6EAAA746CCCBE57C2D5BB12501DA8889979D3AF268
+    bytes: 2119684
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_right.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_right.STL
+    sha256: 615B119C0BB97A032BADD5882144E4A2A50C905A3E071AF1FA28B83BFE9B1B65
+    bytes: 2119684
+  20_engineering/cad/spacecraft_layout/model_specs_v0.json:
+    path: 20_engineering/cad/spacecraft_layout/model_specs_v0.json
+    sha256: 712F4B6411B241F37676EEE3F45813C981EE5699238017CB0BC4BB5FA50D4666
+    bytes: 36977
+  20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/SYSTEM_FRAME_TREE.yaml:
+    path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/SYSTEM_FRAME_TREE.yaml
+    sha256: 71A9FFFAA30A59BB5964949371FB0F9E5E1D61F94E99F38CEAD211AE89AF51CF
+    bytes: 6880
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/06_supports/F3R2_SUPPORT_V2_DEFINITION.json:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/06_supports/F3R2_SUPPORT_V2_DEFINITION.json
+    sha256: 7CA4BD5B0F83212492DE2200334D35D4F02830C0FD4164DC6C888CF354C94432
+    bytes: 17229
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/07_hdrm/F3R2_ARM_HDRM_DEFINITION.json:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/07_hdrm/F3R2_ARM_HDRM_DEFINITION.json
+    sha256: 90E227F582A4155DD8BAC11B8EC0838EC2195F8D5A36C67475243060911435FD
+    bytes: 12159
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json
+    sha256: 07618B5CFE2C2F1D2391B5D845CB82AD7ECFBBCC6371EEADF931289C8F2902D6
+    bytes: 5727
+  ? 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_B601_ARTICULATED_ENGINEERING_ARM_STOWED_O13V.stl
+  : path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_B601_ARTICULATED_ENGINEERING_ARM_STOWED_O13V.stl
+    sha256: A134EE269689D888E8D05AA60AE05A9014FA3C139AFEF4F1E0429D8628EF57A2
+    bytes: 46026884
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Fwd_Saddle.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Fwd_Saddle.stl
+    sha256: 0ECDF0059EAB1C10FA80FB405FDDE8E7131F7F9FA41EAE3220FB56D1F009D9D6
+    bytes: 1484
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Mid_Saddle.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Mid_Saddle.stl
+    sha256: AA6E7F59F2CC980A9AACC19E57811E0F5D32BFB896A54A09BD09FF53C84AC5FD
+    bytes: 1484
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Aft_Saddle.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Aft_Saddle.stl
+    sha256: 01E997CE8BCBB92486F256A55536576333A905D0BD4A770009A072217CA71C30
+    bytes: 1484
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/04_ARM_STOW_SUPPORT.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/04_ARM_STOW_SUPPORT.stl
+    sha256: 1C4DE2BCBE27A0278EE901E40F46542E075002ABFF99B6216F6EEC7D183FE5CD
+    bytes: 6084
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Release_Clearance_Envelope.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Release_Clearance_Envelope.stl
+    sha256: 79EE616884401A4EB06A076451F75D487DB67F29234170220BE94CBF183ECB8B
+    bytes: 684
+  ? 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Launch_Lock_Interface_Reference.stl
+  : path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Launch_Lock_Interface_Reference.stl
+    sha256: D431EF8D9A20F0DE6A60789D6D100324061CA77188DD3A9C3459DC0A9C72B148
+    bytes: 2484
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Harness_Passage.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Harness_Passage.stl
+    sha256: 3F4CB86E26FBD675538F8FD753B5F9381D34D714CF8DCEDE90959B27778F398A
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Harness_Service_Loop_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Harness_Service_Loop_Left.stl
+    sha256: D9679A27EB76942C4B70DC25D8E5AD5211AC868CE745D29B10E86D3AABDD96EF
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Harness_Service_Loop_Right.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Harness_Service_Loop_Right.stl
+    sha256: 1D2CC011142C2C7242F4F92156C32E5CA892492193F4CF1B6D50AF9A4E5CD797
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Left.stl
+    sha256: 0D6AA3A2778041143B37E2B4C3B756309F189D07D7598E6337EBCD13ADD263A2
+    bytes: 7084
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Right.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Right.stl
+    sha256: 56D39CEA1163F6FB146A10260BDD35201146C9D409E7CBD9DA352126802D937C
+    bytes: 7084
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Left.stl
+    sha256: F5160C9FDDD58E55D3275DDB539EF8E424BAB1F912B0AEF70452894B5E84B4EB
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Right.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Right.stl
+    sha256: 435741BD32334372949DFA656868A5B7CD15E3320C755211C6CCD60F7D792055
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/HDRM_Base_1_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/HDRM_Base_1_Left.stl
+    sha256: 62FE65CB5419DAAB5FCEEE46520D1114159DE81271014DF86124DA3E56F4E89C
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/HDRM_Rod_1_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/HDRM_Rod_1_Left.stl
+    sha256: 81A7074AD086269B5759A14A0A0AF4007CF5D49D96503D6BB13184FC53121242
+    bytes: 7084
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/HDRM_Base_2_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/HDRM_Base_2_Left.stl
+    sha256: A99BD9C68B868D0494B5A3E06E09C580730C1CBFED9540AE1C2A4C75B1E0626C
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/HDRM_Rod_2_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/HDRM_Rod_2_Left.stl
+    sha256: E0EE1931BD546EB383591D09E0DFC5735AAE8D1F4400A3DE9D0F4F5C63E8FE51
+    bytes: 7084
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Spacecraft_Flange.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Spacecraft_Flange.stl
+    sha256: FBF152D6D97F4AAAB9704B1824C00AAD6C2C140C2A3E73B650DDB790A9ECF259
+    bytes: 15284
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Adapter_Plate.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Adapter_Plate.stl
+    sha256: EC557AFADA21C2E81A0390518A8B1DC761B33F3A0A1398C4D296B3FE270F5574
+    bytes: 8084
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Central_Boss.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Central_Boss.stl
+    sha256: D80AB8ABD67CD1C3B189C9FB35194C07F8D726F7C42FDE9D8FA4DC94E3BFD805
+    bytes: 14484
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/01_Primary_Structure_V2_.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/01_Primary_Structure_V2_.stl
+    sha256: 50E59DDBA4862527E61149288B6BFF6F9E5C4BE4906DA1FE3E31F31E50669C8C
+    bytes: 16284
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/02_B601_Mount_and_Load_Path.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/02_B601_Mount_and_Load_Path.stl
+    sha256: B9359CEF4AE2757A69299D2F4B3C81332D565A87CE35BA95C6A7046B5CFD00CD
+    bytes: 48084
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Equipment_Decks.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Equipment_Decks.stl
+    sha256: 83EB33861F7FC7A88C4587BED62E12518EB5F2FECE82907A56C91F334D886527
+    bytes: 1884
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Maintenance_Access_Cover.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Maintenance_Access_Cover.stl
+    sha256: 0AFB293DFFC5C9A17F96463EA9AE6A9AC65914F4FDF870A80134A773F746779C
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Load_Bridge_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Load_Bridge_Left.stl
+    sha256: 1FAE0BB3D2CBD4A0D7194060CA38051D205FF8B99153ED8E2D0E489407D23C94
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Load_Bridge_Right.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Load_Bridge_Right.stl
+    sha256: 95D80ED7803B296FD219F124565BE13E06344000A4E0450252ECE64E397AB717
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_L_STOWED.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_L_STOWED.stl
+    sha256: 02BE7F6BFA149FBC78834E7476767D5319AB0C8CEF44DB8A03E560901CED91B7
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_R_STOWED.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_R_STOWED.stl
+    sha256: 95C9F9A192E562275F50716BF87A81813DBB384A045784228569F3A88F34BBFC
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_L_DEPLOYED.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_L_DEPLOYED.stl
+    sha256: F5EC27D88EAE75D3033DA5718E4C5165B8F475917D126730B69B4D02773BBE78
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_R_DEPLOYED.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_R_DEPLOYED.stl
+    sha256: C0DA6EB76B009A1738491847020FB1A9E6295CE0F07B41CA754BB27C9431FB51
+    bytes: 684
+  20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json:
+    path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+    sha256: 7BC0DF784B36159624A8A89B67207C54C5C9C780B103CB38658DE2D6BA845F47
+    bytes: 117402
+  20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/gripper_r1/B601_GRIPPER_PALM_RAIL_SLOT_R1.step:
+    path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/gripper_r1/B601_GRIPPER_PALM_RAIL_SLOT_R1.step
+    sha256: 97E2FE07FE24673DEAE473D0518FD30E3345ED85A82F8811265482B0215811BC
+    bytes: 2762511
+  20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/gripper_r1/LEFT_RAIL_FULL_STROKE_SWEPT_VOLUME.step:
+    path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/gripper_r1/LEFT_RAIL_FULL_STROKE_SWEPT_VOLUME.step
+    sha256: 0E8B4C4CFB8F08F503D59F731E6018ED1C3E6C5CC072B61F197136617D9D5E59
+    bytes: 435905
+  ? 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/gripper_r1/RIGHT_RAIL_FULL_STROKE_SWEPT_VOLUME.step
+  : path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/gripper_r1/RIGHT_RAIL_FULL_STROKE_SWEPT_VOLUME.step
+    sha256: BDD72584487A70781B63C80D24075B262648436D68B84B2DAB3905C726FBE8F8
+    bytes: 435747
+  20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_INTERFACE_ASSEMBLY_V2_WORKING.step:
+    path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_INTERFACE_ASSEMBLY_V2_WORKING.step
+    sha256: A213804F094238B261EE5994DF563E8268FC923FDED491E38F5A4F235F748033
+    bytes: 73939
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+    sha256: 172F3603E458F670323925E644BC68623EE9C85FCA7AF1200FAE2576EB43C68B
+    bytes: 1246
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_CANDIDATE_V1.step:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_CANDIDATE_V1.step
+    sha256: 545FE62ADE0E4891FCC84179D18F63B2A6C77F19AD1C96723B3C7208EA13221B
+    bytes: 24855
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_DATUMS_V1.yaml:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_DATUMS_V1.yaml
+    sha256: 0F9B413E7B6CD451E2724AD25CA4DA41E52E02C86F1D2874460274EADBAA47A2
+    bytes: 9037
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml
+    sha256: 1DEC46C6691E5B4BFA2258F6AA6DA9341CA86DF35F8B73354280D28F4AC305FE
+    bytes: 11002

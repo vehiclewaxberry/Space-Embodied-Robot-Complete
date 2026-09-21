@@ -1,0 +1,147 @@
+{
+  "schema": "ROUTE_C_C9_ANALYTIC_CAPSULE_CONTRACT_V1",
+  "generated_utc": "DETERMINISTIC_CONTRACT_NO_WALLCLOCK",
+  "scope": "NINE_LOCAL_LOGICAL_ROUTE_C_HARNESS_COLLISION_CANDIDATES_ONLY",
+  "numeric_contract": {
+    "nominal_bundle_od_mm": 9.0,
+    "design_upper_bundle_od_mm": 10.0,
+    "design_centerline_tube_radius_mm": 5.0,
+    "nominal_to_design_radial_increment_mm_already_included": 0.5,
+    "double_count_increment_forbidden": true,
+    "p01_channel_clearance_mm_not_a_bundle_radius": 12.0,
+    "maximum_curve_arclength_step_mm": 1.5,
+    "line_hausdorff_rule": "0",
+    "arc_hausdorff_rule": "R*(1-cos(abs(delta_theta)/2))",
+    "helix_hausdorff_rule": "R*abs(delta_theta)^2/8 conservative upper bound",
+    "fillet_clamp_rule": "T=min(R_desired*tan(theta/2),0.98*min(current_in_leg,out_leg)); R_actual=T/tan(theta/2)",
+    "p11_physical_guide_to_centerline_offset_lineage": "UNKNOWN",
+    "narrowphase_query_contract": {
+      "required_query_radius_field": "effective_radius_mm",
+      "effective_radius_rule": "effective_radius_mm = design_radius_mm + hausdorff_bound_mm",
+      "hausdorff_debit_count": 1,
+      "raw_design_radius_as_query_radius_for_curved_capsules": "FORBIDDEN_FAIL_CLOSED",
+      "separate_clearance_debit_alternative_supported_by_this_package": false,
+      "consumer_mixing_or_ignoring_bound": "FORBIDDEN_FAIL_CLOSED",
+      "consumer_second_bound_debit_or_radius_inflation": "FORBIDDEN_FAIL_CLOSED"
+    },
+    "j4_section5_full_q4_discretization": {
+      "accepted_q4_limits_rad": [-1.87, 1.57],
+      "annulus_radius_mm": 55.0,
+      "worst_case_beta_rad": 3.7890658503988663,
+      "topology_capsule_count": 139,
+      "count_rule": "ceil(annulus_radius_mm*worst_case_beta_rad/maximum_curve_arclength_step_mm)",
+      "q0_and_all_runtime_poses_use_same_topology": true,
+      "worst_case_curve_arclength_step_mm": 1.4992706602297674,
+      "worst_case_hausdorff_bound_mm": 0.005108585715678515,
+      "worst_case_effective_radius_mm": 5.0051085857156785
+    }
+  },
+  "object_count": 9,
+  "objects": [
+    {
+      "object_id": "C::SEG-00_BUS_FEEDTHROUGH_AND_RISER",
+      "selector": "SEG-00_BUS_FEEDTHROUGH_AND_RISER",
+      "registry_parent_frame": "base_link",
+      "sections": [{"section": 0, "type": "polyline", "primary_host": "base_link", "alternate_host": null, "motion": "RIGID_HOST_FK"}]
+    },
+    {
+      "object_id": "C::SEG-01_J1_ANNULAR_SERVICE_LOOP",
+      "selector": "SEG-01_J1_ANNULAR_SERVICE_LOOP",
+      "registry_parent_frame": "link1",
+      "sections": [
+        {"section": 0, "type": "helix", "primary_host": "base_link", "alternate_host": null, "motion": "RIGID_HOST_FK"},
+        {"section": 1, "type": "polyline", "primary_host": "link1", "alternate_host": null, "motion": "RIGID_HOST_FK"}
+      ]
+    },
+    {
+      "object_id": "C::SEG-02_J2_GUIDED_U_LOOP_AND_LINK2_CHANNEL",
+      "selector": "SEG-02_J2_GUIDED_U_LOOP_AND_LINK2_CHANNEL",
+      "registry_parent_frame": "link2",
+      "sections": [
+        {"section": 0, "type": "arc", "primary_host": "link1", "alternate_host": "link2", "motion": "CONSERVATIVE_DUAL_RIGID_HOST_FK"},
+        {"section": 1, "type": "polyline", "primary_host": "link2", "alternate_host": "link1", "motion": "CONSERVATIVE_DUAL_RIGID_HOST_FK"}
+      ]
+    },
+    {
+      "object_id": "C::SEG-03_J3_CARRIER_HYBRID_WRAP",
+      "selector": "SEG-03_J3_CARRIER_HYBRID_WRAP",
+      "registry_parent_frame": "link3",
+      "sections": [
+        {"section": 0, "type": "arc", "primary_host": "link2", "alternate_host": "link3", "motion": "J3_DUAL_HOST_NO_CONTINUOUS_LAW"},
+        {"section": 1, "type": "polyline", "primary_host": "link2", "alternate_host": "link3", "motion": "J3_DUAL_HOST_NO_CONTINUOUS_LAW"},
+        {"section": 2, "type": "arc", "primary_host": "link2", "alternate_host": "link3", "motion": "J3_DUAL_HOST_NO_CONTINUOUS_LAW"},
+        {"section": 3, "type": "polyline", "primary_host": "link3", "alternate_host": null, "motion": "RIGID_HOST_FK"}
+      ],
+      "continuous_q3_carrier_law": "UNKNOWN",
+      "production_union_acceptance": "UNKNOWN"
+    },
+    {
+      "object_id": "C::SEG-04_J4_CHAINLESS_TROMBONE_EXTERNAL_ANNULAR_FOLLOWER",
+      "selector": "SEG-04_J4_CHAINLESS_TROMBONE_EXTERNAL_ANNULAR_FOLLOWER",
+      "registry_parent_frame": "link4",
+      "sections": [
+        {"section": 0, "type": "polyline", "primary_host": "link3", "alternate_host": null, "motion": "J4_RIGID_LINK3"},
+        {"section": 1, "type": "polyline", "primary_host": "link3", "alternate_host": null, "motion": "J4_PLANE_A_LINEAR_EXCHANGE"},
+        {"section": 2, "type": "arc", "primary_host": "link3", "alternate_host": null, "motion": "J4_TRANSLATING_U"},
+        {"section": 3, "type": "polyline", "primary_host": "link3", "alternate_host": null, "motion": "J4_PLANE_B_LINEAR_EXCHANGE"},
+        {"section": 4, "type": "polyline", "primary_host": "link3", "alternate_host": null, "motion": "J4_RIGID_LINK3"},
+        {"section": 5, "type": "arc", "primary_host": "link3", "alternate_host": null, "motion": "J4_VARIABLE_NEGATIVE_ANNULAR_ARC", "frozen_full_q4_topology_capsule_count": 139},
+        {"section": 6, "type": "polyline", "primary_host": "link4", "alternate_host": null, "motion": "J4_RIGID_LINK4_FOLLOWER_DOWNSTREAM"}
+      ]
+    },
+    {
+      "object_id": "C::SEG-05_J5_WRIST_WRAP",
+      "selector": "SEG-05_J5_WRIST_WRAP",
+      "registry_parent_frame": "link5",
+      "sections": [
+        {"section": 0, "type": "arc", "primary_host": "link4", "alternate_host": "link5", "motion": "CONSERVATIVE_DUAL_RIGID_HOST_FK"},
+        {"section": 1, "type": "polyline", "primary_host": "link5", "alternate_host": "link4", "motion": "CONSERVATIVE_DUAL_RIGID_HOST_FK"}
+      ]
+    },
+    {
+      "object_id": "C::SEG-06_J6_HELICAL_WRAP_AND_WRIST_RUN",
+      "selector": "SEG-06_J6_HELICAL_WRAP_AND_WRIST_RUN",
+      "registry_parent_frame": "link6",
+      "sections": [
+        {"section": 0, "type": "helix", "primary_host": "link5", "alternate_host": null, "motion": "RIGID_HOST_FK"},
+        {"section": 1, "type": "polyline", "primary_host": "link6", "alternate_host": null, "motion": "RIGID_HOST_FK"}
+      ]
+    },
+    {
+      "object_id": "C::SEG-07A_WRIST_TAIL_DATA",
+      "selector": "SEG-07A_WRIST_TAIL_DATA",
+      "registry_parent_frame": "link6",
+      "sections": [{"section": 0, "type": "polyline", "primary_host": "link6", "alternate_host": null, "motion": "RIGID_HOST_FK"}]
+    },
+    {
+      "object_id": "C::SEG-07B_WRIST_TAIL_POWER",
+      "selector": "SEG-07B_WRIST_TAIL_POWER",
+      "registry_parent_frame": "link6",
+      "sections": [{"section": 0, "type": "polyline", "primary_host": "link6", "alternate_host": null, "motion": "RIGID_HOST_FK"}]
+    }
+  ],
+  "system_truth_declaration_only": {
+    "authority": "DECLARATION_ONLY__MUST_BE_REBUILT_FROM_FOUR_HASH_PINNED_CURRENT_MACHINE_GATES",
+    "verification_sources": [
+      "current_m01_registry_gate",
+      "current_m01_scene_prebind_gate",
+      "current_terminal_release_gate",
+      "current_mech_to_embodied_handoff_gate"
+    ],
+    "system_operational_authority_rows": 1,
+    "known_active_objects": 150,
+    "system_pair_queries": 0,
+    "required_unassessed_pairs": 11166,
+    "safe_certificates": 0,
+    "system_edges_certified": 0,
+    "stage_instances_bound": 0,
+    "stage_instances_required": 3,
+    "path_search_executed": false,
+    "TMG4": "HOLD",
+    "G12": "FAIL",
+    "next_stage_authorized": false,
+    "release_credit": false
+  },
+  "maximum_legal_verdict_prefix": "C9_LOCAL_CAPSULE_CANDIDATES_9_OF_9_PASS",
+  "maximum_legal_verdict_suffix": "ZERO_CURRENT_PAIR_EDGE_PATH_CREDIT__TMG4_HOLD"
+}

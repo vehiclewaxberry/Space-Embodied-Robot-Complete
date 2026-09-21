@@ -1,0 +1,106 @@
+schema_version: comp-prot-03-a3-geometry-only-frame-export-v0.1
+export_id: candidate_12u_b601_solidworks_frame_export_v0_1
+created_on: "2026-07-23"
+status: GEOMETRY_ONLY
+scientific_gate: false
+dynamics_use_authorized: false
+
+convention:
+  transform_symbol: T_XY
+  meaning: expresses_frame_Y_in_frame_X
+  point_mapping: p_X_equals_T_XY_times_p_Y
+  handedness: right_handed
+  translation_unit: mm
+  solidworks_math_transform_rotation_storage: transpose_of_column_vector_contract_for_row_vector_application
+
+frames:
+  S:
+    parent: null
+    origin_mm: [0.0, 0.0, 0.0]
+    role: center_of_COMPETITION_DISPLAY_V0_body_envelope
+    solidworks_feature: CS_S
+    status: BOUND
+  M:
+    parent: S
+    role: B601_mounting_face_reference
+    solidworks_feature: CS_M
+    status: BOUND_TO_SELECTED_PROFILE
+  A0:
+    parent: M
+    role: accepted_B601_base_link_insertion_frame
+    solidworks_feature: CS_A0
+    status: DESIGN_BOUND
+  B:
+    parent: S
+    role: free_flyer_mother_body_frame
+    value: null
+    status: UNKNOWN_DISABLED
+  E:
+    parent: link6
+    role: virtual_task_command_frame
+    status: DESIGN_BOUND_FOR_GEOMETRY_ONLY_NOT_PHYSICAL_TCP
+  TCP_contact:
+    parent: E
+    value: null
+    status: UNKNOWN_DISABLED
+
+transforms:
+  T_SM:
+    translation_mm: [185.25, 0.0, 0.0]
+    rotation_matrix_rows:
+      - [0.0, 0.0, 1.0]
+      - [0.0, 1.0, 0.0]
+      - [-1.0, 0.0, 0.0]
+    rotation_label: R_y_plus_90_deg
+    solidworks_ArrayData_expected:
+      - 0.0
+      - 0.0
+      - -1.0
+      - 0.0
+      - 1.0
+      - 0.0
+      - 1.0
+      - 0.0
+      - 0.0
+      - 0.18525
+      - 0.0
+      - 0.0
+      - 1.0
+      - 0.0
+      - 0.0
+      - 0.0
+    status: BOUND
+  T_MA0:
+    translation_mm: [0.0, 0.0, 0.0]
+    rotation_matrix_rows:
+      - [1.0, 0.0, 0.0]
+      - [0.0, 1.0, 0.0]
+      - [0.0, 0.0, 1.0]
+    status: DESIGN_BOUND
+    limitation: geometry_insertion_contract_only
+  T_SB:
+    translation_mm: null
+    rotation_matrix_rows: null
+    status: UNKNOWN_DISABLED
+  T_E_TCP:
+    translation_mm: null
+    rotation_matrix_rows: null
+    status: UNKNOWN_DISABLED
+
+assembly_mapping:
+  top_assembly: 20_engineering/cad/Space_Embodied_Robot_CAD_V0_1/Assembly/12U_Master_Skeleton.SLDASM
+  identity_components:
+    - SER_Master_Skeleton.SLDPRT
+    - 01_Service_Bus.SLDPRT
+  T_SM_components:
+    - 02_B601_Mount_Adapter.SLDPRT
+    - B601_Reference_Assembly.SLDASM
+
+claim_boundary:
+  allowed:
+    - S_M_A0_geometry_chain_is_single_valued_in_selected_profile
+    - top_assembly_placement_can_be_machine_checked
+  forbidden:
+    - runtime_dynamics_frame_is_complete
+    - physical_TCP_is_defined
+    - CAD_URDF_round_trip_is_verified

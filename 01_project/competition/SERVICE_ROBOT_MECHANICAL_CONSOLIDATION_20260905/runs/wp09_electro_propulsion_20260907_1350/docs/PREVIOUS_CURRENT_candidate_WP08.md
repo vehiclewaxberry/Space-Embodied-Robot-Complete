@@ -1,0 +1,66 @@
+# 当前机械工程入口：WP08
+
+2026-09-07：从 [WP08 实际交付说明](runs/wp08_retention_delta_20260907_1228/README.md) 查看三态 SolidWorks 装配、后肋局部实体及检查记录。两站保持器已回装，每态625实例/1006实体；后肋11实例局部连接已验证但尚未回装整机。
+
+整星机械与电气尚未完成。后续具体实体任务见 [下一批机械执行单](runs/wp08_retention_delta_20260907_1228/docs/NEXT_MECHANICAL_EXECUTION.md)。WP07与更早结果、失败记录及原问题账本继续保留。
+
+以下为此前入口与文件整理历史，其中“当前/本轮”表述仅属于当时记录。
+
+---
+
+# 项目文件整理与机械设计工作入口
+
+更新：2026-09-07。当前机械与机电接口审阅从 [WP07 交付说明](runs/wp07_system_20260907_0610/README.md) 进入；其中列出实际生成文件、原生回读、局部几何检查、参考 PCB 及尚未关闭的接口。
+
+本轮为工程样机候选执行，不表示整机机械、电气、实物装配或制造放行完成。原 17 项问题记录保持原样，新增执行链接见 [issues.json](issues.json) 的 `wp07_execution`。
+
+以下保留 2026-09-06 文件整理记录；其“本轮”及未运行 CAD 等表述只属于当时整理范围。
+
+更新：2026-09-06。日常入口为 [PROJECT_MAP](../../../PROJECT_MAP.md)，机械总装从 [WP03](../../../20_engineering/service_robot_wp03_spacecraft_body_r1/README.md) 进入。本页记录已执行整理和实际覆盖范围，原机械问题继续保存在 [issues.json](issues.json)。
+
+## 本轮内部整理的实际结果
+
+- **删除 33 份 Markdown**：31 份经内容比较后归并到 11 个保留入口，另 2 份与保留件完全同字节。仅新建 2 份合并文，其余使用已有文件。
+- **删除 159 个可再生 Python 字节码**，源码全部保留并重新核对 SHA。限定审阅的 356 个缓存中，其余 197 个因证据绑定、版本/头差异或消费者范围未查清而保留。
+- 共删除 **192 个文件、4 个空目录**。12 个另外已空的缓存目录因自动审批拒绝删除而保留，未修改访问权限。
+- 修改了导航及已定位的消费者引用；原件均备份在已有 SQLite，不再生成同样内容的归档 Markdown 或压缩包。
+- 整理后八域可枚举范围为 **53,176 个文件、6,731 个子目录**，根目录仍为 **19 项**。相比本轮开始净少 190 个文件（删 192、新增 2）。这些数量包含运行环境、第三方库和派生物，并非设计零件数；SQLite WAL/SHM 会随连接启停变化。
+
+| 合并内容 | 现在阅读的位置 | 本轮删除源数 |
+|---|---|---:|
+| 任务背景、状态、研究问题、领域概念、架构决定与早期规划 | [背景与状态沿革](../../../10_research/knowledge_base/project_context/README.md)、[早期研究规划](../archive/EARLY_RESEARCH_PLAN_20260711_20260717.md) | 13 |
+| 分散模块卡、旧仿真基线说明及同字节报告副本 | [模块索引](../../../30_simulation/module_cards/README.md)、[仿真入口](../../../30_simulation/README.md) | 12 |
+| Stage 1 双语需求、建库说明、英文资源镜像及 Route-C 简报副本 | [Stage 1](../../../20_engineering/stage1_spacecraft_layout/README.md)、[工程入口](../../../20_engineering/README.md) | 6 |
+| 旧补充文献迁移备注与 LibreCube 来源说明 | [文献入口](../../../50_literature/README.md)、[第三方来源入口](../../../80_third_party/README.md) | 2 |
+
+旧 PL1 模块卡复制树检查被新合并结构取代后，消费者明确报告原复制范围为历史 HOLD；其余复制检查仍保留。没有把改目录后的检查伪装成原 15/15 结果。
+
+## 哪些内容保留，以及为什么
+
+- WP01/WP02 仍是 WP03 的输入，R2、历史模型、失败几何和科学负结果分别保留。原生 CAD、坐标、质量惯量 CSV 与科学 Gate 未在本轮修改，也未运行 CAD/动力学/控制程序。
+- WP01/WP02/WP03 的 13,954 个 `__cadgen__` 文件包括图册消费者和包络诊断的来源；已有图片或 STEP 未证明它们可完整替代。
+- 工程域剩余 11 个 ZIP 有不同哈希与授权/基线/失效原件职责；来源清单固定的 donor 副本也保留。两份 BIRDS 工作树包含独立 Git 状态，已标明主参考与历史镜像。
+- A4 清单固定的适配器英文要求、研究状态 v4、R2 V1–V7 链及具名历史回执保留原始身份。历史记录中出现旧路径可用下述映射定位；原记录日期、数字和裁决不被无痕更新。
+
+## 审阅覆盖与尚未完成的范围
+
+本轮对全部可访问路径登记了角色和保留/删除理由，并给各已登记子目录记录审阅范围。**这不等于逐个文件都已完成专业全文或原生内容审查。** 删除 Markdown 的依据是具名的全文比较；字节码依据是源码、文件头及消费者检查；大量其余项仅有既有提取记录或元数据/用途分类。
+
+仍有 **10 个 pytest 临时子树拒绝访问**；原生 CAD 内部装配引用、PDF 图形、动态消费者以及未精读正文继续标为待审阅。统一账本中的 `previous_read_status` 不因本轮分类被升级。最终追加的独立复核因额度中断未完成；根代理完成最终恢复、路径和执行账核验，前面已完成的独立比较与检查分别保留。
+
+自动审批两次拒绝删除已核实为空的缓存目录，返回仅为 `blocked by policy`。12 个目录保留；此记录不表示文件删除失败，也不作为清空其他目录的授权。
+
+## 逐文件查询与恢复
+
+使用唯一 [full_project_catalog.sqlite](runs/loop0_20260905/screening/full_project_catalog.sqlite)：
+
+- `domain_inventory` / `domain_subtree_review`：原编目、逐项处置、目录审阅范围；新合并文件已补登记。
+- `domain_actions` / `domain_current_locations`：本轮原路径、动作、保留内容位置、执行状态及恢复阶段；历史引用通过这里追溯。
+- `snapshots`：删除/修改前原始字节，以 zlib 存储。按动作中的 `snapshot_stage` 解压后核对 SHA256 和长度，再按需恢复。
+- `reviews` / `meta`：内容比较、消费者检查、独立验证与当前范围；`ENGINEERING_PYC_READONLY_REVIEW_20260906` 是字节码逐件检查记录。
+
+[run_manifest](run_manifest.json) 与 [dependency_manifest](dependency_manifest.json) 的旧 WP03 字段保留历史身份；新增 `domain_internal_consolidation_20260906` 记录本轮结果。文件快照属于恢复凭据，不是新的设计版本。
+
+## 前一轮根目录整理（独立范围）
+
+此前根目录 45→19 项，19 份 Markdown 合为 2 份，77 个独有文件归入业务域；删除 24 文件和 18 空目录。原启动/入驻内容进入[根部历史综述](../archive/ROOT_HISTORY_20260729_20260810.md)，原 knowledge 方法进入[结构方法](../../../10_research/knowledge_base/spacecraft_mechanical_design/legacy_structure_methods_20260728.md)。明细在 `root_layout_actions`，恢复阶段为 `BEFORE_ROOT_PHYSICAL_CONSOLIDATION_20260906`；更早的 12 文件缓存清理也单独记账，不重复计入本轮 192 文件。

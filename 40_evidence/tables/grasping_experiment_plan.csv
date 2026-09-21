@@ -1,0 +1,13 @@
+group,name,method,independent_vars,cases,metrics,anchor_or_new,deliverable_figure,seed_policy
+G0,固定抓取点+固定轨迹,现有sim_05 headline轨迹+主抓点,tumble {0.5;1;2;3;5} deg/s,5,base_peak;J_t;omega_plus;E_flex;wheel;prop,ANCHOR(19.20deg已在库;其余由评价器t1锚定),对照表基线行,deterministic
+G1,几何最优抓取,仅Q_geom+可达性选点(评价器w_b=w_j=w_f=w_a=w_u=0),9候选x8相位,72,同上+被选中点分布,NEW,图3左半(几何选点的系统代价),deterministic
+G2,动力学感知抓取优化,完整S_i多目标(=Case C),6抓点x8相位x4 v_app x3构型 x2 mode,~1152,同上+帕累托前沿+推荐策略点,NEW,图3全+图4(构型-omega_plus地图),deterministic grid
+G3,具身代理+物理工具+安全盾,技能图+评价器调用+ALLOW/MODIFY/WAIT/BACKOFF/ABORT,正常20+不确定20+故障注入15,~55,成功率;正确中止率;恢复率;违反数;决策时延,NEW,决策时序图+HIL L2录像,seed=20260711起连续编号
+G4(可选),学习候选排序,GBDT/小MLP排序器(G2数据训练;分组留出),留出目标类整组,-,排序一致性;False-Safe率,NEW(仅G0-G3闭合后),展望章节,fixed split seed
+UX1,不确定性-惯量,G2最优点+目标惯量±10/20/30%,MC 100/档,300,score稳健性;risk校准,NEW,鲁棒走廊叠加,MC seed 1..300
+UX2,不确定性-视觉,位姿sigma {0.5;1;2;3;5}deg + 时延{50;150;300}ms,sigma点,75,门违反率vs sigma;WAIT触发率,NEW(协方差来源P1-1或文献注明),risk标定曲线,sigma-point deterministic
+UX3,不确定性-接触,v_app误差±50%;抓点偏置±20mm,MC 50,100,omega_plus散布;假安全率,NEW,-,MC seed
+FR1,故障-视觉丢失,AprilTag丢失{0.5;1;2;5}s注入,每档5,20,恢复成功率;WAIT/REOBSERVE正确性,NEW(G3框架内),恢复时序图,scripted injection
+FR2,故障-目标突变,tumble阶跃+50%,5,5,ABORT正确率,NEW,-,scripted
+FR3,故障-资源不足,轮组容量置0.5x(评价器输入),5,5,CHANGE_GRASP/ABORT行为,NEW,-,scripted
+FR4,故障-首触失败,接触后未确认抓取(状态注入),5,5,BACKOFF-重规划成功率,NEW,-,scripted

@@ -1,0 +1,645 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PREAUTHORIZATION_READINESS_SCHEMA_V2",
+  "title": "Unified R2 V2 read-only preauthorization readiness report",
+  "description": "Readiness evidence only; intentionally incompatible with execution authorization.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "artifact_class",
+    "generated_utc",
+    "summary",
+    "owner_source_provenance",
+    "request_bindings",
+    "frozen_source_bindings",
+    "decision_readiness",
+    "c01_fixed_candidate_contract",
+    "ephemeral_preview",
+    "memory_preview",
+    "protected_state",
+    "checks",
+    "formal_authorization_incompatibility",
+    "prohibitions"
+  ],
+  "properties": {
+    "schema": {"const": "PREAUTHORIZATION_READINESS_REPORT_V1"},
+    "artifact_class": {"const": "READ_ONLY_PREAUTHORIZATION_READINESS__NOT_AUTHORIZATION"},
+    "generated_utc": {"$ref": "#/$defs/utc"},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "authority_effect", "execution_authorized", "target_authorization_written", "next_stage_authorized", "release_credit", "owner_accepted", "owner_identity_verified", "tooling_credit_only"],
+      "properties": {
+        "state": {
+          "oneOf": [
+            {"type": "string", "pattern": "^DENY_[A-Z0-9_:-]+$"},
+            {"const": "STRUCTURALLY_READY_FOR_AUTHENTICATED_ISSUER_REVIEW__IDENTITY_UNVERIFIED__NO_AUTHORITY_CREATED"}
+          ]
+        },
+        "authority_effect": {"const": "NONE"},
+        "execution_authorized": {"const": false},
+        "target_authorization_written": {"const": false},
+        "next_stage_authorized": {"const": false},
+        "release_credit": {"const": false},
+        "owner_accepted": {"const": false},
+        "owner_identity_verified": {"const": false},
+        "tooling_credit_only": {"const": true}
+      }
+    },
+    "owner_source_provenance": {"$ref": "#/$defs/provenance"},
+    "request_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ODR-GPT-07", "ODR-GPT-08"],
+      "properties": {
+        "ODR-GPT-07": {"$ref": "#/$defs/pin"},
+        "ODR-GPT-08": {"$ref": "#/$defs/pin"}
+      }
+    },
+    "frozen_source_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generator_source", "generator_inputs"],
+      "properties": {
+        "generator_source": {"$ref": "#/$defs/pin"},
+        "generator_inputs": {"$ref": "#/$defs/pin"}
+      }
+    },
+    "decision_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["odr_gpt_07", "odr_gpt_08", "c01_unified_r2_research_candidate"],
+      "properties": {
+        "odr_gpt_07": {"$ref": "#/$defs/odrDecision"},
+        "odr_gpt_08": {"$ref": "#/$defs/odrDecision"},
+        "c01_unified_r2_research_candidate": {"$ref": "#/$defs/c01Decision"}
+      }
+    },
+    "c01_fixed_candidate_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["configuration", "selected_bus_mass_mode", "total_design_mass_kg", "route_c_excluded", "route_c_cad_authorized", "scope", "execution_authorized", "urdf_write_authorized", "sim13_rebind_authorized", "production_dynamics_ready", "physical_contact_ready", "next_stage_authorized", "release_credit"],
+      "properties": {
+        "configuration": {"const": "C01_DEPLOYED_NOMINAL_FIXED_SOLAR_SNAPSHOT"},
+        "selected_bus_mass_mode": {"const": "EXPLICIT_STRUCTURE_PLUS_RESIDUAL"},
+        "total_design_mass_kg": {"const": 31.022864807342987},
+        "route_c_excluded": {"const": true},
+        "route_c_cad_authorized": {"const": false},
+        "scope": {"type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": {"enum": ["ANALYSIS_ONLY", "RESEARCH_CANDIDATE", "NON_PRODUCTION"]}},
+        "execution_authorized": {"const": false},
+        "urdf_write_authorized": {"const": false},
+        "sim13_rebind_authorized": {"const": false},
+        "production_dynamics_ready": {"const": false},
+        "physical_contact_ready": {"const": false},
+        "next_stage_authorized": {"const": false},
+        "release_credit": {"const": false}
+      }
+    },
+    "ephemeral_preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preview_only", "preview_id", "issued_utc_preview", "expires_utc_preview", "valid_for_seconds_requested", "valid_for_seconds_normalized", "validity_status", "source_sha256_preview", "input_sha256_preview", "runtime_hash", "may_be_reused_by_future_issuer"],
+      "properties": {
+        "preview_only": {"const": true},
+        "preview_id": {"type": "string", "pattern": "^READINESS-[0-9A-F]{32}$"},
+        "issued_utc_preview": {"$ref": "#/$defs/utc"},
+        "expires_utc_preview": {"$ref": "#/$defs/utc"},
+        "valid_for_seconds_requested": {"type": ["integer", "string"]},
+        "valid_for_seconds_normalized": {"type": ["integer", "null"]},
+        "validity_status": {"type": "string"},
+        "source_sha256_preview": {"$ref": "#/$defs/nullableSha"},
+        "input_sha256_preview": {"$ref": "#/$defs/nullableSha"},
+        "runtime_hash": {"$ref": "#/$defs/runtimePreview"},
+        "may_be_reused_by_future_issuer": {"const": false}
+      }
+    },
+    "memory_preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preview_only", "measurement_source", "available_memory_gib_preview", "memory_gate_gib", "status", "low_memory_ack_required_at_preview", "required_ack_exact", "memory_gate_passed", "owner_override_effect_created", "future_execution_must_remeasure"],
+      "properties": {
+        "preview_only": {"const": true},
+        "measurement_source": {"type": "string"},
+        "available_memory_gib_preview": {"type": ["number", "null"], "minimum": 0},
+        "memory_gate_gib": {"const": 6.0},
+        "status": {"type": "string"},
+        "low_memory_ack_required_at_preview": {"type": "boolean"},
+        "required_ack_exact": {"type": ["string", "null"]},
+        "memory_gate_passed": {"const": false},
+        "owner_override_effect_created": {"const": false},
+        "future_execution_must_remeasure": {"const": true}
+      }
+    },
+    "protected_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["before", "after", "observed_before_after_unchanged", "claim_limit"],
+      "properties": {
+        "before": {"$ref": "#/$defs/protectedMap"},
+        "after": {"$ref": "#/$defs/protectedMap"},
+        "observed_before_after_unchanged": {"const": true},
+        "claim_limit": {"type": "string", "minLength": 1}
+      }
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_hashes_match", "frozen_generator_source_and_inputs_match", "validity_window_is_positive_and_leq_7200_seconds", "direct_owner_source_parsed", "odr_gpt_07_independent_intent_ready", "odr_gpt_08_independent_intent_ready", "c01_independent_intent_ready", "odr_07_and_08_do_not_imply_c01", "runtime_hash_deliberately_not_computed", "generator_source_not_loaded_imported_compiled_or_executed", "protected_target_and_adjacent_state_observed_before_after_unchanged", "formal_authorization_target_written", "urdf_or_interface_written"],
+      "properties": {
+        "request_hashes_match": {"type": "boolean"},
+        "frozen_generator_source_and_inputs_match": {"type": "boolean"},
+        "validity_window_is_positive_and_leq_7200_seconds": {"type": "boolean"},
+        "direct_owner_source_parsed": {"type": "boolean"},
+        "odr_gpt_07_independent_intent_ready": {"type": "boolean"},
+        "odr_gpt_08_independent_intent_ready": {"type": "boolean"},
+        "c01_independent_intent_ready": {"type": "boolean"},
+        "odr_07_and_08_do_not_imply_c01": {"const": true},
+        "runtime_hash_deliberately_not_computed": {"const": true},
+        "generator_source_not_loaded_imported_compiled_or_executed": {"const": true},
+        "protected_target_and_adjacent_state_observed_before_after_unchanged": {"const": true},
+        "formal_authorization_target_written": {"const": false},
+        "urdf_or_interface_written": {"const": false}
+      }
+    },
+    "formal_authorization_incompatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["readiness_report_may_not_be_renamed_or_copied_as_authorization", "formal_schema_match", "rejection_reasons"],
+      "properties": {
+        "readiness_report_may_not_be_renamed_or_copied_as_authorization": {"const": true},
+        "formal_schema_match": {"const": false},
+        "rejection_reasons": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    },
+    "prohibitions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["summary"],
+        "properties": {
+          "summary": {
+            "required": ["state"],
+            "properties": {
+              "state": {"const": "STRUCTURALLY_READY_FOR_AUTHENTICATED_ISSUER_REVIEW__IDENTITY_UNVERIFIED__NO_AUTHORITY_CREATED"}
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "summary": {"$ref": "#/$defs/readySummaryEvidence"},
+          "owner_source_provenance": {"$ref": "#/$defs/readyProvenanceEvidence"},
+          "request_bindings": {
+            "properties": {
+              "ODR-GPT-07": {"$ref": "#/$defs/passingPinEvidence"},
+              "ODR-GPT-08": {"$ref": "#/$defs/passingPinEvidence"}
+            }
+          },
+          "frozen_source_bindings": {
+            "properties": {
+              "generator_source": {"$ref": "#/$defs/passingPinEvidence"},
+              "generator_inputs": {"$ref": "#/$defs/passingPinEvidence"}
+            }
+          },
+          "decision_readiness": {
+            "properties": {
+              "odr_gpt_07": {
+                "allOf": [
+                  {"$ref": "#/$defs/readyOdrEvidence"},
+                  {"properties": {"decision_id": {"const": "ODR-GPT-07"}}}
+                ]
+              },
+              "odr_gpt_08": {
+                "allOf": [
+                  {"$ref": "#/$defs/readyOdrEvidence"},
+                  {"properties": {"decision_id": {"const": "ODR-GPT-08"}}}
+                ]
+              },
+              "c01_unified_r2_research_candidate": {"$ref": "#/$defs/readyC01Evidence"}
+            }
+          },
+          "ephemeral_preview": {
+            "properties": {
+              "valid_for_seconds_normalized": {"type": "integer", "minimum": 1, "maximum": 7200},
+              "validity_status": {"const": "VALID_PREVIEW_WINDOW"}
+            }
+          },
+          "protected_state": {
+            "properties": {"observed_before_after_unchanged": {"const": true}}
+          },
+          "checks": {"$ref": "#/$defs/readyReportChecksEvidence"}
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["summary"],
+        "properties": {
+          "summary": {
+            "required": ["state"],
+            "properties": {"state": {"const": "DENY_NO_DIRECT_OWNER_SOURCE"}}
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "summary": {"$ref": "#/$defs/denyNoSourceSummaryEvidence"},
+          "owner_source_provenance": {"$ref": "#/$defs/denyNoSourceProvenanceEvidence"},
+          "request_bindings": {
+            "properties": {
+              "ODR-GPT-07": {"$ref": "#/$defs/passingPinEvidence"},
+              "ODR-GPT-08": {"$ref": "#/$defs/passingPinEvidence"}
+            }
+          },
+          "frozen_source_bindings": {
+            "properties": {
+              "generator_source": {"$ref": "#/$defs/passingPinEvidence"},
+              "generator_inputs": {"$ref": "#/$defs/passingPinEvidence"}
+            }
+          },
+          "decision_readiness": {
+            "properties": {
+              "odr_gpt_07": {
+                "allOf": [
+                  {"$ref": "#/$defs/denyNoSourceOdrEvidence"},
+                  {"properties": {"decision_id": {"const": "ODR-GPT-07"}}}
+                ]
+              },
+              "odr_gpt_08": {
+                "allOf": [
+                  {"$ref": "#/$defs/denyNoSourceOdrEvidence"},
+                  {"properties": {"decision_id": {"const": "ODR-GPT-08"}}}
+                ]
+              },
+              "c01_unified_r2_research_candidate": {"$ref": "#/$defs/denyNoSourceC01Evidence"}
+            }
+          },
+          "ephemeral_preview": {
+            "properties": {
+              "valid_for_seconds_normalized": {"type": "integer", "minimum": 1, "maximum": 7200},
+              "validity_status": {"const": "VALID_PREVIEW_WINDOW"}
+            }
+          },
+          "checks": {"$ref": "#/$defs/denyNoSourceReportChecksEvidence"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "readySummaryEvidence": {
+      "required": ["state", "authority_effect", "execution_authorized", "target_authorization_written", "next_stage_authorized", "release_credit", "owner_accepted", "owner_identity_verified", "tooling_credit_only"],
+      "properties": {
+        "state": {"const": "STRUCTURALLY_READY_FOR_AUTHENTICATED_ISSUER_REVIEW__IDENTITY_UNVERIFIED__NO_AUTHORITY_CREATED"},
+        "authority_effect": {"const": "NONE"},
+        "execution_authorized": {"const": false},
+        "target_authorization_written": {"const": false},
+        "next_stage_authorized": {"const": false},
+        "release_credit": {"const": false},
+        "owner_accepted": {"const": false},
+        "owner_identity_verified": {"const": false},
+        "tooling_credit_only": {"const": true}
+      }
+    },
+    "readyProvenanceEvidence": {
+      "required": ["present", "source_path", "expected_source_sha256", "actual_source_sha256", "bytes", "raw_bytes_parsed", "path_policy_pass", "reparse_or_symlink_detected", "source_freshness_pass", "source_schema_pass", "operator_supplied_decisions", "identity_authentication_status", "status", "read_snapshot_stable", "owner_statement_utc", "owner_source_age_seconds", "secure_handle_read"],
+      "properties": {
+        "present": {"const": true},
+        "source_path": {"type": "string", "minLength": 1},
+        "expected_source_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+        "actual_source_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+        "bytes": {"type": "integer", "minimum": 1},
+        "raw_bytes_parsed": {"const": true},
+        "path_policy_pass": {"const": true},
+        "reparse_or_symlink_detected": {"const": false},
+        "source_freshness_pass": {"const": true},
+        "source_schema_pass": {"const": true},
+        "operator_supplied_decisions": {"const": false},
+        "identity_authentication_status": {"const": "OUT_OF_SCOPE_REQUIRES_FUTURE_ISSUER"},
+        "status": {"const": "DIRECT_SOURCE_PARSED_FOR_READINESS_ONLY"},
+        "read_snapshot_stable": {"const": true},
+        "owner_statement_utc": {"$ref": "#/$defs/utc"},
+        "owner_source_age_seconds": {"type": "number", "minimum": -300, "exclusiveMaximum": 7200},
+        "secure_handle_read": {"$ref": "#/$defs/secureHandleRead"}
+      }
+    },
+    "passingPinEvidence": {
+      "required": ["expected_bytes", "actual_bytes", "expected_sha256", "actual_sha256", "pass"],
+      "properties": {
+        "expected_bytes": {"type": "integer", "minimum": 1},
+        "actual_bytes": {"type": "integer", "minimum": 1},
+        "expected_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+        "actual_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+        "pass": {"const": true}
+      }
+    },
+    "readyOdrEvidence": {
+      "required": ["decision_id", "source_section_present", "request_binding_pass", "decision_schema_pass", "selected_option", "state", "authority_effect", "decision", "request_sha256_from_owner_source", "request_sha256_expected", "selected_option_registered", "selected_option_is_negative_or_hold", "affirmative_decision"],
+      "properties": {
+        "source_section_present": {"const": true},
+        "request_binding_pass": {"const": true},
+        "decision_schema_pass": {"const": true},
+        "selected_option": {"type": "string", "minLength": 1},
+        "state": {"const": "READY_FOR_SEPARATE_DECISION_RECORD_REVIEW"},
+        "authority_effect": {"const": "NONE"},
+        "decision": {"const": "APPROVE"},
+        "request_sha256_from_owner_source": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+        "request_sha256_expected": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+        "selected_option_registered": {"const": true},
+        "selected_option_is_negative_or_hold": {"const": false},
+        "affirmative_decision": {"const": true}
+      }
+    },
+    "readyC01Evidence": {
+      "required": ["decision_id", "source_section_present", "request_binding_pass", "decision_schema_pass", "selected_option", "state", "authority_effect", "checks", "low_memory_risk_ack_present_exact", "low_memory_risk_ack_required_at_preview"],
+      "properties": {
+        "decision_id": {"const": "C01-UNIFIED-R2-RESEARCH-CANDIDATE"},
+        "source_section_present": {"const": true},
+        "request_binding_pass": {"type": "null"},
+        "decision_schema_pass": {"const": true},
+        "selected_option": {"type": "null"},
+        "state": {"const": "READY_FOR_SEPARATE_C01_ISSUER_REVIEW"},
+        "authority_effect": {"const": "NONE"},
+        "checks": {
+          "required": ["affirmative_decision", "configuration_exact", "mass_mode_exact", "route_c_exclusion_exact_true", "route_c_cad_exact_false", "scope_exact", "production_dynamics_exact_false", "physical_contact_exact_false", "sim13_rebind_exact_false", "next_stage_exact_false", "release_credit_exact_false", "low_memory_ack"],
+          "properties": {
+            "affirmative_decision": {"const": true},
+            "configuration_exact": {"const": true},
+            "mass_mode_exact": {"const": true},
+            "route_c_exclusion_exact_true": {"const": true},
+            "route_c_cad_exact_false": {"const": true},
+            "scope_exact": {"const": true},
+            "production_dynamics_exact_false": {"const": true},
+            "physical_contact_exact_false": {"const": true},
+            "sim13_rebind_exact_false": {"const": true},
+            "next_stage_exact_false": {"const": true},
+            "release_credit_exact_false": {"const": true},
+            "low_memory_ack": {"const": true}
+          }
+        },
+        "low_memory_risk_ack_present_exact": {"type": "boolean"},
+        "low_memory_risk_ack_required_at_preview": {"type": "boolean"}
+      }
+    },
+    "readyReportChecksEvidence": {
+      "properties": {
+        "request_hashes_match": {"const": true},
+        "frozen_generator_source_and_inputs_match": {"const": true},
+        "validity_window_is_positive_and_leq_7200_seconds": {"const": true},
+        "direct_owner_source_parsed": {"const": true},
+        "odr_gpt_07_independent_intent_ready": {"const": true},
+        "odr_gpt_08_independent_intent_ready": {"const": true},
+        "c01_independent_intent_ready": {"const": true},
+        "odr_07_and_08_do_not_imply_c01": {"const": true},
+        "runtime_hash_deliberately_not_computed": {"const": true},
+        "generator_source_not_loaded_imported_compiled_or_executed": {"const": true},
+        "protected_target_and_adjacent_state_observed_before_after_unchanged": {"const": true},
+        "formal_authorization_target_written": {"const": false},
+        "urdf_or_interface_written": {"const": false}
+      }
+    },
+    "denyNoSourceSummaryEvidence": {
+      "properties": {
+        "state": {"const": "DENY_NO_DIRECT_OWNER_SOURCE"},
+        "authority_effect": {"const": "NONE"},
+        "execution_authorized": {"const": false},
+        "target_authorization_written": {"const": false},
+        "next_stage_authorized": {"const": false},
+        "release_credit": {"const": false},
+        "owner_accepted": {"const": false},
+        "owner_identity_verified": {"const": false},
+        "tooling_credit_only": {"const": true}
+      }
+    },
+    "denyNoSourceProvenanceEvidence": {
+      "required": ["present", "source_path", "expected_source_sha256", "actual_source_sha256", "bytes", "raw_bytes_parsed", "path_policy_pass", "reparse_or_symlink_detected", "source_freshness_pass", "source_schema_pass", "operator_supplied_decisions", "identity_authentication_status", "status"],
+      "properties": {
+        "present": {"const": false},
+        "source_path": {"type": "null"},
+        "expected_source_sha256": {"type": "null"},
+        "actual_source_sha256": {"type": "null"},
+        "bytes": {"type": "null"},
+        "raw_bytes_parsed": {"const": false},
+        "path_policy_pass": {"const": false},
+        "reparse_or_symlink_detected": {"type": "null"},
+        "source_freshness_pass": {"const": false},
+        "source_schema_pass": {"const": false},
+        "operator_supplied_decisions": {"const": false},
+        "identity_authentication_status": {"const": "NOT_APPLICABLE_NO_SOURCE"},
+        "status": {"const": "DENY_NO_DIRECT_OWNER_SOURCE"}
+      }
+    },
+    "denyNoSourceOdrEvidence": {
+      "properties": {
+        "source_section_present": {"const": false},
+        "request_binding_pass": {"const": false},
+        "decision_schema_pass": {"const": false},
+        "selected_option": {"type": "null"},
+        "state": {"const": "DENY_MISSING_OR_INVALID_DECISION_SECTION"},
+        "authority_effect": {"const": "NONE"}
+      }
+    },
+    "denyNoSourceC01Evidence": {
+      "properties": {
+        "decision_id": {"const": "C01-UNIFIED-R2-RESEARCH-CANDIDATE"},
+        "source_section_present": {"const": false},
+        "request_binding_pass": {"type": "null"},
+        "decision_schema_pass": {"const": false},
+        "selected_option": {"type": "null"},
+        "state": {"const": "DENY_MISSING_C01_INDEPENDENT_INTENT_SECTION"},
+        "authority_effect": {"const": "NONE"}
+      }
+    },
+    "denyNoSourceReportChecksEvidence": {
+      "properties": {
+        "request_hashes_match": {"const": true},
+        "frozen_generator_source_and_inputs_match": {"const": true},
+        "validity_window_is_positive_and_leq_7200_seconds": {"const": true},
+        "direct_owner_source_parsed": {"const": false},
+        "odr_gpt_07_independent_intent_ready": {"const": false},
+        "odr_gpt_08_independent_intent_ready": {"const": false},
+        "c01_independent_intent_ready": {"const": false},
+        "odr_07_and_08_do_not_imply_c01": {"const": true},
+        "runtime_hash_deliberately_not_computed": {"const": true},
+        "generator_source_not_loaded_imported_compiled_or_executed": {"const": true},
+        "protected_target_and_adjacent_state_observed_before_after_unchanged": {"const": true},
+        "formal_authorization_target_written": {"const": false},
+        "urdf_or_interface_written": {"const": false}
+      }
+    },
+    "utc": {"type": "string", "pattern": "Z$"},
+    "nullableSha": {"type": ["string", "null"], "pattern": "^[0-9A-F]{64}$"},
+    "pin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "expected_bytes", "expected_sha256", "actual_bytes", "actual_sha256", "pass"],
+      "properties": {
+        "path": {"type": "string"},
+        "expected_bytes": {"type": "integer", "minimum": 0},
+        "expected_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+        "actual_bytes": {"type": ["integer", "null"], "minimum": 0},
+        "actual_sha256": {"$ref": "#/$defs/nullableSha"},
+        "pass": {"type": "boolean"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["present", "source_path", "status", "operator_supplied_decisions"],
+      "properties": {
+        "present": {"type": "boolean"},
+        "source_path": {"type": ["string", "null"]},
+        "expected_source_sha256": {"$ref": "#/$defs/nullableSha"},
+        "actual_source_sha256": {"$ref": "#/$defs/nullableSha"},
+        "bytes": {"type": ["integer", "null"], "minimum": 0},
+        "raw_bytes_parsed": {"type": "boolean"},
+        "path_policy_pass": {"type": "boolean"},
+        "reparse_or_symlink_detected": {"type": ["boolean", "null"]},
+        "source_freshness_pass": {"type": "boolean"},
+        "source_schema_pass": {"type": "boolean"},
+        "operator_supplied_decisions": {"const": false},
+        "identity_authentication_status": {"enum": ["NOT_APPLICABLE_NO_SOURCE", "OUT_OF_SCOPE_REQUIRES_FUTURE_ISSUER"]},
+        "status": {"type": "string"},
+        "read_snapshot_stable": {"type": "boolean"},
+        "owner_statement_utc": {"$ref": "#/$defs/utc"},
+        "owner_source_age_seconds": {"type": "number"},
+        "secure_handle_read": {"$ref": "#/$defs/secureHandleRead"},
+        "decision_keys_observed": {"type": "array", "items": {"type": "string"}},
+        "decision_keys_expected": {"type": "array", "items": {"type": "string"}},
+        "failure_detail_class": {"type": "string", "minLength": 1}
+      }
+    },
+    "odrDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_id", "source_section_present", "request_binding_pass", "decision_schema_pass", "selected_option", "state", "authority_effect"],
+      "properties": {
+        "decision_id": {"type": "string"},
+        "source_section_present": {"type": "boolean"},
+        "request_binding_pass": {"type": ["boolean", "null"]},
+        "decision_schema_pass": {"type": "boolean"},
+        "selected_option": {"type": ["string", "null"]},
+        "state": {"type": "string"},
+        "authority_effect": {"const": "NONE"},
+        "decision": {"type": ["string", "null"]},
+        "request_sha256_from_owner_source": {"oneOf": [{"type": "string", "pattern": "^[0-9A-F]{64}$"}, {"type": "null"}]},
+        "request_sha256_expected": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+        "selected_option_registered": {"type": "boolean"},
+        "selected_option_is_negative_or_hold": {"type": "boolean"},
+        "affirmative_decision": {"type": "boolean"}
+      }
+    },
+    "c01Decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_id", "source_section_present", "request_binding_pass", "decision_schema_pass", "selected_option", "state", "authority_effect", "configuration", "selected_bus_mass_mode", "total_design_mass_kg", "route_c_is_in_model", "route_c_geometry_status", "candidate_scope_required", "prohibited_permissions"],
+      "properties": {
+        "decision_id": {"const": "C01-UNIFIED-R2-RESEARCH-CANDIDATE"},
+        "source_section_present": {"type": "boolean"},
+        "request_binding_pass": {"type": ["boolean", "null"]},
+        "decision_schema_pass": {"type": "boolean"},
+        "selected_option": {"type": ["string", "null"]},
+        "state": {"type": "string"},
+        "authority_effect": {"const": "NONE"},
+        "configuration": {"const": "C01_DEPLOYED_NOMINAL_FIXED_SOLAR_SNAPSHOT"},
+        "selected_bus_mass_mode": {"const": "EXPLICIT_STRUCTURE_PLUS_RESIDUAL"},
+        "total_design_mass_kg": {"const": 31.022864807342987},
+        "route_c_is_in_model": {"const": false},
+        "route_c_geometry_status": {"const": "HOLD_ABSENT"},
+        "candidate_scope_required": {"type": "array", "items": {"type": "string"}},
+        "prohibited_permissions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["route_c_cad_authorized", "production_dynamics_authorized", "physical_contact_authorized", "sim13_rebind_authorized", "next_stage_authorized", "release_credit"],
+          "properties": {
+            "route_c_cad_authorized": {"const": false},
+            "production_dynamics_authorized": {"const": false},
+            "physical_contact_authorized": {"const": false},
+            "sim13_rebind_authorized": {"const": false},
+            "next_stage_authorized": {"const": false},
+            "release_credit": {"const": false}
+          }
+        },
+        "checks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["affirmative_decision", "configuration_exact", "mass_mode_exact", "route_c_exclusion_exact_true", "route_c_cad_exact_false", "scope_exact", "production_dynamics_exact_false", "physical_contact_exact_false", "sim13_rebind_exact_false", "next_stage_exact_false", "release_credit_exact_false", "low_memory_ack"],
+          "properties": {
+            "affirmative_decision": {"type": "boolean"},
+            "configuration_exact": {"type": "boolean"},
+            "mass_mode_exact": {"type": "boolean"},
+            "route_c_exclusion_exact_true": {"type": "boolean"},
+            "route_c_cad_exact_false": {"type": "boolean"},
+            "scope_exact": {"type": "boolean"},
+            "production_dynamics_exact_false": {"type": "boolean"},
+            "physical_contact_exact_false": {"type": "boolean"},
+            "sim13_rebind_exact_false": {"type": "boolean"},
+            "next_stage_exact_false": {"type": "boolean"},
+            "release_credit_exact_false": {"type": "boolean"},
+            "low_memory_ack": {"type": "boolean"}
+          }
+        },
+        "low_memory_risk_ack_present_exact": {"type": "boolean"},
+        "low_memory_risk_ack_required_at_preview": {"type": "boolean"}
+      }
+    },
+    "runtimePreview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preview_only", "loaded_instance_scope", "runtime_code_sha256_preview", "status", "error", "generator_source_loaded", "generator_source_imported", "generator_source_compiled", "generator_source_executed", "reusable_by_future_issuer", "future_issuer_must_recompute_with_generator_in_same_loaded_instance_and_process", "explicit_warning"],
+      "properties": {
+        "preview_only": {"const": true},
+        "loaded_instance_scope": {"type": "null"},
+        "runtime_code_sha256_preview": {"type": "null"},
+        "status": {"const": "NOT_COMPUTED_BY_DESIGN_NONAUTHORITATIVE"},
+        "error": {"type": "null"},
+        "generator_source_loaded": {"const": false},
+        "generator_source_imported": {"const": false},
+        "generator_source_compiled": {"const": false},
+        "generator_source_executed": {"const": false},
+        "reusable_by_future_issuer": {"const": false},
+        "future_issuer_must_recompute_with_generator_in_same_loaded_instance_and_process": {"const": true},
+        "explicit_warning": {"type": "string", "minLength": 1}
+      }
+    },
+    "secureHandleRead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "final_handle_path", "handle_identity_stable", "bytes", "parent_handle_method", "parent_final_handle_path", "parent_directory_handle_stable"],
+      "properties": {
+        "method": {"enum": ["WINDOWS_SINGLE_CREATEFILE_HANDLE_NO_REPARSE_NO_SHARE_WRITE_DELETE", "POSIX_O_NOFOLLOW_STABLE_FD"]},
+        "final_handle_path": {"type": "string", "minLength": 1},
+        "handle_identity_stable": {"const": true},
+        "bytes": {"type": "integer", "minimum": 0},
+        "parent_handle_method": {"enum": ["WINDOWS_CREATEFILE_DIRECTORY_NO_REPARSE_NO_SHARE_WRITE_DELETE", "POSIX_O_DIRECTORY_O_NOFOLLOW_STABLE_FD"]},
+        "parent_final_handle_path": {"type": "string", "minLength": 1},
+        "parent_directory_handle_stable": {"const": true}
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state"],
+      "properties": {
+        "state": {"type": "string"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+        "entry_count": {"type": "integer", "minimum": 0},
+        "tree_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"}
+      }
+    },
+    "protectedMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["active_run_lock", "future_authorization_target", "future_interface_instance", "override_consumption_tree", "run_consumption_tree"],
+      "properties": {
+        "active_run_lock": {"$ref": "#/$defs/snapshot"},
+        "future_authorization_target": {"$ref": "#/$defs/snapshot"},
+        "future_interface_instance": {"$ref": "#/$defs/snapshot"},
+        "override_consumption_tree": {"$ref": "#/$defs/snapshot"},
+        "run_consumption_tree": {"$ref": "#/$defs/snapshot"}
+      }
+    }
+  }
+}

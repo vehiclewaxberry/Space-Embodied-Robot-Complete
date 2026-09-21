@@ -1,0 +1,287 @@
+schema_version: comp-prot-03-a2-candidate-configuration-v0
+configuration_set_id: candidate_12u_b601_space_robot_v0
+phase: COMP-PROT-03-A2-CANDIDATE-MODEL-REVIEW
+created_on: "2026-07-23"
+status: CANDIDATE_MODEL_DESIGN_ONLY
+
+authority:
+  scientific_gate: false
+  runtime_configuration: false
+  cad_generation_authorized: false
+  urdf_generation_authorized: false
+  simulation_authorized: false
+  a3_authorized: false
+  separate_human_authorization_required: true
+
+source_bundle:
+  baseline_git_head: b75352c1c226c0f3e9a4bc9c469b766e06f41616
+  hash_algorithm: SHA-256
+  hash_mode: RAW_BYTES
+  sources:
+    - source_id: frame_tree_ssot
+      path: 20_engineering/config/geometry/frame_tree_v1.yaml
+      sha256: 958bff23bf83434c773854fd0e78da3b09be4a3a213eb81a0741514750b3e55b
+      authoritative_fields: [S, M, F_L, F_R, current_T_SM]
+    - source_id: arm_geometry_ssot
+      path: 20_engineering/config/geometry/arm_b601_v1.yaml
+      sha256: c81bd3696ce1ee789574aa3b143ea0057ffc286305a1aa18802829e9f038b188
+      authoritative_fields: [B601_identity, A0_identity, task_modes, license_summary]
+    - source_id: accepted_b601_urdf
+      path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+      sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+      authoritative_fields: [link_tree, joint_tree, link_masses, joint_origins, axes, limits]
+    - source_id: servicer_geometry_ssot
+      path: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+      sha256: 8dd8f22ff1f893273de2215ea12819e4d41cc0e20b853adc0774052237881432
+      authoritative_fields: [split_bus_mass, split_bus_com, split_bus_inertia, current_flange]
+    - source_id: flexible_appendage_ssot
+      path: 20_engineering/config/geometry/flexible_appendage_v1.yaml
+      sha256: 52fa88084c628ce8845e05de0c0a892bca5347b7146c8d1c6b99093927153786
+      authoritative_fields: [panel_identity, panel_mass, panel_root]
+    - source_id: arm_mount_ssot
+      path: 20_engineering/config/geometry/arm_mount_v1.yaml
+      sha256: b08a0f28e4c4f458cd79e6e907f06389ba6a4280c0c7db2b91e36f76134c985c
+      authoritative_fields: [adapter_footprint, boss, adapter_mass]
+    - source_id: target_geometry_ssot
+      path: 20_engineering/config/geometry/target_models_v1.yaml
+      sha256: 45666d9d37460fd825f0ed7301bf69113016689fdf00a13dff8046358a76ae45
+      authoritative_fields: [target_identity, target_mass, grasp_points]
+    - source_id: capture_interface_ssot
+      path: 20_engineering/config/geometry/capture_interface_v1.yaml
+      sha256: 54dd2ef8ea0ddd682f1617a8788dbff9a61055d4816b5f09e21c34ba86e5ce85
+      authoritative_fields: [constraint_semantics]
+    - source_id: mass_inertia_budget
+      path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+      sha256: 073c802527e35c9495188eefd5d8ba51f524d326142cf2ab31e436bad0899392
+      authoritative_fields: [mass_rows, com_rows, inertia_rows]
+    - source_id: coordinate_frame_definition
+      path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/coordinate_frame_definition_v0.md
+      sha256: 6afcb4fb6f1cd53580c5a1561788142e17df7c16a1aeec548dbeafef7efabec1
+      authoritative_fields: [frame_semantics, transform_convention]
+    - source_id: cds_rev14_1
+      path: 20_engineering/stage1_spacecraft_layout/01_standards/CubeSat_Design_Specification_Rev14_1_2022-02-09.pdf
+      sha256: 221fbbbd4f632b16f3e219d1a5e2c2b04e1998c12025b793e6dfc6181af66b5d
+      authoritative_fields: [12U_reference_envelope, rail_and_protrusion_constraints]
+
+configuration_selection:
+  selected_mechanical_topology: A_CENTERLINE_TASK_FACE_SINGLE_ARM
+  geometry_profile_selection: UNRESOLVED_EXACTLY_ONE_REQUIRED
+  selection_reason: minimum_evidence_drift_from_existing_12U_single_B601_baseline
+  performance_superiority_claimed: false
+  cad_entry_effect: HOLD_UNTIL_GEOMETRY_PROFILE_AND_T_SM_ARE_SINGLE_VALUED
+
+configurations:
+  A_CENTERLINE_TASK_FACE_SINGLE_ARM:
+    role: PRIMARY_CANDIDATE_FOR_DESIGN_REVIEW
+    servicer_id: servicer_12U_candidate
+    arm_id: arm_b601_v1
+    arm_count: 1
+    mount_concept: centered_on_positive_X_S_task_face
+    existing_anchor: current_T_SM_from_frame_tree_v1
+    mission_scope: [target_capture_concept, debris_removal_concept, future_servicing]
+    allowed_claims:
+      - single_mainline_candidate_selected_to_reduce_parallel_models
+      - topology_and_interfaces_defined_for_review
+    forbidden_claims:
+      - optimal_configuration
+      - reduced_reaction_torque
+      - reachable_target
+      - collision_free
+      - launch_compliant
+      - integrated_hardware_complete
+  B_SIDE_MOUNT_SINGLE_ARM:
+    role: COMPARATOR_HYPOTHESIS_ONLY
+    changed_fields:
+      - mount_datum
+      - T_SM
+      - folded_and_deployed_envelopes
+      - camera_FOV_relationship
+      - panel_and_rail_clearance
+      - mass_and_inertia_distribution
+    inherited_evidence_from_A: false
+    cad_generation_allowed: false
+  C_DUAL_ARM:
+    role: EXCLUDED_OUT_OF_SCOPE
+    exclusion_reason:
+      - conflicts_with_single_B601_baseline
+      - second_arm_source_absent
+      - second_mount_and_mass_owner_absent
+      - power_frame_license_and_control_evidence_absent
+    reentry_gate_required: true
+    cad_generation_allowed: false
+
+geometry_profiles:
+  COMPETITION_DISPLAY_V0:
+    role: LEGACY_LIMITED_REFERENCE
+    body_envelope_mm_S: [340.5, 226.3, 226.3]
+    body_long_axis: +X_S
+    T_SM:
+      translation_mm_S: [185.25, 0.0, 0.0]
+      rotation: R_y_plus_90_deg
+    source: existing_block_model_and_frame_tree
+    claim_limit: non_flight_display_only
+    cad_mainline_selected: false
+  CDS_12U_REFERENCE:
+    role: FUTURE_CAD_REFERENCE_PROFILE
+    drawing_frame: R_CDS
+    envelope_mm_drawing: [226.3, 226.3, 366.0]
+    project_long_axis_mapping: PROPOSED_366_ALONG_X_S_NOT_YET_SIGNED
+    T_S_RCDS: UNKNOWN
+    T_SM: UNKNOWN_AFTER_ENVELOPE_CHANGE
+    rail_reference: true
+    launch_compliance_claim_allowed: false
+    cad_mainline_selected: false
+
+mechanical_stack:
+  topology_order:
+    - servicer_12U_candidate
+    - servicer_flange_160x160x15
+    - robot_mount_adapter_v0
+    - adapter_plate_160x160x12
+    - adapter_boss_D100x15
+    - frame_M
+    - frame_A0_base_link
+    - arm_b601_v1_6R
+    - gripper_link_plus_2P
+    - frame_E_tool_candidate
+  adapter:
+    servicer_flange_mm: [160, 160, 15]
+    plate_mm: [160, 160, 12]
+    boss_diameter_mm: 100
+    boss_height_mm: 15
+    object_separation_rule: servicer_flange_adapter_plate_and_boss_are_distinct_geometry_objects
+    axial_stack_mm: UNKNOWN_DEPENDS_ON_EMBEDDING_AND_MATING
+    deprecated_interfaces_excluded:
+      - [140, 140, 15]
+      - [90, 180]
+    current_clearance_status: UNKNOWN
+    current_interpenetration_status: OBSERVED_IN_VISUALIZATION_CONSUMER
+
+representation_selection:
+  servicer_mass_representation: split_bus_panels_v1
+  b601_representation: full_urdf_10link
+  target_selection: NONE_PRECAPTURE
+  capture_state: PRE_CAPTURE_INDEPENDENT_BODIES
+  panel_configuration: UNSELECTED
+  arm_configuration_id: UNSELECTED_Q_REQUIRED_FOR_GLOBAL_E_POSE
+
+mass_ownership_proposal:
+  status: CLOSED_BY_DESIGN_NOT_BY_MEASUREMENT
+  exactly_one_groups:
+    - group_id: servicer_mass_representation
+      selected: split_bus_panels_v1
+      alternatives: [whole_sat_reference_24kg, split_bus_panels_v1]
+    - group_id: b601_representation
+      selected: full_urdf_10link
+      alternatives: [full_urdf_10link, locked_gripper_collapsed_future]
+  components:
+    - {component_id: servicer_12U_bus_v1, mass_owner: split_bus_panels_v1, representation_member: split_bus_panels_v1, mass_kg: 23.3032134}
+    - {component_id: solar_panel_left_v1, mass_owner: split_bus_panels_v1, representation_member: split_bus_panels_v1, mass_kg: 0.3483933}
+    - {component_id: solar_panel_right_v1, mass_owner: split_bus_panels_v1, representation_member: split_bus_panels_v1, mass_kg: 0.3483933}
+    - {component_id: robot_mount_adapter_v0, mass_owner: adapter_domain, representation_member: adapter_v0, mass_kg: 1.2}
+    - {component_id: arm_b601_v1_full_urdf, mass_owner: b601_full_urdf_domain, representation_member: full_urdf_10link, mass_kg: 4.695555949342986, mass_kg_source_decimal: "4.6955559493429862"}
+  servicer_split_subtotal_kg: 24.0
+  candidate_ledger_total_kg: 29.895555949342986
+  candidate_ledger_total_source_decimal: "29.8955559493429862"
+  total_label: PROVISIONAL_DESIGN_LEDGER_TOTAL
+  measured_or_final: false
+  owner_signoff_required: true
+  aggregate_com: UNKNOWN
+  aggregate_inertia: UNKNOWN
+
+frame_proposal:
+  S: {parent: null, status: BOUND}
+  B:
+    parent: S
+    T_SB: UNKNOWN
+    status: OPEN_BLOCKING_FOR_DYNAMICS
+    may_default_to_S: false
+  M:
+    parent: S
+    T_SM: PROFILE_DEPENDENT
+    current_display_value_mm: [185.25, 0.0, 0.0]
+    current_display_rotation: R_y_plus_90_deg
+    status: OPEN_BLOCKING_FOR_CDS_PROFILE
+  A0:
+    parent: M
+    identity: base_link
+    T_MA0: identity
+    status: PROPOSED_NEEDS_DUAL_SIGNOFF
+  G:
+    parent: link6
+    identity: gripper_link
+    T_link6_G:
+      xyz_m: [0.0, 0.0, 0.15971]
+      rpy_rad: [0.0, -1.5708, 0.0]
+    status: BOUND_IN_ACCEPTED_URDF
+  E:
+    parent: link6
+    role: E_virtual_candidate_distinct_from_G_and_physical_TCP
+    T_link6_E_candidate:
+      xyz_m: [0.0, 0.0, 0.15971]
+      rotation: identity_aligned_with_link6
+    status: PROPOSED_NOT_CANONICAL
+    signoff_required: [Geometry, Robotics_URDF]
+  TCP_contact:
+    parent: E
+    T_E_TCP: UNKNOWN
+    status: OPEN_BLOCKING_WITH_DB_BLK_004
+  target_frames:
+    T_ST: UNKNOWN_RUNTIME_POSE
+    T_SD: UNKNOWN_RUNTIME_POSE
+    C_sat: POINT_PLUS_NORMAL_ONLY
+    C_deb: POINT_PLUS_NORMAL_ONLY
+
+target_interface_contract:
+  target_parenting_pre_capture: independent_runtime_body
+  interface_levels:
+    interface_0:
+      type: visual_patch
+      status: CANDIDATE_ONLY
+    interface_1:
+      type: contact_patch
+      status: OPEN_BLOCKING
+    interface_2:
+      type: rigid_lock_6dof
+      status: DEFERRED_OUT_OF_A2
+  debris_primary_candidate:
+    canonical_candidate_name: forward_end_ring_candidate_patch
+    point_mm_D: [660, 0, 950]
+    surface_normal: approximately_positive_X_D
+    full_orientation: UNKNOWN
+  debris_keepout:
+    name: aft_engine_region
+    bounds: z_D_less_than_minus_1000_mm
+    contact_allowed: false
+  additional_keepouts:
+    - {target_id: target_debris_v0, name: smooth_shell_wall, bounds: radius_about_600mm_and_abs_z_below_900mm_excluding_ribs_and_rings, contact_allowed: false}
+    - {target_id: target_satellite_v0, name: solar_panel_positive_Y, contact_allowed: false}
+    - {target_id: target_satellite_v0, name: solar_panel_negative_Y, contact_allowed: false}
+    - {target_id: target_satellite_v0, name: antenna, contact_allowed: false}
+
+external_source_binding:
+  vendor_step:
+    canonical_ssot_locator_status: STALE
+    observed_existing_path: F:/Robotic arm/High_performance_robotics_arm/vendor/reBot-DevArm/hardware/reBot_B601_DM/reBot_B601_DM_v1.1_20260425.step
+    observed_sha256: 87a0537d1afd50c04fc441fde11dd4f2ebbb368fe27f6c10fda8567be696d968
+    upstream_commit: 71a1a6e662c3935c83d46e11c8d610d1e92b0486
+    candidate_dependency_status: IDENTIFIED_NOT_CANONICAL
+    copy_into_project_performed: false
+  license:
+    id: CERN-OHL-W-2.0
+    external_path: F:/Robotic arm/High_performance_robotics_arm/vendor/reBot-DevArm/LICENSE
+    external_sha256: 54cf85b09c46e5ba8229aec1ca631a1e4c522e1459f73c10114cf82ce40481f9
+    portable_with_current_project_package: false
+    cad_entry_effect: OPEN_BLOCKING_IF_B601_ASSET_IS_DERIVED_OR_DISTRIBUTED
+
+historical_evidence_isolation:
+  e16_binding: HISTORICAL_REFERENCE_ONLY
+  sim05_binding: HISTORICAL_REFERENCE_ONLY
+  inherited_gate_count: 0
+  claim: candidate_does_not_inherit_historical_gate_status
+
+cad_entry:
+  gate: CAD-SKELETON-G0
+  verdict: CAD_ENTRY_BLOCKED_BY_EVIDENCE
+  a3_authorized: false
+  details: cad_entry_gate.md

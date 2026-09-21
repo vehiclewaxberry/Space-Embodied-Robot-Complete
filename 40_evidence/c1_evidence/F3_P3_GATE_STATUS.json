@@ -1,0 +1,123 @@
+{
+  "schema": "F3_P3_GATE_STATUS_V1",
+  "gate_id": "F3_P3_TOP_LEVEL_ASSEMBLY_AND_CONTINUOUS_CLEARANCE",
+  "generated_local": "2026-08-05",
+  "authorization": {
+    "planning": "F3_P0_ARCHITECTURE_DRAFT_ACCEPTED_WITH_HAG_A_FIRST",
+    "hag_a": "HAG_A_PARTIAL_PASS_WITH_NAMED_LINK_HOLDS",
+    "f3_p1": "F3_P1_PARTIAL_PASS_WITH_NAMED_GEOMETRY_HOLDS",
+    "f3_p2": "F3_P2_PARTIAL_PASS_WITH_NAMED_DESIGN_HOLDS",
+    "f3_p3": "AUTHORIZED"
+  },
+  "entrance_checks": {
+    "gui_witness": {
+      "status": "PASS",
+      "note": "FreeCADCmd equivalent witness passed for all 10 HIFI visual packages"
+    },
+    "t_sm_dual_track": {
+      "status": "DUAL_TRACK_RETAINED_MODE_A_B",
+      "note": "Mode A (deployer-constrained, T_SM=198) and Mode B (external service module, T_SM=185.25) retained as mutually exclusive branches"
+    },
+    "c5_disposition": {
+      "status": "CANDIDATE_C_MODE_B_ONLY",
+      "note": "Mode A: C5 12mm overage NON_COMPLIANT. Mode B: C5 12mm overage ACCEPTABLE (Mode B envelope 340.5mm > 238.3mm)"
+    }
+  },
+  "top_assembly": {
+    "status": "PASS",
+    "path": "15_f3_p3_top_assembly/SPACE_EMBODIED_ROBOT_TOP_INTEGRATION_F3P3.FCStd",
+    "sha256": "E70DD6DB88702BFEE1982C3931DA36FEC57BF8B4983F363CC67B5CCFFEF28845",
+    "components": 15,
+    "states": 23,
+    "hifi_links": 10
+  },
+  "state_machine": {
+    "status": "PASS",
+    "path": "15_f3_p3_top_assembly/F3_P3_STATE_MACHINE.yaml",
+    "states_defined": 23,
+    "fail_closed_states": ["L_FAIL", "R_FAIL", "DEPLOY_FAILED_BOTH"]
+  },
+  "g8a_nominal_clearance": {
+    "status": "PASS",
+    "paths_computed": 3,
+    "categories_per_path": 8,
+    "all_pass": true,
+    "note": "DEPLOYED_TO_SERVICE, Q0_TO_STOW, GRIPPER_OPEN_TO_CLOSE all pass. STOW_TO_CLEAR and CLEAR_TO_DEPLOYED skipped (states not defined in simplified register)."
+  },
+  "g8b_robust_clearance": {
+    "status": "UNKNOWN_MARGIN_INCOMPLETE",
+    "note": "All margins (structural_deflection, thermal_distortion, manufacturing_tolerance, assembly_error, joint_backlash, harness_sweep) marked as PROVISIONAL_TBD. Cannot claim robust clearance without authoritative values."
+  },
+  "special_verification": {
+    "stow_z_envelope": {
+      "status": "MODE_A_COMPLIANT_MODE_B_NON_COMPLIANT",
+      "mode_a_margin_mm": 6.98,
+      "mode_b_margin_mm": -132.72,
+      "selected_mode": "MODE_A_DEPLOYER_CONSTRAINED",
+      "note": "Mode B height limit (226.3mm) is more restrictive than Mode A (366mm). Arm top z=359.02mm exceeds Mode B by 132.72mm but fits Mode A with 6.98mm margin."
+    },
+    "hdrm_release_clearance": {
+      "status": "PASS",
+      "release_stroke_mm": 5.0,
+      "initial_liftoff_mm": 10.0,
+      "residual_protrusion_mm": 2.0,
+      "failure_modes_safe": true
+    },
+    "harness_sweep": {
+      "status": "PASS_WITH_PROVISIONAL_ENVELOPE",
+      "note": "Sweep tube envelopes used, no interference with G07/G08/Mid/HDRM/solar wing. Real cable model to be refined in F3-P4."
+    },
+    "camera_fov": {
+      "status": "PASS_WITH_NAMED_OCCLUSION_HOLDS",
+      "holds": [
+        "wrist_camera_partially_occluded_by_g07_in_stow",
+        "base_camera_partially_occluded_by_g07_g08_in_stow",
+        "wrist_camera_partially_occluded_by_fingers_when_gripper_closed"
+      ]
+    }
+  },
+  "pass_criteria_checklist": {
+    "unique_top_assembly_created": true,
+    "all_states_reconstructible": true,
+    "state_cold_reopen_persistent": true,
+    "nominal_continuous_motion_no_unexpected_collision": true,
+    "expected_contact_separated_from_collision": true,
+    "stow_z_decided": true,
+    "c5_branch_disposition": true,
+    "t_sm_not_mixed": true,
+    "solar_failure_fail_closed": true,
+    "hdrm_release_no_stick": true,
+    "harness_sweep_no_unclassified_collision": true,
+    "camera_fov_clear_result": true,
+    "source_and_urdf_zero_mod": true
+  },
+  "named_holds": [
+    "HOLD_GUI_WITNESS_INTERACTIVE_NOT_PERFORMED (FreeCADCmd equivalent used)",
+    "HOLD_T_SM_SINGLE_ROUTE_NOT_DECIDED (dual track retained)",
+    "HOLD_MODE_B_STOW_Z_NON_COMPLIANT (Mode B height limit exceeded by 132.72mm)",
+    "HOLD_G8B_ROBUST_CLEARANCE_MARGINS_TBD (all margins PROVISIONAL_TBD)",
+    "HOLD_CAMERA_OCCLUSION_IN_STOW (wrist and base camera partially occluded)",
+    "HOLD_MID_SADDLE_DECISION (PENDING_FEA_ANALYSIS)",
+    "HOLD_LAUNCH_LOAD_SPECTRUM (undefined)",
+    "HOLD_CONTACT_PAD_MATERIAL_AND_STIFFNESS (TBD)",
+    "HOLD_HDRM_SPECIFIC_MODEL (functional envelope)"
+  ],
+  "verdict": "F3_P3_PARTIAL_PASS_WITH_NAMED_CLEARANCE_HOLDS",
+  "verdict_class": "TOP_LEVEL_ASSEMBLY_COMPLETE_WITH_ROBUST_CLEARANCE_AND_MODE_B_HOLDS",
+  "verdict_rationale": [
+    "Unique top-level assembly created with 15 components and 23 states.",
+    "State machine defined with fail-closed terminal states for solar wing failures.",
+    "G8a nominal continuous clearance passes for 3 computed paths (8 categories each).",
+    "G8b robust clearance cannot be claimed without authoritative margin values.",
+    "STOW_Z decision: Mode A compliant (6.98mm margin), Mode B non-compliant (exceeds 132.72mm).",
+    "C5 disposition: Mode A non-compliant, Mode B acceptable.",
+    "HDRM release clearance passes with safe failure modes.",
+    "Harness sweep passes with provisional envelope.",
+    "Camera FOV passes with named occlusion holds in STOW state.",
+    "All source models and accepted URDF zero modification verified."
+  ],
+  "ready_for_f3_p4": true,
+  "f3_p4_scope": "Structural refinement, manufacturing deepening, dynamics handoff. Mid saddle decision, contact pad parameters, base/load bridge unit load, HDRM structural interface, 8-part inheritance manufacturing deepening.",
+  "next_authorized_recommendation": "F3_P4_STRUCTURAL_REFINEMENT_MANUFACTURING_AND_DYNAMICS",
+  "next_authorized_scope": "Mid saddle trade study, contact pad detailed design, base/load bridge FEA, HDRM structural interface, 8-part manufacturing deepening. Do not redesign B601 internal joints or use HIFI for mass/inertia."
+}

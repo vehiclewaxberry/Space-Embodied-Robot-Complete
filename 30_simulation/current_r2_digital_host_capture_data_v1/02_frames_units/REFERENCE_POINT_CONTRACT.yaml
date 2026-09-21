@@ -1,0 +1,11 @@
+# 参考点合同：动量/角动量/惯量引用必须显式声明矩心与表达系
+schema: REFERENCE_POINT_CONTRACT_V1
+momentum_channels:
+  h_O: {about: INERTIAL_ORIGIN_I, expressed_in: I, precedent: "sim_11 |H_O|=3.6782586304198084 N*m*s"}
+  h_C: {about: SYSTEM_COM, expressed_in: I, precedent: "sim_11 |L_C|=3.7213991753489832 N*m*s"}
+  h_B: {about: BASE_BODY_ORIGIN, expressed_in: BASE_BODY, note: "= CRBA 广义惯量顶部 6 行 × u（测试 test_crba_top_rows_equal_momentum 双路径一致 <1e-10）"}
+shift_rule: "n_C = n_O - p_com × f；f 不变（frames/spatial 实现，S00 验证）"
+mixing_prohibition:
+  - "|ΔH_vec|（外部矢量角冲量）与 |H| 标量变化不得混用（sim_12 Gate0 教训）"
+  - "不同矩心的角动量比较必须先搬移；报告中每个动量数值必须带 (about, expressed_in) 双标签"
+episode_binding: "TIMESERIES 中动量列命名 h_O_* / h_C_*，不允许裸 'H' 列"

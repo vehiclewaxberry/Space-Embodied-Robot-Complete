@@ -1,0 +1,101 @@
+{
+  "schema": "SIM13_V4B4F_EXPERIMENT_DESIGN_V1",
+  "scope": "PRE_REGISTERED_DETERMINISTIC_COMPUTER_EXPERIMENT",
+  "scientific_question": "within the registered synthetic generalized-force domain, can both fingers brake and open far enough to complete the inherited bilateral clearance dwell, exact zero-impulse removal and 5 ms post-release audit",
+  "experimental_unit": "one fresh deterministic solver execution from one independently reconstructed B3 first-qualifying event",
+  "replication_semantics": {
+    "six_numerical_trajectories_are_hardware_replicates": false,
+    "integrator_and_step_variants_are_verification_blocks": true,
+    "statistical_population_inference_authorized": false,
+    "pseudoreplication_forbidden": true
+  },
+  "blocking": {
+    "blocks": [
+      {"id": "RK4", "step_s": [0.001, 0.0005, 0.00025]},
+      {"id": "MIDPOINT", "step_s": [0.0005, 0.00025, 0.000125]}
+    ],
+    "each_treatment_uses_its_own_first_qualifying_B3_event": true,
+    "forced_shared_event_time_forbidden": true,
+    "fresh_initial_state_for_every_run": true
+  },
+  "run_order": {
+    "seed": 20260824,
+    "method": "seeded permutation within integrator block",
+    "hidden_state_between_runs_forbidden": true,
+    "first_and_last_zero_input_drift_sentinels_required": true,
+    "randomization_does_not_create_physical_causal_credit": true
+  },
+  "registered_horizon": {
+    "active_duration_after_acquisition_s": 0.08,
+    "classification": "ALGORITHM_ONLY_BOUNDED_SEARCH_DOMAIN_NOT_PHYSICAL_OPENING_TIME",
+    "extension_after_observing_results_forbidden": true,
+    "no_success_semantics": "NOT_OBSERVED_IN_REGISTERED_SYNTHETIC_COMMAND_DOMAIN",
+    "global_unreachability_claim": false
+  },
+  "arms": [
+    {
+      "id": "A0_ZERO_INPUT_EXACT_REPLAY",
+      "purpose": "concurrent negative control and B4E replay",
+      "alpha_left": 0.0,
+      "alpha_right": 0.0,
+      "command_duration_s": 0.0,
+      "required_outcome": "B4E trajectory replay within native tolerances; W_act=0; no finite main-branch removal by the registered horizon"
+    },
+    {
+      "id": "A1_SYMMETRIC_BRAKE_OPEN",
+      "purpose": "primary registered synthetic reachability domain",
+      "alpha_left_equals_alpha_right": true,
+      "alpha_levels_dimensionless": [0.5, 1.0, 2.0, 4.0, 8.0, 16.0],
+      "command_duration_levels_s": [0.005, 0.01, 0.02],
+      "full_factorial_case_count_per_event_and_integrator": 18,
+      "center_or_unregistered_levels_forbidden": true
+    },
+    {
+      "id": "A2_ASYMMETRIC_LAG_AND_ONE_SIDE_LOSS",
+      "purpose": "bilateral logic and left-right symmetry stress lane; not a hardware fault model",
+      "parent_case_selection": "lexicographically smallest successful A1 by alpha then command_duration_s; if no A1 succeeds, A2 is NOT_EVALUATED",
+      "variants": [
+        {"id": "RIGHT_HALF_DELAY", "right_amplitude_ratio": 0.5, "right_delay_s": 0.005},
+        {"id": "LEFT_HALF_DELAY_MIRROR", "left_amplitude_ratio": 0.5, "left_delay_s": 0.005},
+        {"id": "RIGHT_COMMAND_OFF", "right_amplitude_ratio": 0.0, "right_delay_s": 0.0},
+        {"id": "LEFT_COMMAND_OFF_MIRROR", "left_amplitude_ratio": 0.0, "left_delay_s": 0.0}
+      ],
+      "bilateral_clearance_gate_never_relaxed": true,
+      "success_or_failure_is_not_preregistered": true
+    }
+  ],
+  "primary_case_selector": {
+    "eligible_pool": "A1 cases that pass every registered Gate in both reference integrators",
+    "rule": "minimum alpha; then minimum command_duration_s; then minimum absolute W_act_at_removal_J; exact ties by canonical case_id",
+    "reported_label": "lowest_tested_reachable_alpha_in_registered_discrete_grid",
+    "minimum_required_force_or_work_claim_authorized": false,
+    "between_level_interpolation_or_inverse_threshold_estimation_authorized": false,
+    "selector_change_after_results_forbidden": true,
+    "selected_case_is_a_synthetic_research_candidate_only": true
+  },
+  "geometry_domain_policy": {
+    "domain_source": "PHASE_B4F_MODEL_AND_ENERGY_CONTRACT_V1 synthetic_geometry_validity_domain",
+    "any_stage_sample_or_event_outside_domain": "DIAGNOSTIC_FAIL_CLOSED_GEOMETRY_DOMAIN",
+    "failed_domain_case_can_enter_primary_selector": false,
+    "clipping_or_extrapolation_forbidden": true
+  },
+  "responses": [
+    "finite_bilateral_removal_event",
+    "earliest_clearance_start_s",
+    "removal_time_s",
+    "peak_left_generalized_force_N",
+    "peak_right_generalized_force_N",
+    "signed_W_act_at_removal_J",
+    "absolute_W_act_at_removal_J",
+    "minimum_left_P_coordinate_m",
+    "maximum_left_P_coordinate_m",
+    "minimum_right_P_coordinate_m",
+    "maximum_right_P_coordinate_m",
+    "geometry_domain_pass",
+    "maximum_linear_momentum_drift_N_s",
+    "maximum_angular_momentum_drift_N_m_s",
+    "maximum_energy_work_residual_J",
+    "post_release_5ms_pass",
+    "left_right_mirror_residuals_in_native_units"
+  ]
+}

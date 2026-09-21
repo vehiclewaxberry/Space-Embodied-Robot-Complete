@@ -1,0 +1,246 @@
+{
+  "schema_version": "safety-00-gate-v1",
+  "verdict": "PASS",
+  "hash_semantics": {
+    "gate_json": "CANONICAL_JSON_SHA256_V1",
+    "threshold_registry": "RAW_BYTES_SHA256_FROZEN"
+  },
+  "next_stage_authorized": false,
+  "review_status": "PENDING_REVIEW",
+  "review_note": "LOOP-6 findings were remediated; independent re-review remains required before any next-stage authorization.",
+  "gates": {
+    "GS-A": {
+      "pass": true,
+      "checks": {
+        "unknown_never_allow": true,
+        "stale_to_wait_or_backoff": true,
+        "l2_failure_no_optimistic_fallback": true,
+        "fallback_target_domain_rechecked": true,
+        "no_provenance_no_allow": true
+      }
+    },
+    "GS-B": {
+      "pass": true,
+      "bypass_case_count": 12,
+      "bypass_success_count": 0
+    },
+    "GS-C": {
+      "pass": true,
+      "checks": {
+        "registry_actual_matches_frozen": true,
+        "mismatch_aborts": true,
+        "gate_json_hash_mode_is_canonical": true,
+        "candidate_row_binding_is_frozen": true,
+        "production_hmac_key_is_required": true,
+        "thresholds_widened_false": true
+      },
+      "registry_expected": "400bcedce5af6ad5c4135e67f87bb524ee2fdafb1c26aeae07e495ff387b2873",
+      "registry_actual": "400bcedce5af6ad5c4135e67f87bb524ee2fdafb1c26aeae07e495ff387b2873"
+    }
+  },
+  "metrics": {
+    "unknown_allow_count": 0,
+    "bypass_success_count": 0,
+    "false_abort_rate": 0.0,
+    "authorization_provenance_complete_rate": 1.0
+  },
+  "determinism": {
+    "same_input_response_bitwise_equal": true,
+    "case_count": 16
+  },
+  "thresholds_widened": false,
+  "cases": [
+    {
+      "case_id": "N1_NORMAL_ALLOW",
+      "group": "normal",
+      "expected_state": "SAFE",
+      "expected_decision": "ALLOW",
+      "actual_state": "SAFE",
+      "actual_decision": "ALLOW",
+      "reason_code": "AUTHORIZED_SAFE",
+      "response_sha256": "369f469ba4dfcde858e3e0b783b0ae1cbd8fd774078f3beed28c47c3625916f6",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "N2_NORMAL_MODIFY",
+      "group": "normal",
+      "expected_state": "SAFE",
+      "expected_decision": "MODIFY",
+      "actual_state": "SAFE",
+      "actual_decision": "MODIFY",
+      "reason_code": "AUTHORIZED_WITH_MODIFICATION",
+      "response_sha256": "ec54a2e8749e0d158dfa97c9679b8f07cda2cfc30dde49e2b3db73d02c4ceb30",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B1_FORGED_PROVENANCE",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "ABORT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "ABORT",
+      "reason_code": "GATE_ARTIFACT_HASH_MISMATCH",
+      "response_sha256": "2ce6b56ca99094764a47724bac6922f1f69def3ae24e03b551bd7e127b6506ce",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B2_STALE_EVIDENCE",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "WAIT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "WAIT",
+      "reason_code": "EVIDENCE_STALE",
+      "response_sha256": "7892995a64728d64d6399c21fd4991edb3f3d51fb655f014ac95d374f24948b8",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B3_OUT_OF_DOMAIN",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "BACKOFF",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "BACKOFF",
+      "reason_code": "OUT_OF_DOMAIN",
+      "response_sha256": "7eb96bd3443456ea40a271ccfdcf36a3f23a1e07e6a7c323095561e68bfa04a1",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B4_LAMBDA_ROUNDING_SMUGGLING",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "ABORT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "ABORT",
+      "reason_code": "CANDIDATE_STATE_BINDING_MISMATCH",
+      "response_sha256": "cae91824f69913f7cf11589a909a191104f96d430770821b884a71b1e9259d96",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B5_PROVISIONAL_FIELD_MISSING",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "ABORT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "ABORT",
+      "reason_code": "REQUEST_SCHEMA_INVALID",
+      "response_sha256": "97cebf7007d278dbdcd167debe4921b89204446a02b7348bd5a3f5392b98d044",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B6_UNCERTIFIED_L2",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "WAIT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "WAIT",
+      "reason_code": "L2_FAILED_NO_OPTIMISTIC_FALLBACK",
+      "response_sha256": "7ce9d53e66a14ba4d5531d43b957e84b8d3a1e06d9293b326b9ede211ff14933",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B7_PROSE_CONDITION",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "ABORT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "ABORT",
+      "reason_code": "REQUEST_SCHEMA_INVALID",
+      "response_sha256": "8521c1b99467f953c40d3dda7687b4e6b3cb0d53587b7ea3a49f4c295255764c",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B8_WRONG_ROW_REF",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "ABORT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "ABORT",
+      "reason_code": "CANDIDATE_ROW_BINDING_MISMATCH",
+      "response_sha256": "839f44e25cd63e8340bdd7315a35531e1fe437790aab85e207a9fa4fa0979aad",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B9_ARBITRARY_CANDIDATE",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "ABORT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "ABORT",
+      "reason_code": "CANDIDATE_ID_MISMATCH",
+      "response_sha256": "bf6cf0758657bc72393ca1ba580151e851812437e79ea131465cd5c461411455",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B10_FUTURE_STATE",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "ABORT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "ABORT",
+      "reason_code": "TEMPORAL_ORDER_INVALID",
+      "response_sha256": "19cc1e42de59c32310534cef25a5cae59bf8097fd42e9fe543d7b10524baf789",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B11_DEADLINE_REBIND",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "ABORT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "ABORT",
+      "reason_code": "SCENARIO_HASH_MISMATCH",
+      "response_sha256": "df4ec206ac2bf7505491ec908d425fc3aa5cb2c237560fde3ad60f5445f38ba4",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "B12_NO_AUTH_KEY",
+      "group": "bypass",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "ABORT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "ABORT",
+      "reason_code": "AUTHORIZATION_KEY_UNAVAILABLE",
+      "response_sha256": "f9e75a80886b0627138b0bc5a70178c46055db861bdad4e0ec86dffcd7be14b3",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "D1_L2_TO_L0_UNCHECKED",
+      "group": "degradation",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "BACKOFF",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "BACKOFF",
+      "reason_code": "FALLBACK_DOMAIN_UNCHECKED",
+      "response_sha256": "93d9f84af5d4cbbde1c9299aff9987cffc4f207ee3547e53e591bfc57674fcf1",
+      "deterministic": true,
+      "match": true
+    },
+    {
+      "case_id": "D2_L2_TO_L1_RECHECKED",
+      "group": "degradation",
+      "expected_state": "UNKNOWN",
+      "expected_decision": "WAIT",
+      "actual_state": "UNKNOWN",
+      "actual_decision": "WAIT",
+      "reason_code": "L2_FAILED_NO_OPTIMISTIC_FALLBACK",
+      "response_sha256": "918d39f41b5c0dca6a42ecd36aa1c34fccfc623ca227ff9ba9062244cb54ad66",
+      "deterministic": true,
+      "match": true
+    }
+  ]
+}

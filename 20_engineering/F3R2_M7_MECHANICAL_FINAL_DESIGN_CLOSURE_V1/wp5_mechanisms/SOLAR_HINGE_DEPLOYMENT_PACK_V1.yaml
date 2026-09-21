@@ -1,0 +1,237 @@
+schema: SOLAR_HINGE_DEPLOYMENT_PACK_V1
+generated_local: '2026-08-21T16:55:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP5_MECHANISMS
+mechanisms: [SOLAR_ARRAY_HINGE_LEFT, SOLAR_ARRAY_HINGE_RIGHT]
+release_level: PROTOTYPE_DESIGN_ONLY
+overall_status: DESIGN_CANDIDATE_ANALYTIC_CLOSED_PROTOTYPE_AND_FLIGHT_RELEASE_HOLD
+
+standards_frame:
+  reference: ECSS-E-ST-33-01C
+  use: DRD structure template only (SMS/MDD/MAV/MUM); analytical design level
+  controlled_copy_held: false
+  status: STANDARD_COPY_NOT_HELD_HOLD
+
+classification_legend:
+  DESIGN_TARGET_CANDIDATE: design-level target set by this pack
+  DERIVED: computed from pinned contract/baseline inputs under declared
+    assumptions; research-bound
+  HOLD: physical/environmental/external authority input absent; no zero-fill
+
+frozen_inputs:
+  panel_mass_kg: 0.3483933
+  panel_box_m: [0.227, 0.200, 0.006]
+  panel_span_m: 0.200
+  panel_chord_m: 0.227
+  hinge_axis_left: {point_xyz_mm: [-61.0, 143.15, 0.0], axis_xyz: [1.0, 0.0, 0.0]}
+  hinge_axis_right: {point_xyz_mm: [-61.0, -143.15, 0.0], axis_xyz: [1.0, 0.0, 0.0]}
+  hinge_frame_classification: BREP_PROBE_MAPPING_NOT_MANUFACTURING_DATUM
+  tip_sensitivity_mm_per_mrad: 0.2
+  deployed_angle_deviation_worst_case_rad: 0.008726646
+  source_note: span/chord FROZEN_GEOMETRY_SSOT; hinge frames and tip
+    sensitivity from M6 HINGE_DEPLOYMENT_CHAIN_EXECUTED_V1
+
+# ---------------------------------------------------------------------------
+# SMS-style requirements (design target candidates)
+# ---------------------------------------------------------------------------
+sms_requirements:
+  - req_id: HNG-SMS-01
+    title: deployed angle
+    value: 90.0
+    unit: deg
+    classification: DESIGN_TARGET_CANDIDATE
+    basis: M4 register deployed_angle_requirement_rad was null; 90 deg
+      stowed-to-deployed is adopted as the design candidate pending mission
+      pointing authority
+    verification: MVR-007 / MVR-008
+  - req_id: HNG-SMS-02
+    title: drive margin (spring torque over resistances)
+    value_min: 3.0
+    unit: '1'
+    classification: DESIGN_TARGET_CANDIDATE
+    basis: drive_margin = M_spring / (M_friction + M_harness); computed
+      candidate value 4.0 (MAV-01)
+    verification: MVR-007 / MVR-008
+  - req_id: HNG-SMS-03
+    title: deployment time
+    value_range_s: [1.0, 3.0]
+    classification: DESIGN_TARGET_CANDIDATE
+    basis: damped candidate t = 2.0 s; undamped dynamic lower bound 0.312 s
+      must not be approached (tip speed and stop energy grow)
+    verification: MVR-007 / MVR-008
+  - req_id: HNG-SMS-04
+    title: end-stop energy absorption
+    value_max_J: 0.2356
+    classification: DERIVED
+    basis: KE = M_net * theta = 0.15 * pi/2 at undamped bound; damped
+      candidate reduces this (MAV-02)
+    verification: MVR-009 / MVR-010
+  - req_id: HNG-SMS-05
+    title: deployed latch / lock
+    value: positive latch at end of travel, single-sided per hinge line,
+      latch engagement observable
+    classification: DESIGN_TARGET_CANDIDATE
+    verification: MVR-007..MVR-010
+  - req_id: HNG-SMS-06
+    title: cycle life
+    value_ground: 50
+    value_flight: 1
+    unit: cycle
+    classification: DESIGN_TARGET_CANDIDATE
+    verification: MVR-009 / MVR-010 (TEST_REQUIRED_HOLD)
+  - req_id: HNG-SMS-07
+    title: freeplay limits
+    radial_freeplay_mm: null
+    axial_freeplay_mm: null
+    classification: HOLD
+    basis: pin/bore nominals and axial stack have no numeric authority
+      (M6 radial_fit_chain and axial_stack_chain HOLD); sensitivity
+      0.2 mm/mrad executed, limits not settable without hardware datums
+    verification: MVR-009 / MVR-010
+  - req_id: HNG-SMS-08
+    title: temperature range
+    value: null
+    classification: HOLD
+    basis: no mission thermal authority
+    verification: deployment environment test (not defined, HOLD)
+
+# ---------------------------------------------------------------------------
+# MDD-style design description
+# ---------------------------------------------------------------------------
+mdd_design_description:
+  architecture:
+    drive: constant-torque spring per hinge line (candidate)
+    rate_control: viscous/eddy rate damper candidate to enforce HNG-SMS-03
+    end_stop: hard stop plus compliant crush element (candidate crush angle
+      0.5 deg for MAV-02 bookkeeping)
+    lock: end-of-travel latch (HNG-SMS-05)
+    panel_hold_down_for_launch: null
+    hold_down_status: HOLD_PANEL_RELEASE_DEVICE_NOT_IN_WP5_SCOPE
+  candidate_torque_budget_Nm:
+    spring_torque: 0.20
+    hinge_friction: 0.02
+    harness_resistance: 0.03
+    note: friction and harness terms are DESIGN_TARGET_CANDIDATE values;
+      no measured hinge friction exists (MVR-007/008 test)
+  stop_and_lock_sequence:
+    - panel released from hold-down (device TBD, HOLD)
+    - spring drives 0 -> 90 deg under damper-limited rate
+    - latch engages at end of travel
+    - hard stop absorbs residual energy
+  single_side_failure_semantics:
+    authority: ODR-02 (attached-stuck; jettison forbidden)
+    configurations: [LEFT_PANEL_FAIL, RIGHT_PANEL_FAIL, BOTH_PANEL_FAIL]
+    configuration_impact:
+      - failed panel(s) remain mechanically attached at arbitrary partial
+        angle; stuck-panel mass (0.3483933 kg each) stays on the spacecraft
+      - mass/CoM/inertia effects of stuck configurations are owned by
+        WP2 9-configuration design mass model (contract path
+        wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml,
+        PENDING_SIBLING_HASH)
+      - 'deployed-geometry impact: tip lateral displacement sensitivity
+        0.2 mm/mrad (M6); a panel stuck at partial angle sweeps keep-out
+        volumes owned by WP1 KEEP_OUT_REGISTER_V1 (PENDING_SIBLING_HASH)'
+      - no jettison load path, no separation impulse; hinge and hold-down
+        must not be sized for jettison
+      - hinge line of the failed panel carries no additional design load
+        case beyond stowed restraint (launch HOLD) and residual deployed
+        disturbance; asymmetric stiffness effect on on-orbit modal behaviour
+        is referred to WP7 panel-deployment and single-panel-failure cases
+        (ODR-06 scope)
+    deployment_authority_after_failure: no re-attempt, no commanded
+      back-drive; latch state telemetry only
+
+# ---------------------------------------------------------------------------
+# MAV-style analytical verification
+# ---------------------------------------------------------------------------
+mav_analytical_verification:
+  checks:
+  - check_id: MAV-01
+    title: spring torque sizing and drive margin
+    method: drive_margin = M_spring / (M_friction + M_harness) with the
+      candidate torque budget; panel rotational inertia about root hinge
+      line I = m*L^2/3 = 0.3483933*0.2^2/3
+    results:
+      I_root_kg_m2: 0.004645244
+      drive_margin: 4.0
+      margin_requirement: '>= 3.0 (HNG-SMS-02) met at candidate level'
+    verdict: ANALYTIC_CLOSED_AT_DESIGN_LEVEL
+  - check_id: MAV-02
+    title: deployment time and stop energy
+    method: constant net torque M_net = 0.20 - 0.05 = 0.15 N*m over theta =
+      90 deg; undamped bound t = sqrt(2*I*theta/M_net); damped candidate
+      targets t = 2.0 s
+    results:
+      undamped_time_s: 0.312
+      undamped_end_rate_rad_s: 10.072
+      undamped_tip_speed_m_s: 2.014
+      kinetic_energy_at_stop_J: 0.2356
+      damper_candidate_c_Nm_s_rad: 0.191
+      damped_terminal_rate_rad_s: 0.785
+      damped_tip_speed_m_s: 0.157
+      damped_deployment_time_s: 2.0
+    engineering_note: undamped deployment is rejected at candidate level
+      (tip speed 2.0 m/s, stop energy 0.236 J); a rate damper of order
+      0.19 N*m*s/rad is the candidate sizing basis; stop average reaction
+      27.0 N*m over 0.5 deg crush, equivalent tip force 135.0 N, defines
+      the stop strength candidate
+    verdict: ANALYTIC_CLOSED_AT_DESIGN_LEVEL (damper/stop hardware data
+      remain TEST_REQUIRED_HOLD)
+  - check_id: MAV-03
+    title: hinge root reference loads
+    method: candidate 1 g operational reference, root shear = m*a, root
+      moment = m*a*L/2
+    results:
+      root_shear_1g_N: 3.417
+      root_moment_1g_Nm: 0.3417
+    verdict: DERIVED bookkeeping values only; no strength margin claimed
+  - check_id: MAV-04
+    title: deployed accuracy sensitivity
+    method: reuse M6 executed chain (single-term candidate scenario)
+    results:
+      deployed_angle_deviation_worst_case_rad: 0.008726646
+      tip_lateral_displacement_worst_case_mm: 1.7453071
+      sensitivity_mm_per_mrad: 0.2
+    limits: full stop-angle chain (stop geometry, compliance, thermal, wear)
+      stays HOLD_PARTIAL_CANDIDATE_ONLY per M6
+    verdict: ANALYTIC_CLOSED_AT_CANDIDATE_SENSITIVITY_LEVEL
+  prohibited_claims: [NO_DEPLOYMENT_RELIABILITY_CLAIM, NO_QUALIFICATION,
+    NO_TEST_COMPLETION_CLAIM]
+
+# ---------------------------------------------------------------------------
+# MUM-style operation / user constraints
+# ---------------------------------------------------------------------------
+mum_operation_user_constraints:
+  - panels deploy once on orbit; no commanded re-stow
+  - deployment is inhibited until HDRM/panel hold-down release confirmation
+    (hold-down device TBD, HOLD)
+  - 'deployment event telemetry: latch state per hinge line minimum;
+    torque/time/angle instrumentation is ground test scope (MVR-007/008)'
+  - a stuck panel (ODR-02 semantics) is never jettisoned; operations
+    continue with the asymmetric configuration mass model (WP2,
+    PENDING_SIBLING_HASH)
+  - harness slack across the hinge line contributes resistance; routing
+    envelope per WP1 HARNESS_ROUTING_V1 (PENDING_SIBLING_HASH)
+
+retained_holds:
+  - PANEL_HOLD_DOWN_DEVICE_NOT_DEFINED_HOLD
+  - HINGE_FRICTION_AND_DAMPING_MEASURED_VALUES_HOLD
+  - FREEPLAY_LIMITS_HOLD_NO_PIN_BORE_AUTHORITY
+  - TEMPERATURE_RANGE_HOLD
+  - DEPLOYMENT_RELIABILITY_TEST_HOLD
+  - PROTOTYPE_AND_FLIGHT_RELEASE_HOLD
+
+verification_crossref: 'wp5_mechanisms/MECHANISM_VERIFICATION_CROSSREF_V1.csv (MVR-007..MVR-011)'
+
+source_register:
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    sha256: AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/06_mechanism/MECHANISM_STATUS_REGISTER_V1.yaml
+    sha256: 307A205460D746AD8B4FA3561157CA63FBAAD2EC6153D63A6FA733E695236FC9
+  - path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/HINGE_DEPLOYMENT_CHAIN_EXECUTED_V1.yaml
+    sha256: B40F242CF52BD4568D838E0224A61D4BBA69937CDDA372EE8EA6BC5E2AA8B551
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/AUTHORIZED_MECHANICAL_LOADS_V1.yaml
+    sha256: 82E331239D6EB86EE4B617145022E62133F5D837403119CDAD2ADD83BCB78797

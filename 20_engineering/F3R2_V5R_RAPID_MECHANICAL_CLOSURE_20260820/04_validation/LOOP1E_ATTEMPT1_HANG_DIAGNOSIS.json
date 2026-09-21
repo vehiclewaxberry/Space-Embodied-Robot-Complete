@@ -1,0 +1,100 @@
+{
+  "schema": "V5R_LOOP1E_ATTEMPT1_HANG_DIAGNOSIS_V1",
+  "task": "V5_LOOP1E_NATIVE_RECOVERY_R1",
+  "owner_ruling_in_effect": "AUTHORIZE_LOW_MEMORY_EXECUTION_WITH_BOUNDED_NATIVE_ATTEMPTS_20260820",
+  "milestone": "M7",
+  "timestamp_utc": "2026-08-20T10:55:00Z",
+
+  "memory_gate_passed": false,
+  "owner_override_used": true,
+  "execution_authorized": true,
+  "owner_override_receipt_untouched": true,
+
+  "attempt": 1,
+  "attempts_consumed_after_this": 1,
+  "attempts_remaining": 1,
+  "started_utc": "2026-08-20T09:02:23Z",
+  "hang_confirmed_utc": "2026-08-20T10:50:00Z",
+  "elapsed_minutes_at_diagnosis": 108,
+
+  "outcome": "HUNG_ON_INTERACTIVE_MODAL_DIALOG_NOT_A_CODE_DEFECT",
+
+  "root_cause": {
+    "blocked_call": "sw.NewDocument(str(template), 0, 0.0, 0.0)",
+    "file_line": "99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py:2982",
+    "mechanism": "instead of creating the assembly silently, NewDocument raised the interactive 'New SOLIDWORKS Document' chooser. The COM call cannot return until that dialog is dismissed, and nothing was ever going to dismiss it, so the driving python process blocked indefinitely.",
+    "window_evidence": {
+      "modal_dialog": "vis=True en=True cls=#32770 title=[新建 SOLIDWORKS 文件]",
+      "dialog_class_meaning": "#32770 is the standard Win32 dialog class",
+      "main_window": "vis=True en=False cls=Afx:... title=[SOLIDWORKS Premium 2024 SP5.0]",
+      "main_window_disabled_significance": "en=False on the main frame is the signature of a modal child holding the application"
+    },
+    "why_not_the_patch": "the patched relative_transform is called at line 2807 inside build_motion_contract, which is reached only AFTER the new assembly document exists. Execution never got that far. The IInverse/IMultiply fix is untouched by this failure and remains unexercised in production.",
+    "why_not_memory": "page faults measured 0/sec, available memory recovered to 0.475-1.32 GiB across the window, SolidWorks stayed Responding=True, and the process never died. This was not the memory-death mode this machine has twice recorded.",
+    "why_not_the_template": {
+      "pinned_path": "C:/ProgramData/SolidWorks/SOLIDWORKS 2024/templates/gb_assembly.asmdot",
+      "exists": true,
+      "bytes": 34942,
+      "sha256": "37DED9268BABC616A97BF9DA29BDCC2FFD60E8E4353670748F74A18A3BB450CC",
+      "matches_pin": true,
+      "conclusion": "GetDocumentTemplate succeeded and the line-2980 template guard passed; the template is not the problem"
+    },
+    "most_likely_trigger": "the freshly restarted SolidWorks session has default/first-run UI state in which the New Document chooser is configured to appear (Novice/advanced chooser), and NewDocument surfaces it rather than proceeding silently. The prior long-lived session that produced the 2026-08-13 runs did not exhibit this."
+  },
+
+  "diagnostic_path_and_two_corrections_i_made": [
+    {
+      "observation": "CPU only 32s over 10.5 min",
+      "my_initial_read": "disk/paging-bound, slow but progressing",
+      "correction": "page-fault counter later measured 0/sec, which contradicts paging-bound"
+    },
+    {
+      "observation": "python user+kernel CPU delta and I/O all exactly 0 over 25s",
+      "my_read": "both processes fully stalled, hard-stop condition met",
+      "correction": "a 90s sample then showed SolidWorks consuming ~1.56s user + ~1.41s kernel, so the process was NOT dead and I withdrew the hard-stop call. My 20-25s samples were too short to see intermittent background activity.",
+      "final_resolution": "both readings were partially wrong. The truth is that SolidWorks is alive and idling on background housekeeping while the single COM call blocks on a dialog. Only window enumeration settled it."
+    }
+  ],
+  "lesson_recorded": "near-zero CPU plus Responding=True plus zero page faults should route straight to top-level window enumeration. A modal dialog is invisible to every process-level health metric and can masquerade as either a hang or slow progress.",
+
+  "integrity_state_verified_at_diagnosis": {
+    "solidworks_process_alive": true,
+    "solidworks_pid": 51708,
+    "python_process_alive": true,
+    "python_pid": 31944,
+    "exclusive_run_lock_held": true,
+    "lock_evidence": "reading .V5_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.lock returned 'Device or resource busy', proving the live run owns the transaction",
+    "new_staging_artifacts_created": 0,
+    "target_assembly_created": false,
+    "isolated_staging_artifacts_untouched": true,
+    "isolated_artifact_bytes_unchanged": [27122742, 27125901],
+    "any_file_modified_since_attempt_start": false,
+    "stderr_bytes": 0,
+    "stdout_bytes": 0,
+    "conclusion": "the hang occurred BEFORE any CAD write. Nothing was created, promoted, overwritten or corrupted. The write-once transaction guarantees held."
+  },
+
+  "hard_stop_assessment": {
+    "triggered": false,
+    "reasoning": "the owner's true hard-stop list includes 'SolidWorks unresponsive TWICE and fallback unreadable'. This is the FIRST unresponsive event, and the fallback assets are present and readable. Per the ruling, a first native failure is explicitly NOT a valid stop reason.",
+    "backup_verification_ok": true,
+    "frozen_hash_drift": false,
+    "writes_outside_boundary": false,
+    "donor_overwritten": false,
+    "zero_byte_saves": false,
+    "filesystem_corruption_risk": false,
+    "fallback_assets_missing": false
+  },
+
+  "next_action_per_standing_authorization": {
+    "plan": "terminate the blocked Attempt-1 python process and the dialog-blocked SolidWorks session, have the operator start one more clean session, suppress the New Document chooser so NewDocument returns silently, then spend Attempt 2",
+    "attempt_2_justification": "this qualifies as the ruling's 'single deterministic COM/config defect' case - it is a reproducible configuration condition with a specific, targeted remedy, not an unknown failure",
+    "config_remedy_required": "set the SolidWorks option that bypasses the New Document dialog (swNoveiceMode / 'Show new document dialog' user preference) BEFORE calling NewDocument, or pre-dismiss it, so that the call cannot block",
+    "timebox_status": "1h53m of the 4h box consumed by Attempt 1",
+    "if_attempt_2_fails_or_box_expires": "fall back automatically to Fallback A (staging 27,125,901-byte artifact) then Fallback B (125,946,155-byte neutral STEP), without further consultation, per the ruling"
+  },
+
+  "review_status": "PENDING_HUMAN_REVIEW",
+  "next_stage_authorized": false,
+  "verdict": "ATTEMPT_1_HUNG_ON_NEW_DOCUMENT_DIALOG_NO_CAD_WRITTEN_NO_CORRUPTION_ATTEMPT_2_WARRANTED"
+}

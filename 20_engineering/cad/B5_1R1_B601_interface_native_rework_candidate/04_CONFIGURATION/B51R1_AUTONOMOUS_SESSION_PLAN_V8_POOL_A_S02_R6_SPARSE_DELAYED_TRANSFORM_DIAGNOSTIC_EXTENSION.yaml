@@ -1,0 +1,39 @@
+schema: B51R1_AUTONOMOUS_SESSION_PLAN_V8_POOL_A_S02_R6_SPARSE_DELAYED_TRANSFORM_DIAGNOSTIC_EXTENSION
+generated_at: '2026-08-03T00:53:00+08:00'
+status: POOL_A_ONE_SLOT_SPARSE_DELAYED_DIAGNOSTIC_EXTENSION_AUTHORIZED_FOR_S02_R6_ONLY
+base_plan: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V3_PHASED.yaml
+prior_extension: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V7_POOL_A_S02_R5_WAITING_READINESS_TRANSFORM_DIAGNOSTIC_EXTENSION.yaml
+effective_pool_a_capacity: 17
+added_slot:
+  id: A17_S02_R6_SPARSE_DELAYED_TRANSFORM_DIAGNOSTIC
+  envelope: S02_R6
+  substages:
+    - OS_ONLY_VISIBLE_RESPONSIVE_DETECTION
+    - SIXTY_SECOND_ZERO_COM_QUIET_STARTUP_WINDOW
+    - ONE_SHOT_STRONG_TYPED_DOCUMENT_EMPTY_READINESS_PROBE
+    - TRANSFORM_CONVENTION_PROBE_READ_ONLY
+  additional_slots_added: 1
+  additional_slots_beyond_a17: 0
+  cad_write_allowed: false
+  save_api_allowed: false
+  active_candidate_pointer_allowed: false
+trigger:
+  incident: 07_VERIFICATION/AUTONOMOUS/S02_R5/B51R1_S02_R5_HIGH_FREQUENCY_STARTUP_POLLING_FAIL_CLOSED_INCIDENT.json
+  prior_slot: A16_S02_R5_WAITING_READINESS_TRANSFORM_DIAGNOSTIC
+  prior_slot_status: FAIL_CLOSED_BEFORE_INPUT_LOCK_AND_CAD_OPEN_STARTUP_NOT_COMPLETE
+repair_route:
+  pre_readiness_com_call_count: 0
+  quiet_window_seconds: 60
+  readiness_probe_call_count: 1
+  readiness_probe_route: STRONG_TYPED_CSHARP_MARSHAL_GETACTIVEOBJECT
+exit_rule:
+  pass: TRANSFORM_CONVENTION_EVIDENCE_CAPTURED_AND_CLASSIFIED
+  fail: PRESERVE_ALL_OUTPUTS_AND_KEEP_S02_BLOCKED
+downstream_hold:
+  s02_cold_reopen_pass: true
+  active_candidate_pointer: true
+  property_writer_qualification: true
+  s03: true
+  carrier_creation: true
+  joint_creation: true
+claim_limit: SINGLE_READ_ONLY_DIAGNOSTIC_SLOT_ONLY_NO_S02_PASS_ACTIVE_CANDIDATE_OR_S03_CREDIT

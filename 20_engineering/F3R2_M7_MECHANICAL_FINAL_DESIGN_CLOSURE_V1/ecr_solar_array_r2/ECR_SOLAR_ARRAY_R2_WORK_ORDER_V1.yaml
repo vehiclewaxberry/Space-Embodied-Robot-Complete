@@ -1,0 +1,169 @@
+schema: ECR_SOLAR_ARRAY_R2_WORK_ORDER_V1
+generated_local: '2026-08-22T20:10:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: ECR_WORK_ORDER
+ecr: ECR-SOLAR-ARRAY-R2
+authority: M7_OWNER_DECISION_ODR19_SOLAR_ARRAY_R2_ECR_V1.yaml (ODR-19)
+supersedes: ECR_SOLAR_HARNESS_01_WORK_ORDER_V1.yaml
+scope_guard: >-
+  Narrow architecture ECR. Reopens ONLY: solar geometry, solar HDRM/latch,
+  solar harness, and the downstream mass/flex/thermal/collision/MECH-RL
+  bindings. B601 accepted URDF, M3R, GRIPPER_R1 and Stage-A/B operational
+  FEA main load path stay FROZEN. No M7 rerun. No M8/M9 artifact. No
+  flight/launcher/manufacturing authority.
+
+design_baseline:
+  architecture: 2 symmetric wings x 3 leaves, accordion stack
+  leaf_planform_mm: [300, 200]   # ENGINEERING_CANDIDATE, not flight-qualified
+  hinge_axes: all parallel to X_S (root + 2 inter-panel per wing)
+  deployment: passive + hard stop + latch; no SADA (root reserves
+    OPTIONAL_SADA_INTERFACE only)
+  targets_not_authority:
+    leaf_assembly_thickness_mm: 2.0-2.5
+    stowed_stack_mm: '<= 9'
+    wing_mass_kg: '<= 0.8'
+    power_estimate_W_per_wing: ~44-50 (first-order estimate only)
+  legacy_preservation:
+    - R1 227 x 200 x 6 mm wing retained as LEGACY_R1 evidence
+    - 0.3483933 kg stays LEGACY_SIM11_PROVISIONAL; no area rescale
+    - legacy sim_11 flexible card must NOT be overwritten
+
+work_items:
+
+  - id: R2-WI-01
+    title: R2 solar CAD - stowed stack + deployed geometry
+    content: >-
+      Build 3-leaf wing solids (left/right), root + inter-panel hinges,
+      recessed cassette if required by stowed-stack target; close the WP1
+      STOWED_GEOMETRY_HOLD with real stowed solids. Verify chord 300 mm
+      against X_S stations (40.5 mm total margin on 340.5 mm MODE_OP body).
+    touches: [wp1_structure_cad]
+    status: OPEN
+
+  - id: R2-WI-02
+    title: Solar HDRM + latch redefinition
+    content: >-
+      Per wing: 1 HDRM system, 2-3 latch/contact hardpoints; release and
+      sequential unfold LEAF1 -> LEAF2 -> LEAF3 with positive latch,
+      engagement observable.
+    touches: [wp5_mechanisms, wp1_structure_cad]
+    status: OPEN
+
+  - id: R2-WI-03
+    title: Harness split and service loops
+    content: >-
+      (a) B601 harness: keep ODR-18 item 9 correction, functional loop
+      >= 347.49 mm, Omega/S-loop with defined clamps; final length derived
+      from bend radius, q1 range, connector positions, tolerances, thermal
+      contraction, strain relief. (b) Solar-wing harness: NEW - flex
+      PCB / flat-flex jumper across each inter-panel hinge with strain
+      relief and neutral-axis routing, plus root solar service loop.
+    touches: [wp1_structure_cad/HARNESS_ROUTING, KEEP_OUT_REGISTER]
+    status: OPEN
+
+  - id: R2-WI-04
+    title: Continuous clearance evidence (non-empty sets)
+    content: >-
+      Continuous sweeps, full 0 -> deployed sequence AND full q1 range:
+      solar-arm, solar-bus, solar-harness, solar-HDRM, harness-arm,
+      harness-structure, leaf-leaf during unfold. Every PASS must quote a
+      non-empty comparison set with per-pair minimum distance; empty sets
+      are automatic FAIL (historical vacuous-PASS hazard).
+    touches: [wp1_structure_cad, wp12_secondary_structure_adjudication]
+    status: OPEN
+    blocked_by: [R2-WI-01, R2-WI-02, R2-WI-03]
+
+  - id: R2-WI-05
+    title: Nine-configuration mass/CG/inertia regeneration
+    content: >-
+      R2 leaves/hinges/HDRM masses from CAD/material derivation only;
+      regenerate 9-config design mass properties. Legacy sim11 mass
+      semantics preserved per ODR-18/ODR-19 (no rescale, no overwrite).
+    touches: [wp2_design_mass]
+    status: OPEN
+    blocked_by: [R2-WI-01, R2-WI-02]
+
+  - id: R2-WI-06
+    title: FLEXIBLE_APPENDAGE_PARAMETER_CARD_R2
+    content: >-
+      New card (never an edited old card): per-leaf mass, per-wing mass,
+      hinge mass/stiffness/damping, panel EI, mode frequencies, mode
+      shapes, equivalent 3-panel model, full multibody candidate; each
+      entry with source and confidence; low/nominal/high bands where not
+      final.
+    touches: [20_engineering/config/geometry, wp10_mech_rl_v4]
+    status: OPEN
+    blocked_by: [R2-WI-01, R2-WI-05]
+
+  - id: R2-WI-07
+    title: Thermal/clearance sensitivity recheck + collision/keepout assets
+    content: >-
+      Re-run hinge/clearance DeltaT sensitivity against R2 geometry;
+      regenerate collision and keep-out assets (6 mm plate reclassified
+      LEGACY_EQUIVALENT_COLLISION_THICKNESS; R2 uses real leaf stackup).
+    touches: [wp8_thermal, wp10_mech_rl_v4, wp1_structure_cad]
+    status: OPEN
+    blocked_by: [R2-WI-01]
+
+  - id: R2-WI-08
+    title: Contract rebind + handoff gate + red team + closure
+    content: >-
+      Rebind EMBODIED_MECHANICAL_CONTRACT (incl. R2 deployment state
+      machine and fail-closed ARM_RELEASE interlock, machine-readable);
+      rerun MECHANICAL_TO_EMBODIED_HANDOFF_GATE to 11/11; red team scoped
+      to ECR propagation range only (ODR-18 rt07 blocking rule). Closure:
+      unexplained_interference=0, empty_comparison_set=0,
+      internal_mechanical_HOLD=0, HIGH_red_team=0, handoff 11/11 PASS.
+      On pass issue the Terminal Release wording of ODR-18 item 14 /
+      ODR-19 closure_conditions, then freeze.
+    touches: [wp13_embodied_contract, 12_release]
+    status: OPEN
+    blocked_by: [R2-WI-04, R2-WI-05, R2-WI-06, R2-WI-07]
+
+frozen_not_to_touch:
+  - accepted B601 URDF (L0 authority)
+  - M3R interface authority
+  - GRIPPER_R1
+  - Stage-A/Stage-B operational FEA main load path results
+
+envelope_semantics:
+  MODE_OP: 340.5 x 226.3 x 226.3 mm - PROJECT_OPERATIONAL_ENVELOPE
+    (current digital-twin baseline)
+  MODE_FLIGHT: 226.3 x 226.3 x 366 mm class - HOLD pending actual
+    dispenser/launcher ICD; generic CubeSat protrusion rules (6.5 mm /
+    8.5 mm rail neighbourhood) remain flight-envelope HOLD items
+
+execution_status_2026_08_22:
+  R2-WI-01: DONE (SOLAR_ARRAY_R2_CANDIDATE_V1 FCStd/STEP + build report; 13 pairs 0 unexplained interference)
+  R2-WI-02: DONE (SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1.yaml, ODR-31 scope; hinge-2 stop controls 0.24 J / 480 N candidate)
+  R2-WI-03: DONE (HARNESS design + SOLAR_R2_HARNESS_HARDWARE_V1.yaml, ODR-30)
+  R2-WI-04: DONE for geometry pairs (SOLAR_ARRAY_R2_CONTINUOUS_CLEARANCE_V1.json, 55 states x 880 samples, 0 violations, 0 empty sets); harness pairs closed by HARNESS_R2_FUNCTIONAL_GATES_V1
+  R2-WI-05: DONE (stage1 solar package + WP2 SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2 PASS; 9 configs, mirror anchor holds)
+  R2-WI-06: DONE (FLEXIBLE_APPENDAGE_R2.yaml + MODES.json; wing modes 6.97/39.4/98.0 Hz nominal; ktheta_deployed explicit per ODR-32)
+  R2-WI-07: DONE (CLEARANCE_MARGIN_LEDGER_R2_V1.json; Q1 failed WC at 0.5 mm -> standoff raised to 1.0 mm, full chain regressed green; SOLAR_STANDOFF_DATUM_FEATURE_V1 per ODR-28)
+  ODR-25: DONE (R2_MECHANICAL_CHANGE_IMPACT_ASSESSMENT_V1.json: NON_BREAKING, no Level-2 rescan required)
+  ODR-33: DONE (SOLAR_R2_STRUCTURAL_IMPACT_SCREEN_V1.yaml: WITHIN_ACCEPTED_ENVELOPE, FEA not reopened, no ECR-M1)
+  ODR-29 / R2-HRN-04: RUNNING (delegated full-arm FK harness sweep)
+  R2-WI-08: PENDING (contract rebind + handoff 11/11 + scoped red team; needs R2-HRN-04 result)
+  geometry_freeze: ODR-27 in force (300x200x3, X_S hinges, 1.0 standoff, 8.5 stack, 9.5 protrusion)
+
+execution_status_2026_08_23_final:
+  R2-WI-08: DONE (EMBODIED_MECHANICAL_CONTRACT_R2 + MECH_DYNAMICS_INTERFACE_V5_R2
+    + MECHANICAL_TO_EMBODIED_HANDOFF_GATE_R2.json = 11/11 PASS, no check weakened,
+    frozen artifacts untouched)
+  ODR-29 / R2-HRN-04+05: CLOSED_WITH_NEGATIVE_RESULT
+    V1 FAIL (collision -11.86 mm, bend 2.26 mm, pinch -11.83 mm)
+    V2 after 6 redesign iterations: still FAIL (collision -11.994 mm vs link3
+    at q2=-2.26 rad on the joint1 coil plane; bend 0.10 mm at wrist corner;
+    pinch -11.990 mm at joint4 hard stop; coil 1:1 wind model FIXED,
+    azimuth residual 0.0 rad; length derived 4001.2 mm provisioned;
+    take-up supply 403.5 > 347.49 requirement; FK residual 0.0 mm; 308
+    states; empty comparison sets 0)
+    failure_analysis: the j2/j3 fold-flat sweep envelopes (radius 292.5/277.0
+    mm) engulf any near-base fixed external routing; a full-envelope harness
+    on this arm requires hollow-shaft/slip-ring routing (vendor change), a
+    reduced harness-rated joint envelope, or a guided dress-pack - not a
+    fixed-route cable.
+  terminal_release: HOLD - blocked solely by B601_HARNESS_FUNCTIONAL_GATE
+    (ODR-29; closure condition internal_mechanical_HOLD = 0 not met)
+  all_other_items: CLOSED (12 of 13)

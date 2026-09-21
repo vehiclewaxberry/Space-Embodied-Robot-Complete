@@ -1,0 +1,91 @@
+{
+  "schema": "OWNER_DECISION_REQUEST",
+  "decision_request_id": "ODR-59",
+  "generated_utc": "DETERMINISTIC_REPLAY_NO_WALLCLOCK",
+  "authority": "REQUEST_ONLY__NO_OWNER_DECISION__NO_GATE_CREDIT",
+  "review_status": "PENDING_OWNER_DECISION",
+  "next_stage_authorized": false,
+  "release_credit": false,
+  "title": "TMG-2 re-open and conformity rule for Route-C V9F mass, center of mass and inertia",
+  "trigger_source": {
+    "record": "ODR-50",
+    "record_sha256": "85613A68750CFC4D170B9A631BBBACBE7D8935AE742D6B1BC31215255622BEE8",
+    "qualitative_trigger": "Route-C changes system mass/CG/inertia beyond current uncertainty envelope",
+    "limitation": "ODR-50 does not define a numerical comparison metric, coverage factor, guard band, conformity limit or decision-risk policy."
+  },
+  "candidate_evidence": {
+    "variant": "V9F",
+    "architecture": "CHAINLESS_TELESCOPING_TROMBONE_CASSETTE__R55_EXTERNAL_ANNULAR_FOLLOWER__LINK4_MOVING_TROLLEY",
+    "build_receipt": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/B601_ROUTE_C_BUILD_RECEIPT_V9F.json",
+      "sha256": "8B6C877AF2B2397102D87381F35BE8D78151DF1E97B57A1C45FE4C8972D153FC"
+    },
+    "mass_propagation": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_MASS_PROPAGATION_V2_V9F_DYNAMIC_MOTION_RERUN.json",
+      "sha256": "BD272FFB4F683150C9A640BA15416B337311C5C9A5B77CDBAABAC9340BA9622C",
+      "tool_status": "COMPLETE_NON_AUTHORIZING__NINE_CONFIGURATION_BINDING_GATE_FAIL",
+      "tmg2_reopen_decision": "NOT_EVALUATED_NO_APPROVED_NUMERICAL_ACCEPTANCE_RULE"
+    },
+    "superseded_negative_mass_model": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_MASS_PROPAGATION_V2_V9F.json",
+      "sha256": "5FD37B8E2E376D412CC5E7474DAF2384AD9B238FB4BF6AD05651C66B6AB8D16F",
+      "disposition": "NEGATIVE_LINEAGE__Q4_PASSIVE_HARDWARE_AND_SEG04_DISTRIBUTED_BUNDLE_MOTION_NOT_PROPAGATED"
+    }
+  },
+  "candidate_results": {
+    "nine_configurations_evaluated": 9,
+    "all_nine_numerical_physical_consistency_checks_pass": true,
+    "mass_property_model_complete_for_frozen_v9f_motion_contract": true,
+    "nine_configuration_binding_authority_gate": {
+      "aggregate_state": "FAIL",
+      "pass": false,
+      "states": {
+        "C01": "PASS",
+        "C02": "PASS",
+        "C03": "PASS",
+        "C04": "PASS",
+        "C05": "FAIL",
+        "C06": "HOLD",
+        "C07": "HOLD",
+        "C08": "HOLD",
+        "C09": "HOLD"
+      }
+    },
+    "baseline_service_system_mass_kg": 31.022864807342987,
+    "route_c_increment_kg": 3.040266861665941,
+    "updated_service_system_mass_without_captured_target_kg": 34.063131669008925,
+    "updated_mass_with_22kg_target_kg": 56.063131669008925,
+    "updated_mass_with_150kg_target_kg": 184.06313166900892,
+    "center_of_mass_delta_component_ranges_m": {
+      "x": [-0.011875815861280836, 0.052630716433694644],
+      "y": [-0.016854852275576746, 0.00820167411985016],
+      "z": [-0.01586437143112978, 0.019743868201096713]
+    },
+    "diagnostic_only_not_acceptance": {
+      "maximum_mass_delta_over_baseline_standard_uncertainty": 0.6616580408838642,
+      "maximum_cg_delta_component_over_baseline_standard_uncertainty": 3.496664870530703,
+      "maximum_own_cg_inertia_delta_component_over_baseline_standard_uncertainty": 8.173637346231786,
+      "warning": "These dimensionless ratios are screening diagnostics only. Standard uncertainty is not a tolerance or conformity limit."
+    },
+    "uncertainty_boundary": "Baseline-to-Route-C cross-covariance and a coupled measurement model are unavailable; no combined updated-system uncertainty or formal conformity statement is issued."
+  },
+  "owner_decisions_required": [
+    "Authorize or decline formal TMG-2 reopening for V9F.",
+    "Resolve or explicitly disposition the frozen configuration authority states C05=FAIL and C06-C09=HOLD; numerical mass-property consistency does not override them.",
+    "Define whether ODR-50 compares absolute change, standard uncertainty, expanded uncertainty, a mass/CG/inertia requirement envelope, or an integrated dynamics sensitivity limit.",
+    "Define the coverage factor, guard band and false-accept/false-reject risk policy.",
+    "Define numerical limits for mass, each CG component and all six independent inertia components about one frozen reference point and frame.",
+    "Confirm the nine configuration set and whether captured-target configurations C08/C09 are evaluated as combined-system cases or excluded from service-spacecraft conformity.",
+    "Define the disposition when the mass criterion passes but any CG or inertia criterion fails.",
+    "Define whether a TMG-2 failure returns to bounded mass-property optimization, blocks Route-C integration, or requires a higher-level system waiver."
+  ],
+  "engineering_recommendation_non_authorizing": "REOPEN_TMG2_FOR_INTEGRATED_REASSESSMENT only after explicit disposition of C05-C09 binding authority because V9F adds 3.040266861665941 kg and the diagnostic CG/inertia shifts exceed one baseline standard uncertainty in multiple service-spacecraft configurations; do not infer acceptance from this recommendation.",
+  "legal_current_state": "TMG2_NOT_EVALUATED__NINE_CONFIGURATION_BINDING_GATE_FAIL__OWNER_RULE_REQUIRED",
+  "forbidden_inferences": [
+    "standard uncertainty equals an acceptance limit",
+    "physical-consistency PASS equals TMG-2 PASS",
+    "ODR-59 request equals ODR-59 approval",
+    "mission-only Route-C geometry evidence authorizes downstream rebind",
+    "captured-target mass can be silently removed from or added to a configuration"
+  ]
+}

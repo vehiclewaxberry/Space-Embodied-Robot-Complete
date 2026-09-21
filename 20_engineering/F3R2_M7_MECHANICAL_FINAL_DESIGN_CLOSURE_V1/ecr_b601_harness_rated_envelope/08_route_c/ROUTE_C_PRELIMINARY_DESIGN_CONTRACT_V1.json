@@ -1,0 +1,144 @@
+{
+  "schema": "ROUTE_C_PRELIMINARY_DESIGN_CONTRACT_V1",
+  "generated_local": "2026-08-23T11:40:00+08:00",
+  "authority": "PRELIMINARY_PROPOSAL_ONLY__NOT_ODR42_AUTHORIZATION",
+  "status": "PRELIMINARY_CONTRACT__DETAILED_DESIGN_NOT_AUTHORIZED",
+  "next_stage_authorized": false,
+  "design_objective": "Develop a guided B601 full-range dress-pack candidate that first proves the eight continuous mission trajectory segments while preserving the accepted robot and Solar R2 assets.",
+  "immutable_assets": {
+    "accepted_urdf": {
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+      "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+      "change_allowed": false
+    },
+    "solar_r2_candidate_step": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_CANDIDATE_V1.step",
+      "sha256": "21FF77B882DBFAB87B3E77DD56817EFC7F321C68E30AFEDCDDBB4D79B9915795",
+      "change_allowed": false
+    }
+  },
+  "source_machine_truth": {
+    "route_c_trigger": "08_route_c/ECR_HARNESS_FULL_RANGE_01.yaml",
+    "route_b_terminal_gate": "07_release/B601_HARNESS_TERMINAL_GATE_V1.json",
+    "mission_coverage_gate": "04_mission/B601_HARNESS_MISSION_COVERAGE_GATE.json",
+    "terminal_facts": {
+      "route_b": "REJECTED",
+      "route_c": "TRIGGERED_PENDING_DETAILED_DESIGN_AUTHORIZATION",
+      "rated_envelope_map": {"SAFE": 0, "UNSAFE": 75, "UNKNOWN": 0},
+      "mandatory_key_states_safe": 0,
+      "mandatory_key_states_total": 10,
+      "required_continuous_trajectory_segments": 8,
+      "trajectory_segments_with_released_authority": 0,
+      "trajectory_segments_unknown": 8,
+      "next_stage_authorized": false
+    }
+  },
+  "proposed_architecture": {
+    "selection_status": "PROPOSED_FOR_ODR42_SCOPED_DETAILED_DESIGN__NOT_RELEASED_HARDWARE",
+    "family": "GUIDED_DRESS_PACK_FULL_RANGE",
+    "joint_dispositions": [
+      {"joint": "J1", "proposal": "captive fixed-curvature storage cassette", "heritage": "Route-B captive clock-spring coil is a design seed only"},
+      {"joint": "J2", "proposal": "parent-child link semi-captive moving guide or rolling loop", "heritage": "replaces rejected uncontrolled fold span"},
+      {"joint": "J3", "proposal": "parent-child link semi-captive moving guide or rolling loop", "heritage": "replaces rejected uncontrolled fold span"},
+      {"joint": "J4", "proposal": "trade local side-bypass against guided rolling loop", "heritage": "no selection until packaging and trajectory evidence exist"},
+      {"joint": "J5", "proposal": "fixed-curvature wrist wrap", "heritage": "Route-B local positive result is a design seed only"},
+      {"joint": "J6", "proposal": "fixed-curvature wrist wrap", "heritage": "Route-B local positive result is a design seed only"}
+    ],
+    "split_power_data_option": {
+      "status": "TRADE_ONLY__NOT_SELECTED",
+      "selection_requires": ["electrical load map", "EMC and separation assessment", "available volume", "connector and conductor definition", "flex-life evidence"]
+    }
+  },
+  "route_b_seed_quarantine": {
+    "bundle_outer_diameter_mm": {"value": 10.0, "status": "ROUTE_B_PROVISIONAL_SEED__REMEASURE_OR_REDEFINE", "project_authority": false},
+    "terminal_bend_radius_mm": {"value": 30.0, "status": "ROUTE_B_TERMINAL_REQUIREMENT_SEED__REBIND_TO_SELECTED_PRODUCT", "project_authority": false},
+    "cut_length_mm": {"value": 4001.158, "status": "ROUTE_B_REJECTED_CANDIDATE_SEED__MUST_BE_RECOMPUTED", "project_authority": false},
+    "route_b_diagnostic_mass_kg": {"value": 0.68406762184, "status": "FORBIDDEN_TO_INHERIT__REJECTED_ROUTE_B_DIAGNOSTIC_ONLY", "project_authority": false}
+  },
+  "required_product_inputs": [
+    "frozen conductor and connector map with current, data-rate and shielding needs",
+    "measured or supplier-controlled finished bundle OD and tolerance",
+    "minimum static and dynamic bend radius by selected cable construction and temperature",
+    "linear mass and component mass with uncertainty and provenance",
+    "torsional and bending restoring-load curves versus angle, rate and temperature",
+    "guide, clamp, liner and fastener material/process selections",
+    "abrasion, particulate, outgassing, thermal-vacuum and flex-life limits",
+    "installation inspection and post-install electrical test procedure"
+  ],
+  "analysis_contract": {
+    "coordinate_authority": "accepted URDF link/joint frames; geometry additions must be separately versioned and must not edit the accepted URDF",
+    "first_release_domain": "the eight authority-tagged continuous mission trajectory segments",
+    "full_hardware_range": "evaluate only if the Owner requires it after mission-first closure",
+    "coupled_predicate": [
+      "signed bundle-to-solid clearance margin",
+      "minimum local bend-radius margin",
+      "pinch/crush margin through moving guides",
+      "available-length and take-up margin",
+      "guide/carrier kinematic closure and hard-stop margin",
+      "restoring torque and joint-load margin",
+      "Solar R2 keep-out and deployment-interlock compatibility"
+    ],
+    "fail_closed_rule": "Any absent authority, missing product datum, unproved trajectory segment, UNKNOWN predicate, or hash mismatch yields HOLD/UNKNOWN; it never yields PASS.",
+    "uncertainty_rule": "Every physical input shall retain estimate, unit, standard uncertainty or bounded distribution, provenance and correlation notes; rejected Route-B mass is not an uncertainty prior."
+  },
+  "gating_layers": {
+    "detailed_design_start": {
+      "required": [
+        "independently issued Owner authorization referencing the ODR-42 request hash",
+        "minimum product/interface inputs: measured or controlled bundle OD, applicable bend limit, conductor/connector definition, installation interfaces and life target"
+      ],
+      "explicitly_not_required_before_C2": ["8/8 released trajectories", "final Route-C mass/CG/inertia", "final restoring-torque evidence", "qualification completion"],
+      "current_state": "HOLD"
+    },
+    "parallel_and_downstream_release": {
+      "required": ["8/8 released continuous mission trajectories", "exact coupled SAFE evidence", "final mass/CG/inertia and restoring-load budgets", "abrasion/TVAC/flex-life and post-install electrical verification plan", "consumer runtime rebind and negative controls"],
+      "current_state": "HOLD"
+    }
+  },
+  "first_pass_closure_sequence": [
+    {"stage": "C0", "name": "authorization", "entry": "ODR-42 request plus frozen-asset hashes", "exit": "independent Owner decision references request hash", "fail_closed_rollback": "HOLD; no geometry"},
+    {"stage": "C1", "name": "electrical and mechanical input freeze", "entry": "C0 approved with named owners", "exit": "minimum C2-start inputs frozen, while remaining qualification-grade inputs continue on the downstream register", "fail_closed_rollback": "return C1; Route-B seeds remain non-authoritative"},
+    {"stage": "C2", "name": "STEP-first parametric design", "entry": "C1 complete and immutable hashes match", "exit": "reproducible separate source and STEP with named datums constraints and reviewed snapshots", "fail_closed_rollback": "return C2; never modify frozen assets"},
+    {"stage": "C3", "name": "eight continuous mission trajectories", "entry": "C2 candidate loadable and trajectory definitions controlled", "exit": "8/8 released continuous trajectories with auditable timing sampling and hashes", "fail_closed_rollback": "return C3; mission coverage HOLD"},
+    {"stage": "C4", "name": "exact coupled verification", "entry": "C2 and C3 complete with nonempty comparison sets", "exit": "all mission-domain samples SAFE; full hardware range also SAFE only when that range is claimed", "fail_closed_rollback": "return C2/C3 on any UNKNOWN or UNSAFE"},
+    {"stage": "C5", "name": "mass CG inertia and restoring torque", "entry": "controlled product data geometry and motion domain", "exit": "nine-configuration mass properties and joint loads carry units uncertainty provenance and meet budgets", "fail_closed_rollback": "return C1/C2; do not update dynamics SSOT"},
+    {"stage": "C6", "name": "abrasion TVAC and life plan", "entry": "materials process motion and load domains controlled", "exit": "approved article environment cycle inspection electrical-test and acceptance plan", "fail_closed_rollback": "HOLD; no qualification claim"},
+    {"stage": "C7", "name": "handoff and consumer rebind", "entry": "C4-C6 evidence and independent review complete", "exit": "current hashes bound and runtime harness negative controls deny UNKNOWN/UNSAFE", "fail_closed_rollback": "ABORT or diagnostic-only; no production dynamics or physical-contact RL"}
+  ],
+  "official_method_sources": [
+    {
+      "id": "NASA-STD-8739.4A_CHANGE_4",
+      "url": "https://standards.nasa.gov/standard/nasa/nasa-std-87394",
+      "allowed_use": "workmanship, installation and inspection method planning",
+      "forbidden_use": "project-specific dimension or qualification authority"
+    },
+    {
+      "id": "ECSS-E-ST-33-01C_REV2",
+      "url": "https://ecss.nl/standard/ecss-e-st-33-01c-rev-2-1-march-2019-space-engineering-mechanisms/",
+      "allowed_use": "mechanism design, analysis, verification and documentation lifecycle planning",
+      "forbidden_use": "automatic compliance or project-specific dimension authority"
+    },
+    {
+      "id": "NASA_LLIS_687",
+      "url": "https://llis.nasa.gov/lesson/687",
+      "allowed_use": "guide/clamp, loop control, snag avoidance and bend-control lessons",
+      "forbidden_use": "project-specific geometry authority"
+    },
+    {
+      "id": "NASA_LLIS_30101",
+      "url": "https://llis.nasa.gov/lesson/30101",
+      "allowed_use": "installation-damage controls and post-install electrical test planning",
+      "forbidden_use": "project-specific acceptance value authority"
+    }
+  ],
+  "prohibited_claims": [
+    "Route C detailed design authorized",
+    "Route C CAD released",
+    "full hardware range qualified",
+    "mission trajectories released",
+    "mass/CG/inertia released",
+    "harness restoring torque acceptable",
+    "production dynamics or physical-contact RL ready"
+  ],
+  "required_next_decision": "Owner disposition of ROUTE_C_OWNER_DECISION_REQUEST_ODR42_V1.yaml"
+}

@@ -1,0 +1,30 @@
+# T_E_T 权威摄入表：约定已声明、数值确认缺失。本文件只登记事实与准入条件，不发明数值。
+schema: T_E_T_AUTHORITY_INTAKE_V1
+symbol: T_E_T
+semantics_declared_by: 30_simulation/r2_dynamics_engineering_closure/post_capture_spatial_inertia_kernel_candidate_v1/contracts/POST_CAPTURE_SPATIAL_INERTIA_KERNEL_CONTRACT_V1.json
+declared_convention:
+  se3: "T_A_B maps coordinates expressed in B into A: x_A = R_A_B*x_B + p_A_B"
+  direction: "parent_frame = E (end-effector gripper_link), child_frame = T (target)"
+  composition: "T_B_T = T_B_E * T_E_T"
+  required_receipt_schema: AUTHORITY_BOUND_ATTACHMENT_SE3_RECEIPT_V1
+  required_issuer: CONTACT_CAPTURE_CONFIGURATION_AUTHORITY
+  transform_field: T_E_T_rows
+value_status: MISSING
+evidence_of_absence:
+  - "kernel 合同 current_contract_contains_attachment_authority_receipt_pin = false"
+  - "R2_CONFIGURATION_STATE_VECTOR_CONTRACT_V1.yaml authoritative_state.target.attachment_transform_S_rows = null，status UNKNOWN_NOT_AUTHORITY_BOUND__M5_DISPLAY_TRANSFORM_NOT_PROMOTED（C08 与 C09）"
+  - "M4 frame registry TARGET_SATELLITE_T / TARGET_DEBRIS_D parent=null, T_S=null"
+  - "M6 CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml 仅 DISPLAY_ONLY 候选，display_transform_promotion_forbidden = true"
+consequences_while_missing:
+  C08: NOT_EVALUATED_MISSING_AUTHORITATIVE_ATTACHMENT_SE3
+  C09: NOT_EVALUATED_MISSING_AUTHORITATIVE_ATTACHMENT_SE3
+  contact_execution_authorized: false
+  S05_S06_scope: NO_CONTACT_PREBIND_ONLY
+  S08_synthetic_contact: BLOCKED_UNTIL_T_E_T_PRESENT
+acceptance_conditions:
+  - "出现 AUTHORITY_BOUND_ATTACHMENT_SE3_RECEIPT_V1 回执（parent=E, child=T/D, T_E_T_rows, 签发方 CONTACT_CAPTURE_CONFIGURATION_AUTHORITY）"
+  - "回执 SHA-256 入 SOURCE_HASH_MANIFEST 并经独立复算"
+  - "方向/矩心/单位按本文件 declared_convention 逐字校验"
+forbidden:
+  - "默认方向假设（'末端到目标' vs '目标到末端'不得猜测——已由 declared_convention 固定为 E→T 父子语义）"
+  - "以 DISPLAY_ONLY 变换或文件名推断替代回执"

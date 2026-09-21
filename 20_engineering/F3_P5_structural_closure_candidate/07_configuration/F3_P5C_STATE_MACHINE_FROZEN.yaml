@@ -1,0 +1,93 @@
+# F3-P5C 冻结状态机（Mode B 单路线）
+
+**状态机编号：** `F3-P5C-SM-20260805`
+**路线：** Mode B（外部服务模块，T_SM=185.25 mm）
+**运行基线：** DEPLOYED_NOMINAL / SERVICE_* / RETRIEVED_NOMINAL（STOW 非运行）
+
+## 状态定义
+
+```yaml
+state_machine:
+  id: F3_P5C_SM_FROZEN_V1
+  route: MODE_B_SINGLE_ROUTE
+  t_sm_mm: 185.25
+  operational_baseline: [DEPLOYED_NOMINAL, SERVICE_DOCKING, SERVICE_GRASP, SERVICE_TRANSPORT, SERVICE_ASSEMBLY, RETRIEVED_NOMINAL]
+  non_operational: [STOW_STORAGE, STOW_TRANSPORT]
+  states:
+    STOW_STORAGE:
+      description: 收拢存储姿态（发射/存储/运输），不参与比赛运行
+      hdrm: LOCKED
+      arm_motion_enable: false
+      g07: CONTACT
+      g08: CONTACT
+      mid: NON_CONTACT_2mm
+      camera_wrist: PARTIAL_OCCLUDED_G07
+      camera_base: PARTIAL_OCCLUDED_G07_G08
+      status: NON_OPERATIONAL
+    STOW_TRANSPORT:
+      description: 收拢运输姿态，等同 STOW_STORAGE
+      hdrm: LOCKED
+      arm_motion_enable: false
+      status: NON_OPERATIONAL
+    HDRM_RELEASE_SEQUENCE:
+      description: HDRM 释放执行（<0.5s，电磁锁+弹簧，行程 6mm）
+      hdrm: RELEASING
+      arm_motion_enable: false
+      interlock: ARM_MOTION_ENABLE=false UNTIL HDRM_RELEASED_CONFIRMED
+    DEPLOYED_NOMINAL:
+      description: 臂完全展开到位（演示初始状态）
+      hdrm: RELEASED
+      arm_motion_enable: true
+      g07: SEPARATED
+      g08: SEPARATED
+      camera: ALL_VISIBLE
+      status: OPERATIONAL_START
+    SERVICE_DOCKING:
+      description: 服务任务-对接接近
+      arm_motion_enable: true
+      camera_end: PRIMARY
+    SERVICE_GRASP:
+      description: 服务任务-捕获
+      arm_motion_enable: true
+      camera_end: PRIMARY
+      gripper: CLOSING
+      note: 腕部相机在夹爪闭合时部分遮挡手指（可接受）
+    SERVICE_TRANSPORT:
+      description: 服务任务-运输
+      arm_motion_enable: true
+      payload_held: true
+    SERVICE_ASSEMBLY:
+      description: 服务任务-装配/操作
+      arm_motion_enable: true
+      payload_held: true
+    RETRIEVED_NOMINAL:
+      description: 任务完成臂收回（非 STOW，仍运行态）
+      arm_motion_enable: true
+      hdrm: RELEASED
+    SAFE_STOP:
+      description: 异常安全停止（任何运行状态可进入）
+      arm_motion_enable: false
+      fail_safe: MECHANICAL_STOP_HOLD
+  transitions:
+    STOW_STORAGE -> HDRM_RELEASE_SEQUENCE: HDRM_RELEASE_CMD
+    HDRM_RELEASE_SEQUENCE -> DEPLOYED_NOMINAL: HDRM_RELEASED_CONFIRMED
+    DEPLOYED_NOMINAL -> SERVICE_DOCKING: DOCKING_START
+    SERVICE_DOCKING -> SERVICE_GRASP: GRASP_START
+    SERVICE_GRASP -> SERVICE_TRANSPORT: GRASP_CONFIRMED
+    SERVICE_TRANSPORT -> SERVICE_ASSEMBLY: ASSEMBLY_START
+    SERVICE_ASSEMBLY -> RETRIEVED_NOMINAL: ASSEMBLY_DONE
+    RETRIEVED_NOMINAL -> DEPLOYED_NOMINAL: REDEPLOY
+    ANY -> SAFE_STOP: FAULT
+    SAFE_STOP -> STOW_STORAGE: MANUAL_RECOVERY
+  interlocks:
+    ARM_MOTION_ENABLE: "true only in OPERATIONAL states (DEPLOYED_NOMINAL..RETRIEVED_NOMINAL)"
+    HDRM_RELEASE: "requires ARM_MOTION_ENABLE=false AND STOW state verified"
+    GRIPPER_CLOSE: "requires ARM_MOTION_ENABLE=true AND grasp target confirmed"
+```
+
+## 规则
+
+1. `ARM_MOTION_ENABLE` 互锁：仅运行态为 true；STOW/HDRM 释放/SAFE_STOP 均为 false。
+2. HDRM 释放命令要求臂已锁定（STOW）且 HDRM 状态=LOCKED。
+3. STOW 不参与运行基线；演示初始状态 = DEPLOYED_NOMINAL。
+4. 负结果保留：Mode A 排除、Mode B STOW 超限，禁止制造假通过。

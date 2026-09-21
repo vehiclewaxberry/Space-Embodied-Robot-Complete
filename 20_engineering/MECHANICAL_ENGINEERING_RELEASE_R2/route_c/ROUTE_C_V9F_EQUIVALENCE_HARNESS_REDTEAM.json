@@ -1,0 +1,76 @@
+{
+  "schema": "ROUTE_C_V9F_EQUIVALENCE_HARNESS_REDTEAM_V1",
+  "generated_utc": "DETERMINISTIC_REVIEW_RECORD_NO_WALLCLOCK",
+  "authority": "INDEPENDENT_STATIC_REDTEAM_RECORD__NOT_A_SWEEP_OR_RELEASE_GATE",
+  "reviewed_artifacts": {
+    "provenance_runner": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_V9F_PROVENANCE_RUNNER.py",
+      "sha256": "01773C4E4149449E5834D1E2974E11DFA1C5D2291ED7E1DD67276BA859BC9E9B"
+    },
+    "equivalence_comparator": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_V9F_P0_REFERENCE_EQUIVALENCE.py",
+      "sha256": "3C8ECF67035581EFD9A0B1A853666E23486A03B41133F224D9A665AE0C1F031A"
+    },
+    "reference_evaluator": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/_work/v9f_evaluator_pre_redteam_fix/ROUTE_C_EXACT_SWEEP_V9F_PRE_PERFORMANCE_REFERENCE.py",
+      "sha256": "46732BB71605E6EE52488C6324FB47E5E7C009490A3E94F49DE95EC2B0DF6244"
+    },
+    "p0_evaluator": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_EXACT_SWEEP_V9F.py",
+      "sha256": "9F26AC9A8DE5E2EEB57103F07B769EB43AC30A8FBAFD90FE8DF5D501FA8C8A7F"
+    }
+  },
+  "redteam_rounds": [
+    {
+      "round": 1,
+      "verdict": "FAIL",
+      "closed_findings": [
+        "outputs were not bound to an actual evaluator run",
+        "CSV NaN/Inf was not rejected",
+        "duplicate JSON keys were not rejected",
+        "parse/hash used separate file reads"
+      ]
+    },
+    {
+      "round": 2,
+      "verdict": "FAIL",
+      "closed_findings": [
+        "same-name concurrent writer could be signed",
+        "run-id reuse could overwrite an archived log",
+        "receipt booleans and integers were not exact-type checked",
+        "CSV value parsing accepted overflow and arbitrary strings"
+      ]
+    },
+    {
+      "round": 3,
+      "verdict": "FAIL",
+      "closed_findings": [
+        "staging bytes were not hashed before publish",
+        "completed did not require a real staging publish",
+        "published bytes were not required to equal staged bytes"
+      ]
+    },
+    {
+      "round": 4,
+      "verdict": "PASS_WITHIN_DECLARED_LOCAL_TRUST_BOUNDARY",
+      "verified_controls": [
+        "pinned evaluator bytes are compiled and executed directly",
+        "archived-reference __file__ is mapped to the active Route-C directory only to preserve HERE-relative semantics",
+        "three evaluator output writes are redirected to a unique immutable run-id staging directory",
+        "staged, published and compared output SHA256 maps must all match",
+        "completed requires child exit zero, complete staging, performed publish, complete output set, matching maps and unchanged source/runner",
+        "JSON duplicate keys and non-finite constants fail closed",
+        "CSV values accept only finite floats or three explicit evaluator sentinels",
+        "receipt fixed fields use exact type and value checks",
+        "child log bytes and SHA256 are checked",
+        "each compared file is read once and the same bytes feed parsing, hashing and comparison"
+      ]
+    }
+  ],
+  "trust_boundary": "LOCAL_WORKSPACE_AND_HASH_PINNED_RUNNER_ARE_TRUSTED__NO_EXTERNAL_SIGNATURE_OR_IMMUTABLE_LEDGER_CLAIM",
+  "recoverability_scope": "LAUNCH_PREEXISTING_AND_PREPUBLISH_SNAPSHOTS__UNCOOPERATIVE_WRITER_RACE_NOT_CLAIMED",
+  "dynamic_equivalence_executed": false,
+  "final_verdict": "PASS_STATIC_PROVENANCE_AND_EQUIVALENCE_HARNESS__DYNAMIC_OUTPUT_COMPARISON_PENDING",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

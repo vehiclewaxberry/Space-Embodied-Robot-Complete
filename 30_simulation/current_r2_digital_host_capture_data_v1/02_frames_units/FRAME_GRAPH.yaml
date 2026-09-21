@@ -1,0 +1,23 @@
+# 统一 frame graph（S00/S01 消费）。禁止凭文件名或视觉位置猜安装变换。
+# 记号：T_XY 表示 p_X = T_XY · p_Y（Y 在 X 中的位姿）。缺失值 = null + status。
+schema: FRAME_GRAPH_V1
+convention_source:
+  frame_ssot: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/coordinate_frame_definition_v0.md
+  numeric_tree_current: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/source_only_v2/UNIFIED_R2_SYSTEM_FRAME_TREE_V2.yaml
+frames:
+  I: {name: inertial, parent: null, note: "惯性参考；动量 h_O 以 I 原点为矩心"}
+  S: {name: servicer_structural, parent: I, transform: FREE_FLOATING_STATE, note: "12U 服务星结构系（SSOT frame S）"}
+  M: {name: arm_dynamics_mount, parent: S, transform: {t_m: [0.18525, 0.0, 0.0], rpy_rad: [0.0, 1.5707963267948966, 0.0]}, authority: ODR01_NOMINAL_FROZEN_V1, status: DESIGN_NOMINAL_NOT_MEASURED, note: "+Z_M=+X_S, +Y_M=+Y_S, +X_M=-Z_S；M_DYNAMICS_NONPHYSICAL 与 D_BUS_MATE_PHYSICAL 数值同、身份异、禁止别名"}
+  A0: {name: b601_base_link, parent: M, transform: IDENTITY_NOMINAL, authority: "accepted URDF 头注 T_MA0=identity（SSOT sec3.1）", status: NOMINAL}
+  A1_A6: {name: b601_link1..link6, parent: CHAIN, transform: "accepted URDF joint origins（q 依赖）", authority: ACCEPTED_URDF, status: ACCEPTED}
+  E: {name: end_effector_gripper_link, parent: A6, transform: {t_m: [0.0, 0.0, 0.15971], rpy_rad: [0.0, -1.5707963267948966, 0.0]}, authority: ACCEPTED_URDF_gripper_joint_fixed, status: ACCEPTED}
+  EL_ER: {name: gripper_left/right, parent: E, transform: "URDF gripper_joint1/2（独立 P，0..0.0715 m）", authority: ACCEPTED_URDF, status: ACCEPTED}
+  B601_PHYS: {name: arm_base_physical_rail, parent: S, transform: {station_x_m: 0.208, clocking_about_x_deg: 25.000014}, authority: EXECUTION_MOUNT_BINDING_V1_CANDIDATE, status: CANDIDATE_NOT_RELEASE, consumer: NONE_THIS_INCREMENT}
+  T: {name: target_satellite_22kg, parent: null, transform: null, status: UNKNOWN_NOT_AUTHORITY_BOUND, note: "M4 registry TARGET_SATELLITE_T parent=null T_S=null；display 候选禁止提升"}
+  D: {name: target_debris_150kg, parent: null, transform: null, status: UNKNOWN_NOT_AUTHORITY_BOUND}
+  T_E_T: {name: end_effector_to_target_attachment, parent: E, child: T_or_D, transform: null, status: MISSING, intake: 02_frames_units/T_E_T_AUTHORITY_INTAKE.yaml}
+prebind_plant_chain: "I -> S(free 6DOF) -> M(T_SM) -> A0(identity nominal) -> A1..A6 -> E -> EL/ER"
+fail_closed_rules:
+  - "任何 status != ACCEPTED/NOMINAL 的 frame 进入接触/抓取判据时 → NOT_EVALUATED/ABORT"
+  - "T/D 无 authority-bound 位姿 → C08/C09 保持 NOT_EVALUATED"
+  - "双轨（M vs B601_PHYS）严禁互换或平均"

@@ -1,0 +1,73 @@
+schema: BUS_12U_LENGTH_TRACK_RULING_V1
+generated_date_local: '2026-08-24'
+artifact_class: PROPOSED_ENGINEERING_AUTHORITY_RULING__PENDING_OWNER_REVIEW__DOCUMENTATION_ONLY__NO_GEOMETRY_CHANGE
+scope: 12U operational body-length track selection only
+ruling:
+  MODE_OP_rigid_bus_body_length_mm: 340.5
+  cross_section_mm:
+  - 226.3
+  - 226.3
+  authority: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+  derivation: 3 bays x 113.5 mm = 340.5 mm
+  status: TECHNICAL_CANDIDATE_FROZEN_WITHIN_THIS_PACKAGE__PENDING_OWNER_REVIEW
+v22_366_disposition:
+  value_mm: 366.0
+  source_classification: DISPLAY_TRACK_366__DYNAMICS_SSOT_340P5_UNCHANGED
+  may_be_used_as_physical_primary_structure_authority: false
+  may_be_averaged_with_340p5: false
+  status: EXCLUDED_FROM_OPERATIONAL_BODY_LENGTH_AUTHORITY
+closure:
+  length_conflict_resolved: true
+  physical_primary_structure_authority_resolved: false
+  remaining_hold: HOLD_DETAILED_12U_PRIMARY_STRUCTURE_MEMBERS_OPENINGS_LOAD_PATH_AND_MANUFACTURING_DEFINITION
+  interpretation: 340.5 mm closes the operational body-length track only; it does not release the six-primitive bus proxy
+    as physical structure.
+consumption_rules:
+- After explicit downstream promotion, Unified R2 operational geometry shall use x=[-170.25,+170.25] mm for the rigid bus
+  body reference.
+- V2.2 members authored on x=[-183,+183] mm remain display/proposal evidence and require an authorized 340.5 mm redesign before
+  physical reuse.
+- Launcher/dispenser protrusions, rails and qualification envelope remain separate external-ICD holds.
+- No existing CAD or dynamics artifact is mutated by this ruling.
+source_pins:
+- id: BUS_GEOMETRY_SSOT
+  path: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+  bytes: 1176
+  sha256: 8DD8F22FF1F893273DE2215EA12819E4D41CC0E20B853ADC0774052237881432
+  role: operational/dynamics 12U rigid-bus geometry SSOT
+  verified: true
+- id: V22_BUILDER
+  path: 20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/automation/sw_v22_builder.py
+  bytes: 29337
+  sha256: DA1E136E77078C37C2570B09FD1F316549C9518684F280B46F7954AFFE9F982C
+  role: explicit two-track source classification
+  verified: true
+- id: V22_BUILD_SPEC
+  path: 20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/automation/b5_build_spec.yaml
+  bytes: 6073
+  sha256: 23158D186674B544F302347312C7E079E63D68FC18A7AF439D635A5B1AD8CAD4
+  role: 366 mm display-track primary-structure proposal
+  verified: true
+- id: V22_GATE0_RULING
+  path: 20_engineering/design_inputs/v2_2_physical_architecture/gate_0_ruling_record.yaml
+  bytes: 1965
+  sha256: EDD794B21221EB7EFA9F01E67BF52732A993B83C74D8CE040C88A316C0528B71
+  role: 'direct dual-track ruling: 366 display/mechanism, 340.5 dynamics SSOT'
+  verified: true
+- id: M7_PRODUCT_STRUCTURE
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml
+  bytes: 48807
+  sha256: 0F9897EF4E41666DDB29CB0FC621DD737FDD8CCDE3F5527030E53A9D1604681A
+  role: M7 six-primitive bus proxy classification and detailed-structure HOLD
+  verified: true
+- id: M7_NATIVE_DONOR_DISPOSITION
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml
+  bytes: 51418
+  sha256: 10106444309B6E835D9C87EF41A0FF78FF4CFDAC8C773C7B9B158FC3C0DA1B05
+  role: 'direct counter-authority: detailed V2.2 native primary-structure donor remains native-only/reintegration HOLD'
+  verified: true
+owner_accepted: false
+effective_for_downstream_execution: false
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+release_credit: false

@@ -1,0 +1,116 @@
+schema_version: v2-pdr-design-decision-matrix-v0.1
+matrix_id: SV2_PDR_DECISIONS
+created_on: "2026-07-24"
+status: PDR_DECISIONS_FROZEN_UNTIL_INPUT_CHANGE
+
+decisions:
+  - decision_id: PDR-D-001
+    topic: V2_CAD_root
+    selected: independent_V2_root_after_named_B3_gate
+    rejected:
+      - modify_V1_in_place
+      - create_V2_now
+    evidence_state: EVIDENCE_BOUND_GOVERNANCE
+    reopen_trigger: B3_scope_or_output_root_change
+
+  - decision_id: PDR-D-002
+    topic: modeling_method
+    selected: top_down_Master_Skeleton
+    rejected:
+      - uncontrolled_bottom_up
+      - root_assembly_back_drive
+    evidence_state: EVIDENCE_BOUND_CONTRACT
+    reopen_trigger: Master_Skeleton_contract_change
+
+  - decision_id: PDR-D-003
+    topic: system_partition
+    selected: front_mission_mid_avionics_rear_service_three_bay
+    rejected:
+      - hardware_appearance_driven_partition
+    evidence_state: EVIDENCE_BOUND_AND_DERIVED
+    reopen_trigger: profile_or_bay_boundary_change
+
+  - decision_id: PDR-D-004
+    topic: primary_structure_topology
+    selected: four_transverse_frames_four_longitudinal_members_two_boundary_decks
+    rejected:
+      - single_visual_box_as_structure
+    evidence_state: DESIGN_PROPOSAL
+    reopen_trigger: loads_material_joint_or_manufacturing_input
+
+  - decision_id: PDR-D-005
+    topic: robot_reaction_path
+    selected: B601_to_adapter_to_front_frame_to_longitudinal_primary_structure
+    rejected:
+      - terminate_reaction_at_removable_panel
+    evidence_state: DESIGN_PROPOSAL
+    reopen_trigger: IF_RM_or_load_case_change
+
+  - decision_id: PDR-D-006
+    topic: subsystem_packaging
+    selected: owner_first_replaceable_reservations
+    rejected:
+      - generic_boxes_claimed_as_selected_hardware
+    evidence_state: DESIGN_PROPOSAL
+    reopen_trigger: qualified_hardware_envelope_mass_or_thermal_input
+
+  - decision_id: PDR-D-007
+    topic: B601_representation
+    selected: accepted_10_link_9_joint_read_only_reference
+    rejected:
+      - modify_URDF
+      - import_unqualified_vendor_STEP
+      - infer_inertia_from_visual_CAD
+    evidence_state: EVIDENCE_BOUND
+    reopen_trigger: accepted_source_hash_or_topology_change
+
+  - decision_id: PDR-D-008
+    topic: target_and_contact
+    selected: independent_scene_and_semantic_reference_only
+    rejected:
+      - active_target_mate
+      - physical_TCP_without_T_E_TCP
+      - contact_geometry
+    evidence_state: EXCLUDED_AND_UNKNOWN_BLOCKED
+    reopen_trigger: separate_target_and_contact_gate
+
+  - decision_id: PDR-D-009
+    topic: mass_and_inertia
+    selected: preserve_owner_ledger_and_null_aggregate_properties
+    rejected:
+      - SolidWorks_default_material
+      - visual_volume_mass
+      - provisional_total_as_complete_mass
+    evidence_state: PROVISIONAL_SOURCE_BOUND_AND_UNKNOWN_BLOCKED
+    reopen_trigger: qualified_hardware_mass_and_configuration_review
+
+  - decision_id: PDR-D-010
+    topic: digital_thread
+    selected: schema_first_fail_closed_handoffs
+    rejected:
+      - direct_CAD_to_simulation_without_gate
+      - inherited_scientific_PASS
+    evidence_state: DESIGN_PROPOSAL
+    reopen_trigger: B3_export_or_dynamics_authorization
+
+  - decision_id: PDR-D-011
+    topic: flexible_structure
+    selected: candidate_register_only
+    rejected:
+      - run_ANCF_FEA_or_modal_now
+      - infer_flexibility_from_visual_geometry
+    evidence_state: PLANNED_NOT_AUTHORIZED
+    reopen_trigger: separate_research_gate_and_physical_parameters
+
+  - decision_id: PDR-D-012
+    topic: negative_results
+    selected: preserve_10_deployed_reference_q0_static_interferences
+    rejected:
+      - suppress_or_hide_to_create_PASS
+    evidence_state: NEGATIVE_RESULT
+    reopen_trigger: authorized_redesign_and_independent_reverification
+
+rules:
+  PDR_agent_may_self_reopen_physical_decision: false
+  input_hash_change_requires_re_review: true
+  human_gate_required_for_B3: true

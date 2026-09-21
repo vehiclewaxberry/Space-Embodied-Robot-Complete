@@ -1,0 +1,254 @@
+schema: F3R2_M3_GRIPPER_R1_ENGINEERING_PARAMETER_TABLE_V1
+phase: Phase M3 Mechanical Detailed Design Closure
+artifact_status: WORKING_ENGINEERING_AUTHORITY
+release_status: HOLD_NOT_FLIGHT_OR_MANUFACTURING_RELEASE
+coordinate_frame: LINK6_LOCAL
+unit_policy:
+  geometry_length: mm
+  geometry_volume: mm^3
+  mass: kg
+  uncertainty_rule: Unknown uncertainty remains null and cannot be interpreted as zero.
+classification_legend:
+  FROZEN: Existing digital baseline input, frozen for this M3 working iteration only.
+  DERIVED: Reproducible result calculated from a cited digital artifact.
+  CANDIDATE: Engineering estimate or option; not an acceptance value.
+  UNKNOWN: No controlling evidence located; downstream acceptance is HOLD.
+parameters:
+  - parameter_id: GRP-P-001
+    name: symmetric_jaw_travel_each_side
+    value: 71.5
+    unit: mm
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: FROZEN
+    source_type: ACCEPTED_URDF_DIGITAL_LIMIT_CONFIRMED_BY_R1_GEOMETRY_VALIDATION
+    source: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    evidence_pointer: gripper_joint1/gripper_joint2 upper=0.0715 m; correction.full_travel_mm=71.5
+    status: ACTIVE_FOR_NEUTRAL_KINEMATIC_MODEL
+    use_limit: Not a measured stroke, actuator capability, manufacturing acceptance, or end-stop tolerance.
+  - parameter_id: GRP-P-002
+    name: left_jaw_translation_at_open
+    value: [0.0, -71.5, 0.0]
+    unit: mm
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: DERIVED
+    source_type: R1_GEOMETRY_CORRECTION_RECORD
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+    evidence_pointer: correction.axis and correction.left_translation_mm
+    status: ACTIVE_FOR_NEUTRAL_KINEMATIC_MODEL
+    use_limit: LINK6_LOCAL digital transform only.
+  - parameter_id: GRP-P-003
+    name: right_jaw_translation_at_open
+    value: [0.0, 71.5, 0.0]
+    unit: mm
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: DERIVED
+    source_type: R1_GEOMETRY_CORRECTION_RECORD
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+    evidence_pointer: correction.axis and correction.right_translation_mm
+    status: ACTIVE_FOR_NEUTRAL_KINEMATIC_MODEL
+    use_limit: LINK6_LOCAL digital transform only.
+  - parameter_id: GRP-P-004
+    name: pregrasp_travel_each_side
+    value: 55.0
+    unit: mm
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: FROZEN
+    source_type: M3R_V2_CONFIGURATION_AUTHORITY
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+    evidence_pointer: continuous_stroke_acceptance.poses.PREGRASP
+    status: ACTIVE_DIGITAL_POSE
+    use_limit: Configuration coordinate, not a grasp-size requirement.
+  - parameter_id: GRP-P-005
+    name: closed_travel_each_side
+    value: 0.0
+    unit: mm
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: FROZEN
+    source_type: M3R_V2_CONTACT_CONFIGURATION_AUTHORITY
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+    evidence_pointer: continuous_stroke_acceptance.poses.CLOSED
+    status: ACTIVE_DIGITAL_POSE
+    use_limit: Coordinate origin; zero does not assert zero backlash, zero clearance, or zero uncertainty.
+  - parameter_id: GRP-P-006
+    name: continuous_stroke_verification_step
+    value: 0.5
+    unit: mm
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: DERIVED
+    source_type: VERIFICATION_DISCRETIZATION
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_CONTINUOUS_STROKE_SAMPLES.csv
+    evidence_pointer: 144 rows from 0.0 mm through 71.5 mm inclusive
+    status: VERIFIED_FILE_CONTENT
+    use_limit: Verification sampling interval, never a geometric or motion-control tolerance.
+  - parameter_id: GRP-P-007
+    name: continuous_stroke_sample_count
+    value: 144
+    unit: count
+    standard_uncertainty: null
+    uncertainty_basis: EXACT_FILE_ROW_COUNT
+    classification: DERIVED
+    source_type: FILE_ROW_COUNT
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_CONTINUOUS_STROKE_SAMPLES.csv
+    evidence_pointer: rows 0 through 143
+    status: VERIFIED_FILE_CONTENT
+    use_limit: Does not replace analytic proof or hardware stroke testing.
+  - parameter_id: GRP-P-008
+    name: r1_palm_step_solid_count
+    value: 12
+    unit: count
+    standard_uncertainty: null
+    uncertainty_basis: EXACT_NEUTRAL_STEP_REOPEN_COUNT
+    classification: DERIVED
+    source_type: NEUTRAL_STEP_REOPEN
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_NEUTRAL_REOPEN_VALIDATION.json
+    evidence_pointer: step_reopen.B601_GRIPPER_PALM_RAIL_SLOT_R1.step.solid_count
+    status: PASS_NEUTRAL_READABILITY_ONLY
+    use_limit: Not native V5 topology equivalence.
+  - parameter_id: GRP-P-009
+    name: r1_palm_step_volume
+    value: 45088.72293792546
+    unit: mm^3
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: DERIVED
+    source_type: NEUTRAL_BREP_GEOMETRIC_INTEGRATION
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_NEUTRAL_REOPEN_VALIDATION.json
+    evidence_pointer: step_reopen.B601_GRIPPER_PALM_RAIL_SLOT_R1.step.volume_mm3
+    status: PASS_NEUTRAL_READABILITY_ONLY
+    use_limit: Digital geometric value with no manufacturing or metrology uncertainty assigned.
+  - parameter_id: GRP-P-010
+    name: left_full_stroke_swept_envelope_volume
+    value: 198650.81437615026
+    unit: mm^3
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: DERIVED
+    source_type: CONSERVATIVE_AABB_MINKOWSKI_ENVELOPE_NEUTRAL_BREP
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_NEUTRAL_REOPEN_VALIDATION.json
+    evidence_pointer: step_reopen.LEFT_RAIL_FULL_STROKE_SWEPT_VOLUME.step
+    status: PASS_NEUTRAL_READABILITY_ONLY
+    use_limit: Conservative clearance envelope, not material volume.
+  - parameter_id: GRP-P-011
+    name: right_full_stroke_swept_envelope_volume
+    value: 198650.81437613696
+    unit: mm^3
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: DERIVED
+    source_type: CONSERVATIVE_AABB_MINKOWSKI_ENVELOPE_NEUTRAL_BREP
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_NEUTRAL_REOPEN_VALIDATION.json
+    evidence_pointer: step_reopen.RIGHT_RAIL_FULL_STROKE_SWEPT_VOLUME.step
+    status: PASS_NEUTRAL_READABILITY_ONLY
+    use_limit: Conservative clearance envelope, not material volume.
+  - parameter_id: GRP-P-012
+    name: digital_manufacturing_additional_clearance_applied
+    value: 0.0
+    unit: mm
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: DERIVED
+    source_type: R1_GEOMETRY_OPERATION_RECORD
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+    evidence_pointer: correction.manufacturing_additional_clearance_mm
+    status: PROVISIONAL_CLEARANCE_HOLD
+    use_limit: Means no manufacturing allowance was added to the digital cut; it is not an approved zero-clearance fit.
+  - parameter_id: GRP-P-013
+    name: accepted_urdf_gripper_link_mass
+    value: 0.181800159145243
+    unit: kg
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: FROZEN
+    source_type: ACCEPTED_URDF_DIGITAL_MASS
+    source: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    evidence_pointer: link gripper_link inertial mass
+    status: DIGITAL_MODEL_INPUT_ONLY
+    use_limit: Not measured or installed mass; R1 material removal is not reconciled into this value.
+  - parameter_id: GRP-P-014
+    name: accepted_urdf_left_finger_mass
+    value: 0.0423278952416158
+    unit: kg
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: FROZEN
+    source_type: ACCEPTED_URDF_DIGITAL_MASS
+    source: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    evidence_pointer: link gripper_left inertial mass
+    status: DIGITAL_MODEL_INPUT_ONLY
+    use_limit: Not measured or installed mass.
+  - parameter_id: GRP-P-015
+    name: accepted_urdf_right_finger_mass
+    value: 0.0423278949561274
+    unit: kg
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: FROZEN
+    source_type: ACCEPTED_URDF_DIGITAL_MASS
+    source: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    evidence_pointer: link gripper_right inertial mass
+    status: DIGITAL_MODEL_INPUT_ONLY
+    use_limit: Not measured or installed mass.
+  - parameter_id: GRP-P-016
+    name: estimated_mass_removed_from_prior_digital_palm
+    value: 0.054674014864627416
+    unit: kg
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: CANDIDATE
+    source_type: URDF_MASS_PRO_RATA_BY_DIGITAL_VOLUME
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+    evidence_pointer: metrics.estimated_mass_delta_g and metrics.estimated_mass_delta_method
+    status: HOLD_NOT_MASS_LEDGER_AUTHORITY
+    use_limit: Positive value denotes estimated removed mass. Do not use for balance, inertia, stress, or flight claims until material and measured mass close.
+  - parameter_id: GRP-P-017
+    name: minimum_remaining_wall_thickness
+    value: null
+    unit: mm
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: UNKNOWN
+    source_type: NO_CONTROLLING_DATUM
+    source: null
+    evidence_pointer: metrics.minimum_remaining_wall_thickness_status
+    status: HOLD_NO_WALL_DATUM_OR_NOMINAL_THICKNESS_AUTHORITY
+    use_limit: Blocks structural release and manufacturing drawing release.
+  - parameter_id: GRP-P-018
+    name: approved_functional_clearance
+    value: null
+    unit: mm
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: UNKNOWN
+    source_type: NO_TOLERANCE_STACK_OR_DECISION_RULE
+    source: null
+    evidence_pointer: manufacturing_clearance_status
+    status: HOLD
+    use_limit: Blocks manufacturing release.
+  - parameter_id: GRP-P-019
+    name: verified_clamping_force
+    value: null
+    unit: N
+    standard_uncertainty: null
+    uncertainty_basis: null
+    classification: UNKNOWN
+    source_type: NO_LOAD_OR_ACTUATOR_AUTHORITY
+    source: null
+    evidence_pointer: structural_strength_status
+    status: HOLD
+    use_limit: Blocks contact sizing, structural analysis, and grasp-performance claims.
+gate_summary:
+  neutral_r1_geometry: PASS_NEUTRAL_ONLY
+  neutral_step_reopen: PASS
+  native_v5_reintegration: HOLD
+  manufacturing_clearance: HOLD
+  minimum_wall: HOLD
+  material_selection: HOLD
+  contact_and_loads: HOLD
+  structural_strength: HOLD
+  flight_release: HOLD

@@ -1,0 +1,87 @@
+schema: F3R2_M3_GRIPPER_R1_MECHANISM_CLOSURE_PLAN_V1
+status: ACTIVE_LOOP_ENGINEERING_PLAN_WITH_RELEASE_HOLD
+current_engineering_ruling:
+  neutral_geometry_interference: PASS_NEUTRAL_ONLY
+  native_v5_reintegration: HOLD_NOT_EXECUTED
+  external_object_contact: HOLD_NO_AUTHORITY_OBJECT_GEOMETRY_OR_CONTACT_DATUM
+  manufacturing_clearance: PROVISIONAL_CLEARANCE_HOLD
+  structural_strength: HOLD
+  formal_fea_authorization: HOLD
+verified_evidence:
+  - R1 neutral palm STEP independently reopens as 12 solids at 45088.72293792546 mm^3.
+  - Left and right conservative full-stroke envelope STEP files independently reopen as 23 solids each.
+  - The 144-row witness spans 0.0 mm to 71.5 mm at 0.5 mm increments with zero analytic-false rows and zero positive rail-palm overlap rows.
+  - R1 corrected target-palm booleans are complete at CLOSED PARTIAL PREGRASP and OPEN.
+  - Source donor and accepted URDF were recorded unchanged by the upstream correction task.
+scope_boundaries:
+  - The CLOSED finger-finger overlap is retained as a functional-contact witness and is not reclassified as rail-slot interference.
+  - Original-reference right-side CLOSED boolean was incomplete; the pass scope is R1 corrected target-palm boolean only.
+  - Native V5 still reports 36 rows pending reintegration and remeasurement.
+  - No external grasp object geometry or contact datum is authorized.
+  - No verified actuator force friction material tolerance wall-thickness or load case exists.
+iteration_register:
+  - iteration: GRP-M3-I01
+    objective: Bind frozen neutral R1 geometry and separate verified and unknown domains.
+    entry: Upstream neutral geometry validation exists.
+    actions:
+      - Hash-bind palm and swept-envelope STEP files.
+      - Reconcile 144-row sample witness to analytic and four-pose evidence.
+      - Build parameter material tolerance and load registers with explicit units and null unknowns.
+    exit: Engineering working model package internally consistent.
+    status: COMPLETE_THIS_PACKAGE
+  - iteration: GRP-M3-I02
+    objective: Close datum material process and functional-clearance authority.
+    entry: GRP-M3-I01 complete.
+    actions:
+      - Define palm-slot and rail datum scheme and controlled dimensions.
+      - Select exact material coating lubricant and manufacturing process specifications.
+      - Populate the clearance measurement model with estimates uncertainty distributions correlations and temperature/load sensitivities.
+      - Establish inspection and conformity decision rules.
+    exit: Positive guarded clearance demonstrated over approved tolerance thermal wear and elastic states.
+    status: HOLD_INPUTS_REQUIRED
+  - iteration: GRP-M3-I03
+    objective: Close target-object contact actuation and operational loads.
+    entry: Target object and mission operations authority available.
+    actions:
+      - Bind object geometry mass CoM inertia and surface specifications.
+      - Establish grasp states contact pairs friction evidence and allowable surface pressure.
+      - Authorize force-speed duty cycle retention fault and environmental load cases.
+    exit: Contact and actuator requirements allocated with testable acceptance criteria.
+    status: HOLD_INPUTS_REQUIRED
+  - iteration: GRP-M3-I04
+    objective: Close strength stiffness wear and life evidence.
+    entry: GRP-M3-I02 and GRP-M3-I03 complete and FEA authorization issued.
+    actions:
+      - Perform verified structural and contact analyses with approved material allowables loads contacts mesh convergence and margins.
+      - Correlate analysis with prototype stiffness load and life tests.
+      - Re-run full-stroke clearance at as-built and environmental extremes.
+    exit: Critical-part analysis and qualification evidence accepted.
+    status: HOLD_NOT_AUTHORIZED
+  - iteration: GRP-M3-I05
+    objective: Reintegrate the released R1 design and close system configuration.
+    entry: GRP-M3-I02 through GRP-M3-I04 complete.
+    actions:
+      - Reintegrate into the controlled neutral assembly and any authorized native representation.
+      - Re-run interference mass inertia interface and system configuration checks.
+      - Release drawings BOM inspection plan and verification cross-reference.
+    exit: M3 gripper subgate disposition accepted.
+    status: HOLD
+subgate:
+  name: GRIPPER_R1_ENGINEERING_SUBGATE
+  verdict: HOLD
+  pass_items:
+    - SOURCE_ARTIFACT_INTEGRITY
+    - NEUTRAL_STEP_REOPEN
+    - NEUTRAL_R1_CONTINUOUS_STROKE_RAIL_PALM_INTERFERENCE
+  hold_items:
+    - NATIVE_V5_REINTEGRATION_AND_36_ROW_REMEASUREMENT
+    - RELEASED_DATUM_AND_TOLERANCE_STACK
+    - APPROVED_MATERIAL_PROCESS_COATING_AND_LUBRICATION
+    - MINIMUM_REMAINING_WALL_THICKNESS
+    - TARGET_OBJECT_AND_CONTACT_REQUIREMENTS
+    - ACTUATOR_FORCE_SPEED_DUTY_AND_FAULT_REQUIREMENTS
+    - AUTHORIZED_OPERATIONAL_AND_FLIGHT_LOAD_CASES
+    - STRUCTURAL_CONTACT_WEAR_AND_LIFE_EVIDENCE
+    - MASS_AND_INERTIA_RECONCILIATION
+    - MANUFACTURING_DRAWING_BOM_AND_INSPECTION_RELEASE
+

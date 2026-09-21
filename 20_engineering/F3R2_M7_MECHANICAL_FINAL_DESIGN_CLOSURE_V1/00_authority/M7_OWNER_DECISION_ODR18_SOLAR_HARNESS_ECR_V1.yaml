@@ -1,0 +1,164 @@
+schema: M7_OWNER_DECISION_ODR18_SOLAR_HARNESS_ECR_V1
+generated_local: '2026-08-22T17:05:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: OWNER_DECISION_REGISTER_ENTRY
+id: ODR-18
+extends: M7_OWNER_DECISION_REGISTER_V1.yaml
+authority: OWNER_DIRECTIVE_2026-08-22_TERMINAL_SOLAR_HARNESS_ECR
+review_status: RECORDED_AS_DIRECTED
+next_stage_authorized: false
+
+subject: M7_TERMINAL_RELEASE_HOLD_AND_NARROW_ECR_SOLAR_HARNESS_01
+
+ruling_summary: >-
+  Gate A is NOT signed. The M7 terminal release is held for exactly two internal
+  design items: the solar wing dimension/clearance question and the harness
+  service-loop defect. Everything already closed (B601 kinematics, M3R
+  interface, GRIPPER_R1, operational FEA main load path) remains FROZEN.
+  This is a narrow ECR, not an M8/M9 phase and not a reopening of M7.
+
+freeze_state:
+  M7_TERMINAL_RELEASE: HOLD_FOR_TWO_INTERNAL_ECRS
+  ECR_SOLAR_HARNESS_01: OPEN
+  B601_KINEMATICS: FROZEN
+  M3R_INTERFACE: FROZEN
+  GRIPPER_R1: FROZEN
+  OPERATIONAL_FEA: FROZEN_UNLESS_SOLAR_LOAD_PATH_CHANGES
+  FLIGHT_QUALIFICATION: HOLD
+
+owner_decision_items:
+
+  - n: 1
+    text: Do not release Gate A yet.
+
+  - n: 2
+    text: >-
+      Freeze all already-closed M7 mechanical subsystems except: solar wing
+      geometry/HDRM, solar-related keepout, harness service loop, and the
+      downstream mass/flex/collision bindings.
+
+  - n: 3
+    text: Open ECR-SOLAR-HARNESS-01.
+
+  - n: 4
+    text: >-
+      Preserve dual spacecraft-envelope semantics.
+      MODE_OP = current on-orbit operational digital baseline.
+      MODE_LAUNCH = HOLD pending actual dispenser/launcher ICD.
+      Do not claim any single 340.5 mm or 366 mm body length as universal 12U
+      flight authority. The 340.5 x 226.3 x 226.3 mm body remains
+      FROZEN_MODEL_ANCHOR with exact-standard-review pending, not a verified
+      launch interface.
+
+  - n: 5
+    text: Audit current solar panel axis assignment before changing dimensions.
+
+  - n: 6
+    text: >-
+      If 227 mm is longitudinal: retain the present planform candidate unless
+      clearance analysis fails.
+
+  - n: 7
+    text: >-
+      If 227 mm is transverse to the 226.3 mm bus section: reject it for the
+      current candidate and evaluate 205 mm x 222 mm as the first
+      area-preserving engineering candidate. This is not a flight-qualified
+      dimension.
+
+  - n: 8
+    text: >-
+      Keep one deployable panel per side and one root hinge per side (book-style
+      wing). Do not add multi-fold solar architecture in Terminal Closure.
+
+  - n: 9
+    text: >-
+      Redesign harness HR-OPEN-02: functional loop length >= 347.49 mm.
+      Approximately 380 mm is only a candidate starting point; the final length
+      shall be derived from cable minimum bend radius, q1 full range, connector
+      positions, mounting tolerances, thermal contraction and strain relief.
+      HR-OPEN-04: authorize continuous centreline clearance verification.
+
+  - n: 10
+    text: >-
+      Run continuous geometry evidence for: solar-arm, solar-bus, solar-harness,
+      solar-HDRM, harness-arm, harness-structure. Historical note honoured: an
+      earlier arm-panel clearance "PASS" was vacuous because the URDF contained
+      no panel geometry; empty comparison sets are not evidence.
+
+  - n: 11
+    text: >-
+      Regenerate: 9-configuration design mass properties, solar flexible
+      parameter card (new card, not edited old one), collision/keepout assets,
+      EMBODIED_MECHANICAL_CONTRACT bindings, MECHANICAL_TO_EMBODIED_HANDOFF_GATE.
+
+  - n: 12
+    text: Do not modify the accepted B601 URDF or the frozen M3R authority.
+
+  - n: 13
+    text: >-
+      After the ECR: require zero internal HOLD, zero HIGH adversarial findings,
+      zero unexplained positive interference, handoff gate 11/11 PASS.
+
+  - n: 14
+    text: >-
+      If those conditions pass, immediately issue
+      MECHANICAL_ENGINEERING_DESIGN_RELEASED_FOR_OPERATIONAL_DIGITAL_TWIN_AND_EMBODIED_CONTROL
+      WITH_FLIGHT_QUALIFICATION_HOLD.
+
+  - n: 15
+    text: >-
+      Freeze active mechanical design after release. All subsequent changes
+      require ECR.
+
+solar_mass_semantics_ruling:
+  design_nominal:
+    source: CURRENT_CAD_BOM
+    authority: DESIGN_MODEL
+  dynamics_legacy:
+    value_kg: 0.3483933
+    authority: LEGACY_PROVISIONAL
+    purpose: REPRODUCE_OLD_SIM11
+  as_built:
+    value: null
+    authority: MEASUREMENT_PENDING
+  prohibition: >-
+    no area-proportional rescale of the panel mass may be written as a "real"
+    mass; a changed panel size requires a NEW flexible parameter card, not an
+    edited old one.
+
+solar_state_machine_ruling:
+  states:
+    - SOLAR_STOWED_LOCKED
+    - SOLAR_HDRM_RELEASE_COMMAND
+    - SOLAR_HDRM_RELEASE_CONFIRMED
+    - SOLAR_DEPLOYING
+    - SOLAR_DEPLOYED_LATCHED
+    - SOLAR_DEPLOY_FAILED_LEFT
+    - SOLAR_DEPLOY_FAILED_RIGHT
+    - SOLAR_DEPLOY_FAILED_BOTH
+    - SOLAR_STATE_UNKNOWN
+  arm_interlock: >-
+    if solar_state != SOLAR_DEPLOYED_LATCHED then ARM_RELEASE = FORBIDDEN.
+    Failure branches remain fail-closed; an unconfirmed wing never releases
+    the arm.
+
+gate_a_state_overrides:
+  '08_SOLAR_AND_HDRM': HOLD_ECR_SOLAR_01
+  '09_HARNESS_AND_KEEPOUT': HOLD_ECR_HARNESS_01
+  '10_NINE_CONFIG_DESIGN_MASS': PASS_WITH_REGEN_REQUIRED
+  '16_THERMOMECHANICAL': PASS_WITH_REGEN_REQUIRED
+  '18_MECH_RL_DIGITAL_THREAD': PASS_WITH_REBIND_REQUIRED
+  note: >-
+    all other criteria keep their adjudicated states; nothing else is reopened.
+
+rt07_release_blocking_rule: >-
+  The 221 RT-07 MEDIUM adjudications continue, but a finding may block the
+  Terminal Release only if it is an internal design defect, or HIGH after
+  falsification, or changes geometry/frame/mass/load/collision authority.
+  Historical wording, external qualification gaps and frozen-file citation
+  defects must not drag released structure back into design.
+
+prohibition: >-
+  L6 remains the terminus. No M8/M9 planning artifact may be created. Nothing
+  here grants flight, launcher, manufacturing-release or qualification
+  authority.

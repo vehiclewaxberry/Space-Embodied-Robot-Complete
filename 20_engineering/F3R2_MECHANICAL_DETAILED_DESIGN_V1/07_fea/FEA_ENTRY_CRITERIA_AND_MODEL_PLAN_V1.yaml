@@ -1,0 +1,51 @@
+schema: FEA_ENTRY_CRITERIA_AND_MODEL_PLAN_V1
+document_status: NON_EXECUTING_INPUT_PLAN
+formal_fea_authorized: false
+formal_fea_run_count: 0
+margin_of_safety_claim_count: 0
+entry_gate_rule: ALL criteria must PASS; UNKNOWN or HOLD fails closed.
+criteria:
+  geometry_configuration:
+    required: hash-bound released analysis geometry and configuration
+    status: HOLD_WORKING_GEOMETRY_ONLY
+  load_cases:
+    required: Owner-authorized capture and applicable launch/operational loads with units, frames, time histories, factors, and uncertainty
+    status: HOLD_NO_AUTHORIZED_LOAD_SET
+  boundary_conditions:
+    required: interface stiffness, constraints, remote structure, and load-introduction authority
+    status: HOLD_NO_AUTHORIZED_BOUNDARY_MODEL
+  contact_and_joints:
+    required: contact pairs, friction, separation, preload, joint stiffness, and failure modes
+    status: HOLD_CONTACT_FASTENER_INPUTS_MISSING
+  materials:
+    required: approved material form, condition, direction, environment, allowables, and knockdowns
+    status: HOLD_ALLOWABLES_MISSING
+  mass_properties:
+    required: relevant component and configuration mass, CoM, inertia, frame, and uncertainty
+    status: HOLD_SYSTEM_MASS_PROPERTIES_INCOMPLETE
+  fasteners:
+    required: exact type, size, grade, length, engagement, washer/nut, torque/preload, scatter, bearing and slip criteria
+    status: HOLD_FASTENER_SPECIFICATIONS_MISSING
+  mesh_and_solver:
+    required: element formulation, quality criteria, local refinement, convergence study, solver version, and nonlinear control plan
+    status: PLAN_REQUIRED
+  acceptance:
+    required: authorized yield, ultimate, buckling, joint, deflection, contact, fatigue, and modal criteria as applicable
+    status: HOLD_ACCEPTANCE_CRITERIA_MISSING
+planned_model_sequence:
+  - id: FEA-L1-M3R
+    scope: B601 adapter to Stage A to Stage B to spacecraft load bridge
+    execution_status: NOT_AUTHORIZED
+  - id: FEA-L2-ARM
+    scope: B601 plus adapter plus M3R under extension, stop, capture impulse, and eccentric grasp
+    execution_status: NOT_AUTHORIZED
+  - id: FEA-L3-SYSTEM
+    scope: bus plus solar arrays plus arm flexible coupling, modal and dynamic response
+    execution_status: NOT_AUTHORIZED
+current_gate_status: HOLD
+next_closure_actions:
+  - AUTHORIZE_CAPTURE_LOAD_ENVELOPE_AND_BOUNDARY_FRAMES
+  - APPROVE_MATERIAL_FORMS_AND_ALLOWABLES
+  - RELEASE_FASTENER_AND_CONTACT_DEFINITIONS
+  - CLOSE_RELEVANT_MASS_AND_INERTIA_AUTHORITIES
+  - DEFINE_MESH_CONVERGENCE_AND_ACCEPTANCE_PLAN

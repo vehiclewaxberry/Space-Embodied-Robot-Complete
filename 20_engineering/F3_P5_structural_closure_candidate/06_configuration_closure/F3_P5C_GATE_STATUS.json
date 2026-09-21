@@ -1,0 +1,61 @@
+{
+  "schema": "F3_P5C_GATE_STATUS_V1",
+  "gate_id": "F3_P5C_CONFIGURATION_HOLD_DISPOSITION",
+  "generated_local": "2026-08-05",
+  "authorization": {
+    "f3_p3": "DUAL_TRACK_RETAINED_MODE_A_B + CANDIDATE_C_MODE_B_ONLY",
+    "f3_p5b_pad": "F3_P5B_PAD_PARTIAL_PASS_COMPETITION_GRADE_SELECTED_FLIGHT_HOLD",
+    "f3_p5b_hdrm": "F3_P5B_HDRM_PARTIAL_PASS_COMPETITION_DEMONSTRATOR_CONFIGURED_FLIGHT_HOLD",
+    "f3_p5c": "AUTHORIZED"
+  },
+  "decisions": {
+    "tsm_single_route": {
+      "value_mm": 185.25,
+      "route": "MODE_B_DYNAMICS_TRACK",
+      "mode_a": "NON_COMPLIANT_EXCLUDED",
+      "rationale": "C5 wing root mechanism 302.3mm lower bound is unresolvable; Mode B envelope 340.5mm accepts 238.3mm stowed width"
+    },
+    "mode_b_stow_z": {
+      "actual_mm": 359.02,
+      "limit_mm": 226.3,
+      "excess_mm": -132.72,
+      "disposition": "MODE_B_STOW_EXCLUDED_FROM_OPERATIONAL_BASELINE",
+      "operational_baseline": ["DEPLOYED_NOMINAL", "SERVICE_DOCKING", "SERVICE_GRASP", "SERVICE_TRANSPORT", "SERVICE_ASSEMBLY", "RETRIEVED_NOMINAL"],
+      "negative_result_preserved": true
+    },
+    "camera_occlusion": {
+      "disposition": "CAMERA_OCCLUSION_CLOSED_PASS_WITH_ACCEPTED_TIMING",
+      "stow_occlusion": "expected_geometry_non_operational",
+      "gripper_close_occlusion": "acceptable_normal_grasp_config",
+      "release_sequence_visibility": "all_key_mechanisms_visible"
+    },
+    "gui_witness": {
+      "disposition": "CLOSED_WITH_CMDEQUIVALENT_WITNESS",
+      "evidence": "F3_P3_GUI_WITNESS.md status GUI_WITNESS_PASS (FreeCADCmd same OCCT kernel, T005-C 10/10 cold reopen)",
+      "manual_visual_check": "optional_pre_submission"
+    },
+    "state_machine": {
+      "id": "F3_P5C_SM_FROZEN_V1",
+      "route": "MODE_B_SINGLE_ROUTE",
+      "states": 12,
+      "interlocks": ["ARM_MOTION_ENABLE", "HDRM_RELEASE", "GRIPPER_CLOSE"]
+    }
+  },
+  "hold_dispositions": {
+    "HOLD-01": "CLOSED_WITH_CMDEQUIVALENT_WITNESS",
+    "HOLD-02": "CLOSED_T_SM_SINGLE_ROUTE_MODE_B",
+    "HOLD-03": "CLOSED_MODE_B_STOW_EXCLUDED_FROM_OPERATIONAL_BASELINE",
+    "HOLD-05": "CLOSED_CAMERA_OCCLUSION_ACCEPTED_TIMING",
+    "HOLD-04": "REMAINS_TBD_NO_AL_SOURCE",
+    "HOLD-06": "REMAINS_NOT_AUTHORIZED_NO_SOURCE",
+    "HOLD-09": "CLOSED_FEA_EXECUTED_P5A"
+  },
+  "named_holds": [
+    "HOLD_G8B_MARGIN_TBD (no AL load source)",
+    "HOLD_MODE_A_REVISIT (requires deployer ICD or wing mechanism redesign)",
+    "HOLD_STOW_MONITORING_CAMERA_OPTIONAL (if STOW surveillance required later)"
+  ],
+  "verdict": "F3_P5C_PARTIAL_PASS_CONFIGURATION_CLOSED_MODE_B_SINGLE_ROUTE",
+  "verdict_class": "CONFIGURATION_CLOSED_AL_MARGIN_HOLD",
+  "ready_for_f3_p5d": true
+}

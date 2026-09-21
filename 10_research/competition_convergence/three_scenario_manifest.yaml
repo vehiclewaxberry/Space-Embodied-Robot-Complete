@@ -1,0 +1,242 @@
+schema_version: competition-demo-scenarios-v1
+contract_schema_version: competition-twin-evidence-v1
+replay_mode: OFFLINE_DETERMINISTIC
+command_emitted: false
+watermarks:
+  - OFFLINE EVIDENCE REPLAY
+  - NO REAL-TIME SYNCHRONIZATION
+  - NO COMMAND OUTPUT
+
+scenarios:
+  A_low:
+    record_id: competition-A-low-v1
+    title: 22 kg low-rate target
+    expected_display_action: EXECUTE
+    case_source:
+      artifact_id: strategy_config
+      key_path: cases.A_low
+      canonical_case_sha256: e55e530a79c9ad0c649d6e5c7de033c2b23d0d7e3cc23d76c5fec93dd81d0449
+      expected_case:
+        cls: G2_cubesat
+        m_t_kg: 22.0
+        omega_dps: 0.5
+        note: 证明 Passive 区
+      geometry_or_case_confidence: PROVISIONAL_LOW_CONFIDENCE_MASS
+    sim10:
+      artifact_id: sim10_gate
+      join_status: GLOBAL_ONLY
+      expected_verdict: SIM10_GATES_PASS
+      exact_scenario_row_present: false
+      limitation: A_low at 0.5 deg/s has no exact row in the sim10 gate; the gate is global and the exact case conclusion comes from the frozen sim12 proof row.
+    sim12:
+      gate_artifact_id: sim12_gate
+      result_artifact_id: sim12_results
+      join_status: EXACT
+      expected_best_strategy: S1_passive
+      result_key:
+        case: A_low
+        strategy: S1_passive
+      canonical_row_sha256: ed770acd96a6d4aaaa261352adf1da32b75a43f7a15f1abfd245879deb77df7c
+      required_values:
+        feasibility: FEASIBLE
+        binding_gate: NONE
+        flex_energy: PROVISIONAL_NOT_EVALUATED
+    safe00:
+      gate_artifact_id: safe_gate
+      policy_artifact_id: safe_policy
+      join_status: EXACT
+      candidate_id: A_low-S1_passive
+      source_row_ref: A_low|S1_passive
+      canonical_candidate_row_sha256: ed770acd96a6d4aaaa261352adf1da32b75a43f7a15f1abfd245879deb77df7c
+      actual_authorization_request_present: false
+      actual_safe_response_present: false
+      authorization_status: NOT_AUTHORIZED_FOR_NEXT_STAGE
+      required_gate_values:
+        verdict: PASS
+        review_status: PENDING_REVIEW
+        next_stage_authorized: false
+    ctrl02:
+      gate_artifact_id: ctrl02_gate
+      result_artifact_id: ctrl02_results
+      join_status: EXACT
+      stage_relation: POST_CAPTURE_RESOURCE_EVALUATION
+      strategy_equivalence_claimed: false
+      controller_key:
+        phase: B
+        scenario: A_low
+        controller: B1_wheel_storage
+      canonical_result_row_sha256: b0cd60ee31949cccd0d952b26c652ebe7101316744474c25745b3db4ecdefeff
+      canonical_stability_row_sha256: ec61f8aed9af47c9a2de52af72c6d3694c23aef9f779107319738177d91f77fc
+      required_result_values:
+        domain_status: IN_FEASIBLE_REGION
+        attribution: MOMENTUM_STORAGE
+        method_result: BODY_RATE_ZERO_WITH_MOMENTUM_STORED
+        stability_status: NOT_EVALUATED_NO_ACTUATOR_DYNAMICS
+      required_stability_values:
+        stability_verdict: STABILIZED_WITHIN_WINDOW
+        counterfactual_only: false
+      limitations:
+        - PASS_WITH_PROVISIONAL_SCOPE
+        - PROVISIONAL_L1_MOMENTUM_ACTUATOR
+        - PENDING_REVIEW
+        - L0 hardware-valid stability is NOT_EVALUATED_NO_ACTUATOR_DYNAMICS
+    explanation:
+      display_action: EXECUTE
+      display_semantics: EXPLANATION_ONLY_RECOMMENDATION
+      execution_authority: false
+      command_emitted: false
+      authorized_candidate_binding: EXACT
+      evidence_complete: true
+      no_upward_reclassification: true
+      reason_code: EXACT_REGISTERED_CANDIDATE_NO_EXECUTION_AUTHORITY
+
+  B_anchor:
+    record_id: competition-B-anchor-v1
+    title: 150 kg debris at 3 deg/s
+    expected_display_action: ABORT
+    case_source:
+      artifact_id: strategy_config
+      key_path: cases.B_anchor
+      canonical_case_sha256: b447dad168132cc5e303d1c33cfe6667910488db34a65fb41c268cb48f9406a2
+      expected_case:
+        cls: G1_slender
+        m_t_kg: 150.0
+        omega_dps: 3.0
+        note: 碎片锚点(REPEAT_CORE 口径)
+      geometry_or_case_confidence: PROVISIONAL_LOW_CONFIDENCE_MASS
+    sim10:
+      artifact_id: sim10_gate
+      join_status: EXACT
+      expected_verdict: SIM10_GATES_PASS
+      selector:
+        path: gates.X1_anchors_vs_sim06.checks
+        match:
+          anchor: debris_sim06
+      canonical_selected_object_sha256: 06c8ebd7131b57efac484462a4692a762e81c342b070fd6b547454161d1cb68b
+      required_values:
+        region: INFEASIBLE_RATE
+        region_expected: INFEASIBLE_RATE
+        w_plus_dps: 3.0633304945807067
+        ok: true
+    sim12:
+      gate_artifact_id: sim12_gate
+      result_artifact_id: sim12_results
+      join_status: EXACT
+      expected_best_strategy: ABORT
+      required_rows:
+        - key: {case: B_anchor, strategy: S1_passive}
+          canonical_row_sha256: c9fc2e01dd342017ff045ffa3b1e25e64f246fa884a000deea66c09d77e4d209
+        - key: {case: B_anchor, strategy: S2_velocity_matching}
+          canonical_row_sha256: 19a4196abac34d208915e3ef1e82ab247a9f814647515d3b8ce2f833d4e3b1f2
+        - key: {case: B_anchor, strategy: S3a_wheel_bias}
+          canonical_row_sha256: 35ec45b213b51331edcf2610c5c8aa9cab60786c5717c49ebb4c83329c906ed1
+        - key: {case: B_anchor, strategy: S4_post_capture_detumble}
+          canonical_row_sha256: b02b42270bae7a864b1be1809e14e783a633eb4043720e206a9ba07b3605798e
+      required_all_values:
+        feasibility: INFEASIBLE
+        binding_gate: POST_CAPTURE_RATE
+    safe00:
+      join_status: NOT_APPLICABLE
+      actual_authorization_request_present: false
+      actual_safe_response_present: false
+      decision: NOT_APPLICABLE_UPSTREAM_ABORT
+      reason_code: UPSTREAM_SIM12_ABORT_NO_REQUEST
+    ctrl02:
+      join_status: NOT_APPLICABLE
+      included_in_execution_chain: false
+      available_rows_are_counterfactual: true
+      decision: NOT_APPLICABLE_UPSTREAM_ABORT
+      reason_code: COUNTERFACTUAL_ROWS_EXCLUDED
+    explanation:
+      display_action: ABORT
+      display_semantics: UPSTREAM_ABORT_NO_DOWNSTREAM_REQUEST
+      execution_authority: false
+      command_emitted: false
+      authorized_candidate_binding: NOT_APPLICABLE
+      evidence_complete: true
+      no_upward_reclassification: true
+      reason_code: SIM10_RATE_GATE_AND_SIM12_ALL_STRATEGIES_INFEASIBLE
+
+  C_transition:
+    record_id: competition-C-transition-v1
+    title: transition-region target
+    expected_display_action: MODIFY
+    case_source:
+      artifact_id: strategy_config
+      key_path: cases.C_transition
+      canonical_case_sha256: f87327624a885bcaac5687de5d64c4360839f9af529eeb15069e0614155a9739
+      expected_case:
+        cls: G1_slender
+        m_t_kg: 48.0
+        omega_dps: 2.0
+        note: μ=2 过渡带找策略切换
+      geometry_or_case_confidence: PROVISIONAL_PROOF_CASE
+    sim10:
+      artifact_id: sim10_gate
+      join_status: GLOBAL_ONLY
+      expected_verdict: SIM10_GATES_PASS
+      exact_scenario_row_present: false
+      limitation: C_transition has no exact row in the sim10 gate; the gate is global and the exact strategy evidence is the frozen sim12 proof set.
+    sim12:
+      gate_artifact_id: sim12_gate
+      result_artifact_id: sim12_results
+      join_status: EXACT
+      expected_best_strategy: S3a_wheel_bias
+      rejected_baseline:
+        key: {case: C_transition, strategy: S1_passive}
+        canonical_row_sha256: d14ddff8c6f22fd1d223e44cc8d73bb1ba396031a51f1decba79b67d1434dba3
+        required_values:
+          feasibility: INFEASIBLE
+          binding_gate: WHEEL_MOMENTUM
+      selected_strategy:
+        key: {case: C_transition, strategy: S3a_wheel_bias}
+        canonical_row_sha256: fb16fd67b3c5e7c775a3d421180684a0f101e6e9126d990a9f499d3cda1ca7d5
+        required_values:
+          feasibility: FEASIBLE
+          binding_gate: NONE
+          flex_energy: PROVISIONAL_NOT_EVALUATED
+    safe00:
+      policy_artifact_id: safe_policy
+      gate_artifact_id: safe_gate
+      join_status: NOT_APPLICABLE
+      requested_candidate_id: C_transition-S3a_wheel_bias
+      registered_candidate_id: A_low-S1_passive
+      actual_authorization_request_present: false
+      actual_safe_response_present: false
+      authorized_candidate_binding: MISSING
+      decision: MISSING_REGISTERED_CANDIDATE
+      reason_code: SAFE_POLICY_HAS_NO_C_TRANSITION_CANDIDATE
+    ctrl02:
+      gate_artifact_id: ctrl02_gate
+      result_artifact_id: ctrl02_results
+      join_status: REFERENCE_ONLY
+      stage_relation: POST_CAPTURE_RESOURCE_REFERENCE_NOT_S3A
+      strategy_equivalence_claimed: false
+      reference_rows:
+        - key: {phase: B, scenario: C_transition, controller: B0_no_control}
+          canonical_result_row_sha256: af80ad9b23ace84e2ea9129a523581c5b7be39e6f2c06daa40eb465ad4aea892
+          canonical_stability_row_sha256: cd23b1e25006e1c25939ca72243514b6d8f5497b95e6a0d1c52ff6d4169dff2a
+        - key: {phase: B, scenario: C_transition, controller: B1_wheel_storage}
+          canonical_result_row_sha256: 0d879597586b9c07b381f2987c46da528d4c56b50662feabe71c2c3d867bd2d2
+          canonical_stability_row_sha256: 2ef92ab1c44dfb0ce3c80141ff299ded6cbc1b8e7bb88cbdfff7d22edca61cf7
+        - key: {phase: B, scenario: C_transition, controller: B2_thruster_removal}
+          canonical_result_row_sha256: 3ed9cb8b39911de22be16c8f4dcbd6e085ba1da87c4f3d3a13e186ea97da3564
+          canonical_stability_row_sha256: a09bfb81b9a3175d4a8a0da65ca939314f380d09e36568804ad2c419fb07819e
+        - key: {phase: B, scenario: C_transition, controller: B3_wheel_thruster}
+          canonical_result_row_sha256: ed5555f131a6a66ab9f8083f13c320ed308995a76b16157ae4416fe21bf0a9e0
+          canonical_stability_row_sha256: 75f4bfdea079a51c97e3092940c31302e526f4ff6cc261ba2dd7d3f82d55aa15
+      limitations:
+        - REFERENCE_ONLY
+        - PASS_WITH_PROVISIONAL_SCOPE
+        - PROVISIONAL_L1_MOMENTUM_ACTUATOR
+        - PENDING_REVIEW
+        - The CTRL-02 controllers are not the sim12 S3a capture strategy.
+    explanation:
+      display_action: MODIFY
+      display_semantics: CHANGE_CANDIDATE_TO_S3A_THEN_REENTER_AUTHORIZATION
+      execution_authority: false
+      command_emitted: false
+      authorized_candidate_binding: MISSING
+      evidence_complete: true
+      no_upward_reclassification: true
+      reason_code: S1_WHEEL_BOUND_S3A_FEASIBLE_SAFE_BINDING_MISSING

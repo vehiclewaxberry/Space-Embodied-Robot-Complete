@@ -1,0 +1,417 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:comp-prot-03:digital-mechanical-host:v0.1",
+  "title": "Digital Mechanical Host v0.1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "host_id",
+    "phase",
+    "status",
+    "authority",
+    "source_packet",
+    "architecture",
+    "selected_configuration",
+    "geometry_layer",
+    "physical_layer",
+    "semantic_layer",
+    "evidence_layer",
+    "consumer_views",
+    "unknown_register",
+    "blocker_summary",
+    "claim_boundary",
+    "next_gate"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "comp-prot-03-digital-mechanical-host-v0.1"
+    },
+    "host_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "phase": {
+      "const": "COMP-PROT-03-A3-G0-EVIDENCE-CLOSURE"
+    },
+    "status": {
+      "enum": [
+        "PRE_CAD_DIGITAL_MECHANICAL_HOST_CONTRACT_READY",
+        "PARTIAL_WITH_EXPLICIT_UNKNOWNS"
+      ]
+    },
+    "authority": {
+      "type": "object",
+      "required": [
+        "scientific_gate",
+        "cad_generation_authorized",
+        "urdf_generation_authorized",
+        "simulation_authorized",
+        "automatic_transition"
+      ],
+      "properties": {
+        "scientific_gate": {
+          "const": false
+        },
+        "cad_generation_authorized": {
+          "const": false
+        },
+        "urdf_generation_authorized": {
+          "const": false
+        },
+        "simulation_authorized": {
+          "const": false
+        },
+        "automatic_transition": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "source_packet": {
+      "type": "object",
+      "required": [
+        "hash_algorithm",
+        "hash_mode",
+        "records"
+      ],
+      "properties": {
+        "hash_algorithm": {
+          "const": "SHA-256"
+        },
+        "hash_mode": {
+          "const": "RAW_BYTES"
+        },
+        "records": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "record_id",
+              "path",
+              "sha256"
+            ],
+            "properties": {
+              "record_id": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "architecture": {
+      "type": "object",
+      "required": [
+        "formula",
+        "layers"
+      ],
+      "properties": {
+        "formula": {
+          "const": "Geometry + Physical Properties + Task Semantics + Evidence Chain"
+        },
+        "layers": {
+          "type": "array",
+          "const": [
+            "geometry",
+            "physical",
+            "task_semantics",
+            "evidence"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "selected_configuration": {
+      "type": "object",
+      "required": [
+        "topology_id",
+        "profile_id",
+        "performance_superiority_claimed"
+      ],
+      "properties": {
+        "topology_id": {
+          "const": "A_CENTERLINE_TASK_FACE_SINGLE_ARM"
+        },
+        "profile_id": {
+          "const": "COMPETITION_DISPLAY_V0"
+        },
+        "performance_superiority_claimed": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "geometry_layer": {
+      "type": "object",
+      "required": [
+        "selected_profile",
+        "frame_tree_ref",
+        "solidworks_input_ref",
+        "target_included"
+      ],
+      "properties": {
+        "selected_profile": {
+          "type": "object",
+          "required": [
+            "profile_id",
+            "envelope_mm_S"
+          ],
+          "properties": {
+            "profile_id": {
+              "const": "COMPETITION_DISPLAY_V0"
+            },
+            "envelope_mm_S": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "const": 340.5
+                },
+                {
+                  "const": 226.3
+                },
+                {
+                  "const": 226.3
+                }
+              ],
+              "minItems": 3,
+              "maxItems": 3
+            }
+          },
+          "additionalProperties": true
+        },
+        "frame_tree_ref": {
+          "$ref": "#/$defs/fileRef"
+        },
+        "solidworks_input_ref": {
+          "$ref": "#/$defs/fileRef"
+        },
+        "target_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "physical_layer": {
+      "type": "object",
+      "required": [
+        "mass_registry_ref",
+        "candidate_total_kg_source_decimal",
+        "total_label",
+        "aggregate_com",
+        "aggregate_inertia"
+      ],
+      "properties": {
+        "mass_registry_ref": {
+          "$ref": "#/$defs/fileRef"
+        },
+        "candidate_total_kg_source_decimal": {
+          "const": "29.8955559493429862"
+        },
+        "total_label": {
+          "const": "PROVISIONAL_DESIGN_LEDGER_TOTAL"
+        },
+        "aggregate_com": {
+          "type": "null"
+        },
+        "aggregate_inertia": {
+          "type": "null"
+        }
+      },
+      "additionalProperties": true
+    },
+    "semantic_layer": {
+      "type": "object",
+      "required": [
+        "registry_ref",
+        "target_semantics_included"
+      ],
+      "properties": {
+        "registry_ref": {
+          "$ref": "#/$defs/fileRef"
+        },
+        "target_semantics_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "evidence_layer": {
+      "type": "object",
+      "required": [
+        "license_provenance_ref",
+        "traceability_required"
+      ],
+      "properties": {
+        "license_provenance_ref": {
+          "$ref": "#/$defs/fileRef"
+        },
+        "traceability_required": {
+          "const": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "consumer_views": {
+      "type": "object",
+      "required": [
+        "solidworks_master_skeleton",
+        "urdf",
+        "dynamics",
+        "target_integration"
+      ],
+      "properties": {
+        "solidworks_master_skeleton": {
+          "$ref": "#/$defs/consumerView"
+        },
+        "urdf": {
+          "$ref": "#/$defs/consumerView"
+        },
+        "dynamics": {
+          "$ref": "#/$defs/consumerView"
+        },
+        "target_integration": {
+          "$ref": "#/$defs/consumerView"
+        }
+      },
+      "additionalProperties": true
+    },
+    "unknown_register": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "unknown_id",
+          "value",
+          "reason",
+          "blocked_consumers"
+        ],
+        "properties": {
+          "unknown_id": {
+            "type": "string"
+          },
+          "value": {
+            "type": "null"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "blocked_consumers": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "blocker_summary": {
+      "type": "object",
+      "required": [
+        "denominator",
+        "all_have_scope_disposition",
+        "full_cad_urdf_entry_ready"
+      ],
+      "properties": {
+        "denominator": {
+          "const": 15
+        },
+        "all_have_scope_disposition": {
+          "const": true
+        },
+        "full_cad_urdf_entry_ready": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "claim_boundary": {
+      "type": "object",
+      "required": [
+        "allowed",
+        "forbidden"
+      ],
+      "properties": {
+        "allowed": {
+          "type": "array",
+          "minItems": 1
+        },
+        "forbidden": {
+          "type": "array",
+          "minItems": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "next_gate": {
+      "type": "object",
+      "required": [
+        "gate_id",
+        "target_state",
+        "authorized"
+      ],
+      "properties": {
+        "gate_id": {
+          "const": "A3-GEOMETRY-ONLY-ENTRY-REVIEW"
+        },
+        "target_state": {
+          "const": "A3_GEOMETRY_ONLY_ENTRY_REVIEW_READY_TO_REQUEST"
+        },
+        "authorized": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "fileRef": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": true
+    },
+    "consumerView": {
+      "type": "object",
+      "required": [
+        "input_contract_available",
+        "execution_authorized"
+      ],
+      "properties": {
+        "input_contract_available": {
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

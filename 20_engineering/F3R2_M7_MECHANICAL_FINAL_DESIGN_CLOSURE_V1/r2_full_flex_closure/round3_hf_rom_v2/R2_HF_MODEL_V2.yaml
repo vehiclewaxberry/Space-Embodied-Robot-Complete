@@ -1,0 +1,184 @@
+schema: R2_HF_MODEL_V2
+generated_local: '2026-08-23T22:46:57.870754+08:00'
+authority:
+  latest_owner_directives:
+  - ODR-GPT-01
+  - ODR-GPT-02
+  - ODR-GPT-03
+  - ODR-GPT-04
+  - ODR-GPT-05
+  - ODR-GPT-06
+  transcription: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round3_hf_rom_v2/OWNER_AUTHORITY_TRANSCRIPTION_V1.yaml
+  source_attachment_sha256: 67821E04869BE8202CF2473980B73AA4CE595B9689CC9D54F340820C0D38F773
+  owner_accepted: false
+class: PROVISIONAL_DERIVED_BOUNDED_COMPONENT_MODEL
+configuration: ONE_WING_DEPLOYED_FLAT_LATCHED_FIXED_BASE_LINEAR_SMALL_DEFLECTION
+geometry:
+  rule: FROZEN_STEP_BUILD_KINEMATICS_ARITHMETIC__NO_AVERAGING
+  root_hinge_S_m:
+    y_abs: 0.1154
+    z: -0.10815
+    axis: X_S
+  build_report_value_mm:
+    y_abs: 115.4
+    z: -108.15
+  build_report_consumed: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_BUILD_REPORT_V2.json
+  build_report_consumed_sha256: 4286EA2BBD84FB8EC33DDADE329534DA29194650AD22429245ECF8757B9AED1C
+  historical_build_report_not_consumed: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_BUILD_REPORT_V1.json
+  historical_build_report_sha256: 6160C1D0970B7EA19075B4A83C988C16CA2F1AFCA782BCAD90A89B14F17E6586
+  kinematics_arithmetic:
+    SIDE_FACE_Y_mm: 113.15
+    STACK_STANDOFF_mm: 1.0
+    LEAF_T_mm: 2.5
+    arithmetic_y_abs_mm: 115.4
+  step_sha256: 21FF77B882DBFAB87B3E77DD56817EFC7F321C68E30AFEDCDDBB4D79B9915795
+  historical_conflict:
+    id: HIST-R2-ROOT-001
+    stale_value_m: 0.1149
+    locations:
+    - 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_GEOMETRY_CANDIDATE_V1.yaml
+    - 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/compute_flexible_appendage_r2.py
+    - 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml
+    classification: HISTORICAL_CONFIGURATION_REGISTRATION_DEFECT
+    disposition: REJECTED_HISTORICAL_CONFIG_DEFECT__NO_AVERAGING
+    consumed_by_this_model: false
+architecture:
+  wings: 2
+  model_unit: per wing
+  leaves_per_wing: 3
+  flexible_beam_elements_per_leaf: 20
+  bending_compliance_joints:
+  - root
+  - inter-panel-1
+  - inter-panel-2
+  torsion_lane: independent spanwise Saint-Venant lane; continuous through inter-panel
+    hinges
+  root_boundaries:
+    bending_translation_w: fixed relative to base
+    root_bending_rotation: k_theta_root spring
+    root_torsion_phi: fixed reference
+  ndof_full: 185
+  ndof_after_reference_constraints: 183
+  reduced_dof_semantics_count: 183
+  reconstruction_operator_names:
+  - w_nodes
+  - theta_dofs
+  - torsion_nodes
+  - hinge_relative
+  - tip_w
+parameters:
+  leaf_mass_kg:
+    value: 0.18
+    authority: PROVISIONAL_DERIVED
+    basis: 3.0 kg/m2 candidate areal density x 0.06 m2
+  EI_Nm2:
+    low: 3.333
+    nominal: 11.109
+    high: 33.327
+    authority: PROVISIONAL_DERIVED
+    bounded_interval: true
+  GJ_Nm2:
+    low: 0.13568692307692307
+    nominal: 1.5228243135505908
+    high: 17.09076923076923
+    authority: PROVISIONAL_DERIVED
+    bounded_interval: true
+    derivation: open-section/free-warping lower vs closed-cell edge-closed upper;
+      geometric-mean nominal
+  k_theta_root_Nm_per_rad:
+    low: 50.0
+    nominal: 200.0
+    high: 800.0
+    authority: PROVISIONAL_DERIVED
+    bounded_interval: true
+  k_theta_inter_latch_inclusive_Nm_per_rad:
+    low: 20.0
+    nominal: 100.0
+    high: 400.0
+    authority: PROVISIONAL_DERIVED
+    bounded_interval: true
+    propagates_latch_inclusive_compliance: true
+  independent_latch_stiffness_Nm_per_rad:
+    value: null
+    authority: HOLD_HARDWARE_NOT_SELECTED
+    zero_fill_forbidden: true
+    disposition: not independently claimed; latch-inclusive k_inter interval is propagated
+  modal_damping_ratio:
+    low: 0.002
+    nominal: 0.005
+    high: 0.02
+    authority: PROVISIONAL_DERIVED
+    bounded_interval: true
+    conservation_lane: 0.0
+    dissipation_lane: LOW/NOMINAL/HIGH only
+mass_booking:
+  kinetic_leaf_mass_per_wing_kg: 0.54
+  rigid_nontracking_ledger_per_wing_kg: 0.24
+  total_per_wing_kg: 0.78
+  rule: rigid ledger excluded from flexible kinetic energy and added once in structural
+    mass accounting
+uncertainty_method:
+  type: bounded deterministic corners; not a probabilistic standard uncertainty
+  correlation_assumption: LOW and HIGH are conservative all-parameter corners; no
+    independence claim
+  corners:
+    LOW:
+      EI: 3.333
+      GJ: 0.13568692307692307
+      k_root: 50.0
+      k_inter: 20.0
+      zeta: 0.002
+    NOMINAL:
+      EI: 11.109
+      GJ: 1.5228243135505908
+      k_root: 200.0
+      k_inter: 100.0
+      zeta: 0.005
+    HIGH:
+      EI: 33.327
+      GJ: 17.09076923076923
+      k_root: 800.0
+      k_inter: 400.0
+      zeta: 0.02
+quantitative_linearity_contract:
+  authority: PROVISIONAL_DERIVED_SMALL_ANGLE_KINEMATIC_BOUND
+  qualification_credit: false
+  limits:
+    max_abs_bending_slope_rad: 0.05
+    max_abs_hinge_relative_rotation_rad: 0.05
+    max_abs_torsion_angle_rad: 0.05
+    max_abs_transverse_node_displacement_m: 0.030000000000000006
+    max_abs_tip_transverse_deflection_m: 0.030000000000000006
+  derivation:
+    angle_rad: 0.05
+    one_minus_cos_angle: 0.0012497396050337173
+    relative_sine_linearisation_error: 0.0004166145864334392
+    deflection_limit_rule: total deployed span (0.6 m) x angle limit
+  required_downstream_checks:
+  - max(abs(R_w_nodes @ eta)) <= max_abs_transverse_node_displacement_m
+  - max(abs(R_theta_dofs @ eta)) <= max_abs_bending_slope_rad
+  - max(abs(R_hinge_relative @ eta)) <= max_abs_hinge_relative_rotation_rad
+  - max(abs(R_torsion_nodes @ eta)) <= max_abs_torsion_angle_rad
+  - max(abs(R_tip_w @ eta)) <= max_abs_tip_transverse_deflection_m
+  out_of_domain_policy: FAIL_CLOSED__NO_LINEAR_ROM_EXTRAPOLATION
+  replacement_trigger: nonlinear HF correlation or as-built modal test supersedes
+    this provisional bound
+scope_guards:
+  r2_coupled_diagnostics: NOT_EVALUATED
+  e15_inheritance: NOT_INHERITED
+  measurement_claim: false
+  flight_qualification: HOLD
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+release_credit: false
+upstream_hashes:
+  ? 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round3_hf_rom_v2/OWNER_AUTHORITY_TRANSCRIPTION_V1.yaml
+  : D05104A364344ECC34F1A88DC8C7FD67BFB5A526A7E6E42865CA8A6907E2F68E
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_CANDIDATE_V1.step: 21FF77B882DBFAB87B3E77DD56817EFC7F321C68E30AFEDCDDBB4D79B9915795
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_BUILD_REPORT_V2.json: 4286EA2BBD84FB8EC33DDADE329534DA29194650AD22429245ECF8757B9AED1C
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_BUILD_REPORT_V1.json: 6160C1D0970B7EA19075B4A83C988C16CA2F1AFCA782BCAD90A89B14F17E6586
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/solar_array_r2_kinematics.py: ADC2B6D3E4270886AFA9B90D93C9A943A518C97F81D9FDBCCCDC6E2EFBA64EAC
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml: A04ACFE440C636BB095585C74F71E3563FD35F6678FCFAA39355383A9BF6B3FD
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json: D5B7DD16532FE7117D27ECC09EFB29ECC570F51928BDBDF3B27BB96C3CF12C5E
+  ? 30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_FIXED_BASE_R2_ROM_REPRODUCTION_AND_MASS_CONFLICT_V1.json
+  : 57958A9F3AC194893D689E9ECA4F12666474D97E0CFBB848ACBA794838B8396B

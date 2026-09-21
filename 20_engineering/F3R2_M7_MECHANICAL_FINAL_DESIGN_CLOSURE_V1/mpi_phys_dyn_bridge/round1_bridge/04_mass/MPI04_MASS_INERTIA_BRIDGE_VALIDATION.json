@@ -1,0 +1,376 @@
+{
+  "schema": "MPI04_MASS_INERTIA_BRIDGE_VALIDATION_V1",
+  "generated_local": "2026-08-23T19:00:00+08:00",
+  "generator": "KIMI M7 Wave-2a AGENT-1 MPI-FB-04 (pure python/numpy)",
+  "bridge_artifact": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml",
+    "sha256": "0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C"
+  },
+  "method_declaration": {
+    "about_cg_inertia": "I' = R I R^T (proper 3x3 conjugation; reference point follows the mapped CG; no translation term)",
+    "about_origin_inertia": "I'_O' = R I_O R^T + m[(r'.r')E - r'r'^T] - m[(r.r)E - (Rr)(Rr)^T] - the source Steiner dyadic is R-CONJUGATED before subtraction; this is the correct parallel-axis form of the task formula (round0 plan sec (c).4)",
+    "explicitly_forbidden_and_detected": "element-wise rotation of inertia; un-conjugated source Steiner term (literal reading m[S(r')-S(r)]); uncertainty-matrix rotation (WP2-AUD-02 precedent) - none used anywhere in this package",
+    "uncertainty_policy": "bridge is a deterministic geometric object: bridge uncertainty = null; ledger declared uncertainties are carried verbatim in MPI-FB-06, never rotated"
+  },
+  "independent_recomputation_vs_published": {
+    "arm_mass_recomputed_vs_published": 0.0,
+    "arm_cg_dyn_recomputed_vs_published_max_abs": 0.0,
+    "arm_I_dyn_recomputed_vs_published_max_abs": 0.0,
+    "residual_mass_recomputed_vs_published": 0.0,
+    "residual_cg_max_abs": 0.0,
+    "residual_I_max_abs": 0.0,
+    "e21_residual_json_sha256": "2E24233D2B14D31B25876AE0943AA0FD2C7EF4418DCCE4397C3730398F571AA2"
+  },
+  "objects": [
+    {
+      "object": "O2_complete_arm_C07_pose_A0_frame_bridge",
+      "mass_kg": 4.695555949342986,
+      "r_A0dyn_m": [
+        0.011459460126496021,
+        0.00028415086978255945,
+        0.359969131989312
+      ],
+      "r_A0phys_m": [
+        0.010505884174102215,
+        -0.0045854515402336,
+        0.337219131989312
+      ],
+      "cg_map_residual_m": 2.269714517836698e-18,
+      "about_cg_inertia_invariants": {
+        "mass_invariant_exact_zero_diff": 0.0,
+        "symmetry_max_abs_I_minus_IT": 1.9081958235744878e-17,
+        "spd_min_eigenvalue_kg_m2": 0.021638073020689735,
+        "principal_moments_before": [
+          0.021638073020678772,
+          0.23456341395824523,
+          0.25186410183296853
+        ],
+        "principal_moments_after": [
+          0.021638073020689735,
+          0.23456341395824815,
+          0.25186410183309926
+        ],
+        "principal_moments_max_abs_diff": 1.3072876114961218e-13,
+        "trace_before": 0.5080655888118925,
+        "trace_after": 0.5080655888120372,
+        "trace_delta": 1.4477308241112041e-13,
+        "triangle_inequalities_after": {
+          "Ixx+Iyy>=Izz": true,
+          "Iyy+Izz>=Ixx": true,
+          "Izz+Ixx>=Iyy": true
+        },
+        "pure_rotation_trace_invariant_delta": 1.4477308241112041e-13,
+        "pure_rotation_principal_invariant_max_abs": 1.3072876114961218e-13
+      },
+      "about_origin_transform_vs_first_principles_max_abs": 5.39124300757976e-13,
+      "literal_unconjugated_formula_deviation_max_abs_FORBIDDEN_READING": 0.007710680881610109,
+      "steiner_witness": {
+        "m_times_bridge_translation_squared_kg_m2": 0.0024302436760318276,
+        "expected_order": 0.0024304,
+        "delta_equals_m_S(r')_minus_m_S(Rr)_max_abs": 2.7755575615628914e-17,
+        "delta_matrix": [
+          [
+            0.07447636789176515,
+            0.0,
+            -0.0012241441979409136
+          ],
+          [
+            0.0,
+            0.07447636789176526,
+            -3.0354103486945265e-05
+          ],
+          [
+            -0.0012241441979409136,
+            -3.0354103486945265e-05,
+            -5.551115123125783e-17
+          ]
+        ],
+        "m_times_ppT_term": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0024302436760318276
+          ]
+        ],
+        "m_times_p2_E_term": [
+          [
+            0.0024302436760318276,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0024302436760318276,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0024302436760318276
+          ]
+        ],
+        "cross_term_m_times_2Rr_p_sym": [
+          [
+            0.07204612421573332,
+            0.0,
+            -0.0012241441979409136
+          ],
+          [
+            0.0,
+            0.07204612421573343,
+            -3.0354103486945265e-05
+          ],
+          [
+            -0.0012241441979409136,
+            -3.0354103486945265e-05,
+            -5.551115123125783e-17
+          ]
+        ]
+      }
+    },
+    {
+      "object": "O1_V3R2_C07_system_total_through_C_S_inverse",
+      "mass_kg": 31.022864807342987,
+      "cg_map_residual_check_m": 3.2648256535366984e-15,
+      "about_cg_inertia_invariants": {
+        "mass_invariant_exact_zero_diff": 0.0,
+        "symmetry_max_abs_I_minus_IT": 0.0,
+        "spd_min_eigenvalue_kg_m2": 0.4878488955467541,
+        "principal_moments_before": [
+          0.4878488955467539,
+          1.823008117516598,
+          2.02953876523894
+        ],
+        "principal_moments_after": [
+          0.4878488955467541,
+          1.8230081175175452,
+          2.0295387652399937
+        ],
+        "principal_moments_max_abs_diff": 1.0538236949741986e-12,
+        "trace_before": 4.340395778302291,
+        "trace_after": 4.340395778304292,
+        "trace_delta": 2.001065979584382e-12,
+        "triangle_inequalities_after": {
+          "Ixx+Iyy>=Izz": true,
+          "Iyy+Izz>=Ixx": true,
+          "Izz+Ixx>=Iyy": true
+        },
+        "pure_rotation_trace_invariant_delta": 2.001065979584382e-12,
+        "pure_rotation_principal_invariant_max_abs": 1.0538236949741986e-12
+      },
+      "note": "whole-system rigid re-expression only; the system is NOT physically moved by the bridge - consumption-semantics re-expression"
+    }
+  ],
+  "lane_delta_explanation": {
+    "bridged_system_mass_kg": 31.022864807342987,
+    "mass_matches_both_lanes_exact_zero_diff": 0.0,
+    "bridged_system_cg_S_m": [
+      0.09467889033225592,
+      0.0007727570136472925,
+      -0.0061019726905915395
+    ],
+    "wp11_lane_published_cg_S_m": [
+      0.0946788903322559,
+      0.0007727570136472924,
+      -0.006101972690591536
+    ],
+    "cg_bridge_vs_published_wp11_max_abs": 1.3877787807814457e-17,
+    "bridged_system_inertia_about_system_cg_S_kg_m2": [
+      [
+        0.48911082356730023,
+        -0.024969366237608814,
+        0.038071227438447215
+      ],
+      [
+        -0.024969366237608814,
+        1.9180493148174889,
+        0.008628492015865866
+      ],
+      [
+        0.038071227438447215,
+        0.008628492015865866,
+        2.131447567194236
+      ]
+    ],
+    "inertia_bridge_vs_published_wp11_max_abs": 1.127986593019159e-13,
+    "published_lane_delta_cg_norm_m_G11": 0.003524348142565558,
+    "bridge_recomputed_delta_cg_norm_m": 0.003524348142565572,
+    "published_lane_delta_inertia_max_abs_G11": 0.10311953522836159,
+    "bridge_recomputed_delta_inertia_max_abs": 0.10311953522847439,
+    "odr01_lane_closure_vs_ledger": {
+      "published_cg_error_norm_m_G10": 0.0,
+      "published_inertia_max_abs_G10": 4.440892098500626e-16,
+      "rebuilt_odr01_system_vs_ledger_cg_max_abs": 0.0,
+      "rebuilt_odr01_system_vs_ledger_inertia_max_abs": 2.220446049250313e-16
+    },
+    "interpretation": "the 0.003524348142565558 m CG delta and 0.10311953522836159 kg m2 inertia delta between the two e21 lanes are EXACTLY the bridge action on the arm member (residual fixed): sys_phys = combine(residual, C_S_inv-mapped arm). Explained by the bridge, not zeroed."
+  },
+  "c01_spelling_witness": {
+    "ledger_c01_arm_cg_S_m_rounded_spelling": [
+      0.376934164889081,
+      -0.17567666955456437,
+      -0.08674287405126006
+    ],
+    "bridged_to_dynamics_consumption_cg_S_m": [
+      0.354184164889081,
+      -0.19587625733612124,
+      -0.004371525645575955
+    ],
+    "e21_odr01_fk_cg_S_m": [
+      0.3541841648890811,
+      -0.1958762386983999,
+      -0.004371637241445176
+    ],
+    "bridged_vs_odr01_fk_residual_m": 1.1314151618148656e-07,
+    "e21_audit_published_ledger_residual_mm": 0.00011314150166020904,
+    "inertia_bridged_vs_odr01_fk_max_abs": 6.416106501563185e-08,
+    "interpretation": "residual = the registered WP11-F-03 rounded-clock spelling deviation (~1.1e-4 mm CG, ~7e-8 kg m2 inertia); documented, never zeroed"
+  },
+  "checks": [
+    {
+      "id": "FB04-01",
+      "name": "mass invariant exact zero diff (all objects)",
+      "value": 0.0,
+      "status": "PASS",
+      "limit": 0.0,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "FB04-02",
+      "name": "CG map residual (arm, A0 bridge)",
+      "value": 2.269714517836698e-18,
+      "limit": 1e-15,
+      "status": "PASS"
+    },
+    {
+      "id": "FB04-03",
+      "name": "about-CG inertia pure-rotation principal invariance (arm)",
+      "value": 1.3072876114961218e-13,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB04-04",
+      "name": "about-origin transform == first principles (arm, conjugated Steiner)",
+      "value": 5.39124300757976e-13,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB04-05",
+      "name": "Steiner witness m*d^2 present at 2.43e-3 scale",
+      "value": 0.0024302436760318276,
+      "limit": [
+        0.0024,
+        0.0025
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "FB04-06",
+      "name": "literal un-conjugated formula deviation detected (forbidden reading guard)",
+      "value": 0.007710680881610109,
+      "limit": ">1e-4 (must be clearly nonzero)",
+      "status": "PASS"
+    },
+    {
+      "id": "FB04-07",
+      "name": "lane CG delta 0.003524348142565558 m explained by bridge",
+      "value": 1.3877787807814457e-17,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB04-08",
+      "name": "lane inertia delta 0.10311953522836159 kg m2 explained by bridge",
+      "value": 1.127986593019159e-13,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB04-09",
+      "name": "bridged physical system == published WP11 lane initial values",
+      "value": 1.127986593019159e-13,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB04-10",
+      "name": "arm map vs e21 direct FK at physical mount (machine precision)",
+      "value": 1.1191048088221578e-13,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB04-11",
+      "name": "C01 spelling witness residual at registered 1.1e-4 mm (not zeroed)",
+      "value": 1.1314151618148656e-07,
+      "limit": "[1.0e-7, 1.3e-7] m",
+      "status": "PASS"
+    },
+    {
+      "id": "FB04-12",
+      "name": "all transformed inertia SPD + symmetric + triangle",
+      "value": 0.0,
+      "limit": 0.0,
+      "status": "PASS"
+    }
+  ],
+  "criterion_counts": {
+    "total": 12,
+    "pass": 12,
+    "fail": 0
+  },
+  "overall": "PASS",
+  "source_register": [
+    {
+      "path": "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/00_authority/E21_AUTHORITY_CONTRACT_V1.yaml",
+      "sha256": "7D2E0792B3FF6BAB9BD9AE11A605341B20BAAB821961A7BA8E119996D1515D81"
+    },
+    {
+      "path": "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_C07_R2_DEPLOYED_LOCKED_FIXED_RESIDUAL_V1.json",
+      "sha256": "2E24233D2B14D31B25876AE0943AA0FD2C7EF4418DCCE4397C3730398F571AA2"
+    },
+    {
+      "path": "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_ODR01_DYNAMICS_T_SM__M07_ARM_ONLY_RADAU_SUMMARY_V1.json",
+      "sha256": "C575F1D4F4CDDBAE9890D44379A575E28817A2586D8741FA9FEDC044AD8C038C"
+    },
+    {
+      "path": "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_WP11_PHYSICAL_GEOMETRY_CONTEXT__M07_ARM_ONLY_RADAU_SUMMARY_V1.json",
+      "sha256": "55DC3E9E36FCECA7101B5707C07E9363F73DBF1E159D07FAA3E60D049D11D6B3"
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml",
+      "sha256": "3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB"
+    },
+    {
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+      "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164"
+    },
+    {
+      "path": "30_simulation/sim_05_free_floating_arm/b601_model.py",
+      "sha256": "3E2B451476F437E482661E275073249AD101705251B78C042851C32AE741052F"
+    },
+    {
+      "path": "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/src/build_e21_diagnostics.py",
+      "sha256": "7EC0B2ADA7EDCD5E7F34F7E7857A9F0147A1FF633D3EC2227E939C2C62903792"
+    }
+  ],
+  "next_stage_authorized": false,
+  "release_credit": false
+}

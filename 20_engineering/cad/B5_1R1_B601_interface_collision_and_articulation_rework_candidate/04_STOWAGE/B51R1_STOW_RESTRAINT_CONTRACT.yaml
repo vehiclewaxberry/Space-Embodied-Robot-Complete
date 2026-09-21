@@ -1,0 +1,86 @@
+schema: SER_B51R1_STOW_RESTRAINT_CONTRACT_V1
+task_id: COMP-PROT-03-A4-B5.1R1-B601-CANONICAL-INTERFACE-AND-NATIVE-ARTICULATION-REWORK
+status: CONTRACT_READY_GEOMETRY_AND_LOAD_VALUES_HOLD
+coordinate_frame: CS_S
+architecture_mode: UNSELECTED_H9_HUMAN_DECISION_REQUIRED
+parent_gate:
+  verdict: B51_REVISE_INTERFACE_COLLISION
+  G4: HOLD_PHYSICAL_RESTRAINT_AND_RELEASE_INTERFACE
+  G6: HOLD_NOT_RUN
+
+states:
+  - STOW_LOCKED_LAUNCH
+  - RELEASE_COMMAND_PENDING_CONFIRMATION
+  - PRELOAD_RELEASED_CONTACT_TRANSITION
+  - LIFT_OFF_CLEAR
+  - DEPLOYED_OPERATIONAL
+  - GROUND_MAINTENANCE_RETURN
+  - FAIL_RELEASE_NOT_CONFIRMED
+
+current_geometry_diagnostics:
+  G07:
+    valid_step_solid_count: 8
+    primary_distance_mm: 3.000000000000014
+    panel_distance_mm: 0.0
+    replaceable_pad_normal_candidate_cs_s: PLUS_OR_MINUS_Z
+    low_guide_normal_candidate_cs_s: PLUS_OR_MINUS_Y
+    named_axial_stop_present: false
+    attachment_credit: NONE
+  G08:
+    valid_step_solid_count: 8
+    primary_distance_mm: 3.000000000000014
+    panel_distance_mm: 0.0
+    replaceable_pad_normal_candidate_cs_s: PLUS_OR_MINUS_Z
+    low_guide_normal_candidate_cs_s: PLUS_OR_MINUS_Y
+    named_axial_stop_present: false
+    obsolete_stow_support_overlap_mm3: 9680.832
+    obsolete_overlap_disposition: EXPLICIT_REPLACEMENT_OR_EXCLUSION_REQUIRED
+    attachment_credit: NONE
+
+candidate_allocation:
+  status: PROPOSED_NOT_RATIFIED
+  G07: UNIQUE_AXIAL_STOP_CANDIDATE_PLUS_SECONDARY_GUIDE_AND_COMPLIANT_PAD
+  G08: X_FLOAT_CANDIDATE_PLUS_SECONDARY_GUIDE_AND_COMPLIANT_PAD
+  HDRM: PRELOAD_ONLY_NO_AUTOMATIC_DOF_OWNERSHIP
+  rationale: AVOID_UNQUALIFIED_DUPLICATE_RIGID_AXIAL_CONSTRAINT
+  alternative_rule: MULTIPLE_AXIAL_STOPS_REQUIRE_CLEARANCE_COMPLIANCE_TOLERANCE_AND_STIFFNESS_PROOF
+
+row_contract:
+  required_fields:
+    - row_id
+    - state_id
+    - interface_id
+    - feature_id
+    - dof
+    - functional_role
+    - constraint_law
+    - contact_origin_cs_s
+    - contact_normal_cs_s
+    - tangent_1_cs_s
+    - tangent_2_cs_s
+    - allowed_slip_cs_s
+    - initial_gap_mm
+    - preload_vector_cs_s
+    - release_vector_cs_s
+    - stiffness_reference
+    - reaction_share
+    - evidence_refs
+    - status
+  default_numeric_value:
+    value: null
+    status: UNKNOWN
+    do_not_infer: true
+    numeric_load_credit: NONE
+
+rules:
+  - ROTATIONAL_RESTRAINT_AT_G07_OR_G08_IS_DERIVED_FROM_CONTACT_SPAN_AND_STIFFNESS_NOT_THREE_DUPLICATE_RIGID_ROTATION_MATES
+  - FRICTION_CANNOT_OWN_A_REQUIRED_DOF_UNTIL_QUALIFIED
+  - RELEASED_G07_G08_AND_HDRM_MUST_BE_FREE_AFTER_LIFT_OFF_CLEAR
+  - RELEASE_NOT_CONFIRMED_BLOCKS_ARM_LIFT_AND_CAUSES_ABORT
+  - REACTION_SHARES_REMAIN_UNKNOWN_UNTIL_A_QUALIFIED_CONTACT_AND_STIFFNESS_MODEL_EXISTS
+  - ZERO_DISTANCE_OR_STATIC_ENDPOINT_CLEARANCE_IS_NOT_CONTINUOUS_CLEARANCE_OR_ATTACHMENT_PROOF
+
+matrix: B51R1_STOW_RESTRAINT_DOF_MATRIX.csv
+unknown_register: B51R1_STOW_RESTRAINT_UNKNOWN_REGISTER.csv
+claim_limit: FUNCTIONAL_CONTRACT_ONLY_NOT_LOAD_SHARE_NOT_CONTACT_QUALIFICATION_NOT_LAUNCH_QUALIFICATION
+

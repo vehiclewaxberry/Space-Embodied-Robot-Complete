@@ -1,0 +1,144 @@
+schema: R2_FULLFLEX_HF_MODEL_V1
+generated_local: '2026-08-23T20:45:41.771960+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+generator: KIMI M7 机械终局接管 swarm Wave-4a (ODR-45..49 owner decisions + R2 full-flex closure) / AGENT-B1 round2_hf_model builder (pure numpy/scipy; upstream read-only)
+class: CANDIDATE_PROVISIONAL_BANDS__NOT_CERTIFIED
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+release_credit: false
+
+scope: FIXED_BASE_FREE_VIBRATION_ONLY, per single wing, deployed latched flat config
+wave_role: B1 - R2 high-fidelity three-leaf-per-wing flexible model (Full-Flex F1)
+
+architecture: >-
+  per wing = root hinge (k_theta_root band 50/200/800 N m/rad) -> leaf 1 flexible
+  (Euler-Bernoulli FE, 20 elements default) -> hinge 2 (k_theta_inter 20/100/400)
+  -> leaf 2 flexible -> hinge 3 (k_theta_inter) -> leaf 3 flexible; all hinge axes
+  parallel X_S, planar (y,z) bending per FLEXIBLE_APPENDAGE_R2.yaml registration;
+  NEW torsion lane: each leaf also carries spanwise torsion DOF phi(y) with GJ.
+
+kinematic_conventions:
+  source: FLEXIBLE_APPENDAGE_R2.yaml (registered; read-only)
+  hinge_axes: parallel X_S (book/accordion chain)
+  motion: planar (y,z) bending; torsion about the deployed spanwise (+y) line
+  extensions_documented_explicitly:
+  - E-1 leaves are flexible FE beams (the registered L2 ROM is a rigid-leaf chain)
+  - E-2 torsion DOFs added (registered card GJ slot was NULL / 'pending sandwich shear model')
+  - E-3 torsion root boundary clamped phi(node0)=0 (root-bracket torsional compliance
+    is SLOT-04 NULL; clamping is the reference boundary)
+  - E-4 torsion transmitted continuously through inter-panel hinges (no registered
+    hinge torsional compliance exists)
+
+leaf:
+  mass_kg: 0.18
+  span_m: 0.2
+  chord_m: 0.3
+  thickness_m: 0.0025
+  elements_per_leaf_default: 20
+  mu_kg_per_m: 0.9
+  rhoj_kg_m_bending_rotary: 4.6875000000e-07
+  JM_torsion_kg_m_per_m: 6.7500000000e-03   # mu*chord^2/12 about spanwise axis
+  EI_Nm2: {nominal: 11.109, band: [3.333, 33.327], class: PROVISIONAL_DERIVED,
+    provenance: carried from FLEXIBLE_APPENDAGE_R2.yaml (no measurement source)}
+
+gj_derivation:
+  class: PROVISIONAL_DERIVED
+  measurement_claim: FORBIDDEN - no torsion measurement exists; band must be replaced
+    by WP5 R2 hardware selection vendor data or test
+  construction_basis: >-
+    registered candidate (FLEXIBLE_APPENDAGE_R2.yaml leaf_L1_engineering_model):
+    2 x 0.2 mm CFRP faces (E = 70 GPa quasi-iso) over 2.1 mm core, total 2.5 mm,
+    chord 0.300 m; candidate Poisson ratio nu = 0.3; core shear modulus candidate
+    G_c = 100 MPa (generic low-modulus sandwich core, PROVISIONAL_DERIVED).
+  face_shear_modulus_Pa: 2.692308e+10   # G_f = E/(2*(1+nu)) = 70e9/2.6
+  lower_bound_open_section_st_venant:
+    formula: GJ_low = chord/3 * (2*G_f*t_f^3 + G_c*t_c^3)
+    arithmetic: 0.3/3 * (2*2.692308e+10*(2.0e-4)^3 + 1.0e8*(2.1e-3)^3)
+    value_Nm2: 0.1356869231
+    meaning: components act independently with free warping (open thin strip)
+  upper_bound_closed_cell_bredt:
+    formula: GJ_high = 4*A_m^2 / (integral ds/(G*t)) with A_m = chord*(t_c+t_f),
+      compliant walls = the two faces only; edge closures assumed rigid
+    arithmetic: A_m = 0.3*2.3e-3 = 6.900000e-04 m2; integral = 2*0.3/(G_f*t_f) = 1.114286e-07
+    value_Nm2: 17.0907692308
+    meaning: sandwich cross-section acts as a closed thin-walled cell (potted edges)
+  nominal: geometric mean sqrt(GJ_low*GJ_high) = 1.5228243136 N m2
+  band_Nm2: [0.1356869231, 17.0907692308]
+  note: band is wide (about 2 orders of magnitude) because the torsional load path
+    of the real sandwich (edge closure quality, core shear) is unknown; this is an
+    honest bounded interval, never a point estimate.
+
+hinge_stiffness:
+  k_theta_root_Nm_per_rad: {low: 50, nominal: 200, high: 800, class: PROVISIONAL_DERIVED}
+  k_theta_inter_Nm_per_rad: {low: 20, nominal: 100, high: 400, class: PROVISIONAL_DERIVED}
+  deployed_latched_semantics: ODR-32 - the modal evidence is computed AT the deployed
+    latched state, so these bands ARE the deployed latch-inclusive stiffness candidates
+  latch:
+    independent_latch_stiffness_Nm_per_rad: null   # HOLD_LATCH_GEOMETRY_NOT_MODELLED (verbatim)
+    fold_statement: >-
+      per SLOT-03 discipline the inter-panel k_theta band [20, 100, 400] N m/rad is
+      propagated as the latch-inclusive deployed-state compliance until latch hardware
+      is selected; the independent latch stiffness stays explicit null (never zero-filled).
+
+damping:
+  class: PROVISIONAL_DERIVED
+  type: modal zeta band (bounded assumption for CFRP sandwich + hinge chain; NOT a measurement)
+  zeta_band: [0.002, 0.02]
+  zeta_nominal: 0.005   # Wave-4a directive nominal (ODR-45..49 era)
+  dual_lane_discipline:
+    conservation_audit_lane: zeta = 0 - all M/K eigen evidence in this package
+    dissipation_prediction_lane: zeta != 0 - report-only damped-frequency/decay mapping
+  legacy_placeholder_policy: >-
+    the old placeholders (card zeta=0.01 TBD_cite_literature; sim_11 zeta_modal=0.005
+    placeholder) are NOT consumed as authority anywhere in this package; the band above
+    is a NEW derived record; any numeric coincidence with the retired sim_11 placeholder
+    is provenance-independent.
+
+mass_bookkeeping_mc_a:
+  ruling: ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.yaml (dynamic_mass_allocation_frozen=true)
+  kinetic_energy: leaf masses only (3 x 0.18 = 0.54 kg/wing)
+  rigid_non_tracking_interface_masses_at_hinge_lines:
+    hinge_root_kg: 0.05
+    hinge_inter_kg_each: 0.03
+    hdrm_kg: 0.08
+    harness_kg: 0.05
+    sum_kg: 0.24
+  bookkeeping_id: BK-DYN-MASS-HINGE-ALLOC-MC-A
+  total_per_wing_kg: 0.78   # exact closure vs SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json
+
+dof_map_summary: bending block first, then torsion block; blocks are decoupled (planar EB bending about X_S + independent spanwise torsion); ndof_free = 183 at 20 elements/leaf;
+  full map in R2_FULLFLEX_HF_EIGEN_EVIDENCE_V1.json model_definition.dof_map
+
+boundary_conditions:
+  root: w(node0)=0 (revolute attach); k_theta_root spring on theta(node0)
+  inter_panel: doubled theta at hinge nodes with k_theta_inter jump springs
+  torsion_root: phi(node0)=0 clamped (E-3 reference boundary)
+
+scope_limits_verbatim:
+- no freeplay/backlash (SLOT-05 NULL, HOLD_FREEPLAY_LIMITS_NO_NUMERIC_AUTHORITY)
+- no root-bracket compliance beyond k_theta_root (SLOT-04 NULL)
+- no independent latch stiffness (SLOT-03 NULL, folded into inter-panel bands)
+- no base coupling / participation factors in this package (SLOT-07, later work)
+- damping enters only as the report-only dissipation lane; M/K eigen = zeta=0 lane
+
+holds_carried_verbatim:
+- HOLD_LATCH_GEOMETRY_NOT_MODELLED
+- HOLD_FREEPLAY_LIMITS_NO_NUMERIC_AUTHORITY
+- HOLD_PANEL_LAYUP_AND_CELL_GEOMETRY_NOT_MODELLED
+- e15 REPEAT_ANCF_CERTIFICATION (unchanged by this package)
+- r2_full_flexible_coupling: NOT_EVALUATED (this file does not close it)
+
+evidence: R2_FULLFLEX_HF_EIGEN_EVIDENCE_V1.json (assembled M_hf/K_hf, eigen cases,
+  convergence, mass closure, SPD, null-space sanity, HF-vs-ROM report-only table)
+validation_gate: R2_FULLFLEX_HF_VALIDATION_GATE_V1.json
+
+nonclaims:
+- this card is NOT a ROM and NOT a coupled/free-floating evaluation
+- no parameter in this card is measured; all bands are PROVISIONAL_DERIVED
+- comparison vs ROM witnesses is REPORT ONLY (no tuning)
+- no production/manufacturing/qualification/launch/flight authority
+- GAP-12 whole-satellite mass budget reallocation untouched (stays OPEN)
+
+self_hash_policy: SELF_REFERENCE_EXCLUDED - this file carries no hash of itself; downstream consumers pin its sha256 after emission (same policy as e21/V5 manifests and 02_bridge)
+companion_human_readable: R2_FULLFLEX_HF_MODEL_V1.md (same basename; YAML structured
+  fields govern on conflict)

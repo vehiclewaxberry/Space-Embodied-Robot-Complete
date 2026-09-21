@@ -1,0 +1,169 @@
+{
+  "run": "r17_export_chain_20260919",
+  "check": "r17_eight_rejection_categories_negative_controls",
+  "positive_control": {
+    "fixture": "合成三态基线（含翼叶式逐件预算+总成预算合法共存结构）",
+    "violations": [],
+    "pass": true
+  },
+  "negative_controls": [
+    {
+      "nc": "NC1",
+      "category": "旧交接配新 CAD（stale handoff input hash）",
+      "expected_codes": [
+        "HANDOFF_INPUT_HASH_MISMATCH"
+      ],
+      "detected_codes": [
+        "HANDOFF_INPUT_HASH_MISMATCH"
+      ],
+      "all_violations": [
+        "HANDOFF_INPUT_HASH_MISMATCH: F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\service_robot_wp03_spacecraft_body_r1\\results\\service_instances.json（交接生成后输入已变化=旧交接配新 CAD）"
+      ],
+      "detected": true,
+      "note": ""
+    },
+    {
+      "nc": "NC2",
+      "category": "同总质量但错源（owner 质量/来源分解错配）",
+      "expected_codes": [
+        "HANDOFF_OWNER_VALUE_MISMATCH",
+        "HANDOFF_MASS_BY_SOURCE_MISMATCH"
+      ],
+      "detected_codes": [
+        "HANDOFF_MASS_BY_SOURCE_MISMATCH",
+        "HANDOFF_OWNER_VALUE_MISMATCH"
+      ],
+      "all_violations": [
+        "HANDOFF_OWNER_VALUE_MISMATCH: parking struct_panel_a（同总质量但错源/owner 错配拒绝）",
+        "HANDOFF_OWNER_VALUE_MISMATCH: parking equipment_battery（同总质量但错源/owner 错配拒绝）",
+        "HANDOFF_MASS_BY_SOURCE_MISMATCH: parking（同总质量但错来源分解拒绝）",
+        "HANDOFF_OWNER_VALUE_MISMATCH: released struct_panel_a（同总质量但错源/owner 错配拒绝）",
+        "HANDOFF_OWNER_VALUE_MISMATCH: released equipment_battery（同总质量但错源/owner 错配拒绝）",
+        "HANDOFF_MASS_BY_SOURCE_MISMATCH: released（同总质量但错来源分解拒绝）",
+        "HANDOFF_OWNER_VALUE_MISMATCH: service struct_panel_a（同总质量但错源/owner 错配拒绝）",
+        "HANDOFF_OWNER_VALUE_MISMATCH: service equipment_battery（同总质量但错源/owner 错配拒绝）",
+        "HANDOFF_MASS_BY_SOURCE_MISMATCH: service（同总质量但错来源分解拒绝）"
+      ],
+      "detected": true,
+      "note": ""
+    },
+    {
+      "nc": "NC3",
+      "category": "parking/service 配置混用（姿态/根变换错配）",
+      "expected_codes": [
+        "STATE_CONFIG_MISMATCH"
+      ],
+      "detected_codes": [
+        "STATE_CONFIG_MISMATCH"
+      ],
+      "all_violations": [
+        "STATE_CONFIG_MISMATCH: service（HANDOFF 姿态/根变换与回执不一致=配置混用）"
+      ],
+      "detected": true,
+      "note": ""
+    },
+    {
+      "nc": "NC4",
+      "category": "exploded 显示视图混入（视图/状态集合拒绝）",
+      "expected_codes": [
+        "RECEIPT_VIEW_NOT_COMPLETE",
+        "HANDOFF_STATE_SET_MISMATCH"
+      ],
+      "detected_codes": [
+        "HANDOFF_STATE_SET_MISMATCH",
+        "RECEIPT_VIEW_NOT_COMPLETE"
+      ],
+      "all_violations": [
+        "RECEIPT_VIEW_NOT_COMPLETE: service_instances.json view='exploded'（exploded/cutaway/ground 视图不得作 BOM 来源）",
+        "HANDOFF_STATE_SET_MISMATCH: ['parking', 'released', 'service', 'exploded']（须恰为 parking/released/service，exploded 等视图拒绝）"
+      ],
+      "detected": true,
+      "note": ""
+    },
+    {
+      "nc": "NC5",
+      "category": "缺/重复 mass_owner",
+      "expected_codes": [
+        "MISSING_MASS_OWNER",
+        "DUPLICATE_MASS_OWNER"
+      ],
+      "detected_codes": [
+        "DUPLICATE_MASS_OWNER",
+        "MISSING_MASS_OWNER"
+      ],
+      "all_violations": [
+        "DUPLICATE_MASS_OWNER: parking_instances.json struct_panel_a（struct_panel_a 与 equipment_battery；缺/重复 owner 拒绝）",
+        "MISSING_MASS_OWNER: service_instances.json struct_panel_a（正质量缺 mass_owner）",
+        "HANDOFF_ROW_FIELD_MISMATCH: parking equipment_battery mass_owner: 'equipment_battery' != 'struct_panel_a'",
+        "HANDOFF_OWNER_VALUE_MISMATCH: parking struct_panel_a（同总质量但错源/owner 错配拒绝）",
+        "HANDOFF_MASS_BY_SOURCE_MISMATCH: parking（同总质量但错来源分解拒绝）",
+        "HANDOFF_ROW_FIELD_MISMATCH: service struct_panel_a mass_owner: 'struct_panel_a' != ''",
+        "HANDOFF_OWNER_VALUE_MISMATCH: service （同总质量但错源/owner 错配拒绝）",
+        "HANDOFF_MASS_BY_SOURCE_MISMATCH: service（同总质量但错来源分解拒绝）"
+      ],
+      "detected": true,
+      "note": ""
+    },
+    {
+      "nc": "NC6",
+      "category": "UNKNOWN 零填（未分配质量写 0 而非 null）",
+      "expected_codes": [
+        "UNKNOWN_ZERO_FILL"
+      ],
+      "detected_codes": [
+        "HANDOFF_UNKNOWN_ZERO_FILL",
+        "UNKNOWN_ZERO_FILL"
+      ],
+      "all_violations": [
+        "UNKNOWN_ZERO_FILL: service_instances.json fastener_candidate_x（未知质量写 0=UNKNOWN 零填，必须保持 null）",
+        "HANDOFF_UNKNOWN_ZERO_FILL: parking fastener_candidate_x=0.0（交接分配 0/非正值=UNKNOWN 零填）",
+        "HANDOFF_UNKNOWN_ZERO_FILL: parking 未分配质量 owner 进入交接分配值 ['fastener_candidate_x']",
+        "HANDOFF_UNKNOWN_ZERO_FILL: released fastener_candidate_x=0.0（交接分配 0/非正值=UNKNOWN 零填）",
+        "HANDOFF_UNKNOWN_ZERO_FILL: released 未分配质量 owner 进入交接分配值 ['fastener_candidate_x']",
+        "HANDOFF_UNKNOWN_ZERO_FILL: service fastener_candidate_x=0.0（交接分配 0/非正值=UNKNOWN 零填）"
+      ],
+      "detected": true,
+      "note": ""
+    },
+    {
+      "nc": "NC7",
+      "category": "GSE 混入随星 BOM 回执",
+      "expected_codes": [
+        "GSE_IN_ONBOARD_RECEIPT"
+      ],
+      "detected_codes": [
+        "GSE_IN_ONBOARD_RECEIPT"
+      ],
+      "all_violations": [
+        "GSE_IN_ONBOARD_RECEIPT: service_instances.json gse_stand_1（GSE/试验件不得混入随星 BOM 回执）",
+        "HANDOFF_OWNER_VALUE_MISMATCH: service gse_stand_1（同总质量但错源/owner 错配拒绝）"
+      ],
+      "detected": true,
+      "note": ""
+    },
+    {
+      "nc": "NC8",
+      "category": "标准件与父总成双计",
+      "expected_codes": [
+        "STANDARD_PART_PARENT_DOUBLE_COUNT"
+      ],
+      "detected_codes": [
+        "STANDARD_PART_PARENT_DOUBLE_COUNT"
+      ],
+      "all_violations": [
+        "STANDARD_PART_PARENT_DOUBLE_COUNT: parking_instances.json eq_mount_screw_1 在含总成预算行 ['equipment_battery'] 的 EQUIPMENT_BAY 内重复计正质量（标准件与父总成双计）",
+        "STANDARD_PART_PARENT_DOUBLE_COUNT: released_instances.json eq_mount_screw_1 在含总成预算行 ['equipment_battery'] 的 EQUIPMENT_BAY 内重复计正质量（标准件与父总成双计）",
+        "STANDARD_PART_PARENT_DOUBLE_COUNT: service_instances.json eq_mount_screw_1 在含总成预算行 ['equipment_battery'] 的 EQUIPMENT_BAY 内重复计正质量（标准件与父总成双计）",
+        "HANDOFF_MASS_BY_SOURCE_MISMATCH: parking（同总质量但错来源分解拒绝）",
+        "HANDOFF_MASS_BY_SOURCE_MISMATCH: released（同总质量但错来源分解拒绝）",
+        "HANDOFF_MASS_BY_SOURCE_MISMATCH: service（同总质量但错来源分解拒绝）"
+      ],
+      "detected": true,
+      "note": "翼叶逐件预算与释放/线束总成预算同舱合法共存（正控基线含此结构，不得误判）"
+    }
+  ],
+  "detected_count": 8,
+  "total": 8,
+  "verdict": "PASS",
+  "elapsed_s": 0.143
+}

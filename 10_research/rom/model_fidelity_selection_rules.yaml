@@ -1,0 +1,214 @@
+# model_fidelity_selection_rules.yaml — 多保真模型切换规则（机器可执行草案）
+# 状态：DRAFT_V0_1_PLAN_ONLY —— 未实现、未认证；实现于 R1 阶段（见
+#   10_research/rom/multifidelity_rom_plan.md §6），认证于 R2（rom_gate_check.json）。
+# 语义：规则按 rules[].priority 升序短路求值；任何 metric 取不到值 → 执行
+#   on_unevaluable（fail-closed）。禁止在实现中放宽本文件阈值（thresholds_widened
+#   永久 false）；阈值修改只经评审 + 版本号递增。
+schema_version: rom-fidelity-rules-v0.1
+status: DRAFT_PLAN_ONLY
+date: 2026-07-19
+provisional_params_inherited: true          # 帆板参数 + T_c 占位未转正，结论继承标记
+forbidden_in_v1: [neural_network_surrogate, blackbox_regressor, extrapolating_surrogate]
+
+# ---------------------------------------------------------------- 保真层注册表
+levels:
+  L0:
+    name: rigid_instantaneous
+    physics: "刚体 Delassus 瞬时捕获 + 解析/精确双解（sim_10 现状）"
+    implementation: 30_simulation/sim_10_mission_feasibility
+    observables: [omega_plus_dps, region_label, H_capture_Nms, propellant_g]
+    certified_against: L1
+    known_blind_spots:
+      - FLEX_UNKNOWN_NOT_IN_CRITERIA
+      - "X2 过渡带亚分辨率非单调（G1 μ≈0.51, dip 1.08%）"
+    cost_per_case_s: {nominal: 1.0e-3, calibration_required: true}
+  L1:
+    name: ffr_low_order_bandwidth
+    physics: "浮动基座树形多体 + FFR(m=3 名义) + 有限接触带宽半正弦（sim_11 v1.1）"
+    implementation: 30_simulation/sim_11_coupled_dynamics
+    observables: [omega_plus_dps, base_rate_peak_dps, base_attitude_peak_deg,
+                  tip_defl_peak_m, modal_energy_peak_J, lambda_impulse_Ns, ringing_s]
+    certified_against: L2
+    assumptions: {linear_modal: true, analytic_cantilever_modes: true}
+    cost_per_case_s: {nominal: 30.0, calibration_required: true}
+  L2:
+    name: ancf_high_fidelity
+    physics: "平面梯度缺陷 ANCF 梁（sim_07）+ L1 整星分层复核；几何非线性容许"
+    implementation: 30_simulation/sim_07_ancf_flexible
+    certification_debt: "e15 REPEAT_ANCF_CERTIFICATION 未闭环（交叉解 5.64%>5%）；
+      GR5 重过前 L2 终审结论不得引用为已认证"
+    limitation_clause_mandatory: "平面梁组件级，非全 3D 板全耦合；结论必须复述"
+    cost_per_case_s: {nominal: 300.0, calibration_required: true}
+
+# ---------------------------------------------------------------- 指标注册表
+# 每条 metric：实现层负责求值；provenance = 数值/阈值的磁盘证据出处
+metrics:
+  in_domain:
+    type: bool
+    definition: "候选参数落在该层认证域凸包（参数域∪T_c扫掠带∪f1包络）内"
+    domain_sources:
+      - 20_engineering/config/mission_feasibility/scan_v0.yaml          # μ, ω, λ, α 域
+      - {T_c_ms: [5, 100], provenance: sim_11 bandwidth_sweep_diagnostic}
+      - {panel_f1_hz: [0.6, 2.2], provenance: 10_research/panel/panel_parameter_registry_v2_draft.md}
+  f_band_hz:
+    definition: "1/(2*T_c)"                              # 接触带宽边
+    provenance: 30_simulation/sim_11_coupled_dynamics/src/contact_window.py
+  modal_basis_covers_band:
+    type: bool
+    definition: "f_m(最高保留模态) >= kappa_band * f_band_hz"
+    params: {kappa_band: 1.4}
+    anchor: "T_c=20ms→f_band=25Hz, f3=17.55Hz 在带内 ⇒ m>=3（sim_11 m2 诊断 2.18%）"
+  ideal_impulse_flag:
+    type: bool
+    definition: "T_c 未定义或 T_c→0（理想冲量口径）"
+    consequence: "能量级指标不适定；仅动量级量可用（sim_11 ideal_impulse_diagnostic）"
+  r_defl:
+    definition: "w_tip_peak / L_panel"
+    anchor: "A2 带宽口径 2.071e-3 m / 0.2 m = 1.04e-2（sim_11 gate JSON）"
+  tau_tail:
+    definition: "|E_modal(m+1)-E_modal(m)| / E_modal(m)  前向加密链相对变化"
+    anchor: "G4' m3→m4=0.48%, m4→m5=0.027%（PASS）; 理想冲量慢尾 +2.86/+1.29/+0.72%（FAIL 特征）"
+  eps_tot:
+    definition: "该层总误差估计 = 认证残差p95 ⊕ kappa_tail*tau_tail ⊕ 占位参数敏感度带"
+    params: {kappa_tail: 3.0, combine: rss}
+    note: "认证残差来自 rom_gate_check.json GR1；敏感度带挂 10_research/panel/panel_parameter_sensitivity_matrix.md"
+  d_margin:
+    definition: "min over binding gates of (v_limit - v_pred)/v_limit  归一化安全裕度"
+    binding_gates_source: "sim_10 四门（rate/momentum/resource）+ sim_12 策略成本口径"
+  in_transitional_band:
+    type: bool
+    definition: "候选属 G1_slender 类且 mu ∈ transitional_band"
+    params: {class: G1_slender, mu_range: [0.4, 0.7]}
+    provenance: "sim_10 X2: mu=0.514 dip_rel=1.079e-2 亚分辨率非单调实录"
+  budget_remaining_s:
+    definition: "调度器剩余算力预算（秒）"
+
+# ---------------------------------------------------------------- 切换规则（短路）
+rules:
+  - id: R1_domain_guard
+    priority: 10
+    if: "in_domain == false"
+    action: {return: UNKNOWN_OUT_OF_DOMAIN}
+    on_unevaluable: {return: UNKNOWN_OUT_OF_DOMAIN}
+    note: "域外一票 UNKNOWN；响应面/残差模型同受此护栏（禁外推）"
+
+  - id: R2a_ideal_impulse_wellposedness
+    priority: 20
+    if: "ideal_impulse_flag == true"
+    action:
+      restrict_observables_to: [omega_plus_dps, base_rate_peak_dps, lambda_impulse_Ns,
+                                tip_defl_peak_m]     # 动量级量
+      forbid_observables: [modal_energy_peak_J]      # 能量级量不适定
+      recommend: "改用带宽口径（T_c∈[5,100]ms）或升级 L2"
+    on_unevaluable: {escalate_to: L1_bandwidth_mode}
+
+  - id: R2b_band_coverage
+    priority: 21
+    applies_to: [L1]
+    if: "modal_basis_covers_band == false"
+    action: {increase_modes_until_covered: true, max_modes: 7,
+             else_escalate_to: L2}
+    on_unevaluable: {escalate_to: L2}
+
+  - id: R3_deflection_linearity
+    priority: 30
+    applies_to: [L1]
+    thresholds: {green_max: 0.02, amber_max: 0.05}   # 名义值，认证集敏感性扫描后冻结
+    decide:
+      - {if: "r_defl < 0.02", action: {accept_level: L1}}
+      - {if: "0.02 <= r_defl < 0.05",
+         action: {accept_level: L1, tag: LINEARITY_MARGINAL,
+                  boundary_candidates_escalate_to: L2}}
+      - {if: "r_defl >= 0.05", action: {escalate_to: L2}}
+    on_unevaluable: {escalate_to: L2}
+
+  - id: R4_modal_tail_convergence
+    priority: 40
+    applies_to: [L1]
+    thresholds: {pass_max: 0.01, retry_max: 0.03}    # pass 阈值 = G4' 现行 1% 判据
+    decide:
+      - {if: "tau_tail < 0.01", action: {truncation_ok: true}}
+      - {if: "0.01 <= tau_tail < 0.03",
+         action: {refine_modes: +1, re_evaluate: true}}
+      - {if: "tau_tail >= 0.03 或连续两档不降",
+         action: {flag: METRIC_ILL_POSED_OR_UNCONVERGED, goto: R2a, else_escalate_to: L2}}
+    on_unevaluable: {escalate_to: L2}
+
+  - id: R5_boundary_distance
+    priority: 50
+    params: {beta_safe: 4.0, beta_esc: 1.0}          # 名义值，R2 认证阶段冻结
+    decide:
+      - {if: "in_transitional_band == true",
+         action: {minimum_level: L1},                # X2 教训：过渡带禁止 L0 单独定案
+         note: "先于裕度判断强制执行"}
+      - {if: "d_margin > beta_safe * eps_tot", action: {finalize_at_current_level: true}}
+      - {if: "beta_esc * eps_tot < d_margin <= beta_safe * eps_tot",
+         action: {escalate_one_level: true}}
+      - {if: "d_margin <= beta_esc * eps_tot",
+         action: {escalate_to: L2,
+                  if_L2_cannot_resolve: {return: BOUNDARY_UNRESOLVED}}}
+    on_unevaluable: {escalate_one_level: true}
+
+  - id: R6_budget_scheduler
+    priority: 60
+    funnel_nominal: {L0_cases: 10000, L1_cases: 100, L2_cases: 8}
+    constraint: "sum(n_k * cost_per_case_s[k]) <= budget_remaining_s"
+    on_budget_shortfall:
+      action: {shrink_top_k: true}
+      forbidden: [widen_thresholds, skip_R5, downgrade_finalization_level]
+    on_unevaluable: {shrink_top_k: true}
+
+default_action_when_no_rule_fires: {return: UNKNOWN_RULES_INCONCLUSIVE}  # fail-closed 兜底
+
+# ---------------------------------------------------------------- ROM 认证 Gate
+certification_gates:
+  output: results/rom_gate_check.json                # R2 阶段产出；科学结论只认此裁决
+  verdict_vocabulary: [ROM_GATES_PASS, ROM_GATES_PASS_WITH_PROVISIONAL_PARAMS,
+                       ROM_GATES_FAIL, SCREENING_ONLY]
+  GR1_pointwise_errors:
+    statistic: p95                                    # 分位数裁决，逐例残差入 CSV
+    thresholds:
+      ee_impulse_rel:        {L0_vs_L1: 0.01, L1_vs_L2: 0.01}
+      base_rate_peak_rel:    {L0_vs_L1: 0.01, L1_vs_L2: 0.02}
+      base_attitude_peak_rel: {L0_vs_L1: 0.01, L1_vs_L2: 0.02}
+      tip_defl_peak_rel:     {L1_vs_L2: 0.05}         # G3a 现行门槛（实测最差 0.38%）
+      f1_dominant_rel:       {L1_vs_L2: 0.02}         # G3a 现行门槛
+      modal_energy_peak_rel: {L1_vs_L2: 0.10}         # e15 低幅诊断 10% 口径
+  GR2_topk_ranking:
+    top_set_identity_k: 3                             # 对齐 e15 "名义Top-3" 口径
+    kendall_tau_min: 0.90
+    kendall_window_k: 10
+    tie_exemption: "翻转仅豁免于 |Δobjective| < eps_tot 的统计平局对"
+    objectives: [omega_plus_dps_min, sim12_strategy_cost]   # 双轨（开放问题 c）
+  GR3_unsafe_false_negative:
+    threshold: 0                                      # 硬门零容忍，一票 FAIL
+    definition: "高层 UNSAFE/INFEASIBLE 而低层 SAFE/FEASIBLE 的认证例计数"
+    false_positive_policy: report_only                # 保守误杀只记率不设门
+  GR4_out_of_domain_unknown:
+    probe_classes: [param_hull_exceed, T_c_out_of_sweep, r_defl_nonlinear,
+                    panel_f1_out_of_envelope, real_mode_spacing_f2f1_2p8]
+    required_response: UNKNOWN_OUT_OF_DOMAIN
+    any_numeric_prediction: FAIL
+  GR5_cross_solver:
+    L1: {pair: [Radau, BDF], max_rel: 0.05, current_evidence: "G5 ≤0.16% PASS"}
+    L2: {pair: [Newmark, implicit_variable_step], max_rel: 0.05,
+         must_close: "e15 final_candidate_cross_solver.available=false → true+pass",
+         amplitude_requirement: "最终候选真实幅值；低幅诊断锚点不得顶替",
+         provenance: "30_simulation/e15_ancf_certification/results/gate_summary.json max=5.637e-2 REPEAT"}
+    surrogate_chain: {method: leave_one_out, residual_p95_into: GR1,
+                      extrapolation_guard_tested_by: GR4}
+
+# ---------------------------------------------------------------- 认证集规格（摘要）
+certification_set:
+  manifest: 10_research/rom/rom_certification_manifest.yaml   # R1 阶段落地
+  classes:
+    A_anchors:   {n: 10, content: "sim_06 双锚点 / sim_08 预算行 / sim_12 B-S1 子集（逐位）"}
+    B_boundary:  {n: 30, content: "sim_10 四区域边界 ±(1,3,10)分辨率 + X2 过渡带邻域"}
+    C_stress:    {n: 15, content: "T_c×f1×挠度黄区 交叉（R2/R3/R4 判别力）"}
+    D_ood_probe: {n: 10, content: "专供 GR4，含真实多板模态间距构型"}
+
+# ---------------------------------------------------------------- 重跑触发器
+rerun_triggers:
+  - "杨恒帆板参数卡合并（registry v2 转正）→ 全部 GR 重跑，摘 PROVISIONAL"
+  - "B601 夹爪 T_c 实测替换 20ms 占位 → R2/GR 带宽口径重跑"
+  - "任何 level 实现变更 / 本文件阈值变更（版本递增）→ 全量重认证"

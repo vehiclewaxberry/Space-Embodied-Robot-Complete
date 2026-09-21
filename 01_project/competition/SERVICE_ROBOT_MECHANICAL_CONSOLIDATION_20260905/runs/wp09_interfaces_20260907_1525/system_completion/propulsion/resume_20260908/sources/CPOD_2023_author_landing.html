@@ -1,0 +1,822 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head><!-- inj yui3-seed: --><script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/yui/3.6.0/yui/yui-min.js'></script><script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script><!-- Adobe Analytics --><script type='text/javascript' src='https://assets.adobedtm.com/4a848ae9611a/d0e96722185b/launch-d525bb0064d8.min.js'></script><script type='text/javascript' src=/assets/nr_browser_production.js></script>
+
+<!-- def.1 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>DigitalCommons@USU - Small Satellite Conference: CubeSat Proximity Operations Demonstration (CPOD) Mission Results</title>
+
+
+<!-- FILE article_meta-tags.inc --><!-- FILE: /srv/sequoia/main/data/assets/site/article_meta-tags.inc -->
+<meta itemprop="name" content="CubeSat Proximity Operations Demonstration (CPOD) Mission Results">
+<meta property="og:title" content="CubeSat Proximity Operations Demonstration (CPOD) Mission Results">
+<meta name="twitter:title" content="CubeSat Proximity Operations Demonstration (CPOD) Mission Results">
+<meta property="article:author" content="Isaac A. Spiegel">
+<meta name="author" content="Isaac A. Spiegel">
+<meta property="article:author" content="Bonan Zhou">
+<meta name="author" content="Bonan Zhou">
+<meta property="article:author" content="Robert Goodloe">
+<meta name="author" content="Robert Goodloe">
+<meta property="article:author" content="Brian Fox">
+<meta name="author" content="Brian Fox">
+<meta property="article:author" content="Jeremiah DiMatteo">
+<meta name="author" content="Jeremiah DiMatteo">
+<meta name="robots" content="noodp, noydir">
+<meta name="description" content="CubeSat rendezvous and proximity operation (RPO) technology development is critical for improving the performance and economics of space debris remediation and the inspection, servicing, and assembly of larger space systems. The CubeSat Proximity Operations Demonstration (CPOD) is a program led by Terran Orbital and funded by NASA to achieve autonomous on-orbit RPO with two identical 3U CubeSats, thereby maturing CubeSat RPO technology. This article presents the CPOD RPO guidance architecture and its on-orbit outcomes. The architecture advances the autonomy, fuel-efficiency, and safety of CubeSat RPO through the synthesis of optimization-based control theory and orbital dynamics analysis, with different optimization techniques tailored to different stages of the mission. Fully autonomous stages frequently, regularly recompute optimization solutions onboard the vehicles, each time using new measured data to provide robustness to unmodeled force disturbances. RPO is supported by a unique docking magnet control scheme for angular momentum management, a thruster configuration yielding 3DOF translational control, and a data-driven intersatellite distance prediction method for advance (12-200 hours) RPO planning. Ultimately this framework yielded rendezvous of the vehicles from intersatellite distances up to 997 km, a minimum intersatellite distance of 361 m, and passively safe formation flying across 5 major on-orbit experiments.">
+<meta itemprop="description" content="CubeSat rendezvous and proximity operation (RPO) technology development is critical for improving the performance and economics of space debris remediation and the inspection, servicing, and assembly of larger space systems. The CubeSat Proximity Operations Demonstration (CPOD) is a program led by Terran Orbital and funded by NASA to achieve autonomous on-orbit RPO with two identical 3U CubeSats, thereby maturing CubeSat RPO technology. This article presents the CPOD RPO guidance architecture and its on-orbit outcomes. The architecture advances the autonomy, fuel-efficiency, and safety of CubeSat RPO through the synthesis of optimization-based control theory and orbital dynamics analysis, with different optimization techniques tailored to different stages of the mission. Fully autonomous stages frequently, regularly recompute optimization solutions onboard the vehicles, each time using new measured data to provide robustness to unmodeled force disturbances. RPO is supported by a unique docking magnet control scheme for angular momentum management, a thruster configuration yielding 3DOF translational control, and a data-driven intersatellite distance prediction method for advance (12-200 hours) RPO planning. Ultimately this framework yielded rendezvous of the vehicles from intersatellite distances up to 997 km, a minimum intersatellite distance of 361 m, and passively safe formation flying across 5 major on-orbit experiments.">
+<meta name="twitter:description" content="CubeSat rendezvous and proximity operation (RPO) technology development is critical for improving the performance and economics of space debris remediation and the inspection, servicing, and assembly of larger space systems. The CubeSat Proximity Operations Demonstration (CPOD) is a program led by Terran Orbital and funded by NASA to achieve autonomous on-orbit RPO with two identical 3U CubeSats, thereby maturing CubeSat RPO technology. This article presents the CPOD RPO guidance architecture and its on-orbit outcomes. The architecture advances the autonomy, fuel-efficiency, and safety of CubeSat RPO through the synthesis of optimization-based control theory and orbital dynamics analysis, with different optimization techniques tailored to different stages of the mission. Fully autonomous stages frequently, regularly recompute optimization solutions onboard the vehicles, each time using new measured data to provide robustness to unmodeled force disturbances. RPO is supported by a unique docking magnet control scheme for angular momentum management, a thruster configuration yielding 3DOF translational control, and a data-driven intersatellite distance prediction method for advance (12-200 hours) RPO planning. Ultimately this framework yielded rendezvous of the vehicles from intersatellite distances up to 997 km, a minimum intersatellite distance of 361 m, and passively safe formation flying across 5 major on-orbit experiments.">
+<meta property="og:description" content="CubeSat rendezvous and proximity operation (RPO) technology development is critical for improving the performance and economics of space debris remediation and the inspection, servicing, and assembly of larger space systems. The CubeSat Proximity Operations Demonstration (CPOD) is a program led by Terran Orbital and funded by NASA to achieve autonomous on-orbit RPO with two identical 3U CubeSats, thereby maturing CubeSat RPO technology. This article presents the CPOD RPO guidance architecture and its on-orbit outcomes. The architecture advances the autonomy, fuel-efficiency, and safety of CubeSat RPO through the synthesis of optimization-based control theory and orbital dynamics analysis, with different optimization techniques tailored to different stages of the mission. Fully autonomous stages frequently, regularly recompute optimization solutions onboard the vehicles, each time using new measured data to provide robustness to unmodeled force disturbances. RPO is supported by a unique docking magnet control scheme for angular momentum management, a thruster configuration yielding 3DOF translational control, and a data-driven intersatellite distance prediction method for advance (12-200 hours) RPO planning. Ultimately this framework yielded rendezvous of the vehicles from intersatellite distances up to 997 km, a minimum intersatellite distance of 361 m, and passively safe formation flying across 5 major on-orbit experiments.">
+<meta name="bepress_citation_conference" content="Small Satellite Conference">
+<meta name="bepress_citation_author" content="Spiegel, Isaac A.">
+<meta name="bepress_citation_author_institution" content="Terran Orbital">
+<meta name="bepress_citation_author" content="Zhou, Bonan">
+<meta name="bepress_citation_author_institution" content="Terran Orbital">
+<meta name="bepress_citation_author" content="Goodloe, Robert">
+<meta name="bepress_citation_author_institution" content="Terran Orbital">
+<meta name="bepress_citation_author" content="Fox, Brian">
+<meta name="bepress_citation_author_institution" content="Terran Orbital">
+<meta name="bepress_citation_author" content="DiMatteo, Jeremiah">
+<meta name="bepress_citation_author_institution" content="Terran Orbital">
+<meta name="bepress_citation_title" content="CubeSat Proximity Operations Demonstration (CPOD) Mission Results">
+<meta name="bepress_citation_date" content="2023">
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_download_link.inc -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/article_meta-tags.inc (cont) -->
+<meta name="bepress_citation_pdf_url" content="https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=5645&amp;context=smallsat">
+<meta name="bepress_citation_abstract_html_url" content="https://digitalcommons.usu.edu/smallsat/2023/all2023/119">
+<meta name="bepress_citation_doi" content="https://doi.org/10.26077/ffd0-qc25">
+<meta name="bepress_citation_online_date" content="2023/7/26">
+<meta name="viewport" content="width=device-width">
+<!-- Additional Twitter data -->
+<meta name="twitter:card" content="summary">
+<!-- Additional Open Graph data -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://digitalcommons.usu.edu/smallsat/2023/all2023/119">
+<meta property="og:site_name" content="DigitalCommons@USU">
+
+
+
+
+<!-- FILE: article_meta-tags.inc (cont) -->
+<meta name="bepress_is_article_cover_page" content="1">
+
+
+<!-- sh.1 -->
+<link rel="stylesheet" href="/smallsat/ir-style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/smallsat/ir-custom.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/smallsat/ir-local.css" type="text/css" media="screen">
+<link rel="alternate" type="application/rss+xml" title="Conference on Small Satellites Newsfeed" href="/smallsat/recent.rss">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<script type="text/javascript" src="/assets/jsUtilities.js"></script>
+<script type="text/javascript" src="/assets/footnoteLinks.js"></script>
+<link rel="stylesheet" href="/ir-print.css" type="text/css" media="print">
+<!--[if IE]>
+<link rel="stylesheet" href="/ir-ie.css" type="text/css" media="screen">
+<![endif]-->
+
+<!-- end sh.1 -->
+
+
+
+
+<script type="text/javascript">var pageData = {"page":{"environment":"prod","productName":"bpdg","language":"en","name":"ir_event_community:theme:track:article","businessUnit":"els:rp:st"},"visitor":{}};</script>
+
+</head>
+<body >
+<!-- FILE /srv/sequoia/main/data/assets/site/ir_event_community/header.pregen -->
+
+	<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/header_custom.inc --><!-- FILE: /srv/sequoia/main/data/assets/site/mobile_nav.inc --><!--[if !IE]>-->
+<script src="/assets/scripts/dc-mobile/dc-responsive-nav.js"></script>
+
+<header id="mobile-nav" class="nav-down device-fixed-height" style="visibility: hidden;">
+  
+  
+  <nav class="nav-collapse">
+    <ul>
+      <li class="menu-item active device-fixed-width"><a href="https://digitalcommons.usu.edu" title="Home" data-scroll >Home</a></li>
+      <li class="menu-item device-fixed-width"><a href="https://digitalcommons.usu.edu/do/search/advanced/" title="Search" data-scroll ><i class="icon-search"></i> Search</a></li>
+      <li class="menu-item device-fixed-width"><a href="https://digitalcommons.usu.edu/communities.html" title="Browse" data-scroll >Browse Collections</a></li>
+      <li class="menu-item device-fixed-width"><a href="/cgi/myaccount.cgi?context=" title="My Account" data-scroll >My Account</a></li>
+      <li class="menu-item device-fixed-width"><a href="https://digitalcommons.usu.edu/about.html" title="About" data-scroll >About</a></li>
+      <li class="menu-item device-fixed-width"><a href="https://network.bepress.com" title="Digital Commons Network" data-scroll ><img width="16" height="16" alt="DC Network" style="vertical-align:top;" src="/assets/md5images/8e240588cf8cd3a028768d4294acd7d3.png"> Digital Commons Network™</a></li>
+    </ul>
+  </nav>
+</header>
+
+<script src="/assets/scripts/dc-mobile/dc-mobile-nav.js"></script>
+<!--<![endif]-->
+<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/header_custom.inc (cont) -->
+
+				
+
+<div id="smallsat">
+	<div id="container">
+		<a href="#main" class="skiplink" accesskey="2" >Skip to main content</a>
+
+					
+			<div id="header">
+				<a href="https://digitalcommons.usu.edu/smallsat" id="banner_link" title="Small Satellite Conference" >
+					<img id="banner_image" alt="Small Satellite Conference" width='980' height='184' src="/assets/md5images/fff422845b0dc8f040352d3ea39f6b50.png">
+				</a>	
+				
+					<a href="https://smallsat.org" id="logo_link" title="Small Satellite Conference" >
+						<img id="logo_image" alt="Small Satellite Conference logo" width='207' height='115' src="/assets/md5images/59d2d6a069cc1c814140772f7c1305b9.png">
+					</a>	
+				
+			</div>
+					
+			<div id="navigation">
+				<!-- FILE: /srv/sequoia/main/data/digitalcommons.usu.edu/assets/ir_navigation.inc --><div id="tabs" role="navigation" aria-label="Main"><ul><li id="tabone"><a href="https://digitalcommons.usu.edu" title="Home" ><span>Home</span></a></li><li id="tabtwo"><a href="https://digitalcommons.usu.edu/about.html" title="About" ><span>About</span></a></li><li id="tabfour"><a href="https://digitalcommons.usu.edu/cgi/myaccount.cgi?context=" title="My Account" ><span>My Account</span></a></li></ul></div>
+
+
+<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/header_custom.inc (cont) -->
+			</div>
+			
+			
+		<div id="wrapper">
+			<div id="content">
+				<div id="main" class="text">		<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/header.pregen (cont) -->
+
+<script type="text/javascript" src="/assets/floatbox/floatbox.js"></script>
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/event_pager.inc -->
+
+<div id="breadcrumb"><ul id="pager">
+
+                
+                 
+<li>&lt; <a href="https://digitalcommons.usu.edu/smallsat/2023/all2023/206" class="ignore" >Previous Event</a></li>
+        
+        
+        
+
+                
+                 
+<li><a href="https://digitalcommons.usu.edu/smallsat/2023/all2023/120" class="ignore" >Next Event</a> &gt;</li>
+        
+        
+        
+<li>&nbsp;</li></ul><!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/ir_breadcrumb.inc -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="crumbs" role="navigation" aria-label="Breadcrumb"><p>
+
+<a href="https://digitalcommons.usu.edu" class="ignore" >Home</a>
+
+
+
+
+
+
+
+ <span aria-hidden="true">&gt;</span> 
+    <a href="https://digitalcommons.usu.edu/conferences" class="ignore" >
+        Conferences and Events
+    </a>
+
+
+
+
+
+ <span aria-hidden="true">&gt;</span> 
+    <a href="https://digitalcommons.usu.edu/smallsat" class="ignore" >
+        Small Satellite Conference
+    </a>
+
+
+
+
+
+ <span aria-hidden="true">&gt;</span> 
+    <a href="https://digitalcommons.usu.edu/smallsat/2023" class="ignore" >
+        2023
+    </a>
+
+
+
+
+     <span aria-hidden="true">&gt;</span> 
+        <a href="https://digitalcommons.usu.edu/smallsat/2023/all2023" class="ignore" >
+            ALL2023
+        </a>
+
+
+
+
+
+
+
+ <span aria-hidden="true">&gt;</span> 
+    <a href="https://digitalcommons.usu.edu/smallsat/2023/all2023/119" class="ignore" aria-current="page" >
+        119
+    </a>
+
+
+</p></div>
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/event_pager.inc (cont) -->
+</div>
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/index.html (cont) -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/event_info.inc --><!-- FILE: /srv/sequoia/main/data/assets/site/openurl.inc -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/event_info.inc (cont) -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_download_link.inc -->
+
+
+
+
+
+
+
+
+
+	
+	
+	
+    
+    
+    
+	
+		
+		
+		
+	
+	
+	
+	
+	
+	
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/event_info.inc (cont) -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/ir_article_header.inc -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="series-header">
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/track_logo.inc -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/ir_article_header.inc (cont) --><h2 id="series-title"><a href="https://digitalcommons.usu.edu/smallsat/2023/all2023" >All 2023 Content</a></h2></div>
+<div style="clear: both">&nbsp;</div>
+
+<div id="sub">
+<div id="alpha">
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/event_info.inc (cont) --><div id='title' class='element'>
+<h1><a href='https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=5645&amp;context=smallsat'>CubeSat Proximity Operations Demonstration (CPOD) Mission Results</a></h1>
+</div>
+<div class='clear'></div>
+<div id='authors' class='element'>
+<h2 class='visually-hidden'>Presenter Information</h2>
+<ul class="author"><li><a href='https://digitalcommons.usu.edu/do/search/?q=%28author%3A%22Isaac%20A.%20Spiegel%22%20AND%20-bp_author_id%3A%5B%2A%20TO%20%2A%5D%29%20OR%20bp_author_id%3A%28%227a9cbe92-1dbb-446a-97d0-7b32af49eae3%22%29&start=0&context=656526'><strong>Isaac A. Spiegel</strong>, <em>Terran Orbital</em></a><a rel="nofollow" href="https://network.bepress.com/api/follow/subscribe?user=ZmI3NmUzZTQ0OGMwYTFkYg%3D%3D&amp;institution=MTdiM2E5OWFiNTM4MDIzOA%3D%3D&amp;format=html" data-follow-set="user:ZmI3NmUzZTQ0OGMwYTFkYg== institution:MTdiM2E5OWFiNTM4MDIzOA==" title="Follow Isaac A. Spiegel" class="btn followable">Follow</a></li>
+<li><a href='https://digitalcommons.usu.edu/do/search/?q=author%3A%22Bonan%20Zhou%22&start=0&context=656526'><strong>Bonan Zhou</strong>, <em>Terran Orbital</em></a></li>
+<li><a href='https://digitalcommons.usu.edu/do/search/?q=%28author%3A%22Robert%20Goodloe%22%20AND%20-bp_author_id%3A%5B%2A%20TO%20%2A%5D%29%20OR%20bp_author_id%3A%28%22c9be726e-f478-4828-88cf-5d138c6d80b7%22%29&start=0&context=656526'><strong>Robert Goodloe</strong>, <em>Terran Orbital</em></a><a rel="nofollow" href="https://network.bepress.com/api/follow/subscribe?user=NDZlNzVhOWRiZGY0ODM0OA%3D%3D&amp;institution=MTdiM2E5OWFiNTM4MDIzOA%3D%3D&amp;format=html" data-follow-set="user:NDZlNzVhOWRiZGY0ODM0OA== institution:MTdiM2E5OWFiNTM4MDIzOA==" title="Follow Robert Goodloe" class="btn followable">Follow</a></li>
+<li><a href='https://digitalcommons.usu.edu/do/search/?q=%28author%3A%22Brian%20Fox%22%20AND%20-bp_author_id%3A%5B%2A%20TO%20%2A%5D%29%20OR%20bp_author_id%3A%28%22235da558-8ab3-477b-938c-c53553f0ead0%22%29&start=0&context=656526'><strong>Brian Fox</strong>, <em>Terran Orbital</em></a><a rel="nofollow" href="https://network.bepress.com/api/follow/subscribe?user=MDBlNjlhZDM1MWNmYmZmZg%3D%3D&amp;institution=MTdiM2E5OWFiNTM4MDIzOA%3D%3D&amp;format=html" data-follow-set="user:MDBlNjlhZDM1MWNmYmZmZg== institution:MTdiM2E5OWFiNTM4MDIzOA==" title="Follow Brian Fox" class="btn followable">Follow</a></li>
+<li><a href='https://digitalcommons.usu.edu/do/search/?q=%28author%3A%22Jeremiah%20DiMatteo%22%20AND%20-bp_author_id%3A%5B%2A%20TO%20%2A%5D%29%20OR%20bp_author_id%3A%28%22ad2fcaa6-e187-4bd3-8617-14fc650acb0c%22%29&start=0&context=656526'><strong>Jeremiah DiMatteo</strong>, <em>Terran Orbital</em></a><a rel="nofollow" href="https://network.bepress.com/api/follow/subscribe?user=NTdiYzcwYjJhZTNjYTU1Nw%3D%3D&amp;institution=MTdiM2E5OWFiNTM4MDIzOA%3D%3D&amp;format=html" data-follow-set="user:NTdiYzcwYjJhZTNjYTU1Nw== institution:MTdiM2E5OWFiNTM4MDIzOA==" title="Follow Jeremiah DiMatteo" class="btn followable">Follow</a></li>
+</ul></div>
+<div class='clear'></div>
+<div id='session' class='element'>
+<h2 class='field-heading'>Session</h2>
+<p>Weekday Session 9: Formation Flying and RPO</p>
+</div>
+<div class='clear'></div>
+<div id='location' class='element'>
+<h2 class='field-heading'>Location</h2>
+<p>Utah State University, Logan, UT</p>
+</div>
+<div class='clear'></div>
+<div id='abstract' class='element'>
+<h2 class='field-heading'>Abstract</h2>
+<p>CubeSat rendezvous and proximity operation (RPO) technology development is critical for improving the performance and economics of space debris remediation and the inspection, servicing, and assembly of larger space systems. The CubeSat Proximity Operations Demonstration (CPOD) is a program led by Terran Orbital and funded by NASA to achieve autonomous on-orbit RPO with two identical 3U CubeSats, thereby maturing CubeSat RPO technology. This article presents the CPOD RPO guidance architecture and its on-orbit outcomes. The architecture advances the autonomy, fuel-efficiency, and safety of CubeSat RPO through the synthesis of optimization-based control theory and orbital dynamics analysis, with different optimization techniques tailored to different stages of the mission. Fully autonomous stages frequently, regularly recompute optimization solutions onboard the vehicles, each time using new measured data to provide robustness to unmodeled force disturbances. RPO is supported by a unique docking magnet control scheme for angular momentum management, a thruster configuration yielding 3DOF translational control, and a data-driven intersatellite distance prediction method for advance (12-200 hours) RPO planning. Ultimately this framework yielded rendezvous of the vehicles from intersatellite distances up to 997 km, a minimum intersatellite distance of 361 m, and passively safe formation flying across 5 major on-orbit experiments.</p>
+</div>
+<div class='clear'></div>
+<div id='document_type' class='element'>
+<h2 class='field-heading'>Document Type</h2>
+<p>Event</p>
+</div>
+<div class='clear'></div>
+<div id='attach_additional_files' class='element'>
+<div class="extra">
+    <div class="related"><strong>Additional Files</strong></div>
+    <div class="files">
+        <span style='font:11px Arial;'><a href='https://digitalcommons.usu.edu/cgi/viewcontent.cgi?filename=0&amp;article=5645&amp;context=smallsat&amp;type=additional'>SSC23-XI-01 Slides.pdf</a> (22899 kB) </span><br />
+
+    </div> <!-- class=files -->
+</div> <!-- class=extra> -->
+</div>
+<div class='clear'></div>
+</div>
+    </div>
+    <div id='beta_7-3'>
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc --><!-- FILE: /srv/sequoia/main/data/assets/site/openurl.inc -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_download_link.inc -->
+
+
+
+
+
+
+
+
+
+	
+	
+	
+    
+    
+    
+	
+		
+		
+		
+	
+	
+	
+	
+	
+	
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+
+
+	<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_download_button.inc --><div class="aside download-button">
+      <a id="pdf" class="btn" href="https://digitalcommons.usu.edu/cgi/viewcontent.cgi?article=5645&amp;context=smallsat" title="PDF (7.2&nbsp;MB) opens in new window" target="_blank" > 
+    	<i class="icon-download-alt" aria-hidden="true"></i>
+        Download
+      </a>
+</div>
+
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+	<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_embargo.inc -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_custom_upper.inc -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_openurl.inc -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_article_metrics.inc -->
+
+
+
+
+
+
+<div id="article-stats" class="aside hidden">
+
+    <p class="article-downloads-wrapper hidden"><span id="article-downloads"></span> DOWNLOADS</p>
+    <p class="article-stats-date hidden">Since July 26, 2023</p>
+
+    <p class="article-plum-metrics">
+        <a href="https://plu.mx/plum/a/?repo_url=https://digitalcommons.usu.edu/smallsat/2023/all2023/119" class="plumx-plum-print-popup plum-bigben-theme" data-badge="true" data-hide-when-empty="true" ></a>
+    </p>
+</div>
+<script type="text/javascript" src="//cdn.plu.mx/widget-popup.js"></script>
+
+
+
+<!-- Article Download Counts -->
+<script type="text/javascript" src="/assets/scripts/article-downloads.pack.js"></script>
+<script type="text/javascript">
+    insertDownloads(35871866);
+</script>
+
+
+<!-- Add border to Plum badge & download counts when visible -->
+<script>
+// bind to event when PlumX widget loads
+jQuery('body').bind('plum:widget-load', function(e){
+// if Plum badge is visible
+  if (jQuery('.PlumX-Popup').length) {
+// remove 'hidden' class
+  jQuery('#article-stats').removeClass('hidden');
+  jQuery('.article-stats-date').addClass('plum-border');
+  }
+});
+// bind to event when page loads
+jQuery(window).bind('load',function(e){
+// if DC downloads are visible
+  if (jQuery('#article-downloads').text().length > 0) {
+// add border to aside
+  jQuery('#article-stats').removeClass('hidden');
+  }
+});
+</script>
+
+
+
+<!-- Adobe Analytics: Download Click Tracker -->
+<script>
+
+$(function() {
+
+  // Download button click event tracker for PDFs
+  $(".aside.download-button").on("click", "a#pdf", function(event) {
+    pageDataTracker.trackEvent('navigationClick', {
+      link: {
+          location: 'aside download-button',
+          name: 'pdf'
+      }
+    });
+  });
+
+  // Download button click event tracker for native files
+  $(".aside.download-button").on("click", "a#native", function(event) {
+    pageDataTracker.trackEvent('navigationClick', {
+        link: {
+            location: 'aside download-button',
+            name: 'native'
+        }
+     });
+  });
+
+});
+
+</script>
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+
+
+
+	<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_disciplines.inc -->
+
+
+
+
+	
+
+
+
+
+
+
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/bookmark_widget.inc -->
+
+<div id="share" class="aside">
+<h2>Share</h2>
+	
+		
+	
+	<div class="a2a_kit a2a_kit_size_24 a2a_default_style">
+    	<a class="a2a_button_facebook"></a>
+    	<a class="a2a_button_linkedin"></a>
+		<a class="a2a_button_whatsapp"></a>
+		<a class="a2a_button_email"></a>
+    	<a class="a2a_dd"></a>
+    	<script async src="https://static.addtoany.com/menu/page.js"></script>
+	</div>
+</div>
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_geolocate.inc --><!-- FILE: /srv/sequoia/main/data/assets/site/ir_geolocate_enabled_and_displayed.inc -->
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_geolocate.inc (cont) -->
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+
+	<!-- FILE: /srv/sequoia/main/data/assets/site/zotero_coins.inc -->
+
+<span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft_id=https%3A%2F%2Fdigitalcommons.usu.edu%2Fsmallsat%2F2023%2Fall2023%2F119&amp;rft.atitle=CubeSat%20Proximity%20Operations%20Demonstration%20%28CPOD%29%20Mission%20Results&amp;rft.aufirst=Isaac&amp;rft.aulast=Spiegel&amp;rft.au=Bonan%20Zhou&amp;rft.au=Robert%20Goodloe&amp;rft.au=Brian%20Fox&amp;rft.au=Jeremiah%20DiMatteo&amp;rft.jtitle=Small%20Satellite%20Conference&amp;rft.date=2023-08-09">COinS</span>
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_custom_lower.inc -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/info_box_7_3.inc (cont) -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/event_info.inc (cont) --></div>
+
+<div class='clear'>&nbsp;</div>
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/hcalendar.inc --><div id="hcalendar" class="vevent ignore">
+
+	<abbr class="dtstart" title="2023-08-09T163000">Aug 9th,  4:30 PM</abbr>
+
+
+
+	<p class="summary">CubeSat Proximity Operations Demonstration (CPOD) Mission Results</p>
+
+
+	<p class="location">Utah State University, Logan, UT</p>
+
+
+	<p class="description"><p>CubeSat rendezvous and proximity operation (RPO) technology development is critical for improving the performance and economics of space debris remediation and the inspection, servicing, and assembly of larger space systems. The CubeSat Proximity Operations Demonstration (CPOD) is a program led by Terran Orbital and funded by NASA to achieve autonomous on-orbit RPO with two identical 3U CubeSats, thereby maturing CubeSat RPO technology. This article presents the CPOD RPO guidance architecture and its on-orbit outcomes. The architecture advances the autonomy, fuel-efficiency, and safety of CubeSat RPO through the synthesis of optimization-based control theory and orbital dynamics analysis, with different optimization techniques tailored to different stages of the mission. Fully autonomous stages frequently, regularly recompute optimization solutions onboard the vehicles, each time using new measured data to provide robustness to unmodeled force disturbances. RPO is supported by a unique docking magnet control scheme for angular momentum management, a thruster configuration yielding 3DOF translational control, and a data-driven intersatellite distance prediction method for advance (12-200 hours) RPO planning. Ultimately this framework yielded rendezvous of the vehicles from intersatellite distances up to 997 km, a minimum intersatellite distance of 361 m, and passively safe formation flying across 5 major on-orbit experiments.</p>
+</p>
+
+
+</div>
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/event_info.inc (cont) -->
+<!-- FILE: /srv/sequoia/main/data/digitalcommons.usu.edu/assets/ir_event_community/ir_article_custom_fields.inc -->
+	<div id='custom-fields'>
+		
+			<div id='doi' class='element'>
+				<h4>DOI</h4>
+				<p><a href="https://doi.org/10.26077/ffd0-qc25" >https://doi.org/10.26077/ffd0-qc25</a></p>
+			</div>
+		
+		
+		
+		
+	</div>
+	<div class='clear'></div>
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/event_info.inc (cont) -->
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/theme/track/event/index.html (cont) -->
+<!-- FILE /srv/sequoia/main/data/assets/site/ir_event_community/footer.pregen -->
+
+	<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/footer_custom_7_8.inc -->				</div>
+
+<div class="verticalalign">&nbsp;</div>
+<div class="clear">&nbsp;</div>
+
+			</div>
+
+				<div id="sidebar">
+					<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/ir_sidebar.inc -->CANNOT FIND FILE: ir_sidebar_search.inc
+CANNOT FIND FILE: ir_sidebar_notify.inc
+<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/theme/ir_custom_sidebar_links.inc --><h2>Links</h2>
+<ul>
+<li><a href="http://www.smallsat.org/" title="Small Satellite" >Small Satellite Conference Website</a></li>
+<li><a href="https://digitalcommons.usu.edu/smallsat/contact.html" title="Contact Us" >Contact Us</a></li>
+<li><a href="https://digitalcommons.usu.edu/smallsat/search_tips.html" title="Search Tips" >Search Tips</a></li>
+
+
+</ul>
+<p class="smallsat"><a href="http://www.smallsat.org/" >Small Sat</a></p>
+
+
+<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/ir_sidebar.inc (cont) -->
+<!-- FILE: /srv/sequoia/main/data/digitalcommons.usu.edu/assets/ir_sidebar_browse.inc --><h2>Browse</h2>
+<ul id="side-browse">
+
+<li class="collections"><a href="https://digitalcommons.usu.edu/communities.html" title="Research Centers and Departments" >Research Centers and Departments</a>
+	<ul>
+		<li><a href="https://digitalcommons.usu.edu/departments" title="Departments" >Departments</a></li>
+		<li><a href="https://digitalcommons.usu.edu/research" title="Research Centers" >Research Centers</a></li>
+	</ul>
+</li>
+<li class="author"><a href="https://digitalcommons.usu.edu/authors.html" title="Browse by Author" >Authors</a></li>
+<li><a href="https://digitalcommons.usu.edu/conferences" title="Conferences and Events" >Conferences and Events</a></li>
+<li class="disciplines"><a href="https://digitalcommons.usu.edu/disciplines.html" title="Browse by Disciplines" >Disciplines</a></li>
+<li><a href="https://digitalcommons.usu.edu/student_work" title="Student Work" >Student Work</a></li>
+<li><a href="https://digitalcommons.usu.edu/oer" title="Open Educational Resources" >Open Educational Resources</a></li>
+
+</ul><!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/ir_sidebar.inc (cont) -->
+<!-- FILE: /srv/sequoia/main/data/digitalcommons.usu.edu/assets/ir_sidebar_author.inc --><h2>For Authors</h2>
+<ul id="side-author">
+<li class="faq"><a href="https://digitalcommons.usu.edu/faq.html" title="Author FAQ" >Author FAQ</a></li>
+<li><a href="https://digitalcommons.usu.edu/sw_gallery.html>" >Author Gallery</a></li>
+<li><a href="https://digitalcommons.usu.edu/oadc" >Open Access</a></li>
+<li><a href="http://works.bepress.com/cgi/author_dashboard.cgi" >My Account</a></li>
+<li class="submit"><a href="https://digitalcommons.usu.edu/submit_research.html" title="Submit Event" >Submit Event</a></li>
+
+</ul><!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/ir_sidebar.inc (cont) -->
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_sidebar_geolocate.inc --><!-- FILE: /srv/sequoia/main/data/assets/site/ir_geolocate_enabled_and_displayed.inc -->
+
+<!-- FILE: /srv/sequoia/main/data/assets/site/ir_sidebar_geolocate.inc (cont) -->
+
+<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/ir_sidebar.inc (cont) -->
+
+<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/footer_custom_7_8.inc (cont) -->
+						<div class="verticalalign">&nbsp;</div>
+				</div>
+
+		</div>
+
+			<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/ir_event_footer_content.inc --><div id="footer">
+	<!-- FILE: /srv/sequoia/main/data/assets/site/ir_bepress_logo.inc --><div id="bepress">
+
+<a href="https://www.elsevier.com/solutions/digital-commons" title="Elsevier - Digital Commons" >
+	<em>Elsevier - Digital Commons</em>
+</a>
+
+</div>
+<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/ir_event_footer_content.inc (cont) -->
+	<a href="https://library.usu.edu/" title="Utah State University" id="footerlink" ><img id="footerlogo" alt="Utah State University" title="Utah State University" width='242' height='75' src="/assets/md5images/f49f391ba09d4c1214f46e132088573f.gif"></a>
+		<p>
+			<a href="https://digitalcommons.usu.edu" title="Home page" accesskey="1" >
+					Home</a> | 
+			<a href="https://digitalcommons.usu.edu/about.html" title="About" >
+					About</a> | 
+			<a href="https://digitalcommons.usu.edu/faq.html" title="FAQ" >
+					FAQ</a> | 
+			<a href="/cgi/myaccount.cgi?context=" title="My Account Page" accesskey="3" >
+					My Account</a> | 
+			<a href="https://digitalcommons.usu.edu/accessibility.html" title="Accessibility Statement" accesskey="0" >
+					Accessibility Statement</a>
+		</p>
+		<p>
+    			<a class="secondary-link" href="https://www.elsevier.com/legal/privacy-policy" title="Privacy Policy" >
+                                        Privacy</a>
+    			<a class="secondary-link" href="https://www.elsevier.com/legal/elsevier-website-terms-and-conditions" title="Copyright Policy" >
+                                        Copyright</a>	
+		</p> 
+</div>
+<!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/footer_custom_7_8.inc (cont) -->
+
+	</div>
+</div>
+
+<!-- FILE: /srv/sequoia/main/data/digitalcommons.usu.edu/assets/ir_analytics.inc --><!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YP02VK67GD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YP02VK67GD');
+</script><!-- FILE: /srv/sequoia/main/data/journals/digitalcommons.usu.edu/smallsat/assets/footer_custom_7_8.inc (cont) --><!-- FILE: /srv/sequoia/main/data/assets/site/ir_event_community/footer.pregen (cont) -->
+<script type='text/javascript' src='/assets/scripts/bpbootstrap-20160726.pack.js'></script><script type='text/javascript'>BPBootstrap.init({appendCookie:''})</script><script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a37b8c65bd0a268f',t:'MTc4ODg0NTI5Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body></html>

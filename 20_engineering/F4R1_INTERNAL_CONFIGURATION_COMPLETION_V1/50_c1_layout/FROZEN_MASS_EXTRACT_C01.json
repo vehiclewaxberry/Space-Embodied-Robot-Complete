@@ -1,0 +1,77 @@
+{
+  "title": "F4R1 C1 冻结质量特性提取 (C01 DEPLOYED_NOMINAL)",
+  "generated_at": "2026-08-27",
+  "status": "DESIGN_RESEARCH_CANDIDATE",
+  "source_basis": [
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml sha256 3fd2557318e9 (C01 lines 34-104 aggregate, lines 105-742 composition)",
+    "20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/CONFIGURATION_MASS_INERTIA.csv sha256 96dc59586814 (CDR 口径 NOT_EVALUABLE 状态)"
+  ],
+  "source_files": {
+    "v3_r2_ledger": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml",
+      "sha256_12": "3fd2557318e9"
+    },
+    "cdr_configuration_mass_inertia": {
+      "path": "20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/CONFIGURATION_MASS_INERTIA.csv",
+      "sha256_12": "96dc59586814"
+    }
+  },
+  "configuration_id": "C01",
+  "configuration_name": "DEPLOYED_NOMINAL",
+  "basis_caveat": "C01 = 在轨展开/臂工作构型; 发射收拢构型 (ARM_STOWED_ONORBIT) 质量特性在 CDR 口径为 NOT_EVALUABLE_INPUT_AUTHORITY_MISSING, 本提取不含发射构型",
+  "aggregate": {
+    "mass_kg": 31.022864807342987,
+    "cg_S_m": [0.06576423716045363, -0.02658929854697676, -0.01767739642752865],
+    "inertia_about_system_cg_S_kg_m2": {
+      "Ixx": 0.7321469577701156,
+      "Iyy": 1.0806232960449866,
+      "Izz": 1.472191574502519,
+      "Ixy": 0.26239087175248343,
+      "Ixz": 0.1172269606116568,
+      "Iyz": -0.10274858169516832
+    },
+    "inertia_convention_note": "Ixy/Ixz/Iyz 按惯量积(product of inertia)解释, 张量取 [[Ixx,-Ixy,-Ixz],[-Ixy,Iyy,-Iyz],[-Ixz,-Iyz,Izz]]; 该约定仅影响信息性惯量输出, 不影响 CG 检查",
+    "source_lines": "V3 R2 lines 34-104"
+  },
+  "members": {
+    "bus_primary_structure": {
+      "mass_kg": 23.3032134,
+      "cg_S_m": [-0.0007955, 0.0, 0.000587],
+      "provenance": "servicer_12U_v0 24kg whole-sat block model minus 2 panels (service_spacecraft_v1.yaml lines 9-21); M1 双读法证据",
+      "source_lines": "V3 R2 lines 105-242"
+    },
+    "b601_complete_arm_including_gripper_urdf_links": {
+      "mass_kg": 4.695555949342986,
+      "cg_S_m": [0.376934164889081, -0.17567666955456437, -0.08674287405126006],
+      "source_lines": "V3 R2 lines 243-380"
+    },
+    "m3r_stage_a_plus_stage_b_budget_envelope": {
+      "mass_kg": 0.7619,
+      "cg_S_m": [0.2033879448873743, 1.5994e-05, -8.6366e-05],
+      "source_lines": "V3 R2 lines 381-520"
+    },
+    "spacecraft_load_bridge_candidate": {
+      "mass_kg": 0.702195458,
+      "cg_S_m": [0.19062500000000007, 1.5994e-05, -8.6366e-05],
+      "source_lines": "V3 R2 lines 521-658"
+    },
+    "solar_array_r2_left": {
+      "mass_kg": 0.78,
+      "cg_S_m": [0.0, 0.346553846, -0.099134615],
+      "source_lines": "V3 R2 lines 659-693"
+    },
+    "solar_array_r2_right": {
+      "mass_kg": 0.78,
+      "cg_S_m": [0.0, -0.346553846, -0.099134615],
+      "source_lines": "V3 R2 lines 694-741"
+    }
+  },
+  "cds_cg_envelope_cm": {"x_lateral_1": 4.5, "y_lateral_2": 4.5, "z_longitudinal": 7.0},
+  "cds_frame_mapping_note": "CDS Rev14.1 坐标: 原点=几何中心, Z=纵轴 (366.0mm 方向), X/Y=226.3mm 方向, 允差 X±4.5/Y±4.5/Z±7 cm; 本仓 S frame: x=纵轴 -> CDS_Z 映射 S_x (±7cm), CDS_X->S_y (±4.5cm), CDS_Y->S_z (±4.5cm)",
+  "bay_bounds_mm": {
+    "front_mission": [56.75, 170.25],
+    "mid_avionics": [-56.75, 56.75],
+    "rear_service": [-170.25, -56.75]
+  },
+  "bus_length_caveat": "冻结 S frame 按 340.5 mm 基线; CDS 现行 366.0 mm 冲突登记 GAP-IL-08/V2-UNK-001 (post_paper HOLD)"
+}

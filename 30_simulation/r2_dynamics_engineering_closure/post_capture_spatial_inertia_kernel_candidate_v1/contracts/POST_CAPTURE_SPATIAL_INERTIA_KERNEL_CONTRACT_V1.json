@@ -1,0 +1,210 @@
+{
+  "schema": "POST_CAPTURE_SPATIAL_INERTIA_KERNEL_CONTRACT_V1",
+  "candidate_id": "R2_POST_CAPTURE_SPATIAL_INERTIA_KERNEL_CANDIDATE_V1",
+  "authority_scope": "SYNTHETIC_RIGID_POST_CAPTURE_SPATIAL_INERTIA_COMPOSITION_AND_MOMENTUM_STATE_INITIALIZATION_KERNEL_ONLY",
+  "maximum_claim": "POST_CAPTURE_SPATIAL_INERTIA_KERNEL_SYNTHETIC_FIXTURE_PASS__CURRENT_C08_C09_NOT_EVALUATED__NO_CONTACT_ATTACHMENT_NONABORT_PARENT_OR_RELEASE_CREDIT",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "model_contract": {
+    "se3_convention": "T_A_B maps coordinates expressed in B into A: x_A=R_A_B*x_B+p_A_B",
+    "required_transforms": [
+      "T_B_E_CURRENT_FROM_B601_FORWARD_KINEMATICS",
+      "T_E_T_AUTHORITATIVE_ATTACHMENT"
+    ],
+    "composed_transform": "T_B_T=T_B_E*T_E_T",
+    "mass_property_frames": {
+      "service_mass_kg": "scalar kg",
+      "service_cg_B_m": "service aggregate CG relative to B origin, expressed in B, m",
+      "service_inertia_cg_B_kg_m2": "service aggregate inertia about its own CG, expressed in B, kg*m^2",
+      "target_mass_kg": "scalar kg",
+      "target_cg_T_m": "target CG relative to T origin, expressed in T, m",
+      "target_inertia_cg_T_kg_m2": "target inertia about its own CG, expressed in T, kg*m^2",
+      "combined_cg_B_m": "combined CG relative to B origin, expressed in B, m",
+      "combined_inertia_cg_B_kg_m2": "combined inertia about combined CG, expressed in B, kg*m^2"
+    },
+    "event_pose": "T_I_B at the rigidification event",
+    "event_momentum": {
+      "linear_momentum_I_kg_m_s": "total pre-event linear momentum expressed in inertial frame I",
+      "angular_momentum_about_O_I_kg_m2_s": "total pre-event angular momentum about named point O, expressed in I",
+      "origin_O_in_I_m": "position of angular-momentum reference point O relative to inertial-frame origin, expressed in I, m",
+      "angular_momentum_translation_law": "H_O_prime=H_O-(r_O_prime-r_O)xP"
+    },
+    "post_capture_state_policy": "RIGID_AGGREGATE_WITH_ALL_8_JOINT_COORDINATES_FROZEN_AT_EVENT_AND_ALL_8_JOINT_RATES_ZERO__KERNEL_FIXTURE_ONLY",
+    "state_mapping": {
+      "existing_plant_physical_state_dimension": 23,
+      "base_position_dimension": 3,
+      "base_quaternion_dimension": 4,
+      "joint_position_dimension": 8,
+      "joint_rate_dimension": 8,
+      "derived_base_twist_dimension": 6,
+      "joint_coordinate_units": ["rad", "rad", "rad", "rad", "rad", "rad", "m", "m"],
+      "joint_rate_units": ["rad/s", "rad/s", "rad/s", "rad/s", "rad/s", "rad/s", "m/s", "m/s"]
+    },
+    "energy_semantics": "PERFECTLY_INELASTIC_RIGIDIFICATION_ENERGY_IS_NOT_CONSERVED_OR_CREDITED",
+    "uncertainty_semantics": "NO_HARDWARE_MEASUREMENT_UNCERTAINTY_PROPAGATED__SYNTHETIC_FIXTURES_ARE EXACT_TEST_VALUES"
+  },
+  "current_system_authority_contract": {
+    "attachment_transform_field": "authoritative_state.target.attachment_transform_S_rows",
+    "required_status": "UNKNOWN_NOT_AUTHORITY_BOUND__M5_DISPLAY_TRANSFORM_NOT_PROMOTED",
+    "required_value": null,
+    "operational_attachment_authority": false,
+    "target_attached_semantics": "MASS_PROPERTY_SCENARIO_SEMANTIC_ONLY__NO_PLANT_OR_CONTACT_AUTHORITY",
+    "configurations": {
+      "C08": {
+        "design_mass_kg": 22.0,
+        "design_inertia_diag_kg_m2": [0.231629, 0.422149, 0.489336],
+        "maximum_permitted_use": "TARGET_22KG_MASS_INERTIA_FIXTURE_ONLY__NO_ATTACHED_PLANT",
+        "target_attachment_plant_allowed": false,
+        "current_instance_status": "NOT_EVALUATED_MISSING_AUTHORITATIVE_ATTACHMENT_SE3"
+      },
+      "C09": {
+        "design_mass_kg": 150.0,
+        "design_inertia_diag_kg_m2": [74.805599, 74.829903, 26.592617],
+        "maximum_permitted_use": "TARGET_150KG_MASS_INERTIA_FIXTURE_ONLY__NO_ATTACHED_PLANT",
+        "target_attachment_plant_allowed": false,
+        "current_instance_status": "NOT_EVALUATED_MISSING_AUTHORITATIVE_ATTACHMENT_SE3"
+      }
+    },
+    "display_transform_promotion_forbidden": true,
+    "zero_fill_forbidden": true,
+    "kernel_call_for_current_instance_allowed": false
+    ,
+    "successful_admission_receipt_contract": {
+      "required_schema": "AUTHORITY_BOUND_ATTACHMENT_SE3_RECEIPT_V1",
+      "required_contract_source_pin_id": "attachment_authority_receipt",
+      "required_frame_ids": {
+        "parent_frame": "E",
+        "child_frame": "T",
+        "transform_field": "T_E_T_rows"
+      },
+      "required_system_configuration_linkage": [
+        "configuration_id",
+        "configuration_state_contract_raw_sha256",
+        "configuration_state_record_canonical_sha256"
+      ],
+      "caller_supplied_status_or_boolean_without_pinned_receipt_forbidden": true,
+      "current_contract_contains_attachment_authority_receipt_pin": false
+    }
+  },
+  "synthetic_fixture_contract": {
+    "fixture_id": "SYNTHETIC_RIGID_CAPTURE_FIXTURE_A",
+    "classification": "SYNTHETIC_EXACT_NUMERICAL_FIXTURE__NOT_C08_C09_SYSTEM_INSTANCE",
+    "may_use_c08_c09_design_mass_inertia_as_fixture": true,
+    "attachment_transform_authority": "SYNTHETIC_TEST_ONLY",
+    "contact_or_attachment_evidence": false
+  },
+  "thresholds": {
+    "rotation_orthonormal_max": 2e-12,
+    "rotation_determinant_abs_error_max": 2e-12,
+    "inertia_symmetry_max_kg_m2": 2e-12,
+    "inertia_min_eigenvalue_min_kg_m2": 1e-10,
+    "direct_vs_spatial_mass_max_kg": 1e-12,
+    "direct_vs_spatial_cg_max_m": 1e-12,
+    "direct_vs_spatial_inertia_max_kg_m2": 2e-11,
+    "linear_momentum_residual_max_kg_m_s": 2e-12,
+    "angular_momentum_residual_max_kg_m2_s": 5e-11,
+    "rigid_degenerate_mass_max_kg": 1e-13,
+    "rigid_degenerate_cg_max_m": 1e-13,
+    "rigid_degenerate_inertia_max_kg_m2": 1e-12,
+    "mass_scaling_formula_max": 2e-11,
+    "frame_covariance_cg_max_m": 2e-12,
+    "frame_covariance_inertia_max_kg_m2": 2e-11,
+    "translation_sensitivity_min_m": 1e-4,
+    "rotation_sensitivity_min_kg_m2": 1e-5
+  },
+  "minimum_true_inputs_to_bind_existing_23d_plant": [
+    {
+      "id": "PC01_SERVICE_CURRENT_MASS_PROPERTIES",
+      "required": ["mass_kg", "cg_B_m", "inertia_cg_B_kg_m2"],
+      "authority": "CURRENT_CONFIGURATION_HASH_BOUND_DYNAMICS_BACKEND"
+    },
+    {
+      "id": "PC02_TARGET_MASS_PROPERTIES",
+      "required": ["mass_kg", "cg_T_m", "inertia_cg_T_kg_m2"],
+      "authority": "NAMED_TARGET_MODEL_WITH_REFERENCE_FRAME_AND_POINT"
+    },
+    {
+      "id": "PC03_CURRENT_B601_END_EFFECTOR_POSE",
+      "required": ["T_B_E_rows", "q_mixed_rad_m"],
+      "authority": "CURRENT_UNIFIED_R2_FORWARD_KINEMATICS_AT_EVENT"
+    },
+    {
+      "id": "PC04_AUTHORITATIVE_ATTACHMENT_SE3",
+      "required": ["T_E_T_rows", "attachment_frame_ids", "attachment_authority_receipt"],
+      "authority": "CONTACT_CAPTURE_CONFIGURATION_AUTHORITY"
+    },
+    {
+      "id": "PC05_EVENT_POSE_AND_MOMENTUM",
+      "required": ["T_I_B_rows", "linear_momentum_I_kg_m_s", "angular_momentum_about_O_I_kg_m2_s", "inertial_origin_O_definition", "origin_O_in_I_m"],
+      "authority": "PRE_EVENT_DYNAMICS_STATE_AND_IMPULSE_LEDGER"
+    },
+    {
+      "id": "PC06_POST_CAPTURE_JOINT_CONSTRAINT_POLICY",
+      "required": ["locked_joint_set", "post_event_qdot_policy", "constraint_impulse_or_latch_authority"],
+      "authority": "AUTHORIZED_CAPTURE_CONSTRAINT_MODEL"
+    },
+    {
+      "id": "PC07_NONZERO_MOMENTUM_PLANT_EXTENSION",
+      "required": ["combined_mass_matrix_or_spatial_inertia_binding", "base_twist_initialization_API", "nonzero_total_momentum_acceptance_contract"],
+      "authority": "NEW_HASH_BOUND_POST_CAPTURE_PLANT__CURRENT_23D_PLANT_REJECTS_NONZERO_TOTAL_MOMENTUM"
+    }
+  ],
+  "source_pins": [
+    {
+      "id": "configuration_state_vector_contract",
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/m4_l02_configuration_state_contract_v1/R2_CONFIGURATION_STATE_VECTOR_CONTRACT_V1.yaml",
+      "bytes": 40064,
+      "sha256": "C60744D6978AFA8987D3D294792044380ACA27E0F30C2E3DE7C0AA2747F23D63"
+    },
+    {
+      "id": "configuration_dynamics_use_matrix",
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/m4_l02_configuration_state_contract_v1/R2_CONFIGURATION_DYNAMICS_USE_MATRIX_V1.yaml",
+      "bytes": 5597,
+      "sha256": "5DCC1661F268D388C5E78B8A25531E5D20CAB0EF494209C6234D27234AAD73E7"
+    },
+    {
+      "id": "display_only_transform_candidates",
+      "path": "20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp2_mass_properties/CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml",
+      "bytes": 20434,
+      "sha256": "F43D871FAA6831652441C75916B1E890D760EAE3D5781DDF3650CFB65159DE51"
+    },
+    {
+      "id": "existing_23d_plant_contract",
+      "path": "30_simulation/r2_dynamics_engineering_closure/time_varying_torque_plant_candidate_v1/contracts/R2_TIME_VARYING_TORQUE_PLANT_CANDIDATE_CONTRACT_V1.json",
+      "bytes": 13875,
+      "sha256": "570256E08C982712EFDECC9FA4A38586018779040AC33B53DDFC0AB45C9A3BD7"
+    },
+    {
+      "id": "existing_23d_plant_source",
+      "path": "30_simulation/r2_dynamics_engineering_closure/time_varying_torque_plant_candidate_v1/src/time_varying_torque_plant.py",
+      "bytes": 69319,
+      "sha256": "5C3D281FBC17847FAEA7A4A4453B6DB8401B7551A9CC1C074F49AB3234AD1C9F"
+    },
+    {
+      "id": "existing_23d_plant_gate",
+      "path": "30_simulation/r2_dynamics_engineering_closure/time_varying_torque_plant_candidate_v1/results/R2_TIME_VARYING_TORQUE_PLANT_CANDIDATE_GATE_V1.json",
+      "bytes": 11641,
+      "sha256": "5DC60E93A881AB35BDA912115A4782DD11DA0903B444201491D06642326DA2D1"
+    },
+    {
+      "id": "current_mech_rl_system_interface",
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/interfaces/MECH_RL_SYSTEM_INTERFACE_V2.yaml",
+      "bytes": 6716,
+      "sha256": "B105766EC1F19EEC25D4A40F4D4AFAEAB3955AE9E0EDFFCD691754E5A3DBB8E8"
+    }
+  ],
+  "release_boundary": {
+    "candidate_only": true,
+    "synthetic_fixture_only": true,
+    "current_system_instance_evaluated": false,
+    "contact_valid": false,
+    "attachment_valid": false,
+    "target_attachment_plant_valid": false,
+    "hardware_valid": false,
+    "non_abort_authorized": false,
+    "parent_dynamics_engineering_complete": false,
+    "next_stage_authorized": false,
+    "release_credit": false
+  },
+  "next_stage_authorized": false,
+  "release_credit": false
+}

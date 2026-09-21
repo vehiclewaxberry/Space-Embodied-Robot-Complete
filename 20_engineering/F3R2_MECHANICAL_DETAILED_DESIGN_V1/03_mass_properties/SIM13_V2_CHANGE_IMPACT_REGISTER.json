@@ -1,0 +1,121 @@
+{
+  "schema_version": "SIM13_V2_CHANGE_IMPACT_REGISTER_V1",
+  "generated_local": "2026-08-21T13:50:00+08:00",
+  "phase": "M3_MECHANICAL_DETAILED_DESIGN_CLOSURE",
+  "scope": "READ_ONLY_CHANGE_AND_IMPACT_REGISTER",
+  "release_status": "WORKING_NOT_RELEASED_TO_SIM13_PRODUCTION",
+  "production_mutation_authorized": false,
+  "production_baselines": {
+    "mech_rl_interface_v1": {
+      "path": "20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MECH_RL_INTERFACE_V1.yaml",
+      "sha256_before_m3_branch": "26E5A55570BE9E1DAF6683F76FB2A68D0265872EB5FB7C876E3324914DA36BB0",
+      "modified_by_this_branch": false
+    },
+    "accepted_b601_urdf": {
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+      "sha256_before_m3_branch": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+      "modified_by_this_branch": false
+    },
+    "sim13_environment_gate": {
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json",
+      "sha256_before_m3_branch": "C224853EABBD00C9C14C812922E3B2A7E406AF43A81CF7CA6A307860A951466C",
+      "modified_by_this_branch": false
+    }
+  },
+  "working_change_register": [
+    {
+      "change_id": "SIM13-M3-001",
+      "subject": "M3R active digital mass authority",
+      "working_value_kg": 0.7619,
+      "source_classification": "BUDGETED",
+      "standard_uncertainty_kg": null,
+      "confidence": "HIGH_DIGITAL_SCOPE_ONLY",
+      "consumer_fields": ["mechanical_component_mass", "system_mass_aggregation"],
+      "release_state": "WITHHELD",
+      "blockers": ["M3R_COM", "M3R_INERTIA", "COMPONENT_ALLOCATION", "FASTENER_LOCATOR_CABLE_MASS", "TRACEABLE_UNCERTAINTY"]
+    },
+    {
+      "change_id": "SIM13-M3-002",
+      "subject": "B601 zero-joint equivalent digital inertia",
+      "working_mass_kg": 4.695555949342986,
+      "mass_classification": "BUDGETED",
+      "inertia_classification": "DIGITAL_MODEL_DERIVED_FROM_ACCEPTED_URDF",
+      "standard_uncertainty": null,
+      "confidence": "HIGH_DIGITAL_SCOPE_ONLY",
+      "consumer_fields": ["robot_link_inertials", "configuration_mass_properties"],
+      "release_state": "WITHHELD_FOR_SYSTEM_CONFIGURATION_USE",
+      "blockers": ["NAMED_CONFIGURATION_JOINT_VECTORS", "ROOT_FRAME_RELATION", "PHYSICAL_CORRELATION", "UNCERTAINTY_MODEL"]
+    },
+    {
+      "change_id": "SIM13-M3-003",
+      "subject": "Nine named system configuration mass properties",
+      "working_delivery": "03_mass_properties/CONFIGURATION_MASS_INERTIA_V2.csv",
+      "numerically_evaluable_count": 0,
+      "source_classification": "UNKNOWN_FOR_COMPLETE_SYSTEM",
+      "confidence": "NONE",
+      "consumer_fields": ["environment_initial_state", "dynamics_randomization", "post_capture_dynamics"],
+      "release_state": "HOLD",
+      "blockers": ["BUS_AND_SOLAR_PROPERTIES", "CONFIGURATION_TRANSFORMS", "B601_JOINT_VECTORS", "M3R_COM_INERTIA", "TARGET_PROPERTIES", "ROOT_FRAME_RELATION"]
+    },
+    {
+      "change_id": "SIM13-M3-004",
+      "subject": "M3 detailed mechanical geometry and collision assets",
+      "working_value": null,
+      "source_classification": "BRANCH_ARTIFACTS_UNDER_DEVELOPMENT",
+      "confidence": "NONE_UNTIL_NEUTRAL_REOPEN_AND_COLLISION_VALIDATION",
+      "consumer_fields": ["visual_asset", "collision_asset", "frame_binding"],
+      "release_state": "HOLD",
+      "blockers": ["ASSET_MANIFEST", "HASH_BINDING", "NEUTRAL_REOPEN", "COLLISION_SIMPLIFICATION", "FRAME_CONTRACT", "SIM13_REGRESSION"]
+    },
+    {
+      "change_id": "SIM13-M3-005",
+      "subject": "Gripper engineering parameters and contact model",
+      "working_value": null,
+      "source_classification": "M3_BRANCH_CANDIDATE",
+      "confidence": "NONE_FOR_RUNTIME_CONTACT_PARAMETERS",
+      "consumer_fields": ["gripper_joint_limits", "contact_geometry", "friction", "actuation_force", "action_mask"],
+      "release_state": "HOLD",
+      "blockers": ["CONTROLLED_PARAMETER_TABLE", "MATERIALS", "FRICTION_AND_CONTACT_TEST", "ACTUATOR_FORCE", "LIMITS", "REGRESSION"]
+    }
+  ],
+  "runtime_impact_now": {
+    "production_interface_changed": false,
+    "accepted_urdf_changed": false,
+    "sim13_asset_path_changed": false,
+    "mass_or_inertia_runtime_binding_changed": false,
+    "frame_tree_changed": false,
+    "action_mask_contract_changed": false,
+    "contact_parameter_changed": false,
+    "impact_status": "NO_RUNTIME_IMPACT_M3_WORKING_BRANCH_NOT_RELEASED"
+  },
+  "future_release_entry_criteria": [
+    "M3 change request approved with exact field-level mapping",
+    "Every released numeric quantity has units source classification frame configuration and uncertainty or an explicit model-only limitation",
+    "All nine named configurations required by the consumer are numerically closed or the consumer contract explicitly excludes them",
+    "Production interface schema migration and backward-compatibility decision are approved",
+    "Neutral visual and collision assets are hash-bound and reopened",
+    "Configuration-specific B601 and gripper joint vectors are accepted",
+    "System root transform is closed",
+    "Sim13 regression is rerun against released hashes"
+  ],
+  "required_regression_set_after_release": [
+    "SCHEMA_AND_UNIT_VALIDATION",
+    "FRAME_TREE_AND_TRANSFORM_VALIDATION",
+    "MASS_INERTIA_TENSOR_VALIDATION",
+    "ASSET_REOPEN_AND_HASH_BINDING",
+    "COLLISION_AND_SELF_COLLISION_REGRESSION",
+    "ACTION_MASK_AND_JOINT_LIMIT_REGRESSION",
+    "RESET_DETERMINISM_AND_NAMED_CONFIGURATION_REPLAY",
+    "POST_CAPTURE_22KG_AND_150KG_FAIL_CLOSED_BEHAVIOR",
+    "PHYSICS_STEP_STABILITY_AND_ENERGY_SANITY_CHECK"
+  ],
+  "regression_disposition_now": {
+    "required": false,
+    "executed": false,
+    "pass_claimed": false,
+    "reason": "No production artifact or runtime binding was modified",
+    "status": "NOT_RUN_NOT_REQUIRED_FOR_UNRELEASED_WORKING_BRANCH"
+  },
+  "unknown_policy": "UNKNOWN_REMAINS_NULL_AND_FAIL_CLOSED",
+  "overall_status": "NO_CURRENT_RUNTIME_IMPACT_FUTURE_RELEASE_HOLD"
+}

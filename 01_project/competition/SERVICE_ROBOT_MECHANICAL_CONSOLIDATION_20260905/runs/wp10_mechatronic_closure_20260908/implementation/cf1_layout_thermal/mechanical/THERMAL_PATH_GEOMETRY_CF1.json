@@ -1,0 +1,139 @@
+{
+  "schema": "CF1_THERMAL_PATH_GEOMETRY",
+  "revision_note": "r3 (2026-09-17): the wall is modelled as it is built (mechanical/fixed_heat_common.py): a 2 mm inner web, a 2 mm gap layer that contains only discrete bridge blocks, and an 8 mm external radiator panel, all one solid. The lugs bolt to the inner web; the panel is reached through the 2 mm web laterally to the nearest bridge. thermal_cf1.py therefore carries the two webs as their own 2 mm in-plane sheets coupled to the panels at the bridge patches read from results/mechanical/WEB_FACE_PROBE_CF1.json; the r2 'skin/stiffener/half-plate' series term was a misreading of 1 mm slab data and is withdrawn. The carrier node is defined at the arch shelf / +Y-riser junction and the arch riser conduction is booked on both links.",
+  "role": "Single source of truth for the CF1 conduction path: read by thermal_path_cf1.step.py (solids), thermal_cf1.py (link resistances; web sheets and bridges come from the probe receipt), verify_thermal_cf1.py (independent recomputation) and probe_web_faces_cf1.py (lug footprints).",
+  "frame": {
+    "part_frame": "module mm, identical to coupled_closure/mechanical_parts.py (board XY with KiCad y negated, board top face z=0)",
+    "T_S_module": [[1,0,0,-24],[0,1,0,30],[0,0,1,61.6],[0,0,0,1]],
+    "S_from_module_mm": [-24.0, 30.0, 61.6],
+    "carrier_plate_and_arch_S_mm": [-40.0, -56.0, 50.0, 92.0, 36.0, 93.6],
+    "module_bbox_S_mm": [-71.02, -56.0, 45.6, 123.02, 36.0, 93.6],
+    "module_bbox_note": "V30 lug module compound (56 instances) at this pose, from results/mechanical/MODULE_POSE_NARROWPHASE_CF1.json; 194 mm wide with 4.4 mm of hardware below the plate. The design-spec 'cavity' statement referred to the carrier box only and is superseded by the exact module-pose test.",
+    "carrier_plate_module_mm": [-16.0, -86.0, -11.6, 132.0, 92.0, 4.0],
+    "carrier_arch_plus_Y_face_module_y": 6.0,
+    "carrier_node_definition": "lumped node at the arch shelf / +Y riser junction (module z 27..32). Q201 case -> node (IF_CF1_01 budget 1.5 K/W) = TIM 0.54 + riser B climb 0.47 + shelf span 0.32 = 1.33 K/W. Boss heat (copper, shunts, fuse, ~5 W) physically enters the plate, not the arch; it is lumped at the node (disclosed simplification)."
+  },
+  "material": {
+    "id": "AL_6061_T6",
+    "k_W_mK": 167.0,
+    "web_k_W_mK": 130.0,
+    "note": "6061-T6 handbook conductivity for boss/straps/lugs; 130 W/mK is the wall conductivity used by tools/spatial_radiator_network.py Sheet(k=130) and is applied to the 2 mm web sheets and the bridges. No certificate, no lot traceability."
+  },
+  "TIM": {
+    "resistance_C_in2_W": 0.28,
+    "in2_to_mm2": 645.16,
+    "pressure_psi": 25,
+    "note": "Same TIM family and 25 psi clamp point as thermal/SPATIAL_RADIATOR_NETWORK_SCREEN.json. Clamp force that realises 25 psi is NOT yet designed."
+  },
+  "web_model": {
+    "kind": "IN_PLANE_WEB_SHEETS_FROM_PROBE",
+    "source": "results/mechanical/WEB_FACE_PROBE_CF1.json (web_thickness_mm, gap_thickness_mm, gap_bridges[].patch_center_ab_mm / patch_size_ab_mm / area_mm2, gap_material_under_lug_mm3)",
+    "description": "Each wall's 2 mm inner web is a non-radiating Sheet (same 344x180 face frame and holes as its panel, thickness scaled from the Sheet default 8 mm). The lug patch sits on the web sheet. Each gap-layer bridge block couples the web sheet to the panel sheet with R = gap_thickness / (k_web * bridge_area). The parent CHB cold-finger links keep their endpoints on the panels.",
+    "requirement": "gap_material_under_lug_mm3 must be 0 for both lugs (no bridge under the lug), otherwise a through term would also be needed"
+  },
+  "parts": [
+    {
+      "id": "CF1_CARRIER_BOSS",
+      "label": "CF1_CARRIER_BOSS_6061T6_RETURN_TIM_PEDESTAL",
+      "colour": [0.69, 0.73, 0.79],
+      "boxes_module_mm": [[18.0, -14.0, -7.6, 64.0, 11.0, 5.797]],
+      "S_bounds_mm": [-6.0, 16.0, 54.0, 58.0, 27.0, 59.797],
+      "purpose": "Raises the carrier top face (module z -7.6) to 0.203 mm below the PCB bottom (module z -1.6) under the CF1_RETURN_TIM_CONTACT zone.",
+      "contact_area_mm2": 704.0,
+      "matches_pcb_zone": "CF1_RETURN_TIM_CONTACT outline 64x11 = 704 mm2 (results/pcb/NATIVE_BUILD.json filled area 703.98 mm2 after fill corner rounding)"
+    },
+    {
+      "id": "CF1_STRAP_MINUS_Y",
+      "label": "CF1_STRAP_MINUS_Y_6061T6_CARRIER_TO_WEB",
+      "colour": [0.75, 0.62, 0.35],
+      "boxes_module_mm": [[11.0, -117.15, -26.6, 25.0, 71.15, 15.0], [11.0, -123.15, -26.6, 25.0, 6.0, 40.0]],
+      "S_bounds_mm": [-13.0, -93.15, 35.0, 12.0, -16.0, 75.0],
+      "purpose": "25x15 bar under the carrier (S x -13..12, S y -87.15..-16, S z 35..50) plus a 25x6x40 paddle (S y -93.15..-87.15, S z 35..75) pressed on the -Y lug."
+    },
+    {
+      "id": "CF1_LUG_MINUS_Y",
+      "label": "CF1_LUG_MINUS_Y_6061T6_WEB_INTERFACE",
+      "colour": [0.62, 0.66, 0.70],
+      "boxes_module_mm": [[11.0, -131.15, -26.6, 25.0, 8.0, 40.0]],
+      "S_bounds_mm": [-13.0, -101.15, 35.0, 12.0, -93.15, 75.0],
+      "purpose": "8 mm lug bolted to the 2 mm inner web of shear_web_-1 at S y -101.15; footprint S x -13..12, S z 35..75."
+    },
+    {
+      "id": "CF1_STRAP_PLUS_Y",
+      "label": "CF1_STRAP_PLUS_Y_6061T6_ARCH_TO_WEB",
+      "colour": [0.75, 0.62, 0.35],
+      "boxes_module_mm": [[52.0, 6.0, 1.4, 27.0, 6.0, 30.0], [52.0, 12.0, 1.4, 27.0, 45.15, 15.0], [52.0, 57.15, -11.6, 27.0, 6.0, 40.0]],
+      "S_bounds_mm": [28.0, 36.0, 50.0, 55.0, 93.15, 93.0],
+      "purpose": "27x6x30 paddle on the carrier arch +Y face (S y 36, S z 63..93), 27x15 bar (S y 42..87.15, S z 63..78), 27x6x40 paddle (S y 87.15..93.15, S z 50..90) pressed on the +Y lug."
+    },
+    {
+      "id": "CF1_LUG_PLUS_Y",
+      "label": "CF1_LUG_PLUS_Y_6061T6_WEB_INTERFACE",
+      "colour": [0.62, 0.66, 0.70],
+      "boxes_module_mm": [[52.0, 63.15, -11.6, 27.0, 8.0, 40.0]],
+      "S_bounds_mm": [28.0, 93.15, 50.0, 55.0, 101.15, 90.0],
+      "purpose": "8 mm lug bolted to the 2 mm inner web of shear_web_1 at S y 101.15; footprint S x 28..55, S z 50..90."
+    }
+  ],
+  "links": {
+    "minus_Y": {
+      "carrier_path": [
+        {"name": "arch_riser_A_descent", "length_mm": 37.1, "section_mm": [40.0, 5.0], "basis": "node at the shelf mid-plane (module z 29.5) down the +Y riser (module y 1..6) to the plate top (module z -7.6)"},
+        {"name": "plate_spreading_1D", "length_mm": 62.0, "section_mm": [132.0, 4.0], "basis": "1-D full carrier width from the riser foot (S y ~31) to the strap contact centroid (S y -36) through the 4 mm plate; crude, a 2-D solution for the 25 mm-wide contact would be lower"}
+      ],
+      "source_face": "carrier underside, S z 50",
+      "TIM_source_mm": [25.0, 40.0],
+      "conduction_length_mm": 57.15,
+      "conduction_length_basis": "centroid of the 25x40 carrier contact (S y -36) to the lug TIM face (S y -93.15)",
+      "conduction_section_mm": [25.0, 15.0],
+      "TIM_sink_mm": [25.0, 40.0],
+      "lug_through_mm": 8.0,
+      "sink_face": "CF1_LUG_MINUS_Y inner face, S y -93.15; lug outer face on the 2 mm web at S y -101.15",
+      "web_sheet": "FIXED_MINUS_Y inner web (probe shear_web_-1)",
+      "radiator_patch_face_id": "FIXED_MINUS_Y",
+      "radiator_patch_center_ab_mm": [-0.5, 55.0],
+      "radiator_patch_size_ab_mm": [25.0, 40.0]
+    },
+    "plus_Y": {
+      "carrier_path": [
+        {"name": "arch_riser_A_to_paddle_centroid", "length_mm": 13.1, "section_mm": [40.0, 5.0], "basis": "node at the shelf mid-plane (module z 29.5) down the +Y riser to the arch-paddle centroid (module z 16.4); the paddle spans z 1.4..31.4 so heat enters along the riser height"}
+      ],
+      "source_face": "carrier arch +Y face, S y 36",
+      "TIM_source_mm": [27.0, 30.0],
+      "conduction_length_mm": 57.15,
+      "conduction_length_basis": "arch face (S y 36) to the lug TIM face (S y 93.15)",
+      "conduction_section_mm": [27.0, 15.0],
+      "TIM_sink_mm": [27.0, 40.0],
+      "lug_through_mm": 8.0,
+      "sink_face": "CF1_LUG_PLUS_Y inner face, S y 93.15; lug outer face on the 2 mm web at S y 101.15",
+      "web_sheet": "FIXED_PLUS_Y inner web (probe shear_web_1)",
+      "radiator_patch_face_id": "FIXED_PLUS_Y",
+      "radiator_patch_center_ab_mm": [41.5, 70.0],
+      "radiator_patch_size_ab_mm": [27.0, 40.0]
+    }
+  },
+  "link_model": "R_link = sum(carrier_path L/(k A)) + R_TIM(source) + L_cond/(k A_cond) + R_TIM(sink) + lug_through/(k A_sink); the link ends on the 2 mm web sheet at the lug patch. Web lateral conduction and the bridge coupling to the radiating panel are solved by the sheet model, not by a scalar term.",
+  "excluded_from_the_1D_link_model": [
+    "2-D spreading in the carrier plate (1-D full-width term used instead), in the lugs and at the strap-to-web contact",
+    "fastener and joint conduction in parallel with the TIM",
+    "contact pressure non-uniformity across the pads",
+    "radiation exchange between the strap and its surroundings and from the inner webs to the interior (webs are treated as adiabatic on their inner side)",
+    "thermal expansion, preload relaxation and vibration",
+    "the arch riser B and shelf conduction between Q201 and the node (inside the IF_CF1_01 1.5 K/W budget)"
+  ],
+  "source_discrepancies": [
+    {
+      "id": "equipment_compute_communications",
+      "finding": "Same STEP (sha256 eafde8dd...) at two poses: MAIN_INPUT_PLACEMENT_BOUNDS_V27.json translation (-115, 39, 14) rotated (bbox S x -152.5..-77.5) versus thermal/RADIATOR_OBSTACLE_BOUNDS.json translation (10, -48, 14) unrotated (bbox S x -35..55, top S z 34). The -Y strap sits above S z 35, clear of both.",
+      "disposition": "OPEN_UPSTREAM"
+    },
+    {
+      "id": "shear_web_1",
+      "finding": "MAIN_INPUT_PLACEMENT_BOUNDS_V27.json binds shear_web_1 to mechanical/wall_navigation_bosses.step while thermal/RADIATOR_OBSTACLE_BOUNDS.json binds it to mechanical/fixed_heat_wall_pos.step (different sha256). The probe reads the V27 binding; the two files give the same slab profile inside the +Y lug footprint. See results/mechanical/WEB_FACE_PROBE_CF1.json webs.shear_web_1.thermal_side_binding.",
+      "disposition": "OPEN_UPSTREAM; no geometric consequence for the lug"
+    }
+  ],
+  "qualified": false,
+  "native_SolidWorks_created": false,
+  "manufacturing_release": false
+}

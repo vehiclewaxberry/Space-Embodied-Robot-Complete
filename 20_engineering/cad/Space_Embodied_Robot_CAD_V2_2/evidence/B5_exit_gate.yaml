@@ -1,0 +1,36 @@
+gate_id: COMP-PROT-03-A4-B5-V2_2-PHYSICAL-ARCHITECTURE
+machine_verdict: V2_2_L1_FUNCTIONAL_GEOMETRY_BUILT_PASS
+date: "2026-07-26"
+review_status: PENDING_HUMAN_REVIEW
+authorization_chain:
+  freeze_doc: design_inputs/v2_2_physical_architecture/V2_2_PHYSICAL_ARCHITECTURE_FREEZE.md (APPROVED)
+  gate_0: BUS_X_TOTAL=366.0 (gate_0_ruling_record.yaml；340.5 已停止传播)
+  solar_dual_track: APPROVED（机构轨先行；动力学 SSOT 单板不动）
+
+delivered:
+  native_files: 102（重开重建 102/102 PASS）
+  modules: [00 骨架366, 10 主结构(4框/4纵梁366/2甲板含真实穿舱孔/6节点垫/角撑/分段侧板),
+            20 B601接口(适配环+连接器窗/扩散板+线束穿舱孔/boss/双收拢托架),
+            30 B601 q0 代理(偏移12.75几何内建, base_link前缘=198.0实测),
+            40 捕获头栈(腕/FT/相机环/柔顺/三指), 50/51 翼机构(双表示翼板/U形双耳根支座/
+            铰链销+扭簧包络/双HDRM错位/止挡), 60 GNC(双相机+星敏+FOV锥线框),
+            70 推进(4角模块+主推+贮箱+阀板), 80 通信贴片, 90 辐射板]
+  states_8: 全部读回验证 PASS（含 CAPTURE_SAFE 提案态；PARTIAL 保持双抑制 UNKNOWN）
+  real_openings: [DECK_MID2_PASSAGE Ø30, DECK_MID1_PASSAGE Ø30, ADAPTER_BORE Ø100,
+                  CONNECTOR_WINDOW Ø18, HARNESS_PASSTHROUGH Ø30]   # C1 实体化
+  views: [v22_deployed_iso, v22_stowed_iso, v22_capture_safe_iso]
+  evidence: b5_verify/machine_check.json
+
+acceptance_ladder_status:
+  L1_functional_geometry: PASS（全部主要外部功能实体表达；机器验证）
+  L2_assembly_interfaces: PARTIAL（板厚/穿舱真实、孔系与紧固件阵列 ICD 待签）
+  L3_motion_envelope: NOT_STARTED（真实铰链轴运动/扫掠/FOV 遮挡/C5 闭合待做）
+  L4_engineering_release: NOT_AUTHORIZED（SLDDRW/BOM/材料/FEA 入口需另行授权）
+
+known_process_findings:
+  - 跨目录子装配组件位姿在保存往返后回落恒等（Transform2/SetTransformAndSolve2 返回
+    True 但不持久）——以"偏移内建几何的 V2.2 代理"根治并淘汰跨目录引用
+  - 子装配子件配置抑制不可持久（V2.0 教训复发）——翼双表示提升顶层组件解决
+preserved: [C5 收拢超包络负结果, V2-UNK-001 已由 Gate 0 在显示轨裁决/SSOT 轨保持,
+            全部 must_stay_unknown, H1-H9]
+frozen_untouched: [V2.0(57), V2.1(封存), accepted B601 URDF/STL, 动力学 SSOT]

@@ -1,0 +1,28 @@
+schema: B51R1_AUTONOMOUS_SESSION_PLAN_V1
+status: STANDING_DELEGATED_PLAN
+max_visible_sessions: 20
+single_process_only: true
+sessions:
+  - {id: S01, purpose: CREATE_FINAL_MASTER_SKELETON, auto_start_after: G1A_PASS}
+  - {id: S02, purpose: COLD_REOPEN_MASTER_SKELETON, auto_start_after: S01_PASS}
+  - {id: S03, purpose: CREATE_10_CARRIERS, auto_start_after: S02_PASS}
+  - {id: S04, purpose: COLD_REOPEN_10_CARRIERS, auto_start_after: S03_PASS}
+  - {id: S05, purpose: BUILD_J00_J09_AND_T005_A0_B0, auto_start_after: S04_PASS}
+  - {id: S06, purpose: T005_C0_COLD_REOPEN, auto_start_after: S05_PASS}
+  - {id: S07, purpose: ATTACH_FINE_GEOMETRY_INCREMENTALLY, auto_start_after: S06_PASS}
+  - {id: S08, purpose: FORMAL_T005_A_B, auto_start_after: S07_PASS}
+  - {id: S09, purpose: FORMAL_T005_C, auto_start_after: S08_PASS}
+  - {id: S10, purpose: ADAPTER_CANDIDATE_AUTHORING, auto_start_after: FORMAL_T005_PASS}
+  - {id: S11, purpose: G07_G08_HDRM_CANDIDATE_AUTHORING, auto_start_after: ADAPTER_TRADE_PASS}
+  - {id: S12, purpose: H10_REWORK_MEASUREMENT, auto_start_after: S11_PASS}
+  - {id: S13, purpose: TOP_INTEGRATION_CANDIDATE, auto_start_after: H10_CLOSED}
+  - {id: S14, purpose: G8A_RIGID_CONTINUOUS_CLEARANCE, auto_start_after: TOP_INTEGRATION_PASS}
+  - {id: S15, purpose: G8B_ROBUST_CLEARANCE, auto_start_after: G8A_PASS}
+  - {id: S16, purpose: PRELIMINARY_STRUCTURE_MODAL, auto_start_after: G8B_PASS}
+  - {id: S17, purpose: MASS_LEDGER_AND_CONTROL_HANDOFF, auto_start_after: S16_COMPLETE}
+  - {id: S18, purpose: CANDIDATE_DRAWINGS_AND_EXCHANGE, auto_start_after: G10_CANDIDATE_READY}
+rules:
+  unused_sessions_do_not_authorize_other_actions: true
+  next_session_requires_previous_gate_machine_pass: true
+  failed_session_may_use_one_recovery_session: true
+  recovery_session_must_have_new_unique_id: true

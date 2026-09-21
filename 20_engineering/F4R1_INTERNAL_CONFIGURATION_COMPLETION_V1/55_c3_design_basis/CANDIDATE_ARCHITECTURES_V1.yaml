@@ -1,0 +1,524 @@
+---
+title: F4R1 C3 候选内部结构架构 V1（CA-A/CA-B/CA-C 统一 schema）
+generated_at: 2026-08-27
+status: DESIGN_RESEARCH_CANDIDATE
+artifact_id: DESIGN_RESEARCH_CANDIDATE
+machine_check: CANDIDATE_MASS_CG_V1.json（compute_candidates.py 可重跑，stdlib-only）
+coordinate_frame: "S frame, 原点=12U几何中心, x=纵轴(任务/臂方向为正), mm；冻结 340.5 mm 口径 (OI-6 登记)"
+mass_budget_ref: "C1 MASS_BUDGET_V1.csv EQ-SEC-STRUCT=1.0 kg ASSUMED (sha256_12 365c9ebf9493)，数值待 C3 细化——本文件即该细化候选"
+governance: "冻结接口只引用不修改；臂基座 x=208.0 mm / M3R / load bridge / 帆板参数 (C2 定档) / Route-C 线束实物 (HOLD) 一律不碰"
+---
+
+schema: CANDIDATE_ARCHITECTURES_V1
+artifact_class: DESIGN_RESEARCH_CANDIDATE
+generated_at: '2026-08-27'
+
+candidates:
+- id: CA-A
+  concept_zh: "中央堆栈+托盘：中舱 PC/104 双堆栈笼（OBC+EPS 堆栈 A，B1 R5）+ 前/后托盘承载任务与服务设备，COTS 兼容优先、定制件最少"
+  members:
+    - name: stack_cage_rails
+      type: rail
+      dims_mm: [120, 6, 6]
+      material: al6061
+      count: 8
+      fill_factor: 1.0
+      pos_mm: [0, -60, 30]
+      mass_g: 93.312
+      function: "PC/104 双堆栈笼角轨 (OBC+EPS 堆栈 A)"
+    - name: stack_cage_endplates
+      type: plate
+      dims_mm: [96, 90, 1.5]
+      material: al6061
+      count: 4
+      fill_factor: 1.0
+      pos_mm: [0, -60, 30]
+      mass_g: 139.968
+      function: "堆栈笼端板，先成组件整体入框 (B1 R5)"
+    - name: battery_plate
+      type: plate
+      dims_mm: [180, 96, 2]
+      material: al6061
+      count: 1
+      fill_factor: 1.0
+      pos_mm: [-10, 0, -75]
+      mass_g: 93.312
+      function: "双 BPX 电池独立 -z 安装面 (B1 R9)"
+    - name: rw_cluster_bracket
+      type: bracket
+      dims_mm: [70, 70, 4]
+      material: al6061
+      count: 2
+      fill_factor: 1.0
+      pos_mm: [0, 0, 0]
+      mass_g: 105.84
+      function: "4xRW400 金字塔轮组支架 (近几何中心, B1 R6)"
+    - name: front_tray
+      type: plate
+      dims_mm: [200, 210, 2]
+      material: al6061
+      count: 1
+      fill_factor: 1.0
+      pos_mm: [120, 0, 0]
+      mass_g: 226.8
+      function: "前舱任务托盘 (CAM-NAV/ILLUM/SS5)"
+    - name: rear_tray
+      type: plate
+      dims_mm: [220, 210, 2.5]
+      material: al6061
+      count: 1
+      fill_factor: 1.0
+      pos_mm: [-113.5, 0, 0]
+      mass_g: 311.85
+      function: "后舱服务托盘 (MiPS/电台/GPS)"
+    - name: mid_deck
+      type: plate
+      dims_mm: [100, 210, 1.5]
+      material: al6061
+      count: 1
+      fill_factor: 1.0
+      pos_mm: [50, 0, 0]
+      mass_g: 85.05
+      function: "中舱甲板 (MTQ-X/Z 等)"
+    - name: corner_posts
+      type: rail
+      dims_mm: [60, 8, 8]
+      material: al6061
+      count: 8
+      fill_factor: 1.0
+      pos_mm: [0, 0, 0]
+      mass_g: 82.944
+      function: "托盘/甲板与主结构连接角柱"
+    - name: panel_root_hinge_brackets
+      type: bracket
+      dims_mm: [40, 30, 6]
+      material: al6061
+      count: 4
+      fill_factor: 1.0
+      pos_mm: [-61, 0, 0]
+      mass_g: 77.76
+      function: "帆板根铰/HDRM 站位安装座 (F_L/F_R, 每翼 2 站)"
+  structure_mass_kg: 1.216836
+  structure_mass_proper_excl_ballast_kg: 1.216836
+  cg_delta_mm:
+    scenario_A_design_point: [-0.74, -0.26, 0.13]
+    scenario_A_new_cg_S_mm: [62.50, -27.14, -18.89]
+    scenario_A_cds_margins_mm: {x: 7.50, y: 17.86, z: 26.11}
+    scenario_CDS_variant: [-2.40, -0.15, 0.54]
+    scenario_CDS_new_cg_S_mm: [125.43, -54.45, -38.56]
+    scenario_CDS_margins_mm: {x: -55.43, y: -9.45, z: 6.44}
+    note: "机器复算 (compute_candidates.py)；主口径 CG 微降 x（后托盘质量后拉），CDS 变体仅改善 2.4 mm，不解决 OI-1"
+  arm_base_reinforcement: "弱：臂基座载荷（捕获峰值 ~60.9 N / 17.6 N·m，sim_06+T_c=20 ms 复算）依赖冻结传力链 M3R→load_bridge→前法兰；本候选不设专用加强，仅 front_tray 经角柱与主结构连接提供次要辅助；发射段臂收拢载荷路径同样走冻结链"
+  equipment_mounting_map:
+    primary_structure: frozen_primary_unmodified
+    M3R_interface_arm_base_x208_frozen: frozen_m3r_unmodified
+    front_flange_station_196_210.405: frozen_m3r_unmodified
+    front_flange_station: frozen_bridge_unmodified
+    F_L: panel_root_bracket_L
+    F_R: panel_root_bracket_R
+    front_panel_plus_x: front_tray
+    M3R_to_arm_base_stack: frozen_m3r_unmodified
+    pc104_stack_A_top: stack_cage_A
+    pc104_stack_A: stack_cage_A
+    battery_dedicated_plane_minus_z: battery_plate
+    rw_cluster_bracket_near_cg: rw_cluster_bracket
+    mid_deck_plus_y: mid_deck
+    plus_z_panel_boresight_plus_z: outer_panel_inner_face
+    minus_z_panel_boresight_minus_z: outer_panel_inner_face
+    plus_z_panel: outer_panel_inner_face
+    minus_z_panel: outer_panel_inner_face
+    plus_y_panel_root_cutout: outer_panel_inner_face
+    minus_y_panel_root_cutout: outer_panel_inner_face
+    rear_panel_minus_x: outer_panel_inner_face
+    mid_deck: mid_deck
+    mid_deck_minus_y: mid_deck
+    mid_deck_minus_z: mid_deck
+    rear_deck_minus_y_minus_z: rear_tray
+    rear_deck_thrust_axis_through_cg: rear_tray
+    rear_deck_plus_y: rear_tray
+    rear_deck_minus_y: rear_tray
+    outer_panels_and_decks: outer_panel_inner_face
+    longitudinal_harness_corridor: harness_corridor
+    primary_structure_frames: ca_a_stack_and_trays
+    rails_and_frames: cots_12u_frame_compatible
+  harness_channel: "纵向非实体走廊 rear→mid→front 沿 -y/-z 内角（约 20×20 mm 预留），power/data/RF 分束分夹（B1 R11）；穿舱界走堆栈笼侧空隙；帆板根部 loop 与冻结帆板线束账本（root loop 293.3 mm / min bend 25 mm，HARNESS_R2_FUNCTIONAL_GATES_V1 sha256_12 a47cea1c48fd）相容。P06 符合性：Route-C registry P06=minimum_dynamic_bend_radius_mm 为 null/HOLD（CHECKPOINT_B_PHYSICAL_INPUT_MATRIX_V1.csv），符合性不可验证 → MEASUREMENT_PENDING；通道转弯处按不小于 50 mm 控制半径留余量（DESIGN PROVISION / ASSUMED，非 registry 值；任务简报所引“P06=50 mm LOW 档”未在 registry 中查到，登记差异）"
+  panel_hdrm_interface: "根铰座设于 F_L/F_R 轴点 [-61,±143.15,0]（02_PRODUCT_STRUCTURE ROOT_HINGE axis_point，B_REP_PROBE 旁证 Hinge_Pin）；HDRM 每翼 2 站（D-R2-05 内收拉杆，native Base_1 x∈[-172,-148] / Base_2 x∈[28,52], y∈[113.15,121.15]）由 panel_root_hinge_brackets + 角柱提供安装垫；Hard_Stop/LATCH 站位 [-64..-58,±121..129,23..37] 让位不遮挡；收拢支撑 G07/G08/MID_SUPPORT slot 保持 CANDIDATE_REF 不抢占"
+  spring_upgrade_accommodation: "每翼根铰旁预留 ≥40×30×30 mm 铰链舱（ASSUMED 包络）容纳 ≥0.080 N·m 升级弹簧+阻尼器（GATE_C2 OI-2 需求 0.060/0.080 N·m；选型 OPEN 归 WP5 R2 update）；舱位与根铰座共支架，不侵占帆板收拢包络"
+  thermal_notes: "发热件贴面板（EPS/电台→outer_panel_inner_face，B1 R8）；电池独立 -z 面远离 EPS 热源（R9）；MLI 包络不受托盘遮挡；托盘开导热垫 interface（ASSUMED）"
+  manufacturing: "COTS PC/104 堆栈笼（GomSpace/ISIS 兼容）+ 6 件 6061 钣金针削托盘/甲板 + 标准角柱；最少定制件、最短工期；外表面接触 dispenser 处硬阳极化（CDS §2.2.13）由主结构负责，本候选不涉"
+  assembly_sequence: "1) 堆栈笼内装 OBC+EPS 成组件；2) 电池/轮组上各自安装板成组件；3) 三组件整体入框锁 corner_posts；4) 前/后托盘推入锁附；5) 设备上托盘接线；6) 帆板根铰/HDRM 支架与整星对接（维护可逆，B1 R5/R13 抽拉方向 +y/-y 侧向）"
+  est_mass_growth_vs_budget: "+21.7%（1.2168 kg vs C1 二级结构预算 1.0 kg ASSUMED）；结构本体无压载；增长主因 rear_tray 加厚承载推进"
+  risks:
+    - "臂基座/捕获载荷传力全部依赖冻结链，本候选对臂基座弯矩（17.6 N·m 峰值）无附加裕度；若冻结链复核不足须补加强（转 CA-B 特征）"
+    - "rear_tray 悬挑安装 MiPS，发射准静态（ASSUMED 10 g）下根部弯曲应力未校核（本阶段不做强度校核，CHARTER §2 OUT）"
+    - "托盘式对 366.0 mm 外廓切换（OI-6）敏感：托盘 x 站位须整体平移复核"
+  unknowns:
+    - "COTS 堆栈笼确切质量（B1 §8：EnduroSat/KSF UNKNOWN）→ 质量 ±15% 漂移"
+    - "P06 动态弯曲半径实测（MEASUREMENT_PENDING）"
+    - "托盘与冻结 bus proxy 内壁真实装配间隙（proxy 无内腔，GAP-IL-06/07）"
+
+- id: CA-B
+  concept_zh: "三舱隔框+剪切板盒式：双隔框（x=±56.75 舱界）+ 四角长梁 + 中舱剪切盒 + 前后剪切腹板 + 臂基座角撑，刚度与传力路径优先"
+  members:
+    - name: bulkhead_front
+      type: bulkhead
+      dims_mm: [3, 220, 220]
+      material: al6061
+      count: 1
+      fill_factor: 0.65
+      pos_mm: [56.75, 0, 0]
+      mass_g: 254.826
+      function: "front/mid 舱界隔框 (x=+56.75), 35% 挖空"
+    - name: bulkhead_rear
+      type: bulkhead
+      dims_mm: [3, 220, 220]
+      material: al6061
+      count: 1
+      fill_factor: 0.65
+      pos_mm: [-56.75, 0, 0]
+      mass_g: 254.826
+      function: "mid/rear 舱界隔框 (x=-56.75), 35% 挖空"
+    - name: longerons
+      type: rail
+      dims_mm: [340, 10, 10]
+      material: al6061
+      count: 4
+      fill_factor: 1.0
+      pos_mm: [0, 0, 0]
+      mass_g: 367.2
+      function: "四角纵向长梁 (避开 CDS 8.5 mm 导轨带, B1 R1)"
+    - name: shear_mid_top
+      type: plate
+      dims_mm: [113.5, 220, 1.5]
+      material: al6061
+      count: 1
+      fill_factor: 0.85
+      pos_mm: [0, 0, 111]
+      mass_g: 85.959
+      function: "中舱剪切盒顶板"
+    - name: shear_mid_bottom
+      type: plate
+      dims_mm: [113.5, 220, 1.5]
+      material: al6061
+      count: 1
+      fill_factor: 0.85
+      pos_mm: [0, 0, -111]
+      mass_g: 85.959
+      function: "中舱剪切盒底板"
+    - name: shear_mid_left
+      type: plate
+      dims_mm: [113.5, 1.5, 220]
+      material: al6061
+      count: 1
+      fill_factor: 0.85
+      pos_mm: [0, 111, 0]
+      mass_g: 85.959
+      function: "中舱剪切盒 +y 侧板"
+    - name: shear_mid_right
+      type: plate
+      dims_mm: [113.5, 1.5, 220]
+      material: al6061
+      count: 1
+      fill_factor: 0.85
+      pos_mm: [0, -111, 0]
+      mass_g: 85.959
+      function: "中舱剪切盒 -y 侧板"
+    - name: front_shear_web
+      type: plate
+      dims_mm: [110, 200, 3]
+      material: al6061
+      count: 1
+      fill_factor: 0.7
+      pos_mm: [125, 0, 0]
+      mass_g: 124.74
+      function: "前舱剪切腹板: 隔框→前法兰站传力 (臂基座载荷)"
+    - name: rear_shear_web
+      type: plate
+      dims_mm: [110, 200, 3]
+      material: al6061
+      count: 1
+      fill_factor: 0.7
+      pos_mm: [-125, 0, 0]
+      mass_g: 124.74
+      function: "后舱剪切腹板: 隔框→后面板传力"
+    - name: arm_base_gussets
+      type: bracket
+      dims_mm: [40, 40, 5]
+      material: al6061
+      count: 4
+      fill_factor: 1.0
+      pos_mm: [170, 0, 0]
+      mass_g: 86.4
+      function: "臂基座/前法兰角撑 (x=196-210 载荷扩散, 配合冻结 M3R+bridge)"
+    - name: stack_frame_rails
+      type: rail
+      dims_mm: [120, 6, 6]
+      material: al6061
+      count: 8
+      fill_factor: 1.0
+      pos_mm: [0, -60, 30]
+      mass_g: 93.312
+      function: "中舱设备堆栈笼角轨"
+    - name: stack_frame_endplates
+      type: plate
+      dims_mm: [96, 90, 1.5]
+      material: al6061
+      count: 4
+      fill_factor: 1.0
+      pos_mm: [0, -60, 30]
+      mass_g: 139.968
+      function: "堆栈笼端板"
+    - name: battery_plate
+      type: plate
+      dims_mm: [180, 96, 2]
+      material: al6061
+      count: 1
+      fill_factor: 1.0
+      pos_mm: [-10, 0, -75]
+      mass_g: 93.312
+      function: "双 BPX 电池独立 -z 安装面 (B1 R9)"
+    - name: rw_cluster_bracket
+      type: bracket
+      dims_mm: [70, 70, 4]
+      material: al6061
+      count: 2
+      fill_factor: 1.0
+      pos_mm: [0, 0, 0]
+      mass_g: 105.84
+      function: "4xRW400 金字塔轮组支架"
+    - name: panel_root_hinge_brackets
+      type: bracket
+      dims_mm: [40, 30, 6]
+      material: al6061
+      count: 4
+      fill_factor: 1.0
+      pos_mm: [-61, 0, 0]
+      mass_g: 77.76
+      function: "帆板根铰/HDRM 站位安装座"
+  structure_mass_kg: 2.06676
+  structure_mass_proper_excl_ballast_kg: 2.06676
+  cg_delta_mm:
+    scenario_A_design_point: [-1.82, 0.46, 0.63]
+    scenario_A_new_cg_S_mm: [61.42, -26.42, -18.39]
+    scenario_A_cds_margins_mm: {x: 8.58, y: 18.58, z: 26.61}
+    scenario_CDS_variant: [-7.76, 2.67, 2.54]
+    scenario_CDS_new_cg_S_mm: [120.07, -51.63, -36.56]
+    scenario_CDS_margins_mm: {x: -50.07, y: -6.63, z: 8.44}
+    note: "机器复算；隔框/腹板近对称布置 CG 变化小，gussets 略前拉；CDS 变体改善 7.8 mm 仍不解决 OI-1"
+  arm_base_reinforcement: "强：臂基座载荷经 4 只 arm_base_gussets 扩散至 front_shear_web → bulkhead_front → 剪切盒+长梁全盒分担；捕获峰值 ~60.9 N / 17.6 N·m 有明确次要传力路径（主次双路径，冻结链仍为主）；发射段臂收拢载荷同路径"
+  equipment_mounting_map:
+    primary_structure: frozen_primary_unmodified
+    M3R_interface_arm_base_x208_frozen: frozen_m3r_unmodified
+    front_flange_station_196_210.405: frozen_m3r_unmodified
+    front_flange_station: frozen_bridge_unmodified
+    F_L: panel_root_bracket_L
+    F_R: panel_root_bracket_R
+    front_panel_plus_x: front_shear_web_deck
+    M3R_to_arm_base_stack: frozen_m3r_unmodified
+    pc104_stack_A_top: stack_frame
+    pc104_stack_A: stack_frame
+    battery_dedicated_plane_minus_z: battery_plate
+    rw_cluster_bracket_near_cg: rw_cluster_bracket
+    mid_deck_plus_y: shear_box_panels
+    plus_z_panel_boresight_plus_z: outer_panel_inner_face
+    minus_z_panel_boresight_minus_z: outer_panel_inner_face
+    plus_z_panel: outer_panel_inner_face
+    minus_z_panel: outer_panel_inner_face
+    plus_y_panel_root_cutout: outer_panel_inner_face
+    minus_y_panel_root_cutout: outer_panel_inner_face
+    rear_panel_minus_x: outer_panel_inner_face
+    mid_deck: shear_box_panels
+    mid_deck_minus_y: shear_box_panels
+    mid_deck_minus_z: shear_box_panels
+    rear_deck_minus_y_minus_z: rear_shear_web_deck
+    rear_deck_thrust_axis_through_cg: rear_shear_web_deck
+    rear_deck_plus_y: rear_shear_web_deck
+    rear_deck_minus_y: rear_shear_web_deck
+    outer_panels_and_decks: outer_panel_inner_face
+    longitudinal_harness_corridor: harness_corridor
+    primary_structure_frames: ca_b_shear_box
+    rails_and_frames: ca_b_longeron_frame
+  harness_channel: "走廊同 CA-A（rear→mid→front，-y/-z 内角 20×20 mm，power/data/RF 分离，B1 R11）；穿隔框走预留过线孔（每框 ≥3 孔，ASSUMED）；P06 符合性：registry null/HOLD → MEASUREMENT_PENDING（同 CA-A 差异登记）；过线孔转弯控制半径 ≥50 mm 设计余量（ASSUMED，非 registry 值）"
+  panel_hdrm_interface: "根铰座/HDRM 站位同 CA-A（[-61,±143.15,0] + 每翼 2 站）；HDRM Base_1 站（x∈[-172,-148]）载荷经 rear_shear_web 分担，Base_2 站（x∈[28,52]）经剪切盒侧板分担；Hard_Stop/LATCH 让位；收拢支撑 slot 不抢占"
+  spring_upgrade_accommodation: "每翼根铰旁预留 ≥40×30×30 mm 铰链舱（≥0.080 N·m 弹簧+阻尼器，GATE_C2 OI-2）；铰链舱与隔框/剪切板共构局部加强，展开冲击（端止动 0.2356 J / 铰 2 控制 480 N·48 N·m，mechanism ledger sha256_12 11d585258597）由剪切盒承担"
+  thermal_notes: "发热件贴面板（outer_panel_inner_face，B1 R8）；剪切盒中舱形成封闭舱，电池 -z 独立面+隔热垫（R9）；封闭舱泄压孔按 CDS §2.1.9（ventable<50.8 m, B1 R14）预留（ASSUMED 孔位）"
+  manufacturing: "全 6061 CNC（隔框/腹板挖空铣削 + 长梁 + 角撑），约 15 件定制件；工装与装配周期最长；互换性好（模块盒式）；硬阳极化外露面由主结构负责"
+  assembly_sequence: "1) 长梁+双隔框成骨架；2) 剪切盒板铆接成盒；3) 前后腹板+臂基座角撑入位；4) 盒内堆栈/电池/轮组组件装入；5) 设备接线与过线孔密封；6) 帆板根铰/HDRM 支架对接（维护须开剪切盒检修盖，R13 检修盖方向 +z/-z）"
+  est_mass_growth_vs_budget: "+106.7%（2.0668 kg vs 1.0 kg ASSUMED）；增长主因隔框/腹板/长梁刚度件"
+  risks:
+    - "质量翻倍超 C1 二级结构预算：CDS 变体干重 16.42 kg（+15% 余量 18.89 kg）仍 ≤24 kg 但挤压压载空间（若叠加 3.2 kg 压载 → 21.5 kg 余量 2.5 kg）"
+    - "隔框位于 x=±56.75 舱界：外廓 340.5→366.0 切换（OI-6）时隔框站位须随舱界重裁，重设计代价三候选最大"
+    - "封闭剪切盒与设备维护可达性（B1 R13 CMA）冲突，检修盖设计未细化"
+  unknowns:
+    - "挖空率 65%/85% 的可制造性（筋条最小宽度 ASSUMED）"
+    - "P06 动态弯曲半径实测（MEASUREMENT_PENDING）"
+    - "剪切盒与冻结 bus proxy 内壁连接界面（proxy 无连接特征，GAP-IL-06）"
+
+- id: CA-C
+  concept_zh: "混合集成压载：中舱框架堆栈 + 后舱推进/压载一体化模块（含 ~3.6 kg 钢压载，C1 OI-1 补救）+ 前舱任务设备隔振安装，CG 优先（针对 CDS 变体 OI-1）"
+  members:
+    - name: mid_frame_rails
+      type: rail
+      dims_mm: [120, 8, 8]
+      material: al6061
+      count: 8
+      fill_factor: 1.0
+      pos_mm: [0, -40, 20]
+      mass_g: 165.888
+      function: "中舱框架堆栈角轨"
+    - name: mid_frame_decks
+      type: plate
+      dims_mm: [200, 180, 1.5]
+      material: cfrp
+      count: 2
+      fill_factor: 1.0
+      pos_mm: [0, 0, 0]
+      mass_g: 172.8
+      function: "中舱 CFRP 设备甲板 x2 (轻量)"
+    - name: battery_plate
+      type: plate
+      dims_mm: [180, 96, 2]
+      material: al6061
+      count: 1
+      fill_factor: 1.0
+      pos_mm: [-10, 0, -75]
+      mass_g: 93.312
+      function: "双 BPX 电池独立 -z 安装面 (B1 R9)"
+    - name: rw_cluster_bracket
+      type: bracket
+      dims_mm: [70, 70, 4]
+      material: al6061
+      count: 2
+      fill_factor: 1.0
+      pos_mm: [0, 0, 0]
+      mass_g: 105.84
+      function: "4xRW400 金字塔轮组支架"
+    - name: rear_module_deck
+      type: plate
+      dims_mm: [220, 210, 3]
+      material: al7075
+      count: 1
+      fill_factor: 1.0
+      pos_mm: [-150, 0, 0]
+      mass_g: 389.466
+      function: "后舱推进/压载一体化模块主甲板 (MiPS 升级 2U 兼容, OI-7)"
+    - name: rear_module_sideplates
+      type: plate
+      dims_mm: [40, 210, 2]
+      material: al7075
+      count: 2
+      fill_factor: 1.0
+      pos_mm: [-150, 0, 0]
+      mass_g: 94.416
+      function: "后舱模块侧板 x2"
+    - name: ballast_steel
+      type: plate
+      dims_mm: [15, 140, 220]
+      material: steel
+      count: 1
+      fill_factor: 1.0
+      pos_mm: [-163, 40, 0]
+      mass_g: 3603.6
+      function: "后部压载钢块 (~3.2 kg 级, C1 OI-1 补救; +y 偏移配平 y 超差; 贴后面板 x∈[-170.25,-155.75])"
+    - name: front_iso_brackets
+      type: bracket
+      dims_mm: [40, 40, 3]
+      material: al6061
+      count: 4
+      fill_factor: 1.0
+      pos_mm: [150, 0, 40]
+      mass_g: 51.84
+      function: "前舱任务设备隔振安装支架 x4"
+    - name: isolator_elements
+      type: bracket
+      dims_mm: [20, 20, 15]
+      material: isolator
+      count: 4
+      fill_factor: 1.0
+      pos_mm: [150, 0, 40]
+      mass_g: 72.0
+      function: "金属-弹性体隔振器 x4 (相机/照明与臂扰动隔离, sim_05 19.2°)"
+    - name: front_deck
+      type: plate
+      dims_mm: [200, 210, 1.5]
+      material: cfrp
+      count: 1
+      fill_factor: 1.0
+      pos_mm: [120, 0, 0]
+      mass_g: 100.8
+      function: "前舱 CFRP 轻甲板"
+    - name: panel_root_hinge_brackets
+      type: bracket
+      dims_mm: [40, 30, 6]
+      material: al6061
+      count: 4
+      fill_factor: 1.0
+      pos_mm: [-61, 0, 0]
+      mass_g: 77.76
+      function: "帆板根铰/HDRM 站位安装座"
+  structure_mass_kg: 4.927722
+  structure_mass_proper_excl_ballast_kg: 1.324122
+  cg_delta_mm:
+    scenario_A_design_point: [-25.27, 6.95, 2.17]
+    scenario_A_new_cg_S_mm: [37.97, -19.93, -16.85]
+    scenario_A_cds_margins_mm: {x: 32.03, y: 25.07, z: 28.15}
+    scenario_CDS_variant: [-58.97, 18.19, 8.03]
+    scenario_CDS_new_cg_S_mm: [68.86, -36.11, -31.07]
+    scenario_CDS_margins_mm: {x: 1.14, y: 8.89, z: 13.93}
+    note: "机器复算；CDS 变体数值闭合（x 残余由 -57.83 → +1.14 裕度，y 由 -9.30 → +8.89），但 x 裕度仅 1.1 mm 属脆弱闭合，压载 ±100 g 即翻转；主口径 CG 全面改善（x 裕量 6.76→32.03）"
+  arm_base_reinforcement: "中：臂基座载荷主要靠冻结链（M3R→bridge→前法兰）；本候选为 CG 让步不设前舱剪切加强，仅 front_deck+iso_brackets 提供辅助；前舱隔振安装的副作用是任务设备与臂基座力学解耦，降低 19.2° 扰动对相机视轴的直接影响（定性，未建模）"
+  equipment_mounting_map:
+    primary_structure: frozen_primary_unmodified
+    M3R_interface_arm_base_x208_frozen: frozen_m3r_unmodified
+    front_flange_station_196_210.405: frozen_m3r_unmodified
+    front_flange_station: frozen_bridge_unmodified
+    F_L: panel_root_bracket_L
+    F_R: panel_root_bracket_R
+    front_panel_plus_x: front_iso_deck
+    M3R_to_arm_base_stack: frozen_m3r_unmodified
+    pc104_stack_A_top: mid_frame_stack
+    pc104_stack_A: mid_frame_stack
+    battery_dedicated_plane_minus_z: battery_plate
+    rw_cluster_bracket_near_cg: rw_cluster_bracket
+    mid_deck_plus_y: mid_frame_decks
+    plus_z_panel_boresight_plus_z: outer_panel_inner_face
+    minus_z_panel_boresight_minus_z: outer_panel_inner_face
+    plus_z_panel: outer_panel_inner_face
+    minus_z_panel: outer_panel_inner_face
+    plus_y_panel_root_cutout: outer_panel_inner_face
+    minus_y_panel_root_cutout: outer_panel_inner_face
+    rear_panel_minus_x: outer_panel_inner_face
+    mid_deck: mid_frame_decks
+    mid_deck_minus_y: mid_frame_decks
+    mid_deck_minus_z: mid_frame_decks
+    rear_deck_minus_y_minus_z: rear_integrated_module
+    rear_deck_thrust_axis_through_cg: rear_integrated_module
+    rear_deck_plus_y: rear_integrated_module
+    rear_deck_minus_y: rear_integrated_module
+    outer_panels_and_decks: outer_panel_inner_face
+    longitudinal_harness_corridor: harness_corridor
+    primary_structure_frames: ca_c_hybrid_frame
+    rails_and_frames: ca_c_hybrid_frame
+  harness_channel: "走廊 rear→mid→front 沿 -y/-z 内角（20×20 mm），与压载块 +y 偏移对侧布置避让；后舱模块内部走线独立成束（推进 ≥3 级 inhibit 线束隔离，CDS §2.1.4 / B1 R10）；power/data/RF 分离（R11）；P06 符合性：registry null/HOLD → MEASUREMENT_PENDING（同 CA-A 差异登记）；转弯控制半径 ≥50 mm 设计余量（ASSUMED，非 registry 值）"
+  panel_hdrm_interface: "根铰座/HDRM 站位同 CA-A；HDRM Base_1 站（rear 侧）可锚于 rear_integrated_module 侧板（模块兼作帆板收拢载荷路径）；Hard_Stop/LATCH 让位；收拢支撑 slot 不抢占"
+  spring_upgrade_accommodation: "每翼根铰旁预留 ≥40×30×30 mm 铰链舱（≥0.080 N·m 弹簧+阻尼器，GATE_C2 OI-2）；rear_module 兼提供 Base_1 站侧弹簧舱结构锚点"
+  thermal_notes: "压载钢块贴后面板兼作热容/热沉（定性 ASSUMED）；发热件贴面板（R8）；电池 -z 独立面远离 rear_module 热源（R9）；隔振器弹性体温度范围待选型（UNKNOWN）"
+  manufacturing: "混合工艺：CFRP 甲板（外购板切割）+ 6061 框架 + 7075 后舱模块 + 钢压载块针削；压载须实测称重+配平垫片工序（CG ±2 mm 级闭环，对标 MDPI 2025 实测 ±2 mm，B1 §5.1）；装配复杂度中"
+  assembly_sequence: "1) 中舱框架+CFRP 甲板成组件；2) 后舱模块（甲板+侧板+压载）预装称重；3) 整星 CG 配平（压载垫片微调，实测闭环）；4) 前舱隔振器+任务设备上轻甲板；5) 电池/轮组装入；6) 帆板根铰/HDRM 对接；7) 压载模块化可卸——DESIGN_POINT 口径可不装（质量差异声明），CDS 变体装"
+  est_mass_growth_vs_budget: "+392.8%（4.9277 kg vs 1.0 kg）；其中结构本体 1.3241 kg（+32.4%），压载 3.6036 kg（OI-1 补救专项，C1 估计 ~3.2 kg 量级，本设计 3.6 kg 含 +y 配平偏移代价）"
+  risks:
+    - "CDS 闭合脆弱：x 裕度仅 +1.14 mm，压载质量/位置 ±2% 漂移或设备 ASSUMED 行（OI-4）漂移即可能翻转；须实测配平工序兜底"
+    - "主口径质量登记影响：装压载后 34.95 kg vs ODR 登记 31.02 kg（+3.93 kg 差异声明，ESPA 口径可容但须 Owner 知悉）；压载模块化可卸设计即为此"
+    - "+y 偏移压载增大 Ixz/Iyz 惯量积（未复算，信息项）与 y 向热不对称"
+    - "钢压载与磁强计（rear 舱角）磁清洁冲突：须评估剩磁（CDS §2.1.8, B1 R7）或改钨/无磁钢（成本上升）"
+  unknowns:
+    - "隔振器选型与温度/真空兼容（UNKNOWN，未选型）"
+    - "压载材料磁性与磁强计间距实测（MEASUREMENT_PENDING）"
+    - "P06 动态弯曲半径实测（MEASUREMENT_PENDING）"
+    - "收拢发射构型下压载 CG 复核依赖 OI-3 闭合（NOT_EVALUABLE 输入缺失）"
+
+metadata:
+  densities_provenance: "al6061=repo (02_PRODUCT_STRUCTURE sha256_12 0f9897ef4e41)；al7075/cfrp/steel/isolator=ASSUMED（compute_candidates.py DENSITIES 登记）"
+  frozen_interfaces_untouched: "臂基座 x=208.0 / M3R [196.0,210.405] / bridge [185.25,196.0] / frame ODR-01 / 帆板 C2 定档 / Route-C 实物线束 HOLD"
+  p06_discrepancy_note: "任务简报示例“P06=50 mm 动态弯曲半径 LOW 档”未在 Route-C registry 查到：CHECKPOINT_B_PHYSICAL_INPUT_MATRIX_V1.csv 中 P06=minimum_dynamic_bend_radius_mm 为 null/HOLD。三候选一律按 MEASUREMENT_PENDING 处理，≥50 mm 仅为 ASSUMED 设计余量，禁止当作 registry 值引用"
+  no_selection_verdict: "本文件不出选型裁决（红队+裁判职责，ODR-F4R1-02 §2）；三候选与负结果全部保留"

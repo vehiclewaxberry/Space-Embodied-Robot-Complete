@@ -1,0 +1,316 @@
+{
+  "schema": "M7_WP2_AUDIT_NEGATIVE_CONTROL_V1",
+  "generated_local": "2026-08-22T03:17:58+08:00",
+  "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+  "work_package": "WP2_DESIGN_MASS",
+  "role": "A2_MASS_FRAMES",
+  "purpose": "Falsification test for WP2_DESIGN_MASS_AUDIT_V2.json. A clean audit PASS is only meaningful if the audit demonstrably fails on defective input. Six deliberate corruptions of the V2 artifact were audited with the unmodified audit logic.",
+  "method": "copies of SYSTEM_DESIGN_MASS_PROPERTIES_V2.yaml are corrupted in the system temp directory; WP2_INDEPENDENT_AUDIT_V2.py is executed against each with only its TARGET and OUT path constants rewritten (check logic byte-identical); the real artifacts are read-only and their sha256 is compared before and after",
+  "audited_artifact": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V2.yaml",
+    "sha256": "151474DCD2F4EDDFC0C4417FCE7237557B5DE10BE77DB8617F5EDA3329ADF42B",
+    "bytes": 475706
+  },
+  "audit_under_test": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/WP2_INDEPENDENT_AUDIT_V2.py",
+    "sha256": "FE07038DAC59AA2E9B274B46D82F8EA591BFC2450766A18EE9C5A2FBDC67980C",
+    "bytes": 73291
+  },
+  "baseline_audit": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/WP2_DESIGN_MASS_AUDIT_V2.json",
+    "sha256": "9C70FB4F97DB540F9F5BC6803FCA1BC73CA34855908253B2EC189CEF7D272611",
+    "bytes": 199501,
+    "overall_verdict": "AUDIT_PASS_CLEAN",
+    "checks_total": 18,
+    "checks_failed": []
+  },
+  "real_artifact_unmodified": {
+    "sha256_before": "151474DCD2F4EDDFC0C4417FCE7237557B5DE10BE77DB8617F5EDA3329ADF42B",
+    "sha256_after": "151474DCD2F4EDDFC0C4417FCE7237557B5DE10BE77DB8617F5EDA3329ADF42B",
+    "unchanged": true
+  },
+  "sandbox": "C:/Users/stude/AppData/Local/Temp/wp2_audit_negative_control",
+  "results": [
+    {
+      "tag": "A",
+      "mutation": "reintroduce the WP2-AUD-02 defect: one component standard uncertainty (C01 solar_array_right, Ixz) made negative",
+      "mutant_file": "C:/Users/stude/AppData/Local/Temp/wp2_audit_negative_control/mutant_A.yaml",
+      "mutant_sha256": "C91154A7903FC475A9A745B537AF9047AAE3C82B61B25123F2BBD2A1F6791728",
+      "mutant_bytes": 475707,
+      "sigma_entries_total": 336,
+      "sigma_entries_changed_by_mutation": 1,
+      "is_null_mutation_on_reported_sigmas": false,
+      "audit_overall_verdict": "AUDIT_FAIL_HARD_FINDINGS",
+      "audit_checks_failed": [
+        "g_uncertainty_covariance_semantics_and_pedigree",
+        "q_forbidden_remediation_detector"
+      ],
+      "audit_findings": [
+        {
+          "finding_id": "WP2-AUD-V2-02",
+          "severity": "MEDIUM",
+          "check_id": "g_uncertainty_covariance_semantics_and_pedigree"
+        },
+        {
+          "finding_id": "WP2-AUD-V2-ABS",
+          "severity": "HIGH",
+          "check_id": "q_forbidden_remediation_detector"
+        }
+      ],
+      "v1_finding_closure_after_mutation": {
+        "WP2-AUD-01": true,
+        "WP2-AUD-02": false,
+        "WP2-AUD-03": true,
+        "WP2-AUD-04": true,
+        "WP2-AUD-05": true,
+        "WP2-AUD-06": true
+      },
+      "expected_detected": true,
+      "expected_checks_to_fail": [
+        "g_uncertainty_covariance_semantics_and_pedigree"
+      ],
+      "expected_checks_that_did_fail": [
+        "g_uncertainty_covariance_semantics_and_pedigree"
+      ],
+      "detected": true,
+      "expectation_met": true
+    },
+    {
+      "tag": "B",
+      "mutation": "reintroduce the WP2-AUD-06 defect: negate the C09 third principal axis so the triad is left-handed again",
+      "mutant_file": "C:/Users/stude/AppData/Local/Temp/wp2_audit_negative_control/mutant_B.yaml",
+      "mutant_sha256": "BF21D38E2D5B53B9DCE57C2B9196E52997394B4CE3C6C67F500CD936E32C5351",
+      "mutant_bytes": 475707,
+      "sigma_entries_total": 336,
+      "sigma_entries_changed_by_mutation": 0,
+      "is_null_mutation_on_reported_sigmas": true,
+      "audit_overall_verdict": "AUDIT_FAIL_HARD_FINDINGS",
+      "audit_checks_failed": [
+        "e_principal_axes_orthonormal_right_handed_and_consistent",
+        "o_v1_to_v2_regression"
+      ],
+      "audit_findings": [
+        {
+          "finding_id": "WP2-AUD-V2-06",
+          "severity": "MEDIUM",
+          "check_id": "e_principal_axes_orthonormal_right_handed_and_consistent"
+        },
+        {
+          "finding_id": "WP2-AUD-V2-REG",
+          "severity": "HIGH",
+          "check_id": "o_v1_to_v2_regression"
+        }
+      ],
+      "v1_finding_closure_after_mutation": {
+        "WP2-AUD-01": true,
+        "WP2-AUD-02": true,
+        "WP2-AUD-03": true,
+        "WP2-AUD-04": true,
+        "WP2-AUD-05": true,
+        "WP2-AUD-06": false
+      },
+      "expected_detected": true,
+      "expected_checks_to_fail": [
+        "e_principal_axes_orthonormal_right_handed_and_consistent",
+        "o_v1_to_v2_regression"
+      ],
+      "expected_checks_that_did_fail": [
+        "e_principal_axes_orthonormal_right_handed_and_consistent",
+        "o_v1_to_v2_regression"
+      ],
+      "detected": true,
+      "expectation_met": true
+    },
+    {
+      "tag": "C",
+      "mutation": "move a single component mass (C04 B601 arm) by one unit in the last place, i.e. the smallest possible violation of 'no physics value moved'",
+      "mutant_file": "C:/Users/stude/AppData/Local/Temp/wp2_audit_negative_control/mutant_C.yaml",
+      "mutant_sha256": "9F540FE84E72BA02CD628AF55B1BC38A36D99F34A9BB64D5D460D270D82BDFB5",
+      "mutant_bytes": 475706,
+      "sigma_entries_total": 336,
+      "sigma_entries_changed_by_mutation": 0,
+      "is_null_mutation_on_reported_sigmas": true,
+      "audit_overall_verdict": "AUDIT_FAIL_HARD_FINDINGS",
+      "audit_checks_failed": [
+        "c_mass_closure_and_pinned_values",
+        "o_v1_to_v2_regression"
+      ],
+      "audit_findings": [
+        {
+          "finding_id": "WP2-AUD-V2-MASS",
+          "severity": "HIGH",
+          "check_id": "c_mass_closure_and_pinned_values"
+        },
+        {
+          "finding_id": "WP2-AUD-V2-REG",
+          "severity": "HIGH",
+          "check_id": "o_v1_to_v2_regression"
+        }
+      ],
+      "v1_finding_closure_after_mutation": {
+        "WP2-AUD-01": true,
+        "WP2-AUD-02": true,
+        "WP2-AUD-03": true,
+        "WP2-AUD-04": true,
+        "WP2-AUD-05": true,
+        "WP2-AUD-06": true
+      },
+      "expected_detected": true,
+      "expected_checks_to_fail": [
+        "c_mass_closure_and_pinned_values",
+        "o_v1_to_v2_regression"
+      ],
+      "expected_checks_that_did_fail": [
+        "c_mass_closure_and_pinned_values",
+        "o_v1_to_v2_regression"
+      ],
+      "detected": true,
+      "expectation_met": true
+    },
+    {
+      "tag": "D",
+      "mutation": "delete the WP2-AUD-01 configuration label crosswalk section",
+      "mutant_file": "C:/Users/stude/AppData/Local/Temp/wp2_audit_negative_control/mutant_D.yaml",
+      "mutant_sha256": "55A0145B0B61FAEBC0A9E311C53A11254A7EDCF19408635171CF4298B0F815BE",
+      "mutant_bytes": 469995,
+      "sigma_entries_total": 336,
+      "sigma_entries_changed_by_mutation": 0,
+      "is_null_mutation_on_reported_sigmas": true,
+      "audit_overall_verdict": "AUDIT_PASS_WITH_FINDINGS_NO_HARD_DEFECT",
+      "audit_checks_failed": [
+        "a_nine_configurations_naming_and_crosswalk"
+      ],
+      "audit_findings": [
+        {
+          "finding_id": "WP2-AUD-V2-01",
+          "severity": "MEDIUM",
+          "check_id": "a_nine_configurations_naming_and_crosswalk"
+        }
+      ],
+      "v1_finding_closure_after_mutation": {
+        "WP2-AUD-01": false,
+        "WP2-AUD-02": true,
+        "WP2-AUD-03": true,
+        "WP2-AUD-04": true,
+        "WP2-AUD-05": true,
+        "WP2-AUD-06": true
+      },
+      "expected_detected": true,
+      "expected_checks_to_fail": [
+        "a_nine_configurations_naming_and_crosswalk"
+      ],
+      "expected_checks_that_did_fail": [
+        "a_nine_configurations_naming_and_crosswalk"
+      ],
+      "detected": true,
+      "expectation_met": true
+    },
+    {
+      "tag": "E",
+      "mutation": "replace every reported sigma by the ODR-07-FORBIDDEN abs(R U R^T) remediation while leaving the published covariance untouched",
+      "mutant_file": "C:/Users/stude/AppData/Local/Temp/wp2_audit_negative_control/mutant_E.yaml",
+      "mutant_sha256": "151474DCD2F4EDDFC0C4417FCE7237557B5DE10BE77DB8617F5EDA3329ADF42B",
+      "mutant_bytes": 475706,
+      "sigma_entries_total": 336,
+      "sigma_entries_changed_by_mutation": 0,
+      "is_null_mutation_on_reported_sigmas": true,
+      "audit_overall_verdict": "AUDIT_PASS_CLEAN",
+      "audit_checks_failed": [],
+      "audit_findings": [],
+      "v1_finding_closure_after_mutation": {
+        "WP2-AUD-01": true,
+        "WP2-AUD-02": true,
+        "WP2-AUD-03": true,
+        "WP2-AUD-04": true,
+        "WP2-AUD-05": true,
+        "WP2-AUD-06": true
+      },
+      "expected_detected": false,
+      "expected_checks_to_fail": [],
+      "expected_checks_that_did_fail": [],
+      "detected": false,
+      "expectation_met": true,
+      "expectation_rationale": "NOT DETECTABLE FROM VALUES, AND THAT IS THE HONEST ANSWER. Every component-to-S rotation in this design is a signed permutation, for which T(R) C_local T(R)^T stays diagonal and sqrt(diag) equals the magnitude of the component-wise rotated sigma. The forbidden abs() therefore produces bit-identical numbers here, so no value-level check can separate them. The separation is established at METHOD level instead: audit check p (generic-rotation counterexample) and check q (independent re-derivation from the covariance plus proof that all 56 rotations are signed permutations). This mutation is verified to be a NULL mutation by counting changed sigma entries."
+    },
+    {
+      "tag": "F",
+      "mutation": "corrupt the C01 inertia tensor Ixx by 1e-7 relative while forcing every self-declared check flag to true - the 'PASS summary over a broken artifact' failure mode",
+      "mutant_file": "C:/Users/stude/AppData/Local/Temp/wp2_audit_negative_control/mutant_F.yaml",
+      "mutant_sha256": "EC0E7B9B6441AC1A61DB6AD03E2382F1C8D45596C2417B36425C51A636DDE064",
+      "mutant_bytes": 475706,
+      "sigma_entries_total": 336,
+      "sigma_entries_changed_by_mutation": 0,
+      "is_null_mutation_on_reported_sigmas": true,
+      "audit_overall_verdict": "AUDIT_FAIL_HARD_FINDINGS",
+      "audit_checks_failed": [
+        "d_inertia_physicality_symmetry_pd_triangle",
+        "e_principal_axes_orthonormal_right_handed_and_consistent",
+        "h_independent_parallel_axis_inertia_reconstruction",
+        "o_v1_to_v2_regression"
+      ],
+      "audit_findings": [
+        {
+          "finding_id": "WP2-AUD-V2-TENSOR",
+          "severity": "CRITICAL",
+          "check_id": "d_inertia_physicality_symmetry_pd_triangle"
+        },
+        {
+          "finding_id": "WP2-AUD-V2-AXES",
+          "severity": "HIGH",
+          "check_id": "e_principal_axes_orthonormal_right_handed_and_consistent"
+        },
+        {
+          "finding_id": "WP2-AUD-V2-PA",
+          "severity": "HIGH",
+          "check_id": "h_independent_parallel_axis_inertia_reconstruction"
+        },
+        {
+          "finding_id": "WP2-AUD-V2-REG",
+          "severity": "HIGH",
+          "check_id": "o_v1_to_v2_regression"
+        }
+      ],
+      "v1_finding_closure_after_mutation": {
+        "WP2-AUD-01": true,
+        "WP2-AUD-02": true,
+        "WP2-AUD-03": true,
+        "WP2-AUD-04": true,
+        "WP2-AUD-05": true,
+        "WP2-AUD-06": false
+      },
+      "expected_detected": true,
+      "expected_checks_to_fail": [
+        "d_inertia_physicality_symmetry_pd_triangle",
+        "h_independent_parallel_axis_inertia_reconstruction",
+        "o_v1_to_v2_regression"
+      ],
+      "expected_checks_that_did_fail": [
+        "d_inertia_physicality_symmetry_pd_triangle",
+        "h_independent_parallel_axis_inertia_reconstruction",
+        "o_v1_to_v2_regression"
+      ],
+      "detected": true,
+      "expectation_met": true
+    }
+  ],
+  "summary": {
+    "mutations_run": 6,
+    "mutations_detected": 5,
+    "mutations_expected_detectable": 5,
+    "null_mutations": 5,
+    "all_expectations_met": true,
+    "conclusion": "the audit is sensitive: it fails on a reintroduced negative sigma, on a reverted left-handed triad, on a single-ULP mass move, on a deleted crosswalk and on a corrupted tensor hidden behind forced-true self-check flags. The one undetected mutation is verified to be a NULL mutation (0 changed values), because on this data set the forbidden abs() and the ODR-07 covariance produce identical numbers; that case is discriminated by method-level checks p and q, not by value comparison."
+  },
+  "limitations": [
+    "this is a test of the AUDIT's sensitivity, not additional evidence about the design",
+    "the mutation set is finite and hand-chosen; it does not prove the audit detects every possible corruption",
+    "no engineering conclusion is upgraded by this file"
+  ],
+  "prohibitions_honored": {
+    "real_artifact_modified": false,
+    "audit_logic_modified": false,
+    "other_wp_files_touched": false,
+    "freecad_launched": false,
+    "abaqus_launched": false
+  }
+}

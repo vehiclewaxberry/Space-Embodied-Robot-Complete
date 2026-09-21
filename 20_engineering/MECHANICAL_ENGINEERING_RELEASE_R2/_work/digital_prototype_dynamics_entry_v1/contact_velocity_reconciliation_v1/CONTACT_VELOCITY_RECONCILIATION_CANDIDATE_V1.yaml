@@ -1,0 +1,128 @@
+schema: CONTACT_VELOCITY_RECONCILIATION_CANDIDATE_V1
+record_type: ADDITIVE_CANDIDATE_CONTRACT__FROZEN_INPUTS_UNCHANGED
+issued_date: '2026-08-27'
+authority_scope: CONTACT_VELOCITY_SEMANTIC_AND_CONSUMER_COMPATIBILITY_ONLY__NO_AS_BUILT_OR_HARDWARE_RELEASE
+frozen_inputs_modified: false
+zero_fill_forbidden: true
+unknown_policy:
+  missing_or_null_physical_capability: HOLD
+  unknown_to_zero: FORBIDDEN
+  out_of_design_bound: REJECT_CURRENT_CONTACT_CONSUMER
+  unit_mismatch: REJECT
+  uncertainty_invention: FORBIDDEN
+input_bindings:
+- id: R2_GRIPPER_INTERFACE_POINTER
+  path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/10_GRIPPER_INTERFACE.yaml
+  bytes: 1420
+  sha256: 6EAD2D9DD0812A903638727E873E882DFFC4E37457689CFDEBCA62013083D6B5
+  role: CURRENT_R2_POINTER__READ_ONLY
+- id: GRIPPER_ACTUATION_INTERFACE
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_gripper_velocity_unit_authority/01_interface/GRIPPER_ACTUATION_INTERFACE_CANDIDATE_V1.yaml
+  bytes: 2126
+  sha256: 364D7F2C54B6A77CC80B105EC24F3B7DDEA5FD5648FD7F01E7A2F96BE21A5F51
+  role: DESIGN_TARGET_SEMANTIC_SOURCE__READ_ONLY
+- id: DESIGN_CONTACT_MODEL
+  path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/loop_b/DESIGN_CONTACT_MODEL_V1.yaml
+  bytes: 9131
+  sha256: E57C799768BFDAB5DF22A3B834F6C8B9F8232D046A46774D24CA1FBB3DB879AD
+  role: ORIGINAL_BOUNDED_PROVISIONAL_SCENARIO_SOURCE__READ_ONLY
+- id: DESIGN_CONTACT_MODEL_GATE
+  path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/loop_b/DESIGN_CONTACT_MODEL_GATE_V1.json
+  bytes: 858
+  sha256: 20F3AA89A07D4DE42004EDA6730104332B0A83497B1674E4C19BFC34620666CF
+  role: ORIGINAL_STRUCTURE_GATE__READ_ONLY
+measurement_model:
+  measurand: v_consumer
+  equation: v_consumer = explicitly_reduced_design_candidate; accept only when 0 <= upper_bound(v_consumer) <= v_design_max
+  conformity_rule: SIMPLE_ACCEPTANCE_WITHOUT_GUARD_BAND_FOR_DESIGN_DIAGNOSTIC_ONLY
+  conformity_rule_note: No guard band can establish physical conformity because both the actuator capability and its standard uncertainty are null. This rule only prevents a design-scenario speed from exceeding the current design-target hard upper bound.
+  correlations: null
+  correlation_status: NOT_APPLICABLE_TO_DIRECT_BOUND_COMPARISON__NO_CORRELATION_INVENTED
+quantities:
+  current_design_target_hard_upper_bound:
+    estimate: 0.005
+    lower_bound: 0.0
+    upper_bound: 0.005
+    si_unit: m/s
+    standard_uncertainty: null
+    uncertainty_type: NOT_A_MEASUREMENT__DESIGN_LIMIT
+    distribution: NOT_APPLICABLE_DESIGN_LIMIT
+    degrees_of_freedom: null
+    authority: GRIPPER_ACTUATION_INTERFACE_CANDIDATE_V1__DESIGN_TARGET_LAYER
+    source: GRIPPER_ACTUATION_INTERFACE.design_target_layer.first_contact_speed_max_m_s
+    confidence: MEDIUM_DESIGN_SEMANTICS_ONLY
+    status: CURRENT_DESIGN_TARGET_HARD_UPPER_BOUND__NOT_MEASURED_CAPABILITY
+  original_provisional_contact_scenario_speed:
+    estimate: 0.05
+    lower_bound: 0.01
+    upper_bound: 0.1
+    si_unit: m/s
+    standard_uncertainty: null
+    uncertainty_type: TYPE_B_NOT_EVALUATED__SOURCE_DECLARED_NO_UNCERTAINTY
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: DESIGN_CONTACT_MODEL_V1__DESIGN_ESTIMATE_UNVERIFIED
+    source: DESIGN_CONTACT_MODEL.gripper_actuator.first_contact_closing_velocity_mps
+    confidence: LOW
+    status: RETAINED_ORIGINAL_PROVISIONAL_SCENARIO__REJECTED_FOR_CURRENT_CONTACT_CONSUMER
+  reduced_current_contact_consumer_candidate:
+    estimate: 0.005
+    lower_bound: 0.0
+    upper_bound: 0.005
+    si_unit: m/s
+    standard_uncertainty: null
+    uncertainty_type: NOT_A_MEASUREMENT__EXPLICIT_DESIGN_REDUCTION
+    distribution: NOT_APPLICABLE_DESIGN_CANDIDATE
+    degrees_of_freedom: null
+    authority: ADDITIVE_CONTACT_VELOCITY_RECONCILIATION_CANDIDATE_V1
+    source: Explicit reduction to the current design-target hard upper bound; does not alter DESIGN_CONTACT_MODEL_V1
+    confidence: MEDIUM_DESIGN_SEMANTICS_ONLY
+    status: ACCEPTABLE_FOR_BOUNDED_DESIGN_DIAGNOSTIC_CONSUMPTION_ONLY
+  as_built_first_contact_closing_speed:
+    estimate: null
+    lower_bound: null
+    upper_bound: null
+    si_unit: m/s
+    standard_uncertainty: null
+    uncertainty_type: UNKNOWN_UNMEASURED
+    distribution: UNKNOWN_UNMEASURED
+    degrees_of_freedom: null
+    authority: ABSENT_PENDING_GVA_PI_01_THROUGH_07_AND_BENCH_TEST
+    source: No controlled actuator characterization or calibrated bench evidence is present
+    confidence: NONE
+    status: MEASUREMENT_PENDING__NULL_MUST_NOT_BE_ZERO_FILLED
+consumer_bindings:
+  current_contact_consumer:
+    permitted_quantity_ref: reduced_current_contact_consumer_candidate
+    hard_upper_bound_quantity_ref: current_design_target_hard_upper_bound
+    acceptance_expression: requested.upper_bound <= hard_upper_bound.estimate
+    accepted_scope: BOUNDED_DESIGN_DIAGNOSTIC_ONLY
+    physical_contact_authorized: false
+    production_dynamics_authorized: false
+    non_abort_grasp_authorized: false
+  original_provisional_0p05_scenario:
+    quantity_ref: original_provisional_contact_scenario_speed
+    retained_as_source_record: true
+    consumer_disposition: REJECT_CURRENT_CONTACT_CONSUMER
+    reentry_condition: Issue a separate additive scenario whose estimate and upper bound are both <= 0.005 m/s; do not overwrite the original provisional record
+  as_built_contact_consumer:
+    quantity_ref: as_built_first_contact_closing_speed
+    consumer_disposition: HOLD_UNKNOWN
+    reentry_condition: Close GVA-PI-01 through GVA-PI-07 with calibrated evidence, uncertainty budget and reviewed authority
+ruling:
+  semantic_reconciliation: PASS_IF_MACHINE_GATE_CONFIRMS_SOURCE_HASHES_AND_DECISION_RULE
+  current_design_target_hard_upper_bound_quantity_ref: current_design_target_hard_upper_bound
+  original_provisional_scenario_quantity_ref: original_provisional_contact_scenario_speed
+  original_provisional_scenario_current_consumer_disposition: REJECT
+  explicitly_reduced_design_diagnostic_quantity_ref: reduced_current_contact_consumer_candidate
+  physical_actuator_speed_authority: HOLD
+  frozen_contracts_changed: false
+  review_status: PENDING_OWNER_REVIEW
+  next_stage_authorized: false
+  release_credit: false
+prohibited_uses:
+- Treat 0.05 m/s as compatible with the current contact consumer
+- Treat 0.005 m/s as measured, qualified or commandable hardware capability
+- Infer any physical timing, force, impulse, contact duration or lock confirmation from either design value
+- Replace any null uncertainty or physical capability with zero
+- Modify or supersede the frozen source files through this additive candidate

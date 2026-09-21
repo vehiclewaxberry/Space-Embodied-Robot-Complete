@@ -1,0 +1,585 @@
+{
+  "artifact_id": "SIM13_CURRENT_SYSTEM_HANDOFF_INTAKE_V1",
+  "checks": {
+    "all_15_sources_bound_once": true,
+    "collision_is_broadphase_only": true,
+    "contact_unknowns_remain_null": true,
+    "crosswalk_declares_one_read_bytes_sha_parser": true,
+    "current_sim13_binding_invalidated": true,
+    "e15_repeat_5p637349pct_gt_5pct": true,
+    "e22_16_of_18_g11_g17_fail": true,
+    "full_flex_checkpoint_6_of_12_hold": true,
+    "handoff_g12_fail_11_of_12": true,
+    "harness_zero_of_ten_safe_zero_of_eight_released": true,
+    "limits_keep_model_and_hardware_separate": true,
+    "mass_single_mode_and_c01_values_pinned": true,
+    "materials_are_design_only": true,
+    "nine_domains_exact": true,
+    "required_system_artifacts_absent": true,
+    "route_c_cad_and_owner_authority_absent": true,
+    "route_c_p01_p13_zero_of_13_available": true,
+    "target_rigid_feasibility_anchors_are_not_system_handoff": true,
+    "topology_source_only_19_18_16_3_8": true
+  },
+  "classification_enum": [
+    "MISSING",
+    "MALFORMED",
+    "HASH_DRIFT",
+    "CANDIDATE_ONLY",
+    "TEST_REQUIRED",
+    "OWNER_REQUIRED",
+    "PASS"
+  ],
+  "current_intake_status": "HOLD_INCOMPLETE",
+  "domains": {
+    "collision": {
+      "classification": "TEST_REQUIRED",
+      "eligible": false,
+      "presence": true,
+      "reason": "Only conservative broad-phase evidence exists; authoritative narrow-phase and system collision release are false.",
+      "source_artifacts": [
+        "collision_gate"
+      ]
+    },
+    "contact": {
+      "classification": "TEST_REQUIRED",
+      "eligible": false,
+      "presence": true,
+      "reason": "Physical contact coefficients, actuator capability, target frames, normals and patch authority remain null/HOLD.",
+      "source_artifacts": [
+        "contact_contract",
+        "limits_interface"
+      ]
+    },
+    "flex": {
+      "classification": "TEST_REQUIRED",
+      "eligible": false,
+      "presence": true,
+      "reason": "Checkpoint A is 6/12 HOLD, E22 is 16/18 with G11/G17 failed, and e15 requires repeat certification.",
+      "source_artifacts": [
+        "full_flex_checkpoint",
+        "e22_gate",
+        "e15_gate"
+      ]
+    },
+    "harness": {
+      "classification": "MISSING",
+      "eligible": false,
+      "presence": true,
+      "reason": "G12 fails, zero of ten mandatory states are SAFE, zero of eight trajectories are released, and P01-P13 are zero of thirteen available.",
+      "source_artifacts": [
+        "harness_gate",
+        "handoff_gate",
+        "route_c_checkpoint_b",
+        "route_c_cad_gate"
+      ]
+    },
+    "limits": {
+      "classification": "TEST_REQUIRED",
+      "eligible": false,
+      "presence": true,
+      "reason": "Kinematic/model limits exist, while physical speed, timing, acceleration, force and latency authority remain null.",
+      "source_artifacts": [
+        "limits_interface"
+      ]
+    },
+    "mass": {
+      "classification": "CANDIDATE_ONLY",
+      "eligible": false,
+      "presence": true,
+      "reason": "C01 and nine-configuration values are design-model properties, not as-built metrology or an executed current system model.",
+      "source_artifacts": [
+        "mass_model",
+        "topology_frame_tree"
+      ]
+    },
+    "material": {
+      "classification": "CANDIDATE_ONLY",
+      "eligible": false,
+      "presence": true,
+      "reason": "Six design families are selected with zero flight allowables and zero qualification claims.",
+      "source_artifacts": [
+        "material_selection"
+      ]
+    },
+    "targets": {
+      "classification": "MISSING",
+      "eligible": false,
+      "presence": true,
+      "reason": "Rigid feasibility anchors exist, but target contact frames, surface normal, patch/area and current-system full-flex authority are absent.",
+      "source_artifacts": [
+        "target_feasibility_gate",
+        "contact_contract"
+      ]
+    },
+    "topology": {
+      "classification": "OWNER_REQUIRED",
+      "eligible": false,
+      "presence": true,
+      "reason": "The 19-link/18-joint source ledger is present, but no current system URDF or authorized binding exists.",
+      "source_artifacts": [
+        "topology_frame_tree",
+        "current_binding_gate"
+      ]
+    }
+  },
+  "flags": {
+    "contact_ready": false,
+    "current_system_bound": false,
+    "dynamics_ready": false,
+    "full_flex_ready": false,
+    "intake_complete": false,
+    "interface_instantiated": false,
+    "next_stage_authorized": false,
+    "release": false,
+    "runtime_ready": false,
+    "sim13_ready": false,
+    "system_urdf_available": false,
+    "urdf_emitted": false
+  },
+  "frozen_binding_digest": "D6CC48E6EEF2112AC9CA4E1C2F0D97D59D9FF2B64880DC44DF95109CD6A01F33",
+  "gate_ceiling": "PASS_SOURCE_FREEZE_ONLY",
+  "mass_mode": "EXPLICIT_STRUCTURE_PLUS_RESIDUAL",
+  "physical_quantities": {
+    "c01_design_mass": {
+      "authority": "SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2__NOT_AS_BUILT",
+      "frame": "S",
+      "reference_point": "SYSTEM_CENTER_OF_MASS",
+      "source_artifact": "mass_model",
+      "source_field": "configurations[C01].mass",
+      "status": "CANDIDATE_ONLY",
+      "uncertainty": {
+        "correlation": "DECLARED_POLICY__NO_CORRELATION_INVENTED",
+        "degrees_of_freedom": null,
+        "distribution": "DECLARED_MODEL_STANDARD_UNCERTAINTY",
+        "standard_uncertainty": 4.594921657121637
+      },
+      "unit": "kg",
+      "value": 31.022864807342987
+    },
+    "contact_normal_stiffness": {
+      "authority": "CT01_CT05_TEST_AUTHORITY_ABSENT",
+      "frame": "CONTACT_NORMAL_FRAME_UNAVAILABLE",
+      "reference_point": "TARGET_CONTACT_POINT_UNAVAILABLE",
+      "source_artifact": "contact_contract",
+      "source_field": "normal_contact.normal_stiffness_N_per_m.estimate",
+      "status": "TEST_REQUIRED",
+      "uncertainty": {
+        "correlation": null,
+        "degrees_of_freedom": null,
+        "distribution": null,
+        "standard_uncertainty": null
+      },
+      "unit": "N/m",
+      "value": null
+    },
+    "debris_anchor_post_capture_rate": {
+      "authority": "SIM10_RIGID_FEASIBILITY_ONLY__NOT_CURRENT_SYSTEM_BINDING",
+      "frame": "SIM10_INERTIAL_RATE_CONVENTION",
+      "reference_point": "DEBRIS_SIM06_ANCHOR",
+      "source_artifact": "target_feasibility_gate",
+      "source_field": "gates.X1_anchors_vs_sim06.checks[debris_sim06].w_plus_dps",
+      "status": "CANDIDATE_ONLY",
+      "uncertainty": {
+        "correlation": null,
+        "degrees_of_freedom": null,
+        "distribution": null,
+        "standard_uncertainty": null
+      },
+      "unit": "deg/s",
+      "value": 3.0633304945807067
+    },
+    "e15_cross_solver_difference": {
+      "authority": "E15_REPEATED_CERTIFICATION_REQUIRED",
+      "frame": "E15_CERTIFICATION_COMPARISON_SPACE",
+      "reference_point": "MAX_OF_SIX_COMPARISONS",
+      "source_artifact": "e15_gate",
+      "source_field": "cross_solver_diagnostic.max_relative_difference*100",
+      "status": "TEST_REQUIRED",
+      "uncertainty": {
+        "correlation": "NONE",
+        "degrees_of_freedom": "INFINITE",
+        "distribution": "DETERMINISTIC_DIAGNOSTIC",
+        "standard_uncertainty": 0
+      },
+      "unit": "percent",
+      "value": 5.637349419858036
+    },
+    "full_flex_hf_to_rom_error": {
+      "authority": "E22_DIAGNOSTIC__G11_FAILED",
+      "frame": "R2_FLEX_RESPONSE_SPACE",
+      "reference_point": "MAX_CURRENT_RESPONSE_METRIC",
+      "source_artifact": "e22_gate",
+      "source_field": "key_metrics.hf_to_rom_five_mode_max_relative*100",
+      "status": "TEST_REQUIRED",
+      "uncertainty": {
+        "correlation": "NONE",
+        "degrees_of_freedom": "INFINITE",
+        "distribution": "DETERMINISTIC_DIAGNOSTIC",
+        "standard_uncertainty": 0
+      },
+      "unit": "percent",
+      "value": 3.5058706034330305
+    },
+    "gripper_physical_rated_speed": {
+      "authority": "HARDWARE_TEST_AUTHORITY_ABSENT",
+      "frame": "GRIPPER_PARENT_JOINT_FRAME",
+      "reference_point": "PRISMATIC_COORDINATE",
+      "source_artifact": "limits_interface",
+      "source_field": "physical_actuator_layer.rated_speed_m_s",
+      "status": "TEST_REQUIRED",
+      "uncertainty": {
+        "correlation": null,
+        "degrees_of_freedom": null,
+        "distribution": null,
+        "standard_uncertainty": null
+      },
+      "unit": "m/s",
+      "value": null
+    },
+    "gripper_urdf_model_velocity_literal": {
+      "authority": "URDF_MODEL_LITERAL_ONLY__NOT_HARDWARE_RATING",
+      "frame": "GRIPPER_PARENT_JOINT_FRAME",
+      "reference_point": "PRISMATIC_COORDINATE",
+      "source_artifact": "limits_interface",
+      "source_field": "model_layer.urdf_velocity_limit_literal_m_s",
+      "status": "CANDIDATE_ONLY",
+      "uncertainty": {
+        "correlation": null,
+        "degrees_of_freedom": null,
+        "distribution": null,
+        "standard_uncertainty": null
+      },
+      "unit": "m/s",
+      "value": 15.0
+    },
+    "harness_mandatory_safe_states": {
+      "authority": "B601_HARNESS_MISSION_COVERAGE_GATE_V1",
+      "frame": "B601_CONFIGURATION_SPACE",
+      "reference_point": "TEN_MANDATORY_KEY_STATES",
+      "source_artifact": "harness_gate",
+      "source_field": "key_state_checks[*].pass",
+      "status": "TEST_REQUIRED",
+      "uncertainty": {
+        "correlation": "NOT_APPLICABLE",
+        "degrees_of_freedom": "INFINITE",
+        "distribution": "EXACT_GATE_COUNT",
+        "standard_uncertainty": 0
+      },
+      "unit": "count",
+      "value": 0
+    },
+    "material_al7075_design_density": {
+      "authority": "DESIGN_SELECTION_TYPICAL_VALUE__ZERO_FLIGHT_ALLOWABLES",
+      "frame": "MATERIAL_PROPERTY",
+      "reference_point": "AL7075_T651_DESIGN_BASELINE",
+      "source_artifact": "material_selection",
+      "source_field": "component_families[M3R_PRIMARY_STRUCTURE_STAGE_A_B].selected_design_baseline.key_candidate_properties.density_kg_m3.value",
+      "status": "CANDIDATE_ONLY",
+      "uncertainty": {
+        "correlation": null,
+        "degrees_of_freedom": null,
+        "distribution": null,
+        "standard_uncertainty": null
+      },
+      "unit": "kg/m^3",
+      "value": 2800.0
+    },
+    "route_c_available_physical_fields": {
+      "authority": "ROUTE_C_CHECKPOINT_B_GATE_V1",
+      "frame": "ROUTE_C_INPUT_SPACE",
+      "reference_point": "P01_THROUGH_P13",
+      "source_artifact": "route_c_checkpoint_b",
+      "source_field": "physical_registry.status_AVAILABLE",
+      "status": "MISSING",
+      "uncertainty": {
+        "correlation": "NOT_APPLICABLE",
+        "degrees_of_freedom": "INFINITE",
+        "distribution": "EXACT_GATE_COUNT",
+        "standard_uncertainty": 0
+      },
+      "unit": "count",
+      "value": 0
+    },
+    "satellite_anchor_post_capture_rate": {
+      "authority": "SIM10_RIGID_FEASIBILITY_ONLY__NOT_CURRENT_SYSTEM_BINDING",
+      "frame": "SIM10_INERTIAL_RATE_CONVENTION",
+      "reference_point": "SATELLITE_SIM06_ANCHOR",
+      "source_artifact": "target_feasibility_gate",
+      "source_field": "gates.X1_anchors_vs_sim06.checks[satellite_sim06].w_plus_dps",
+      "status": "CANDIDATE_ONLY",
+      "uncertainty": {
+        "correlation": null,
+        "degrees_of_freedom": null,
+        "distribution": null,
+        "standard_uncertainty": null
+      },
+      "unit": "deg/s",
+      "value": 1.3872061825379134
+    },
+    "system_total_joints": {
+      "authority": "UNIFIED_R2_STATIC_SOURCE_LEDGER",
+      "frame": "NOT_APPLICABLE",
+      "reference_point": "SYSTEM_GRAPH",
+      "source_artifact": "topology_frame_tree",
+      "source_field": "mode_topology.EXPLICIT_STRUCTURE_PLUS_RESIDUAL.joints",
+      "status": "CANDIDATE_ONLY",
+      "uncertainty": {
+        "correlation": "NOT_APPLICABLE",
+        "degrees_of_freedom": "INFINITE",
+        "distribution": "EXACT_COUNT",
+        "standard_uncertainty": 0
+      },
+      "unit": "count",
+      "value": 18
+    },
+    "system_total_links": {
+      "authority": "UNIFIED_R2_STATIC_SOURCE_LEDGER",
+      "frame": "NOT_APPLICABLE",
+      "reference_point": "SYSTEM_GRAPH",
+      "source_artifact": "topology_frame_tree",
+      "source_field": "mode_topology.EXPLICIT_STRUCTURE_PLUS_RESIDUAL.total_links",
+      "status": "CANDIDATE_ONLY",
+      "uncertainty": {
+        "correlation": "NOT_APPLICABLE",
+        "degrees_of_freedom": "INFINITE",
+        "distribution": "EXACT_COUNT",
+        "standard_uncertainty": 0
+      },
+      "unit": "count",
+      "value": 19
+    },
+    "target_contact_effective_area": {
+      "authority": "AUTHORITATIVE_TARGET_GEOMETRY_ABSENT",
+      "frame": "TARGET_SURFACE_FRAME_UNAVAILABLE",
+      "reference_point": "TARGET_CONTACT_PATCH_UNAVAILABLE",
+      "source_artifact": "contact_contract",
+      "source_field": "contact_geometry.effective_area_m2.estimate",
+      "status": "MISSING",
+      "uncertainty": {
+        "correlation": null,
+        "degrees_of_freedom": null,
+        "distribution": null,
+        "standard_uncertainty": null
+      },
+      "unit": "m^2",
+      "value": null
+    }
+  },
+  "preserved_hard_negatives": {
+    "current_binding": "INVALIDATED_BY_NEWER_M7_EVIDENCE",
+    "e15": {
+      "comparison": "5.637349419858036_PERCENT_GT_5_PERCENT",
+      "gate_limit": 0.05,
+      "max_cross_solver_relative_difference": 0.05637349419858036,
+      "status": "REPEAT_ANCF_CERTIFICATION"
+    },
+    "e22": {
+      "failed": [
+        "G11",
+        "G17"
+      ],
+      "passed": 16,
+      "status": "HOLD_R2_HF_TO_ROM_DYNAMIC_VALIDATION_FAILED",
+      "total": 18
+    },
+    "full_flex_checkpoint_a": {
+      "passed": 6,
+      "status": "HOLD",
+      "total": 12
+    },
+    "harness": {
+      "handoff_g12": "FAIL",
+      "handoff_passed": 11,
+      "handoff_total": 12,
+      "released_trajectories": 0,
+      "required_key_states": 10,
+      "required_trajectories": 8,
+      "safe_key_states": 0
+    },
+    "route_c_physical_registry": {
+      "available": 0,
+      "hold": 13,
+      "non_null": 0,
+      "route_b_seed_inheritance_allowed": false,
+      "total": 13
+    }
+  },
+  "promotion_sequence": [
+    {
+      "ordinal": 1,
+      "self_authorized": false,
+      "stage": "OWNER_AUTHORIZED_URDF_EXECUTION",
+      "state": "HOLD_NOT_EXECUTED"
+    },
+    {
+      "ordinal": 2,
+      "self_authorized": false,
+      "stage": "CURRENT_SYSTEM_BINDING",
+      "state": "HOLD_NOT_EXECUTED"
+    },
+    {
+      "ordinal": 3,
+      "self_authorized": false,
+      "stage": "RUNTIME_FAIL_CLOSED_INTEGRATION",
+      "state": "HOLD_NOT_EXECUTED"
+    },
+    {
+      "ordinal": 4,
+      "self_authorized": false,
+      "stage": "DYNAMICS_BACKEND_INTEGRATION",
+      "state": "HOLD_NOT_EXECUTED"
+    },
+    {
+      "ordinal": 5,
+      "self_authorized": false,
+      "stage": "CONTACT_AND_GRASP_VALIDATION",
+      "state": "HOLD_NOT_EXECUTED"
+    },
+    {
+      "ordinal": 6,
+      "self_authorized": false,
+      "stage": "E15_RERUN_IF_FULL_FLEX",
+      "state": "HOLD_NOT_EXECUTED"
+    }
+  ],
+  "required_absent_paths": [
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/generated_v2/unified_r2_c01_no_route_c_sim_candidate_v2.urdf",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/interfaces/MECH_RL_SYSTEM_INTERFACE_V2.yaml"
+  ],
+  "route_c_disposition": {
+    "allowed_values": [
+      "INCLUDED",
+      "EXCLUDED_RESEARCH_CANDIDATE"
+    ],
+    "auto_accepted": false,
+    "selection": null,
+    "status": "OWNER_REQUIRED"
+  },
+  "schema": "CURRENT_SYSTEM_HANDOFF_INTAKE_V1",
+  "scope": "SOURCE_ONLY_TRANSACTIONAL_INTAKE__NO_URDF_EXECUTION_NO_CAD_NO_PHYSICS",
+  "source_only_validation_pass": true,
+  "source_receipts": [
+    {
+      "artifact_id": "topology_frame_tree",
+      "bytes": 11828,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/source_only_v2/UNIFIED_R2_SYSTEM_FRAME_TREE_V2.yaml",
+      "read_count": 1,
+      "sha256": "5F8B19DC5BF14EFBB3C6A781C6816D52FE80804DAB328821623E165239999756",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "mass_model",
+      "bytes": 223714,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml",
+      "read_count": 1,
+      "sha256": "3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "limits_interface",
+      "bytes": 2126,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_gripper_velocity_unit_authority/01_interface/GRIPPER_ACTUATION_INTERFACE_CANDIDATE_V1.yaml",
+      "read_count": 1,
+      "sha256": "364D7F2C54B6A77CC80B105EC24F3B7DDEA5FD5648FD7F01E7A2F96BE21A5F51",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "collision_gate",
+      "bytes": 17130,
+      "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/M5_BROADPHASE_COLLISION_AUDIT_V1.json",
+      "read_count": 1,
+      "sha256": "DB9029C8626B135F531E5467F1293CA65EDFED7BCB5BAB469CBDAA717AE71BF8",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "contact_contract",
+      "bytes": 5199,
+      "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/05_contact_identification/CONTACT_MODEL_PARAMETER_CONTRACT_V1.yaml",
+      "read_count": 1,
+      "sha256": "1BF741A508AA6F263D81458184840F2AD6608652250256CE84D7F2656BD04B6B",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "material_selection",
+      "bytes": 25619,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1.yaml",
+      "read_count": 1,
+      "sha256": "B2973F2A0A95CAF21FE551C5E82388FEEEDCAACE79140A5339DACD5884723220",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "full_flex_checkpoint",
+      "bytes": 24848,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/checkpoint_a/R2_FULL_FLEX_GATE_V1.json",
+      "read_count": 1,
+      "sha256": "FC8C9D7BEABF58D19B25CF4A238F12AC255F664F756E7950A942E7E6D3FC1C13",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "e22_gate",
+      "bytes": 9374,
+      "path": "30_simulation/e22_r2_full_flex_coupled_diagnostics/results/E22_R2_FULL_FLEX_COUPLED_GATE_V1.json",
+      "read_count": 1,
+      "sha256": "472ADA4A7ABF98BBD5F72B0459400704A86FAF2B13DACCD562025C0CC356AA5E",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "e15_gate",
+      "bytes": 1585,
+      "path": "30_simulation/e15_ancf_certification/results/gate_summary.json",
+      "read_count": 1,
+      "sha256": "AAB4D609E219279C2563C8A38743AC1784BBF16DE399D5B8798439B0AC2DCA80",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "harness_gate",
+      "bytes": 7324,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/04_mission/B601_HARNESS_MISSION_COVERAGE_GATE.json",
+      "read_count": 1,
+      "sha256": "F3B444222E87509B66F712E623A4903748C7309C6396708EC02A0C1A54CDAA5C",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "handoff_gate",
+      "bytes": 54345,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/07_release/MECHANICAL_TO_EMBODIED_HANDOFF_GATE_V2.json",
+      "read_count": 1,
+      "sha256": "13722965D5C558D3439A7CB1E77ABBF3C2094B88E9D62F80D664D0C4C90D4E21",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "route_c_checkpoint_b",
+      "bytes": 14887,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/checkpoint_b/ROUTE_C_CHECKPOINT_B_GATE_V1.json",
+      "read_count": 1,
+      "sha256": "C9E7526D790E1FB7F5522A113EDF41F5913207C15A68E12468FD9EBA157349D1",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "route_c_cad_gate",
+      "bytes": 2624,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/ROUTE_C_CAD_ENTRY_GATE_V1.json",
+      "read_count": 1,
+      "sha256": "5524EFB209C792DCFECA022C613030E35EAB86ADFFDB8F3CA4D244D6C73E98AE",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "current_binding_gate",
+      "bytes": 6345,
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/09_downstream_rebind/SIM13_CURRENT_MECHANICAL_BINDING_AUDIT_GATE_V1.json",
+      "read_count": 1,
+      "sha256": "7FD3C63AF46BE4BA3055CCF87EFD1A71C13517EC872B1F3EDC52304B070D9153",
+      "transport_classification": "PASS"
+    },
+    {
+      "artifact_id": "target_feasibility_gate",
+      "bytes": 5951,
+      "path": "30_simulation/sim_10_mission_feasibility/results/sim_10_gate_check.json",
+      "read_count": 1,
+      "sha256": "4DBD8C91FF3455D5E5997A995AC385F02BBC1D2E379BBFE5C0563D41834DFC67",
+      "transport_classification": "PASS"
+    }
+  ],
+  "theoretical_ceiling": "INTAKE_COMPLETE_PENDING_AUTHORIZED_EXECUTION"
+}

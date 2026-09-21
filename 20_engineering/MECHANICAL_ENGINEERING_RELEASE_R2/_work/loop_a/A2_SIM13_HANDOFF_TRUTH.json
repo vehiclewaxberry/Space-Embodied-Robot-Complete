@@ -1,0 +1,83 @@
+{
+ "prebind_gate": {
+  "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/results/SIM13_V2_PREBIND_SOURCE_GATE_V1.json",
+  "verdict": "SIM13_V2_SOURCE_ONLY_PREBIND_IMPLEMENTATION_PASS__HISTORICAL_REGRESSION_PINNED__15_OF_20_NC_PASS__URDF_AND_SYSTEM_INTERFACE_ABSENT",
+  "maximum_current_operational_state": "ABORT_ONLY_WITH_SOURCE_ONLY_ANALYTIC_PREBIND_DIAGNOSTICS",
+  "score_15_of_20": true
+ },
+ "held_negative_controls": [
+  {
+   "id": "NC15",
+   "stimulus": "STALE_OR_REPLAYED_GATE_SNAPSHOT",
+   "hold_dependency": "fresh action/context-bound snapshot receipt, trusted clock, nonce and replay store are not implemented",
+   "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+   "internally_closable": true
+  },
+  {
+   "id": "NC16",
+   "stimulus": "DIRECT_BACKEND_CALL_BYPASSES_SAFETY_SHIELD",
+   "hold_dependency": "backend capability token and mandatory shield-attestation admission interface are not implemented",
+   "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+   "internally_closable": true
+  },
+  {
+   "id": "NC18",
+   "stimulus": "NON_ABORT_STEP_CHANGES_TASK_PHASE_ONLY_WITHOUT_JOINT_BASE_OR_EE_STATE",
+   "hold_dependency": "integrated non-ABORT joint/base/end-effector state evolution backend is not implemented",
+   "future_gate": "SIM13_DYNAMICS_BACKEND_GATE_V2",
+   "internally_closable": true,
+   "needs": "T1 unified interface + system URDF"
+  },
+  {
+   "id": "NC19",
+   "stimulus": "OVERLAPPING_GEOMETRY_DOES_NOT_UPDATE_COLLISION_OR_CONTACT_STATE",
+   "hold_dependency": "authoritative narrow-phase contact backend and released contact geometry are absent",
+   "future_gate": "SIM13_CONTACT_GRASP_GATE_V2",
+   "internally_closable": true,
+   "needs": "T4 contact contract + collision assets"
+  },
+  {
+   "id": "NC20",
+   "stimulus": "DEBRIS_150KG_3DPS_REQUESTS_NON_ABORT_WITHOUT_FEASIBILITY_AND_POST_GRASP_PASS",
+   "hold_dependency": "action-bound 150 kg feasibility/post-grasp evaluator receipt is not implemented",
+   "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+   "internally_closable": true
+  }
+ ],
+ "intake": {
+  "status": "HOLD_INCOMPLETE",
+  "gate_ceiling": "PASS_SOURCE_FREEZE_ONLY",
+  "theoretical_ceiling": "INTAKE_COMPLETE_PENDING_AUTHORIZED_EXECUTION",
+  "required_absent_paths": [
+   "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/generated_v2/unified_r2_c01_no_route_c_sim_candidate_v2.urdf",
+   "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/interfaces/MECH_RL_SYSTEM_INTERFACE_V2.yaml"
+  ],
+  "promotion_sequence": [
+   "1 OWNER_AUTHORIZED_URDF_EXECUTION HOLD",
+   "2 CURRENT_SYSTEM_BINDING HOLD",
+   "3 RUNTIME_FAIL_CLOSED_INTEGRATION HOLD",
+   "4 DYNAMICS_BACKEND_INTEGRATION HOLD",
+   "5 CONTACT_AND_GRASP_VALIDATION HOLD",
+   "6 E15_RERUN_IF_FULL_FLEX HOLD"
+  ],
+  "route_c_disposition": "OWNER_REQUIRED selection=null"
+ },
+ "domain_gaps": {
+  "collision": "TEST_REQUIRED (broad-phase only)",
+  "contact": "TEST_REQUIRED (coefficients null)",
+  "flex": "TEST_REQUIRED (CP-A 6/12, E22 16/18, e15 REPEAT)",
+  "harness": "MISSING (0/10 SAFE, 0/8 released, P01-P13 0/13)",
+  "limits": "TEST_REQUIRED (physical speed/timing/accel/force/latency null)",
+  "mass": "CANDIDATE_ONLY (design not as-built)",
+  "material": "CANDIDATE_ONLY (no flight allowables)",
+  "targets": "MISSING (contact frames/normals/patch absent)",
+  "topology": "OWNER_REQUIRED"
+ },
+ "work_orders_for_loop_b": [
+  "WO-S1: build UNIFIED_R2_SYSTEM_INTERFACE -> emit MECH_RL_SYSTEM_INTERFACE_V2.yaml + unified_r2_c01_no_route_c_sim_candidate_v2.urdf (the 2 absent paths)",
+  "WO-S2: implement runtime fail-closed V2 pieces: snapshot receipt+trusted clock+nonce+replay store (NC15), backend capability token + shield-attestation admission (NC16), action-bound 150kg feasibility/post-grasp evaluator receipt (NC20)",
+  "WO-S3: implement non-ABORT dynamics state evolution backend gate V2 (NC18) bound to unified interface",
+  "WO-S4: implement narrow-phase contact + grasp gate V2 (NC19) bound to T4 contact contract + collision assets",
+  "WO-S5: rerun full 20-NC registry -> 20/20; rerun MECHANICAL_TO_EMBODIED_HANDOFF_GATE_V2 with unified contract; owner decides route_c_disposition"
+ ]
+}

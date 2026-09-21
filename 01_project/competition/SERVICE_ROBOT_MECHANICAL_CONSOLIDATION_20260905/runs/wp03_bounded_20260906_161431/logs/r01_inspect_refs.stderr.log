@@ -1,0 +1,59 @@
+Traceback (most recent call last):
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\packages\cadgen\src\cadgen\metadata.py", line 90, in parse_generator_metadata
+    tree = ast.parse(script_path.read_text(), filename=str(script_path))
+                     ~~~~~~~~~~~~~~~~~~~~~^^
+  File "G:\Windows_program_file\Anaconda\Lib\pathlib\_local.py", line 546, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\Windows_program_file\Anaconda\Lib\pathlib\_abc.py", line 633, in read_text
+    return f.read()
+           ~~~~~~^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0xa4 in position 411: illegal multibyte sequence
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\inspect\__main__.py", line 42, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\inspect\inspect_refs\cli.py", line 815, in main
+    return int(args.handler(args))
+               ~~~~~~~~~~~~^^^^^^
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\inspect\inspect_refs\cli.py", line 278, in run_refs
+    result = inspect.inspect_cad_refs(
+        entry_target,
+    ...<8 lines>...
+        plane_limit=int(args.plane_limit),
+    )
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\inspect\inspect_refs\inspect.py", line 102, in inspect_cad_refs
+    context = _load_entry_context(
+        parsed.cad_path,
+        profile=SelectorProfile.REFS if refs_required_by_cad_path.get(parsed.cad_path) else SelectorProfile.SUMMARY,
+        context_provider=context_provider,
+    )
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\inspect\inspect_refs\inspect.py", line 243, in _load_entry_context
+    target = resolve_step_target(cad_path)
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\packages\cadgen\src\cadgen\step_targets.py", line 203, in resolve_step_target
+    lookup_cad_path = _lookup_cad_path(cad_path)
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\packages\cadgen\src\cadgen\step_targets.py", line 515, in _lookup_cad_path
+    if resolve_cad_source_path(candidate) is not None:
+       ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\packages\cadgen\src\cadgen\_internal\assembly_spec.py", line 36, in resolve_cad_source_path
+    source = find_source_by_cad_ref(cad_ref)
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\packages\cadgen\src\cadgen\catalog.py", line 181, in find_source_by_cad_ref
+    return source_by_cad_ref(root).get(normalized or "")
+           ~~~~~~~~~~~~~~~~~^^^^^^
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\packages\cadgen\src\cadgen\catalog.py", line 176, in source_by_cad_ref
+    return {source.cad_ref: source for source in iter_cad_sources(root)}
+                                                 ~~~~~~~~~~~~~~~~^^^^^^
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\packages\cadgen\src\cadgen\catalog.py", line 111, in iter_cad_sources
+    python_sources = _iter_python_sources(resolved_root)
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\packages\cadgen\src\cadgen\catalog.py", line 284, in _iter_python_sources
+    source = _read_python_source(script_path)
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\packages\cadgen\src\cadgen\catalog.py", line 344, in _read_python_source
+    metadata = parse_generator_metadata(resolved_script_path)
+  File "F:\codex_skill\AgentSkills\codex-skills\cad\scripts\packages\cadgen\src\cadgen\metadata.py", line 92, in parse_generator_metadata
+    raise RuntimeError(f"Failed to parse {_display_path(script_path)}") from exc
+RuntimeError: Failed to parse interface_drawings.py

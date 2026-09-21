@@ -1,0 +1,96 @@
+{
+  "schema": "CURRENT_MIGRATION_REPLAY_AUDIT_V1",
+  "executed_date_local": "2026-08-27",
+  "scope": "LEGACY_CURRENT_TREE_REPLAY_AUDIT__SIDE_EFFECT_DETECTED_AND_REPAIRED_EXACTLY__NO_LEGACY_SUITES_RERUN",
+  "execution_side_effect_disposition": {
+    "state": "SIDE_EFFECT_DETECTED_AND_REPAIRED_EXACTLY",
+    "affected_path": "30_simulation/control_02_base_attitude/results/control_02_gate_check.json",
+    "cause": "CTRL02 test_pipeline rewrote the frozen result during the legacy replay attempt",
+    "restored_bytes": 50527,
+    "restored_sha256": "240FA708B53646A024BB0FD2D67085188DD7C81685515B69C4CDC5DC50EDFC5E",
+    "git_clean_after_restore": true,
+    "legacy_rerun_prohibited_for_this_closure": true
+  },
+  "tests_are_not_gates": true,
+  "runs": [
+    {
+      "id": "CTRL01_CURRENT_TREE",
+      "command": "$env:PYTHONPATH=(Resolve-Path '30_simulation/control_01_end_effector_tracking/src').Path; python -B -m pytest -p no:cacheprovider 30_simulation/control_01_end_effector_tracking/tests -q --tb=no",
+      "passed": 7,
+      "failed": 15,
+      "total": 22,
+      "status": "HOLD_CURRENT_REPLAY",
+      "observed_primary_conditions": [
+        "FROZEN_SIM05_DEFAULT_URDF_LOCATOR_POINTS_TO_PRE_REORG_ROOT_CAD_PATH",
+        "CURRENT_CTRL01_CONFIG_AND_MATRIX_NORMALIZED_HASHES_DIFFER_FROM_FROZEN_GATE"
+      ],
+      "historical_gate_changed": false
+    },
+    {
+      "id": "CTRL02_CURRENT_TREE",
+      "command": "$env:PYTHONPATH=(Resolve-Path '30_simulation/control_02_base_attitude/src').Path; python -B -m pytest -p no:cacheprovider 30_simulation/control_02_base_attitude/tests -q --tb=no",
+      "passed": 12,
+      "failed": 12,
+      "total": 24,
+      "collected_test_count": 24,
+      "count_evidence": "PYTEST_COLLECT_ONLY_READ_ONLY__NO_LEGACY_EXECUTION__CROSS_CHECKED_2026_08_27",
+      "status": "HOLD_CURRENT_REPLAY",
+      "observed_primary_conditions": [
+        "FROZEN_HASH_AND_PIPELINE_ASSERTIONS_DO_NOT_REPLAY_CLEANLY_IN_CURRENT_TREE",
+        "TEST_PIPELINE_SIDE_EFFECT_REWROTE_FROZEN_GATE_THEN_EXACT_RESTORE_WAS_VERIFIED"
+      ],
+      "historical_gate_changed_during_execution": true,
+      "historical_gate_changed": false,
+      "historical_gate_changed_semantics": "FINAL_STATE_ONLY_AFTER_EXACT_RESTORE"
+    },
+    {
+      "id": "SAFE00_CURRENT_TREE",
+      "command": "$env:PYTHONPATH=(Resolve-Path '30_simulation/safety_00_runtime_gate/src').Path; python -B -m pytest -p no:cacheprovider 30_simulation/safety_00_runtime_gate/tests -q --tb=no",
+      "passed": 23,
+      "failed": 24,
+      "total": 47,
+      "status": "HOLD_CURRENT_REPLAY",
+      "observed_primary_conditions": [
+        "CURRENT_SOURCE_BINDINGS_DO_NOT_REPRODUCE_FROZEN_SAFE_ALLOW_AND_MODIFY_FIXTURES"
+      ],
+      "historical_gate_changed": false
+    },
+    {
+      "id": "E23_CURRENT_TREE",
+      "command": "python -B -m pytest -p no:cacheprovider 30_simulation/e23_r2_full_flex_coupled_recert/tests/test_e23.py -q",
+      "passed": 7,
+      "failed": 0,
+      "total": 7,
+      "status": "PASS_CURRENT_REPLAY",
+      "historical_gate_changed": false
+    },
+    {
+      "id": "CTRL_R2_PREDEVELOPMENT",
+      "command": "python -B -m pytest -p no:cacheprovider 30_simulation/control_r2_integrated_candidate/tests -q",
+      "passed": 13,
+      "failed": 0,
+      "total": 13,
+      "status": "PASS_CURRENT_REPLAY",
+      "historical_gate_changed": false
+    },
+    {
+      "id": "CURRENT_AUTHORITY_INDEX",
+      "command": "python -B -m pytest -p no:cacheprovider 70_tools/current_authority_index/tests -q",
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "status": "PASS_CURRENT_REPLAY",
+      "historical_gate_changed": false
+    }
+  ],
+  "aggregate": {
+    "new_work_tests_passed": 19,
+    "new_work_tests_total": 19,
+    "legacy_current_tree_replay_clean": false,
+    "e23_current_replay_clean": true,
+    "legacy_gate_credit_inherited": false
+  },
+  "disposition": "KEEP_HISTORICAL_GATES_IMMUTABLE__USE_NEW_MIGRATION_AWARE_CANDIDATE__DO_NOT_CLAIM_EXACT_LEGACY_REPRODUCTION",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

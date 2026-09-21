@@ -1,0 +1,133 @@
+{
+  "schema": "WP10_ERC_DIAGNOSTIC_DISPOSITION_V1",
+  "status": "OPEN_DIAGNOSTICS_NO_WAIVER_NO_PWR_FLAG",
+  "actual_violations": [
+    {
+      "description": "Input Power pin not driven by any Output Power pins",
+      "items": [
+        {
+          "description": "Symbol U23 Pin IN+ [IN+, Power input, Line]",
+          "pos": {
+            "x": 4.1656,
+            "y": 2.9972
+          },
+          "uuid": "6e8178a2-77f0-5f78-9ac1-528de2c95672"
+        }
+      ],
+      "severity": "error",
+      "type": "power_pin_not_driven"
+    },
+    {
+      "description": "Input Power pin not driven by any Output Power pins",
+      "items": [
+        {
+          "description": "Symbol U120 Pin 1 [VIN, Power input, Line]",
+          "pos": {
+            "x": 1.778,
+            "y": 5.4102
+          },
+          "uuid": "62c28eb2-4a04-5200-9a7a-6d0cbc12c612"
+        }
+      ],
+      "severity": "error",
+      "type": "power_pin_not_driven"
+    }
+  ],
+  "count": 2,
+  "actual_master_row_bindings": {
+    "A01": {
+      "wire_id": "A01",
+      "from_endpoint": "PS1.TB2.4",
+      "to_endpoint": "Q1.1",
+      "signal": "ARM_RAW+",
+      "wire_or_mate": "LAPP1120762 2x2.5mm2 core1",
+      "status": "PIN_DESIGN; TERMINAL_LUG_SELECTION_OPEN",
+      "source": "RSP;ETA",
+      "build_approved": "False",
+      "physical_test": "NOT_EXECUTED",
+      "cut_length_mm": ""
+    },
+    "A02": {
+      "wire_id": "A02",
+      "from_endpoint": "Q1.2",
+      "to_endpoint": "K1.A2(+)",
+      "signal": "ARM_Q+",
+      "wire_or_mate": "LAPP1120762 core1",
+      "status": "GX11CAB polarized main contact input",
+      "source": "ETA; GX11 Rev6 2015-10-23 p3-4",
+      "build_approved": "False",
+      "physical_test": "NOT_EXECUTED",
+      "cut_length_mm": ""
+    },
+    "A03": {
+      "wire_id": "A03",
+      "from_endpoint": "K1.A1(-)",
+      "to_endpoint": "U1.IN+",
+      "signal": "ARM_SW+",
+      "wire_or_mate": "LAPP1120762 core1",
+      "status": "GX11CAB main output; stopping hardware remains unbound",
+      "source": "REGEN; GX11 Rev6 2015-10-23 p3-4",
+      "build_approved": "False",
+      "physical_test": "NOT_EXECUTED",
+      "cut_length_mm": ""
+    },
+    "SC_PWR24": {
+      "wire_id": "SC_PWR24",
+      "from_endpoint": "Q1.2",
+      "to_endpoint": "STOPBOARD.J101.3",
+      "signal": "STOP_UPSTREAM_24V",
+      "wire_or_mate": "New GSE branch; physical protection/terminal/wire sizing not released",
+      "status": "DESIGN_CONNECTION_TO_UPSTREAM_PROTECTED_SOURCE; total_Q1_budget_open",
+      "source": "N MASTER_FROM_TO A02/A04; stop J101 local pin contract",
+      "build_approved": "False",
+      "physical_test": "NOT_EXECUTED",
+      "cut_length_mm": ""
+    },
+    "SC_RET": {
+      "wire_id": "SC_RET",
+      "from_endpoint": "PS1.TB2.1",
+      "to_endpoint": "STOPBOARD.J101.4",
+      "signal": "STOP_GND",
+      "wire_or_mate": "New GSE branch; physical protection/terminal/wire sizing not released",
+      "status": "DESIGN_CONNECTION_TO_UPSTREAM_PROTECTED_SOURCE; total_Q1_budget_open",
+      "source": "N MASTER_FROM_TO A02/A04; stop J101 local pin contract",
+      "build_approved": "False",
+      "physical_test": "NOT_EXECUTED",
+      "cut_length_mm": ""
+    }
+  },
+  "interpretations": [
+    {
+      "node": "U1.IN+ (top-level generated U23 IN+)",
+      "source_path": "PS1 -> Q1 -> K1 polarized main contacts -> U1",
+      "meaning": "Switched contact output has no declared KiCad power-output driver in the abstract equipment symbol. The drawn path exists conditionally; this is not a voltage measurement, and main-contact operating/fault states require independent design verification."
+    },
+    {
+      "node": "U120 VIN (and shared U121 supply net)",
+      "source_path": "PS1 -> Q1 -> STOPBOARD J101.3 -> actual regulator VIN",
+      "meaning": "Protected upstream source crosses the abstract breaker. New module power-input pin exposes the source-propagation diagnostic. It does not mean the regulator output is still only a placeholder, and it does not certify the upstream branch protection or transient envelope."
+    }
+  ],
+  "count_is_not_required_function_coverage": true,
+  "no_waiver_applied": true,
+  "PWR_FLAG_added": false,
+  "static_auxiliary_output_selection_does_not_close": [
+    "Q1 branch budget/protection coordination",
+    "connector and harness build dimensions",
+    "module output ripple and startup/transient guarantee",
+    "MCU and bus-health observation",
+    "complete PCB/thermal and hardware timing"
+  ],
+  "sources": [
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\ecad\\MASTER_FROM_TO.csv",
+      "sha256": "5ac2df4a40270263d59e7187d4f177b0d90c82f268cf174a5bc47ec80e4b71a0"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\ecad\\exports\\wp09_system_erc.json",
+      "sha256": "a784ef068bf55e5821e78ea0f096d556f20bb5b5df91d013a489ec9e0c50d522"
+    }
+  ],
+  "hardware_voltage_or_current_measured": false,
+  "electrical_design_complete": false
+}

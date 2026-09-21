@@ -1,0 +1,105 @@
+schema: SIM13R_REACTION_WHEEL_ENVELOPE_V1
+generated_date_local: '2026-08-30'
+review_status: PENDING_OWNER_REVIEW
+correction_notice: A previous SIM13R record (DISC-012) stated that no reaction-wheel torque limit existed
+  anywhere in the repository. That was wrong. 20_engineering/config/attitude_stab/attitude_stab_v0.yaml
+  carries stage_b.actuator_dynamics.wheel_max_torque_Nm = 0.01 with status PROVISIONAL and a documented
+  2-20 mNm catalog band. m_tauw is therefore PROVISIONAL, not ABSENT.
+h_max:
+  per_axis_Nms: 0.1
+  three_axis_scalar_tier_Nms: 0.3
+  status: FROZEN_PROVISIONAL_CLASS
+  source:
+  - 20_engineering/config/attitude_stab/attitude_stab_v0.yaml
+  - 20_engineering/config/mission_feasibility/scan_v0.yaml
+tau_max_continuous_Nm:
+  LOW: 0.002
+  NOMINAL: 0.01
+  HIGH: 0.02
+  status: PROVISIONAL
+  source: 20_engineering/config/attitude_stab/attitude_stab_v0.yaml stage_b.actuator_dynamics
+  basis: 'PROVISIONAL placeholder pending a hardware datasheet freeze. Order set by the 0.1 Nms-per-axis
+    wheel class already frozen in this module: catalog-level torque for that class (e.g. Sinclair RW-0.03
+    / CubeSpace CW0057-type small reaction wheels) spans roughly 2-20 mNm; the mid-order value 10 mNm
+    is taken. Must be replaced and re-run when the hardware group freezes the actual wheel torque (same
+    discipline as the sim_11 T_c=20 ms gripper placeholder).'
+tau_max_peak_Nm:
+  LOW: 0.002
+  NOMINAL: 0.01
+  HIGH: 0.02
+  status: UNKNOWN_NO_SEPARATE_PEAK_RATING
+  note: no datasheet separates continuous from peak; the same interval is reused and must not be read
+    as a peak allowance
+peak_duration_s:
+  status: UNKNOWN
+  interval: NOT_ESTABLISHED
+wheel_initial_bias:
+  model: h_rw0 = -h_hat * h_max for WHEEL_BIAS, 0 otherwise
+  theta_pred_error_deg: 0.0
+  source: sim_12 strategies_v0.yaml s3a
+saturation_logic:
+  rule: '|h_rw0 + H_c| <= h_max (scalar tier); demand above tier is not absorbable'
+  consequence: WHEEL_BIAS extends feasibility to H <= 2*h_max only
+desaturation_assumption:
+  status: NOT_MODELLED
+  note: sim_08 architecture lists thruster unload; no desaturation duty cycle, propellant cost or timeline
+    is bound in any current artifact
+stabilization_time_model:
+  formula: t_stab >= |Delta H_wheel| / tau_effective
+  tau_effective: 'single-axis conservative: tau_effective = tau_max_continuous'
+  saturation_terms:
+  - wheel momentum saturation |h_rw0 + H_c| <= h_max
+  - torque saturation tau <= tau_max_continuous
+  allocation_losses: NOT_MODELLED_ASSUMED_UNITY
+  duty_cycle_scope: UNKNOWN
+  status: PROVISIONAL_RESEARCH_EVALUATOR
+  prohibited_use: hardware settling-time or closed-loop stability claim
+inertia_model_caveat: 'PROVISIONAL_L1_MOMENTUM_ACTUATOR: momentum bookkeeping is exact in the inertial
+  frame; the rate map omega = I^-1 * H_body uses the combined inertia frozen at the capture attitude and
+  no gyroscopic Euler coupling is modeled. Not a hardware-valid closed-loop stability model.'
+scope_separation:
+  ctrl02_per_axis_Nms:
+    value:
+    - 0.1
+    - 0.1
+    - 0.1
+    scope: PER_AXIS_WHEEL_CAPACITY
+    source: 20_engineering/config/attitude_stab/attitude_stab_v0.yaml
+    ruling: per-axis physical wheel capacity used by CTRL-02 Stage-B
+  sim10_sim12_tier_Nms:
+    value:
+      wheels_small: 0.045
+      wheels_large: 0.3
+    scope: THREE_AXIS_SCALAR_TIER
+    source: 20_engineering/config/mission_feasibility/scan_v0.yaml
+    ruling: wheels_large 0.3 = 3 x the 0.1 per-axis capacity; it is the three-axis scalar tier consumed
+      by the sim_12 scalar |H| gate
+  sim08_class_ladder_Nms:
+    value:
+      cubesat_small: 0.015
+      cubesat_mid: 0.05
+      cubesat_large: 0.1
+      smallsat: 1.0
+    scope: COTS_CLASS_LADDER_PER_AXIS
+    source: 30_simulation/sim_08_detumble_actuator_budget/assumptions.yaml
+    ruling: cubesat_large 0.100 is the same per-axis class; the file header declares every value a placeholder
+      CLASS value pending COTS datasheets
+  e15_hard_constraint_Nms:
+    value: 5.475
+    scope: NOT_A_WHEEL_CAPACITY__PROPELLANT_REMOVABLE_MOMENTUM_BUDGET
+    source: 20_engineering/config/grasp_evaluator/hard_constraints_v1.yaml
+    ruling: MISLABELLED. 5.475 = thruster_impulse_max_Ns 32.205882352941174 x lever_arm_m 0.17 exactly.
+      It is the total angular momentum removable by the full propellant budget, not a reaction-wheel capacity.
+      Substituting it for a wheel limit is a category error, not merely a scope widening.
+    derived_check:
+      J_max_Ns: 32.205882352941174
+      lever_m: 0.17
+      product_Nms: 5.475
+      matches_declared: true
+scope_ruling:
+  sim12_v2_binding_unchanged: true
+  sim12_v2_h_max_Nms: 0.3
+  rebinding_permitted: false
+  reason: SIM12 V2 consumes the three-axis scalar tier 0.3 N*m*s, which is internally consistent with
+    the 0.1 N*m*s per-axis capacity. No separate authority Gate permits rebinding, and 5.475 is not a
+    wheel quantity at all.

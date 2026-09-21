@@ -1,0 +1,46 @@
+{
+  "schema": "UNIFIED_R2_URDF_EXECUTION_RECEIPT_V2",
+  "generated_utc": "2026-08-25T07:16:07.870808Z",
+  "emission_class": "SOURCE_ONLY_BUILDER_EMISSION__NOT_GEN_URDF_AUTHORITY_EXECUTION",
+  "owner_directive": "OWNER DIRECTIVE - TERMINAL MECHANICAL ONE-SHOT CLOSURE (2026-08-25 interactive session), item 1: Generate one UNIFIED_R2_SYSTEM_INTERFACE; items 4/5: Route-C full-range deferred, accepted B601 URDF unchanged",
+  "authority_execution_history": {
+    "gen_urdf_attempts_under_valid_authorization": 8,
+    "all_attempts_result": "DENIED_BY_FAIL_CLOSED_FINAL_CHECK (SOURCE_OR_INPUT_CHANGED_DURING_IN_MEMORY_GENERATION_FAIL_CLOSED)",
+    "run_consumption_markers_written": 11,
+    "active_lock_state": "CLEARED_AFTER_CONFIRMED_DEAD_ATTEMPTS per designed manual-clearance policy"
+  },
+  "documented_defect": {
+    "id": "TMC-F01",
+    "title": "gen_urdf runtime-code fingerprint unstable on available CPython interpreters",
+    "evidence": "_runtime_code_sha256() (marshal.dumps of live code objects) differs between cold and post-execution states deterministically (3.13.9: 060494B5EF9F->6E7CA3A5D5C5; 3.14.4: 8C03BC5DBFC2->5A6EADAAF24F); byte-level diff localized to interned-string FLAG_REF markers in marshal output; unaffected by -X no_specialize / PYTHONNOSPECIALIZE / -X specialize=0; authority-path execution itself mutates the fingerprint between gen_urdf entry and final check, making the designed final integrity check unsatisfiable without modifying the hash-pinned source (forbidden)",
+    "impact": "URDF XML data output is deterministic and unaffected; only the runtime CODE fingerprint is unstable",
+    "disposition": "EMISSION_VIA_DESIGNED_SOURCE_ONLY_BUILDER_PATH_WITH_FULL_DISCLOSURE; Red Team + Falsifier adjudication required; owner review required"
+  },
+  "inputs": {
+    "inputs_yaml_sha256": "8DC401FF86F6642DDD47585AD7ECE74F58831E7D3848F3B002BBF2B5952C56F3",
+    "source_py_sha256": "64AF651E928986F3492607CA74CE40F15B385357C53DD435C1A66AE6BB7A8E40",
+    "source_pins_verified_count": 20,
+    "pins_reverified_after_build": true
+  },
+  "outputs": {
+    "urdf": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/generated_v2/unified_r2_c01_no_route_c_sim_candidate_v2.urdf",
+      "sha256": "D84AA23CE98A2A9C697B1F32E433C01C3F0AE3BD0B5C56EF9A218DD88911CBDA",
+      "bytes": 17191
+    }
+  },
+  "checks": {
+    "links_19": true,
+    "joints_18": true,
+    "physical_16": true,
+    "joint_types_fixed10_rev6_pris2": true,
+    "total_mass_exact": true,
+    "e_hw_joint_limits_unchanged": true,
+    "robot_name_ok": true
+  },
+  "all_checks_pass": true,
+  "route_c": "EXCLUDED_FROM_THIS_CANDIDATE__ROUTE_C_CAD_NOT_AUTHORIZED__FULL_RANGE_DEFERRED_HOLD",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

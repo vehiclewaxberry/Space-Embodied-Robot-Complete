@@ -1,0 +1,791 @@
+{
+  "contact_release_eligible": false,
+  "controls": [
+    {
+      "baseline": {
+        "assertion": "hash-bound V2-schema interface document is accepted by the isolated resolver",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "REJECT_BINDING",
+      "control_id": "NC01",
+      "details": {
+        "mutated_artifact_verified": false
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "DOCUMENT_SCHEMA_MISMATCH",
+      "exact_reason_match": true,
+      "exact_reason_observed": "DOCUMENT_SCHEMA_MISMATCH",
+      "executed": true,
+      "future_gate": "SIM13_SYSTEM_BINDING_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "replace only the interface schema with the legacy V1 schema; refreshed pins are derived bookkeeping",
+        "path": "/artifacts/system_interface/document/schema",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "REJECT_BINDING",
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": "5487943354A0136B71F65A59BC26D33108FDB7C1E2E35744A1D08FAD0218E731",
+      "required_observation": "binding_denied",
+      "runner_scope": "UNIT_KERNEL_NOT_PRODUCTION_RUNTIME",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "V1_SCHEMA_OR_FILENAME_AS_V2_BINDING"
+    },
+    {
+      "baseline": {
+        "assertion": "the exact interface bytes and SHA-256 pin verify before mutation",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "REJECT_BINDING",
+      "control_id": "NC02",
+      "details": {
+        "mutated_artifact_verified": false
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "BYTES_OR_SHA256_MISMATCH",
+      "exact_reason_match": true,
+      "exact_reason_observed": "BYTES_OR_SHA256_MISMATCH",
+      "executed": true,
+      "future_gate": "SIM13_SYSTEM_BINDING_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "replace only the expected SHA-256 with a wrong 64-hex digest",
+        "path": "/artifacts/system_interface/sha256",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "REJECT_BINDING",
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": "35BD0E74B564CCAEC2673E579A3F1726AA59391522AD3DA5E569FA03A8AC7629",
+      "required_observation": "binding_denied",
+      "runner_scope": "UNIT_KERNEL_NOT_PRODUCTION_RUNTIME",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "ARTIFACT_BYTES_OR_SHA256_DRIFT"
+    },
+    {
+      "baseline": {
+        "assertion": "selected explicit-structure baseline parses as exactly 19 links / 18 joints",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "REJECT_BINDING",
+      "control_id": "NC03",
+      "details": {
+        "mutated_joints": 17,
+        "mutated_links": 18
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "UNIFIED_R2_TOPOLOGY_19_LINKS_18_JOINTS_REQUIRED",
+      "exact_reason_match": true,
+      "exact_reason_observed": "UNIFIED_R2_TOPOLOGY_19_LINKS_18_JOINTS_REQUIRED",
+      "executed": true,
+      "future_gate": "SIM13_SYSTEM_BINDING_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "remove the single explicit-structure branch to inject the aggregate 18-link mode",
+        "path": "/robot/{bus_primary_structure_link,bus_to_structure_joint}",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "REJECT_BINDING",
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": "EC9D606216BD437F8BEDFF26F84D432279D4A36964DCFEE43624237113271830",
+      "required_observation": "topology_mismatch",
+      "runner_scope": "SOURCE_ONLY_IN_MEMORY_URDF_KERNEL",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "AGGREGATE_18_LINK_MODE_MASQUERADES_AS_SELECTED_19_LINK_MODE"
+    },
+    {
+      "baseline": {
+        "assertion": "baseline recomposes to 31.022864807342987 kg",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "REJECT_BINDING",
+      "control_id": "NC04",
+      "details": {
+        "baseline_mass_kg": 31.022864807342987,
+        "forbidden_total_kg": 37.05784541499227,
+        "kernel_exception": "Unified-R2 total mass must equal the selected 31.022864807342987 kg contract",
+        "mutated_mass_kg": 37.05784541499227
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "TOTAL_MASS_RECOMPOSITION_MISMATCH",
+      "exact_reason_match": true,
+      "exact_reason_observed": "TOTAL_MASS_RECOMPOSITION_MISMATCH",
+      "executed": true,
+      "future_gate": "SIM13_SYSTEM_BINDING_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "add the already represented 6.034980607649281 kg primary structure once more",
+        "path": "/robot/link[@name='spacecraft_bus']/inertial/mass/@value",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "REJECT_BINDING",
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": "56ACA6501E319EB0E8DC7BEB058158AD665096707150D767D9DA0A26189ECBD0",
+      "required_observation": "mass_recomposition_mismatch",
+      "runner_scope": "SOURCE_ONLY_IN_MEMORY_MASS_CONTRACT",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "EXPLICIT_STRUCTURE_DOUBLE_COUNT_TOTAL_37P05784541499227_KG"
+    },
+    {
+      "baseline": {
+        "assertion": "all nine accepted B601 joint parent/child pairs match the frozen signature",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "REJECT_BINDING",
+      "control_id": "NC05",
+      "details": {
+        "expected_joint3": [
+          "link2",
+          "link3"
+        ],
+        "mutated_joint3": [
+          "spacecraft_bus",
+          "link3"
+        ]
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "B601_PARENT_CHILD_SIGNATURE_MISMATCH",
+      "exact_reason_match": true,
+      "exact_reason_observed": "B601_PARENT_CHILD_SIGNATURE_MISMATCH",
+      "executed": true,
+      "future_gate": "SIM13_SYSTEM_BINDING_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "replace only joint3 parent link2 with spacecraft_bus",
+        "path": "/robot/joint[@name='joint3']/parent/@link",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "REJECT_BINDING",
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": "C51F39493B84AA653D6991F1D3E4C091EF61E9FBE60F41637F624DA7E7FB9620",
+      "required_observation": "subtree_mismatch",
+      "runner_scope": "SOURCE_ONLY_IN_MEMORY_SUBTREE_KERNEL",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "ACCEPTED_B601_EXACT_FIELD_DRIFT"
+    },
+    {
+      "baseline": {
+        "assertion": "D, D-pattern and M links contain no inertial, visual or collision children",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "REJECT_BINDING",
+      "control_id": "NC06",
+      "details": {
+        "injected_child": "visual",
+        "polluted_frame": "M_DYNAMICS_NONPHYSICAL"
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "FRAME_ONLY_LINK_HAS_INERTIAL_VISUAL_OR_COLLISION",
+      "exact_reason_match": true,
+      "exact_reason_observed": "FRAME_ONLY_LINK_HAS_INERTIAL_VISUAL_OR_COLLISION",
+      "executed": true,
+      "future_gate": "SIM13_SYSTEM_BINDING_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "add one visual child to the M frame-only link",
+        "path": "/robot/link[@name='M_DYNAMICS_NONPHYSICAL']/visual",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "REJECT_BINDING",
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": "4BB6A4A19D3A19B8C5BE8240A6CD4708ED310B629A49064A31B4200555673DD3",
+      "required_observation": "frame_contract_mismatch",
+      "runner_scope": "SOURCE_ONLY_IN_MEMORY_FRAME_KERNEL",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "FRAME_ONLY_LINK_HAS_INERTIAL_VISUAL_OR_COLLISION"
+    },
+    {
+      "baseline": {
+        "assertion": "baseline B601 physical path is S-D-pattern-bridge-M3R-base and excludes M",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "REJECT_BINDING",
+      "control_id": "NC07",
+      "details": {
+        "mutated_parent": "M_DYNAMICS_NONPHYSICAL"
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "PHYSICAL_LOAD_PATH_TRAVERSES_M_DYNAMICS_NONPHYSICAL",
+      "exact_reason_match": true,
+      "exact_reason_observed": "PHYSICAL_LOAD_PATH_TRAVERSES_M_DYNAMICS_NONPHYSICAL",
+      "executed": true,
+      "future_gate": "SIM13_SYSTEM_BINDING_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "replace only the physical mount parent with M_DYNAMICS_NONPHYSICAL",
+        "path": "/robot/joint[@name='m3r_lumped_link_to_base_link']/parent/@link",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "REJECT_BINDING",
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": "87EC793D1702483A5F9D96518A44A2440F4B398574998AFF55FFB51154914000",
+      "required_observation": "load_path_mismatch",
+      "runner_scope": "SOURCE_ONLY_IN_MEMORY_LOAD_PATH_KERNEL",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "D_M_ALIAS_OR_PHYSICAL_PATH_TRAVERSES_M"
+    },
+    {
+      "baseline": {
+        "assertion": "a private-factory 12-PASS unit snapshot admits one high-level non-ABORT only inside the contract kernel",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "MASK_TO_ABORT_ONLY",
+      "control_id": "NC08",
+      "details": {
+        "executed_strategy": "ABORT",
+        "mutated_gate": "mechanical_system_binding",
+        "mutated_state": "UNKNOWN"
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "MECHANICAL_SYSTEM_BINDING_UNKNOWN",
+      "exact_reason_match": true,
+      "exact_reason_observed": "MECHANICAL_SYSTEM_BINDING_UNKNOWN",
+      "executed": true,
+      "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "replace only mechanical_system_binding PASS with UNKNOWN",
+        "path": "/gate_snapshot/mechanical_system_binding",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "MASK_TO_ABORT_ONLY",
+      "registry_dependency": null,
+      "registry_execution_class": "CURRENT_EVIDENCE_EXECUTABLE",
+      "repeat_digest": "4DD365AD250B0FCA1A08F4F671CAEEB059EB00BD87471CB948AB5B7EF7B88053",
+      "required_observation": "shield_executes_abort",
+      "runner_scope": "UNIT_KERNEL_NOT_PRODUCTION_RUNTIME",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "MECHANICAL_SYSTEM_BINDING_UNKNOWN_OR_FAIL_WITH_NON_ABORT_REQUEST"
+    },
+    {
+      "baseline": {
+        "assertion": "a private-factory 12-PASS unit snapshot admits one high-level non-ABORT only inside the contract kernel",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "MASK_TO_ABORT_ONLY",
+      "control_id": "NC09",
+      "details": {
+        "executed_strategy": "ABORT",
+        "mutated_gate": "harness_rated_envelope",
+        "mutated_state": "UNKNOWN"
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "HARNESS_RATED_ENVELOPE_UNKNOWN",
+      "exact_reason_match": true,
+      "exact_reason_observed": "HARNESS_RATED_ENVELOPE_UNKNOWN",
+      "executed": true,
+      "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "replace only harness_rated_envelope PASS with UNKNOWN",
+        "path": "/gate_snapshot/harness_rated_envelope",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "MASK_TO_ABORT_ONLY",
+      "registry_dependency": null,
+      "registry_execution_class": "CURRENT_EVIDENCE_EXECUTABLE",
+      "repeat_digest": "5D37AB24146B61BEC5B3969AC6EA9A3D0463F867467C624CD07D82D951039D13",
+      "required_observation": "shield_executes_abort",
+      "runner_scope": "UNIT_KERNEL_NOT_PRODUCTION_RUNTIME",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "HARNESS_RATED_ENVELOPE_UNKNOWN_OR_FAIL_WITH_NON_ABORT_REQUEST"
+    },
+    {
+      "baseline": {
+        "assertion": "a private-factory 12-PASS unit snapshot admits one high-level non-ABORT only inside the contract kernel",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "MASK_TO_ABORT_ONLY",
+      "control_id": "NC10",
+      "details": {
+        "executed_strategy": "ABORT",
+        "mutated_gate": "contact_physics_ready",
+        "mutated_state": "FAIL"
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "CONTACT_PHYSICS_READY_FAIL",
+      "exact_reason_match": true,
+      "exact_reason_observed": "CONTACT_PHYSICS_READY_FAIL",
+      "executed": true,
+      "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "replace only contact_physics_ready PASS with FAIL",
+        "path": "/gate_snapshot/contact_physics_ready",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "MASK_TO_ABORT_ONLY",
+      "registry_dependency": null,
+      "registry_execution_class": "CURRENT_EVIDENCE_EXECUTABLE",
+      "repeat_digest": "A352CF3E113F49937BFA0F4A8178F14DD3A3C664A7DE1EE374891EF7D325766D",
+      "required_observation": "shield_executes_abort",
+      "runner_scope": "UNIT_KERNEL_NOT_PRODUCTION_RUNTIME",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "CONTACT_PHYSICS_READY_UNKNOWN_OR_FAIL_WITH_GRASP_REQUEST"
+    },
+    {
+      "baseline": {
+        "assertion": "momentum backend declares NOT_CONTACT and production_dynamics_gate_passed=false",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "FAIL_GATE",
+      "control_id": "NC11",
+      "details": {
+        "backend_scope": "PRESCRIBED_JOINT_MOTION_MOMENTUM_PREBIND_NOT_TORQUE_DRIVEN_NOT_CONTACT",
+        "contact_release_allowed": false
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "BACKEND_SCOPE_REJECTS_CONTACT_OR_TRAINING_CLAIM",
+      "exact_reason_match": true,
+      "exact_reason_observed": "BACKEND_SCOPE_REJECTS_CONTACT_OR_TRAINING_CLAIM",
+      "executed": true,
+      "future_gate": "SIM13_DYNAMICS_BACKEND_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "replace only the diagnostic momentum claim with a contact/training claim",
+        "path": "/consumer_claim/contact_or_training_claim",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "FAIL_GATE",
+      "registry_dependency": null,
+      "registry_execution_class": "CURRENT_EVIDENCE_EXECUTABLE",
+      "repeat_digest": "0BC57165F345BAC9F185E18F5268FB208028701A55F69B3DA60309859C5F1D3D",
+      "required_observation": "backend_scope_rejected",
+      "runner_scope": "SOURCE_ONLY_BACKEND_SCOPE_AND_CONTACT_ALL_OF_KERNEL",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "KINEMATIC_BOOTSTRAP_OFFERED_AS_CONTACT_OR_TRAINING_PHYSICS"
+    },
+    {
+      "baseline": {
+        "assertion": "canonical ABORT remains executable under the current absent-URDF authority state",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "REJECT_BINDING",
+      "control_id": "NC12",
+      "details": {
+        "executed_strategy": "ABORT",
+        "system_status": "UNAVAILABLE_FAIL_CLOSED"
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "SYSTEM_URDF_NOT_HASH_BOUND_AND_AVAILABLE",
+      "exact_reason_match": true,
+      "exact_reason_observed": "SYSTEM_URDF_NOT_HASH_BOUND_AND_AVAILABLE",
+      "executed": true,
+      "future_gate": "SIM13_SYSTEM_BINDING_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "replace the one high-level request object ABORT with an S1 grasp request",
+        "path": "/consumer_request",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "REJECT_BINDING",
+      "registry_dependency": null,
+      "registry_execution_class": "CURRENT_EVIDENCE_EXECUTABLE",
+      "repeat_digest": "02FA59258958BA90E44A5391C70F47E0E13E70CFA1A28C0A8015572A31E75268",
+      "required_observation": "consumer_load_denied",
+      "runner_scope": "CURRENT_HASH_BOUND_PREBIND_AUTHORITY",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "URDF_ABSENT_OR_ROUTE_C_SCOPE_UNACCEPTED_OR_REBIND_UNAUTHORIZED"
+    },
+    {
+      "baseline": {
+        "assertion": "a private-factory 12-PASS unit snapshot admits one high-level non-ABORT only inside the contract kernel",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "MASK_TO_ABORT_ONLY",
+      "control_id": "NC13",
+      "details": {
+        "executed_strategy": "ABORT",
+        "mutated_gate": "ik_reachable",
+        "mutated_state": "FAIL"
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "IK_REACHABLE_FAIL",
+      "exact_reason_match": true,
+      "exact_reason_observed": "IK_REACHABLE_FAIL",
+      "executed": true,
+      "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "replace only ik_reachable PASS with FAIL",
+        "path": "/gate_snapshot/ik_reachable",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "MASK_TO_ABORT_ONLY",
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": "4BEDD047AB3EF4211AFEDAB4422D0DD6041C6DD0B4DD47D67EE1AB8B11F6A8E9",
+      "required_observation": "shield_executes_abort",
+      "runner_scope": "UNIT_KERNEL_NOT_PRODUCTION_RUNTIME",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "ANY_INHERITED_V1_GATE_UNKNOWN_OR_FAIL_WITH_NON_ABORT_REQUEST"
+    },
+    {
+      "baseline": {
+        "assertion": "the exact three-field high-level action parses before mutation",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "REJECT_BINDING",
+      "control_id": "NC14",
+      "details": {
+        "exception_exact_match": true
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "CALLER_SUPPLIED_PASS_FIELD_REJECTED",
+      "exact_reason_match": true,
+      "exact_reason_observed": "CALLER_SUPPLIED_PASS_FIELD_REJECTED",
+      "executed": true,
+      "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "add one caller-supplied PASS field to the action mapping",
+        "path": "/action/mechanical_system_binding",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "REJECT_BINDING",
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": "83A1B6424EDA2F0902C9667FD15F4CDA190B296213FB081BA4173E8A897E0146",
+      "required_observation": "authority_join_denied",
+      "runner_scope": "UNIT_KERNEL_NOT_PRODUCTION_RUNTIME",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "CALLER_FORGES_PASS_WITHOUT_HASH_BOUND_EVALUATOR_RECEIPT"
+    },
+    {
+      "baseline": {
+        "assertion": null,
+        "qualified": false
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "MASK_TO_ABORT_ONLY",
+      "control_id": "NC15",
+      "details": {},
+      "deterministic_repeat": null,
+      "exact_reason_expected": null,
+      "exact_reason_match": null,
+      "exact_reason_observed": null,
+      "executed": false,
+      "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+      "hold_dependency": "fresh action/context-bound snapshot receipt, trusted clock, nonce and replay store are not implemented",
+      "mutation": {
+        "deep_copy": false,
+        "description": null,
+        "path": null,
+        "single_fault": false
+      },
+      "non_abort_execution_count": null,
+      "observed_outcome": null,
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": null,
+      "required_observation": "snapshot_rejected",
+      "runner_scope": null,
+      "status": "NOT_RUN_DEPENDENCY_HOLD",
+      "stimulus": "STALE_OR_REPLAYED_GATE_SNAPSHOT"
+    },
+    {
+      "baseline": {
+        "assertion": null,
+        "qualified": false
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "MASK_TO_ABORT_ONLY",
+      "control_id": "NC16",
+      "details": {},
+      "deterministic_repeat": null,
+      "exact_reason_expected": null,
+      "exact_reason_match": null,
+      "exact_reason_observed": null,
+      "executed": false,
+      "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+      "hold_dependency": "backend capability token and mandatory shield-attestation admission interface are not implemented",
+      "mutation": {
+        "deep_copy": false,
+        "description": null,
+        "path": null,
+        "single_fault": false
+      },
+      "non_abort_execution_count": null,
+      "observed_outcome": null,
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": null,
+      "required_observation": "backend_rejects_unshielded_non_abort",
+      "runner_scope": null,
+      "status": "NOT_RUN_DEPENDENCY_HOLD",
+      "stimulus": "DIRECT_BACKEND_CALL_BYPASSES_SAFETY_SHIELD"
+    },
+    {
+      "baseline": {
+        "assertion": "a unity-scale deep-copied link model leaves the baseline mass matrix unchanged",
+        "qualified": true
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "FAIL_GATE",
+      "control_id": "NC17",
+      "details": {
+        "Hbb_frobenius_delta": 0.2991233256713964,
+        "Hbm_frobenius_delta": 0.0,
+        "baseline_total_mass_kg": 31.022864807342987,
+        "link_name": "spacecraft_bus",
+        "mass_matrix_frobenius_delta": 0.2991233256713964,
+        "perturbed_total_mass_kg": 31.195547135266494
+      },
+      "deterministic_repeat": true,
+      "exact_reason_expected": "SINGLE_LINK_MASS_SENSITIVITY_DETECTED",
+      "exact_reason_match": true,
+      "exact_reason_observed": "SINGLE_LINK_MASS_SENSITIVITY_DETECTED",
+      "executed": true,
+      "future_gate": "SIM13_DYNAMICS_BACKEND_GATE_V2",
+      "hold_dependency": null,
+      "mutation": {
+        "deep_copy": true,
+        "description": "replace only spacecraft_bus mass_scale 1.0 with 1.01",
+        "path": "/single_link_perturbation/mass_scale",
+        "single_fault": true
+      },
+      "non_abort_execution_count": 0,
+      "observed_outcome": "FAIL_GATE",
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": "4E0E4E35565C5603E4003D72BCE3795161B976B3EBF3833989B77F10CEA564C8",
+      "required_observation": "physics_sensitivity_failure",
+      "runner_scope": "SOURCE_ONLY_RIGID_MULTIBODY_MOMENTUM_SENSITIVITY_KERNEL",
+      "status": "PASS_NEGATIVE_CONTROL_DETECTED",
+      "stimulus": "MASS_OR_INERTIA_PERTURBED_BUT_TRAJECTORY_UNCHANGED"
+    },
+    {
+      "baseline": {
+        "assertion": null,
+        "qualified": false
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "FAIL_GATE",
+      "control_id": "NC18",
+      "details": {},
+      "deterministic_repeat": null,
+      "exact_reason_expected": null,
+      "exact_reason_match": null,
+      "exact_reason_observed": null,
+      "executed": false,
+      "future_gate": "SIM13_DYNAMICS_BACKEND_GATE_V2",
+      "hold_dependency": "integrated non-ABORT joint/base/end-effector state evolution backend is not implemented",
+      "mutation": {
+        "deep_copy": false,
+        "description": null,
+        "path": null,
+        "single_fault": false
+      },
+      "non_abort_execution_count": null,
+      "observed_outcome": null,
+      "registry_dependency": null,
+      "registry_execution_class": "SYNTHETIC_PREBIND_EXECUTABLE",
+      "repeat_digest": null,
+      "required_observation": "dynamics_state_update_failure",
+      "runner_scope": null,
+      "status": "NOT_RUN_DEPENDENCY_HOLD",
+      "stimulus": "NON_ABORT_STEP_CHANGES_TASK_PHASE_ONLY_WITHOUT_JOINT_BASE_OR_EE_STATE"
+    },
+    {
+      "baseline": {
+        "assertion": null,
+        "qualified": false
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "FAIL_GATE",
+      "control_id": "NC19",
+      "details": {},
+      "deterministic_repeat": null,
+      "exact_reason_expected": null,
+      "exact_reason_match": null,
+      "exact_reason_observed": null,
+      "executed": false,
+      "future_gate": "SIM13_CONTACT_GRASP_GATE_V2",
+      "hold_dependency": "authoritative narrow-phase contact backend and released contact geometry are absent",
+      "mutation": {
+        "deep_copy": false,
+        "description": null,
+        "path": null,
+        "single_fault": false
+      },
+      "non_abort_execution_count": null,
+      "observed_outcome": null,
+      "registry_dependency": "authoritative narrow-phase contact backend and geometry",
+      "registry_execution_class": "NOT_EXECUTABLE_DEPENDENCY_HOLD",
+      "repeat_digest": null,
+      "required_observation": "contact_detection_failure",
+      "runner_scope": null,
+      "status": "NOT_RUN_DEPENDENCY_HOLD",
+      "stimulus": "OVERLAPPING_GEOMETRY_DOES_NOT_UPDATE_COLLISION_OR_CONTACT_STATE"
+    },
+    {
+      "baseline": {
+        "assertion": null,
+        "qualified": false
+      },
+      "baseline_source_hashes_unchanged": true,
+      "canonical_outcome": "MASK_TO_ABORT_ONLY",
+      "control_id": "NC20",
+      "details": {},
+      "deterministic_repeat": null,
+      "exact_reason_expected": null,
+      "exact_reason_match": null,
+      "exact_reason_observed": null,
+      "executed": false,
+      "future_gate": "SIM13_RUNTIME_FAIL_CLOSED_GATE_V2",
+      "hold_dependency": "action-bound 150 kg feasibility/post-grasp evaluator receipt is not implemented",
+      "mutation": {
+        "deep_copy": false,
+        "description": null,
+        "path": null,
+        "single_fault": false
+      },
+      "non_abort_execution_count": null,
+      "observed_outcome": null,
+      "registry_dependency": null,
+      "registry_execution_class": "CURRENT_EVIDENCE_EXECUTABLE",
+      "repeat_digest": null,
+      "required_observation": "shield_executes_abort",
+      "runner_scope": null,
+      "status": "NOT_RUN_DEPENDENCY_HOLD",
+      "stimulus": "DEBRIS_150KG_3DPS_REQUESTS_NON_ABORT_WITHOUT_FEASIBILITY_AND_POST_GRASP_PASS"
+    }
+  ],
+  "formal_runner_verdict": "PASS_EXECUTED_SUBSET_WITH_DEPENDENCY_HOLDS",
+  "generated_date_local": "2026-08-24",
+  "negative_controls_all_passed": false,
+  "next": false,
+  "next_stage_authorized": false,
+  "registry_sha256": "65E39BAD5B00198A5FB001ECB00611578B3F34BD1CCC4EFC453D13FDF0A4276C",
+  "registry_source": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/negative_controls.py",
+  "release": false,
+  "release_credit": false,
+  "schema": "SIM13_V2_NEGATIVE_CONTROLS_PREBIND_V1",
+  "scope": "FORMAL_SINGLE_FAULT_PREBIND_EXECUTION__NOT_PRODUCTION_RUNTIME_NOT_CONTACT_RELEASE",
+  "source_hashes_after": {
+    "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/B601_CAD_MESH_FRAME_DECISION_V1.json": "2A99484C6CE55B402CB06380F5DCB71D5A8B4BA622A371EEF72F4EC69EF124FF",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_MASS_DECOMPOSITION_BRIDGE_V1.json": "C893A55D49286AAB7E06BE0B3F0B2E1277F5724F42310559D26F341CE87758D7",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_ANALYTIC_REPORT_V1.json": "36CEF5BE22BF87587CA1AB2B276F8EC77F4B26A5ACF5E04252F4F58FBDDE6BF5",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_DESIGN_INPUTS_V1.json": "6AC5D31B21B666AE733F754B3928BDF47A360399471D3CB7EA12EFB67FBFB945",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_MASS_UNCERTAINTY_V1.json": "7B6E1EEAD39CFAAEB1848568B42E49239C5107984AD6CE83CF1F8DD799821A9C",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_SHA256_V1.csv": "FAF474B665ED0EA93C3C6312966F27BA46F7E7933DD50B939F632538D0B97D3B",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_SOURCE_GATE_V1.json": "091AA957012C99D4D6DDADFAFC6870CCA4A628217852E5767213322B0021BE6A",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_STATIC_VALIDATION_V1.json": "53DFDCE29AE29B93593DB92D4900F7D36F803C646A7639B45B8B65E2C245A751",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/internal_geometry_authority_closure/SOLAR_R2_ROOT_FRAME_REGISTRATION_V1.yaml": "95011198263005A4CDA60FE24C1FB04583384889479C0B8E9AC20C2B411D93DC",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/sim13_versioned_rebind_boundary_v2/SIM13_VERSIONED_REBIND_BOUNDARY_V2.yaml": "0074F8B6AB4B0D2BFE7609752DB54601047E45E608F24791CC42C77435D7FC41",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/source_only_v2/UNIFIED_R2_URDF_SOURCE_INPUTS_V2.yaml": "8DC401FF86F6642DDD47585AD7ECE74F58831E7D3848F3B002BBF2B5952C56F3",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/source_only_v2/unified_r2_urdf_source_v2.py": "64AF651E928986F3492607CA74CE40F15B385357C53DD435C1A66AE6BB7A8E40",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_effective_frontier_v2/UNIFIED_R2_PREBIND_EFFECTIVE_FRONTIER_GATE_V2.json": "E1FD91A13538949152CAECD330658C43C9B6B17CA78AFAD8637B23A650CADE40",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_effective_frontier_v2/UNIFIED_R2_PREBIND_EFFECTIVE_FRONTIER_V2.json": "E04C30610808971C81070A01C71D5846B3C2F5975384A22EE28053D9B2FFF2ED",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml": "3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB",
+    "20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml": "67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA",
+    "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/config/sim13_bootstrap.json": "4624C5BA2A016A002531FCF6FB6EFD661AA488D6C9420197789263D4B0E42B8D",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/src/env.py": "CC4EBCD46E8FDAC75E75D86C826E60EF46A12D848AA7114B986D1C5D31501F9D",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/src/mechanical_asset_loader.py": "C0797E5786888E357784369F6601B380C4E94FAE76B3FBFCF4C46717A833E851",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/src/observation.py": "FAFB189460BF72A853F7C5F631E630E8368987D04931DDAB5F72F03780A26DC6",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/src/physics_backend.py": "674F103E183D4602E8741D522B7D2747573F012F713F7CA6283C440547558D7A",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/tests/test_sim13_bootstrap.py": "01B4AB60F7CEF19DD06CE39F969831019E882EEEE03ADD1CE1DC686D3B449BF4",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/run_negative_controls_prebind_v1.py": "3C737AD10FF8DB46AD2B70A0419909E6E4A8E2C174EB7D614C74A36DF09BD1C6",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/authority_resolver.py": "E40C0BF6CCA55727E19D62A5DC5D915E839743E6F02595B256C9DDBFA75B16CF",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/contact_preflight.py": "1363B064A3F099DE06A62446F5A938EADB263330D8755C34A8F79B39EDC0604A",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/contracts.py": "297B585797CB8F3BD7102D0935429617307CC36D6D0A085B2749FABEEF6D70C0",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/env.py": "84650310A0C1B5CE3BAD27B3B3F09F89C008665F93CFE2D526A75F3F52D3556B",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/free_floating_dynamics.py": "8ED47D66F3805394FF369492ABD56A5F0E832AFD6D003C6FA18E66F510836813",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/negative_controls.py": "65E39BAD5B00198A5FB001ECB00611578B3F34BD1CCC4EFC453D13FDF0A4276C",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/system_model.py": "810615F1FF020F8DB4F953FFA4BB55DC2DE2DA3358A0800D7391EA19AEEA88FD"
+  },
+  "source_hashes_before": {
+    "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/B601_CAD_MESH_FRAME_DECISION_V1.json": "2A99484C6CE55B402CB06380F5DCB71D5A8B4BA622A371EEF72F4EC69EF124FF",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_MASS_DECOMPOSITION_BRIDGE_V1.json": "C893A55D49286AAB7E06BE0B3F0B2E1277F5724F42310559D26F341CE87758D7",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_ANALYTIC_REPORT_V1.json": "36CEF5BE22BF87587CA1AB2B276F8EC77F4B26A5ACF5E04252F4F58FBDDE6BF5",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_DESIGN_INPUTS_V1.json": "6AC5D31B21B666AE733F754B3928BDF47A360399471D3CB7EA12EFB67FBFB945",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_MASS_UNCERTAINTY_V1.json": "7B6E1EEAD39CFAAEB1848568B42E49239C5107984AD6CE83CF1F8DD799821A9C",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_SHA256_V1.csv": "FAF474B665ED0EA93C3C6312966F27BA46F7E7933DD50B939F632538D0B97D3B",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_SOURCE_GATE_V1.json": "091AA957012C99D4D6DDADFAFC6870CCA4A628217852E5767213322B0021BE6A",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_STATIC_VALIDATION_V1.json": "53DFDCE29AE29B93593DB92D4900F7D36F803C646A7639B45B8B65E2C245A751",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/internal_geometry_authority_closure/SOLAR_R2_ROOT_FRAME_REGISTRATION_V1.yaml": "95011198263005A4CDA60FE24C1FB04583384889479C0B8E9AC20C2B411D93DC",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/sim13_versioned_rebind_boundary_v2/SIM13_VERSIONED_REBIND_BOUNDARY_V2.yaml": "0074F8B6AB4B0D2BFE7609752DB54601047E45E608F24791CC42C77435D7FC41",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/source_only_v2/UNIFIED_R2_URDF_SOURCE_INPUTS_V2.yaml": "8DC401FF86F6642DDD47585AD7ECE74F58831E7D3848F3B002BBF2B5952C56F3",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/source_only_v2/unified_r2_urdf_source_v2.py": "64AF651E928986F3492607CA74CE40F15B385357C53DD435C1A66AE6BB7A8E40",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_effective_frontier_v2/UNIFIED_R2_PREBIND_EFFECTIVE_FRONTIER_GATE_V2.json": "E1FD91A13538949152CAECD330658C43C9B6B17CA78AFAD8637B23A650CADE40",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_effective_frontier_v2/UNIFIED_R2_PREBIND_EFFECTIVE_FRONTIER_V2.json": "E04C30610808971C81070A01C71D5846B3C2F5975384A22EE28053D9B2FFF2ED",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml": "3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB",
+    "20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml": "67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA",
+    "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/config/sim13_bootstrap.json": "4624C5BA2A016A002531FCF6FB6EFD661AA488D6C9420197789263D4B0E42B8D",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/src/env.py": "CC4EBCD46E8FDAC75E75D86C826E60EF46A12D848AA7114B986D1C5D31501F9D",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/src/mechanical_asset_loader.py": "C0797E5786888E357784369F6601B380C4E94FAE76B3FBFCF4C46717A833E851",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/src/observation.py": "FAFB189460BF72A853F7C5F631E630E8368987D04931DDAB5F72F03780A26DC6",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/src/physics_backend.py": "674F103E183D4602E8741D522B7D2747573F012F713F7CA6283C440547558D7A",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/tests/test_sim13_bootstrap.py": "01B4AB60F7CEF19DD06CE39F969831019E882EEEE03ADD1CE1DC686D3B449BF4",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/run_negative_controls_prebind_v1.py": "3C737AD10FF8DB46AD2B70A0419909E6E4A8E2C174EB7D614C74A36DF09BD1C6",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/authority_resolver.py": "E40C0BF6CCA55727E19D62A5DC5D915E839743E6F02595B256C9DDBFA75B16CF",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/contact_preflight.py": "1363B064A3F099DE06A62446F5A938EADB263330D8755C34A8F79B39EDC0604A",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/contracts.py": "297B585797CB8F3BD7102D0935429617307CC36D6D0A085B2749FABEEF6D70C0",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/env.py": "84650310A0C1B5CE3BAD27B3B3F09F89C008665F93CFE2D526A75F3F52D3556B",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/free_floating_dynamics.py": "8ED47D66F3805394FF369492ABD56A5F0E832AFD6D003C6FA18E66F510836813",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/negative_controls.py": "65E39BAD5B00198A5FB001ECB00611578B3F34BD1CCC4EFC453D13FDF0A4276C",
+    "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/system_model.py": "810615F1FF020F8DB4F953FFA4BB55DC2DE2DA3358A0800D7391EA19AEEA88FD"
+  },
+  "source_hashes_unchanged": true,
+  "summary": {
+    "executed": 15,
+    "fail": 0,
+    "failed": 0,
+    "hold": 5,
+    "not_run_dependency_hold": 5,
+    "pass": 15,
+    "passed": 15,
+    "total": 20
+  },
+  "truth_guard": "only executed single-fault probes may PASS; absent interfaces remain dependency HOLD"
+}

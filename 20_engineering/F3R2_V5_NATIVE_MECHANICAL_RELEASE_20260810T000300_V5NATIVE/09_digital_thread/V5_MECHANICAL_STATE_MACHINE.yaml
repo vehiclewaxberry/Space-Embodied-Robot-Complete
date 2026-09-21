@@ -1,0 +1,71 @@
+schema: F3R2_V5_MECHANICAL_STATE_MACHINE_V1
+authority: "V5 state machine is an engineering seed; no state beyond the three runtime inputs is promoted by CAD"
+top_assembly: SEI_MECH_B601_V5_NATIVE_BASELINE.SLDASM
+accepted_urdf_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+levels:
+  L0: accepted_B601_URDF
+  L1: native_SolidWorks_V5
+  L2: simulation_visual_collision_mesh
+  L3: donor_reference_assets
+runtime_states:
+  -
+    state: DEPLOYED_NOMINAL
+    arm_pose: Q_DEPLOYED_HOME
+    wings: "both deployed via native hinge configurations"
+    autonomous: true
+  -
+    state: SERVICE_STAGING
+    arm_pose: Q_SERVICE_READY
+    wings: "both deployed via native hinge configurations"
+    autonomous: true
+    hold: "SERVICE configuration pending ratification"
+  -
+    state: SAFE_STOP
+    arm_pose: "hold current"
+    wings: unchanged
+    autonomous: true
+    note: "brakes engaged, no new motion accepted"
+  -
+    state: MANUAL_RECOVERY
+    arm_pose: "ground commanded"
+    wings: unchanged
+    autonomous: false
+engineering_wing_states:
+  - STOWED
+  - DEPLOYING
+  - DEPLOYED
+  - L_FAIL
+  - R_FAIL
+  - BOTH_FAIL
+note: "wing states come from one physical panel per side rotating about the real native hinge axis; no dual panel entities"
+hdrm_states:
+  - LOCKED
+  - RELEASE_ARMED
+  - RELEASE_START
+  - RELEASED
+  - RELEASE_FAILED
+  - GROUND_UNLOCK
+hdrm_note: "one physical functional-envelope demonstrator; COMPETITION_DEMONSTRATOR_FUNCTIONAL_ENVELOPE, FLIGHT_ACTUATOR_PROCUREMENT_TBD"
+gripper_states:
+  - OPEN
+  - PREGRASP
+  - CLOSED
+  - HOLDING
+gripper_note: "HOLDING is a CLOSED-geometry alias with no actuator/force authority"
+transitions_authorised:
+  -
+    from: DEPLOYED_NOMINAL
+    to: SERVICE_STAGING
+    evidence: "V5 Loop2 native sweep required"
+  -
+    from: SERVICE_STAGING
+    to: DEPLOYED_NOMINAL
+    evidence: "V5 Loop2 native sweep required (reverse segment)"
+  -
+    from: any
+    to: SAFE_STOP
+    evidence: "always allowed"
+transitions_not_authorised:
+  - "SERVICE_DOCKING / GRASP / TRANSPORT / ASSEMBLY / RETRIEVED_NOMINAL without human pose authority"
+  - "STOW to RELEASE_CLEAR without HDRM native closure and ground authority"
+  - "wing deployment TRANSIT without native hinge and interference closure"

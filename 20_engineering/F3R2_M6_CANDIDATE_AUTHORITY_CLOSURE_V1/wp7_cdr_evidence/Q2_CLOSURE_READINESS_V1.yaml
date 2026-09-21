@@ -1,0 +1,217 @@
+schema: Q2_CLOSURE_READINESS_V1
+generated_local: '2026-08-21T12:36:00+08:00'
+work_package: WP7_CDR_EVIDENCE
+evidence_class: CANDIDATE_CLOSURE_READINESS_NOT_AUTHORITY
+disposition: PENDING_OWNER_REVIEW
+
+target_gate:
+  gate: MECH_Q2_MASS_INTERFACE_AUTHORITY
+  gate_file: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/04_gates/MECH_Q2_MASS_INTERFACE_AUTHORITY_GATE.json
+  gate_sha256: 7239820c96a8f1d4e9064dabe8b12954a0a4368c7fafeee87a6045c8e28fff07
+  gate_status_at_generation: HOLD
+  pass_token_issued_at_generation: false
+  gate_status_change_by_this_pack: NONE
+  parent_phase_gate: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/04_gates/MECHANICAL_CDR_PHASE1_GATE.json
+  parent_phase_gate_sha256: fecb6ca59bc2c953e1f4b16eaee69c7301e0bd766926f9668107b5bbddcb60d2
+  parent_phase_gate_status_at_generation: HOLD
+
+scope: MASS_INTERFACE_SUBGATE_CLOSURE_READINESS_ONLY
+pack_purpose: >-
+  Record the closure-ready structure for the Q2 mass/interface subgate: the
+  M6 WP2 nine-configuration diagnostic aggregation as a candidate input path,
+  the adjudication option list for the spacecraft-root-to-M_FRAME relation
+  (options listed, none selected; decision reserved to the Owner), and the
+  release-condition tree that lifts the current 0/9 evaluable state. This pack
+  changes no gate, composes no system mass property, and overrides no L0
+  authority.
+
+q2_internal_state_snapshot:
+  artifact_integrity_status: PASS
+  active_digital_mass_authorities:
+    b601: {mass_kg: 4.695555949342986, classification: BUDGETED, source: ACCEPTED_URDF, sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164}
+    m3r: {mass_kg: 0.7619, classification: BUDGETED, source_field: owner_frozen_nominal_mass_g, measured: false, installed: false}
+  inactive_m3r_comparison_values_kg: [0.761904197, 0.782327248, 1.2]
+  configuration_mass_property_status: HOLD_NOT_EVALUABLE_INPUT_AUTHORITY_MISSING
+  numerically_evaluable_configurations: 0_OF_9
+  null_fail_closed_count: 9
+  b601_zero_joint_inertia_recomputation: PASS_STANDALONE_TWO_MATRICES_VALIDATED_NOT_MAPPED_TO_NAMED_CONFIGURATION
+  m_frame_to_b601_pattern_datum_comparison: PASS_EXACT_NUMERIC_MATCH_READ_ONLY
+  spacecraft_root_to_m_frame: null_HOLD_ROOT_RELATION_NOT_REASSERTED
+  mass_growth_allowance_policy_authorized: false
+  sim13_disposition: FAIL_CLOSED_UNCHANGED_V2_NOT_RELEASED
+
+m6_wp2_candidate_input_path:
+  planned_directory: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp2_mass_properties/
+  presence_at_generation: NOT_PRESENT_VERIFIED_2026-08-21
+  planned_scope_per_m6_execution_plan: NINE_CONFIGURATION_CANDIDATE_TRANSFORMS_PLUS_DIAGNOSTIC_MASS_CG_INERTIA_AGGREGATION
+  evidence_class_if_produced: DIAGNOSTIC_CANDIDATE_ONLY
+  promotion_rule: CANDIDATE_NEVER_EQUALS_AUTHORITY
+  usage_limits:
+    - NEVER_WRITTEN_BACK_INTO_CDR_SYSTEM_MASS_PROPERTIES_AUTHORITY_V2
+    - NEVER_OVERRIDES_L0_ACCEPTED_URDF_MASSES
+    - CANNOT_LIFT_THE_0_OF_9_EVALUABLE_STATE_BY_ITSELF
+    - NO_ZERO_FILL_OF_UNKNOWN_COMPONENT_AUTHORITIES
+  legitimate_role: >-
+    Owner-visible candidate input for rehearsing the aggregation chain
+    (node N6 below) and for examining candidate configuration transforms;
+    any authority use still requires the full release-condition tree and
+    Owner release.
+  integration_note: >-
+    After M6 WP2 completes, its receipt and hashes should be appended to the
+    integration manifest as DIAGNOSTIC class; this pack remains valid with or
+    without those files because the Q2 gate remains HOLD either way.
+
+root_to_m_candidate_transform_adjudication_options:
+  decision: null
+  selected_option: null
+  decision_authority: OWNER_ONLY
+  adjudication_rule: LIST_OPTIONS_WITHOUT_SELECTING
+  current_hold: HOLD_ROOT_TO_M_FRAME_NOT_REASSERTED_BY_NEUTRAL_PACKAGE
+  semantic_ruling_to_honor: T_SM_185P25_AND_T_M_TO_AS_BUILT_PATTERN_DATUM_ARE_SEMANTICALLY_DISTINCT_NO_AUTOMATIC_EQUIVALENCE
+  options:
+    - option_id: ROOT2M_OPT_A
+      label: CONTROLLED_READBACK_FROM_FROZEN_NEUTRAL_PACKAGE
+      result_class_if_adopted: CAD_DERIVED_CANDIDATE
+      required_evidence:
+        - documented readback procedure over the frozen neutral geometry
+        - transform candidate with stated reference faces and frames
+        - uncertainty statement and independent check receipt
+      risk: READBACK_IS_NOT_PHYSICAL_METROLOGY_PROMOTION_STILL_REQUIRES_OWNER_RULING
+    - option_id: ROOT2M_OPT_B
+      label: OWNER_DECLARED_ENGINEERING_DATUM
+      result_class_if_adopted: BUDGETED_DECLARED_DATUM
+      required_evidence:
+        - explicit owner ruling text with value and frame definitions
+        - registration in the mass authority file under BUDGETED class
+      risk: DECLARATION_IS_NOT_MEASUREMENT_MUST_CARRY_DECLARED_CLASS_FOREVER_UNTIL_MEASURED
+    - option_id: ROOT2M_OPT_C
+      label: ADOPT_T_SM_185P25_X_STATION_AFTER_SEMANTIC_RULING_RESOLUTION
+      result_class_if_adopted: CAD_DERIVED_CANDIDATE
+      required_evidence:
+        - owner resolution of the semantic distinction between the spacecraft dynamics station and the M frame origin
+        - frozen axis stack citation with hash
+      risk: CONFLATION_OF_DISTINCT_STATIONS_IF_ADOPTED_WITHOUT_THE_RULING
+    - option_id: ROOT2M_OPT_D
+      label: PHYSICAL_AS_BUILT_METROLOGY_AFTER_INTEGRATION
+      result_class_if_adopted: MEASURED
+      required_evidence:
+        - controlled metrology record with traceable uncertainty
+      risk: NOT_DIGITALLY_EXECUTABLE_INSIDE_M6_EXTERNAL_AND_PHYSICAL
+    - option_id: ROOT2M_OPT_E
+      label: KEEP_HOLD_NO_ADJUDICATION_NOW
+      result_class_if_adopted: HOLD_PRESERVED
+      required_evidence: []
+      risk: SYSTEM_MASS_PROPERTY_COMPOSITION_REMAINS_PROHIBITED_FAIL_CLOSED_DEFAULT
+
+aggregation_release_condition_tree:
+  current_state: 0_OF_9_NUMERICALLY_EVALUABLE
+  target_state: 9_OF_9_NUMERICALLY_EVALUABLE_AFTER_OWNER_RELEASE
+  nodes:
+    - node_id: N1_COMPONENT_MASS_AUTHORITIES
+      description: bus, solar left/right (deployed and failed), M3R stage A/B/fasteners/locator/cable, and target 22kg/150kg CDR mass, CoM, inertia and transforms
+      status: HOLD
+      linked_blockers: [Q2-MASS-001, Q2-MASS-002, Q2-MASS-003, Q2-MASS-005]
+      external: true
+    - node_id: N2_CONFIGURATION_JOINT_VECTORS
+      description: accepted B601 joint vectors for all nine named configurations
+      status: HOLD
+      linked_blockers: [Q2-MASS-004]
+      candidate_input: M6_WP2_DIAGNOSTIC_AGGREGATION_MAY_SUPPLY_CANDIDATE_VECTORS_NEVER_AUTHORITY
+    - node_id: N3_FRAME_AUTHORITY
+      description: spacecraft_assembly_frame to M_FRAME root relation adjudicated per the option list above
+      status: HOLD
+      linked_blockers: [Q2-FRAME-001]
+      decision: OWNER_ONLY
+    - node_id: N4_MASS_GROWTH_ALLOWANCE_POLICY
+      description: Owner-approved mass growth allowance policy applied to the MGA register
+      status: HOLD
+      linked_blockers: [Q2-MGA-001]
+    - node_id: N5_UNCERTAINTY_MODEL
+      description: controlled measurement model and uncertainty budget; values without uncertainty are not measurements
+      status: HOLD
+      linked_blockers: [Q2-MASS-001, Q2-MGA-001]
+    - node_id: N6_AGGREGATION_EXECUTION
+      description: compose per system_aggregation_rule only after N1, N2 and N3 close; missing inputs stay NOT_EVALUABLE; zero fill and mesh mass inference remain forbidden
+      status: BLOCKED_BY_N1_N2_N3
+      rehearsal_role: M6_WP2_DIAGNOSTIC_RUN_IS_A_CANDIDATE_REHEARSAL_ONLY
+    - node_id: N7_TENSOR_VALIDATION
+      description: symmetry, positive-definiteness, principal-moment and triangle-inequality checks per the ICD V2 tensor contract, with an independent receipt
+      status: BLOCKED_BY_N6
+    - node_id: N8_OWNER_RELEASE
+      description: formal V2 change approval, release to production interface with new hash, and SIM13 regression rerun against the released interface
+      status: BLOCKED_BY_N7
+      note: SIM13_REGRESSION_BEFORE_RELEASE_IS_PROHIBITED
+  tree_rule: NO_NODE_MAY_BE_SKIPPED_OR_SATISFIED_BY_CANDIDATE_CLASS_EVIDENCE
+
+q2_blocker_closure_mapping:
+  - blocker: Q2-MASS-001_M3R_TRACEABLE_MEASURED_INSTALLED_TOTAL_AND_COMPONENT_MASS
+    closure_path: EXTERNAL_METROLOGY_WITH_TRACEABLE_UNCERTAINTY
+    m6_candidate_support: NONE
+  - blocker: Q2-MASS-002_M3R_COMPONENT_COM_INERTIA_AUTHORITIES
+    closure_path: OWNER_COMPONENT_ALLOCATION_PLUS_RELEASED_GEOMETRY_AND_MATERIAL_AUTHORITY
+    m6_candidate_support: M6_WP1_LOAD_BRIDGE_CAD_AND_WP2_AGGREGATION_ARE_CANDIDATE_ONLY
+  - blocker: Q2-MASS-003_BUS_AND_SOLAR_CONFIGURATION_MASS_PROPERTIES
+    closure_path: EXTERNAL_BUS_AND_SOLAR_AUTHORITIES
+    m6_candidate_support: NONE
+  - blocker: Q2-MASS-004_ACCEPTED_B601_JOINT_VECTORS_FOR_NAMED_CONFIGURATIONS
+    closure_path: OWNER_FREEZE_OF_NINE_CONFIGURATION_JOINT_VECTORS
+    m6_candidate_support: M6_WP2_CANDIDATE_TRANSFORMS_INFORM_THE_OWNER_FREEZE
+  - blocker: Q2-MASS-005_TARGET_CDR_INERTIA_AND_POST_CAPTURE_TRANSFORMS
+    closure_path: EXTERNAL_TARGET_AUTHORITY_PLUS_CAPTURE_TRANSFORM_DEFINITION
+    m6_candidate_support: NONE
+  - blocker: Q2-FRAME-001_SPACECRAFT_ASSEMBLY_FRAME_TO_M_FRAME_ROOT_RELATION
+    closure_path: OWNER_ADJUDICATION_PER_ROOT2M_OPT_A_TO_E
+    m6_candidate_support: OPTIONS_LISTED_ABOVE_DECISION_NOT_MADE_HERE
+  - blocker: Q2-MGA-001_OWNER_APPROVED_MASS_GROWTH_ALLOWANCE_POLICY
+    closure_path: OWNER_POLICY_DOCUMENT
+    m6_candidate_support: NONE
+
+claim_controls:
+  system_configuration_mass_properties_released_claimed: false
+  m3r_measured_or_installed_mass_verified_claimed: false
+  sim13_regression_pass_claimed: false
+  mechanical_cdr_design_released_claimed: false
+  l0_urdf_overridden: false
+  root_to_m_option_selected: false
+  human_review_impersonated: false
+  gate_state_flipped: false
+
+remaining_external_holds:
+  - EXTERNAL_HOLD_M3R_TRACEABLE_MEASURED_OR_AS_INSTALLED_MASS_WITH_UNCERTAINTY
+  - EXTERNAL_HOLD_BUS_SOLAR_AND_TARGET_MASS_COM_INERTIA_AND_TRANSFORMS
+  - EXTERNAL_HOLD_ACCEPTED_B601_JOINT_VECTORS_FOR_NINE_NAMED_CONFIGURATIONS
+  - EXTERNAL_HOLD_SPACECRAFT_ROOT_TO_M_FRAME_ADJUDICATION_OWNER_DECISION
+  - EXTERNAL_HOLD_OWNER_APPROVED_MASS_GROWTH_ALLOWANCE_POLICY
+  - INTERNAL_HOLD_M6_WP2_DIAGNOSTIC_AGGREGATION_NOT_YET_PRESENT_AT_GENERATION
+
+source_register:
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/04_gates/MECH_Q2_MASS_INTERFACE_AUTHORITY_GATE.json
+    sha256: 7239820c96a8f1d4e9064dabe8b12954a0a4368c7fafeee87a6045c8e28fff07
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/04_gates/MECHANICAL_CDR_PHASE1_GATE.json
+    sha256: fecb6ca59bc2c953e1f4b16eaee69c7301e0bd766926f9668107b5bbddcb60d2
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/SYSTEM_MASS_PROPERTIES_AUTHORITY_V2.yaml
+    sha256: 32e5b0eeec784731a05b649ccf8583325cdf569302f1532e0eb4b84d712f455b
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/M3R_MASS_RULING.json
+    sha256: 4ddfd3f160e448fef614a27c9a96957118c2a785533d811ead503cea340b4fcb
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/CONFIGURATION_MASS_INERTIA.csv
+    sha256: 96dc595868147a639d2a142aef2c660316804719ef358e35b27dbb89ce22ee96
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/B601_EQUIVALENT_INERTIA_RECOMPUTED.yaml
+    sha256: 3f24b27a1c7e758f2feab18c415feac2866fd4f1010375e39173487a591505cf
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/MECHANICAL_INTERFACE_CONTROL_DOCUMENT_V2.yaml
+    sha256: b610c9dee3599cbd498149c380580b82db6bc113cc826956e0bb10d9ddffb07d
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/MASS_GROWTH_ALLOWANCE_REGISTER.csv
+    sha256: d5174f82112493efe86ca13b8eb0a82358d38aacf054b99143b9489342439692
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/SIM13_INTERFACE_IMPACT_ASSESSMENT.json
+    sha256: 413ed8f71dcc76a6efa97202796db385077c6bb770f1d94b28de0ff8badd9d7c
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/WP2_VALIDATION_RECEIPT.json
+    sha256: b19c46b7b8a334da87e7511d2b7ea7d71ccd29859e48d5244392953c68a275ff
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/06_evidence/CDR_PHASE1_AUDIT_SUMMARY.md
+    sha256: 204e20c1b40fb85972a9bf9a00368c09055e2a53973830134fb1bdbecbbfa900
+  - path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/00_authority/M6_PHASE_AUTHORITY_AND_BOUNDARY.yaml
+    sha256: ec0511522164404e5cfa323d3065e7fb33f6fb7140f60323dfdddc3fa468b284
+  - path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/00_authority/M6_EXECUTION_PLAN_V1.md
+    sha256: dd3151297208c48291938265c568bf345c1d58246acd2c588e104a4a020abca1
+  - path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+
+overall_status: Q2_CLOSURE_READINESS_DRAFTED_GATE_REMAINS_HOLD_PENDING_OWNER_REVIEW

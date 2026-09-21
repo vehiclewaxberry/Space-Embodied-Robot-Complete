@@ -1,0 +1,140 @@
+schema: B601_MANDATORY_MISSION_TRAJECTORY_CONTRACT_V1
+generated_local: '2026-08-23T11:21:56.697176+08:00'
+authority: ODR-39 plus existing sim10/sim12 anchor verdicts
+joint_order:
+- joint1
+- joint2
+- joint3
+- joint4
+- joint5
+- joint6
+units:
+  q: rad
+  time: s
+pose_authority_rebind:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/04_mission/B601_MISSION_POSE_AUTHORITY_REBIND_V1.yaml
+  sha256: 2954AA16DE68CE6550C0A281DD309BF14585970087EBE35663485E0E932AA62A
+  status: PASS_CURRENT_URDF_LOADABILITY_SCOPE
+states:
+  STOW:
+    q_rad:
+    - 2.540711
+    - -2.932153
+    - -0.994838
+    - -0.718081
+    - -0.365716
+    - -0.05236
+    authority: CURRENT_URDF_LOADABILITY_REBIND_WITHOUT_TRAJECTORY_RELEASE
+    rebind_state: ARM_STOWED_ONORBIT_C05
+  RELEASE_CLEAR:
+    q_rad:
+    - -1.570796
+    - -2.094395
+    - -2.094395
+    - -1.047198
+    - -0.523599
+    - 0.0
+    authority: CURRENT_URDF_LOADABILITY_REBIND_WITHOUT_TRAJECTORY_RELEASE
+    rebind_state: ARM_RELEASE_CLEAR
+  HOME:
+    q_rad:
+    - -1.570796
+    - -2.094395
+    - -1.047198
+    - 0.0
+    - -0.523599
+    - 0.0
+    authority: CURRENT_URDF_LOADABILITY_REBIND_WITHOUT_TRAJECTORY_RELEASE
+    rebind_state: Q_DEPLOYED_HOME
+  TASK_READY:
+    q_rad:
+    - -1.570796
+    - -1.047198
+    - -2.094395
+    - -0.523599
+    - 0.0
+    - 0.0
+    authority: CURRENT_URDF_LOADABILITY_REBIND_WITHOUT_TRAJECTORY_RELEASE
+    rebind_state: ARM_TASK_READY_C06
+  PREGRASP:
+    q_rad:
+    - -1.4722592995215019e-05
+    - -1.0482002296028674
+    - -1.3989828152470147
+    - -1.2200100679438755
+    - 3.673218594813444e-06
+    - 1.8395811591279014e-05
+    authority: CURRENT_URDF_LOADABILITY_REBIND_WITHOUT_TRAJECTORY_RELEASE
+    rebind_state: PREGRASP
+segments:
+- id: M01
+  from: STOW
+  to: RELEASE_CLEAR
+  purpose: ARM_RELEASE
+  trajectory_authority: MISSING
+  expected_anchor: BOTH
+  released_for_mission_gate: false
+  status: UNKNOWN
+- id: M02
+  from: RELEASE_CLEAR
+  to: HOME
+  purpose: DEPLOY_TO_HOME
+  trajectory_authority: PROVISIONAL_MINIMUM_JERK_SEED_ONLY
+  expected_anchor: BOTH
+  released_for_mission_gate: false
+  status: UNKNOWN
+- id: M03
+  from: HOME
+  to: TASK_READY
+  purpose: TASK_STAGING
+  trajectory_authority: PROVISIONAL_MINIMUM_JERK_SEED_ONLY
+  expected_anchor: BOTH
+  released_for_mission_gate: false
+  status: UNKNOWN
+- id: M04
+  from: TASK_READY
+  to: PREGRASP
+  purpose: PREGRASP_APPROACH
+  trajectory_authority: PROVISIONAL_MINIMUM_JERK_SEED_ONLY
+  expected_anchor: BOTH
+  released_for_mission_gate: false
+  status: UNKNOWN
+- id: M05_22
+  from: PREGRASP
+  to: PREGRASP
+  purpose: SYNCHRONIZATION_22KG_0P5DPS
+  trajectory_authority: MISSING_22KG_SYNC_TRAJECTORY
+  expected_anchor: 22KG
+  released_for_mission_gate: false
+  status: UNKNOWN
+- id: M06_22
+  from: PREGRASP
+  to: PREGRASP
+  purpose: CONTACT_CAPTURE_POST_CAPTURE
+  trajectory_authority: ARM_Q_HOLD_ONLY_CONTACT_GEOMETRY_HOLD
+  expected_anchor: 22KG
+  released_for_mission_gate: false
+  status: UNKNOWN
+- id: M07_22
+  from: PREGRASP
+  to: HOME
+  purpose: SAFE_RECOVERY_AFTER_22KG
+  trajectory_authority: PROVISIONAL_REVERSE_SEED_ONLY
+  expected_anchor: 22KG
+  released_for_mission_gate: false
+  status: UNKNOWN
+- id: M05_150
+  from: PREGRASP
+  to: HOME
+  purpose: PHYSICS_VETO_ABORT_RECOVERY_150KG_3DPS
+  trajectory_authority: PROVISIONAL_REVERSE_SEED_ONLY
+  expected_anchor: 150KG
+  released_for_mission_gate: false
+  status: UNKNOWN
+anchor_outcomes:
+  22kg_0p5dps: EXECUTE_NOMINAL_CAPTURE_CHAIN_REQUIRED
+  150kg_3dps: INFEASIBLE_RATE__PHYSICS_VETO_ABORT_RECOVERY_REQUIRED
+interpolation_seed: quintic minimum jerk for candidate-only segments
+continuous_claim: NOT_MADE
+missing_authority_is: UNKNOWN
+unknown_policy: ABORT

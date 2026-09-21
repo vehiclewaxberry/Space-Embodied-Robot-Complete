@@ -1,0 +1,23 @@
+"""Record the received final independent local-geometry review at its exact snapshot."""
+from pathlib import Path
+import hashlib,json
+A=Path(__file__).resolve().parents[1]
+files={
+ 'tools/check_cap_harness_exact_v19.py':'110ed51f34e1046f178b6258d8621e4c1857aeec4fd7758dca2503df062b1546',
+ 'tools/run_cap19_serial.py':'adf507d78a1c2598f5ac25b29276cc446e123e7e9d3770e7139e4229a4131dd6',
+ 'tools/chb_input_ocp.py':'613f380d65f765ffffd599b3e41e35b4a1fb590452c79aa95209b5944af028d0',
+ 'mechanical/CAP_HARNESS_INSTANCE_PLAN_V19.json':'0fec3b839cb94f2afe333c098cbfcb4dcc48c847473df78e513548236c827a23',
+ 'results/CAP_HARNESS_EXACT_V19.json':'637b27daa813b647a0bb670ccc0204b6ddf6b38d7c57d4e6961941bfe4d9c8c0',
+ 'results/C203_SURFACE_GENERATION_PCB_V19.json':'fbdc9b25430c66f7a9d7aab4c165a17753d8c65dbfa0118f0d22ddb38fb62ef8',
+ 'results/C203_SURFACE_GENERATION_PLUS_V19.json':'d7dc880d2a9138ae57452219fe3d6af27f1847ae0397b38f99982747ad184c6a',
+ 'results/C203_SURFACE_GENERATION_MINUS_V19.json':'bf925589a739c61debc986b301a64ed2e8be06d07158afd012ebe41c0c360867',
+ 'logs/CAP19_SERIAL_surface_exact_p02.json':'c52f73ea946d375e8f55fa45f3d3f17c5c88ec6d06a293c2327ea904501c2495',
+ 'logs/CAP19_SERIAL_surface_assembly_p02.json':'986fe2d3dc5385789e230ce67e29ad2b1fae03a7db658b193c358133aa6a58b8'}
+assert all(hashlib.sha256((A/p).read_bytes()).hexdigest()==h for p,h in files.items())
+v=dict(status='PASS_CURRENT_NOMINAL_STATIC_LOCAL_GEOMETRY__AUTOMATION_COVERAGE_CONCERNS',reviewer='/root/cap_terminal_review',reviewed_files=files,
+ independent_native_CAD_run=False,current_cache_source_transform_consistency_verified_readonly=True,max_bbox_corner_transform_difference_mm=1.14e-13,
+ source_rows_each_state=972,unchanged_parent_rows=965,neighbor_pairs_each_state=31,nominal_contacts_each_state=9,serial_p02_gap_seconds=22.425,
+ open_automation_findings=['Exact checker does not automatically reproduce the current cache identity and corner-transform checks; reviewer verified current values. Add binding before future cache changes.','Only jobs using run_cap19_serial.py share this mutex; direct legacy launch remains outside its enforcement. This task will use the serial entry point.'],
+ physical_assembly_qualified=False,dynamic_motion_qualified=False,manufacturing_qualified=False,whole_design_complete=False)
+(A/'results/C203_SURFACE_EXACT_READONLY_REVIEW_V19.json').write_text(json.dumps(v,indent=2),encoding='utf-8')
+print('Recorded final independent review: current local geometry PASS; automation limits retained')

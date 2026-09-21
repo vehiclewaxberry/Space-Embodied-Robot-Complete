@@ -1,0 +1,65 @@
+schema: M6_PHASE_AUTHORITY_AND_BOUNDARY_V1
+phase: M6_CANDIDATE_AUTHORITY_CLOSURE
+created_local: '2026-08-21T20:30:00+08:00'
+
+baseline_in:
+  - id: M4_DIGITAL_PROTOTYPE_WORKING_RELEASE
+    gate: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/12_release/MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_GATE_V1.json
+    status: PASS_SCOPED_WORKING_RELEASE
+  - id: M5_GEOMETRY_AND_LOADS_CLOSURE
+    gate: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/12_release/M5_GEOMETRY_AND_LOADS_CLOSURE_GATE_V1.json
+    status: M5_SCOPED_GEOMETRY_AND_LOADS_CLOSURE_PASS_WITH_PHYSICAL_CONTACT_STRUCTURAL_AND_FLIGHT_HOLDS
+  - id: SIM15_DIAGNOSTIC
+    gate: 30_simulation/sim_15_m5_geometry_gated_grasping/evidence/SIM15_DIAGNOSTIC_GATE_V1.json
+    status: PASS_SIM15_DIAGNOSTIC_REPRODUCIBILITY_ONLY
+  - id: CDR_PHASE1_REQUIREMENTS_LOADS_MASS
+    gate: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/04_gates/MECHANICAL_CDR_PHASE1_GATE.json
+    status: HOLD_Q0_Q1_Q2
+
+authorization_basis:
+  m4_gate_authorized_now:
+    - physical_input_acquisition_and_measurement_planning
+    - controlled_geometry_and_collision_asset_completion
+    - mass_material_tolerance_and_mechanism_closure
+    - bounded_Sim14_diagnostic_research
+  m5_gate_next_stage_scope: SIM15_HASH_BOUND_DIAGNOSTIC_CAPTURE_IMPULSE_AND_JOINT_LOAD_SOFTWARE_ONLY
+  m6_interpretation: >-
+    M6 executes only the digitally closable portions of the M4-authorized
+    backlog. Every output is CANDIDATE or DIAGNOSTIC class. No output of M6
+    releases, upgrades, or writes back into M4, M5, CDR, SIM14, or SIM15
+    authority. Physical, human-review, and external-ICD HOLDs are preserved
+    verbatim and listed in the M6 gate.
+
+hard_prohibitions:
+  - no_formal_fea_or_margin_credit
+  - no_rl_training_or_production_contact_dynamics
+  - no_manufacturing_procurement_qualification_launcher_or_flight_claims
+  - no_zero_fill_of_unknowns
+  - no_mutation_of_hash_pinned_released_files_in_any_baseline
+  - no_cad_mass_override_of_accepted_urdf_masses
+  - no_candidate_density_as_measurement
+  - no_new_authority_creation_beyond_candidate_class
+
+memory_execution_record:
+  available_physical_gib_at_m4_build: 2.061157
+  threshold_gib: 6.0
+  memory_gate_passed: false
+  execution_controls:
+    - SINGLE_FREECAD_PROCESS_WP1_ONLY
+    - LIGHTWEIGHT_PARAMETERIZED_BREP_ONLY
+    - NO_VENDOR_252MB_STEP_IMPORT
+    - NO_FEA
+    - PYTHON_ANALYSIS_WPS_RUN_LOW_MEMORY
+
+truth_hierarchy_reminder:
+  L0_accepted_urdf: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  rule: L0 > L1 native CAD > L2 simulation models > L3 reference donors
+
+work_packages:
+  - wp1_load_bridge: candidate load-bridge CAD (exclusive FreeCAD execution)
+  - wp2_mass_properties: nine-configuration diagnostic mass/CG/inertia aggregation
+  - wp3_tolerance: numeric tolerance-chain execution (B601-M3R, gripper rail, hinge)
+  - wp4_materials: prototype material library V2 with sourced candidates
+  - wp5_structural_entry: structural entry evidence pack (no FEA)
+  - wp6_drawings_bom: candidate drawing and BOM extensions
+  - wp7_cdr_evidence: CDR Q0/Q1/Q2 closure-ready evidence packs

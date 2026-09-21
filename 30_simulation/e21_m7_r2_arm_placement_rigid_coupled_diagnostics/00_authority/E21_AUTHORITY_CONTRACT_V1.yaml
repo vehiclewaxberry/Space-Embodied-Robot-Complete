@@ -1,0 +1,78 @@
+schema: E21_AUTHORITY_CONTRACT_V1
+generated_local: '2026-08-23T15:00:00+08:00'
+module: e21_m7_r2_arm_placement_rigid_coupled_diagnostics
+authority_class: CURRENT_M7_R2_NON_RELEASE_DIAGNOSTIC_ONLY
+gate: HOLD
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+release_credit: false
+
+allowed_scope:
+  - hash-bound read-only audit of V2 and V3_R2 arm placement semantics for C01..C09
+  - two independent and nonselecting rigid-body placement hypotheses
+  - current V3_R2 C07 deployed-locked R2 rigid-wing free-floating M07_ARM_ONLY sensitivity
+  - fixed-base R2 3-DOF-per-wing ROM reproduction and a nonselecting moving-inter-hinge-mass conflict diagnostic
+
+placement_hypotheses:
+  ODR01_DYNAMICS_T_SM:
+    selected: false
+    transform_S_A0_rows:
+      - [0.0, 0.0, 1.0, 0.18525]
+      - [0.0, 1.0, 0.0, 0.0]
+      - [-1.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 1.0]
+    semantics: current ODR-01 dynamics convention; no physical-entity claim
+  WP11_PHYSICAL_GEOMETRY_CONTEXT:
+    selected: false
+    transform_S_A0_rows:
+      - [0.0, 0.0, 1.0, 0.208]
+      - [0.422618483193, 0.906307683772, 0.0, 0.0]
+      - [-0.906307683772, 0.422618483193, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 1.0]
+    semantics: separate CAD/physical-geometry mount context; no dynamics selection claim
+  averaging_forbidden: true
+  branch_delta_is_uncertainty: false
+  single_consumption_semantics_resolved: false
+
+units:
+  length: m
+  angle: rad
+  time: s
+  mass: kg
+  inertia: kg*m^2
+  stiffness: N*m/rad
+  frequency: Hz
+
+uncertainty_policy:
+  unmeasured_or_unpropagated_values: null
+  zero_fill_for_unknown: false
+  placement_branch_delta_interpreted_as_uncertainty: false
+
+forbidden:
+  - modification or regeneration of accepted URDF, CAD, R2 STEP, upstream ledgers, or upstream Gates
+  - legacy R1 panel card, legacy R1 panel mass, or legacy R1 FFR use in the current-R2 dynamics lanes
+  - scene A2, contact-window, target, captured/attached mass, release, collision, or mission evaluation
+  - full R2 flexible coupling or propagation of the ROM conflict matrix into dynamics
+  - selection or averaging of the two arm-placement hypotheses
+  - production, manufacturing, qualification, launcher, or flight authority
+
+mandatory_holds:
+  single_arm_placement_consumption_semantics: UNRESOLVED
+  r2_full_flexible_coupling: NOT_EVALUATED
+  e15_ancf_certification: REPEAT_ANCF_CERTIFICATION
+  r2_harness_R2_HRN_04: FAIL_REDESIGN_REQUIRED
+  owner_review: PENDING_OWNER_REVIEW
+  collision: HOLD_NOT_EVALUATED
+  contact: HOLD_NOT_EVALUATED
+  target_attachment: HOLD_NOT_EVALUATED
+  mission_capture: HOLD_NOT_EVALUATED
+  production: HOLD
+  flight: HOLD
+
+nonclaims:
+  - ODR-01 is not invalidated by detecting mixed ledger consumption contexts
+  - no C01..C09 configuration is declared mechanically wrong by this diagnostic
+  - the two placement branches are sensitivities, not statistical uncertainty bounds
+  - deployed-locked rigid R2 wing dynamics do not close R2 flexible coupling
+  - fixed-base ROM reproduction does not close e15
+  - test PASS does not grant authority

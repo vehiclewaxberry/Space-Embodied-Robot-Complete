@@ -1,0 +1,48 @@
+schema: UNIFIED_R2_URDF_SIM_CANDIDATE_CONTRACT_V1
+generated_date_local: '2026-08-24'
+artifact_class: DORMANT_SOURCE_ONLY
+scope: future C01 deployed-snapshot simulation candidate; not an emitted URDF and not a production binding
+source_of_truth: unified_r2_urdf_source_v1.py
+generator_contract:
+  function: gen_urdf
+  top_level: true
+  positional_arguments: 0
+  return_if_authorized: xml.etree.ElementTree.Element
+  current_call_result: GENERATION_NOT_AUTHORIZED_PREBIND
+  import_time_writes: false
+  cad_or_mesh_generation: false
+model_contract:
+  configuration: C01_DEPLOYED_NOMINAL_FIXED_SOLAR_SNAPSHOT
+  physical_links: 15
+  joints: 14
+  actuated_dof: 8
+  total_mass_kg: 31.022864807342987
+  system_root_link: spacecraft_bus
+  arm_subtree: accepted B601 10-link/9-joint tree byte-source-preserved for kinematics and inertials
+  solar_semantics: fixed three-leaf deployed snapshots; continuous accordion deployment is sidecar-only and not claimed
+  collision_semantics: primitive broad-phase only; no physical contact authority
+sim13_contract:
+  current_loader_compatible: false
+  reason: current loader is hard-bound to MECH_RL_INTERFACE_V1 and the 10-link/9-joint 4.695555949 kg B601 subtree
+  baseline_mutation_authorized: false
+  future_required_change: versioned system schema and loader separating B601 subtree invariants from C01-C09 system properties
+  runtime_harness_gate_required: true
+  FAIL_and_UNKNOWN_negative_controls_required: true
+  production_contact_backend_required: true
+holds:
+  - UNIFIED_R2_REBASE_EXECUTION_AUTHORIZATION_ABSENT
+  - ROUTE_C_CAD_AUTHORIZATION_ABSENT
+  - DETAILED_12U_PRIMARY_STRUCTURE_AUTHORITY_HOLD
+  - SOLAR_CONTINUOUS_DEPLOYMENT_URDF_CONTRACT_HOLD
+  - GRIPPER_PHYSICAL_SPEED_TIMING_AND_CONTACT_HOLD
+  - NARROWPHASE_COLLISION_AND_CONTACT_HOLD
+  - SIM13_VERSIONED_SYSTEM_LOADER_HOLD
+authority_flags:
+  execution_authorized: false
+  urdf_emitted: false
+  sim13_rebind_authorized: false
+  physical_contact_ready: false
+  flight_qualified: false
+  owner_accepted: false
+  next_stage_authorized: false
+  release_credit: false

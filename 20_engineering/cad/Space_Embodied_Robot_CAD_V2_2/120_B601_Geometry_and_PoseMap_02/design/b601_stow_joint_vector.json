@@ -1,0 +1,114 @@
+{
+  "vector_id": "B601_STOW_JOINT_VECTOR",
+  "generated_utc": "2026-07-26T16:47:17.678410+00:00",
+  "STOW_VECTOR_STATUS": "CANDIDATE_HOLD",
+  "basis": "越顶族约束坐标下降（多起点 2° 网格）：种子仅取折叠方向拓扑，连杆长度/轴向/限位=accepted URDF 真值；URDF 无官方收拢向量",
+  "kinematic_findings": [
+    {
+      "id": "F1_UPPER_TILT_UNREACHABLE",
+      "claim": "种子大臂 -X 后倾在 accepted URDF 限位内不可达",
+      "proof_sketch": "joint2 轴与大臂向量在任意 q1 下均 ⊥X_S，(axis×arm) 的 X 分量对绕 X_S 的 q1 旋转不变号；joint2 限位 [-π,0] ⇒ sin(q2)≤0 ⇒ 大臂 X 倾分量恒≥0。可达收拢族=大臂近垂直(+Z)+前臂越顶回折",
+      "numeric_witness": "雅可比探针 q2=+30°→dJ3=[-132,0,-35]（-X 倾需正 q2，超限）"
+    },
+    {
+      "id": "F2_CORRIDOR_VIOLATION_RECORDED",
+      "claim": "中央走廊 |Y|≤40 违规，max|Y|=70.9mm",
+      "root_cause": "q1 限位 ±2.8rad=±160.4° 距平面全翻转 180° 缺 19.6°（J3 侧移 ~264·sin19.6°≈88mm 与基座 y=31.6 部分抵消）+ 腕部连杆固有横向偏置（j4 y=-54、j5 y=-37.5）",
+      "consequence": "STOWED 态臂中央件 |Y|≤40 校验预期 FAIL_RECORDED，属 URDF 运动学事实而非建模缺陷；收拢托架鞍座宽度需按实测 Y 包络"
+    },
+    {
+      "id": "F3_LIMIT_SATURATION",
+      "claim": "越顶族解在 q1=+160.0°（≈上限）与 q2=-179.9°（≈下限）双饱和",
+      "consequence": "收拢位形对关节限位裕度为零；HDRM 释放后展开首步只能向限位内侧运动"
+    },
+    {
+      "id": "F4_REJECTED_FAMILIES",
+      "vendor_q0_fold": "X∈[283,430], Z∈[-260,+244]——Z 下探 -260 破发射包络，弃",
+      "underslung_outboard_fold": "J3 X=594 外悬 411mm 破 X 包络且遮挡 -Z 面，弃"
+    }
+  ],
+  "segment_direction_error_deg": {
+    "upper": 69.25,
+    "fore": 23.45,
+    "wrist": 16.07
+  },
+  "corridor_check_mm": {
+    "limit_abs_y": 40.0,
+    "max_abs_y": 70.9,
+    "status": "VIOLATED_RECORDED"
+  },
+  "overtop_check_mm": {
+    "min_wrist_z": 158.3,
+    "platform_top_z": 113.15,
+    "status": "SATISFIED"
+  },
+  "x_envelope_check_mm": {
+    "max_x": 338.6,
+    "vendor_q0_ref": 430.0,
+    "status": "SATISFIED"
+  },
+  "q_rad": [
+    2.792527,
+    -3.14,
+    -0.940885,
+    -0.43883,
+    -0.522802,
+    2.750486
+  ],
+  "q_deg": [
+    160.0,
+    -179.909,
+    -53.909,
+    -25.143,
+    -29.954,
+    157.591
+  ],
+  "joint_limits_respected": true,
+  "fk_joint_centers_mm_CS_S": {
+    "J1": [
+      282.65,
+      0.0,
+      0.08
+    ],
+    "J2": [
+      338.2,
+      -22.85,
+      29.77
+    ],
+    "J3": [
+      338.62,
+      67.44,
+      277.85
+    ],
+    "J4": [
+      110.61,
+      35.14,
+      184.35
+    ],
+    "J5": [
+      26.64,
+      70.89,
+      194.84
+    ],
+    "J6": [
+      14.02,
+      45.01,
+      158.34
+    ],
+    "EE": [
+      -121.88,
+      -38.84,
+      161.12
+    ]
+  },
+  "seed_residual_mm": {
+    "J2": 127.64,
+    "J3": 307.17,
+    "J4": 224.89,
+    "J5": 177.27,
+    "J6": 171.57,
+    "EE": 50.58
+  },
+  "saddle_height_implication": "前臂/腕越顶走廊实际 z≈158–195（非种子 145）；托架鞍座高度以本 FK 真值为准",
+  "prohibition": "不得写成 accepted joint vector；正式收拢向量需人工/载荷侧批准"
+}

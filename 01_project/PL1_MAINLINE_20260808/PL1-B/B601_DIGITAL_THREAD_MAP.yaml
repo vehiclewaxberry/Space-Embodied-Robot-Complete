@@ -1,0 +1,125 @@
+# B601_DIGITAL_THREAD_MAP.yaml
+# PL1-B recon, 2026-08-08. All hashes/paths measured or read from gate files during this recon.
+# Layers: L0 dynamics truth > L1 engineering native CAD > L2 simulation model > L3 donor/reference.
+schema: B601_DIGITAL_THREAD_MAP_V1
+generated_by: PL1-B (SEI-PL1-PROJECT-MAINLINE-RECONSTRUCTION)
+date: "2026-08-08"
+roots:
+  REPO: 'F:\China Graduate Future Flight Vehicle Innovation Competition'
+  WT: 'F:\_SEI_PROJECT_CONSOLIDATION_20260807\12_WAVE4\WORKTREE_RECONCILIATION\20_engineering  # retained source mirror / historical CAD lineage'
+  ARCH: 'F:\SEI_PROJECT_ARCHIVE'
+
+accepted_truth:   # ---- L0 ----
+  accepted_urdf:
+    primary_path: 'REPO\20_engineering\cad\spacecraft_layout\arm_b601_v1\arm_b601_v1.urdf'
+    bytes: 11321
+    sha256_raw_crlf: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+    sha256_lf_normalized: 408147ddc9cc0bba0facbf864c559a54d1712262703ba41251514a4303b5a3a4
+    verified_by_PL1B: "2026-08-08, recomputed on REPO copy; both match CM-frozen values"
+    canonical_cm_copy: 'WT\cad\B5_1R1_B601_interface_native_rework_candidate\00_BASELINE\AUTHORITIES\accepted_urdf\arm_b601_v1.urdf'
+    canonical_cm_copy_status: "historical byte-identical copy (sha256 raw re-verified); PROJECT_START_HERE now points to the REPO primary"
+    topology: "6R (joint1..6 revolute) + 1 fixed (gripper_joint) + 2P (gripper_joint1/2 prismatic)"
+    mass_kg: 4.695555949342986
+    mass_split_kg: {arm_base_plus_links1_6: 4.4293, gripper: 0.2665}
+    provenance: "HYBRID: kinematics/meshes/gripper from reBot_B601_DM_with_gripper.urdf; inertial set from reBot-DevArm_fixend.urdf (vendor-consistent ~4.5 kg self-weight); with_gripper masses rejected (~2x light, CAD export without motors)"
+    confidence: "medium; pending physical weighing of the real arm (evidence rank 1)"
+    modification: PROHIBITED_EVERYWHERE
+  geometry_ssot: 'REPO\20_engineering\config\geometry\arm_b601_v1.yaml'
+  frame_ssot: 'REPO\20_engineering\config\geometry\frame_tree_v1.yaml  # T_SM [185.25,0,0] mm + Ry(+90deg), nominal_frozen_v1'
+  mount_ssot: 'REPO\20_engineering\config\geometry\arm_mount_v1.yaml  # D-1: 160x160x12 + Ø100x15 boss'
+  mass_ledger:
+    dynamics_truth: "URDF only; cad_mass_override_authorized=false"
+    cad_register: 'REPO\20_engineering\cad\freecad_authoritative\FREECAD_MASS_REGISTER.yaml  # adapter 1.0395 kg estimate HIGH; rest TBD'
+    f3r2_external_budget: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\10_digital_thread\F3R2_EXTERNAL_MASS_INERTIA.yaml  # 507.22 g provisional, DEFINED_NOT_MODELLED, inertia NOT_COMPUTED'
+    spacecraft_side: "24.0 kg whole v0 / 23.3032134 kg bus + 2x0.3483933 kg panels (v1 split, closure==24.000); confidence low"
+  q0_and_poses:
+    q_as_built_reference: "[0,0,0,0,0,0] deg — geometric datum only; joint2/3 on 0.000-deg stops, margin 0.0; NOT a control start"
+    q_stow_engineering_candidate: "[145.572,-168.0,-57.0,-41.143,-20.954,-3.0] deg, clock 25 deg; HOLD O13_V3_CANDIDATE_HOLD_PROVISIONAL; rests on placeholder saddles (0.0011 mm)"
+    q_deployed_home: "[-90,-120,-60,0,-30,0] deg — runtime controller init truth (F3R2 frozen)"
+    q_release_clear: "[-90,-120,-120,-60,-30,0] deg — runtime; release SEQUENCE not authorized"
+    q_service_ready: "[-90,-60,-120,-30,0,0] deg — runtime; SERVICE config PENDING_RATIFICATION_HOLD"
+    register: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\04_configurations\F3R2_ARM_POSE_REGISTER.csv'
+  joint_frames:
+    authority: 'accepted URDF (axes/origins/limits); per-joint ICD: REPO\20_engineering\cad\freecad_authoritative\JOINT_INTERFACE_CONTROL_DOCUMENTS.yaml (J01..J06 origins/axes/limits/efforts; PCD/bolt TBD pending vendor drawing)'
+    mount_transform: "rows [[0,0,1,208.0],[0.422618,0.906308,0,0],[-0.906308,0.422618,0,0],[0,0,0,1]] mm, clock 25 deg — equals URDF base_link frame (F3R2_FRAME_MAPPING.yaml)"
+    tsm_stack: "185.25 = M dynamics frame (no material) / 198.0 = adapter outer face / 208.0 = physical installation face / 210.405 = four disconnected HM4-75 screw-end faces; not a continuous B601 flange"
+    m3r_interface_authority: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\03_native_cad\M3_interface_authority\M3R_INTERFACE_AUTHORITY_GATE.json  # 4 x M4-class axes, 64 x 64 mm, equivalent PCD 90.509642; AS-BUILT competition scope only'
+
+cad_representation:   # ---- L1 ----
+  master_skeleton:
+    native_driver: 'REPO\20_engineering\F3R1_MECHANICAL_INTEGRATION_RECOVERY_20260806\03_native_cad\SPACECRAFT_V2_2_NATIVE_COPY\00_Master_Skeleton\00_Master_Skeleton_V2_2.SLDPRT  # 280052 B, 18 planes, 34 params, zero solids'
+    freecad_ssot: 'REPO\20_engineering\cad\freecad_authoritative\B51R1_MASTER_SKELETON_FREECAD.FCStd  # 9/9 validation PASS'
+    failed_attempt: "B5.1R1 native skeleton V2 — Stage B FAIL_CLOSED_COORDINATE_API_HANG (2026-07-29/30); never finalized"
+  engineering_cad_arm:
+    assembly: 'REPO\20_engineering\F3R1_MECHANICAL_INTEGRATION_RECOVERY_20260806\03_native_cad\B601_ARM_B51_COPY\assembly\B51_B601_ARTICULATED_ENGINEERING_ARM.SLDASM'
+    sha256: 597C297526BC4111C3424535139B8A1C93906E7A799FF5346D030700FEF1A32F
+    bytes: 25720876
+    protected_d2_donor: '25610223 B, sha256 603B87BBD4398FDDB3F732FFBFA7E1C080ED91ED6E0A026D56CBDCBA08DE2E22; ARM_RECOPY_PROOF applies only at initial copy time'
+    binding: "6 revolute joints ALIGNED vs accepted URDF (origin err <0.5 mm, axis dot=1.0) — F3R1 P2/G2"
+  top_assembly:
+    current: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\03_native_cad\F3R2_SPACE_EMBODIED_ROBOT_OPERATIONAL_BASELINE.SLDASM'
+    sha256: 19D85E9C703BEC107396AE84DAB7B12DE5722434FC7D5474B3A5A144A1B590D0
+    bytes: 29594924
+    identity: "byte-identical to F3R1 V3_CONFIGURED (no V4 exists)"
+    components: 82
+    top_components: [B51_B601_ARTICULATED_ENGINEERING_ARM-1, Space_Embodied_Service_Spacecraft_V2_2-1, WING_L_DEPLOYED-1, WING_L_STOWED-1, WING_R_DEPLOYED-1, WING_R_STOWED-1]
+    top_mates: "6 (1 MateParallel + 1 MatePlanarAngleDim 25deg clock + 4 MateCoincident wing); 0 errors; root = spacecraft sole fixed"
+    configurations: "8 configurations present/gate-checked (F3R1 G2 15/15): PARTIAL is NOT_DIFFERENTIATED_FROM_DEPLOYED_NOMINAL and SERVICE has no ratified angle authority; do not claim all 8 are differentiated"
+    reference_integrity: "R2A2 REPAIR_REQUIRED: 3 external refs (stowed cfg) / 1 (others); gate C1 registered refs_outside_f3r2=10"
+    review: PENDING_HUMAN_REVIEW
+  gripper:
+    urdf: "gripper_link (fixed) + gripper_left/right (prismatic, 71.5 mm each, no mimic)"
+    native_cad: "58 solids mirrored L24/R24/palm10 (F3R2 G33); OPEN 82.23 mm / PREGRASP 50.50 mm mesh-verified; independent finger components NOT modelled (G3-05 residual)"
+    m3r_addendum: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\08_camera_harness\F3R2_GRIPPER_FINGER_BINDING_ADDENDUM_M3R_V2.json  # 58/58 paths hash-resolved; offline three-state PASS; native component/configuration HOLD'
+    vendor_hardware_step: 'REPO\80_third_party\vendor\reBot-DevArm\hardware\reBot_B601_DM\reBot_B601_DM_v1.1_20260425.step'
+  visual_meshes:
+    gripper_stls: 'REPO\20_engineering\cad\spacecraft_layout\arm_b601_v1\meshes_b601_gripper\  # 10 STL, ~27 MB, git-untracked (LFS decision pending)'
+    hifi_donor: 'REPO\20_engineering\cad\reference_donors\HAGA_HIFI_FREECAD\  # 21 files, visual-only, mass EXCLUDED'
+  collision_meshes:
+    urdf_collision: "same 10 STLs as visual (no hulls/primitives)"
+    sim09_capsule_model: 'capsules r=0.045 m over FK chain; bus=box; panels=thin boxes; targets=cylinder/box; assumptions A1-A7 in REPO\20_engineering\config\grasp_evaluator\collision_geometry_v1.yaml'
+    f3r2_collision_manifest: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\10_digital_thread\F3R2_COLLISION_ASSET_MANIFEST.csv'
+  defined_not_modelled:   # F3R2 frozen definitions awaiting the V4 round
+    wing_root_lug: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\06_supports\F3R2_WING_ROOT_INTERFACE.json  # G3C DEFINED_NOT_YET_MODELLED; closes 30.0 mm gap'
+    supports_v2: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\06_supports\F3R2_SUPPORT_V2_DEFINITION.json  # G32; 16 parts 336.1 g; pads G07 10 N/mm / G08 5 N/mm'
+    base_interface_ring_legacy: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\03_native_cad\F3R2_B601_BASE_INTERFACE_DEFINITION.json  # G31 8xM3 interpretation is class D superseded evidence'
+    m3r_adapter_candidate: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\03_native_cad\M3_interface_authority\cad\  # corrected ring+body FCStd/STEP geometry; native SLDPRT/SLDASM and live fit-up HOLD'
+    arm_hdrm: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\07_hdrm\F3R2_ARM_HDRM_DEFINITION.json  # G4 demonstrator; no device selected'
+    camera_harness: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\08_camera_harness\F3R2_CAMERA_HARNESS_GRIPPER.json  # camera PROPOSED_NOT_CALIBRATED; harness provisions'
+
+simulation_representation:   # ---- L2 ----
+  parser: 'REPO\30_simulation\sim_05_free_floating_arm\b601_model.py  # xml.etree direct parse; gripper merged into link6'
+  parser_defect: "URDF_PATH points at pre-REORG04 '<repo_root>\\cad\\spacecraft_layout\\…' — broken since 284c882 (2026-07-22); chain re-runs only after one-line repair"
+  simulation_urdf_copies: "none — no divergent copies exist; e16 hash-pins the accepted file (pin valid)"
+  mujoco: "no project-integrated/authoritative model; SpaceRobotEnv exists under REPO 80_third_party/external as an Apache-2.0 reference checkout only"
+  isaac: "none in project (no USD/Isaac assets)"
+  ros2: "none in project (no xacro/launch); vendor ROS2 controller referenced as upstream only"
+  consumers: [sim_05, sim_09, sim_11, control_01, control_02, e16]  # all import b601_model or pin the URDF hash
+  legacy_v0_arm: 'REPO\20_engineering\cad\spacecraft_layout\robot_mount_adapter_v0\reBot_arm_v0_min.urdf  # SUPERSEDED 2-DOF-era; still hard-coded in sim_03/04/06'
+  safe_00:
+    path: 'REPO\30_simulation\safety_00_runtime_gate\'
+    consumes_mechanical_model: false
+    nature: "hash-bound decision core over frozen evidence; bus mass ref 24.0 kg; verdict PASS 47/47 PENDING_REVIEW; next_stage_authorized=false"
+  capture_chain: "sim_06 impulse (40 cases, frozen) → sim_11 coupled (PASS_WITH_PROVISIONAL_PARAMS) → sim_12 strategy (16 units PASS) → SAFE-00 gate; competition Lane C COMPETITION_DEMO_READY 17/17"
+
+validation_evidence:   # ---- who checked what ----
+  urdf_hashes: "PL1-B recompute 2026-08-08 (raw+LF); G8/G9A 13-copy EOL closure; e16 runtime pin"
+  urdf_mass: "PL1-B re-parse = 4.695555949342986 kg; FREECAD_MASS_REGISTER per-link table"
+  kinematic_consistency: "40_evidence\\c1_evidence\\URDF_CAD_KINEMATIC_CONSISTENCY.json: 11/11 PASS, stdlib FK vs FreeCAD FK <1e-6 mm, 10 links x 5 states"
+  arm_binding: "F3R1 P2: 6 joints ALIGNED (origin <0.5 mm, axis dot 1.0)"
+  configs: "F3R1 G2 gate 15/15 (04_configurations\\G2\\F3R1_G2_GATE_STATUS.json + F3R1_G2_CONFIGURATION_MATRIX.csv); 8 configs present, PARTIAL not differentiated"
+  native_interference: "F3R1_MECH_REVIEW.json (sha c065ce17…) is the G0 three-config/zero-mate scan; G2 matrix/gate is the eight-config authority. F3R2 C13 ran 2 native cfgs (20+94 pairs), C14 attribution FAIL (tooling)"
+  offline_clearance: "F3R2 G3A/G5: DEPLOYED/SERVICE zero arm interference; stow family 3 placeholder contacts 0.001-0.319 mm; official path 1/6 swept pass (worst 60.328 mm); engineering release t=0 fail 0.0011 mm (placeholder artifact)"
+  poses: "F3R2 G3B freeze: 5 poses, 20 transition rows, joint limits valid with margins"
+  protected_integrity: "every F3R1/F3R2 round PRE/POST = ALL_PROTECTED_UNCHANGED (42 guards in F3R1; G30..FINAL guards in F3R2)"
+  final_gate: 'REPO\20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\13_gate\F3R2_FINAL_GATE.json  # 11/14; verdicts + 4 HOLDs; PENDING_HUMAN_REVIEW'
+
+thread_gaps:   # where the thread is cut today
+  - "L1 CM state: F3R1 363 and F3R2 482 are in REPO with source/destination SHA equality; copies remain untracked/not CM-accepted and lack cold backup. Full 3,432-file historical CAD lineage remains WT-only."
+  - "L1 ratification: F3R2 PENDING_HUMAN_REVIEW (HOLD-R1)"
+  - "L1→L2: sim parser path broken (pre-REORG04)"
+  - "L0→L1 fingers: 58/58 STL paths and three states verified by M3R offline addendum; independent native palm/left/right parts, mates and configurations not built"
+  - "wing-root: 30.0 mm gap physical (lug not modelled)"
+  - "stow: saddles placeholder; q_stow provisional"
+  - "mass: system budget UNSOURCED_BLOCKED; panel placeholder 5-10x; arm weighing pending"
+  - "SAFE-00 never sees mechanics directly — it gates frozen evidence, so broken sim re-run paths do not invalidate its verdict but block new evidence"

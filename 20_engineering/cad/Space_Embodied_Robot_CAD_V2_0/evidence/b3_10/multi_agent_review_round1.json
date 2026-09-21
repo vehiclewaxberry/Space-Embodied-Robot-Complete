@@ -1,0 +1,341 @@
+{
+  "round": 1,
+  "note": "五路只读评审（需求/坐标系/结构/维护性/红队）；REJECT 触发整改（配置状态/中框干涉/太阳翼解析/判定实质化/入口存档）",
+  "reviews": [
+    {
+      "reviewer": "evidence-redteam",
+      "verdict": "ACCEPT_WITH_FINDINGS",
+      "findings": [
+        {
+          "severity": "MED",
+          "claim": "Target scene files were created AFTER the digital-thread audits and are absent from all four inventories (claim-limit, custom-property, external-reference, native-hash)",
+          "detail": "TARGET_DEBRIS_ENVELOPE_REF.SLDPRT and Target_Scene_Independent.SLDASM have mtime 2026-07-25T09:36Z, while claim_limit_audit.csv / custom_property_inventory.csv were generated 07:11Z and native_file_hash_manifest.csv 07-24T18:29Z, each covering only 55 files (native_reopen_check counts 57). The prohibited-term scan and EXTERNAL_VIOLATION check therefore never ran on the target scene as-built; my best-effort strings scan found no prohibited tokens, but structured-storage properties are not reliably visible to strings. Remediation: re-run sw_inventory_exporter.py over all 57 natives and refresh the digital thread before human sign-off.",
+          "evidence_file": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/claim_limit_audit.csv"
+        },
+        {
+          "severity": "MED",
+          "claim": "V2-CAD-04 machine criterion is vacuous — it can never fail, so its PASS is not evidence",
+          "detail": "b3_10_exit_gate.py line 77 evaluates ('T_SB' not in props_inv or 'UNKNOWN' in props_inv); since 'UNKNOWN' appears throughout the property inventory (UNKNOWN_BLOCKED strings), the disjunction is always true regardless of whether T_SB were misused. The substantive claim holds by other evidence (frame_export.yaml lists CS_B(T_SB) under disabled; T_SM is the mount transform; top-assembly CLAIM_LIMIT contains T_SB_UNKNOWN_BLOCKED), so no verdict downgrade, but the check must be recorded as non-probative and rewritten (e.g. assert no property row assigns T_SB a numeric value).",
+          "evidence_file": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/b3_10_exit_gate.py"
+        },
+        {
+          "severity": "MED",
+          "claim": "Exit-time rerun overwrote the entry-time B3-00 evidence; entry and exit verification now share one file with no preserved entry-time record",
+          "detail": "b3_10_exit_gate.py rerun_entry_verifier() re-executes b3_00_entry_verifier.py, which rewrites evidence/b3_00/B3_entry_verification.json (mtime 09:54:18Z) and B3_entry_baseline_manifest.csv (09:54:19Z) after the gate run started (09:48:57Z). The V2 tree is untracked in git, so the original entry-time record is unrecoverable. V2-CAD-01 (entry baseline) and V2-CAD-20 (frozen boundary unchanged at exit) now cite the same regenerated file, losing independent provenance. Content still proves frozen inputs match at exit (32/32, 43/43, 27/27, 30/30, 21/21, B601 11/11), so no downgrade; remediation: exit rerun should write to evidence/b3_10/ instead of overwriting b3_00.",
+          "evidence_file": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_00/B3_entry_verification.json"
+        },
+        {
+          "severity": "LOW",
+          "claim": "V2-CAD-08 exit recheck tests only the single token STRENGTH_PASS while its summary claims absence of strength/stiffness/modal/flight-qualified declarations",
+          "detail": "b3_10_exit_gate.py line 85 checks only 'STRENGTH_PASS' not in claims; the full 8-term PROHIBITED scan (STIFFNESS_PASS, MODAL_PASS, FLIGHT_QUALIFIED, standard_12U_compliant, global_collision_safe, autonomous_capture_demonstrated, deployment_verified) exists fail-closed at the b3_09 exporter layer, but only over the stale 55-file inventory (see MED target-coverage finding). Independent grep across digital_thread confirmed zero hits, so the substantive claim stands.",
+          "evidence_file": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/sw_inventory_exporter.py"
+        },
+        {
+          "severity": "LOW",
+          "claim": "V2-CAD-17 passes if any single row contains NONE_DISPLAY_ONLY; it does not verify that all MASS_OWNER values are non-authoritative",
+          "detail": "Independent tally of all 55 MASS_OWNER values: 26 NONE_DISPLAY_ONLY, 2 NONE_REFERENCE_ONLY, 1 NONE_CAD_ZERO_MASS_AUTHORITY, 9 UNASSIGNED (all VOLUME_OWNER_REFERENCE anchors), 17 explicit external-owner strings (b601_urdf_owner_NOT_from_visual etc.) — none claims CAD mass authority, so the summary '无质量/材料权威污染' is substantively correct despite the weak check.",
+          "evidence_file": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/structure_class_inventory.csv"
+        },
+        {
+          "severity": "LOW",
+          "claim": "B601 accepted-asset check compares 11 of 12 files; README.md is recorded but has no frozen expected hash",
+          "detail": "B3_entry_verification.json B601_ASSET_HASHES reports total:12, compared:11 transparently; B601_EXPECTED in b3_00_entry_verifier.py contains only URDF + 11 STLs per the a3 manifest. The uncompared README.md (859 bytes) is benign but means a modification to it would go undetected inside the 'accepted B601 unchanged' claim. V2-CAD-12's '11/11哈希' wording is honest.",
+          "evidence_file": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/b3_00_entry_verifier.py"
+        }
+      ],
+      "checked": [
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/claim_limit_audit.csv (55/55 PASS, zero prohibited_hits)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/custom_property_inventory.csv (grep: no STRENGTH_PASS/FLIGHT_QUALIFIED/standard_12U/deployment_verified/QUALIFIED/CERTIFIED tokens)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/external_reference_inventory.csv (99 rows all INTERNAL, no EXTERNAL_VIOLATION)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/native_file_hash_manifest.csv (55 rows — stale vs 57 natives)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/frame_export.yaml (T_SM evidence-bound; CS_B(T_SB)/CS_TCP_CONTACT/CS_SENSOR disabled)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/structure_class_inventory.csv (MASS_OWNER tally)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/v1_to_v2_deviation_manifest.csv (D-EQ-01, D-V2-01..04)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_00/B3_entry_verification.json (V1 32/32 + 43/43, five manifests PASS, B601_HASH_AND_TOPOLOGY_MATCH, GIT_STAGING_CLEAN)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_00/HUMAN_APPROVAL_RECORD.yaml (verdict within LEGAL_EXIT_VERDICTS; frozen invariants match)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_10/B3_exit_gate.yaml (physical_limitations_preserved cross-checked against V2_unknown_register.yaml)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_10/v2_cad_01_20_evaluation.json (20/20)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_10/native_reopen_check.json (57/57 PASS incl. target files)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_08/interference_index.json + all 6 interference_*.json (96 hits all B601 bbox joint-overlap artifacts; V1 10x q0 negatives inherited)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/b3_00_entry_verifier.py (fail-closed logic reviewed)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/b3_10_exit_gate.py (all 20 criteria expressions reviewed)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/sw_inventory_exporter.py (PROHIBITED list + EXTERNAL_VIOLATION logic)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/Assembly/Spacecraft_Service_Vehicle_V2_0.SLDASM (binary strings scan ASCII+UTF-16: no target/debris refs)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/10_Review_Overlays/target_scene_independent/ (both target files: location, mtimes, strings scan)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/10_Review_Overlays/review_view_manifest.json (15 views incl. V2-VIEW-06; raw 15 + annotated 15 present)",
+        "20_engineering/design_inputs/v2_system_mechanical/06_unknown_register/V2_unknown_register.yaml (17 ids, all value null; hash-frozen in B2_5 packet manifest)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_09_digital_thread.jsonl (55-file export timeline)",
+        "Full V2 tree SLDPRT/SLDASM census (57 files) vs audit row counts"
+      ],
+      "notes": "Machine verdict V2_SYSTEM_MECHANICAL_CAD_COMPLETE_WITH_PHYSICAL_LIMITATIONS (20/20) need not be downgraded: every substantive exit claim was independently re-verified, and no evidence pollution, prohibited claim, external reference violation, or target-in-active-assembly leak was found. However, three MED items must be recorded before human sign-off: (1) regenerate the digital-thread inventories to cover the two target-scene files created after the 55-file export; (2) V2-CAD-04's criterion is tautological and non-probative as automation; (3) the exit rerun overwrites the entry-time b3_00 evidence in an untracked tree, collapsing entry/exit provenance. Timestamp anomaly (entry JSON 09:54Z postdating gate YAML 09:48Z) is explained by the gate script capturing its timestamp before the ~5-minute reopen sweep, then rerunning the entry verifier — not evidence tampering, but it is the mechanism of MED-3."
+    },
+    {
+      "reviewer": "serviceability-reviewer",
+      "verdict": "REJECT",
+      "findings": [
+        {
+          "severity": "HIGH",
+          "claim": "V2-VIEW-11 'solar_interfaces_and_keepouts' 不含其声明主体：太阳翼接口模块在全部 6 个具名配置（含 DEPLOYED_REFERENCE_Q0）中被抑制，且未登记为偏差",
+          "detail": "b3_08_top_assembly.jsonl 显示构建意图为 DEPLOYED_REFERENCE_Q0 / SERVICE_ACCESS_REVIEW / EVIDENCE_STATE_REVIEW 创建时 suppressed:0（全显示），但全部 6 份 interference_*.json 的 participants 与 assembly_tree.yaml（第179-182行）均记录 SV2_Solar_Array_Interface-1 suppressed:true（SOLAR_ROOT_L/R_IF 与两侧 deployed wing ref 全部被抑制，18:16:09 的 COMPONENT_SUPPRESSED 事件泄漏到了所有配置）。2026-07-25 09:35 最终渲染的 V2-VIEW-11（及 V2-VIEW-01 整星总览）画面中确认无任何太阳翼几何——该视图既无 solar interfaces 也无 keepout 表达，与 manifest 声明的视图主体和 configuration_register.yaml 的'全显示'描述矛盾。v1_to_v2_deviation_manifest.csv（仅 D-EQ-01、D-V2-01..04）未登记此项。r6 摘要要求的强制验收视图'太阳翼与机械臂具名配置 keepout'实质未交付，V2-CAD-13'太阳翼状态配置分离'的 PASS 依据（register 文本）与模型实际状态不符，20/20 裁决应降级直至修复或按偏差正式入档。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_08/interference_DEPLOYED_REFERENCE_Q0.json"
+        },
+        {
+          "severity": "MED",
+          "claim": "维护性具名特征登记链断裂：构建日志记录 11 次 FEATURE_RENAME 成功，但保存的零件中仅存 6 个具名 3D 草图，5 个特征名丢失（含 5 个 UNKNOWN_BLOCKED keepout owner 锚点中的 2 个）",
+          "detail": "evidence/build_logs/b3_07_service_refs.jsonl 记录 11 个 SK3D_* 重命名全部成功，但 evidence/digital_thread/feature_inventory.csv（第1028-1033行，由 walk_features 从最终模型遍历导出）仅含 6 个：SK3D_B601_INSTALL_REMOVAL_PATH、SK3D_DECK_PASSAGE_REAR_MID、SK3D_TRAY_EXTRACTION_TBD_ANCHOR、SK3D_KEEPOUT_SENSOR_OPTICAL_OWNER、SK3D_KEEPOUT_ANTENNA_OWNER、SK3D_KEEPOUT_THERMAL_OWNER。缺失：SK3D_PANEL_REMOVAL_DIRECTIONS、SK3D_HARNESS_CORRIDOR_CANDIDATE、SK3D_DECK_PASSAGE_MID_FRONT、SK3D_KEEPOUT_RAIL_TAB_OWNER、SK3D_KEEPOUT_PLUME_OWNER，且树中无默认名 3D 草图残留。存活者恰为创建序列第 2/4/6/8/10/11 位（交替模式），指向 sw_service_refs_builder.py 中 Insert3DSketch(True) 开/关相位错位导致 rename_last_feature 对同一特征二次改名覆盖。后果：rail_tab 与 plume 两个 keepout owner 在 CAD 侧不可寻址（CLAIM_LIMIT 属性与 serviceability_matrix.csv 仍声称五者已登记），面板拆卸方向草图名也已丢失；V2-CAD-11 的证据可追溯性受损。注意诚实性底线未破：托盘方向确实未画、keepout 确实未几何化。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/feature_inventory.csv"
+        },
+        {
+          "severity": "MED",
+          "claim": "15 张 annotated 视图中所有中文 claim 限定文本渲染为乱码方块（tofu），claim 水印实质失效",
+          "detail": "b3_10_views.py 的 annotate() 使用 PIL 默认字体 d.text() 写入水印，不支持 CJK。已目验 V2-VIEW-09（claim 应为'托盘抽取方向 TBD（无来源不画）'）与 V2-VIEW-11（应为'根部铰链 UNKNOWN；q0 参考态'）的 annotated PNG，中文全部显示为空心方块，仅英文部分（NO_DYNAMICS / NO_STRENGTH_CLAIM / NON_FLIGHT_DISPLAY_ONLY）可读。带中文 claim_note 的 13 张视图均受影响。claim 限定文本是这批评审视图防止夸大解读的第一道防线，当前只能依赖 review_view_manifest.json 的机器可读文本补救。整改：改用支持 CJK 的字体文件重生成 annotated 层。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/10_Review_Overlays/review_views/annotated/V2-VIEW-09_removable_panels_and_tray_directions_annotated.png"
+        },
+        {
+          "severity": "LOW",
+          "claim": "serviceability_matrix.csv 是 exporter 中硬编码的规格复述，并非从模型态派生，却被引为 V2-CAD-11 的唯一证据",
+          "detail": "sw_inventory_exporter.py 第 166-182 行以字面量列表直接写出全部 10 行矩阵内容，未读取任何模型状态。矩阵内容本身与治理输入一致且诚实（TBD/UNKNOWN_BLOCKED 如实），但作为 digital_thread 证据它无法发现模型与声明的漂移——本次评审发现的特征名丢失（MED 项）正是这种漂移且未被该矩阵捕获。建议：矩阵生成时对照 feature_inventory 校验对应具名特征存在性，或在 CSV 头注明 source=spec_restatement。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/sw_inventory_exporter.py"
+        }
+      ],
+      "checked": [
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/serviceability_matrix.csv",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/10_Review_Overlays/review_view_manifest.json",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/10_Review_Overlays/review_views/raw/ (15 BMP, ls+sha256 全核对，15 个哈希互异)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/10_Review_Overlays/review_views/annotated/ (15 PNG, ls 全核对)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/10_Review_Overlays/review_views/annotated/V2-VIEW-09_removable_panels_and_tray_directions_annotated.png (目验)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/10_Review_Overlays/review_views/annotated/V2-VIEW-11_solar_interfaces_and_keepouts_annotated.png (目验)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/sw_service_refs_builder.py",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/sw_inventory_exporter.py (walk_features + serviceability_matrix 写出段)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/b3_10_views.py",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/feature_inventory.csv (SV2_SERVICE_ACCESS_REFERENCES 段)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/assembly_tree.yaml",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/claim_limit_audit.csv (keepout 行)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/v1_to_v2_deviation_manifest.csv",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_08/interference_DEPLOYED_REFERENCE_Q0.json (+其余 5 配置的 solar 抑制态 grep)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_10/v2_cad_01_20_evaluation.json",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_10/B3_exit_gate.yaml",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_07_service_refs.jsonl",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_08_top_assembly.jsonl (CONFIG_CREATED/COMPONENT_SUPPRESSED 事件)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_06_solar.jsonl",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_08_interference.jsonl (首尾时间戳)",
+        "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_08_rebuild_mid_frames.jsonl (首尾时间戳)"
+      ],
+      "notes": "裁决建议：REJECT 仅针对'按现状通过'——HIGH 项修复路径明确且不大：要么在 6 配置中解除太阳翼抑制并重打 VIEW-01/11-14（恢复构建意图），要么将'全配置太阳翼抑制'作为 D-V2-05 正式入偏差清单并改写 VIEW-11 声明。修复+重跑后可转 ACCEPT_WITH_FINDINGS。维护性诚实底线本身经核实成立：托盘 TBD 未画方向、面板方向全为 DESIGN_PROPOSAL、UNKNOWN_BLOCKED keepout 零几何化、15+15 视图文件真实存在且哈希互异。范围外移交（结构评审员域）：interference_DEPLOYED_REFERENCE_Q0.json 的 participants 中 FRM_MID_FRONT-1/FRM_REAR_MID-1 suppressed:true，而 18:26-18:27 中框重建后 assembly_tree.yaml 显示二者 unsuppressed —— 该配置的干涉证据快照可能早于中框修复，存在陈旧证据风险，建议结构评审员核对 b3_08_interference.jsonl 内各配置扫描时间戳与 D-V2-04 复检口径。"
+    },
+    {
+      "reviewer": "frame-icd-auditor",
+      "verdict": "ACCEPT_WITH_FINDINGS",
+      "findings": [
+        {
+          "severity": "MED",
+          "claim": "退出 Gate 判据 V2-CAD-04（T_SB 未用作 mount transform，属性扫描）的机器谓词恒为真，不是有效检查",
+          "detail": "automation/b3_10_exit_gate.py 第 77 行谓词为 (\"T_SB\" not in props_inv or \"UNKNOWN\" in props_inv)。custom_property_inventory.csv 中大量 claim_limit 含 \"UNKNOWN\"（UNKNOWN_BLOCKED），故该 or 分支永真——即使 T_SB 真被用作 mount transform 该判据也会 PASS。底层事实我已独立核实为真（feature_inventory.csv 全库仅 CS_S/CS_M/CS_A0 三个 CoordSys；frame_export.yaml disabled 列表与 b3_build_spec.yaml 第 48-50 行、V2_interface_register.yaml global_rules 一致），故 20/20 裁决无需因真值降级，但该判据须改为对 mount-transform 绑定的判别性断言后重跑，否则\"机器评估\"表述对该项名不副实。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/b3_10_exit_gate.py"
+        },
+        {
+          "severity": "MED",
+          "claim": "digital_thread/frame_export.yaml 的 CS/planes \"actual\" 值是 b3_02 旧证据的原样复制并被重打新时间戳，非导出时重测",
+          "detail": "sw_inventory_exporter.py 第 149-157 行直接读取 evidence/b3_02/master_skeleton_machine_check.json（测量于 2026-07-24T16:46 UTC）并以 generated_utc=18:29 重新落盘，coordinate_systems/planes 块内无来源指针。本轮正确性由我独立担保：重算 native_file_hash_manifest.csv 全部 55 个 SHA256 与当前文件逐一相符，骨架 mtime（16:46:05）早于 b3_02 verify 且此后未变。但该导出器在未来任何骨架重建后会静默重发陈旧 \"actual\" 值并携带新时间戳，属证据溯源缺陷；整改：块内注明 copied_from=b3_02 或导出时重新探测。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/sw_inventory_exporter.py"
+        },
+        {
+          "severity": "MED",
+          "claim": "interface_inventory.yaml 将六接口压平为 id→名称映射，丢失上游逐接口 evidence_state，UNKNOWN_BLOCKED 接口与 EVIDENCE_BOUND 接口不可区分",
+          "detail": "上游 V2_interface_register.yaml 明确区分 IF-RM-001/002、IF-SA-L/R 为 EVIDENCE_BOUND，IF-PL-001、IF-EE-001 为 UNKNOWN_BLOCKED 且 geometry: null；数字线程导出仅保留名称字符串加一行 IF-RM-001 wrench null 状态。IF-PL-001/IF-EE-001 在 CAD 中无任何零件级载体（custom_property_inventory.csv 中仅顶层装配 INTERFACE_IDS 第 2398 行列出），与 CS_TCP_CONTACT/CS_SENSOR 禁用状态一致但未在接口清单中声明。仅读数字线程的下游消费者无法得知六接口中两项无几何实现。六维载荷 null 本身核实无误：robot_mount_load_interface.yaml 六字段全 null、state=UNKNOWN_BLOCKED、consumption_rules 四条全 false，CAD 中仅有符号性 SK3D_WRENCH_OVERLAY_SYMBOLIC 草图，属性清单未发现任何数值载荷泄漏。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/interface_inventory.yaml"
+        },
+        {
+          "severity": "LOW",
+          "claim": "b3_build_spec.yaml 将 CS_A0 与 CS_E_VIRTUAL 标为 EVIDENCE_BOUND，与上游合同及实际实现不符；E 帧在 frame_export.yaml 中既不在 present 也不在 disabled 列表（静默缺位）",
+          "detail": "上游 frame_export_v0_1.yaml 定 A0 为 DESIGN_BOUND（limitation: geometry_insertion_contract_only），数字线程导出的 T_MA0 正确保留 DESIGN_BOUND，但 spec 第 67 行写 EVIDENCE_BOUND；spec 第 69 行 CS_E_VIRTUAL 标 EVIDENCE_BOUND 而全库不存在该 CoordSys 特征，frame_export.yaml 对 E 帧完全未提及。证据侧表述保守正确，属规格文件自身标签夸大，建议对齐后归档。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/b3_build_spec.yaml"
+        },
+        {
+          "severity": "LOW",
+          "claim": "V2-CAD-03 摘要\"CS_S/CS_M/CS_A0 与 T_SM 数值逐位\"措辞夸大：实际为容差比较（CS 1e-9、平面 1e-7），actual 中含 -0.0",
+          "detail": "b3_02_verify.py TOL=1e-9 的绝对差比较是合理且真实通过的机器核验（我复核 GetCoordinateSystemTransformByName 探测逻辑与 12 元素对拍无误），但\"逐位\"（bit-exact）非字面事实。建议措辞改为\"容差 1e-9 内一致\"。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_10/v2_cad_01_20_evaluation.json"
+        },
+        {
+          "severity": "LOW",
+          "claim": "太阳翼根参考面仅编码法向轴偏移（y=±113.15mm），SSOT F_L/F_R 帧原点的 x=-56.75mm 站位信息在 CAD 与 frame_export 中均未捕获，F_L/F_R 也不在 present/disabled 任一列表",
+          "detail": "b3_build_spec.yaml 第 61-62 行给出 PLANE_SOLAR_ROOT_L/R origin_mm [-56.75, ±113.15, 0]，但机器核验的平面 origin 为 [0/-0.0, ±0.11315, 0]（b3_02_verify.py 仅比较法向轴偏移，对无限平面几何等价故 PASS）。frame_tree_v1.yaml 中 F_L/F_R 帧含 x=-56.75 原点语义，该信息目前无 CAD 载体亦无导出记录，后续帆板 FFR/ANCF 接口消费时需回 SSOT 取值，勿从 CAD 平面反推。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_02/master_skeleton_machine_check.json"
+        }
+      ],
+      "checked": [
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/frame_export.yaml",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/interface_inventory.yaml",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/feature_inventory.csv",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/custom_property_inventory.csv",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/native_file_hash_manifest.csv (55/55 SHA256 独立重算相符)",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/assembly_tree.yaml",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/v1_to_v2_deviation_manifest.csv",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_02/master_skeleton_machine_check.json",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_02/master_skeleton_inventory.json",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_06/b601_q0_boxes.json",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_10/B3_exit_gate.yaml",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_10/v2_cad_01_20_evaluation.json",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_10/native_reopen_check.json",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_02_fix_planes.jsonl",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_02_verify.jsonl",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_09_digital_thread.jsonl",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_10_exit_gate.jsonl",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_04_robot_mount.jsonl",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/b3_02_verify.py",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/sw_inventory_exporter.py",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/b3_10_exit_gate.py",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/b3_build_spec.yaml",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/config/geometry/frame_tree_v1.yaml",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/10_research/space_embodied_robotics/comp_prot_03_a3_geometry_only/frame_export_v0_1.yaml",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/design_inputs/v2_system_mechanical/03_mechanical_interfaces/V2_interface_register.yaml",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/design_review/V2_PDR_package/05_robot_mount/robot_mount_load_interface.yaml",
+        "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/00_Master_Skeleton/Master_Skeleton_V2_0.SLDPRT (mtime/哈希核对，未打开修改)"
+      ],
+      "notes": "数学复核：frame_tree_v1.yaml（列约定，R 列=子轴在父系）R_y(+90°)=[[0,0,1],[0,1,0],[-1,0,0]]，与 frame_export.yaml rotation_rows 一致；SolidWorks ArrayData [0,0,-1,0,1,0,1,0,0,0.18525,0,0] 为其转置（行向量应用约定），与 frame_export_v0_1.yaml convention 第 14 行声明一致；轴语义 Z_M=+X_S、X_M=-Z_S、Y_M=+Y_S 及 quat_wxyz [0.7071,0,0.7071,0] 全部对拍通过。CS_A0 与 CS_M 数值相同（T_MA0=identity，DESIGN_BOUND 限定保留）。b3_02_verify.py 为真实探测（GetCoordinateSystemTransformByName，TOL=1e-9），fix_planes(16:45)→verify(16:46:34) 时序闭合，骨架此后未被写入（mtime 与哈希双重钉死）。三 MED 均为可整改的证据链/判据质量问题，不构成误判核心数值的证据，故不主张裁决降级；如评审主席认为 20/20 中含恒真判据即触发降级条款，可将 MED-1 升为 HIGH 重跑 V2-CAD-04。"
+    },
+    {
+      "reviewer": "structural-reviewer",
+      "verdict": "REJECT",
+      "findings": [
+        {
+          "severity": "HIGH",
+          "claim": "D-V2-04 的收口句「scoped干涉复检后结构零干涉」未被存档证据支持：最终干涉复检在两块修复后的中框被 suppress 的状态下运行，框从未参与最终检查",
+          "detail": "全部六份最终干涉报告（18:28-18:29 运行）的 participants 均记录 SV2_Primary_Structure-1/FRM_MID_FRONT-1 与 FRM_REAR_MID-1 suppressed:true。时序（b3_08_interference.jsonl）：run1 各配置 24 处（16 B601 + 8 框-板对）→ 就地修复（b3_08_fix_mid_frames，宣告 MID_FRAME_FIXED）→ run2 仍 18 处（2 处非 B601 残留）→ 删除并新建两框零件文件（b3_08_rebuild_mid_frames.jsonl OLD_FILE_REMOVED/DOC_NEW，打破文件身份）→ run3 降至 16，且恰好伴随两框在装配中变为 suppressed。即 18→16 的下降由构件退出检查造成，而非几何修复被验证——这正是 b3_08_interference.py 自身合同禁止的「不隐藏、不 suppress 消除」情形。另一矛盾：数分钟后 b3_09 导出的 assembly_tree.yaml 记录同两构件 suppressed:false（两脚本读取方式相同，bool(IsSuppressed)），说明构件在后续会话被自动 resolve，但 resolve 状态下不存在任何干涉运行。修复后框几何参与的「结构零干涉」在证据链中为零证据；最后一次框在场的检查（run2）结果是 18≠16。v1_to_v2_deviation_manifest.csv 的 D-V2-04 该句不如实，须重跑框 resolved 状态下的 scoped 干涉后方可保留。",
+          "evidence_file": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\b3_08\\interference_STRUCTURAL_REVIEW.json"
+        },
+        {
+          "severity": "HIGH",
+          "claim": "六个具名配置的干涉「scoped」在存档证据中从未真正生效：六份报告是同一显示状态的六次重复，参与者/抑制状态与 configuration_register.yaml 定义全面矛盾，V2-CAD-16 依据被污染的证据判 PASS",
+          "detail": "三轮运行中六个配置计数完全相同（24×6、18×6、16×6），最终六份报告的 suppressed 集合完全一致（均为 FRM_MID_FRONT/FRM_REAR_MID/SV2_Solar_Array_Interface）。与定义对照：SERVICE_ACCESS_REVIEW 与 EVIDENCE_STATE_REVIEW 注册为「全显示」（创建日志 suppressed:0）却有 3 处抑制；STRUCTURAL_REVIEW 创建时抑制 17 处（四侧板+两访问板+太阳翼）而最终报告中全部板件 suppressed:false；且 run1 的 STRUCTURAL_REVIEW 返回 24 处（含 8 对框-板干涉）——若侧板真被抑制则该 8 对不可能出现，证明配置抑制自第一轮起即未生效。b3_10_exit_gate.py:101 对 V2-CAD-16 仅校验 len(reports)==6（文件数），未校验各配置状态是否与定义一致，故「干涉按 6 具名配置 scoped」的摘要超出其证据。需修复配置抑制状态的持久化并重跑后，V2-CAD-16 方可成立。",
+          "evidence_file": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\build_logs\\b3_08_interference.jsonl"
+        },
+        {
+          "severity": "MED",
+          "claim": "产生两块 PRIMARY_PROPOSAL 中框最终交付几何的脚本（stage b3_08_rebuild_mid_frames）未入库，README 复现链无法复现交付状态，中间证据被覆盖",
+          "detail": "automation/ 目录只有 b3_08_fix_mid_frames.py（早期就地修复变体，其 docstring 承诺「文件身份保留，装配引用不断」，而实际后续 rebuild 删文件新建、恰恰打破了身份，这正是构件被自动 suppress 的根因）。全仓 grep 找不到 rebuild 脚本。README「复现」序列不含任何修复步骤，且 sw_structure_builder.py 仍按 HB=113.15 构建全部四框（FRAME_RECTS，行 24-31、79-87）——按文档链重放将复现修复前 8 对干涉的几何而非交付的 D-V2-04 内缩几何。另外三轮干涉报告同名覆盖写入，run2 中导致继续返工的 2 处非 B601 残留对已不可考。数字线程对两个主结构件的可追溯性断裂。",
+          "evidence_file": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\automation\\sw_structure_builder.py"
+        },
+        {
+          "severity": "LOW",
+          "claim": "16 处 B601 干涉的分类标签一刀切：非相邻连杆对也被标为 joint_overlap",
+          "detail": "b3_08_interference.py:43-47 对任意双 B601 构件对自动赋 representation_artifact_candidate_bbox_proxy_joint_overlap。已核验六份报告 16 对全部为 B601-B601（无 UNCLASSIFIED 泄漏），但其中至少 7 对为非相邻连杆（link1-link3/link1-link4/link1-link5/link2-link4/link2-link5/link4-link6/link4-gripper_link），不共享关节，「关节区重叠」的归因不适用——它们是 q0 折叠位姿下保守 bbox 的大范围重叠。标签含 candidate 且 claim_limit 已记录 bbox 保守性，故仅为建议：按相邻/非相邻分两个 artifact 子类或在报告中注明。",
+          "evidence_file": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\automation\\b3_08_interference.py"
+        },
+        {
+          "severity": "LOW",
+          "claim": "structure_class_inventory.csv 覆盖 55/57 个原生文件：10_Review_Overlays 独立 target 场景两文件无分类行；README 已知偏差清单漏列 D-V2-04",
+          "detail": "TARGET_DEBRIS_ENVELOPE_REF.SLDPRT 与 Target_Scene_Independent.SLDASM 被 native_reopen_check.json 计入 57/57，却不在结构分类清单中（无 structure_class/mass_owner 记录）。按 configuration_register.yaml 的 independent_scene_note（target 不入主装配）排除可辩护，但清单未声明其范围边界。另 README.md「已知偏差」仅列 D-EQ-01..D-V2-03，漏列 manifest 中已存在的 D-V2-04。两甲板 PRIMARY_OR_SECONDARY_TBD 为如实记录的未决项，非误判。",
+          "evidence_file": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\digital_thread\\structure_class_inventory.csv"
+        }
+      ],
+      "checked": [
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\digital_thread\\structure_class_inventory.csv",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\digital_thread\\v1_to_v2_deviation_manifest.csv",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\digital_thread\\configuration_register.yaml",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\digital_thread\\interference_report_index.yaml",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\digital_thread\\assembly_tree.yaml",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\digital_thread\\claim_limit_audit.csv",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\digital_thread\\object_inventory.csv",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\b3_08\\interference_index.json",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\b3_08\\interference_STRUCTURAL_REVIEW.json",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\b3_08\\interference_SERVICE_ACCESS_REVIEW.json",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\b3_08\\interference_DEPLOYED_REFERENCE_Q0.json",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\b3_08\\interference_STOWED_PROPOSAL.json",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\b3_08\\interference_SAFE_DISPLAY_PROPOSAL.json",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\b3_08\\interference_EVIDENCE_STATE_REVIEW.json",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\build_logs\\b3_08_interference.jsonl",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\build_logs\\b3_08_fix_mid_frames.jsonl",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\build_logs\\b3_08_rebuild_mid_frames.jsonl",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\build_logs\\b3_08_top_assembly.jsonl",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\build_logs\\b3_09_digital_thread.jsonl",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\b3_10\\v2_cad_01_20_evaluation.json",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\b3_10\\B3_exit_gate.yaml",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\evidence\\b3_10\\native_reopen_check.json",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\automation\\b3_08_interference.py",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\automation\\b3_08_fix_mid_frames.py",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\automation\\b3_10_exit_gate.py",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\automation\\sw_structure_builder.py",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\automation\\sw_top_assembly_builder.py",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\automation\\sw_inventory_exporter.py",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\automation\\b3_lib\\sw_core.py",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V2_0\\README.md",
+        "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\cad\\Space_Embodied_Robot_CAD_V1_0\\evidence\\static_interference_scope_and_limit.md"
+      ],
+      "notes": "正面确认：继承负结果记录完整且如实——count=10/NEGATIVE_RESULT/global_collision_safety=BLOCKED 一致出现在 interference_index.json、interference_report_index.yaml、B3_exit_gate.yaml，与 V1 evidence/static_interference_scope_and_limit.md（count 10, NEGATIVE_RESULT）逐位吻合，v2_note 明确声明 bbox 表达差异不构成消解，未见任何消解企图。16 处干涉经六份报告逐对核验全部为 B601-B601 对（脚本对非 B601 对会标 UNCLASSIFIED_REVIEW_REQUIRED，未出现）。REJECT 指向的是机器裁决的两个具体支柱（V2-CAD-16 证据污染 + D-V2-04 收口句无证据），不是整个 B3 构建：修复路径有界——恢复/入库 rebuild 脚本、修复配置抑制持久化、在两中框 resolved 状态下重跑六配置 scoped 干涉并修订 D-V2-04 文本，然后重出 exit gate。建议裁决在此之前降级为 V2_SYSTEM_MECHANICAL_CAD_PARTIAL 或按证据污染处理。"
+    },
+    {
+      "reviewer": "requirements-auditor",
+      "verdict": "REJECT",
+      "findings": [
+        {
+          "severity": "HIGH",
+          "claim": "V2-CAD-16/V2-CAD-13 仅名义成立：六个具名配置的干涉证据未实现 configuration_register.yaml 登记的配置定义，六份报告实际为同一状态",
+          "detail": "登记表定义 STRUCTURAL_REVIEW=外板+太阳翼抑制、SERVICE_ACCESS_REVIEW/EVIDENCE_STATE_REVIEW=全显示、DEPLOYED_REFERENCE_Q0=部署参考态；但六份 interference_*.json 的 participants 全部显示：四块 PNL_* 与两块 access panel 在 STRUCTURAL_REVIEW 中未抑制（与定义相反），SV2_Solar_Array_Interface-1 在全部六个配置（含'全显示'与'部署参考'）中均被抑制。六份报告干涉集合完全相同（16 项，全部为 B601 bbox 代理关节重叠）。b3_08_top_assembly.jsonl 显示配置创建时曾按定义抑制（STRUCTURAL_REVIEW suppressed=17），但该状态未持久化。V2-VIEW-02（STRUCTURAL_REVIEW）与 V2-VIEW-11（DEPLOYED_REFERENCE_Q0）渲染图逐像素同构、外板可见、无太阳翼，与视图 claim_note '外板/太阳翼抑制' 矛盾。机器判定仅检查 len(reports)==6 与 STOWED_PROPOSAL 键存在，未检查配置实质。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_08/interference_STRUCTURAL_REVIEW.json"
+        },
+        {
+          "severity": "HIGH",
+          "claim": "偏差 D-V2-04 的'scoped干涉复检后结构零干涉'不成立：重建后的两块中框从未参与任何已记录的干涉检查，最后一次含框测量为 18≠16",
+          "detail": "b3_08_interference.jsonl 时序：18:17 首查每配置 24 项（16 B601 + 8 框-板对）；18:21 就地修复框环；18:23 复查每配置 18 项（框在场，仍余 2 项非 B601 干涉，未处置）；18:26 rebuild_mid_frames 以 OLD_FILE_REMOVED 方式删除并重建 FRM_REAR_MID/FRM_MID_FRONT 文件；18:28 终查每配置 16 项，但六份终版报告中 FRM_MID_FRONT-1/FRM_REAR_MID-1 均 suppressed:true——计数 18→16 的下降来自框被排除而非几何修复得证。次日 assembly_tree.yaml（07-25 07:11）显示两框在交付装配中已重新解析（unsuppressed），即交付几何的框-板干涉状态无任何测量记录。v1_to_v2_deviation_manifest.csv 与两框的 claim_limit_audit 行均引用该未被证据支持的'结构零干涉'裁断。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_08_interference.jsonl"
+        },
+        {
+          "severity": "HIGH",
+          "claim": "交付顶层装配在所有已记录状态中均未解析太阳翼模块：四个 SOLAR_* 零件仅以独立文件存在，任何机器证据（干涉、装配树、视图）中都不出现",
+          "detail": "assembly_tree.yaml 显示 SV2_Solar_Array_Interface-1 suppressed:true 且 children 为空（未解析）；六份干涉报告全部抑制；V2-VIEW-11（solar_interfaces_and_keepouts, CONFIG=DEPLOYED_REFERENCE_Q0）渲染图中无任何太阳翼/根部接口几何。与 configuration_register.yaml 的'全显示'两配置及 DEPLOYED_REFERENCE_Q0 定义矛盾。SOLAR_WING_L/R_DEPLOYED_REF 等零件虽通过 57/57 重开检查，但'整车含太阳翼接口'的表达在交付装配中从未实现，'太阳翼状态配置分离'（V2-CAD-13 摘要）无实质证据。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/digital_thread/assembly_tree.yaml"
+        },
+        {
+          "severity": "MED",
+          "claim": "17/20→20/20 的翻转完全由 Gate 评估脚本自身在两次 PARTIAL 与最终 COMPLETE 之间的未留痕修改造成，且原始入口证据被出口重跑覆盖",
+          "detail": "b3_10_exit_gate.jsonl 记录三次运行：09:41 与 09:48 均 B3_10B_DONE passed=17（PARTIAL），09:54 passed=20（COMPLETE）。期间仅两处文件变更：automation/b3_00_entry_verifier.py（09:41:59 改写）与 automation/b3_10_exit_gate.py（09:48:47 改写），无任何证据文件新增。失败项 ID 未写入日志，早期 evaluation JSON 被同路径覆盖，V2 目录未纳入 git（无脚本历史）。现行脚本注释（'以裁决 JSON 文件为权威，stdout 摘要不含 b601_match_verdict 等字段'）与恰好 3 个依赖 entry 字段的判据（V2-CAD-01/12/20）吻合，指向良性的 stdout→JSON 解析修复，且三次运行 ENTRY_RERUN 均 PASS——但该重构仅为推断，无保存证据可验证。另外：出口重跑覆盖了 HUMAN_APPROVAL_RECORD.yaml 所引用的 2026-07-24 入口时刻 B3_entry_verification.json 与 B3_entry_baseline_manifest.csv 原件（现存文件为 07-25 09:54 由已修改校验器生成）。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/build_logs/b3_10_exit_gate.jsonl"
+        },
+        {
+          "severity": "MED",
+          "claim": "V2-CAD-04 机器判定逻辑空洞：('T_SB' not in props) or ('UNKNOWN' in props) 在本数据集上恒真，无法失败",
+          "detail": "custom_property_inventory.csv 第 2403 行确实含 T_SB（值为 T_SB_UNKNOWN_BLOCKED，本身无害），第一子句为假；而 'UNKNOWN' 因 UNKNOWN_BLOCKED 令牌遍布全表使第二子句恒真——即使 T_SB 真被用作 mount transform 该检查也会 PASS。'T_SB 未用作 mount transform' 的结论只能由旁证支撑（frame_export.yaml disabled 列表含 CS_B(T_SB)；master_skeleton_machine_check.json 逐位核对 T_SM=[185.25,0,0]+R_y(+90) 为实际使用的 transform），机器判定本身不构成证据。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/automation/b3_10_exit_gate.py"
+        },
+        {
+          "severity": "LOW",
+          "claim": "多项判据为存在性/令牌扫描级检查，且两处 evidence 指针不可解析，摘要措辞高于实际验证深度",
+          "detail": "V2-CAD-05/06/09/11/18 仅 .exists()；V2-CAD-02/08/14/17 仅字符串包含扫描。V2-CAD-14 指针'零实体构建断言 + target scene'与 V2-CAD-20 指针'b3_00 复核(退出时重跑)'均非文件路径；实际零实体证据在 build_logs/b3_05_bays.jsonl（10 个 volume owner 全部 OWNER_REF_BUILT zero_solid=true）。本审计对底层事实抽查均为真：claim_limit_audit.csv 44 行无禁用声明、全 PASS；MASS_OWNER 取值全部非权威（NONE_*/UNASSIGNED/委派 URDF）；D-EQ-01 在偏差清单+构建日志（FAIL_CLOSED→DEVIATION_D-EQ-01, failed_count=25）+25 个 PARAM_* 属性三处闭环，处理规范。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_10/v2_cad_01_20_evaluation.json"
+        },
+        {
+          "severity": "LOW",
+          "claim": "时间戳与计数口径的审计摩擦：evaluation/gate 的 generated_utc 早于其引用证据的落盘时间；'11/11哈希'与入口记录 total=12/compared=11 口径不一",
+          "detail": "v2_cad_01_20_evaluation.json 与 B3_exit_gate.yaml 内部 generated_utc=09:48:57 为进程启动时刻捕获，而其引用的 native_reopen_check.json 实际写盘于 09:54:17（文件系统时间 09:54:19 一致）——首次审计会误判'证据晚于裁决'。V2-CAD-12 摘要'11/11哈希'对应入口 B601_ASSET_HASHES total=12/compared=11（README.md 行未比对），source_hash_and_topology_register.yaml 亦写 '11/11 MATCH'，建议统一口径。",
+          "evidence_file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_0/evidence/b3_10/B3_exit_gate.yaml"
+        }
+      ],
+      "checked": [
+        "evidence/b3_10/v2_cad_01_20_evaluation.json（二十项判定逐条对指针与逻辑）",
+        "evidence/b3_10/native_reopen_check.json（V2-CAD-19：57/57 与磁盘原生文件普查逐一比对——48 SLDPRT + 9 SLDASM 精确全覆盖，无遗漏无虚增；三次运行均 57/57 一致；判定成立）",
+        "evidence/b3_10/B3_exit_gate.yaml（裁决四选一合法、PENDING_HUMAN_REVIEW、物理限界与 not_authorized_next 如实保留）",
+        "evidence/b3_00/B3_entry_verification.json（V2-CAD-01/20：V1 32/32+43/43、B2.5 27/27、B2.8 30/30、A4-B2 21/21、B601 11/12 比对、GIT_STAGING_CLEAN）",
+        "evidence/b3_00/HUMAN_APPROVAL_RECORD.yaml（授权范围/冻结不变量/合法出口裁决核对）",
+        "evidence/b3_02/master_skeleton_inventory.json（V2-CAD-02：equations 空 + 25 个 PARAM_* 属性值在案，D-EQ-01 偏差处理核实成立）",
+        "evidence/b3_02/master_skeleton_machine_check.json（V2-CAD-03：CS_S/CS_M/CS_A0 与七基准面 expected/actual 逐位核对，param_redundancy_count=25）",
+        "evidence/build_logs/b3_02_master_skeleton.jsonl（D-EQ-01 原始 FAIL_CLOSED 与 DEVIATION 事件链）",
+        "evidence/digital_thread/v1_to_v2_deviation_manifest.csv（D-EQ-01/D-V2-01..04）",
+        "evidence/digital_thread/frame_export.yaml（T_SM 数值、CS_B(T_SB)/CS_TCP_CONTACT/CS_SENSOR disabled）",
+        "evidence/digital_thread/custom_property_inventory.csv（T_SB、ZERO_SOLID_REQUIRED、MASS_OWNER 全值域抽取）",
+        "evidence/digital_thread/claim_limit_audit.csv（44 行全 PASS、无强度/刚度/模态/飞行合格令牌）",
+        "evidence/digital_thread/structure_class_inventory.csv、equipment_volume_register.yaml、serviceability_matrix.csv、configuration_register.yaml、source_and_license_manifest.yaml、interface_inventory.yaml、assembly_tree.yaml、object_inventory.csv",
+        "evidence/b3_08/interference_index.json + 全部六份 interference_*.json（participants 抑制状态横向比对）",
+        "evidence/build_logs/b3_08_top_assembly.jsonl、b3_08_interference.jsonl、b3_08_fix_mid_frames.jsonl、b3_08_rebuild_mid_frames.jsonl（24→18→16 时序重建）",
+        "evidence/build_logs/b3_05_bays.jsonl（10× OWNER_REF_BUILT zero_solid=true——V2-CAD-14 零实体事实核实成立）",
+        "evidence/build_logs/b3_10_exit_gate.jsonl（三次运行 17/17/20 时序）",
+        "06_B601_Visual_Arm/source_hash_and_topology_register.yaml（V2-CAD-12：10L/9J、11 项 sha256 与入口记录逐条一致、urdf_modified=false）",
+        "10_Review_Overlays/review_view_manifest.json + V2-VIEW-02 与 V2-VIEW-11 annotated PNG 目视核查（V2-CAD-07 视图存在性成立，15 raw+15 annotated 齐全）",
+        "automation/b3_10_exit_gate.py（20 项判定逻辑源码审计）",
+        "全 evidence/automation 文件系统时间戳取证 + V2 根目录 57 项原生文件普查"
+      ],
+      "notes": "裁决理由：任务指定重点复核的三项本身经得起检验——V2-CAD-19 的 57/57 为真实、可穷举核对的全量重开+重建证据；V2-CAD-02 的 D-EQ-01 偏差在偏差清单、构建日志与 PARAM_* 属性三处闭环；V2-CAD-14 的零实体事实由 b3_05 构建日志支撑（尽管机器检查仅为令牌扫描）。但 b3_08 派生的两项判据（V2-CAD-13/16）只在文件存在层面成立，其实质（配置按登记定义 scoped、太阳翼状态分离）被留存证据直接反驳：六配置实际同构、太阳翼全程被抑制、重建后的两块中框从未参与终版干涉检查，且 D-V2-04 的\"结构零干涉\"与最后一次含框测量（18≠16）矛盾。按 HIGH=裁决应降级或阻塞的口径，机器裁决 V2_SYSTEM_MECHANICAL_CAD_COMPLETE_WITH_PHYSICAL_LIMITATIONS (20/20) 不应原样通过人工评审。建议整改路径：(1) 修复顶层装配六个具名配置的逐配置抑制状态使之与 configuration_register.yaml 一致（含解析太阳翼模块）；(2) 在中框解析状态下重跑六配置 scoped 干涉并重签 D-V2-04 或将其改写为如实的负结果；(3) 重渲染 V2-VIEW-02/11/12；(4) 修正 V2-CAD-04/13/16 判定逻辑为实质检查；(5) 此后将 evaluator 脚本与每次运行的失败清单纳入证据留存（当前 V2 树未入 git，符合授权，但应以副本方式保留版本）。完成后重跑 b3_10 可望在不改变科学限界的前提下重新取得 20/20。"
+    }
+  ]
+}

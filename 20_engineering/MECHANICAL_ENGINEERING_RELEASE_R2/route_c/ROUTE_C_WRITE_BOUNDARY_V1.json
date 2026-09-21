@@ -1,0 +1,43 @@
+{
+  "schema": "ROUTE_C_WRITE_BOUNDARY_V1",
+  "generated_utc": "2026-08-25T10:02:34Z",
+  "stage": "RC-0_WRITE_BOUNDARY",
+  "write_allowed": [
+    {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/",
+      "scope": "ALL_NEW_ROUTE_C_ARTIFACTS (manifests, registries, gates, trades, CAD sources, FCStd, STEP, product structure, clamp register, centerline, maintenance docs, build receipts)",
+      "rule": "new files only; no overwrite of any file outside this directory"
+    }
+  ],
+  "read_only": [
+    "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/ (all 23 core files plus 00_RELEASE_GATE.json plus _work/)",
+    "20_engineering/cad/spacecraft_layout/arm_b601_v1/ (accepted URDF and meshes)",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ (all)",
+    "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/ (all)",
+    "20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/ (all)",
+    "20_engineering/design_inputs/ (all)",
+    "any path outside 20_engineering/"
+  ],
+  "forbidden_actions": [
+    "modify or replace accepted URDF sha256 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+    "modify or replace Solar R2 STEP sha256 21FF77B882DBFAB87B3E77DD56817EFC7F321C68E30AFEDCDDBB4D79B9915795",
+    "modify M3R, Gripper R1, MPI bridge, E23 evidence, or any release-root core file",
+    "overwrite 00_RELEASE_GATE.json historical verdict",
+    "inherit quarantined Route-B seeds (bundle OD 10.0 mm, R25/R30, cut length 4001.158 mm, mass 0.68406762184 kg)",
+    "create virtual kinematic joints; Route-C collision geometry enters only as link-attached L2 collision assets",
+    "propagate Route-C mass into any dynamics SSOT; new mass enters only as registered mass_delta_by_link candidates (propagation is RC-5 scope)",
+    "claim authority levels MEASURED, AS_BUILT or FLIGHT_QUALIFIED for any P01-P13 value",
+    "coerce null to zero, zero-fill, stub, or guess values without traceable source",
+    "rerun frozen gates (Solar R2, M3R, Gripper R1, MPI bridge, E23, nine-configuration mass, existing FEA)",
+    "git commit, git push, or any git mutation (CM belongs to a later agent)",
+    "touch the parallel A3 Sim13 backend workspace (20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/loop_b/ and Sim13 intake paths)"
+  ],
+  "gate_json_convention": {
+    "review_status": "PENDING_OWNER_REVIEW",
+    "next_stage_authorized": false,
+    "release_credit": false
+  },
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

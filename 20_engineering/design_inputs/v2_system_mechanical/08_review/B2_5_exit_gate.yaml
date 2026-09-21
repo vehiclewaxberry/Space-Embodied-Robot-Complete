@@ -1,0 +1,95 @@
+schema_version: v2-system-mechanical-b2-5-exit-gate-v0.1
+gate_id: COMP-PROT-03-A4-B2_5-SYSTEM-MECHANICAL-DESIGN-INPUTS
+evaluated_on: "2026-07-24"
+review_mode: DOCUMENT_AND_CONTRACT_ONLY
+
+overall:
+  verdict: B2_5_SYSTEM_MECHANICAL_DESIGN_INPUT_PACKAGE_COMPLETE
+  input_package_complete: true
+  input_package_has_open_physical_blockers: true
+  B3_CAD_ready_to_request_human_approval: true
+  B3_CAD_authoring_authorized: false
+  V1_0_unmodified: true
+  physical_qualification_started: false
+
+required_inputs:
+  - id: system_requirements_baseline
+    artifact: 01_mission_requirements/V2_system_requirements_baseline.md
+    result: PASS_CONTRACT
+  - id: machine_readable_requirements
+    artifact: 01_mission_requirements/V2_system_requirements_baseline.yaml
+    result: PASS_CONTRACT
+  - id: configuration_baseline
+    artifact: 02_spacecraft_configuration/V2_configuration_baseline.yaml
+    result: PASS_CONTRACT
+  - id: mechanical_ICD
+    artifact: 03_mechanical_interfaces/V2_mechanical_ICD.md
+    result: PASS_CONTRACT
+  - id: interface_register
+    artifact: 03_mechanical_interfaces/V2_interface_register.yaml
+    result: PASS_CONTRACT
+  - id: subsystem_volume_owners
+    artifact: 04_subsystem_layout/V2_subsystem_volume_owner_register.yaml
+    result: PASS_CONTRACT
+  - id: serviceability_and_keepout_plan
+    artifact: 04_subsystem_layout/V2_serviceability_and_keepout_plan.md
+    result: PASS_PROPOSAL_ONLY
+  - id: mass_ownership
+    artifact: 05_mass_budget/V2_mass_ownership_table.csv
+    result: PASS_OWNERSHIP_NOT_PHYSICAL_TRUTH
+  - id: unknown_register
+    artifact: 06_unknown_register/V2_unknown_register.yaml
+    result: PASS_OPEN_UNKNOWNS_PRESERVED
+  - id: master_skeleton_contract
+    artifact: 07_cad_preparation/V2_master_skeleton_parameter_contract.yaml
+    result: PASS_PRE_CAD_ONLY
+  - id: B3_construction_plan
+    artifact: 07_cad_preparation/V2_B3_CAD_construction_plan.md
+    result: PASS_PLAN_ONLY
+  - id: review_view_plan
+    artifact: 07_cad_preparation/V2_review_view_plan.yaml
+    result: PASS_PLAN_ONLY
+  - id: pre_CAD_structural_review
+    artifact: 08_review/pre_cad_structural_review_report.md
+    result: PASS_WITH_OPEN_PHYSICAL_BLOCKERS
+
+preserved_truths:
+  project_profile_mm: [340.5, 226.3, 226.3]
+  profile_classification: NON_FLIGHT_DISPLAY_ONLY
+  standard_12U_claim: BLOCKED
+  T_SM_role: S_to_robot_mount_M
+  T_SB_role: S_to_free_flyer_base_B
+  T_SB_status: UNKNOWN_BLOCKED
+  accepted_B601_model: 10_links_9_joints_read_only
+  deployed_reference_Q0_static_interferences:
+    count: 10
+    classification: NEGATIVE_RESULT
+    global_collision_safety: BLOCKED
+
+authority:
+  create_or_modify_V2_SolidWorks: false
+  modify_V1_0: false
+  modify_A3: false
+  modify_URDF: false
+  modify_geometry_SSOT: false
+  modify_simulation_or_Gate: false
+  run_FEA_or_dynamics: false
+  run_control_Isaac_ROS_VLA_RL: false
+  infer_unknown_physical_values: false
+
+next_human_gate:
+  id: COMP-PROT-03-A4-B3-V2-SYSTEM-MECHANICAL-CAD
+  current_status: NOT_GRANTED
+  request_ready: true
+  minimum_scope_if_granted: PARAMETRIC_CAD_AUTHORING_WITHOUT_PHYSICAL_QUALIFICATION
+
+allowed_claim:
+  - V2_pre_CAD_design_input_chain_is_complete_and_auditable
+  - V2_CAD_request_package_is_ready_for_human_review
+
+prohibited_claim:
+  - V2_mechanical_system_is_engineering_complete
+  - V2_is_standard_12U_or_launch_compliant
+  - structural_strength_stiffness_modal_or_thermal_performance_is_verified
+  - global_collision_safety_is_verified
+  - autonomous_capture_VLA_or_safe_control_is_implemented

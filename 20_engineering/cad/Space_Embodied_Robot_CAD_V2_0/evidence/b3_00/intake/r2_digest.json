@@ -1,0 +1,224 @@
+{
+  "reader": "R2:requirements+ICD",
+  "files_read": [
+    "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/design_inputs/v2_system_mechanical/00_governance/design_input_scope_and_status.md",
+    "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/design_inputs/v2_system_mechanical/01_mission_requirements/V2_system_requirements_baseline.md",
+    "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/design_inputs/v2_system_mechanical/01_mission_requirements/V2_system_requirements_baseline.yaml",
+    "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/design_inputs/v2_system_mechanical/02_spacecraft_configuration/V2_configuration_baseline.yaml",
+    "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/design_inputs/v2_system_mechanical/03_mechanical_interfaces/V2_interface_register.yaml",
+    "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/design_inputs/v2_system_mechanical/03_mechanical_interfaces/V2_mechanical_ICD.md"
+  ],
+  "key_parameters": [
+    {
+      "name": "body_envelope_mm_S",
+      "value": "[340.5, 226.3, 226.3]",
+      "unit": "mm",
+      "source": "V2_configuration_baseline.yaml (profile.body_envelope_mm_S; same in V2_system_requirements_baseline.yaml envelope_mm_S)"
+    },
+    {
+      "name": "long_axis / task_face",
+      "value": "positive_X_S (both)",
+      "unit": "-",
+      "source": "V2_configuration_baseline.yaml profile.long_axis, profile.task_face"
+    },
+    {
+      "name": "CDS_12U_REFERENCE envelope (NOT to consume)",
+      "value": "[366.0, 226.3, 226.3], status RETAINED_REFERENCE_NOT_CONSUMED, change_control_required true",
+      "unit": "mm",
+      "source": "V2_configuration_baseline.yaml profile.conflicting_reference"
+    },
+    {
+      "name": "bay X boundaries in S",
+      "value": "body_min_X=-170.25; rear/mid=-56.75; mid/front=+56.75; body_max_X=+170.25; nominal_bay_length=113.5; bay_count=3",
+      "unit": "mm",
+      "source": "V2_configuration_baseline.yaml bay_layout"
+    },
+    {
+      "name": "REAR_SERVICE_BAY x_range",
+      "value": "[-170.25, -56.75], evidence_state DESIGN_PROPOSAL",
+      "unit": "mm",
+      "source": "V2_configuration_baseline.yaml bay_layout.zones"
+    },
+    {
+      "name": "AVIONICS_EPS_ADCS_BAY x_range",
+      "value": "[-56.75, 56.75], evidence_state DESIGN_PROPOSAL",
+      "unit": "mm",
+      "source": "V2_configuration_baseline.yaml bay_layout.zones"
+    },
+    {
+      "name": "FRONT_MISSION_BAY x_range",
+      "value": "[56.75, 170.25], evidence_state DESIGN_PROPOSAL",
+      "unit": "mm",
+      "source": "V2_configuration_baseline.yaml bay_layout.zones"
+    },
+    {
+      "name": "frame S",
+      "value": "servicer_geometry_frame, origin = body_envelope_center, EVIDENCE_BOUND",
+      "unit": "-",
+      "source": "V2_configuration_baseline.yaml frames.S"
+    },
+    {
+      "name": "T_SM (frame M, robot_mounting_face, parent S)",
+      "value": "translation [185.25, 0.0, 0.0] mm in S; rotation R_y(+90.0 deg); status EVIDENCE_BOUND; upstream tag nominal_frozen_v1",
+      "unit": "mm / deg",
+      "source": "V2_configuration_baseline.yaml frames.M; V2_interface_register.yaml IF-RM-001.bound_geometry; V2_mechanical_ICD.md sec 3.1; design_input_scope_and_status.md upstream table"
+    },
+    {
+      "name": "T_MA0 (frame A0, B601_insertion_frame, parent M)",
+      "value": "identity design contract, EVIDENCE_BOUND",
+      "unit": "-",
+      "source": "V2_configuration_baseline.yaml frames.A0; V2_interface_register.yaml IF-RM-002; V2_mechanical_ICD.md sec 3.1"
+    },
+    {
+      "name": "T_SB (frame B, free_flyer_dynamics_base)",
+      "value": "UNKNOWN_BLOCKED (governance doc says UNKNOWN_DISABLED; meaning S -> B); CAD must not create it or use it as mount",
+      "unit": "-",
+      "source": "V2_configuration_baseline.yaml frames.B; design_input_scope_and_status.md; V2_mechanical_ICD.md sec 1"
+    },
+    {
+      "name": "E_virtual",
+      "value": "task_semantic_frame, EVIDENCE_BOUND, but NO numeric transform in these files (must preserve, source elsewhere)",
+      "unit": "-",
+      "source": "V2_configuration_baseline.yaml frames.E_virtual; V2_interface_register.yaml IF-EE-001 allowed_now"
+    },
+    {
+      "name": "TCP_contact",
+      "value": "physical_contact_frame, UNKNOWN_BLOCKED; transform_ref T_E_TCP; geometry null",
+      "unit": "-",
+      "source": "V2_configuration_baseline.yaml frames.TCP_contact; V2_interface_register.yaml IF-EE-001"
+    },
+    {
+      "name": "IF-RM-001 servicer flange (160mm B601 interface)",
+      "value": "160.0 x 160.0 x 15.0",
+      "unit": "mm",
+      "source": "V2_interface_register.yaml IF-RM-001.bound_geometry.servicer_flange_mm; V2_mechanical_ICD.md sec 3.1"
+    },
+    {
+      "name": "IF-RM-001 adapter plate",
+      "value": "160.0 x 160.0 x 12.0",
+      "unit": "mm",
+      "source": "V2_interface_register.yaml IF-RM-001.bound_geometry.adapter_plate_mm"
+    },
+    {
+      "name": "IF-RM-001 adapter boss",
+      "value": "diameter 100.0, height 15.0 (D100 x 15)",
+      "unit": "mm",
+      "source": "V2_interface_register.yaml IF-RM-001.bound_geometry.adapter_boss_diameter_height_mm"
+    },
+    {
+      "name": "IF-SA-L root frame F_L origin in S",
+      "value": "[-56.75, +113.15, 0.0], EVIDENCE_BOUND",
+      "unit": "mm",
+      "source": "V2_interface_register.yaml IF-SA-L; V2_mechanical_ICD.md sec 4"
+    },
+    {
+      "name": "IF-SA-R root frame F_R origin in S",
+      "value": "[-56.75, -113.15, 0.0], EVIDENCE_BOUND",
+      "unit": "mm",
+      "source": "V2_interface_register.yaml IF-SA-R; V2_mechanical_ICD.md sec 4"
+    },
+    {
+      "name": "B601 identity",
+      "value": "accepted 10-link / 9-joint topology; URDF change NOT allowed (urdf_change_allowed: false)",
+      "unit": "-",
+      "source": "V2_interface_register.yaml IF-RM-002; design_input_scope_and_status.md; V2_system_requirements_baseline.yaml mission.manipulator"
+    },
+    {
+      "name": "target_satellite_v0 mass",
+      "value": "22.0 (confidence low, EXCLUDED_FROM_ACTIVE_ASSEMBLY, structural_load_use false)",
+      "unit": "kg",
+      "source": "V2_system_requirements_baseline.yaml mission.target_scenarios"
+    },
+    {
+      "name": "target_debris_v0 mass",
+      "value": "150.0 (confidence low, EXCLUDED_FROM_ACTIVE_ASSEMBLY, structural_load_use false)",
+      "unit": "kg",
+      "source": "V2_system_requirements_baseline.yaml mission.target_scenarios"
+    },
+    {
+      "name": "inherited negative result q0",
+      "value": "DEPLOYED_REFERENCE_Q0_STATIC_INTERFERENCE, count 10, NEGATIVE_RESULT, global_collision_safety BLOCKED — must be inherited unchanged",
+      "unit": "-",
+      "source": "V2_system_requirements_baseline.yaml mechanical_requirements.inherited_negative_result; V2-REQ-MEC-010"
+    },
+    {
+      "name": "V1.0 evidence seal",
+      "value": "SHA-256 dce2b66a...a8969f0 (truncated in doc); mismatch = stop condition",
+      "unit": "-",
+      "source": "design_input_scope_and_status.md upstream table"
+    },
+    {
+      "name": "coordinate convention",
+      "value": "T_XY = pose of frame Y expressed in frame X",
+      "unit": "-",
+      "source": "V2_mechanical_ICD.md sec 1"
+    },
+    {
+      "name": "B601 reaction load-path chain (topology only)",
+      "value": "B601/A0 -> M interface -> adapter plate + boss -> local reinforcement proposal -> front task-face load-spreading frame -> longitudinal members / transverse ring -> bus primary structure",
+      "unit": "-",
+      "source": "V2_mechanical_ICD.md sec 3.3; V2-REQ-MEC-003"
+    }
+  ],
+  "rules": [
+    "Method: TOP_DOWN_MASTER_SKELETON mandatory; global parameters published ONLY by the skeleton (V2-REQ-CAD-001/002); independent V2 root required; no cyclic references and no ACTIVE external OreSat/vendor CAD references (V2-REQ-CAD-003; vendor_exact_B601_STEP is on the excluded list).",
+    "Every first-level object must carry properties: object/owner/class/state/source/frame/mass/claim (V2-REQ-CAD-004).",
+    "Evidence-state vocabulary is closed: EVIDENCE_BOUND / DESIGN_PROPOSAL / UNKNOWN_BLOCKED / EXCLUDED. DEFAULT, ASSUMED_TRUE, TYPICAL, or 'looks plausible' are forbidden substitutes.",
+    "Five named configurations are REQUIRED: STRUCTURAL_REVIEW, SERVICE_ACCESS_REVIEW, DEPLOYED_REFERENCE_Q0, STOWED_PROPOSAL, EVIDENCE_STATE_REVIEW; interference/review results must be bound to a named configuration (V2-REQ-CAD-005).",
+    "SHA-256 manifest required for all inputs and deliverables (V2-REQ-CAD-008); native files must reopen/rebuild with complete references (V2-REQ-CAD-007); V1.0 CAD, Gates, geometry config SSOT, accepted B601 URDF and simulations must remain byte-unmodified (V2-REQ-CAD-006).",
+    "Excluded from active assembly (never mate/contact/rigid-lock): target_satellite, target_debris, physical_TCP, contact_geometry, selected_camera_hardware, selected_propulsion_hardware, vendor_exact_B601_STEP. Targets are independent-scene only (IF-TG-001 EXCLUDED).",
+    "Mechanical mount transform is T_SM only; substituting T_SB for T_SM is an immediate stop condition. T_SB use is free_flyer_base_only and currently UNKNOWN.",
+    "No unsourced bolt patterns, locating features, hole positions, fasteners, preload, fit/tolerance, materials, surface treatment, loads (F_M/M_M), stiffness/strength/modal targets — all IF-RM-001 unknown_fields stay null with named owners (ICD sec 3.2).",
+    "CAD default material/mass must never override the mass-owner registry (global_rules.default_material_or_mass_authority: false; ICD sec 9 stop condition).",
+    "Perception interface IF-PL-001: only reserve_mount_region, reserve_cable_passage, occlusion review owner. Forbidden: camera_model, numeric FOV, T_SC values, calibration, mass, BOM.",
+    "End-effector IF-EE-001: only preserve_G, preserve_E_virtual, reserve_future_interface. Forbidden: physical_TCP, contact_patch, force_sensor, compliant_finger_claim.",
+    "Solar interfaces IF-SA-L/R: allowed = root plane, hinge-axis candidate, stowed/deployed/safe-display state slots, swept keepout owner. Unknown = hinge, release, lock, drive, harness, stowed_envelope, deployment_loads. Static deployed positions must NOT be called deployment verification.",
+    "Load-path chain existence means topology completeness only — never claim strength/stiffness/load qualification; reaction-path view claimed as strength verification is a stop condition.",
+    "Serviceability without explicit clearance/fastener/tool data may only be labeled SERVICEABILITY_PROPOSAL (ICD sec 8).",
+    "q0 deployed-reference 10-interference NEGATIVE_RESULT must be inherited unchanged (V2-REQ-MEC-010); global collision safety remains BLOCKED.",
+    "Middle bay: non-overlapping volume owners for OBC/C&DH, EPS/PMAD, battery, RW/IMU; rear bay: separated propulsion/comm/thermal-radiator/debug reserved zones with keepout owners only (no hardware/performance).",
+    "Immediate stop-and-request-new-ruling triggers: profile or envelope change; T_SM / M / A0 / B601 topology change; V1.0 seal mismatch; any request to fill unknown material/load/property; target/contact/sensor/physical TCP entering active CAD; missing B3 human authorization.",
+    "Claim limit everywhere: NON_FLIGHT_DISPLAY_ONLY; no standard-12U/CDS compliance claim; no flight, FEA, dynamics, manufacturing or capture-feasibility claims (authority block: all false)."
+  ],
+  "identifiers": [
+    "V2-REQ-MIS-001..005",
+    "V2-REQ-SYS-001..004",
+    "V2-REQ-MEC-001..010",
+    "V2-REQ-CAD-001..008",
+    "IF-RM-001",
+    "IF-RM-002",
+    "IF-SA-L",
+    "IF-SA-R",
+    "IF-PL-001",
+    "IF-EE-001",
+    "IF-AV-001",
+    "IF-SV-001",
+    "IF-MA-001",
+    "IF-TG-001",
+    "frames: S, M, A0, B, G, E_virtual, TCP_contact, F_L, F_R, T_SC_future, T_ST_or_T_SD",
+    "transforms: T_SM (nominal_frozen_v1), T_MA0_identity, T_SB, T_E_TCP",
+    "bays: REAR_SERVICE_BAY, AVIONICS_EPS_ADCS_BAY, FRONT_MISSION_BAY",
+    "assembly root: Spacecraft_Service_Vehicle_V2_0",
+    "modules: Primary_Structure, Front_Mission_Module, Avionics_EPS_ADCS_Bay, Rear_Service_Module, Robot_Mount_Module, B601_Visual_Arm, Solar_Array_Interface_Module, Payload_Perception_Interface_Reference, Service_Access_and_Harness_References",
+    "named configurations: STRUCTURAL_REVIEW, SERVICE_ACCESS_REVIEW, DEPLOYED_REFERENCE_Q0, STOWED_PROPOSAL, EVIDENCE_STATE_REVIEW",
+    "profiles: COMPETITION_DISPLAY_V0, CDS_12U_REFERENCE",
+    "baseline/register IDs: V2_SYSTEM_REQUIREMENTS_PRE_CAD, SPACECRAFT_SERVICE_VEHICLE_V2_PRE_CAD, V2_PRE_CAD_MECHANICAL_INTERFACES",
+    "excluded objects: target_satellite_v0, target_debris_v0, physical_TCP, contact_geometry, selected_camera_hardware, selected_propulsion_hardware, vendor_exact_B601_STEP",
+    "negative result: DEPLOYED_REFERENCE_Q0_STATIC_INTERFERENCE",
+    "manipulator: B601_accepted_10_link_9_joint"
+  ],
+  "gate_status": "Verbatim status strings by file — 00_governance: \"STATUS: BASELINED_PRE_CAD_INPUT_PACKAGE\", \"SCIENTIFIC_GATE: false\", \"CAD_EXECUTION: false\"; upstream contract \"A4_B2_V2_MECHANICAL_ARCHITECTURE_CONTRACT_COMPLETE\"; exit ruling \"B2_5_SYSTEM_MECHANICAL_DESIGN_INPUT_PACKAGE_COMPLETE\"（该裁决只允许申请 B3，不授予 B3）。 01_requirements md: \"STATUS: SYSTEM_REQUIREMENTS_BASELINED_FOR_PRE_CAD\", \"PROFILE: COMPETITION_DISPLAY_V0\"; yaml: status SYSTEM_REQUIREMENTS_BASELINED_FOR_PRE_CAD, scientific_gate: false, authority all false (b3_cad_authorized/fea/dynamics/urdf/manufacturing/flight_claim = false). 02_configuration yaml: status \"CONFIGURATION_INPUT_BASELINED_CAD_NOT_AUTHORIZED\", authority create_v2_cad_now: false, modify_v1_cad: false, modify_urdf_or_geometry_ssot: false. 03_interface register yaml: status \"INTERFACE_IDENTITIES_BASELINED_PHYSICAL_FIELDS_OPEN\", global_rules.cad_authoring_authorized: false. 03_ICD md: \"STATUS: PRE_CAD_ICD_BASELINED\", \"PHYSICAL_QUALIFICATION: NOT_STARTED\", \"CAD_AUTHORING: NOT_AUTHORIZED\".",
+  "conflicts_or_gaps": [
+    "授权边界冲突（最重要）：全部六份文件一致声明 CAD 未授权（CAD_EXECUTION: false / b3_cad_authorized: false / create_v2_cad_now: false / cad_authoring_authorized: false / CAD_AUTHORING: NOT_AUTHORIZED），且明确 B2.5 裁决只允许'申请 B3'。本次 B3 CAD 构建的授权必须来自这些文件之外的人工 B3 批准记录——构建前需向 orchestrator 确认该批准存在，否则触发文件内'B3 人工授权缺失'停止条件。",
+    "frame G 在 ICD IF-EE-001 中被引用（G/E_virtual/TCP，preserve_G）但未在 configuration baseline 的 frames 节定义，本包内无 G 的数值定义——需从 accepted B601 URDF/A3 证据侧获取，且不得修改。",
+    "E_virtual 标为 EVIDENCE_BOUND 但本包无任何数值 transform；CAD 只能'保持'它，不能自行赋值。",
+    "M 面 X=185.25 mm 超出 body_max_X=170.25 mm 共 15 mm（恰为 160x160x15 flange 厚度）：flange/adapter/B601 均位于 340.5 mm body envelope 之外。文件未声明包络是否含突出物；构建时按'body envelope 仅约束 bus 本体'处理并在证据导出中注明，不得据此改包络。",
+    "术语不一致：00_governance 用 'UNKNOWN_DISABLED'（T_SB、physical TCP），其余文件用 'UNKNOWN_BLOCKED'。语义一致（不可用），CAD 属性建议统一用 register/baseline 的 UNKNOWN_BLOCKED。",
+    "Ry(+90°) 只给了旋转量，未明文规定 M 系哪根轴为安装面法线/B601 插入轴——需与 T_SM nominal_frozen_v1 的 SSOT 定义（20_engineering/config/geometry/）对拍，不得自行解释。",
+    "IF-PL-001 的 frame_id 为 'T_SC_future'、IF-TG-001 为 'T_ST_or_T_SD'——transform 名被用作 frame_id 的命名不一致；建 reference 时保持原字符串，勿'修正'。",
+    "mass owner registry 与 unknown register、Master Skeleton 参数表、volume-owner register 在 ICD/需求中被引用但不在本 6 文件集内（应在 04/05 目录）——由其他 reader 覆盖，若缺失则 B2.5 退出条件不满足。",
+    "CDS_12U_REFERENCE 366.0 mm 包络与 340.5 mm profile 并存：非冲突，但被标 RETAINED_REFERENCE_NOT_CONSUMED + change_control_required，CAD 严禁消费 366 数值。",
+    "任务授权中的'维护线束 reference'对应模块 Service_Access_and_Harness_References、'太阳翼接口'对应 Solar_Array_Interface_Module——均在 active modules 清单内，无冲突；但'舱段占位'的三舱 evidence_state 均为 DESIGN_PROPOSAL，属性必须如实标注而非 EVIDENCE_BOUND。"
+  ],
+  "notes": "CAD 可直接消费的骨架参数闭合集：S 原点=包络中心，X∈[-170.25,+170.25]，分舱面 X=±56.75；T_SM=[185.25,0,0]+Ry(+90°)；flange 160x160x15 → adapter plate 160x160x12 + boss D100x15 → A0=identity；F_L/F_R=[-56.75,±113.15,0]。所有物理连接字段（螺栓/公差/材料/载荷）must stay null。9 个 active modules + 5 个具名配置 + 4 值 evidence-state 词表 + SHA-256 manifest 为交付硬合同。"
+}

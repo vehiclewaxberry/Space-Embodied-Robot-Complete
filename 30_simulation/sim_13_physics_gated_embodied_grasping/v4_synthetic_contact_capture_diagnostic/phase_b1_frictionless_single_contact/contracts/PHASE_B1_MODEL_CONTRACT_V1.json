@@ -1,0 +1,71 @@
+{
+  "schema": "SIM13_V4B1_SYNTHETIC_FRICTIONLESS_SINGLE_CONTACT_MODEL_CONTRACT_V1",
+  "scope": "synthetic-only algorithm diagnostic",
+  "claims": {
+    "synthetic_contact_analogue": true,
+    "b601_parameter_binding": false,
+    "formal_contact_backend": false,
+    "friction": false,
+    "dual_contact": false,
+    "soft_capture": false,
+    "locking": false,
+    "grasp_success": false
+  },
+  "phase_a_v3_read_only_upstream": {
+    "public_model_path": "../sim13_v4a/full_floating.py",
+    "public_model_sha256": "3EC187C850F72EB1CAFF18713C71D6D0AC1773AF6C7AA8BFF4285FC26055C998",
+    "audited_gate_path": "../results/SIM13_V4A_PHASE_A_AUDITED_GATE_V3.json",
+    "audited_gate_sha256": "82ECF267AA5F0DF0B79610AB4FBFD4DB4AE564EDE530A7F69AB579D1E15F7A40",
+    "required_gate": "PASS_PHASE_A_SYNTHETIC_FULL_FLOATING_KERNEL_WITH_CONTACT_AND_CURRENT_SYSTEM_HOLD"
+  },
+  "service_generalized_velocity": {
+    "order": ["v_b_I[3]", "omega_b_I[3]", "qdot_R[6]", "qdot_P[2]"],
+    "units": ["m/s", "rad/s", "rad/s", "m/s"],
+    "equation": "M(q) nudot + h(q,nu) = J_pad(q)^T F_service",
+    "full_mass_matrix_shape": [14, 14],
+    "base_joint_coupling_required": true
+  },
+  "target": {
+    "synthetic_mass_kg": 22.0,
+    "state": ["p_I_m[3]", "q_B_to_I_wxyz[4]", "v_I_m_s[3]", "omega_I_rad_s[3]"],
+    "same_rhs_and_substeps_as_service": true
+  },
+  "contact_geometry": {
+    "pad": "fixed link7-local point",
+    "target": "synthetic sphere",
+    "sphere_radius_m": 0.12,
+    "gap": "norm(p_pad_I-p_target_I)-R",
+    "penetration": "max(-gap,0)",
+    "normal": "(p_pad_I-p_target_I)/norm(p_pad_I-p_target_I)",
+    "common_point": "p_target_I+R*n_I"
+  },
+  "provisional_contact_values": {
+    "normal_stiffness_n_m": 8000.0,
+    "normal_damping_n_s_m": 12.0,
+    "initial_gap_m": 0.0008,
+    "initial_closing_speed_m_s": 0.08,
+    "status": "SYNTHETIC_PROVISIONAL_NOT_B601"
+  },
+  "force_law": {
+    "separated": "Fn=0",
+    "penetrating": "Fn=k_n*delta+c_n*max(-v_rel_n,0)",
+    "service_force": "+Fn*n_I",
+    "target_force": "-Fn*n_I",
+    "target_torque": "(p_c-p_target) cross F_target",
+    "friction_force": "NOT_IMPLEMENTED"
+  },
+  "dimensional_partitions": {
+    "R": {"coordinate": "rad", "rate": "rad/s", "effort": "N*m"},
+    "P": {"coordinate": "m", "rate": "m/s", "effort": "N"},
+    "linear_momentum": "N*s",
+    "angular_momentum_about_one_inertial_origin": "N*m*s",
+    "energy": "J",
+    "mixed_P_H_norm_forbidden": true,
+    "mixed_R_P_norm_forbidden": true
+  },
+  "state_machine": {
+    "nominal_sequence": ["SEPARATED", "APPROACH", "SINGLE_CONTACT", "SEPARATING_AFTER_CONTACT"],
+    "abort_state": "ABORTED_SAFE",
+    "forbidden_states": ["DUAL_CONTACT", "SOFT_CAPTURE", "LOCKED", "GRASP_SUCCESS"]
+  }
+}

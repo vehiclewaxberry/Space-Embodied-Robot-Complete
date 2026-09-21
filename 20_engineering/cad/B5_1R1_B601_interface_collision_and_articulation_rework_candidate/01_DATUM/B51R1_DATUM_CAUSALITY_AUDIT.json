@@ -1,0 +1,147 @@
+{
+  "schema": "SER_B51R1_DATUM_CAUSALITY_AUDIT_V1",
+  "generated_utc": "2026-07-28T19:14:08.9210592Z",
+  "task_id": "COMP-PROT-03-A4-B5.1R1-B601-CANONICAL-INTERFACE-AND-NATIVE-ARTICULATION-REWORK",
+  "status": "CAUSAL_CHAIN_CONFIRMED_WITH_FACE_LEVEL_MEASUREMENT_HOLD",
+  "parent_gate_sha256": "DD4286A1826AD6F47AEF81C3685A047786430A6F5BB31D797C206A5A2A91F8D0",
+  "chronology": [
+    {
+      "utc": "2026-07-28T07:52:36.1519360Z",
+      "event": "B51_INITIAL_LOCK_SELECTED_LEGACY_102_FILE_V22_TREE",
+      "source": "00_AUDIT/B51_INPUT_LOCK.json",
+      "authority": "NONCANONICAL_PROVISIONAL_DONOR_WITH_FINAL_SEAL_HOLD"
+    },
+    {
+      "utc": "2026-07-28T07:58:06.4432939Z",
+      "event": "B51_DATUM_REGISTER_RECORDED_LONGERON_CENTER_105_65",
+      "source": "01_REQUIREMENTS/B51_MASTER_SKELETON_DATUM_REGISTER.yaml",
+      "authority": "PARENT_ADMITTED_DATUM_NOW_UNDER_REWORK"
+    },
+    {
+      "utc": "2026-07-28T08:19:24.0043278Z",
+      "event": "B51_GEOMETRY_SOURCE_RETAINED_LONGERON_CENTER_105_65_AND_SADDLE_BASE_113_15",
+      "source": "02_DESIGN/geometry/b51_geometry_common.py",
+      "authority": "GENERATED_PARENT_GEOMETRY"
+    },
+    {
+      "utc": "2026-07-28T10:35:18.6804043Z",
+      "event": "B51_CANONICAL_LOCK_CORRECTED_DONOR_TO_108_FILE_NATIVE_TREE",
+      "source": "00_AUDIT/B51_INPUT_LOCK_V2_CANONICAL.json",
+      "authority": "CANONICAL_CORRECTION"
+    },
+    {
+      "utc": "2026-07-28T11:29:45.1468977Z",
+      "event": "EXACT_BREP_AUDIT_REPORTED_4_MM_DATUM_CONFLICT_AND_3_MM_PRIMARY_DISTANCE",
+      "source": "07_VERIFICATION/interface/B51_CANONICAL_INTERFACE_BREP_AUDIT.json",
+      "authority": "DIAGNOSTIC_GEOMETRY_EVIDENCE"
+    }
+  ],
+  "longeron_chain": {
+    "legacy_branch": {
+      "source": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/automation/sw_v22_builder.py",
+      "source_lines": "137-141",
+      "classification": "DESIGN_PROPOSAL_NONCANONICAL_FOR_B51R1",
+      "center_abs_yz_mm": 105.65,
+      "half_section_mm": 7.5,
+      "section_mm": 15.0,
+      "outer_surface_abs_yz_mm": 113.15
+    },
+    "canonical_native": {
+      "source": "00_BASELINE_DONORS/V2_2_NATIVE_CANONICAL_108_FILE_COPY/automation/native_spec.py",
+      "classification": "CANONICAL_NATIVE_GEOMETRY_FIELD_SOURCE",
+      "center_abs_yz_mm": 101.65,
+      "half_section_mm": 8.5,
+      "section_mm": 17.0,
+      "primary_outer_surface_abs_yz_mm": 110.15,
+      "removable_panel_thickness_mm": 3.0,
+      "panel_outer_surface_abs_yz_mm": 113.15
+    },
+    "b51_authored": {
+      "center_abs_yz_mm": 105.65,
+      "saddle_lower_face_abs_z_mm": 113.15
+    },
+    "difference_mm": 4.0,
+    "decomposition": "105.65-101.65=(113.15-7.5)-(113.15-3.0-8.5)=3.0+1.0=4.0",
+    "finding": "THE_4_MM_IS_A_SECTION_AND_LAYER_DEFINITION_CHANGE_PROPAGATED_THROUGH_A_STALE_DATUM_NOT_A_RIGID_BODY_TRANSLATION",
+    "confidence": "HIGH_SOURCE_AND_GEOMETRY_CONSISTENT",
+    "permitted_credit": "CAUSAL_DIAGNOSTIC_ONLY"
+  },
+  "saddle_primary_chain": {
+    "canonical_primary_outer_surface_abs_yz_mm": 110.15,
+    "canonical_panel_outer_surface_abs_yz_mm": 113.15,
+    "b51_saddle_lower_face_abs_z_mm": 113.15,
+    "exact_brep": {
+      "g07_saddle_to_primary_mm": 3.000000000000014,
+      "g08_saddle_to_primary_mm": 3.000000000000014,
+      "g07_saddle_to_panel_mm": 0.0,
+      "g08_saddle_to_panel_mm": 0.0,
+      "common_volume_with_primary_mm3": 0.0,
+      "common_volume_with_panel_mm3": 0.0
+    },
+    "finding": "CURRENT_SADDLE_SHOES_SEAT_ON_THE_REMOVABLE_PANEL_OUTER_SURFACE_NOT_ON_A_NAMED_PRIMARY_LOAD_INTRODUCTION_FACE",
+    "attachment_credit": "NONE",
+    "warning": "ZERO_DISTANCE_AND_ZERO_COMMON_VOLUME_DO_NOT_PROVE_ATTACHMENT"
+  },
+  "hypothesis_disposition": [
+    {
+      "id": "H-DATUM-LEGACY-CANONICAL",
+      "hypothesis": "B51 datum and geometry were produced from legacy authority before the canonical donor correction and were not regenerated field-by-field.",
+      "disposition": "CONFIRMED_HIGH_CONFIDENCE",
+      "falsifier": "A later signed source-bound adjudication explicitly approving 105.65 mm against the canonical 108-file model."
+    },
+    {
+      "id": "H-LAYER-PANEL",
+      "hypothesis": "The 3 mm primary distance is the removable-panel layer.",
+      "disposition": "CONFIRMED_BY_SOURCE_AND_EXACT_BREP",
+      "falsifier": "A qualified named primary load-introduction face at 113.15 mm in the correct configuration."
+    },
+    {
+      "id": "H-PAD-OMISSION",
+      "hypothesis": "The 3 mm base gap is caused by the replaceable upper contact pad being omitted.",
+      "disposition": "REJECTED_FOR_BASE_INTERFACE",
+      "reason": "The authored 3 mm replaceable contact pads are at the arm-contact elevations, not at the 113.15 mm saddle base."
+    },
+    {
+      "id": "H-CLOCKING-TRANSFORM",
+      "hypothesis": "The 4 mm and 3 mm observations are caused by a 25 degree or duplicated occurrence transform.",
+      "disposition": "NOT_SUPPORTED_FOR_THE_OBSERVED_SCALAR_OFFSETS_MEASUREMENT_STILL_REQUIRED",
+      "falsifier_or_test": "Record every CS_S-to-occurrence 4x4 transform and recompute named-face distances from the selected configuration."
+    },
+    {
+      "id": "H-WRONG-CONFIGURATION",
+      "hypothesis": "Obsolete or incorrectly suppressed occurrences contaminate interface conclusions.",
+      "disposition": "PARTIALLY_OPEN",
+      "falsifier_or_test": "Publish selected configuration, occurrence paths, and explicit obsolete-occurrence exclusion map."
+    }
+  ],
+  "audit_method_limit": {
+    "finding": "The parent audit hard-codes the reported 101.65, 105.65, 4.0, and 3.0 datum fields while computing STEP distances dynamically.",
+    "r1_requirement": "R1 verification must parse source fields or derive datums from named geometry; copied constants cannot close a Gate."
+  },
+  "unresolved_authorities": {
+    "task_face_x_mm": 183.0,
+    "dynamics_pdr_mount_x_mm": 185.25,
+    "v22_display_mount_x_mm": 198.0,
+    "b51_authored_mount_x_mm": 198.0,
+    "clocking_deg": 25.0,
+    "status": "H9_AND_MOUNT_TRACK_HUMAN_DECISION_REQUIRED",
+    "rule": "KEEP_TASK_FACE_DYNAMICS_TRACK_DISPLAY_TRACK_AND_CLOCKING_AS_SEPARATE_NAMED_DATUMS"
+  },
+  "prohibited_shortcuts": [
+    "TRANSLATE_ALL_B51_GEOMETRY_BY_4_MM",
+    "ADD_A_3_MM_SHIM_WITHOUT_LOAD_PATH_AUTHORITY",
+    "TREAT_PANEL_CONTACT_AS_PRIMARY_ATTACHMENT",
+    "MERGE_185_25_AND_198_TRACKS",
+    "UPGRADE_25_DEG_CLOCKING_BEYOND_ENGINEERING_CANDIDATE"
+  ],
+  "phase0_exit": {
+    "causal_explanation": "PASS",
+    "source_hash_binding": "PASS",
+    "face_level_occurrence_transform_record": "HOLD_NOT_DURABLY_RECORDED",
+    "named_face_contact_area_and_edge_margin": "HOLD_NOT_RUN",
+    "native_redesign_authorized": false,
+    "status": "PHASE0_CAUSALITY_RESOLVED_MEASUREMENT_CONTRACT_OPEN_REDESIGN_NOT_AUTHORIZED"
+  },
+  "claim_limit": "CAUSAL_AND_GEOMETRY_DIAGNOSTIC_ONLY; NOT_A_REDLINE; NOT_ATTACHMENT_OR_STRUCTURAL_QUALIFICATION"
+}
+

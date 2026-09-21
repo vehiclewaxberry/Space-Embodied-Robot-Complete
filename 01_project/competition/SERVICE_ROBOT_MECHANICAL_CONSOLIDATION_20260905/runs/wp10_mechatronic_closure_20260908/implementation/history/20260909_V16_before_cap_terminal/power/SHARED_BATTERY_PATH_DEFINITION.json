@@ -1,0 +1,101 @@
+{
+  "schema": "WP10_SHARED_BATTERY_PATH_DEFINITION_V3",
+  "active_geometry_plan": "mechanical/INPUT_CAP_MOUNT_INSTANCE_PLAN.json",
+  "status": "DISCHARGE_DESIGN_SENSITIVITY__OEM_TERMINAL_CHARGE_AND_HEAT_PATH_OPEN",
+  "connector": {
+    "MPN": "RRC-MC35-180-30",
+    "document": "sources/mc35.pdf",
+    "document_revision": "B",
+    "document_sha256": "925f724eb89b2d562bcd67ac8923c914f82652d3df51a10c9085a0c457a7a912",
+    "source_page": 2,
+    "source_url": "https://www.rrc-ps.com/fileadmin/Dokumente/Data-Sheets/DS_RRC-MC35-180-30_A.PDF",
+    "published_contact_resistance_max_ohm": 0.05,
+    "published_power_pin_current_max_A": 30,
+    "published_operating_temperature_C": [
+      -40,
+      85
+    ],
+    "resistance_test_method_temperature_and_life_conditions": null,
+    "resistance_power_vs_signal_definition": null,
+    "stress_interpretation": "0.05 ohm per mated power pole, two poles in series once =0.10 ohm. Explicit conservative interpretation, not an OEM qualified loop-resistance guarantee or measured value.",
+    "male_and_female_halves_counted_twice": false,
+    "OEM_cavity_SysDetect_and_socket_transform_bound": false
+  },
+  "voltage_planes": {
+    "pack_V": "Protected pack-side differential voltage before the chosen mated-contact loop; already includes pack/BMS internal sag. Not OCV, cell voltage, or the downstream J200 voltage.",
+    "junction_V": "J200 project output pads after both shared contact poles, before F201/F202 branch split.",
+    "main_fused_V": "F201.2 / U201.2 / R215.1, after declared main pre-sense resistance, relative to INPUT_RETURN.",
+    "main_input_V": "U203.1 and U205 bias input, after remaining main branch resistance.",
+    "aux_input_V": "U202.1 after declared F202/wire resistance, relative to INPUT_RETURN."
+  },
+  "cases": {
+    "pack_V": [
+      20,
+      22,
+      25.2,
+      29.4
+    ],
+    "shared_contact_loop_R_ohm": [
+      0,
+      0.01,
+      0.1
+    ],
+    "shared_zero_is_diagnostic_only": true,
+    "shared_0p01_is_unmeasured_sensitivity": true,
+    "main_branch_allocations_ohm": [
+      {
+        "total": 0.04,
+        "before_MAIN_FUSED": 0.005
+      },
+      {
+        "total": 0.06,
+        "before_MAIN_FUSED": 0.02
+      }
+    ],
+    "main_branch_definition": "Explicitly excludes upstream MC35 contacts; includes fuse, Q201, shunts and main wire/PCB resistance as declared allocations. Does not inherit the ambiguous old path as a measured value.",
+    "aux_branch_R_ohm": [
+      0.018,
+      0.04
+    ],
+    "aux_R_is_unmeasured_allocation": true,
+    "main_efficiency": [
+      0.85,
+      0.9
+    ],
+    "aux_efficiency": [
+      0.8,
+      0.9
+    ],
+    "controller_input_A": 0.003,
+    "controller_input_scope": "Declared input-side controller/divider allowance at MAIN_FUSED, distinct from the 0.25W post-precharge startup bias allocation; not a measured bound.",
+    "efficiency_full_environment_guaranteed": false,
+    "main_leak_A": 0.003,
+    "main_leak_scope": "C203 max 3mA at20C after5min applied as operating-voltage scenario; not full-temperature guarantee; distinct from controller3mA and startup0.25W.",
+    "aux_branch_definition": "Total loop allocation includes F202 exactly once. 0.018 ohm is typical cold fuse alone plus ideal zero other path; 0.04 ohm includes 0.022 ohm unmeasured other path. Neither is a guaranteed hot/life resistance or installed circuit value.",
+    "aux_zero_allocation_history": "history/20260909_V14_before_fuse_coordination/power/SHARED_BATTERY_PATH_DEFINITION.json",
+    "aux_fuse_typical_cold_R_ohm": 0.018,
+    "aux_fuse_selection_source": "power/INPUT_PASSIVE_SELECTION.json:F202"
+  },
+  "load_binding": {
+    "main_output_source": "power/POWER_LOOP_CALCULATIONS.json:additional_brake_budget.total_main_design_allocation_W",
+    "main_output_W": 361,
+    "arm_task_W_unchanged": 360,
+    "startup_bias_input_W": 0.25,
+    "aux_output_W": 16.8,
+    "standby_case": "CHB and post-precharge startup bias OFF; input controller allowance and full allocated STOP load retained. Not a precharge trajectory.",
+    "capacitor_leakage_node": "PRECHARGED_PLUS; only charged ON case. Cold open switch has zero source leakage current; stored capacitor discharge not calculated."
+  },
+  "thermal_binding": {
+    "connector_sink_node": null,
+    "connector_case_to_sink_R_K_W": null,
+    "contact_hotspot_temperature_C": null,
+    "rated_30A_does_not_close_contact_thermal_model": true,
+    "battery_pack_heat_not_included": true,
+    "converter_output_blocker_contactor_and_arm_losses_not_included": true,
+    "output_power_boundary": "CHB and THN output allocation planes, not measured power delivered to motors; additional output distribution loss remains unbound.",
+    "PMM_is_not_in_active_discharge_path": true
+  },
+  "physical_tests_executed": false,
+  "whole_design_complete": false,
+  "passive_selection": "power/INPUT_PASSIVE_SELECTION.json"
+}

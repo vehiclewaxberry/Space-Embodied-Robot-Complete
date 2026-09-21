@@ -1,0 +1,64 @@
+{
+  "schema": "B51R1_S02_SR01_INCIDENT_SCOPE_CORRECTION_ADDENDUM_V1",
+  "generated_at": "2026-08-02T21:30:45.6107142+08:00",
+  "status": "CORRECTED_MINIMUM_MISSING_CUSTOM_PROPERTY_SET_CONFIRMED",
+  "purpose": "APPEND_ONLY_SCOPE_CORRECTION_DO_NOT_OVERWRITE_PRIOR_INCIDENT",
+  "prior_incident": {
+    "path": "07_VERIFICATION/AUTONOMOUS/S02/B51R1_S02_SR01_FAIL_CLOSED_INCIDENT.json",
+    "bytes": 5975,
+    "sha256": "DF55C9B404568012E79FE5A2635E3720ABCF107116B46D416B7930FEF65306A9",
+    "preserved_unchanged": true
+  },
+  "correction": {
+    "superseded_scope_statement": "ALL_EIGHT_FINALIZER_SET2_PROPERTIES_ARE_CREATION_SUSPECT",
+    "correct_scope_statement": "THREE_PROPERTIES_PREEXISTED_AND_PASSED_GET6; FIVE_NEW_PROPERTIES_WERE_WRITTEN_ONLY_BY_UNCHECKED_SET2_AND_REQUIRE_ADD3",
+    "runtime_confirmed_first_missing_property": "G1B_RECEIPT_SHA256",
+    "minimum_corrective_property_set": [
+      "G1B_RECEIPT_SHA256",
+      "FINAL_INPUT_LOCK_SHA256",
+      "PANEL_PRIMARY_LOAD_CREDIT",
+      "PANEL_ATTACHMENT_CREDIT",
+      "PANEL_PHYSICAL_CONTACT_CREDIT"
+    ],
+    "properties_already_created_upstream_and_passed_before_failure": [
+      "FRAME_ID",
+      "BUILD_STRATEGY",
+      "G07_G08_CONTACT_WINDOW_STATUS"
+    ]
+  },
+  "source_chain_evidence": {
+    "native_builder": {
+      "path": "02_MASTER_SKELETON/B51R1_MasterSkeletonNativeBuilder.cs",
+      "bytes": 29159,
+      "sha256": "035B57437C804E90E9A685BDDEFC8D8BC525683AD83A0138383A6BA21940C185",
+      "evidence": "AddProperty uses Add3(name,30,value,2), and creates FRAME_ID BUILD_STRATEGY G07_G08_CONTACT_WINDOW_STATUS before finalization"
+    },
+    "finalizer": {
+      "path": "08_REVIEWS/B51R1_S01_MasterSkeletonFinalizer.cs",
+      "bytes": 12803,
+      "sha256": "3537CC90D61054BB54B18F6243ADA0B568AF8A9403933066B7C0C704F624D686",
+      "evidence": "The five minimum corrective properties first appear as unchecked Set2 calls and have no upstream Add3 creation"
+    },
+    "s02_verifier": {
+      "path": "08_REVIEWS/B51R1_S02_MasterSkeletonColdReopenVerifier.cs",
+      "bytes": 55776,
+      "sha256": "D00CB87274852E3716D873CC6B20337E63E84453DA2477AD4FA0429A9DB230AF",
+      "evidence": "ReadProperty order reaches G1B only after FRAME_ID BUILD_STRATEGY and G07_G08_CONTACT_WINDOW_STATUS have passed result=2 exact-value checks"
+    }
+  },
+  "corrected_repair_contract": {
+    "target_revision": "02_MASTER_SKELETON/B51R1_MASTER_SKELETON_V2_R1.SLDPRT",
+    "overwrite_original_permitted": false,
+    "creation_api": "Add3",
+    "field_type": 30,
+    "overwrite_option": 2,
+    "required_add_result": 0,
+    "post_add_get6_result": 2,
+    "post_add_was_resolved": true,
+    "post_add_linked": false,
+    "raw_and_resolved_exact": true,
+    "verify_all_document_properties_not_only_the_five_repairs": true
+  },
+  "root_cause_status": "CONFIRMED_S01_FINALIZER_SET2_EXISTENCE_ASSUMPTION_FOR_FIVE_NEW_PROPERTIES",
+  "claim_limit": "SCOPE_CORRECTION_ONLY_NO_CAD_REPAIR_OR_S02_PASS_CREDIT"
+}

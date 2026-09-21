@@ -1,0 +1,80 @@
+{
+ "schema": "SIM13R_M4_GATE_V1",
+ "generated_date_local": "2026-08-30",
+ "review_status": "PENDING_OWNER_REVIEW",
+ "exit_criteria": {
+  "E1_every_ctrl03_actuator_constraint_has_a_finite_bound": true,
+  "E2_every_uncertain_bound_explicitly_classified": true,
+  "E3_unknown_causes_unknown_not_silent_omission": true,
+  "E4_wheel_thruster_joint_units_and_scopes_consistent": true,
+  "E5_urdf_placeholders_not_used_as_operational_limits": true
+ },
+ "m_tauw_status_change": {
+  "previous_sim13r_claim": "ABSENT_NO_LIMIT_AND_NO_VALUE_IN_REPOSITORY",
+  "corrected_status": "PROVISIONAL",
+  "value_Nm": {
+   "LOW": 0.002,
+   "NOMINAL": 0.01,
+   "HIGH": 0.02
+  },
+  "consequence": "wheel-path m_time becomes evaluable via t_stab = |dH|/tau; wheel-mode cells are no longer capped at UNKNOWN by m_tauw. They remain UNKNOWN because m_clearance and m_flex are still unevaluable, and because the envelope itself is PROVISIONAL."
+ },
+ "wheel_scope_ruling": {
+  "sim12_v2_binding_unchanged": true,
+  "sim12_v2_h_max_Nms": 0.3,
+  "rebinding_permitted": false,
+  "reason": "SIM12 V2 consumes the three-axis scalar tier 0.3 N*m*s, which is internally consistent with the 0.1 N*m*s per-axis capacity. No separate authority Gate permits rebinding, and 5.475 is not a wheel quantity at all."
+ },
+ "evidence_counts": {
+  "total": 10,
+  "unknown": 3,
+  "hold": 1
+ },
+ "velocity_interval_basis": {
+  "max_demanded_rate_dps": 7.5,
+  "LOW_radps": 0.1309,
+  "NOMINAL_radps": 0.261799,
+  "HIGH_radps": 0.523599,
+  "urdf_placeholder_radps": [
+   50.0,
+   200.0
+  ],
+  "high_is_below_urdf_placeholder_by_factor": [
+   95.5,
+   382.0
+  ],
+  "rule": "LOW = max rate demanded by frozen CTRL-02 Stage-A; NOMINAL = 2x; HIGH = 4x"
+ },
+ "technical_verdict": "M4_PROVISIONAL_ACTUATOR_ENVELOPE_PASS",
+ "scope_limitation": "PROVISIONAL_CONTROL_ENVELOPE",
+ "does_not_authorize": [
+  "hardware qualification",
+  "flight rate or torque claim",
+  "thermal or duty-cycle claim",
+  "ROBUST_SAFE promotion"
+ ],
+ "next_stage_authorized": false,
+ "release_credit": false,
+ "sources": {
+  "20_engineering/config/attitude_stab/attitude_stab_v0.yaml": {
+   "path": "20_engineering/config/attitude_stab/attitude_stab_v0.yaml",
+   "bytes": 9286,
+   "sha256": "184D34A70436902AE7971AE2B58593E7D91B009CF91A675EE919399128088A60"
+  },
+  "20_engineering/config/mission_feasibility/scan_v0.yaml": {
+   "path": "20_engineering/config/mission_feasibility/scan_v0.yaml",
+   "bytes": 3806,
+   "sha256": "856F1E30DE47CA5B3F505F9FE5BD5CD22A75E448EC916B42D9C330F7A62E28EA"
+  },
+  "30_simulation/sim_08_detumble_actuator_budget/assumptions.yaml": {
+   "path": "30_simulation/sim_08_detumble_actuator_budget/assumptions.yaml",
+   "bytes": 1446,
+   "sha256": "006C6CC5D3C6A1A6B55BCDA4FE025620E268B530E6FC4F7848C9D840CD44194F"
+  },
+  "20_engineering/config/grasp_evaluator/hard_constraints_v1.yaml": {
+   "path": "20_engineering/config/grasp_evaluator/hard_constraints_v1.yaml",
+   "bytes": 1621,
+   "sha256": "343FB0CF0F9C6B6FA773521373668BC374E6B765A5A2F21D26C7EA28AD7F46D1"
+  }
+ }
+}

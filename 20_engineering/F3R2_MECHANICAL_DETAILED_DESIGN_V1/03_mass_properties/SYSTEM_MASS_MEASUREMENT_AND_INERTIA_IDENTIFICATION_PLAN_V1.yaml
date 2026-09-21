@@ -1,0 +1,131 @@
+schema_version: SYSTEM_MASS_MEASUREMENT_AND_INERTIA_IDENTIFICATION_PLAN_V1
+generated_local: '2026-08-21T13:50:00+08:00'
+phase: M3_MECHANICAL_DETAILED_DESIGN_CLOSURE
+status: PLAN_READY_EXECUTION_HOLD_INSTRUMENT_AND_ARTICLE_CONFIGURATION_AUTHORITY
+claim_limit: METHOD_DEFINITION_ONLY_NO_MEASUREMENT_RESULT_EXISTS
+
+units:
+  mass: kg
+  force: N
+  length: m
+  time: s
+  acceleration: m/s^2
+  center_of_mass: m
+  inertia: kg*m^2
+  angle: rad
+
+measurement_object_hierarchy:
+  level_1_parts:
+    - M3R_STAGE_A
+    - M3R_STAGE_B
+    - M3R_FASTENER_SETS
+    - M3R_LOCATOR
+    - M3R_CABLE_HARNESS
+  level_2_subassemblies:
+    - M3R_COMPLETE_ASSEMBLY
+    - B601_COMPLETE_ARM
+    - LEFT_SOLAR_ARRAY
+    - RIGHT_SOLAR_ARRAY
+    - SPACECRAFT_BUS
+  level_3_configurations:
+    source: 03_mass_properties/CONFIGURATION_MASS_INERTIA_V2.csv
+    required_count: 9
+    execution_status: HOLD
+
+configuration_control_before_measurement:
+  required:
+    - unique article serial or controlled prototype identifier
+    - drawing and BOM revision
+    - installed fastener locator cable and harness list
+    - joint vector and deployment state
+    - removable ground-support-equipment list
+    - measurement datum and coordinate-frame definition
+    - environmental conditions with calibrated instruments
+    - instrument calibration certificate and validity interval
+  absent_item_disposition: REJECT_RUN_AND_RETAIN_NULL_AUTHORITY
+
+mass_measurement:
+  measurand: net article mass
+  measurement_model: m_article = m_indication - m_tare + delta_zero + delta_drift + delta_buoyancy + delta_fixture
+  input_contract:
+    m_indication: {estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, source: null}
+    m_tare: {estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, source: null}
+    delta_zero: {estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, source: null}
+    delta_drift: {estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, source: null}
+    delta_buoyancy: {estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, source: null}
+    delta_fixture: {estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, source: null}
+  run_sequence:
+    - calibration verification before run
+    - tare measurement using the identical fixture state
+    - repeated article indications without deleting outliers
+    - intermediate zero and drift checks
+    - tare verification after run
+    - controlled article configuration photo and identifier capture
+  repeat_count: null
+  repeat_count_status: HOLD_TEST_PLAN_OWNER_APPROVAL_MISSING
+  output_release_requires: [TYPE_A_REPEATABILITY, TYPE_B_COMPONENTS, CORRELATION_REVIEW, COMBINED_STANDARD_UNCERTAINTY]
+
+center_of_mass_measurement:
+  method_candidate: multi_orientation_reaction_balance
+  method_status: CANDIDATE_NOT_RELEASED
+  one_axis_model: x_com = x_A + L_AB * R_B / (R_A + R_B) + delta_level + delta_fixture + delta_datum
+  required_orientations: [SYSTEM_X, SYSTEM_Y, SYSTEM_Z]
+  input_contract:
+    x_A: {estimate_m: null, standard_uncertainty_m: null, distribution: null, degrees_of_freedom: null, source: null}
+    L_AB: {estimate_m: null, standard_uncertainty_m: null, distribution: null, degrees_of_freedom: null, source: null}
+    R_A: {estimate_N: null, standard_uncertainty_N: null, distribution: null, degrees_of_freedom: null, source: null}
+    R_B: {estimate_N: null, standard_uncertainty_N: null, distribution: null, degrees_of_freedom: null, source: null}
+    delta_level: {estimate_m: null, standard_uncertainty_m: null, distribution: null, degrees_of_freedom: null, source: null}
+    delta_fixture: {estimate_m: null, standard_uncertainty_m: null, distribution: null, degrees_of_freedom: null, source: null}
+    delta_datum: {estimate_m: null, standard_uncertainty_m: null, distribution: null, degrees_of_freedom: null, source: null}
+  transformation_release_requires: authoritative apparatus-to-spacecraft-frame transform with uncertainty
+
+inertia_identification:
+  method_candidate: bifilar_pendulum_three_axis_campaign
+  method_status: CANDIDATE_NOT_RELEASED
+  geometry_convention: D is full suspension-line separation and L is effective suspension length
+  period_model: T = elapsed_time_for_N_cycles / N
+  raw_axis_model: I_axis_total = m_total * g_local * D^2 * T^2 / (16*pi^2*L)
+  article_axis_model: I_axis_article = I_axis_total - I_axis_fixture - m_article*e^2
+  tensor_reconstruction: at least six independent axis measurements are required to recover diagonal and product terms in the declared article frame
+  input_contract:
+    m_total: {estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, source: null}
+    g_local: {estimate_m_s2: null, standard_uncertainty_m_s2: null, distribution: null, degrees_of_freedom: null, source: null}
+    D: {estimate_m: null, standard_uncertainty_m: null, distribution: null, degrees_of_freedom: null, source: null}
+    L: {estimate_m: null, standard_uncertainty_m: null, distribution: null, degrees_of_freedom: null, source: null}
+    elapsed_time_for_N_cycles: {estimate_s: null, standard_uncertainty_s: null, distribution: null, degrees_of_freedom: null, source: null}
+    N: {estimate_count: null, standard_uncertainty_count: null, distribution: exact, degrees_of_freedom: infinite, source: null}
+    I_axis_fixture: {estimate_kg_m2: null, standard_uncertainty_kg_m2: null, distribution: null, degrees_of_freedom: null, source: null}
+    e: {estimate_m: null, standard_uncertainty_m: null, distribution: null, degrees_of_freedom: null, source: null}
+  validity_checks:
+    - oscillation amplitude recorded and small-angle validity demonstrated
+    - damping trend and period stability evaluated
+    - fixture inertia established by controlled calibration
+    - axis direction and offset mapped to article datum with uncertainty
+    - reconstructed tensor symmetry positive definiteness principal moments and triangle inequalities checked
+    - linear GUM propagation compared with Monte Carlo for nonlinear terms
+
+data_integrity:
+  raw_data_immutable: true
+  outlier_deletion_permitted: false
+  corrections_with_zero_estimate_must_remain_in_model: true
+  every_numeric_output_requires_unit: true
+  bare_plus_minus_forbidden: true
+  missing_uncertainty_policy: NULL_PLUS_HOLD
+  source_hash_required: true
+
+release_ladder:
+  - gate: PLAN_APPROVED
+    current: HOLD
+  - gate: INSTRUMENT_AND_FIXTURE_CALIBRATION_ACCEPTED
+    current: HOLD
+  - gate: ARTICLE_CONFIGURATION_FROZEN
+    current: HOLD
+  - gate: RAW_RUN_COMPLETE
+    current: HOLD
+  - gate: UNCERTAINTY_BUDGET_COMPLETE
+    current: HOLD
+  - gate: INDEPENDENT_RECOMPUTATION_PASS
+    current: HOLD
+  - gate: M3_MASS_PROPERTIES_RELEASE
+    current: HOLD

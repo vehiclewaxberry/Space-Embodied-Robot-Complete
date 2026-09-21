@@ -1,0 +1,125 @@
+{
+  "schema": "B51R1_S02_SR01_FAIL_CLOSED_INCIDENT_V1",
+  "generated_at": "2026-08-02T21:27:23.9192957+08:00",
+  "gate": "S02",
+  "session_id": "S02_SR01",
+  "status": "S02_HOLD_MISSING_DOCUMENT_CUSTOM_PROPERTY",
+  "transition_failure_action": "STOP_BRANCH_PRESERVE_EVIDENCE_AND_REQUIRE_OWNER_AUTHORIZED_S01_CORRECTIVE_REVISION",
+  "runtime_failure": {
+    "failed_stage": "TEN_REBUILD_READBACK_CYCLES",
+    "solidworks_process_id": 48184,
+    "solidworks_revision": "32.5.0",
+    "target_document_opened_read_only": true,
+    "open_errors": 0,
+    "open_warnings": 0,
+    "observed_error_type": "System.InvalidOperationException",
+    "observed_error_message": "Custom property G1B_RECEIPT_SHA256 was not freshly resolved; Get6 result=1",
+    "observed_get6_result": 1,
+    "observed_get6_enum": "swCustomInfoGetResult_NotPresent",
+    "normal_document_close": true,
+    "normal_application_exit": true,
+    "save_api_call_count": 0
+  },
+  "confirmed_root_cause": {
+    "classification": "S01_FINALIZER_CUSTOM_PROPERTY_CREATION_DEFECT",
+    "confidence": "CONFIRMED_BY_COLD_REOPEN_RESULT_LOCAL_INTEROP_ENUM_AND_SOURCE_AUDIT",
+    "minimum_confirmed_missing_property": "G1B_RECEIPT_SHA256",
+    "local_interop_enum_evidence": {
+      "swCustomInfoGetResult_NotPresent": 1,
+      "swCustomInfoGetResult_ResolvedValue": 2,
+      "swCustomInfoSetResult_NotPresent": 1,
+      "swCustomInfoSetResult_OK": 0,
+      "swCustomInfoAddResult_AddedOrChanged": 0,
+      "swCustomInfoText": 30,
+      "swCustomPropertyReplaceValue": 2
+    },
+    "s01_finalizer_source": {
+      "path": "08_REVIEWS/B51R1_S01_MasterSkeletonFinalizer.cs",
+      "bytes": 12803,
+      "sha256": "3537CC90D61054BB54B18F6243ADA0B568AF8A9403933066B7C0C704F624D686",
+      "affected_lines": "188-196",
+      "observed_implementation": "EIGHT_UNCHECKED_SET2_CALLS_WITHOUT_ANY_ADD3_CALL_IN_08_REVIEWS_CSHARP_SOURCES",
+      "api_consequence": "SET2_REQUIRES_AN_EXISTING_PROPERTY_AND_RESULT_1_MEANS_NOT_PRESENT"
+    },
+    "affected_property_contract": [
+      "FRAME_ID",
+      "BUILD_STRATEGY",
+      "G07_G08_CONTACT_WINDOW_STATUS",
+      "G1B_RECEIPT_SHA256",
+      "FINAL_INPUT_LOCK_SHA256",
+      "PANEL_PRIMARY_LOAD_CREDIT",
+      "PANEL_ATTACHMENT_CREDIT",
+      "PANEL_PHYSICAL_CONTACT_CREDIT"
+    ],
+    "scope_note": "G1B_RECEIPT_SHA256 is runtime-confirmed absent. The other seven properties are implementation-suspect because the same unchecked Set2-only path was used; they require explicit post-repair Get6 verification."
+  },
+  "recovery_runtime_evidence": {
+    "gate_receipt": {
+      "path": "07_VERIFICATION/AUTONOMOUS/S02/B51R1_S02_GATE_RECEIPT_SR01_SUPERSESSION.json",
+      "bytes": 2412,
+      "sha256": "A103700C3E1416528325C9BE41674CCF95729978146FA1B729A3B4D7BA8E96DD",
+      "status": "S02_FAIL_CLOSED"
+    },
+    "session_receipt": {
+      "path": "07_VERIFICATION/AUTONOMOUS/S02/B51R1_S02_SR01_SESSION_EXECUTION_RECEIPT.json",
+      "bytes": 2472,
+      "sha256": "F3C055EA5FEA1178347C2A53AF24CF1C574C0185E2E881C73C58E4E8EF3E15A4",
+      "status": "S02_SR01_FAIL_CLOSED"
+    },
+    "authorization_sha256": "D958E112C7FDEC352A18210057E4FD682362605EB085A15921821A6269B7047B",
+    "admission_sha256": "46E46FBC3FC0817D9772ADAC75F2D5AC0E8ED860CCC6FE40C1CC888D84DA3E5E",
+    "recovery_supplement_sha256": "97FDD172F357BE4F8722F4ABF9A48D119BA3A0840C2DCFFB8DD5E9CC396007C1"
+  },
+  "protected_artifacts_after_failure": {
+    "native_target": {
+      "path": "02_MASTER_SKELETON/B51R1_MASTER_SKELETON_V2.SLDPRT",
+      "bytes": 232506,
+      "sha256": "71D70F93C356CB4AFDA9C2F594811F683502781C4C6243EF25C2BB888DDEBEFA",
+      "last_write_time_utc": "2026-08-02T11:57:17.1084285Z",
+      "unchanged": true
+    },
+    "protected_stage_a": {
+      "path": "02_MASTER_SKELETON/B51R1_MASTER_SKELETON_V2_STAGE_A_RECOVERY.SLDPRT",
+      "bytes": 511198,
+      "sha256": "5DEBE5AF52A896CDC3818ADD645725A8E758DB4E5D76F46E3067F9FAA7B5C76B",
+      "unchanged": true
+    },
+    "s01_current_gate": {
+      "path": "07_VERIFICATION/AUTONOMOUS/S01/B51R1_S01_CURRENT_GATE.json",
+      "bytes": 2741,
+      "sha256": "314A413809DE05EBDF584121D68DA39701683EA9928F0170F90CB0920FF08D95",
+      "unchanged": true
+    },
+    "original_s02_failure": {
+      "gate_sha256": "5B03B48F4E583CAEFB0EF36E7F1A56AFC85A8E769CCC57CDCB0EFDE65AADD80E",
+      "session_sha256": "D30BD774F40C5F766C09193015BA46B75A3E8A7B1236359936B8EFB6F6ECEF73",
+      "incident_sha256": "F203FBA2000A7F0D5CD57B2B5D57F3C9B274BD3735168C741F586DB7AB5494DE",
+      "unchanged": true
+    }
+  },
+  "live_session_state_after_failure": {
+    "solidworks_process_count": 0,
+    "ledger_status": "BLOCKED_S02_SR01_FAIL_CLOSED",
+    "consumed": 6,
+    "remaining": 14,
+    "next_session_authorized": false,
+    "s02_sr01_remaining_attempts": 0
+  },
+  "required_corrective_route": {
+    "repeat_s02_without_cad_revision_permitted": false,
+    "required_first_gate": "S01_CR01_APPEND_ONLY_MASTER_SKELETON_PROPERTY_REPAIR",
+    "required_new_target": "02_MASTER_SKELETON/B51R1_MASTER_SKELETON_V2_R1.SLDPRT",
+    "overwrite_existing_target_permitted": false,
+    "property_creation_api": "ICustomPropertyManager.Add3",
+    "field_type": "swCustomInfoText_30",
+    "overwrite_option": "swCustomPropertyReplaceValue_2",
+    "required_add3_result": "swCustomInfoAddResult_AddedOrChanged_0",
+    "required_post_add_readback": "Get6_useCached_false_result_ResolvedValue_2_wasResolved_true_linked_false_raw_and_resolved_exact",
+    "required_s01_evidence": "NEW_NATIVE_TARGET_HASH_PLUS_APPEND_ONLY_S01_SUPERSESSION_AND_CURRENT_GATE",
+    "required_second_gate": "S02_COLD_PROCESS_REOPEN_AGAINST_THE_NEW_TARGET_REVISION"
+  },
+  "required_authority_change": "EXPLICIT_OWNER_AUTHORIZATION_FOR_ONE_S01_CORRECTIVE_REPAIR_SLOT_AND_ONE_SUBSEQUENT_S02_COLD_REOPEN_SLOT",
+  "h10": "0_OF_28",
+  "t005": "A_B_C_NOT_RUN",
+  "claim_limit": "S01_NATIVE_DATUM_GEOMETRY_RETAINS_NARROW_EVIDENCE; S02_NOT_PASSED; NO_S03_CARRIER_ADMISSION; NO_H10_T005_MANUFACTURING_OR_FLIGHT_CREDIT"
+}

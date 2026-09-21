@@ -1,0 +1,56 @@
+schema: ROUTE_B_FROZEN_INPUT_PINS_V1
+frozen_local: '2026-08-23T10:21:39+08:00'
+authority: ODR-35..ODR-41
+status: FROZEN_INPUT_HASH_SSOT
+policy:
+  expected_and_actual_are_separate: true
+  mismatch_classification: UNKNOWN
+  mismatch_action: ABORT
+  generator_may_not_refresh_expected_hashes: true
+
+runtime_exact_dependencies:
+  accepted_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    expected_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  full_range_negative_result:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V2.json
+    expected_sha256: DB86348B8276FB2DCEB48DA30D1969948B37AAC4DF6D67D7588D928CF8281FAE
+  exact_geometry_kernel:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/sweep_b601_harness_full_fk.py
+    expected_sha256: F99FF775B20940D4F5338E2AECA6F9C03D565FF718170B92B6C97CBDEB499261
+  route_b_probe_adapter:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/99_tools/probe_current_route_mission_states.py
+    expected_sha256: 607ADF4A5C7EEB41D1418E9FF59FC5C4F5B679CCEEA587CFE7BE5B470611E75F
+
+mission_and_mass_dependencies:
+  legacy_pose_source:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/04_configurations/F3R2_ARM_INITIAL_POSE.yaml
+    expected_sha256: D6E33CB5993BA056E1368F72487B4972E4316E83655FB5AF33035FCC1761AAE2
+    embedded_urdf_sha256: 408147DDC9CC0BBA0FACBF864C559A54D1712262703BA41251514A4303B5A3A4
+    current_urdf_match: false
+    use_rule: values require a separate current-URDF rebind; the legacy file is not edited
+  control_scene:
+    path: 20_engineering/config/control_scene/control_01_v0.yaml
+    expected_sha256: 0B5EA0E60B670ACB6DBFC77998E98BB69B5511FED9FBC6611C060AEE969B3429
+  base_mass_model:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+    expected_sha256: 3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB
+  flexible_interface:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml
+    expected_sha256: A04ACFE440C636BB095585C74F71E3563FD35F6678FCFAA39355383A9BF6B3FD
+  solar_clearance_gate:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_CONTINUOUS_CLEARANCE_V1.json
+    expected_sha256: 1D47618310CF9435C5EE963240A76C02E7EF69C9B63068A2C48F945C1429A5EF
+  historical_embodied_contract_r2:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp13_embodied_contract/EMBODIED_MECHANICAL_CONTRACT_R2.yaml
+    expected_sha256: 5DDA627794A4B29D087D7489BECC7A98ED632BC6EAC0413CD9F7226C03AE1E7C
+  historical_handoff_r2:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp13_embodied_contract/MECHANICAL_TO_EMBODIED_HANDOFF_GATE_R2.json
+    expected_sha256: AE6165EAFC02551D92B73707D41FE0D4A5A78704FBEA65D1FA49D10C7C9F5B22
+  uncertainty_propagation_source:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/99_tools/harness_uncertainty.py
+    expected_sha256: 11E87910372AAD7A85B7B37AF8AD5C08F804F7BF513C0B7B6182C0E45E4F865F
+
+transitive_geometry_policy:
+  source: full_range_negative_result.inputs_sha256
+  rule: every path/hash pair carried by the pinned V2 result is verified at evaluator startup

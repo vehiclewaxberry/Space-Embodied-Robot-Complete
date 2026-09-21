@@ -1,0 +1,378 @@
+schema: SOLAR_R2_ROOT_FRAME_REGISTRATION_V1
+generated_date_local: '2026-08-24'
+artifact_class: OPERATIONAL_R2_CANDIDATE_FRAME_REGISTRATION__NO_GEOMETRY_CHANGE
+matrix_semantics: p_S = R_S_child * p_child + t_S_child; homogeneous matrices map child coordinates into S
+origin_selection:
+  rule: midpoint of the controlled root-hinge line over chord window [-150,+150] mm
+  x_S_mm: 0.0
+  physical_effect: none; coordinate datum selection on an already-defined hinge line
+frames:
+  T_S_R2_ROOT_L:
+    matrix_mm:
+    - - -1.0
+      - 0.0
+      - 0.0
+      - 0.0
+    - - 0.0
+      - -1.0
+      - 0.0
+      - 115.4
+    - - 0.0
+      - 0.0
+      - 1.0
+      - -108.15
+    - - 0.0
+      - 0.0
+      - 0.0
+      - 1.0
+    translation_S_m:
+    - 0.0
+    - 0.1154
+    - -0.10815000000000001
+    rotation_columns:
+      X_root_in_S:
+      - -1.0
+      - 0.0
+      - 0.0
+      Y_root_in_S:
+      - 0.0
+      - -1.0
+      - 0.0
+      Z_root_in_S:
+      - 0.0
+      - 0.0
+      - 1.0
+    positive_axis_S:
+    - -1.0
+    - 0.0
+    - 0.0
+    q0_leaf_span_S:
+    - 0.0
+    - 0.0
+    - 1.0
+    q_plus_90_leaf_span_S:
+    - 0.0
+    - 1.0
+    - 0.0
+  T_S_R2_ROOT_R:
+    matrix_mm:
+    - - 1.0
+      - 0.0
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 1.0
+      - 0.0
+      - -115.4
+    - - 0.0
+      - 0.0
+      - 1.0
+      - -108.15
+    - - 0.0
+      - 0.0
+      - 0.0
+      - 1.0
+    translation_S_m:
+    - 0.0
+    - -0.1154
+    - -0.10815000000000001
+    rotation_columns:
+      X_root_in_S:
+      - 1.0
+      - 0.0
+      - 0.0
+      Y_root_in_S:
+      - 0.0
+      - 1.0
+      - 0.0
+      Z_root_in_S:
+      - 0.0
+      - 0.0
+      - 1.0
+    positive_axis_S:
+    - 1.0
+    - 0.0
+    - 0.0
+    q0_leaf_span_S:
+    - 0.0
+    - 0.0
+    - 1.0
+    q_plus_90_leaf_span_S:
+    - 0.0
+    - -1.0
+    - 0.0
+independent_geometry_recompute:
+  left:
+    keepout_midpoint_S_mm:
+    - 0.0
+    - 115.4
+    - -108.15
+    deployed_leaf_root_edge_y_mm: 115.4
+    deployed_leaf_midplane_z_mm: -108.15
+    keepout_x_span_S_mm:
+    - -150.0
+    - 150.0
+  right:
+    keepout_midpoint_S_mm:
+    - 0.0
+    - -115.4
+    - -108.15
+    deployed_leaf_root_edge_y_mm: -115.4
+    deployed_leaf_midplane_z_mm: -108.15
+    keepout_x_span_S_mm:
+    - -150.0
+    - 150.0
+registration_checks:
+  report_root_line_matches_keepout_midpoints: true
+  deployed_leaf1_root_edges_match_root_line: true
+  deployed_leaf1_midplanes_match_root_z: true
+  root_frames_are_right_handed: true
+  q_plus_90_deploys_outboard_symmetrically: true
+  q_0_30_90_both_sides_match_hash_pinned_kinematics: true
+  kinematics_generated_box_local_rebase_round_trip: true
+legacy_and_stale_dispositions:
+  M4_F_L_origin_S_mm:
+  - -56.75
+  - 113.15
+  - 0.0
+  M4_F_R_origin_S_mm:
+  - -56.75
+  - -113.15
+  - 0.0
+  M4_F_L_F_R: LEGACY_R1_ONLY__FORBIDDEN_AS_R2_ROOT_FRAMES
+  historical_114p9_mm_literal: REJECTED_STALE_CONFIGURATION_LITERAL__NO_AVERAGING
+  kinematics_numeric_LEAF1_MID_Y_mm: 115.4
+  upstream_reissue_hold: ANY_BUILDER_COMMENT_OR_DERIVED_CANDIDATE_STILL_EMITTING_114P9_MUST_BE_VERSIONED_AND_REISSUED_BEFORE_REGENERATION
+  current_consumed_y_abs_mm: 115.4
+  current_consumed_z_mm: -108.15
+authority_scope:
+  operational_candidate_root_frames_frozen: true
+  technical_candidate_frozen_within_this_package: true
+  effective_for_downstream_execution: false
+  panel_root_to_candidate_hinge_axis_registration_established: true
+  flight_hinge_hardware_datum_released: false
+  flight_qualification: HOLD
+  root_bracket_detail_geometry: HOLD_NOT_MODELLED
+  deployment_clearance_release: HOLD_PENDING_AUTHORIZED_UNIFIED_R2_GEOMETRY_AND_SWEEP
+consumer_contract:
+  matrix_convention: column vectors; child-to-parent transforms; left multiplication; p_S=T_S_ROOT*Rx(q)*T_ROOT_GEOMETRY*p_geometry
+  joint_composition: T_S_LEAF1(q)=T_S_R2_ROOT_SIDE * Rx_active_about_positive_X_root(q) * T_ROOT_LEAF1_Q0
+  future_unified_R2_CAD: consume these transforms exactly; do not reuse M4 F_L/F_R; root-local re-authoring or explicit inverse
+    rebase is mandatory
+  future_system_URDF:
+    left_joint_origin_xyz_m:
+    - 0.0
+    - 0.1154
+    - -0.10815
+    left_joint_origin_rpy_rad:
+    - 0.0
+    - 0.0
+    - 3.141592653589793
+    right_joint_origin_xyz_m:
+    - 0.0
+    - -0.1154
+    - -0.10815
+    right_joint_origin_rpy_rad:
+    - 0.0
+    - 0.0
+    - 0.0
+    axis_in_joint_frame:
+    - 1.0
+    - 0.0
+    - 0.0
+    joint_limit_rad:
+    - 0.0
+    - 1.5707963267948966
+    visual_collision_rule: use one root-local pose-neutral visual/collision set per side; never attach the aggregate STEP
+      containing simultaneous stowed and deployed solids
+  full_flex: root position agrees with R2_HF_MODEL_V2; no new Full-Flex Gate credit
+  current_CAD: read-only; no FCStd/STEP was edited; current geometry is S-authored and must not receive T_S_ROOT again
+  forbidden_double_transform: FORBIDDEN_TO_APPLY_T_S_ROOT_TO_ALREADY_S_AUTHORED_GEOMETRY_OR_TO_THE_AGGREGATE_STOWED_PLUS_DEPLOYED_STEP
+leaf1_canonical_geometry_contract_q0:
+  frame: R2_ROOT_L or R2_ROOT_R respectively
+  T_ROOT_LEAF1_MIDPLANE_Q0:
+  - - 1.0
+    - 0.0
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 1.0
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  chord_x_root_mm:
+  - -150.0
+  - 150.0
+  thickness_y_root_mm:
+  - -1.25
+  - 1.25
+  span_z_root_mm:
+  - 0.0
+  - 200.0
+  semantics: new virtual root-coincident leaf1 midplane frame, not the existing FreeCAD Part::Feature box-local frame
+  warning: The FreeCAD Part::Feature box-corner origin is not a joint/link frame and must not be consumed as one.
+kinematics_generated_leaf1_box_local_bridge_q0:
+  scope: leaf1 q=0 box-local frames returned by the hash-pinned Solar R2 leaf_solid_frame function; not an authority for the
+    aggregate STEP or an unparsed FCStd Placement
+  T_R2_ROOT_L_KINEMATICS_BOX_LOCAL_Q0_mm:
+  - - -1.0
+    - 0.0
+    - 0.0
+    - 150.0
+  - - 0.0
+    - 0.0
+    - 1.0
+    - -1.25
+  - - 0.0
+    - 1.0
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  T_R2_ROOT_R_KINEMATICS_BOX_LOCAL_Q0_mm:
+  - - 1.0
+    - 0.0
+    - 0.0
+    - -150.0
+  - - 0.0
+    - 0.0
+    - -1.0
+    - 1.25
+  - - 0.0
+    - 1.0
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  current_T_S_KINEMATICS_BOX_LOCAL_Q0_mm:
+    L:
+    - - 1.0
+      - 0.0
+      - 0.0
+      - -150.0
+    - - 0.0
+      - 0.0
+      - -1.0
+      - 116.65
+    - - 0.0
+      - 1.0
+      - 0.0
+      - -108.15
+    - - 0.0
+      - 0.0
+      - 0.0
+      - 1.0
+    R:
+    - - 1.0
+      - 0.0
+      - 0.0
+      - -150.0
+    - - 0.0
+      - -0.0
+      - -1.0
+      - -114.15
+    - - 0.0
+      - 1.0
+      - -0.0
+      - -108.15
+    - - 0.0
+      - 0.0
+      - 0.0
+      - 1.0
+  composition_for_kinematics_generated_box: T_S_BOX_SIDE(q)=T_S_R2_ROOT_SIDE * Rx(q) * T_ROOT_SIDE_KINEMATICS_BOX_LOCAL_Q0
+  composition_for_root_authored_replacement: T_S_LEAF1_MIDPLANE_SIDE(q)=T_S_R2_ROOT_SIDE * Rx(q) * I
+  selection_rule: choose exactly one geometry-authorship branch; applying both bridges is forbidden
+  direct_fcstd_object_placement_verified: false
+  fcstd_consumption_allowed: false
+  promotion_requirement: directly hash-pin and parse the FCStd, verify named q0 object Placements, and reissue this registration
+    before FCStd consumption
+  kinematics_crosscheck:
+  - side: L
+    q_deg: 0.0
+    leaf1_dir_S:
+    - 0.0
+    - 0.0
+    - 1.0
+    box_chain_matches_hash_pinned_kinematics: true
+  - side: L
+    q_deg: 30.0
+    leaf1_dir_S:
+    - 0.0
+    - 0.49999999999999994
+    - 0.8660254037844387
+    box_chain_matches_hash_pinned_kinematics: true
+  - side: L
+    q_deg: 90.0
+    leaf1_dir_S:
+    - 0.0
+    - 1.0
+    - 6.123233995736766e-17
+    box_chain_matches_hash_pinned_kinematics: true
+  - side: R
+    q_deg: 0.0
+    leaf1_dir_S:
+    - 0.0
+    - -0.0
+    - 1.0
+    box_chain_matches_hash_pinned_kinematics: true
+  - side: R
+    q_deg: 30.0
+    leaf1_dir_S:
+    - 0.0
+    - -0.49999999999999994
+    - 0.8660254037844387
+    box_chain_matches_hash_pinned_kinematics: true
+  - side: R
+    q_deg: 90.0
+    leaf1_dir_S:
+    - 0.0
+    - -1.0
+    - 6.123233995736766e-17
+    box_chain_matches_hash_pinned_kinematics: true
+source_pins:
+- id: SOLAR_R2_REPORT
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_BUILD_REPORT_V2.json
+  bytes: 16118
+  sha256: 4286EA2BBD84FB8EC33DDADE329534DA29194650AD22429245ECF8757B9AED1C
+  role: current Solar R2 geometry/build evidence
+  verified: true
+- id: SOLAR_R2_STEP
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_CANDIDATE_V1.step
+  bytes: 131834
+  sha256: 21FF77B882DBFAB87B3E77DD56817EFC7F321C68E30AFEDCDDBB4D79B9915795
+  role: hash-bound aggregate S-authored dual-pose evidence; forbidden as a pose-neutral kinematic visual
+  verified: true
+- id: SOLAR_R2_KINEMATICS
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/solar_array_r2_kinematics.py
+  bytes: 7431
+  sha256: ADC2B6D3E4270886AFA9B90D93C9A943A518C97F81D9FDBCCCDC6E2EFBA64EAC
+  role: Solar R2 chord-centering and deployment convention source
+  verified: true
+- id: R2_HF_MODEL
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round3_hf_rom_v2/R2_HF_MODEL_V2.yaml
+  bytes: 7867
+  sha256: B7C77E3E48733FD6265A77BEB4EC2E186BA8C07CC12522C065CDA7816A879381
+  role: independent current consumer of the 115.4/-108.15 mm root line
+  verified: true
+- id: M4_FRAME_TREE
+  path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+  bytes: 6236
+  sha256: 67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA
+  role: legacy R1 F_L/F_R provenance and exclusion control
+  verified: true
+review_status: PENDING_OWNER_REVIEW
+owner_accepted: false
+effective_for_downstream_execution: false
+next_stage_authorized: false
+release_credit: false

@@ -1,0 +1,64 @@
+{
+  "schema": "B51R1_S02_R2_TRANSFORM_CONVENTION_ASSERTION_FAIL_CLOSED_INCIDENT_V1",
+  "generated_at": "2026-08-03T00:15:34+08:00",
+  "status": "FAIL_CLOSED_TRANSFORM_DIRECTION_UNRESOLVED_S02_R3_DIAGNOSTIC_REQUIRED",
+  "session_id": "S02_R2",
+  "failed_receipt": {
+    "path": "07_VERIFICATION/AUTONOMOUS/S02_R2/B51R1_S02_R2_COLD_REOPEN_RECEIPT.json",
+    "sha256": "BA5CC9FE5EBE2322D7E77B68A52B72D2FA5EDFB605677BA6D52894F3051877C3",
+    "status": "S02_R2_FAIL_CLOSED",
+    "failed_stage": "TEN_REBUILD_READBACK_CYCLES"
+  },
+  "observed_failure": {
+    "feature": "CS_M_DYNAMICS_X185_25",
+    "expected_model_x_m": 0.18525,
+    "raw_transform_translation_x_m": 0.18525,
+    "inverse_transform_translation_x_m": -0.18525,
+    "maximum_assertion_error_m": 0.3705,
+    "save_api_call_count": 0,
+    "target_sha256_unchanged": true,
+    "normal_solidworks_exit": true
+  },
+  "official_api_evidence": {
+    "version": "SOLIDWORKS_2024",
+    "method_url": "https://help.solidworks.com/2024/english/api/sldworksapi/SolidWorks.Interop.sldworks~SolidWorks.Interop.sldworks.IModelDocExtension~GetCoordinateSystemTransformByName.html",
+    "example_url": "https://help.solidworks.com/2024/english/api/sldworksapi/Get_Coordinate_System_Transform_Example_VB.htm",
+    "example_title": "Get Coordinate System Transform Example (VBA)",
+    "verbatim_rule": "Origin = (-1 * ArrayData(9), -1 * ArrayData(10), -1 * ArrayData(11))",
+    "limitation": "THE_EXAMPLE_DOES_NOT_EXPLICITLY_DEFINE_GENERAL_ROTATED_FRAME_DIRECTION; POINT_TRANSFORM_AND_ORIGIN_ENTITY_EVIDENCE_REQUIRED"
+  },
+  "design_evidence": {
+    "mechanical_baseline_path": "03_CAD/00_SYSTEM_ARCHITECTURE/B51R1_SPACE_EMBODIED_ARM_MECHANICAL_DESIGN_BASELINE_V1.yaml",
+    "mechanical_baseline_sha256": "2E34789B194BC9F66B30552C8CEDFC15923DDE186ABF87D2A92DB6F67A7C1705",
+    "required_dynamics_mount_x_mm": 185.25,
+    "step_witness_gate_path": "02_MASTER_SKELETON/B51R1_MASTER_SKELETON_V2_STEP_WITNESS_R2_GATE.json",
+    "step_witness_gate_sha256": "2C8467883555A3EABDFEA4F1A1C64CBF6B0D6F2EA6EFE38E52443B93309C339B",
+    "step_witness_coordinate_origin_mm": [185.25, 0.0, 0.0]
+  },
+  "unresolved_alternatives": [
+    "V4_CORRECT_AND_NATIVE_COORDINATE_SYSTEM_ORIGIN_IS_NEGATIVE_X_GEOMETRY_DEFECT",
+    "RAW_TRANSFORM_IS_LOCAL_TO_MODEL_AND_V4_DOUBLE_INVERTED_THE_POSE",
+    "FEATURE_ORIGIN_ENTITY_AND_TRANSFORM_ARE_INCONSISTENT_OR_REQUIRE_ADDITIONAL_API_CONVENTION_CONTEXT"
+  ],
+  "required_next_evidence": [
+    "RAW_AND_INVERSE_TRANSFORMS_FROM_TWO_COORDINATE_SYSTEM_APIS",
+    "RAW_AND_INVERSE_MATHPOINT_TRANSFORM_RESULTS",
+    "COORDINATE_SYSTEM_ORIGIN_ENTITY_TYPE_AND_COORDINATES_IF_AVAILABLE",
+    "REFERENCE_PLANE_RAW_INVERSE_TRANSFORMS_AND_CORNER_POINTS",
+    "COMPARISON_FOR_ALL_FOUR_CONTROLLED_COORDINATE_SYSTEMS"
+  ],
+  "preservation": {
+    "failed_receipt_immutable": true,
+    "failed_progress_log_immutable": true,
+    "r1_immutable": true,
+    "protected_stage_a_immutable": true
+  },
+  "downstream_hold": {
+    "s02_pass": false,
+    "active_candidate_pointer": false,
+    "property_writer_runtime_qualification": false,
+    "s03": false,
+    "carrier_or_joint_creation": false
+  },
+  "claim_limit": "TRANSFORM_CONVENTION_INCIDENT_SCOPE_ONLY_NO_GEOMETRY_DEFECT_OR_VERIFIER_FIX_CONCLUSION"
+}

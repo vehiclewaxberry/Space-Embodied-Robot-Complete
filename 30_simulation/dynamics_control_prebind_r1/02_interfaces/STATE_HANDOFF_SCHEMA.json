@@ -1,0 +1,378 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "STATE_HANDOFF_SCHEMA_V1",
+  "title": "Dynamics Control Prebind State Handoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "handoff_id",
+    "scenario_id",
+    "time",
+    "plant_binding",
+    "topology",
+    "servicer",
+    "joint_channels",
+    "safe00"
+  ],
+  "properties": {
+    "schema": {
+      "const": "PREBIND_STATE_HANDOFF_V1"
+    },
+    "handoff_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scenario_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "episode_id": {
+      "type": "string"
+    },
+    "time": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit",
+        "valid_until"
+      ],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "const": "s"
+        },
+        "valid_until": {
+          "type": "number"
+        }
+      }
+    },
+    "plant_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "plant_sha256",
+        "frame_contract_sha256",
+        "schema_sha256",
+        "source_backend",
+        "destination_backend"
+      ],
+      "properties": {
+        "plant_sha256": {
+          "type": "string",
+          "pattern": "^[A-F0-9]{64}$"
+        },
+        "frame_contract_sha256": {
+          "type": "string",
+          "pattern": "^[A-F0-9]{64}$"
+        },
+        "schema_sha256": {
+          "type": "string",
+          "pattern": "^[A-F0-9]{64}$"
+        },
+        "source_backend": {
+          "type": "string"
+        },
+        "destination_backend": {
+          "type": "string"
+        }
+      }
+    },
+    "topology": {
+      "enum": [
+        "PRE_CAPTURE",
+        "COMPLIANT_CAPTURE",
+        "LOCKED_COMPOSITE"
+      ]
+    },
+    "servicer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "position",
+        "quaternion",
+        "linear_velocity",
+        "angular_velocity"
+      ],
+      "properties": {
+        "position": {
+          "type": "object",
+          "required": [
+            "values",
+            "unit",
+            "expressed_in",
+            "reference_point"
+          ],
+          "properties": {
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "unit": {
+              "const": "m"
+            },
+            "expressed_in": {
+              "const": "I"
+            },
+            "reference_point": {
+              "type": "string"
+            }
+          }
+        },
+        "quaternion": {
+          "type": "object",
+          "required": [
+            "values",
+            "order",
+            "from_frame",
+            "to_frame"
+          ],
+          "properties": {
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 4,
+              "maxItems": 4
+            },
+            "order": {
+              "const": "wxyz"
+            },
+            "from_frame": {
+              "type": "string"
+            },
+            "to_frame": {
+              "const": "I"
+            }
+          }
+        },
+        "linear_velocity": {
+          "type": "object",
+          "required": [
+            "values",
+            "unit",
+            "expressed_in",
+            "reference_point"
+          ],
+          "properties": {
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "unit": {
+              "const": "m/s"
+            },
+            "expressed_in": {
+              "type": "string"
+            },
+            "reference_point": {
+              "type": "string"
+            }
+          }
+        },
+        "angular_velocity": {
+          "type": "object",
+          "required": [
+            "values",
+            "unit",
+            "expressed_in"
+          ],
+          "properties": {
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "unit": {
+              "const": "rad/s"
+            },
+            "expressed_in": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "joint_channels": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "joint_type",
+          "q",
+          "q_unit",
+          "dq",
+          "dq_unit",
+          "effort",
+          "effort_unit"
+        ],
+        "properties": {
+          "name": {
+            "enum": [
+              "joint1",
+              "joint2",
+              "joint3",
+              "joint4",
+              "joint5",
+              "joint6",
+              "gripper_joint1",
+              "gripper_joint2"
+            ]
+          },
+          "joint_type": {
+            "enum": [
+              "REVOLUTE",
+              "PRISMATIC"
+            ]
+          },
+          "q": {
+            "type": "number"
+          },
+          "q_unit": {
+            "enum": [
+              "rad",
+              "m"
+            ]
+          },
+          "dq": {
+            "type": "number"
+          },
+          "dq_unit": {
+            "enum": [
+              "rad/s",
+              "m/s"
+            ]
+          },
+          "effort": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "effort_unit": {
+            "enum": [
+              "N*m",
+              "N"
+            ]
+          }
+        }
+      }
+    },
+    "wheel_momentum": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "flex_state": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "basis_id": {
+          "type": "string"
+        },
+        "basis_sha256": {
+          "type": "string"
+        },
+        "eta": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "eta_dot": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "target": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "attachment_transform": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "contact_state": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "safe00": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "physical_state",
+        "decision",
+        "request_sha256",
+        "response_sha256"
+      ],
+      "properties": {
+        "physical_state": {
+          "enum": [
+            "SAFE",
+            "UNSAFE",
+            "UNKNOWN"
+          ]
+        },
+        "decision": {
+          "enum": [
+            "ALLOW",
+            "MODIFY",
+            "WAIT",
+            "BACKOFF",
+            "ABORT"
+          ]
+        },
+        "request_sha256": {
+          "type": "string"
+        },
+        "response_sha256": {
+          "type": "string"
+        }
+      }
+    },
+    "continuity_ledger": {
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  },
+  "x_fail_closed_rules": [
+    "null is never converted to zero",
+    "PREGRASP pose is not CAPTURE topology",
+    "heterogeneous global norms are forbidden",
+    "UNKNOWN physical state never maps to ALLOW",
+    "before/after impulse and momentum quantities retain units, frames and reference points"
+  ]
+}

@@ -1,0 +1,390 @@
+schema: R2_FLEX_COUPLING_INTEGRATION_SPEC_V1
+generated_local: '2026-08-23T20:22:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+generator: >-
+  KIMI M7 机械终局接管 swarm 第三轮（R2 全柔性闭合 Wave-3a）AGENT-F2 耦合集成规格子代理
+  （只读复核 + 纯文本产出；未启动任何 CAD/FEA/仿真/积分器进程；未修改任何上游文件；git 只读）
+companion_human_readable: R2_FLEX_COUPLING_INTEGRATION_SPEC_V1.md（同目录；冲突时以本 YAML 结构化字段为准）
+
+status: CANDIDATE_PROVISIONAL__DRAFT_PENDING_AUTHORITY
+release_credit: false
+next_stage_authorized: false
+review_status: PENDING_OWNER_REVIEW
+self_hash_policy: 'SELF_REFERENCE_EXCLUDED - downstream consumers pin sha256 after emission (same policy as e21/V5 manifests)'
+
+holds_preserved_verbatim:
+  r2_full_flexible_coupling: NOT_EVALUATED
+  e15_ancf_certification: REPEAT_ANCF_CERTIFICATION
+  r2_harness_R2_HRN_04: FAIL_REDESIGN_REQUIRED
+  gap_12_budget_reallocation: OPEN
+  owner_review: PENDING_OWNER_REVIEW
+  mc_a_ruling_status: ISSUED_AND_EFFECTIVE_AT_ENGINEERING_LEVEL__PENDING_OWNER_CONFIRMATION__REVERSIBLE_VIA_ECR
+
+# ============ (a) R2 ROM 插入耦合模型的精确位置与方式 ============
+host_model_baseline:
+  source: 30_simulation/sim_11_coupled_dynamics/src/coupled_dynamics.py
+  architecture: 'floating_base_tree_multibody_plus_flexible_appendages (路线A, Kane/projected Newton-Euler)'
+  state_layout_verbatim: 'q = [r_b(3), q_b(quat4, scalar-first), theta(6), eta_L(m), eta_R(m)] ; u = [v_b(3), w_b(3), thetad(6), etad_L(m), etad_R(m)]'
+  nu_formula: '12 + 2*m'
+  row_blocks: {i_b: '0..5', i_a: '6..11', i_e: '12..12+2m', i_be_RL_lockup_rows: 'i_b ∪ i_e'}
+  mass_blocks: [M_bb, M_ba, M_beta, M_aa, M_aeta, M_etaeta]
+  m_a_eta_identically_zero: true   # 臂与帆板速度均相对基座定义；不变式须进 tests 断言
+  momentum_map: 'A(q) 6xnu, S-frame [P; L] about S origin, assembled with M in one geometry pass'
+  integrator_contract: {method: Radau, cross_method: BDF, rtol: 1.0e-10, atol: 1.0e-12, mode: reduced_momentum, random_seed: null}
+  energy_theorem: 'd(T+U)/dt = tau·thetad - etad^T D etad'
+  modal_force_injection_point: 'Q[i_e] = -(K_eta @ eta) - (D_eta @ etad)  (accelerations())'
+  external_wrench_pathway: 'Q_ext = Phi^T w_S ; Phi = ee_partial_velocity (6 x nu) ; modal columns structurally zero'
+
+r2_rom_authoritative_inputs:
+  mass_matrix_kgm2_leaf_only_authoritative:
+  - [0.064800281, 0.033600188, 0.009600094]
+  - [0.033600188, 0.019200188, 0.006000094]
+  - [0.009600094, 0.006000094, 0.002400094]
+  stiffness_form: 'diag(k_root, k_inter, k_inter)'
+  stiffness_bands_Nm_per_rad: {root: {low: 50.0, nominal: 200.0, high: 800.0}, inter: {low: 20.0, nominal: 100.0, high: 400.0}}
+  stiffness_status: PROVISIONAL_DERIVED
+  five_cases_hz:
+    nominal: [6.9726, 39.3586, 98.0042]
+    all_low: [3.3278, 18.2952, 44.1763]
+    all_high: [13.9452, 78.7172, 196.0085]
+    root_low_inter_high: [4.3424, 65.0146, 190.5319]
+    root_high_inter_low: [4.7369, 30.2986, 74.9597]
+  reproduction_evidence: {Mqq_max_abs_err_kg_m2: 4.999999997368221e-10, freq_max_abs_err_hz: 4.840419126761475e-05, gate: 'E21-G19/G20 PASS'}
+  modal_transform: 'Phi from eigh(K, Mqq) mass-normalized (Phi^T Mqq Phi = I); q_w = Phi eta_w; K_modal = diag(omega_i^2)'
+  modes_per_wing_default: 3
+  modes_per_wing_band_ODR21: [3, 5]
+  modes_extension_note: 'm_w=4/5 requires new ROM version re-issuing five-case evidence chain (e15 T2 family trigger)'
+  explicit_nulls_kept: [damping_matrix, participation_factors, forced_response, standard_uncertainty, GJ_band, latch_independent_stiffness, root_bracket_compliance, hinge_freeplay]
+
+r2_flex_state_layout:
+  q: '[r_b(3), q_b(quat4), theta(6), eta_L(m_w), eta_R(m_w)]'
+  u: '[v_b(3), w_b(3), thetad(6), etad_L(m_w), etad_R(m_w)]'
+  nu: 18   # m_w = 3
+  row_blocks: {i_b: '0..5', i_a: '6..11', i_e: '12..12+2*m_w', i_be_RL: 'i_b ∪ i_e'}
+  m_a_eta_zero_preserved: true
+  preservation_argument: 'wings are bus-mounted; wing-internal velocities are base-relative; arm joint rates never enter leaf velocities (same argument as host docstring)'
+
+mass_matrix_assembly:
+  pattern: 'single-pass geometry() assembly per RHS call (host pattern), unit-velocity method'
+  base_fixed_rigid_bodies:
+  - 'bus (V3_R2 ledger via frozen bridge, NOT legacy mass_inertia_budget_v1.csv)'
+  - 'adapter via T_SM'
+  - 'arm base_link'
+  - 'per-wing non-follower lumps at deployed hinge line: root_hinge 0.05 kg, inter_hinge 2 x 0.03 kg, hdrm 0.08 kg, harness 0.05 kg'
+  arm_links: 'link1..6 via hash-bound read-only import of sim_05 b601_model (e21 import_source + dont_write_bytecode pattern)'
+  wing_modal_subsystem_per_wing:
+    follower_masses: '3 leaves x 0.18 kg'
+    base_block_contribution: 'M[0:3,0:3] += m_leaves*I3 ; M[0:3,3:6] += -Sx ; M[3:6,0:3] += Sx ; M[3:6,3:6] += St (leaf CoMs at q=0 deployed config; leaf spin lump analogous to J_rot_S)'
+    coupling_columns: 'M[0:3,cols] += B_t ; M[3:6,cols] += B_r ; symmetric transpose blocks ; M[cols,cols] += I (mass-normalized modal identity)'
+    momentum_map_columns: 'A[0:3,cols] += B_t ; A[3:6,cols] += B_r'
+    bias_term_note: 'velocity-quadratic terms incl. w_b x v_b transport term MANDATORY (host implementation lesson, dedicated test assertion)'
+  optional_attached_target: 'attach_target semantics unchanged (rigid lock to link6)'
+  rigid_limit_closure_invariant:
+    definition: 'at eta==0 each assembled wing must equal deployed-locked rigid wing rows of SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json'
+    reference_C01_per_wing: {mass_kg: 0.78, cg_S_m: [0.0, 0.346553846, -0.099134615], sign_note: 'left +y / right -y mirror'}
+    reference_C07_both_wings_kg: 1.56
+    tolerance_class: 'machine precision (e21 E21-G10 closure 4.440892098500626e-16 culture)'
+    gate_rule: 'fail-closed; any deviation forbids gate entry'
+
+modal_damping_injection:
+  injection_point: 'Q[i_e] = -(K_eta @ eta) - (D_eta @ etad)'
+  K_eta: 'blkdiag(diag(omega_L^2), diag(omega_R^2)) per active stiffness case published frequencies'
+  D_eta: 'blkdiag(diag(2*zeta_i*omega_i))'
+  zeta_status: 'NULL (card 0.01 TBD_cite_literature and legacy 0.005 placeholders FORBIDDEN to consume)'
+  dual_lane_discipline:
+    conservation_audit_lane: 'zeta = 0 mandatory (energy/momentum machine-precision ledgers)'
+    dissipation_prediction_lane: 'CLOSED until SLOT-02 closes with citable source'
+    forbidden: 'any ringdown/decay-time conclusion before SLOT-02 closure (sim_07 37-75 s is R1 historical scope only)'
+  e15_trigger_on_introduction: T3
+
+participation_and_generalized_force_pathways:
+  physical_coordinate_definitions:
+    B_t_q: 'd2T / d qdot_w d v_b | at q=0  (3x3 per wing, one row per hinge DOF)'
+    B_r_q: 'd2T / d qdot_w d omega_b | at q=0  (3x3 per wing)'
+    modal_form: 'B_t = Phi^T B_t_q ; B_r = Phi^T B_r_q'
+    derivation_source: 'chain-rule differentiation of published kinetic energy (compute_flexible_appendage_r2.py::kinetic_energy) at q=0'
+    computation_precondition: 'MC-A ruling posted (dynamic_mass_allocation_frozen=true) - satisfied at engineering level'
+  sparsity_negative_control:
+    B_t_nonzero_rows: [v_z]
+    B_r_nonzero_rows: [omega_x]
+    zero_rows_exact: ['B_t v_x', 'B_t v_y', 'B_r omega_y', 'B_r omega_z']
+    rule: 'any nonzero in a declared zero row = implementation error, fail-closed raise'
+  pathway_1_instantaneous_delassus: 'lam = -(G_c + G_t)^-1 rel_pre ; G_c = Phi_RL M_RL^-1 Phi_RL^T ; modal rows enter via B coupling inside M_RL ; detad = du[i_e]'
+  pathway_1_energy_bookkeeping: 'modal_velocity_kick_energy_J (0.5*detad^2) and modal_energy_change_J (with etad_pre cross term) must not be conflated (source comment verbatim discipline)'
+  pathway_2_contact_window: 'Q_ext = Phi^T w_S, modal columns zero; modal excitation via mass coupling during window; combined chaser+target momentum machine-audited; lockup Delassus at window end, lockup_rel_to_lam reported verbatim'
+  pathway_3_post_capture_free_floating: 'modal generalized force = -K eta - D etad only; base<->modal momentum exchange via A-map algebraic constraint (reduced) or full integration (cross-evidence)'
+  forbidden_pathways:
+  - 'ideal impulse (dt=0) for modal energy evaluation (sim_11 v1.0 ill-posed lesson; slow tail +2.86/+1.29/+0.72/~+0.4% kept as non-gate diagnostic)'
+  - 'injecting B_t/B_r as external force into Q[i_e] (they are root-motion coupling coefficients, not forces)'
+
+mc_a_bookkeeping_boundary:
+  ruling_id: ENG-RULING-DYN-MASS-ALLOC-MC-A-V1
+  rom_kinetic_energy_side: 'leaf-only Mqq sole authority; delta_M excluded'
+  delta_M_excluded_from_rom_kg_m2: [[0.006, 0.0024, 0.0], [0.0024, 0.0012, 0.0], [0.0, 0.0, 0.0]]
+  system_mass_ledger_side: '2x0.03 kg/wing as rigid non-follower interface lumps at hinge line; 0.78 kg/wing closure (3x0.18 + 0.05 + 2x0.03 + 0.08 + 0.05); both wings 1.56 kg; whole-satellite line 24.8632134 kg (GAP-12 OPEN, untouched)'
+  coupled_model_placement: 'hinge lumps enter base-fixed rigid bodies at deployed hinge-line positions (M_bb/A transport terms only); never in modal columns, never in Mqq; no double counting; rigid-limit closure invariant closes the loop'
+  frequency_shift_bookkeeping:
+    id: BK-DYN-MASS-HINGE-ALLOC-MC-A
+    type: KNOWN_BOOKKEEPING_DIFFERENCE__NOT_STANDARD_UNCERTAINTY
+    nominal_relative_shift_pct: [-3.5096, -6.9411, -13.4]
+    standard_uncertainty: null
+    forbidden: [averaging, correction, zero_fill, Mqq_star_consumption, per_module_mixing]
+  reversal_conditions_verbatim: ['RC-1 as-built hinge mass deviation', 'RC-2 hinge follower inertia non-negligible', 'RC-3 HF closure re-estimation', 'RC-4 owner/CM explicit action']
+
+# ============ (b) 三车道定义 ============
+lanes:
+  RIGID:
+    definition: 'deployed-locked rigid-wing free-floating (e21 pattern - V3_R2/C07 fixed residual 26.327308858000002 kg + complete B601 arm = 31.022864807342987 kg system; E21-G10 closure 0/0/4.44e-16) + sim_10/sim_12 rigid-stack feasibility scans'
+    consumption: 'V3_R2 ledgers via frozen bridge; arm placement single consumer ODR01_DYNAMICS via bridge (consumer_ambiguity=0)'
+    discipline: 'unaffected by MC-A (E9); asserts no flexible conclusion'
+  LEGACY_R1_FLEX:
+    definition: 'sim_11 v1.1 FFR EB-cantilever lane (coupled_model_v0.yaml; 0.3483933 kg/wing; 0.7/1.0/1.3 Hz band; zeta=0.005 placeholder; T_c=20 ms placeholder)'
+    consumption: 'historical reproduction only; gate verdict SIM11_GATES_PASS_WITH_PROVISIONAL_PARAMS as frozen historical record'
+    discipline: 'NO new conclusion may cite it (MC-A E7, e21 forbidden verbatim); no R1 numeric value into R2_FLEX; its degeneration anchors (19.20 deg etc.) belong to R1 mass scope'
+  R2_FLEX:
+    definition: 'this spec lane - R2 three-leaf hinge-chain ROM (leaf-only Mqq authority) inserted into host coupled assembly; five stiffness cases; damping null; participation factors pending computation'
+    consumption: 'FLEXIBLE_APPENDAGE_R2 (hash-bound) + MC-A ruling + frozen bridge + e21 rigid residual ONLY'
+    discipline: 'r2_full_flexible_coupling=NOT_EVALUATED verbatim; this spec authorizes no run; all future outputs CANDIDATE until e15R closure + owner release'
+  lane_isolation_invariants: ['independent model objects', 'independent zero initial states', 'no state transfer between lanes (E21-G12 pattern)', 'cross-lane comparison only at behavior-family + tolerance-discipline level']
+
+# ============ (c) 锚例配置 ============
+anchors:
+  ANCHOR_SAT22_0P5DPS:
+    case_source: 'strategies_v0.yaml A_low {cls: G2_cubesat, m_t_kg: 22.0, omega_dps: 0.5}'
+    target_object_id: target_satellite_v0
+    mass_kg: 22.0
+    inertia_diag_kgm2: [0.231629, 0.422149, 0.489336]
+    grasp: {name: launch_adapter_ring, point_mm_T: [290, 0, 0], lever_to_com_m: 0.2517, confidence: 'low (RA-003 verbatim)'}
+    tumble_dps: 0.5
+    tumble_axis: '[1.0, 0.15, 0.4]/norm (capture_impulse.TUMBLE_AXIS frozen)'
+    v_app_m_s: 0.01
+    rigid_anchor_values:
+      omega_plus_dps: 0.23120208979778084
+      H_c_Nms: 0.0024962462560704844
+      J_Ns: 0.12021626868793249
+      grasp_couple_Nms: 0.00151767
+      dT_J: 0.000607468
+      budget_2dps: WITHIN_BUDGET
+      region: WHEELS_ONLY_FEASIBLE
+      binding: NONE
+      wheel_margin_Nms: 0.297504
+      evidence: 'sim_12 strategy_results.csv A_low/S1_passive row + sim_06 capture_impulse_matrix_v0.csv row (recomputed consistent by this agent)'
+    sim10_cross_anchor: 'mu=0.917 at omega=3 dps -> omega+ = 1.3872 dps -> WHEELS_ONLY_FEASIBLE (README_sim_10 verbatim)'
+  ANCHOR_DEB150_3DPS:
+    case_source: 'strategies_v0.yaml B_anchor {cls: G1_slender, m_t_kg: 150.0, omega_dps: 3.0}'
+    target_object_id: target_debris_v0
+    mass_kg: 150.0
+    inertia_diag_kgm2: [74.805599, 74.829903, 26.592617]
+    grasp: {type: nozzle_rim, point_mm_D: [660, 0, 950], lateral_lever_m: 1.02, sim06_row_grasp_leverarm_m: 1.21521, confidence: 'low (RA-003)', known_issue: 'solid placeholder density 60.9 kg/m3 non-physical (D-8 verbatim)'}
+    tumble_dps: 3.0
+    tumble_axis: '[1.0, 0.15, 0.4]/norm'
+    v_app_m_s: 0.01
+    rigid_anchor_values:
+      omega_plus_dps: 3.0633304945807067
+      H_c_Nms: 3.650992635553959
+      J_Ns: 0.3384597133729326
+      grasp_couple_Nms: 0.121693
+      dT_J: 0.00527415
+      eps_H_origin: 3.84985e-16
+      budget_2dps: OVER_BUDGET
+      region: INFEASIBLE_RATE
+      binding: POST_CAPTURE_RATE_EXCEEDS_LIMIT
+      s4_detumble_fuel_g: 36.4998
+      evidence: 'sim_12 strategy_results.csv B_anchor/S1_passive row + sim_06 CSV row (recomputed consistent)'
+    sim10_cross_anchor: 'mu=6.25 -> omega+ = 3.0633 dps -> INFEASIBLE_RATE (README_sim_10 verbatim); sim_08 |H_c|=3.65 Nms = 12x wheel capacity'
+    legacy_lane_reference_only: {J_Ns: 0.8590247898519836, L_Nms: 0.517635563322184, dT_J: 0.020087831721442267, H_origin_Nms: 3.6782586304198084, L_com_Nms: 3.7213991753489832, note: 'R1 placeholder params, capture superposed on A1 end-state pregrasp; historical reference, no numeric merging'}
+  scene_contract_verbatim_from_scene_A2:
+    contact_model: half_sine_equal_impulse  # F(t)=lam*(pi/2Tc)*sin(pi t/Tc), integral = instantaneous Delassus lam
+    wrench_frame: inertial_frozen
+    T_c_ms_nominal: 20.0   # PROVISIONAL pending B601 gripper closure measurement (e15 T5 on replacement)
+    T_c_ms_sweep: [5.0, 10.0, 20.0, 50.0, 100.0]
+    lockup_after_window: true
+    constraint_mode: rigid_lock_6dof
+    secondary_mode: point_capture_3dof
+    joints_locked_at_capture: true
+    attach_target_after_capture: true
+    post_window: {t_post_s: 40.0, note: '40 s snapshot, not asymptotic (scene card verbatim)'}
+    stiffness_cases: 'five-case full sweep'
+    damping_lane: 'conservation zeta=0 mandatory; dissipation lane CLOSED'
+    integrator: {method: Radau, cross: BDF, rtol: 1.0e-10, atol: 1.0e-12}
+
+# ============ (d) 输出指标精确定义 ============
+output_metrics:
+  base_attitude:
+    fields: [peak_base_attitude_deviation_deg, final_base_attitude_deviation_deg]
+    definition_verbatim: 'dev = degrees(2*arccos(|q_w|)) (coupled_dynamics._collect; e21 same-name same formula)'
+    legacy_reference: 19.199885629572467
+    legacy_reference_note: 'sim_11 A1 summary'
+    r2_rigid_lane_reference: 29.041965867604112
+    r2_rigid_lane_reference_note: 'e21 ODR01 lane M07, E21-G15'
+  base_rate:
+    fields: [base_rate_peak_dps, base_rate_final_dps]
+    definition_verbatim: 'float(np.max(np.linalg.norm(wb, axis=1)) * 180 / np.pi) (scene_a2_capture.summarize post block)'
+  omega_plus:
+    rigid_definition_verbatim: 'w_plus = I_c^-1 H (capture_impulse.rigidize); w_plus_dps (feasibility_core.exact_point)'
+    r2_flex_derived_equivalent_CANDIDATE: 'omega_plus_equiv_dps = degrees(|| I_comb(theta_f, eta=0)^-1 * L_C ||), L_C from momentum_inertial_groups + chaser_composite at capture completion'
+    co_output_rule: 'reported together with base_rate_final_dps; their deviation is the modal kinetic share observable'
+    rigidification_requirement: 'must return rigid anchor values (A 0.23120208979778084 / B 3.0633304945807067 dps) in E15R-T3 chain'
+  modal_energy:
+    fields: [panel_modal_energy_peak_J, panel_modal_energy_final_J, window_modal_energy_peak_J, combined.modal_energy_peak_J]
+    definition_verbatim: '0.5*etad^T etad + 0.5*eta^T K_eta eta (mass-normalized => modal mass 1); combined = max over contact window and post-capture window (G4 window_note verbatim)'
+    legacy_reference_bw20_combined_J: 1.2789845032388716e-05
+  wheel_momentum:
+    fields: [H_c_Nms, h_star]
+    definition_verbatim: 'h_star = H_c / wheel_Nms (feasibility_core.gate_point)'
+    wheel_tiers_Nms: {wheels_small: 0.045, wheels_large: 0.300}
+    registry_cap: {wheel_momentum_max_Nms: 5.475, status: 'PROVISIONAL UNVERIFIED verbatim'}
+  stabilization_proxy:
+    primary: 'post_capture_rate_max_dps = 2.0 gate1 (registry; source_type MISSION_ASSUMPTION; source sim_04 POST_CAP_BUDGET; verification PARTIAL)'
+    gate_form_verbatim: 'gate1 = w_plus_dps <= post_capture_rate_max_dps'
+    r2_flex_observables: [omega_plus_equiv_dps, base_rate_final_dps]
+    excluded: 'control_02 STABILIZED_WITHIN_WINDOW (Wave1 PROVISIONAL actuator/window model; L0 hardware NOT_EVALUATED_NO_ACTUATOR_DYNAMICS)'
+  conservation_ledgers_mandatory:
+    momentum_max_abs_dP_dL: {reduced_gate_template: 1.0e-12, e21_template_dP: 2.8114773474276346e-16, e21_template_dL: 2.597469647189354e-16, sim05_culture: 7.3e-17}
+    energy_audit_rel: {undamped_mandatory_threshold: 1.0e-8}
+    contact_window: {window_momentum_drift_max_template: 2.7346180875298387e-14, window_energy_audit_rel_template: 8.459748222451578e-11, lockup_rel_to_lam_template: 0.0003533587053109225}
+    attach_momentum_residual: 'machine precision (attach vs split path)'
+  panel_response:
+    r2_fields: ['hinge_line/tip response reconstructed from q_w = Phi eta chain', 'dominant_freq_hz']
+    reconstruction_formula_source: 'ROM product must supply (IR-03)'
+    dominant_frequency_algorithm_verbatim: 'Hann window + parabolic interpolation rfft (scene_a2_capture.dominant_frequency)'
+  momentum_redistribution_diagnostics:
+    fields: ['L_about_com_initial_Nms', 'L_about_com_final_Nms per group {base, arm, panels, target}']
+    discipline_verbatim: 'external vector angular impulse |dH_vec| and scalar |H| change must not be mixed (sim_12 Gate0 ledger arbitration)'
+
+# ============ (e) 安全分类翻转检测法 ============
+classification_flip_detection:
+  classifier_reuse:
+    source: 'sim_10 feasibility_core.gate_point (four gates fail-closed, declared order)'
+    gates: ['gate1 rate <= 2.0 dps', 'gate2 wheels |H_c| <= n_w*h_w', 'gate3 thruster impulse J_req <= J_avail', 'gate4 detumble time t_d <= t_max']
+    regions: [WHEELS_ONLY_FEASIBLE, THRUSTER_REQUIRED_FEASIBLE, INFEASIBLE_RATE, INFEASIBLE_RESOURCE]
+    binding_rule_verbatim: first_failed_independent_gate_in_declared_order
+    thresholds: 'frozen registry SHA-256 bound (scan_v0 frozen_inputs); thresholds_widened must assert False'
+    derived_metrics_do_not_duplicate_binding: true
+  procedure:
+    s1: 'region_rigid/binding_rigid from rigid anchors (A WHEELS_ONLY_FEASIBLE/NONE; B INFEASIBLE_RATE/POST_CAPTURE_RATE_EXCEEDS_LIMIT), machine-identical anchoring (<1e-12, X1 discipline)'
+    s2: 'after R2_FLEX run, extract omega_plus_equiv_dps and |H_c|, reclassify through the SAME gate_point with the SAME registry thresholds, per stiffness corner (no band merging)'
+    s3: 'flip := (region_flex != region_rigid) or (binding_flex != binding_rigid) on any corner -> CLASSIFICATION_FLIP event with full evidence chain (anchor, case, both regions/bindings, omega_plus_equiv, H_c, modal energy peak, hashes)'
+    s4: 'flip is a first-class scientific result - record verbatim in ruling JSON; NO smoothing/averaging/majority-vote/silence; a flip CONTRACTING the infeasible region falsifies sim_10 report section-6 conservative-direction claim (flex makes infeasible region only grow) and must be escalated to owner, never footnoted'
+  authority_layering: 'before e15R closure, R2_FLEX classifications are DIAGNOSTIC; authoritative classification stays rigid-anchor + FLEX=UNKNOWN_NOT_IN_CRITERIA (sim_10 standing discipline verbatim)'
+
+# ============ (f) e15R 测试挂接映射 ============
+e15_current_gap_verbatim:
+  overall: REPEAT_ANCF_CERTIFICATION
+  cross_solver: {comparison_count: 6, max_relative_difference: 0.05637349419858036, gate_limit: 0.05}
+  final_candidate_unavailable_reason: '冻结E1.5为SAFE=0且无名义Top-3；不得用低振幅诊断锚点冒充最终候选。'
+e15r_test_hookup_map:
+  E15R-T1_frozen_final_candidate_cross_solver:
+    hookup: 'new R2 coupled runner Radau vs BDF (same rtol=1e-10/atol=1e-12 family); precedent pattern = sim_11 run_gates G5 (--method BDF tag artifacts + rel_diff aggregation; TH_G5_CROSS=0.05)'
+    comparison_targets: 'e15 six-comparison family (relative_tip_peak / relative_root_moment_peak / relative_strain_energy_peak / relative_total_energy_peak; mesh 2/4/8 velocity_jump + 8-element pulse 0.02/0.01 s rows) extended to R2 coupled outputs (hinge-line/tip response, hinge moment, modal strain energy, total energy, base_rate_peak, omega_plus_equiv, modal_energy_peak)'
+    tolerance: 'all comparisons <= 0.05 (final_candidate_cross_solver_relative_max); scipy success/status/message classification; relaxed-tolerance return-success is NOT convergence proof'
+    preconditions: ['final candidate frozen (SAFE>0 + nominal Top-3; currently absent)', 'MC-A posted (engineering-level satisfied)', 'T5 contact-window basis declared', 'owner release']
+  E15R-T2_component_level_vs_sim07:
+    hookup: 'R2 wing component, locked joints, same excitation family; precedent = sim_11 G3a (gate3a_locked_joints_vs_sim07 vs sim_07 task_response_summary.csv)'
+    comparison_targets: 'sim_07 certified behavior family (point-vs-lock ~92x amplification; ringdown 37-75 s R1 scope; b1 static 1.03e-04; b2 freq err <=8.0e-05; b3 zero-rigid-body strain ~1e-14 J; b4 energy drift <=1.6e-09; b5 mesh convergence monotone)'
+    tolerance: 'family bands b1<1%, b2<5%, b3 machine precision, b4<1e-6@tight, b5 monotone (draft values); sim_11 G3a used tip<5% (0.05) / freq<2% (0.02)'
+    note: 'R2 component is a hinge chain - compare behavior family and tolerance discipline, NOT numeric equality (draft verbatim); R2 numeric baseline = published five cases'
+  E15R-T3_rigidification_degeneration:
+    hookup: 'in-program stiffness multiplier sweep from all_high up to rigid limit; precedent = sim_11 G3b (peak + pointwise history comparison)'
+    r2_anchor: 'e21 rigid lanes (V3_R2/C07 + M07) - ODR01 peak 29.041965867604112 deg, dP <= 2.8114773474276346e-16, energy audit 3.8881625317763365e-11 ; NOT sim_05 19.20 deg (R1 mass scope, risk R7)'
+    tolerance: 'peak convergence to e21 rigid lane within declared band (draft suggests <=1%, TBD); momentum residual machine-precision class; sim_11 G3b bands for calibration reference (peak <0.1%, pointwise <1e-3 deg)'
+  E15R-T4_all_rigid_torque_free:
+    hookup: 'arm locked + wings rigidified = single rigid body free propagation; precedent = sim_11 G3c (gate3c_all_rigid_vs_sim01)'
+    comparison_target: '30_simulation/common/rigid_body.py::propagate_torque_free with chaser_composite inertia'
+    tolerance: 'attitude pointwise <1e-5 deg (TH_G3C_ANGLE_DEG) + momentum machine precision (1e-12); w0=[1,5,2] dps family'
+  E15R-T5_momentum_machine_precision:
+    hookup: 'dual ledgers in all scenes (reduced primary + full cross); contact-window combined momentum listed separately'
+    templates: ['sim_05 7.3e-17', 'e21 dP<=2.8114773474276346e-16 / dL<=2.597469647189354e-16 (E21-G15)', 'sim_11 reduced gate 1e-12', 'window combined 2.7346180875298387e-14 + energy audit 8.459748222451578e-11']
+    tolerance: 'no-contact/no-dissipation |dP|,|dL| <= 1e-13 class (draft value aligned to e21 template); contact-window scenes declared per sim_11 basis (2.7e-14 class); after damping introduction (T3) energy ledger no longer conserved, momentum ledger stays machine precision'
+  E15R-T6_discretization_trends:
+    hookup: 'e15 protocol family (mesh 2/4/8, pulse 0.02/0.01 s, Newmark 0.02/0.01/0.005 s) for HF component; modal-ROM analogue = mode-truncation sweep + rtol sweep (precedent = sim_11 G4 - A1 m=2/3/4 + rtol 1e-8 vs 1e-10; A2 forward refinement chain m3->m4->m5 under contact bandwidth, TH_G4_CONV=0.01)'
+    tolerance: 'require_mesh_trend and require_time_step_trend both true; R2 truncation convergence <1% MUST be re-established (contact band edge 25 Hz vs R2 modal band 3.33-196.01 Hz differs from R1; sim_11 G4 results not inheritable, risk R4)'
+  E15R-T7_historical_classification:
+    hookup: 'e15 standing historical_rerun protocol (certification_v1.yaml verbatim - Radau+BDF, 8 elements, t=15 s, etc.)'
+    comparison_target: '7 historical cases (P1_tc60_v20mm ... P3_tc60_v5mm verbatim)'
+    tolerance: 'classification_fraction=1.0, unclassified=0, silent_zero=0; any reclassification needs separate ruling record, no silence'
+  E15R-T8_low_amplitude_ancf_modal:
+    hookup: 'low-amplitude (1e-4 excitation) protocol (certification_v1.yaml low_amplitude block verbatim - baseline/tight tolerance family, 12 s hard wall)'
+    tolerance: 'trajectory relative difference <= 0.10 (current 8.191436722962712e-05); mesh trend observed simultaneously; R2-side linear modal limit = published five-case frequency family direct comparison'
+  trigger_test_traceability: 'per draft section 4 verbatim; stacked triggers covered by ONE rerun, no split/batched release'
+
+# ============ 集成风险 ============
+integration_risks:
+- {id: R1, severity: HIGH, text: 'wing root/hinge-line geometry not pinned in dynamics-consumable SSOT (P0=(y 0.1149, z -0.10815) m exists only as compute_flexible_appendage_r2.py line-56 constant; neither FLEXIBLE_APPENDAGE_R2.yaml nor MODES.json carries hinge line/axis/deploy direction frames); B_r and rigid-limit closure depend on it; must be registered via T_PHYSICAL_TO_DYNAMIC bridge first (GAP-10)'}
+- {id: R2, severity: HIGH, text: 'participation factors all null; math definition ready but values uncomputed; errors propagate into modal excitation exclusively via mass coupling (modal columns carry no direct external wrench); sparsity negative control must be fail-closed in tests'}
+- {id: R3, severity: HIGH, text: 'damping null; no ringdown/decay prediction before SLOT-02 closes; conservation audits forced zeta=0 lane; placeholder 0.01/0.005 forbidden'}
+- {id: R4, severity: MEDIUM_HIGH, text: 'contact bandwidth x R2 modal band interaction unevaluated; R2 modes 3.33-196.01 Hz vs 25 Hz band edge qualitatively different from R1; sim_11 G4 convergence evidence NOT inheritable; 196 Hz third mode Radau step pressure must be checked via nfev stats on first run (integrator change = e15 T6)'}
+- {id: R5, severity: MEDIUM_HIGH, text: 'linearized ROM small-angle validity unclosed; capture-driven hinge angles unquantified (forced_response null); hinge-angle peaks must be back-checked (hinge torque vs mechanism ledger 48.0 N.m candidate and 480 N latch backdrive check load); out-of-domain must be declared, no extrapolation'}
+- {id: R6, severity: MEDIUM, text: 'dual mass ledgers (24.8632134 kg budget line GAP-12 OPEN vs V3_R2/C07 31.022864807342987 kg system incl. arm); R2_FLEX consumes V3_R2 via bridge only; legacy 24 kg row / mass_inertia_budget_v1.csv servicer_12U_v0 line is LEGACY-lane SSOT, silent reuse forbidden'}
+- {id: R7, severity: MEDIUM, text: 'rigidification-anchor scope mismatch risk - sim_05 19.20 deg is R1 mass scope; correct R2 anchor = e21 rigid lane 29.041965867604112 deg @M07; E15R-T3 must assert anchor provenance explicitly or it becomes lane pollution'}
+- {id: R8, severity: MEDIUM, text: 'e15 final candidate nonexistent (SAFE=0, no nominal Top-3); E15R-T1 precondition unmet; low-amplitude diagnostic anchors must not impersonate final candidates (registered e15 error verbatim)'}
+- {id: R9, severity: MEDIUM, text: 'consumer uniqueness - arm placement consumed only via frozen bridge (sha256 0ACEB659284CAB86...); WP11 lane (29.41085537835705 deg) is sensitivity record, never mixed; 0.3688895107529362 deg branch delta is not uncertainty; runner mount construction sites must equal 1'}
+- {id: R10, severity: MEDIUM, text: 'R2-HRN-04 FAIL_REDESIGN_REQUIRED - harness 0.05 kg/wing inside mass closure; redesign may perturb Mqq -> e15 T2 trigger + MC-A RC re-evaluation; harness mass lump must be an independent replaceable row'}
+- {id: R11, severity: LOW, text: 'mode-count extension m_w=4/5 requires new ROM version re-issuing five-case evidence (MC-B-style gap cost); default m_w=3 within ODR-21 band; extension decision belongs to owner'}
+- {id: R12, severity: LOW, text: 'state-layout versioning - nu=18 CSV/JSON column schema must carry version tag; LEGACY (m=3 FFR) and R2 artifacts with same column names forbidden to mix-read (r2flex tag analogy to sim_11 --tag)'}
+
+# ============ 对 HF/ROM 产物的接口要求 ============
+interface_requirements:
+- {id: IR-01, name: 'ROM package', required: true, rule: 'machine-readable hash-pinned new version (never mutate accepted files) - leaf-only Mqq verbatim, K five cases diag(k_root,k_inter,k_inter), Phi mass-normalized from eigh(K,Mqq), omega per case'}
+- {id: IR-02, name: 'participation package', required: true, rule: 'per-wing B_t_q/B_r_q (3x3, hinge coordinates, at q=0) + modal Phi^T B; derivation record (chain rule on published KE); negative control zero rows exact; MC-A E5 consumption discipline'}
+- {id: IR-03, name: 'geometry interface', required: true, rule: 'per-wing root hinge line point + hinge axis (parallel X_S) + deployed direction explicit in S, bridge-registered; hinge-line lump positions (0.05/2x0.03/0.08/0.05 kg); tip/hinge-line response reconstruction formula; P0 constant must be promoted to SSOT'}
+- {id: IR-04, name: 'rigid-limit closure dataset', required: true, rule: 'deployed-locked per-wing/both-wing rigid mass properties (SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json C01/C07 rows) as closure ground truth, machine-precision-class tolerance'}
+- {id: IR-05, name: 'damping', required: false, blocked: true, rule: 'explicit null until SLOT-02; on closure provide per-mode zeta_i (or band) with citable source; dual-lane declaration mandatory'}
+- {id: IR-06, name: 'HF model', required: false, blocked: true, rule: 'per-wing 3 flexible leaves + 2 inter hinges + root hinge/latch compliance (GJ band SLOT-01 precondition); duties = large-deflection check, hinge moment vs band, freeplay nonlinearity; measured replacements trigger e15 T2/T4'}
+- {id: IR-07, name: 'contact interface', required: false, blocked: true, rule: 'B601 gripper closure-time measurement replaces T_c=20 ms placeholder -> e15 T5; sweep domain [5,10,20,50,100] ms kept'}
+- {id: IR-08, name: 'version and trigger discipline', required: true, rule: 'any ROM/HF parameter change = new versioned file + e15 trigger registration (T1-T7 verbatim); no silence; MC-A RC-1..RC-4 hit unfreezes and re-rules'}
+
+nonclaims:
+- 'this spec authorizes no run, no scene evaluation, no CAD/FEA/simulation process'
+- 'this spec closes no gate; r2_full_flexible_coupling stays NOT_EVALUATED'
+- 'this spec modifies no upstream file (e15/e21/sim_05/sim_07/sim_11/V5 all read-only verbatim)'
+- 'this spec does not touch the 24 kg budget reallocation (GAP-12 OPEN)'
+- 'this spec is not an owner-level ruling and joins no ODR chain'
+
+evidence_links:
+- {path: '30_simulation/sim_11_coupled_dynamics/src/coupled_dynamics.py', sha256: B8727041872802CC6BB62A4977BF3393B328754BAE0959622ADA6F32B534FDD7, role: 'host coupled model (state layout, mass assembly, integrators)'}
+- {path: '30_simulation/sim_11_coupled_dynamics/src/contact_window.py', sha256: D6AD26E3F8DAFADA3812689C050EF77AC8A8185F6600118B1F938B4386E98626, role: 'finite contact bandwidth capture window'}
+- {path: '30_simulation/sim_11_coupled_dynamics/src/capture_solver.py', sha256: C5217AFB39339344DCFF1C17FA03A5A57D452E5939F213FC3D025BA7CD16EC1A, role: 'flexible Delassus capture solver'}
+- {path: '30_simulation/sim_11_coupled_dynamics/src/ffr_panel.py', sha256: CCD56EEC234625B180BE5CAEF0F935F5326C663E6754FA09E3CBD020512AFFCF, role: 'LEGACY FFR panel (R1 scope only)'}
+- {path: '30_simulation/sim_11_coupled_dynamics/src/run_gates.py', sha256: F6337FB337B19EA3F1C9F1BC9C1CEE0D507814E5CEA8DA9AE9733030B5AA5EF7, role: 'G1-G5 gate machine ruling + thresholds'}
+- {path: '30_simulation/sim_11_coupled_dynamics/src/scene_a2_capture.py', sha256: AD1F757EC216BF962616940ECDB8247E763BA98F49E15BEF1E99C563C926209A, role: 'A2 capture scene + metric definitions'}
+- {path: '30_simulation/sim_11_coupled_dynamics/src/scene_a1_arm_slew.py', sha256: 2910142E70A47BAC99C32FBB06DE2F38A3C81A0BB6EAD1D0D4E19D8B8500D9F0, role: 'A1 arm slew scene'}
+- {path: '30_simulation/sim_11_coupled_dynamics/src/config_loader.py', sha256: 716B92618DADF72D6BC7B7A47DBFAF9B48EA740162A33A5713EF2DA4145F3391, role: 'SSOT loader + T_SM consistency assertion'}
+- {path: '30_simulation/sim_11_coupled_dynamics/results/sim_11_gate_check.json', sha256: 9309F5325271BF5EFDAA7ECAC2BCF20B4FECA3FCA771D22391A7D7D576F9366F, role: 'SIM11_GATES_PASS_WITH_PROVISIONAL_PARAMS verdict'}
+- {path: '30_simulation/sim_11_coupled_dynamics/results/sim_11_scene_A1_summary.json', sha256: 3B466DD3B0CA8408666D29445375FE7EB942E939791EED925B34043226A6DA03, role: 'A1 metric reference values'}
+- {path: '20_engineering/config/coupled_scene/coupled_model_v0.yaml', sha256: 67A532FB29C7EF66229CB41D6D3882946A8454FF37EDD9CF5933E4C91C2663EB, role: 'integrator contract + provisional fields'}
+- {path: '20_engineering/config/coupled_scene/scene_A1_arm_slew.yaml', sha256: 6E3B53F126F03644EC19F26A4B74911C737E6666DBC89B41A2D0C9D1694C7D3B, role: 'A1 scene card'}
+- {path: '20_engineering/config/coupled_scene/scene_A2_capture.yaml', sha256: 4B979A1DFD183AD938D79D6EB05A8FB0D4164C0E075A5391B467CC50E173A707, role: 'A2 scene card + contact window contract'}
+- {path: '20_engineering/config/mission_feasibility/scan_v0.yaml', sha256: 856F1E30DE47CA5B3F505F9FE5BD5CD22A75E448EC916B42D9C330F7A62E28EA, role: 'sim_10 scan card + frozen input hashes'}
+- {path: '20_engineering/config/strategy_feasibility/strategies_v0.yaml', sha256: D29FB152CFDDBF22BF991BB2595E837F2BEB4C4982E023D04E94DE9A27E01AA8, role: 'sim_12 case definitions A_low/B_anchor'}
+- {path: '30_simulation/sim_10_mission_feasibility/src/feasibility_core.py', sha256: A4F0FD47B91CFB60CA58FC1F8A8279F5139D7C8A9D77869E6A18100FA00D944A, role: 'four-gate classifier gate_point'}
+- {path: '30_simulation/sim_10_mission_feasibility/README_sim_10.md', sha256: FA8B10C49CD3FB4D08F25AFECE44BB8FB1410B6B6E5F92AE1BA007133684BFC8, role: 'sim_10 anchors verbatim'}
+- {path: '30_simulation/sim_12_strategy_feasibility/src/strategy_eval.py', sha256: 188C9D26CBC54F83070E99124D8C502B0B50131D3FD2F53CDAB52CAA32967837, role: 'strategy evaluation + ledger semantics'}
+- {path: '30_simulation/sim_12_strategy_feasibility/results/strategy_results.csv', sha256: F538676005CE8CE899BEB8956B33EE75458B18A207AD06FCACAA8B59AEC42DE6, role: 'anchor A/B rigid values'}
+- {path: '30_simulation/common/capture_impulse.py', sha256: DB0AEFBD35032268BC38BC8A18C0A8AFE7BDF9208BE6ACFBC8E2F4B58F9AE089, role: 'rigidize/rigidize_point_contact common solver + TUMBLE_AXIS/GRASP'}
+- {path: '30_simulation/e15_core_coverage/config/threshold_registry_core_v1.yaml', sha256: 75AF082AB45A4029C753978686A41CF1DC49B72EE9418CF2E0F1127126D71C82, role: 'frozen threshold registry (post_capture_rate 2.0 dps etc.)'}
+- {path: '30_simulation/sim_06_capture_impulse/results/capture_impulse_matrix_v0.csv', sha256: 8CBAD84B8FF69FFCA6992CE29E95520BAE3C309260EC8C55083CBE62DFED5151, role: 'sim_06 anchor CSV rows'}
+- {path: '30_simulation/e15_ancf_certification/results/gate_summary.json', sha256: AAB4D609E219279C2563C8A38743AC1784BBF16DE399D5B8798439B0AC2DCA80, role: 'e15 REPEAT_ANCF_CERTIFICATION verbatim source'}
+- {path: '30_simulation/e15_ancf_certification/config/certification_v1.yaml', sha256: 8C9F283B3444B948C42B9A649FE86E2E777F525CDCC0E0EB2C09F2D7AD60E788, role: 'e15 closure conditions + protocols'}
+- {path: '30_simulation/sim_05_free_floating_arm/README_sim_05.md', sha256: 181EBA2721E765E6B9588EDC17464219690885C4910FB9248F055ED93523CAF3, role: 'sim_05 19.20 deg / 7.3e-17 (R1 scope)'}
+- {path: '30_simulation/sim_05_free_floating_arm/dynamics.py', sha256: 86C512DFFC9AEC2C7840F4AF3E1A7380F613D302A56C9021F10BDB40F0D705E9, role: 'sim_05 free-floating dynamics (read-only import source)'}
+- {path: '30_simulation/sim_05_free_floating_arm/b601_model.py', sha256: 3E2B451476F437E482661E275073249AD101705251B78C042851C32AE741052F, role: 'B601 URDF parser/FK/Jacobians (read-only import source)'}
+- {path: '30_simulation/sim_07_ancf_flexible/sim_07a_task_response.py', sha256: AA559E84C092C4445690B62F360860C82F7B393C2E5B53344E2BBBAE44CE8AA3, role: 'sim_07a ANCF task response (component comparison target)'}
+- {path: '30_simulation/sim_07_ancf_flexible/README_sim_07a.md', sha256: 02C321A85D768B843C403F4CBD61163B4199AAEA4A589CD40E922D62763F9205, role: 'sim_07a 92x / 37-75 s / benchmark family'}
+- {path: '30_simulation/sim_07_ancf_flexible/results/task_response_summary.csv', sha256: DF29073BDB6CAD1FCE21BF7D22CE5FAC487230631DBE844411565A49D029A33B, role: 'sim_07 comparison table (G3a precedent target)'}
+- {path: '30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/src/build_e21_diagnostics.py', sha256: 7EC0B2ADA7EDCD5E7F34F7E7857A9F0147A1FF633D3EC2227E939C2C62903792, role: 'e21 Radau runner reuse pattern (RigidArmOnlyModel)'}
+- {path: '30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_DIAGNOSTIC_GATE_V1.json', sha256: B03B7C7AF571AA00FE3612756FFBBD99CB834B84377BA8DC2C213355C252616B, role: 'e21 23/23 PASS + HOLD verbatim'}
+- {path: '30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_FIXED_BASE_R2_ROM_REPRODUCTION_AND_MASS_CONFLICT_V1.json', sha256: 57958A9F3AC194893D689E9ECA4F12666474D97E0CFBB848ACBA794838B8396B, role: 'R2 ROM reproduction + Mqq/Mqq*/delta_M verbatim'}
+- {path: '20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml', sha256: A04ACFE440C636BB095585C74F71E3563FD35F6678FCFAA39355383A9BF6B3FD, role: 'published leaf-only Mqq carrier'}
+- {path: '20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json', sha256: E068DE078A0DC680A44807516733FDF018DD720B5F65636BB2B8D21E557593B6, role: 'published five-case frequencies (leaf-only authoritative)'}
+- {path: '20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json', sha256: D5B7DD16532FE7117D27ECC09EFB29ECC570F51928BDBDF3B27BB96C3CF12C5E, role: 'rigid interface bookkeeping + rigid-limit closure ground truth'}
+- {path: '20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/compute_flexible_appendage_r2.py', sha256: 2B64A18605ABBD1F79648398A161DDD4D7BCB07665C5D8623B1A34440C1E9BF4, role: 'published kinetic-energy construction (participation derivation base; P0 constant line 56)'}
+- {path: '20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/decisions/ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.yaml', sha256: 9CCE829E1581B190C6FC50BAE56C47659C61319052268E7C9DFD25FAC8B8C9E4, role: 'MC-A ruling (leaf-only Mqq sole authority)'}
+- {path: '20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml', sha256: 0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C, role: 'frozen unique bridge B=Trans(z,+0.02275 m).Rot(z,+25.000014 deg)'}
+- {path: '20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/r2_flex_prep/R2_ROM_PARTICIPATION_DAMPING_SPEC_DRAFT_V1.md', sha256: E3453EFBFF644FA499AD2453E63621F710AC2B0BDB6F56798AA2B0D14B929E18, role: 'SLOT-01..10 + participation math definition draft'}
+- {path: '20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/r2_flex_prep/E15_RECERTIFICATION_TEST_SPEC_DRAFT_V1.md', sha256: FBC90E00C5C2775635B0ECAFA53C3A9F54F82E61B756F9A00EAA8B64633DA369, role: 'E15R-T1..T8 + trigger traceability draft'}
+- {path: '20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round0_handover/03_r2_flex_inputs/R2_FLEX_INPUT_INVENTORY_V1.json', sha256: 82DED34930694831AE9A03C1F6E1888C7B4577BA27F17098BBAFA8C16E4A00AD, role: 'GAP-01..12 input inventory'}
+- {path: '20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/MPI_BRIDGE_GATE_V1.json', sha256: 60911E3C88387E2ED53601F2B541649BF90D689C57C4E74225226AE6FD10C721, role: 'MPI bridge gate PASS (scoped)'}
+- {path: '20_engineering/config/geometry/target_models_v1.yaml', sha256: 45666D9D37460FD825F0ED7301BF69113016689FDF00A13DFF8046358A76AE45, role: 'target SSOT (22 kg / 150 kg)'}
+- {path: '20_engineering/config/geometry/frame_tree_v1.yaml', sha256: 958BFF23BF83434C773854FD0E78DA3B09BE4A3A213EB81A0741514750B3E55B, role: 'frame tree SSOT (T_SM, F_L/F_R legacy interfaces)'}
+- {path: '20_engineering/config/geometry/flexible_appendage_v1.yaml', sha256: 52FA88084C628CE8845E05DE0C0A892BCA5347B7146C8D1C6B99093927153786, role: 'LEGACY R1 flexible card (historical reproduction only)'}

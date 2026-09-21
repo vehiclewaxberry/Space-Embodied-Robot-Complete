@@ -1,0 +1,237 @@
+{
+  "schema": "WP10_REGEN_SOURCE_AND_COUNTEREXAMPLE_V1",
+  "source_manifest": [
+    {
+      "file": "sr2k60v25r_v1_1.pdf",
+      "url": "https://www.roboteq.com/docman-list/bms-documents-and-files/bms-documents/datasheet/1163-sr2k60v25r-datasheet/file",
+      "resolved_url": "https://www.roboteq.com/docman-list/bms-documents-and-files/bms-documents/datasheet/1163-sr2k60v25r-datasheet/file",
+      "bytes": 833222,
+      "sha256": "a55a726025680f74ba332dcc3a170cd6755a5e2c69c44fa9569b80276eb7b5fb",
+      "status": "ACQUIRED"
+    },
+    {
+      "file": "pololu_3775.html",
+      "url": "https://www.pololu.com/product/3775",
+      "resolved_url": "https://www.pololu.com/product/3775",
+      "bytes": 60775,
+      "sha256": "35f161bfb69819e2250a972535706f24ae1337c8872a817cf0b5170f3f3e7ad4",
+      "status": "ACQUIRED"
+    },
+    {
+      "file": "amc_srst_series.pdf",
+      "url": "https://servo.a-m-c.com/hubfs/Datasheets/Accessories/AMC_Datasheet_SRST175.pdf",
+      "resolved_url": "https://servo.a-m-c.com/hubfs/Datasheets/Accessories/AMC_Datasheet_SRST175.pdf",
+      "bytes": 265957,
+      "sha256": "7f91b4433b28b17b13d08f0458ebb2e4cef8d052aee0aa4ef4cb3e6a9bb65e0a",
+      "status": "ACQUIRED"
+    },
+    {
+      "file": "DM4310_Default_Parameters.txt",
+      "url": "https://files.seeedstudio.com/wiki/robotics/projects/rebot_arm/DM4310_Default_Parameters.txt",
+      "bytes": 468,
+      "sha256": "ae476a72a6afa4e72371a748b62162ac62e8c285be1013f3dad1a48c557d5653",
+      "status": "ACQUIRED"
+    },
+    {
+      "file": "DM4340P_Default_Parameters.txt",
+      "url": "https://files.seeedstudio.com/wiki/robotics/projects/rebot_arm/DM4340P_Default_Parameters.txt",
+      "bytes": 468,
+      "sha256": "55c72881574179bdccdfc39fc229edf1cdbb49ca8974b053fe7a35fef42aeb42",
+      "status": "ACQUIRED"
+    },
+    {
+      "file": "dm4310_v1_1_manual_v1_0.pdf",
+      "url": "https://raw.githubusercontent.com/dmBots/DM-J4310-2EC/master/manual/DM-J4310-2EC%20V1.1%E5%87%8F%E9%80%9F%E7%94%B5%E6%9C%BA%E8%AF%B4%E6%98%8E%E4%B9%A6V1.0.pdf",
+      "bytes": 550152,
+      "sha256": "3aa891a9014e0b9d8310b7603acaa29205e861f21cd6444d64d273215dc756dc",
+      "status": "ACQUIRED"
+    },
+    {
+      "file": "dm4340p_manual_v1_0.pdf",
+      "url": "https://raw.githubusercontent.com/dmBots/DM-J4340P-2EC/master/manual/DM-J4340P-2EC%E5%87%8F%E9%80%9F%E7%94%B5%E6%9C%BA%E8%AF%B4%E6%98%8E%E4%B9%A6V1.0.pdf",
+      "bytes": 7694122,
+      "sha256": "f044a7f283ebd995e1f99ea6584c2e1141f8d32f7fa7948f8e353ce44c889b89",
+      "status": "ACQUIRED"
+    },
+    {
+      "file": "odrive_regen_clamp_20260909.html",
+      "url": "https://docs.odriverobotics.com/v/latest/hardware/regen-clamp-datasheet.html",
+      "bytes": 111068,
+      "sha256": "677094028e169d059578fcc9cf7bae1f0b04ea52ba3f3a53cae7e88a4f48b8c3",
+      "status": "ACQUIRED"
+    }
+  ],
+  "native_netlist_sha256": "5332462d91fcafcfe9586fa8657d2b69f11a27b14149f1b1962c0304c839d5e0",
+  "declared_inputs": {
+    "normal_bus_V": 24,
+    "CHB_plus5pct_transient_example_V": 25.200000000000003,
+    "public_nominal_OV_setting_V": 32,
+    "actual_allowed_peak_bus_V": null,
+    "motor_trip_tolerance_V": null,
+    "regenerative_peak_A": null,
+    "regenerative_energy_J": null,
+    "pulse_duration_s": null,
+    "repetition_period_s": null,
+    "installed_load_side_capacitance_F": null,
+    "worst_wire_inductance_H": null
+  },
+  "mature_module_comparison": [
+    {
+      "module": "ODrive Regen Clamp",
+      "choice": "NOT_ACCEPTED_AS_SOLE_ABSOLUTE_CLAMP",
+      "reason": "Activation is Vout minus Vin; source-loss operation is not proved by the relative threshold specification.",
+      "source": "sources/odrive_regen_clamp_20260909.html; Electrical table"
+    },
+    {
+      "module": "Pololu 3775",
+      "choice": "NOT_ACCEPTED_FOR_WHOLE_ARM_STOP_ENVELOPE",
+      "reason": "OEM limits use to occasional tens-of-ms pulses; nominal 15W label does not establish the arm stop energy or sustained capability.",
+      "source": "sources/pololu_3775.html"
+    },
+    {
+      "module": "AMC SRST50",
+      "choice": "REJECTED_NOMINAL_THRESHOLD",
+      "reason": "50V standard set point exceeds public DM OV32 nominal setting.",
+      "source": "sources/amc_srst_series.pdf p1"
+    },
+    {
+      "module": "Roboteq SR2K60V25R, switch3 30V",
+      "choice": "NOT_ACCEPTED_AS_COMPLETE_PROTECTION",
+      "reason": "Second 5ohm resistor starts only beyond +2V: nominal dual-load boundary32V coincides with DM OV32. Tolerances and transient margin absent.",
+      "source": "sources/sr2k60v25r_v1_1.pdf pp3,7,10-12"
+    },
+    {
+      "module": "Roboteq SR2K60V25R, switch2 25V",
+      "choice": "CONDITIONAL_REUSE_OPTION_NOT_SELECTED",
+      "reason": "Absolute load-side topology is suitable in principle. CHB24V plus5pct can cross25V; pulse envelope, 0.22K/W heat sink and protection dropout remain unverified.",
+      "source": "sources/sr2k60v25r_v1_1.pdf pp3,7,10-12"
+    }
+  ],
+  "Roboteq_source_bound_candidate": {
+    "body_version": "1.1 July7 2026",
+    "pinout_not_invented": true,
+    "preset_switch2_V": 25,
+    "preset_switch3_V": 30,
+    "second_resistor_overdrive_V": 2,
+    "first_stage_ohm": 5,
+    "both_stages_ohm": 2.5,
+    "one_stage_resistive_at25V_W": 125.0,
+    "full_on_resistive_W_at_nominal27V_boundary": 291.6,
+    "one_stage_resistive_at30V_W": 180.0,
+    "full_on_resistive_W_at_nominal32V_boundary": 409.6,
+    "boundary_does_not_guarantee_dual_stage_on": true,
+    "actual_absorbed_power_at_boundary_W": null,
+    "nominal_dual_stage_to_DM_OV_margin_V": 0,
+    "power_rating_is_not_available_power_at_every_voltage": true,
+    "nominal_continuous_W": 110,
+    "required_sink_K_per_W": 0.22,
+    "source_ambient_C": [
+      0,
+      40
+    ],
+    "project_50C_verified": false,
+    "rated_power_requires_OEM_heatsink_condition": true,
+    "load_side_added_capacitance_if_selected_uF": 1650,
+    "overload_cutout_C": 80,
+    "restart_below_C": 60,
+    "I2t_cutout_value": null,
+    "fixed_mode_response_time_max_s": null,
+    "preset_threshold_tolerance_V": null,
+    "cold_start_delay_max_s": null,
+    "input_range_document_conflict": "p4 installation24..60V vs p10 table12..60V; do not silently select the wider range",
+    "alternate_return_path_after_thermal_cutout": null,
+    "installed": false
+  },
+  "analytical_counterexamples": {
+    "capacitor_example": {
+      "C_F": 0.0008,
+      "V_initial": 24,
+      "V_final": 26,
+      "added_energy_J": 0.04,
+      "actual_installed": false
+    },
+    "rectangular_example": {
+      "energy_J": 50,
+      "duration_s": 0.2,
+      "average_W": 250.0,
+      "actual_mission_bound": false
+    },
+    "required_C_without_sink_for_same_example_F": 1.0,
+    "possible_CHB25V_threshold_crossing_V": 0.20000000000000284,
+    "single_resistor_W_at_that_example_V": 127.00800000000004,
+    "no_credit_from_disconnected_ODrive_800uF": true
+  },
+  "selected_absorber": null,
+  "selected_absorber_scope": "QUALIFIED_COMMERCIAL_MODULE_ONLY",
+  "absorber_fitted": false,
+  "native_J203_verified": true,
+  "actual_mission_envelope_evaluated": false,
+  "motor_voltage_protection_closed": false,
+  "whole_mechatronics_closed": false,
+  "checks": [
+    {
+      "name": "native_J203_positive_with_DM",
+      "passed": true
+    },
+    {
+      "name": "native_J203_return_with_DM",
+      "passed": true
+    },
+    {
+      "name": "native_J203_on_K1_load_side",
+      "passed": true
+    },
+    {
+      "name": "public_OV_not_hardware_rating",
+      "passed": true
+    },
+    {
+      "name": "motor_energy_not_invented",
+      "passed": true
+    },
+    {
+      "name": "actual_bus_cap_not_borrowed_from_DNP_module",
+      "passed": true
+    },
+    {
+      "name": "capacitor_example_recomputed",
+      "passed": true
+    },
+    {
+      "name": "50J_would_require1F_for24to26_without_sink",
+      "passed": true
+    },
+    {
+      "name": "30V_Roboteq_no_nominal_dual_stage_margin",
+      "passed": true
+    },
+    {
+      "name": "25V_Roboteq_supply_transient_counterexample",
+      "passed": true
+    },
+    {
+      "name": "advertised_2000W_not_at32V",
+      "passed": true
+    },
+    {
+      "name": "thermal_cutout_can_remove_sink",
+      "passed": true
+    }
+  ],
+  "checks_passed": true,
+  "check_count": 12,
+  "read_only_review_disposition": [
+    {
+      "id": "RGN-01",
+      "issue": "At exactly +2V dual stage is not guaranteed on",
+      "fix": "Full-on resistive capacity renamed; actual boundary absorption remains unknown",
+      "state": "SOURCE_CORRECTED"
+    },
+    {
+      "id": "RGN-02",
+      "issue": "OEM ambient0..40C omitted",
+      "fix": "Ambient range recorded; project50C explicitly unverified",
+      "state": "SOURCE_CORRECTED"
+    }
+  ]
+}

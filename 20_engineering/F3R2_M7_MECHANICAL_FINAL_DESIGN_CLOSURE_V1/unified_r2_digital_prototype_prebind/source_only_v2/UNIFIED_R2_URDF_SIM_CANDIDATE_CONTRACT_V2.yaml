@@ -1,0 +1,159 @@
+schema: UNIFIED_R2_URDF_SIM_CANDIDATE_CONTRACT_V2
+generated_date_local: '2026-08-24'
+artifact_class: DORMANT_SOURCE_ONLY_FAIL_CLOSED_CONTRACT
+scope: future C01 deployed-snapshot Unified-R2 simulation candidate; no emitted URDF and no production binding
+source_of_truth: unified_r2_urdf_source_v2.py
+input_registry: UNIFIED_R2_URDF_SOURCE_INPUTS_V2.yaml
+maximum_current_verdict: PASS_SOURCE_STATIC_ONLY
+
+generator_contract:
+  function: gen_urdf
+  top_level: true
+  positional_arguments: 0
+  return_if_separately_authorized: xml.etree.ElementTree.Element
+  current_call_result: GENERATION_NOT_AUTHORIZED_PREBIND
+  authority_record: UNIFIED_R2_URDF_EXECUTION_AUTHORIZATION_V2.json
+  authority_record_currently_present: false
+  import_time_writes: false
+  cad_or_mesh_generation: false
+  generated_urdf_path: null
+  source_only_validation_may_build_xml_in_memory: true
+  source_only_validation_may_write_urdf: false
+
+authorization_join:
+  rule: all prerequisites must be exact true in a separate hash-bound single-use record; absence mismatch or UNKNOWN denies generation
+  current_state: DENY
+  required_future_exact_true_fields:
+    - rebase_execution_authorized
+    - unified_r2_v2_generation_authorized
+    - system_urdf_generation_authorized
+    - owner_accepted
+    - memory_admitted_for_this_execution
+    - route_c_exclusion_accepted_for_this_sim_candidate
+  route_c_policy:
+    route_c_is_in_model: false
+    route_c_geometry_status: HOLD_ABSENT
+    independent_exclusion_acceptance_required: true
+    route_c_exclusion_accepted_for_this_sim_candidate: false
+    route_c_cad_authorization_required_for_this_excluding_candidate: false
+    prohibited_inference: accepting Route-C exclusion does not authorize Route-C CAD geometry or Route-C release credit
+  source_pin_rule: all 20 path byte-count and SHA-256 pins must match before any future generation
+  byte_snapshot_rule: parsed inputs and consumed B601/bounds payloads must be the same byte snapshots that were hash verified; all pins are reverified after build
+  loaded_code_rule: authority must bind both the source-file SHA-256 and the loaded runtime-code SHA-256
+  single_use_rule: any future execution record and run identifier must be consumed at most once; any low-memory Owner Override must bind that exact run_id
+  mutation_rule: generation may not modify pinned source assets or Sim13 V1 files
+
+model_contract:
+  robot_name: unified_r2_c01_no_route_c_sim_candidate_v2
+  configuration: C01_DEPLOYED_NOMINAL_FIXED_SOLAR_SNAPSHOT
+  selected_bus_mass_mode: EXPLICIT_STRUCTURE_PLUS_RESIDUAL
+  mass_mode_rule: AGGREGATE_BUS and EXPLICIT_STRUCTURE_PLUS_RESIDUAL are mutually exclusive
+  anti_double_count_rule: the explicit 6.034980607649281 kg structure replaces part of the 23.3032134 kg bus lump via an algebraic residual; it is never added to that lump
+  selected_topology:
+    total_links: 19
+    physical_links: 16
+    frame_only_links: 3
+    joints: 18
+    fixed_joints: 10
+    revolute_joints: 6
+    prismatic_joints: 2
+    actuated_dof: 8
+  alternate_aggregate_topology:
+    total_links: 18
+    physical_links: 15
+    frame_only_links: 3
+    joints: 17
+    fixed_joints: 9
+    revolute_joints: 6
+    prismatic_joints: 2
+    actuated_dof: 8
+  total_mass_kg: 31.022864807342987
+  system_root_link: spacecraft_bus
+  arm_subtree: accepted B601 10-link/9-joint tree; kinematics and per-link inertials are source-preserved
+  datum_semantics:
+    D_BUS_MATE_PHYSICAL: physical mating datum and load-path parent
+    D_BUS_M6_PATTERN: physical M6 clocking and offset datum downstream of D_BUS_MATE_PHYSICAL
+    M_DYNAMICS_NONPHYSICAL: dynamics-only reporting marker; never a physical load-path alias
+  equal_numeric_transform_does_not_create_alias: true
+  physical_load_path_must_not_traverse_M_DYNAMICS_NONPHYSICAL: true
+  solar_semantics: two fixed three-leaf deployed snapshots; continuous accordion deployment is not claimed
+  collision_semantics: primitive broad-phase only; no narrowphase or physical-contact authority
+
+static_gate_contract:
+  permitted_pass_label: PASS_SOURCE_STATIC_ONLY
+  required_checks:
+    - exactly 20 source pins match path bytes and SHA-256
+    - generator import is side-effect free
+    - zero-argument gen_urdf fails with GENERATION_NOT_AUTHORIZED_PREBIND
+    - no .urdf exists in the source-only V2 package
+    - selected and alternate mass modes are individually coherent and mutually exclusive
+    - explicit structure plus algebraic residual recomposes aggregate bus mass COM and full inertia within 1.0e-12
+    - selected topology is a connected acyclic one-root tree with joints equal links minus one
+    - all three frame-only links omit inertial visual and collision elements
+    - three-datum matrix composition and semantic separation pass
+    - physical bridge path traverses D_BUS_MATE_PHYSICAL then D_BUS_M6_PATTERN and never M_DYNAMICS_NONPHYSICAL
+    - accepted B601 link joint actuation and mass invariants are preserved
+    - total service-system mass is 31.022864807342987 kg in either bus mass mode
+    - Sim13 V1 pins remain unchanged and no in-place mutation occurs
+    - every execution release Owner contact flight and rebind flag remains false
+    - authorized high-memory low-memory override replay wrong-run override and active-writer-lock transitions pass in a temporary isolated directory without emitting URDF
+  does_not_prove:
+    - generated URDF validity in a consumer
+    - Sim13 runtime compatibility
+    - narrowphase collision or contact fidelity
+    - Route-C geometry
+    - solar continuous deployment kinematics
+    - physical gripper speed timing or contact capability
+    - detailed bus manufacturing or flight authority
+    - torsional response or reanalysis of old 6061 fastener results
+
+sim13_contract:
+  current_loader_compatible: false
+  reason: current loader is hard-bound to MECH_RL_INTERFACE_V1 and the accepted 10-link/9-joint B601-only mechanical subtree
+  v1_in_place_mutation_authorized: false
+  sim13_rebind_authorized: false
+  future_required_change: separately versioned system schema and loader separating accepted B601 subtree invariants from C01-C09 system properties
+  runtime_harness_gate_required: true
+  FAIL_and_UNKNOWN_negative_controls_required: true
+  production_contact_backend_required: true
+
+holds:
+  - UNIFIED_R2_REBASE_EXECUTION_AUTHORIZATION_ABSENT
+  - OWNER_ACCEPTANCE_ABSENT
+  - ROUTE_C_EXCLUSION_ACCEPTANCE_ABSENT
+  - ROUTE_C_GEOMETRY_HOLD_EXCLUDED
+  - PRB17_DETAILED_PRIMARY_STRUCTURE_HOLD
+  - SOLAR_CONTINUOUS_DEPLOYMENT_URDF_CONTRACT_HOLD
+  - GRIPPER_PHYSICAL_SPEED_TIMING_AND_CONTACT_HOLD
+  - NARROWPHASE_COLLISION_AND_CONTACT_HOLD
+  - M3R_COLLISION_ENVELOPE_HOLD
+  - SIM13_VERSIONED_SYSTEM_LOADER_AND_RUNTIME_HARNESS_HOLD
+
+fail_closed_rules:
+  missing_or_unknown_authority: DENY
+  source_pin_drift: DENY
+  mass_mode_coexistence: DENY
+  datum_alias_or_load_path_through_M_DYNAMICS: DENY
+  generation_attempt_without_join: DENY_WITH_GENERATION_NOT_AUTHORIZED_PREBIND
+  static_pass_may_promote_execution: false
+  test_pass_may_promote_scientific_or_release_gate: false
+  current_contract_creates_execution_authority: false
+
+authority_flags:
+  engineering_specification_complete: false
+  execution_authorized: false
+  geometry_execution_authorized: false
+  rebase_execution_authorized: false
+  unified_r2_v2_generation_authorized: false
+  system_urdf_generation_authorized: false
+  route_c_exclusion_accepted_for_this_sim_candidate: false
+  route_c_cad_authorized: false
+  urdf_emitted: false
+  sim13_baseline_mutation_authorized: false
+  sim13_rebind_authorized: false
+  production_dynamics_ready: false
+  physical_contact_ready: false
+  flight_qualified: false
+  owner_accepted: false
+  next_stage_authorized: false
+  release_credit: false

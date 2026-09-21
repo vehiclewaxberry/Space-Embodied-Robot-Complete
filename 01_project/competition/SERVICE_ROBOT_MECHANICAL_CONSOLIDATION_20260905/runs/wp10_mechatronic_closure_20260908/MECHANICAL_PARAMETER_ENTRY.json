@@ -1,0 +1,33 @@
+{
+  "schema": "WP10_PARAMETER_INPUT_ENTRY_V1",
+  "purpose": "Versioned source intake plus computed material-inertia supplement; not a complete dynamics model",
+  "read_order": [
+    {
+      "role": "instance_identity_units_poses_and_original_accounting",
+      "artifact": {
+        "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\mechanical_intake\\PARAMETER_PACKET.json",
+        "sha256": "69e9679ed2d47c8a0e56b97c4afa19f24ca734c356754a64ad00e1cb99645113"
+      }
+    },
+    {
+      "role": "computed_material_inertia_for_explicitly_listed_instances",
+      "artifact": {
+        "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\mechanical_inertia\\MATERIAL_INERTIA_DELIVERY.json",
+        "sha256": "376b779575aaa245e6e7d172bb5e081b89316ad94dbdc223e1236f69ab0d661c"
+      }
+    }
+  ],
+  "merge_rules": [
+    "Match exact instance IDs and source geometry SHA; do not merge by visual name alone",
+    "The supplement applies only to its declared material-model instances; preserve all other unknown inertias",
+    "Material-derived mass and original mass are alternative model evaluations, not additive payloads; retain method differences",
+    "Do not distribute the B601 whole-arm mass over links or add whole-module mass again to its children",
+    "Use SI tensors at the stated COM and in the stated frame; use the actual kinematic tree to group rigid instances"
+  ],
+  "whole_spacecraft_mass_kg": null,
+  "whole_spacecraft_COM_m": null,
+  "whole_spacecraft_inertia_kg_m2": null,
+  "kinematic_tree_verified": false,
+  "physical_dynamics_ready": false,
+  "native_CAD_material_properties_updated": false
+}

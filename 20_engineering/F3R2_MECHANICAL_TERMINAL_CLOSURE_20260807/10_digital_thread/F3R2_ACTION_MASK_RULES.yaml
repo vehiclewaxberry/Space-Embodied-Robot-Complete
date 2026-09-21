@@ -1,0 +1,59 @@
+schema: F3R2_ACTION_MASK_RULES_V1
+purpose: "what an embodied policy is mechanically ALLOWED to command, given only what this campaign proved"
+joint_limits_deg:
+  joint1:
+    - -160.428183
+    - 160.428183
+  joint2:
+    - -179.908748
+    - 0.0
+  joint3:
+    - -179.908748
+    - 0.0
+  joint4:
+    - -107.143108
+    - 89.954374
+  joint5:
+    - -89.954374
+    - 89.954374
+  joint6:
+    - -179.908748
+    - 179.908748
+hard_rules:
+  -
+    id: AM-1
+    rule: "never command outside the accepted URDF joint limits"
+    enforcement: "clamp and reject, fail-closed"
+  -
+    id: AM-2
+    rule: "keep >= 3.0 deg from any joint limit during autonomous motion"
+    enforcement: "reject the action"
+  -
+    id: AM-3
+    rule: "only the frozen runtime poses and swept segments between them are authorised as autonomous motion"
+    authorised_poses:
+      - Q_DEPLOYED_HOME
+      - Q_RELEASE_CLEAR
+      - Q_SERVICE_READY
+    enforcement: "reject unlisted targets"
+  -
+    id: AM-4
+    rule: "never rely on G07/G08/Mid contact: they are placeholder blocks, not supports"
+    enforcement: "no contact-based state estimation there"
+  -
+    id: AM-5
+    rule: "never treat Release_Clearance_Envelope or Launch_Lock_Interface_Reference as physical bodies"
+    enforcement: "excluded from the collision set"
+  -
+    id: AM-6
+    rule: "gripper clearance is valid only for the single closed-looking CAD solid; OPEN jaw clearance is unverified"
+    enforcement: "no autonomous jaw opening near structure until the fingers are separated"
+  -
+    id: AM-7
+    rule: "STOW and the HDRM release sequence are not autonomous states"
+    enforcement: "ground command only"
+clearance_budget_mm:
+  target: 5.0
+  measured_at_home: 74.05
+  tessellation_deflection: 0.5
+  note: "mesh tier; add the deflection as tolerance when sizing a runtime safety margin"

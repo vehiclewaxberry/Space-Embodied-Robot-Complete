@@ -1,0 +1,47 @@
+{
+  "decision_id": "ASSET00_INTEGRATION_DECISION",
+  "date": "2026-07-26",
+  "verdict": "ASSET00_PASS_WITH_ESCALATIONS",
+  "decisions": [
+    {
+      "id": "D1_inertia_authority",
+      "decision": "惯量/质量权威 = accepted fixend URDF（arm_b601_v1.urdf）永远不变；精细 CAD 仅作视觉/碰撞/交叉校验源",
+      "rule": "R1（既有资产分叉原则，直接适用）",
+      "evidence": "asset_registry.yaml urdf_provenance；10_research 动力学证据链未触碰"
+    },
+    {
+      "id": "D2_integration_path",
+      "decision": "P-B 判 BLOCKED_TRANSFORM_PERSISTENCE，自动降级采纳 P-C（整臂 STEP 合并实体贴装）",
+      "rule": "R2 + C4（同一故障修复尝试上限 2 次）",
+      "evidence": "pb_pilot_persistence.json：attempt1 Transform2 与 attempt2 UnFix+SetTransformAndSolve2+Fix 均 API 返回 True 但会话内读回即归零、重开归零——与 V2.2 既有'组件位姿静默回落'故障同型，第三次独立复现",
+      "pb_positive_findings_preserved": [
+        "整臂 STEP 顶层 8 组件按连杆分组（03-LINK-2_ASM/04-LINK-3_ASM…）——映射前提成立，日后若位姿机制修复可复活 P-B",
+        "STEP 哑实体导入 COM 稳定（LoadFile4 215s，358 组件零错误）"
+      ],
+      "pc_execution_route_recommendation": {
+        "method": "装配另存多体零件 → InsertMoveCopyBody2 几何内建位姿 → 恒等插入顶装（V2.2 已验证的唯一可持久模式）",
+        "pose_semantics": "厂商折叠位形 ≈ 收拢臂显示态；q0 展开态保留既有 bbox 代理链——混合双表示，按态切换（顶层组件抑制法，已验证可持久）",
+        "constraint": "C3 本地件不跨目录；35MB 多体件启用 SpeedPak 纪律（H9）"
+      }
+    },
+    {
+      "id": "D3_license",
+      "decision": "reBot-DevArm 几何采纳=USABLE（CERN-OHL-W-2.0 正文本地核验）；notice 保留义务登记（80_third_party/notices/rebot_b601 既存，采纳时补充引用 integrated STEP 哈希）",
+      "rule": "R3 / A1(b)",
+      "evidence": "asset_registry.yaml open_source_refs；LICENSE 首行核验"
+    },
+    {
+      "id": "D4_fidelity_minimal_set",
+      "decision": "展示提质最小集（9/1 倒排预算内）：①B601 P-C 落地（最大单项收益）②翼板边框+电池区分层 ③捕获头栈圆角化+视觉窗 ④推进喷管钟形化 ⑤舱板缝与紧固件阵列（视觉级）；DEFERRED：MLI 纹理、线束实体走线、全部工程图美化",
+      "rule": "R4（展示价值高 ∧ 不触碰冻结证据链 的最小集合）",
+      "evidence": "fidelity_gap_report.md 三轴评分"
+    }
+  ],
+  "escalations": {
+    "E1": "XCHECK_NOT_APPLICABLE——STEP 无材料/密度信息，逐连杆质量对拍不可执行（b601_massprop_xcheck.json）；URDF 惯量权威不受影响",
+    "E2": "340.5→366.0 SSOT 连带清单已存在于 design_inputs/v2_2_physical_architecture/gate_0_ruling_record.yaml ripple_update_list（喂 D0 裁决材料包）",
+    "E3": "URDF+网格溯源=reBotArmController_ROS2@319100d3（无 LICENSE）：内部研究不阻塞；对外分发 URDF/网格前需许可澄清（10/10 网格哈希逐位一致为决定性证据）"
+  },
+  "next_prompts": ["B601-SWAP-01（执行 P-C：多体转换+位姿内建+混合双表示接线八态）",
+                    "FIDELITY-01（D4 最小集执行）", "D0 裁决材料包（引用 E2）"]
+}

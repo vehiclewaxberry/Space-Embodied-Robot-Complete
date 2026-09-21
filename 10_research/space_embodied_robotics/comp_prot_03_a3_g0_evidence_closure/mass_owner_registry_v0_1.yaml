@@ -1,0 +1,254 @@
+schema_version: comp-prot-03-mass-owner-registry-v0.1
+registry_id: candidate_12u_b601_mass_owner_registry_v0_1
+phase: COMP-PROT-03-A3-G0-EVIDENCE-CLOSURE
+created_on: "2026-07-23"
+status: CAD_BOM_OWNERSHIP_CLOSED_PROVISIONAL_PHYSICAL_TRUTH_OPEN
+
+authority:
+  scientific_gate: false
+  cad_bom_selection_authorized: true
+  final_mass_claim_authorized: false
+  dynamics_use_authorized: false
+  physical_measurement_performed: false
+  approval_basis: approval_scope_record.md
+
+source_bundle:
+  hash_algorithm: SHA-256
+  hash_mode: RAW_BYTES
+  records:
+    - source_id: service_spacecraft_ssot
+      path: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+      sha256: 8dd8f22ff1f893273de2215ea12819e4d41cc0e20b853adc0774052237881432
+    - source_id: flexible_appendage_ssot
+      path: 20_engineering/config/geometry/flexible_appendage_v1.yaml
+      sha256: 52fa88084c628ce8845e05de0c0a892bca5347b7146c8d1c6b99093927153786
+    - source_id: arm_mount_ssot
+      path: 20_engineering/config/geometry/arm_mount_v1.yaml
+      sha256: b08a0f28e4c4f458cd79e6e907f06389ba6a4280c0c7db2b91e36f76134c985c
+    - source_id: accepted_b601_urdf
+      path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+      sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+    - source_id: mass_budget
+      path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+      sha256: 073c802527e35c9495188eefd5d8ba51f524d326142cf2ab31e436bad0899392
+    - source_id: arm_yaml_conflicting_summary
+      path: 20_engineering/config/geometry/arm_b601_v1.yaml
+      sha256: c81bd3696ce1ee789574aa3b143ea0057ffc286305a1aa18802829e9f038b188
+
+representation_groups:
+  - group_id: servicer_mass_representation
+    exactly_one: true
+    selected_member: split_bus_panels_v1
+    excluded_members:
+      - whole_sat_reference_24kg
+    exclusion_rule: never_add_whole_sat_reference_to_split_bus_and_panels
+  - group_id: b601_mass_representation
+    exactly_one: true
+    selected_member: accepted_urdf_full_10link
+    excluded_members:
+      - rounded_yaml_subtotals
+      - locked_gripper_collapsed_future
+      - low_mass_with_gripper_cad_material_export
+    exclusion_rule: accepted_urdf_per_link_masses_are_the_candidate_source
+
+owners:
+  - owner_id: servicer_split_owner
+    scope: bus_and_two_panels
+    evidence_state: PROVISIONAL_SOURCE_BOUND
+  - owner_id: adapter_owner
+    scope: plate_and_boss_as_one_adapter_mass
+    evidence_state: PROVISIONAL_SOURCE_BOUND
+  - owner_id: b601_urdf_owner
+    scope: ten_URDF_links
+    evidence_state: PROVISIONAL_SOURCE_BOUND
+
+components:
+  - component_id: servicer_12U_bus_v1
+    parent_component_id: candidate_12u_b601
+    owner_id: servicer_split_owner
+    representation_group: servicer_mass_representation
+    representation_member: split_bus_panels_v1
+    mass_kg: 23.3032134
+    mass_kg_source_decimal: "23.3032134"
+    source_id: service_spacecraft_ssot
+    physical_status: NOT_WEIGHED
+  - component_id: solar_panel_left_v1
+    parent_component_id: candidate_12u_b601
+    owner_id: servicer_split_owner
+    representation_group: servicer_mass_representation
+    representation_member: split_bus_panels_v1
+    mass_kg: 0.3483933
+    mass_kg_source_decimal: "0.3483933"
+    source_id: flexible_appendage_ssot
+    physical_status: NOT_WEIGHED
+  - component_id: solar_panel_right_v1
+    parent_component_id: candidate_12u_b601
+    owner_id: servicer_split_owner
+    representation_group: servicer_mass_representation
+    representation_member: split_bus_panels_v1
+    mass_kg: 0.3483933
+    mass_kg_source_decimal: "0.3483933"
+    source_id: flexible_appendage_ssot
+    physical_status: NOT_WEIGHED
+  - component_id: robot_mount_adapter_v0
+    parent_component_id: candidate_12u_b601
+    owner_id: adapter_owner
+    representation_group: null
+    representation_member: adapter_plate_plus_boss_single_mass
+    mass_kg: 1.2
+    mass_kg_source_decimal: "1.2"
+    source_id: arm_mount_ssot
+    contains_without_separate_mass:
+      - adapter_plate_160x160x12
+      - adapter_boss_D100x15
+    physical_status: NOT_WEIGHED
+  - component_id: base_link
+    parent_component_id: arm_b601_v1
+    owner_id: b601_urdf_owner
+    representation_group: b601_mass_representation
+    representation_member: accepted_urdf_full_10link
+    mass_kg: 0.8366
+    mass_kg_source_decimal: "0.83660000"
+    source_id: accepted_b601_urdf
+    physical_status: DIGITAL_SOURCE_NOT_WEIGHED
+  - component_id: link1
+    parent_component_id: arm_b601_v1
+    owner_id: b601_urdf_owner
+    representation_group: b601_mass_representation
+    representation_member: accepted_urdf_full_10link
+    mass_kg: 0.1613
+    mass_kg_source_decimal: "0.16130000"
+    source_id: accepted_b601_urdf
+    physical_status: DIGITAL_SOURCE_NOT_WEIGHED
+  - component_id: link2
+    parent_component_id: arm_b601_v1
+    owner_id: b601_urdf_owner
+    representation_group: b601_mass_representation
+    representation_member: accepted_urdf_full_10link
+    mass_kg: 1.3266
+    mass_kg_source_decimal: "1.32660000"
+    source_id: accepted_b601_urdf
+    physical_status: DIGITAL_SOURCE_NOT_WEIGHED
+  - component_id: link3
+    parent_component_id: arm_b601_v1
+    owner_id: b601_urdf_owner
+    representation_group: b601_mass_representation
+    representation_member: accepted_urdf_full_10link
+    mass_kg: 0.8353
+    mass_kg_source_decimal: "0.83530000"
+    source_id: accepted_b601_urdf
+    physical_status: DIGITAL_SOURCE_NOT_WEIGHED
+  - component_id: link4
+    parent_component_id: arm_b601_v1
+    owner_id: b601_urdf_owner
+    representation_group: b601_mass_representation
+    representation_member: accepted_urdf_full_10link
+    mass_kg: 0.52
+    mass_kg_source_decimal: "0.52000000"
+    source_id: accepted_b601_urdf
+    physical_status: DIGITAL_SOURCE_NOT_WEIGHED
+  - component_id: link5
+    parent_component_id: arm_b601_v1
+    owner_id: b601_urdf_owner
+    representation_group: b601_mass_representation
+    representation_member: accepted_urdf_full_10link
+    mass_kg: 0.383
+    mass_kg_source_decimal: "0.38300000"
+    source_id: accepted_b601_urdf
+    physical_status: DIGITAL_SOURCE_NOT_WEIGHED
+  - component_id: link6
+    parent_component_id: arm_b601_v1
+    owner_id: b601_urdf_owner
+    representation_group: b601_mass_representation
+    representation_member: accepted_urdf_full_10link
+    mass_kg: 0.3663
+    mass_kg_source_decimal: "0.36630000"
+    source_id: accepted_b601_urdf
+    physical_status: DIGITAL_SOURCE_NOT_WEIGHED
+  - component_id: gripper_link
+    parent_component_id: arm_b601_v1
+    owner_id: b601_urdf_owner
+    representation_group: b601_mass_representation
+    representation_member: accepted_urdf_full_10link
+    mass_kg: 0.181800159145243
+    mass_kg_source_decimal: "0.181800159145243"
+    source_id: accepted_b601_urdf
+    physical_status: DIGITAL_SOURCE_NOT_WEIGHED
+  - component_id: gripper_left
+    parent_component_id: arm_b601_v1
+    owner_id: b601_urdf_owner
+    representation_group: b601_mass_representation
+    representation_member: accepted_urdf_full_10link
+    mass_kg: 0.0423278952416158
+    mass_kg_source_decimal: "0.0423278952416158"
+    source_id: accepted_b601_urdf
+    physical_status: DIGITAL_SOURCE_NOT_WEIGHED
+  - component_id: gripper_right
+    parent_component_id: arm_b601_v1
+    owner_id: b601_urdf_owner
+    representation_group: b601_mass_representation
+    representation_member: accepted_urdf_full_10link
+    mass_kg: 0.0423278949561274
+    mass_kg_source_decimal: "0.0423278949561274"
+    source_id: accepted_b601_urdf
+    physical_status: DIGITAL_SOURCE_NOT_WEIGHED
+
+checks:
+  servicer_split:
+    expression: 23.3032134_plus_0.3483933_plus_0.3483933
+    expected_source_decimal: "24.0000000"
+    result: PASS
+  b601_full_urdf:
+    link_count: 10
+    expected_source_decimal: "4.6955559493429862"
+    result: PASS
+  candidate_total:
+    expression: 24.0000000_plus_1.2_plus_4.6955559493429862
+    expected_source_decimal: "29.8955559493429862"
+    label: PROVISIONAL_DESIGN_LEDGER_TOTAL
+    result: PASS
+  double_count:
+    selected_alternative_count_per_group: 1
+    result: PASS
+
+source_conflict:
+  conflict_id: B601_YAML_VS_ACCEPTED_URDF_SUBTOTAL
+  selected_source: accepted_b601_urdf
+  selected_total_kg_source_decimal: "4.6955559493429862"
+  conflicting_yaml_values:
+    arm_subtotal_kg: 4.4293
+    gripper_subtotal_kg: 0.2665
+    rounded_total_kg: 4.6956
+  treatment:
+    - retain_conflicting_yaml_unchanged
+    - do_not_average_or_tolerance_merge
+    - use_exact_per_link_URDF_values_for_this_candidate
+    - require_physical_weighing_before_hardware_truth_upgrade
+
+unknowns:
+  aggregate_com:
+    value: null
+    status: UNKNOWN
+    reason: arm_configuration_and_component_frame_recomposition_not_closed
+  aggregate_inertia:
+    value: null
+    status: UNKNOWN
+    reason: arm_configuration_and_component_frame_recomposition_not_closed
+
+blocker_disposition:
+  DB-BLK-001:
+    cad_bom_scope: CLOSED_PROVISIONAL_BY_EXACTLY_ONE_OWNER_REGISTRY
+    final_physical_scope: OPEN_NO_WEIGHING
+  DB-BLK-008:
+    candidate_source_decision: CLOSED_BY_ACCEPTED_URDF_EXACT_LINK_SUM
+    canonical_yaml_harmonization: OPEN_FROZEN_SOURCE_NOT_MODIFIED
+
+claim_boundary:
+  allowed:
+    - candidate_BOM_has_unique_mass_owners
+    - candidate_provisional_design_ledger_total_is_29_8955559493429862_kg
+  forbidden:
+    - candidate_final_mass_is_29_8955559493429862_kg
+    - candidate_mass_has_been_measured
+    - aggregate_com_or_inertia_is_known
+    - mass_registry_is_authorized_for_dynamics

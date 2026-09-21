@@ -1,0 +1,195 @@
+schema: LOAD_BRIDGE_DATUMS_V1
+generated_local: '2026-08-21T21:08:21.289692+08:00'
+phase: M6_CANDIDATE_AUTHORITY_CLOSURE
+work_package: WP1_LOAD_BRIDGE_CAD
+lifecycle_status: CANDIDATE_NOT_AUTHORITY_NOT_RELEASED
+length_unit: mm
+bom_item:
+  item_id: DP-007
+  assembly_item: spacecraft to M3R load bridge
+  m4_status: HARD_HOLD_ABSENT_NO_AUTHORIZED_GEOMETRY
+  m6_candidate_status: CANDIDATE_GEOMETRY_PRESENT_AUTHORITY_HOLD_PRESERVED
+
+frame:
+  name: LOAD_BRIDGE_LOCAL
+  definition: COINCIDENT_WITH_M3R_LOCAL
+  parent_frame: S
+  T_S_child_rows:
+    - [0, 0, 1, 208]
+    - [0.422618483, 0.906307684, 0, 0.015994151]
+    - [-0.906307684, 0.422618483, 0, -0.08636607]
+    - [0, 0, 0, 1]
+  local_z_range_mm: [-22.75, -12.0]
+  authority: >-
+    DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml::frames::M3R_LOCAL plus
+    M3R_TSM_PHYSICAL_STACK.yaml (clocking 25.000014 deg about +X_S, pattern
+    centre YZ [0.015994151, -0.086366070]). Frame-tree recompute residual
+    4.992e-13 mm.
+  frame_semantics_hold: >-
+    M_DYNAMICS (x=185.25, nonphysical dynamics origin) and
+    B601_ARM_BASE_PHYSICAL (x=208.0) remain distinct frames; this register
+    does not alias them.
+
+station_bindings:
+  bus_side_mate_face:
+    x_S_mm: 185.25
+    local_datum: D_BRIDGE_BUS (local z = -22.75)
+    semantics: bus proxy +X outer face / legacy-flange outer face / M-frame station (nonphysical)
+    bridge_entity: planar face of candidate bridge
+    note: >-
+      Legacy flange occupies x 170.25-185.25 with ambiguous ownership; it is
+      NOT merged into bridge geometry or mass. Spacecraft-side anchor pattern
+      and receptacle are null (HOLD).
+  m3r_side_mate_face:
+    x_S_mm: 196.0
+    local_datum: D_BRIDGE_M3R (local z = -12.0)
+    semantics: M3R Stage B spacecraft-side bottom face
+    derivation: physical installation face 208.0 minus Stage B base thickness 12.0
+    bridge_entity: planar face of candidate bridge
+  physical_installation_face:
+    x_S_mm: 208.0
+    semantics: M3R local z=0 placement station (central boss physical installation face)
+    note: bridge does not reach this station; Stage B occupies x 196.0-208.0
+  adapter_plate_external_face:
+    x_S_mm: 198.0
+    semantics: existing load-spreading plate external face; no geometry entity in M4/M6
+  fastener_end_plane:
+    x_S_mm: 210.405
+    semantics: four HM4-75 screw end faces (B601 side, not a bridge interface)
+
+hole_datums:
+  - id: H1
+    type: THROUGH_CLEARANCE_HOLE
+    diameter_mm: 6.6
+    local_centre_xy_mm: [70, 70]
+    S_centre_at_mate_plane_mm: [196, 93.040825839, -33.94461011]
+    axis_S: [1.0, 0.0, 0.0]
+    classification: CANDIDATE
+    mates_to: M3R_STAGE_B_M6_CLEARANCE_HOLE (B-015/B-016, working-loop FROZEN)
+  - id: H2
+    type: THROUGH_CLEARANCE_HOLE
+    diameter_mm: 6.6
+    local_centre_xy_mm: [70, -70]
+    S_centre_at_mate_plane_mm: [196, -33.842249889, -93.111197758]
+    axis_S: [1.0, 0.0, 0.0]
+    classification: CANDIDATE
+    mates_to: M3R_STAGE_B_M6_CLEARANCE_HOLE (B-015/B-016, working-loop FROZEN)
+  - id: H3
+    type: THROUGH_CLEARANCE_HOLE
+    diameter_mm: 6.6
+    local_centre_xy_mm: [-70, 70]
+    S_centre_at_mate_plane_mm: [196, 33.874238191, 92.938465618]
+    axis_S: [1.0, 0.0, 0.0]
+    classification: CANDIDATE
+    mates_to: M3R_STAGE_B_M6_CLEARANCE_HOLE (B-015/B-016, working-loop FROZEN)
+  - id: H4
+    type: THROUGH_CLEARANCE_HOLE
+    diameter_mm: 6.6
+    local_centre_xy_mm: [-70, -70]
+    S_centre_at_mate_plane_mm: [196, -93.008837537, 33.77187797]
+    axis_S: [1.0, 0.0, 0.0]
+    classification: CANDIDATE
+    mates_to: M3R_STAGE_B_M6_CLEARANCE_HOLE (B-015/B-016, working-loop FROZEN)
+
+central_passage:
+  diameter_mm: 40.0
+  type: THROUGH
+  axis_S: [1.0, 0.0, 0.0]
+  classification: CANDIDATE
+  rationale: keeps the Stage A/B central 40 mm channel notionally open; a void cannot create interference
+
+outline:
+  shape: ROUNDED_SQUARE
+  width_mm: 160.0
+  corner_radius_mm: 4.0
+  clocking: PATTERN_ALIGNED_WITH_M3R_25P000014_DEG
+  classification: CANDIDATE
+  nominal_hole_edge_ligament_mm: 6.7
+  ligament_derivation: 160/2 - 70 - 6.6/2
+  ligament_limitation: NOMINAL_GEOMETRY_ONLY_NOT_A_WORST_CASE_EDGE_MARGIN
+
+interface_relations:
+  to_bus_12U:
+    relation: PLANAR_ABUTMENT_NOMINAL_BY_CONSTRUCTION at x_S = 185.25
+    bus_proxy_face_source: model_specs_v0.json::servicer_12U_v0 (bus max x = 185.25)
+    fastener_concept: CO-BORE_THROUGH_BOLT_CANDIDATE sharing the 4x dia 6.6 holes
+    spacecraft_side_anchor_pattern: null
+    spacecraft_side_status: HOLD_NO_AUTHORIZED_BUS_SIDE_MATING_PATTERN
+    legacy_flange: EXCLUDED_OWNERSHIP_UNRESOLVED
+  to_m3r_stage_b:
+    relation: PLANAR_ABUTMENT_NOMINAL_BY_CONSTRUCTION at x_S = 196.0
+    pattern: 4x M6 clearance dia 6.6 at 140x140 (centres +/-70,+/-70 local)
+    pattern_congruence: BY_CONSTRUCTION_SAME_LOCAL_FRAME (measured max abs deviation 4.632e-10 mm)
+    stage_b_mate_plane_observations_readonly:
+      - central receiving bore dia 100 open at mate plane (local z -12.0 to -5.595)
+      - 8x M5 interstage hole openings at mate plane are covered by the bridge solid; tool access and assembly sequence remain HOLD
+      - clocking dowel blind hole dia 4.0 at local (55.0, 0.0), depth 5.5, covered by the bridge solid; dowel fit HOLD
+    load_path_position: between bus +X face and Stage B spacecraft primary pattern candidate
+
+fit_candidates:
+  - pair: BRIDGE_HOLE_6P6_vs_M6_FASTENER_SHAFT
+    hole: dia 6.6 ISO 286-2 H11 candidate (+0.090/0 mm, 6-10 mm step)
+    shaft: M6 ISO 286-2 h9 candidate (0/-0.036 mm, 6-10 mm step)
+    clearance_mm: {nominal: 0.6, min: 0.6, max: 0.726}
+    reference: ISO 273 free clearance for M6 is 6.6 (consistent note only)
+    classification: CANDIDATE_FIT_UNVERIFIED_AGAINST_PROCUREMENT
+  - pair: FACE_PAIR_FLATNESS_D_BRIDGE_BUS_vs_D_BRIDGE_M3R
+    value: null
+    classification: CANDIDATE_FIT
+    status: HOLD_SURFACE_SPECIFICATION_HOLD
+  - pair: HOLE_PATTERN_POSITION_BRIDGE_vs_STAGE_B
+    value: null
+    classification: CANDIDATE_FIT
+    status: HOLD_M6_PATTERN_POSITION_TOLERANCE_HOLD
+  - pair: CLOCKING_DOWEL_ENGAGEMENT
+    value: null
+    classification: CANDIDATE_FIT
+    status: HOLD_CLOCKING_DOWEL_FIT_TOLERANCE_HOLD
+
+material_derived_mass_candidate:
+  classification: MATERIAL_DERIVED
+  active: false
+  measured: false
+  installed: false
+  volume_mm3: 260072.391934085
+  density_estimate_kg_m3: 2700
+  density_source: PROTOTYPE_MATERIAL_LIBRARY_V1.yaml::PMAT-AL6061-T6-SHEET-PLATE
+  mass_g: 702.195458
+  mass_kg: 0.702195458
+  limitations:
+    - CANDIDATE_DENSITY_NOT_HARDWARE_MASS
+    - EXCLUDED_FROM_M3R_BUDGET_0P7619_KG (mating spacecraft structure per M3R_MASS_RULING.json)
+    - NEVER_OVERRIDES_L0_URDF_MASSES
+    - LEGACY_FLANGE_NOT_INCLUDED
+
+holds:
+  - LOAD_BRIDGE_PHYSICAL_FITUP_HOLD
+  - MATING_FASTENER_AND_TOLERANCE_HOLD
+  - M6_PATTERN_POSITION_TOLERANCE_HOLD
+  - SURFACE_SPECIFICATION_HOLD
+  - SPACECRAFT_SIDE_ANCHOR_PATTERN_HOLD
+  - CLOCKING_DOWEL_FIT_TOLERANCE_HOLD
+  - MATERIAL_APPROVAL_AND_PROCESS_HOLD
+  - AUTHORIZED_LOADS_HOLD
+  - STRUCTURAL_LOAD_PATH_CONTINUITY_HOLD (candidate geometry present; structural continuity not verified, no FEA)
+  - LEGACY_FLANGE_OWNERSHIP_HOLD
+
+source_register:
+  - path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_INTERFACE_ASSEMBLY_V2_WORKING.step
+    sha256: A213804F094238B261EE5994DF563E8268FC923FDED491E38F5A4F235F748033
+  - path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+    sha256: 172F3603E458F670323925E644BC68623EE9C85FCA7AF1200FAE2576EB43C68B
+  - path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_ADAPTER_INTERFACE_SSOT.yaml
+    sha256: 591958F3A3BD06F5BD26B8218BFE145B4894031EC5005BC58C638B56D77F6E51
+  - path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_STAGE_B_PARAMETER_TABLE.yaml
+    sha256: 80EC3F878AD26F3E89AB8740D6CE4750FB0B28F0EC70DD6D40AFC596805ED36F
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+    sha256: 67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/04_material_database/PROTOTYPE_MATERIAL_LIBRARY_V1.yaml
+    sha256: C9B20A50C3F3F71B7C119D9405D9743577E1383F853C01E54B085C95EBF4A306
+  - path: 20_engineering/cad/spacecraft_layout/model_specs_v0.json
+    sha256: 712F4B6411B241F37676EEE3F45813C981EE5699238017CB0BC4BB5FA50D4666
+  - path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/00_authority/M6_PHASE_AUTHORITY_AND_BOUNDARY.yaml
+    sha256: EC0511522164404E5CFA323D3065E7FB33F6FB7140F60323DFDDDC3FA468B284
+  - path: C:/Users/stude/.codex/attachments/038d9781-5921-4858-9fea-c070890a71b8/pasted-text.txt
+    sha256: 11BB4F1413570C3A9B229C70C5E2CBC478224EB24FFCABED66815107C6885F8B

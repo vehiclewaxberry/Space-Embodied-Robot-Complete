@@ -1,0 +1,631 @@
+{
+  "title": "F4R1 C2 帆板参数成熟化机器核算输出 V1",
+  "generated_at": "2026-08-27",
+  "status": "DESIGN_RESEARCH_CANDIDATE",
+  "method": "见脚本头注释: (a) m=sigma*A 双线; (b) 悬臂板公式 f1; (c) 展开力矩 ≥2× 判据; (d) 占位失真量化; (e) A1 解析缩放 (PRE_CAMPAIGN_ANALYTIC); (f) C1 CG 接口; (g) V3 包络映射",
+  "input_files": {
+    "agents_root": {
+      "path": "AGENTS.md",
+      "sha256_12": "3d2269562678",
+      "expected_sha256_12": "3d2269562678",
+      "match_recorded": true
+    },
+    "charter": {
+      "path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/00_charter/CHARTER.md",
+      "sha256_12": "5d70de9121b3",
+      "expected_sha256_12": "5d70de9121b3",
+      "match_recorded": true
+    },
+    "b3_benchmark": {
+      "path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/10_benchmark/B3_DEPLOYABLE_SOLAR_ARRAY_BENCHMARK.md",
+      "sha256_12": "d42aa3867c52"
+    },
+    "gap_registry": {
+      "path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/30_gap_registry/GAP_REGISTRY.csv",
+      "sha256_12": "49d28658904e",
+      "expected_sha256_12": "49d28658904e",
+      "match_recorded": true
+    },
+    "repo_asset_inventory": {
+      "path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/20_repo_assets/REPO_ASSET_INVENTORY.md",
+      "sha256_12": "d3326b44e4d4",
+      "expected_sha256_12": "d3326b44e4d4",
+      "match_recorded": true
+    },
+    "flexible_appendage_v1": {
+      "path": "20_engineering/config/geometry/flexible_appendage_v1.yaml",
+      "sha256_12": "52fa88084c62",
+      "expected_sha256_12": "52fa88084c62",
+      "match_recorded": true
+    },
+    "coupled_model_v0": {
+      "path": "20_engineering/config/coupled_scene/coupled_model_v0.yaml",
+      "sha256_12": "67a532fb29c7",
+      "expected_sha256_12": "67a532fb29c7",
+      "match_recorded": true
+    },
+    "scene_a2_capture": {
+      "path": "20_engineering/config/coupled_scene/scene_A2_capture.yaml",
+      "sha256_12": "4b979a1dfd18",
+      "expected_sha256_12": "4b979a1dfd18",
+      "match_recorded": true
+    },
+    "r2_geometry_candidate_v3": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/v3_source_reissue/SOLAR_ARRAY_R2_GEOMETRY_CANDIDATE_V3.yaml",
+      "sha256_12": "a70083014199"
+    },
+    "r2_mass_properties_v1": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json",
+      "sha256_12": "d5b7dd16532f",
+      "expected_sha256_12": "d5b7dd16532f",
+      "match_recorded": true
+    },
+    "r2_deployment_torque_ledger": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_R2_DEPLOYMENT_TORQUE_LEDGER_V1.yaml",
+      "sha256_12": "5c78e5916b1d",
+      "expected_sha256_12": "5c78e5916b1d",
+      "match_recorded": true
+    },
+    "r2_mechanism_analytical_ledger": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1.yaml",
+      "sha256_12": "11d585258597",
+      "expected_sha256_12": "11d585258597",
+      "match_recorded": true
+    },
+    "r2_hdrm_latch_design_v3": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/v3_source_reissue/SOLAR_ARRAY_R2_HDRM_LATCH_DESIGN_V3.yaml",
+      "sha256_12": "d495195f107f"
+    },
+    "release_11_solar_r2_mechanism": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/11_SOLAR_R2_MECHANISM.yaml",
+      "sha256_12": "ef02ecc2f283",
+      "expected_sha256_12": "ef02ecc2f283",
+      "match_recorded": true
+    },
+    "release_13_r2_flex_model": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/13_R2_FLEX_MODEL.yaml",
+      "sha256_12": "8cadf790cf6a",
+      "expected_sha256_12": "8cadf790cf6a",
+      "match_recorded": true
+    },
+    "release_02_product_structure": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/02_PRODUCT_STRUCTURE.yaml",
+      "sha256_12": "0f9897ef4e41",
+      "expected_sha256_12": "0f9897ef4e41",
+      "match_recorded": true
+    },
+    "r2_validity_envelope_v3": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round4_hf_rom_v3/R2_FLEXIBILITY_VALIDITY_ENVELOPE_V3.json",
+      "sha256_12": "5a15d0d3b8a1",
+      "expected_sha256_12": "5a15d0d3b8a1",
+      "match_recorded": true
+    },
+    "r2_hf_model_v3": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round4_hf_rom_v3/R2_HF_MODEL_V3.yaml",
+      "sha256_12": "584cccc7e03d",
+      "expected_sha256_12": "584cccc7e03d",
+      "match_recorded": true
+    },
+    "sim_11_gate_check": {
+      "path": "30_simulation/sim_11_coupled_dynamics/results/sim_11_gate_check.json",
+      "sha256_12": "9309f5325271"
+    },
+    "sim_11_contact_window_src": {
+      "path": "30_simulation/sim_11_coupled_dynamics/src/contact_window.py",
+      "sha256_12": "d6ad26e3f8da"
+    },
+    "sim_12_gate_check": {
+      "path": "30_simulation/sim_12_strategy_feasibility/results/sim_12_gate_check.json",
+      "sha256_12": "a416c1348111"
+    },
+    "e23_coupled_gate": {
+      "path": "30_simulation/e23_r2_full_flex_coupled_recert/results/E23_R2_FULL_FLEX_COUPLED_GATE_V1.json",
+      "sha256_12": "1ad4993fd9df"
+    },
+    "sim_07a_readme": {
+      "path": "30_simulation/sim_07_ancf_flexible/README_sim_07a.md",
+      "sha256_12": "02c321a85d76"
+    },
+    "c1_gate": {
+      "path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/50_c1_layout/GATE_C1_CHECK.json",
+      "sha256_12": "b07cca047146"
+    },
+    "c1_cg_inertia_check": {
+      "path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/50_c1_layout/CG_INERTIA_CHECK_V1.json",
+      "sha256_12": "c7759162f54d",
+      "expected_sha256_12": "c7759162f54d",
+      "match_recorded": true
+    }
+  },
+  "extracted_inputs": {
+    "sim_line": {
+      "L_m": 0.2,
+      "b_m": 0.227,
+      "t_m": 0.006,
+      "A_m2": 0.0454,
+      "m_panel_kg": 0.3483933,
+      "mu_kg_per_m": 1.7419665,
+      "sigma_kg_m2": 7.673861233480176,
+      "beta1": 1.87510407,
+      "f1_ssot_hz": 1.0,
+      "EI_ssot_Nm2": 0.0089042,
+      "zeta_sim11_modal": 0.005,
+      "zeta_appendage_ssot": 0.01,
+      "T_c_ms_nominal": 20.0,
+      "T_c_ms_sweep": [
+        5.0,
+        10.0,
+        20.0,
+        50.0,
+        100.0
+      ]
+    },
+    "r2_line": {
+      "leaf_planform_mm": [
+        300.0,
+        200.0
+      ],
+      "leaf_thickness_mm": 2.5,
+      "A_leaf_m2": 0.06,
+      "leaves_per_wing": 3,
+      "wings": 2,
+      "leaf_kg": 0.18,
+      "wing_kg": 0.78,
+      "both_wings_kg": 1.56,
+      "hardware_per_wing_kg": 0.24,
+      "sigma_leaf_kg_m2": 3.0
+    }
+  },
+  "a_mass_from_areal_density": {
+    "sim_line_per_panel": {
+      "LOW": {
+        "sigma_kg_m2": 2.0,
+        "area_m2": 0.0454,
+        "mass_kg": 0.0908,
+        "ratio_vs_placeholder_0p3483933": 0.26062498905690784
+      },
+      "NOMINAL": {
+        "sigma_kg_m2": 4.0,
+        "area_m2": 0.0454,
+        "mass_kg": 0.1816,
+        "ratio_vs_placeholder_0p3483933": 0.5212499781138157
+      },
+      "HIGH": {
+        "sigma_kg_m2": 7.7,
+        "area_m2": 0.0454,
+        "mass_kg": 0.34958000000000006,
+        "ratio_vs_placeholder_0p3483933": 1.0034062078690953
+      }
+    },
+    "r2_line_per_leaf": {
+      "LOW": {
+        "sigma_kg_m2": 2.0,
+        "area_m2": 0.06,
+        "mass_kg": 0.12,
+        "ratio_vs_frozen_leaf_0p18": 0.6666666666666666
+      },
+      "NOMINAL": {
+        "sigma_kg_m2": 4.0,
+        "area_m2": 0.06,
+        "mass_kg": 0.24,
+        "ratio_vs_frozen_leaf_0p18": 1.3333333333333333
+      },
+      "HIGH": {
+        "sigma_kg_m2": 7.7,
+        "area_m2": 0.06,
+        "mass_kg": 0.46199999999999997,
+        "ratio_vs_frozen_leaf_0p18": 2.5666666666666664
+      }
+    },
+    "r2_line_per_wing": {
+      "LOW": {
+        "sigma_kg_m2": 2.0,
+        "leaves_mass_kg": 0.36,
+        "hardware_kg": 0.24,
+        "mass_kg": 0.6,
+        "ratio_vs_frozen_wing_0p78": 0.7692307692307692
+      },
+      "NOMINAL": {
+        "sigma_kg_m2": 4.0,
+        "leaves_mass_kg": 0.72,
+        "hardware_kg": 0.24,
+        "mass_kg": 0.96,
+        "ratio_vs_frozen_wing_0p78": 1.2307692307692306
+      },
+      "HIGH": {
+        "sigma_kg_m2": 7.7,
+        "leaves_mass_kg": 1.386,
+        "hardware_kg": 0.24,
+        "mass_kg": 1.626,
+        "ratio_vs_frozen_wing_0p78": 2.0846153846153843
+      }
+    }
+  },
+  "b_f1_from_cantilever_formula": {
+    "formula": "f1 = (beta1^2/(2*pi*L^2)) * sqrt(EI/mu); uniform D=E*t^3/(12*(1-nu^2)), EI=D*b, mu=sigma*b; sandwich D=E_f*t_f*h^2/2",
+    "coefficient_beta1sq_over_2piL2": 13.989780268429021,
+    "constructions": {
+      "FR4_PCB_1p6mm": {
+        "inputs": {
+          "kind": "uniform",
+          "E_Pa": 20000000000.0,
+          "nu": 0.18,
+          "t_m": 0.0016,
+          "sigma_kg_m2": 3.5
+        },
+        "D_Nm": 7.0552569932479,
+        "EI_Nm2": 1.6015433374672734,
+        "mu_kg_per_m": 0.7945,
+        "f1_hz": 19.862471636116734,
+        "note": "PCB 基构造板弯曲频率 (B3 §5.2)"
+      },
+      "FR4_PCB_1p2mm": {
+        "inputs": {
+          "kind": "uniform",
+          "E_Pa": 20000000000.0,
+          "nu": 0.18,
+          "t_m": 0.0012,
+          "sigma_kg_m2": 2.7
+        },
+        "D_Nm": 2.976436544026457,
+        "EI_Nm2": 0.6756510954940057,
+        "mu_kg_per_m": 0.6129000000000001,
+        "f1_hz": 14.688495861102465,
+        "note": "PCB 基构造板弯曲频率 (B3 §5.2)"
+      },
+      "CFRP_AL_HONEYCOMB_5mm": {
+        "inputs": {
+          "kind": "sandwich",
+          "E_f_Pa": 70000000000.0,
+          "t_f_m": 0.0001,
+          "h_m": 0.005,
+          "sigma_kg_m2": 1.8
+        },
+        "D_Nm": 87.5,
+        "EI_Nm2": 19.8625,
+        "mu_kg_per_m": 0.4086,
+        "f1_hz": 97.53908275491425,
+        "note": "板弯曲上界; 实际系统级受铰链/根部刚度限制回落 ~5–15 Hz (B3 §5.2)"
+      }
+    },
+    "placeholder_backcheck": {
+      "EI_backcalc_Nm2": 0.008900573937445106,
+      "EI_ssot_Nm2": 0.0089042,
+      "rel_diff": 0.0004072305827467023
+    }
+  },
+  "c_deployment_torque_margin": {
+    "inputs_per_hinge": {
+      "hinge_friction_low_high_Nm": [
+        0.005,
+        0.02
+      ],
+      "harness_jumper_low_high_Nm": [
+        0.001,
+        0.01
+      ],
+      "latch_engagement_final_5deg_Nm": 0.01,
+      "torsion_spring_candidate_Nm": 0.05,
+      "gravity_ground_test_only_Nm": 0.177
+    },
+    "optimistic_low_resist": {
+      "T_available_Nm": 0.05,
+      "T_resisting_worst_Nm": 0.006,
+      "ratio_drive_over_resist": 8.333333333333334,
+      "jaxa_static_margin_Ms": 7.333333333333334,
+      "rule_min_ratio": 2.0,
+      "required_drive_min_Nm": 0.012,
+      "pass_2x_rule": true
+    },
+    "mid_travel_worst": {
+      "T_available_Nm": 0.05,
+      "T_resisting_worst_Nm": 0.03,
+      "ratio_drive_over_resist": 1.6666666666666667,
+      "jaxa_static_margin_Ms": 0.6666666666666667,
+      "rule_min_ratio": 2.0,
+      "required_drive_min_Nm": 0.06,
+      "pass_2x_rule": false
+    },
+    "final_5deg_worst": {
+      "T_available_Nm": 0.05,
+      "T_resisting_worst_Nm": 0.04,
+      "ratio_drive_over_resist": 1.25,
+      "jaxa_static_margin_Ms": 0.25,
+      "rule_min_ratio": 2.0,
+      "required_drive_min_Nm": 0.08,
+      "pass_2x_rule": false
+    },
+    "ground_test_note": "地面 1g 重力矩 0.177 N m > 弹簧候选 0.050 N m → 地面展开试验需卸载工装 (账本 test-config 结论, 非在轨缺陷)",
+    "verdict": "CANDIDATE_SPRING_FAILS_2X_RULE_AT_MID_AND_FINAL_5DEG"
+  },
+  "d_placeholder_distortion": {
+    "f1_ratio_vs_real_band": {
+      "placeholder_f1_hz": 1.0,
+      "real_band_hz": [
+        8.0,
+        20.0
+      ],
+      "ratio_band": [
+        8.0,
+        20.0
+      ],
+      "c_iss_03_statement": "占位 f1 低 8–20×",
+      "verified": true
+    },
+    "mass_ratio_vs_real_band": {
+      "placeholder_sigma_kg_m2": 7.673861233480176,
+      "real_band_kg_m2": [
+        2.0,
+        5.0
+      ],
+      "ratio_band": [
+        1.5347722466960352,
+        3.836930616740088
+      ],
+      "c_iss_03_statement": "质量差 1.5–3.8× (占位偏重)",
+      "verified": true,
+      "agents_todo3_correction": "AGENTS.md 待办3 「差 5–10 倍」方向正确 (占位偏重) 但量级偏大; 5–10× 仅对柔性/薄膜毯 (sigma<1.5) 成立 (B3 §5.1)"
+    },
+    "stiffness_distortion": {
+      "placeholder_EI_Nm2": 0.0089042,
+      "fr4_1p6mm_EI_Nm2": 1.6015433374672734,
+      "ratio_placeholder_softer_by": 179.86381005225326,
+      "b3_statement": "占位 EI 比真实 PCB 板软 ~180× (B3 §5.2)",
+      "verified": true
+    },
+    "headline": "质量轴失真 1.53–3.84× (偏重) 远小于刚度/频率轴失真 (f1 低 8–20×, EI 软 ~180×) — 主要矛盾在刚度轴 (B3 §7)"
+  },
+  "e_a1_analytic_scaling": {
+    "reference": {
+      "sigma0_kg_m2": 7.673861233480176,
+      "f0_hz": 1.0,
+      "zeta0_sim11": 0.005,
+      "zeta0_appendage_ssot": 0.01,
+      "tc_nominal_ms": 20.0
+    },
+    "H_abs_tables": {
+      "Tc_5ms": {
+        "band_edge_1_over_2Tc_hz": 100.0,
+        "H_ref_f0": 0.9999766301446751,
+        "H_per_tier": {
+          "LOW": 0.9999766301446751,
+          "NOMINAL": 0.9985051341731862,
+          "HIGH": 0.9906838711407849
+        }
+      },
+      "Tc_10ms": {
+        "band_edge_1_over_2Tc_hz": 50.0,
+        "H_ref_f0": 0.9999065229749216,
+        "H_per_tier": {
+          "LOW": 0.9999065229749216,
+          "NOMINAL": 0.9940303377756886,
+          "HIGH": 0.9631154694939851
+        }
+      },
+      "Tc_20ms": {
+        "band_edge_1_over_2Tc_hz": 25.0,
+        "H_ref_f0": 0.9996261302366503,
+        "H_per_tier": {
+          "LOW": 0.9996261302366503,
+          "NOMINAL": 0.9762774955925397,
+          "HIGH": 0.8583805399304099
+        }
+      },
+      "Tc_50ms": {
+        "band_edge_1_over_2Tc_hz": 10.0,
+        "H_ref_f0": 0.9976649905001391,
+        "H_per_tier": {
+          "LOW": 0.9976649905001391,
+          "NOMINAL": 0.8583805399304099,
+          "HIGH": 0.3333333333333333
+        }
+      },
+      "Tc_100ms": {
+        "band_edge_1_over_2Tc_hz": 5.0,
+        "H_ref_f0": 0.9906838711407849,
+        "H_per_tier": {
+          "LOW": 0.9906838711407849,
+          "NOMINAL": 0.5186006374198379,
+          "HIGH": 0.06666666666666667
+        }
+      }
+    },
+    "tiers": {
+      "LOW": {
+        "sigma_kg_m2": 2.0,
+        "f1_hz": 1.0,
+        "zeta": 0.002,
+        "H_at_Tc_nominal": 0.9996261302366503,
+        "modal_energy_ratio_vs_placeholder": 0.26062498905690784,
+        "base_attitude_feedback_ratio_vs_placeholder": 0.26062498905690784,
+        "tip_amplitude_ratio_vs_placeholder": 1.0,
+        "ringdown_t5_s": 238.3927997580198,
+        "a1_flip_boundary_f1_hz": 0.26062498905690784,
+        "a1_verdict_analytic": "HOLDS"
+      },
+      "NOMINAL": {
+        "sigma_kg_m2": 4.0,
+        "f1_hz": 8.0,
+        "zeta": 0.01,
+        "H_at_Tc_nominal": 0.9762774955925397,
+        "modal_energy_ratio_vs_placeholder": 0.4971843003513211,
+        "base_attitude_feedback_ratio_vs_placeholder": 0.06363436886775727,
+        "tip_amplitude_ratio_vs_placeholder": 0.12208032909281506,
+        "ringdown_t5_s": 5.959819993950496,
+        "a1_flip_boundary_f1_hz": 0.5212499781138157,
+        "a1_verdict_analytic": "HOLDS"
+      },
+      "HIGH": {
+        "sigma_kg_m2": 7.7,
+        "f1_hz": 20.0,
+        "zeta": 0.03,
+        "H_at_Tc_nominal": 0.8583805399304099,
+        "modal_energy_ratio_vs_placeholder": 0.7398800378400838,
+        "base_attitude_feedback_ratio_vs_placeholder": 0.04308132492876586,
+        "tip_amplitude_ratio_vs_placeholder": 0.042935079124392136,
+        "ringdown_t5_s": 0.7946426658600662,
+        "a1_flip_boundary_f1_hz": 1.003406207869095,
+        "a1_verdict_analytic": "HOLDS"
+      }
+    },
+    "flip_boundary_rule": "A1 (G3b 型基座姿态反馈指标) 反馈比 >= 1 需 f1 < sigma/7.6739 Hz (|H|≈1 时); B3 刚性板包络 (sigma 2–5 kg/m2) 对应翻转边界 f1 < 0.26–0.65 Hz — 仅大型柔性翼/薄膜毯可达, COTS 刚性板包络内不翻转",
+    "caveat": "PRE_CAMPAIGN_ANALYTIC: 基于等冲量半正弦接触模型与悬臂板缩放律; 终稿待 C4 campaign (SENSITIVITY_CAMPAIGN_PLAN_V1)"
+  },
+  "f_c1_interface_panel_mass_to_cg": {
+    "frozen_scenario": "SCENARIO_A_CARVE_OUT_READING_A (C1 主口径)",
+    "tiers": {
+      "LOW": {
+        "wing_mass_kg": 0.6,
+        "delta_pair_kg": -0.3600000000000001,
+        "new_total_kg": 30.662864807342988,
+        "delta_cg_mm": [
+          0.7425041000052729,
+          -0.31559512814291824,
+          0.9405707593452793
+        ],
+        "oi1_residual_mm_CDS_variant": {
+          "x": -57.827,
+          "y": -9.303,
+          "z": 5.898
+        },
+        "relaxes_oi1": false
+      },
+      "NOMINAL": {
+        "wing_mass_kg": 0.96,
+        "delta_pair_kg": 0.3599999999999999,
+        "new_total_kg": 31.382864807342987,
+        "delta_cg_mm": [
+          -0.7254692322427037,
+          0.30835460075136906,
+          -0.9189917559341496
+        ],
+        "oi1_residual_mm_CDS_variant": {
+          "x": -57.827,
+          "y": -9.303,
+          "z": 5.898
+        },
+        "relaxes_oi1": false
+      },
+      "HIGH": {
+        "wing_mass_kg": 1.6260000000000001,
+        "delta_pair_kg": 1.6920000000000002,
+        "new_total_kg": 32.71486480734299,
+        "delta_cg_mm": [
+          -3.270877748257503,
+          1.39025910037913,
+          -4.143400645709911
+        ],
+        "oi1_residual_mm_CDS_variant": {
+          "x": -57.827,
+          "y": -9.303,
+          "z": 5.898
+        },
+        "relaxes_oi1": false
+      }
+    },
+    "sim_line_informational": {
+      "note": "sim 单板 CG 近似 [-0.05675, 0.21315, 0.00000] m (根部+半跨, ASSUMED, 出处 sim_07a README); 双板对称 y 向抵消",
+      "per_tier_delta_pair_kg": {
+        "LOW": -0.5151866,
+        "NOMINAL": -0.3335866,
+        "HIGH": 0.002373400000000081
+      }
+    }
+  },
+  "g_v3_envelope_mapping": {
+    "v3_corners": {
+      "LOW": {
+        "EI": 3.333,
+        "GJ": 0.13568692307692307,
+        "k_root": 50.0,
+        "k_inter": 20.0,
+        "zeta": 0.002
+      },
+      "NOMINAL": {
+        "EI": 11.109,
+        "GJ": 1.5228243135505908,
+        "k_root": 200.0,
+        "k_inter": 100.0,
+        "zeta": 0.005
+      },
+      "HIGH": {
+        "EI": 33.327,
+        "GJ": 17.09076923076923,
+        "k_root": 800.0,
+        "k_inter": 400.0,
+        "zeta": 0.02
+      }
+    },
+    "v3_bending1_hz": {
+      "LOW": 2.224932658980597,
+      "NOMINAL": 4.30046323263928,
+      "HIGH": 7.829875373886181
+    },
+    "c2_tiers": {
+      "sigma": {
+        "LOW": 2.0,
+        "NOMINAL": 4.0,
+        "HIGH": 7.7
+      },
+      "f1_hz": {
+        "LOW": 1.0,
+        "NOMINAL": 8.0,
+        "HIGH": 20.0
+      },
+      "zeta": {
+        "LOW": 0.002,
+        "NOMINAL": 0.01,
+        "HIGH": 0.03
+      }
+    },
+    "alignment_notes": [
+      "C2 f1 LOW=1.0 Hz 低于 V3 LOW 角点 BENDING_1=2.225 Hz: C2 向下扩展 (保留占位=超柔性界)",
+      "C2 f1 NOMINAL=8.0 Hz ≈ V3 HIGH 角点 BENDING_1=7.830 Hz (叶尺度悬臂公式 vs R2 整翼 ROM 系统级)",
+      "C2 zeta NOMINAL=0.01 (B3 工程惯例中值=现 sim 占位) vs V3 NOMINAL=0.005 (R2 ROM 线): 差异已声明, 两线并存",
+      "V3 角点 (EI/GJ/k_root/k_inter) 为 R2 整翼 PROVISIONAL_DERIVED 区间; C2 叶尺度公式为论文灵敏度线 — C2 对齐并扩展 V3, 不另起炉灶"
+    ]
+  },
+  "self_checks": [
+    {
+      "name": "sim_geom_area_closure",
+      "pass": true,
+      "detail": "A_sim=0.045400 m2 (L=0.200, b=0.227)"
+    },
+    {
+      "name": "sim_mu_closure",
+      "pass": true,
+      "detail": "mu=1.7419665 vs m/L=1.7419665"
+    },
+    {
+      "name": "r2_leaf_areal_density",
+      "pass": true,
+      "detail": "sigma_R2_leaf=3.000000 kg/m2 (leaf=0.180 kg, A_leaf=0.0600 m2)"
+    },
+    {
+      "name": "r2_hardware_share",
+      "pass": true,
+      "detail": "hardware/wing=0.240000 kg (hinge_root 0.05 + hinge_inter 2x0.03 + HDRM 0.08 + harness 0.05)"
+    },
+    {
+      "name": "r2_both_wings",
+      "pass": true,
+      "detail": "both_wings=1.560000 kg"
+    },
+    {
+      "name": "torque_resist_mid_composition",
+      "pass": true,
+      "detail": "mid worst = friction_hi + harness_hi = 0.030"
+    },
+    {
+      "name": "torque_resist_fin_composition",
+      "pass": true,
+      "detail": "final worst = mid + latch = 0.040"
+    },
+    {
+      "name": "placeholder_ei_backcalc",
+      "pass": true,
+      "detail": "EI_back=8.900574e-03 vs SSOT 8.904200e-03 (rel 4.07e-04, 差源于 beta1 舍入)"
+    }
+  ],
+  "overall": "pass"
+}

@@ -1,0 +1,1218 @@
+schema: TOLERANCE_ALLOCATION_RESULTS_V1
+generated_local: '2026-08-22T01:20:36+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP3_TOLERANCE_ALLOC
+classification: ANALYTIC_DESIGN_LEVEL_ALLOCATION_NOT_A_MANUFACTURING_CONFORMITY_PASS
+units:
+  length: mm
+  angle: rad
+method:
+  direction: 'REVERSE_ALLOCATION: functional margin -> per-feature allowed tolerances'
+  worst_case: arithmetic limit stack over allocated ISO 286 fits and process terms; WC must satisfy the functional requirement
+  rss: root-sum-square of rectangular standard uncertainties (u = half_width/sqrt(3)); k=3 bounds reported as reference
+  zero_fill: 'FORBIDDEN_AND_NOT_USED: unknown terms are excluded and listed, never set to zero'
+  correlations: UNCORRELATED_ASSUMPTION (candidate) where required
+  thermal: NOT_EVALUATED_NO_APPROVED_CTE_OR_TEMPERATURE_RANGE (terms stay excluded/retained-HOLD)
+  requirement_classes:
+  - INTERFACE_PASS_THROUGH_DESIGN_FLOOR
+  - DESIGN_ALLOCATED_REQUIREMENT
+  - CROSS_CHAIN_DERIVED
+  - GEOMETRIC_DESIGN_FLOOR
+  - CROSS_CHAIN_REFERENCE
+  fit_classes:
+  - CANDIDATE_FIT (ISO 286 grade on frozen nominal)
+  - PROCESS_CAP_ASSUMED (machining process capability)
+chains:
+- chain_id: M7-TC-01
+  title: B601_M4_PATTERN_ALIGNMENT
+  assembly_leg: B601 -> M3R_STAGE_A
+  predecessor_refs:
+    m6_chain: B601_M4_PATTERN_ALIGNMENT
+    predecessor: TC-004
+  function: assemble four B601 M4-class axes through Stage A holes and counterbores
+  reverse_allocation:
+  - feature: STAGE_A_CLEARANCE_HOLE_4P6
+    nominal_mm: 4.6
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_H7
+    limits_mm:
+    - 4.6
+    - 4.612
+    classification: CANDIDATE_FIT_ISO286_H7
+    datum_reference: B601_AS_BUILT_PATTERN_DATUM
+    standard_reference: ISO 286-2
+    notes: ''
+  - feature: M4_FASTENER_MAJOR_DIAMETER_PROXY
+    nominal_mm: 4.0
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_h6_ON_4P000_MAJOR
+    limits_mm:
+    - 3.992
+    - 4.0
+    classification: CANDIDATE_FIT_ISO286_H6_THREAD_MAJOR_PROXY
+    datum_reference: B601_AS_BUILT_PATTERN_DATUM
+    standard_reference: ISO 286-2
+    notes: shaft proxy for thread major; final fastener spec WP4 PENDING_SIBLING_HASH
+  - feature: B601_AXIS_POSITION
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: B601_AS_BUILT_PATTERN_DATUM
+    standard_reference: ''
+    notes: as-built axis verification bound
+  - feature: STAGE_A_HOLE_POSITION
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: B601_AS_BUILT_PATTERN_DATUM
+    standard_reference: ''
+    notes: ''
+  - feature: DATUM_SHIFT
+    tolerance_type: ASSEMBLY_DATUM_SHIFT_HALF_WIDTH
+    allocated_value: 0.02
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: B601_AS_BUILT_PATTERN_DATUM
+    standard_reference: ''
+    notes: ''
+  - feature: PATTERN_CLOCKING
+    tolerance_type: ANGULAR_HALF_WIDTH_DEG
+    allocated_value: 0.1
+    unit: deg
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: B601_AS_BUILT_PATTERN_DATUM
+    standard_reference: ''
+    notes: arc 0.078984643 mm at measured PCD radius 45.254820886 mm
+  - feature: MOUNT_FACE_FLATNESS
+    tolerance_type: FLATNESS
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: B601_AS_BUILT_PATTERN_DATUM
+    standard_reference: ''
+    notes: over 64 mm pattern span
+  functional_checks:
+  - metric: minimum_radial_clearance
+    unit: mm
+    requirement_type: MIN_FLOOR
+    requirement_limit: 0.05
+    requirement_class: INTERFACE_PASS_THROUGH_DESIGN_FLOOR
+    requirement_basis: four HM4-75 axes must pass Stage A holes and counterbores at WC; 0.05 mm design assembly guard (burr/coating/insertion)
+    wc_value: 0.101015357
+    wc_margin: 0.051015357
+    wc_pass: true
+    rss_standard_uncertainty: 0.062320606
+    rss_mean: 0.305
+    rss_k3_bound: 0.118038182
+    rss_k3_pass: true
+  - metric: mounting_tilt
+    unit: rad
+    requirement_type: MAX_CEILING
+    requirement_limit: 0.0015
+    requirement_class: DESIGN_ALLOCATED_REQUIREMENT
+    requirement_basis: keeps flange face contact within flatness budget over 64 mm pattern span
+    wc_value: 0.00078125
+    wc_margin: 0.00071875
+    wc_pass: true
+    rss_standard_uncertainty: 0.000451055
+    rss_mean: 0.0
+    rss_k3_bound: 0.001353165
+    rss_k3_pass: true
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - thermal_stack
+  - fastener_bending
+  - surface_finish
+  - measured_axis_CMM_report
+  - preload_effects
+  retained_holds:
+  - HOLD_MANUFACTURING_CONFORMITY_CMM_AND_MEASURED_EVIDENCE
+  - HOLD_THERMAL_STACKS_NO_APPROVED_CTE_OR_TEMPERATURE_RANGE
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: M6 candidate values adopted as the design allocation; WC min radial clearance 0.101015357 mm >= 0.05 floor;
+    RSS k3 min 0.118038182 mm reference pass.
+- chain_id: M7-TC-02
+  title: STAGE_A_STAGE_B_SPIGOT_AND_AXIAL_SEAT
+  assembly_leg: M3R_STAGE_A -> M3R_STAGE_B
+  predecessor_refs:
+    m6_chain:
+    - STAGE_A_STAGE_B_SPIGOT
+    - STAGE_A_STAGE_B_AXIAL_SEAT
+    predecessor:
+    - TC-001
+    - TC-003
+  function: central radial location plus annular face seating and preload transfer
+  reverse_allocation:
+  - feature: STAGE_B_RECEIVING_BORE_100P0
+    nominal_mm: 100.0
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_H7
+    limits_mm:
+    - 100.0
+    - 100.035
+    classification: CANDIDATE_FIT_ISO286_H7
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ISO 286-2
+    notes: ''
+  - feature: STAGE_A_SPIGOT_99P6
+    nominal_mm: 99.6
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_g6
+    limits_mm:
+    - 99.566
+    - 99.588
+    classification: CANDIDATE_FIT_ISO286_G6
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ISO 286-2
+    notes: ''
+  - feature: SPIGOT_COAXIALITY
+    tolerance_type: COAXIALITY_DIAMETRAL_ZONE
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ''
+    notes: ''
+  - feature: STAGE_A_RECESS_DEPTH_5P595
+    tolerance_type: DEPTH_LIMITS_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ''
+    notes: ''
+  - feature: STAGE_B_POCKET_DEPTH_5P595
+    tolerance_type: DEPTH_LIMITS_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ''
+    notes: ''
+  - feature: ANNULAR_FACE_FLATNESS_EACH
+    tolerance_type: FLATNESS
+    allocated_value: 0.02
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ''
+    notes: ''
+  - feature: ANNULAR_FACE_PARALLELISM
+    tolerance_type: PARALLELISM_ACROSS_FACE
+    allocated_value: 0.02
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ''
+    notes: ''
+  functional_checks:
+  - metric: spigot_minimum_radial_clearance_after_coaxiality
+    unit: mm
+    requirement_type: MIN_FLOOR
+    requirement_limit: 0.1
+    requirement_class: INTERFACE_PASS_THROUGH_DESIGN_FLOOR
+    requirement_basis: central radial location without galling during Stage A/B assembly; 0.10 mm anti-fretting design floor
+    wc_value: 0.181
+    wc_margin: 0.081
+    wc_pass: true
+    rss_standard_uncertainty: 0.005966923
+    rss_mean: 0.19525
+    rss_k3_bound: 0.177349232
+    rss_k3_pass: true
+  - metric: axial_seating_gap
+    unit: mm
+    requirement_type: WINDOW
+    requirement_limit: 0.2
+    requirement_class: DESIGN_ALLOCATED_REQUIREMENT
+    requirement_basis: annular face preload-seat window; negative gap = controlled axial interference (preload seat), positive
+      = residual gap; both bounded
+    wc_value: 0.16
+    wc_margin: 0.04
+    wc_pass: true
+    rss_standard_uncertainty: 0.045460606
+    rss_mean: 0.0
+    rss_k3_bound: 0.136381817
+    rss_k3_pass: true
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - thermal_stack_no_approved_CTE_or_temperature_range
+  - surface_finish
+  - measured_diameters
+  - preload_deflection_mm
+  - measured_depths
+  retained_holds:
+  - HOLD_MANUFACTURING_CONFORMITY_CMM_AND_MEASURED_EVIDENCE
+  - HOLD_THERMAL_STACKS_NO_APPROVED_CTE_OR_TEMPERATURE_RANGE
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: Spigot WC radial after coaxiality 0.181 mm >= 0.10 floor; axial seat WC |gap| 0.16 mm inside +/-0.20 window
+    (bipolar preload-seat design interpretation per M6).
+- chain_id: M7-TC-03
+  title: STAGE_A_STAGE_B_ANNULAR_SKIRT
+  assembly_leg: M3R_STAGE_A -> M3R_STAGE_B
+  predecessor_refs:
+    m6_chain: STAGE_A_STAGE_B_ANNULAR_SKIRT
+    predecessor: TC-002
+  function: annular pocket radial location and load-seat compatibility
+  reverse_allocation:
+  - feature: STAGE_B_POCKET_OUTER_150P4
+    nominal_mm: 150.4
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_H7
+    limits_mm:
+    - 150.4
+    - 150.44
+    classification: CANDIDATE_FIT_ISO286_H7
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ISO 286-2
+    notes: ''
+  - feature: STAGE_A_SKIRT_OUTER_150P0
+    nominal_mm: 150.0
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_g6
+    limits_mm:
+    - 149.961
+    - 149.986
+    classification: CANDIDATE_FIT_ISO286_G6
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ISO 286-2
+    notes: ''
+  - feature: SKIRT_COAXIALITY
+    tolerance_type: COAXIALITY_DIAMETRAL_ZONE
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ''
+    notes: ''
+  functional_checks:
+  - metric: skirt_minimum_radial_clearance_after_coaxiality
+    unit: mm
+    requirement_type: MIN_FLOOR
+    requirement_limit: 0.1
+    requirement_class: INTERFACE_PASS_THROUGH_DESIGN_FLOOR
+    requirement_basis: annular pocket radial location and load-seat compatibility; 0.10 mm anti-fretting design floor
+    wc_value: 0.182
+    wc_margin: 0.082
+    wc_pass: true
+    rss_standard_uncertainty: 0.006808389
+    rss_mean: 0.19825
+    rss_k3_bound: 0.177824832
+    rss_k3_pass: true
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - thermal_stack_no_approved_CTE_or_temperature_range
+  - surface_finish
+  - measured_diameters
+  retained_holds:
+  - HOLD_MANUFACTURING_CONFORMITY_CMM_AND_MEASURED_EVIDENCE
+  - HOLD_THERMAL_STACKS_NO_APPROVED_CTE_OR_TEMPERATURE_RANGE
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: Skirt WC radial after coaxiality 0.182 mm >= 0.10 floor.
+- chain_id: M7-TC-04
+  title: STAGE_A_STAGE_B_M5_PATTERN
+  assembly_leg: M3R_STAGE_A -> M3R_STAGE_B
+  predecessor_refs:
+    m6_chain: STAGE_A_STAGE_B_M5_AND_CLOCKING (M5 part)
+    predecessor: TC-005
+  function: eight-fastener M5 transition pattern alignment at radius 62.5 mm
+  reverse_allocation:
+  - feature: STAGE_B_M5_CLEARANCE_HOLE_5P5
+    nominal_mm: 5.5
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_H7
+    limits_mm:
+    - 5.5
+    - 5.512
+    classification: CANDIDATE_FIT_ISO286_H7
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ISO 286-2
+    notes: ''
+  - feature: M5_FASTENER_MAJOR_DIAMETER_PROXY
+    nominal_mm: 5.0
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_h6_ON_5P000_MAJOR
+    limits_mm:
+    - 4.992
+    - 5.0
+    classification: CANDIDATE_FIT_ISO286_H6_THREAD_MAJOR_PROXY
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ISO 286-2
+    notes: shaft proxy for thread major; final fastener spec WP4 PENDING_SIBLING_HASH
+  - feature: M5_PATTERN_POSITION_EACH_SIDE
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ''
+    notes: radius 62.5 mm pattern, 8 places
+  functional_checks:
+  - metric: m5_minimum_radial_clearance
+    unit: mm
+    requirement_type: MIN_FLOOR
+    requirement_limit: 0.05
+    requirement_class: INTERFACE_PASS_THROUGH_DESIGN_FLOOR
+    requirement_basis: eight M5 fasteners must pass the transition pattern at WC; 0.05 mm design assembly guard; residual
+      margin also sets the clocking-dowel budget (M7-TC-05, CROSS_CHAIN_DERIVED)
+    wc_value: 0.15
+    wc_margin: 0.1
+    wc_pass: true
+    rss_standard_uncertainty: 0.040877867
+    rss_mean: 0.25
+    rss_k3_bound: 0.127366399
+    rss_k3_pass: true
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - fastener_preload_and_grade
+  - measured_positions
+  - thermal_stack
+  retained_holds:
+  - HOLD_MANUFACTURING_CONFORMITY_CMM_AND_MEASURED_EVIDENCE
+  - HOLD_FASTENER_PRELOAD_GRADE_AND_MOS (WP4 PENDING_SIBLING_HASH)
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: M5 WC min radial clearance 0.15 mm >= 0.05 floor; RSS k3 min 0.127 mm reference pass.
+- chain_id: M7-TC-05
+  title: STAGE_A_STAGE_B_CLOCKING_DOWEL
+  assembly_leg: M3R_STAGE_A -> M3R_STAGE_B
+  predecessor_refs:
+    m6_chain: STAGE_A_STAGE_B_M5_AND_CLOCKING (clocking part)
+    predecessor: TC-006
+  function: asymmetric clocking locator removes Stage A/B clocking ambiguity while preserving fit
+  reverse_allocation:
+  - feature: CLOCKING_DOWEL_PIN_4P0
+    nominal_mm: 4.0
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_m6
+    limits_mm:
+    - 4.004
+    - 4.012
+    classification: CANDIDATE_FIT_ISO286_M6_DOWEL_PIN
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ISO 286-2
+    notes: ''
+  - feature: STAGE_B_BLIND_HOLE_4P0_PRESS_SEAT
+    nominal_mm: 4.0
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_H7
+    limits_mm:
+    - 4.0
+    - 4.012
+    classification: CANDIDATE_FIT_ISO286_H7
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ISO 286-2
+    notes: press fit -0.012..0.008 mm
+  - feature: STAGE_A_DOWEL_CLEARANCE_4P1_SLIP_SEAT
+    nominal_mm: 4.1
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_H7
+    limits_mm:
+    - 4.1
+    - 4.112
+    classification: CANDIDATE_FIT_ISO286_H7
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ISO 286-2
+    notes: slip clearance 0.088..0.108 mm
+  - feature: DOWEL_HOLE_POSITION_EACH_SIDE
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.025
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: M3R_INTERFACE_DATUM
+    standard_reference: ''
+    notes: ''
+  functional_checks:
+  - metric: clocking_error
+    unit: rad
+    requirement_type: MAX_CEILING
+    requirement_limit: 0.0024
+    requirement_class: CROSS_CHAIN_DERIVED
+    requirement_basis: clocking-induced hole offset at M5 radius 62.5 mm must stay inside the M7-TC-04 WC margin 0.15 mm ->
+      theta <= 2.4e-3 rad
+    wc_value: 0.001890909
+    wc_margin: 0.000509091
+    wc_pass: true
+    rss_standard_uncertainty: 0.00037306
+    rss_mean: 0.0
+    rss_k3_bound: 0.001119179
+    rss_k3_pass: true
+  - metric: locator_press_seat_diametral_fit
+    unit: mm
+    requirement_type: MIN_FLOOR
+    requirement_limit: -0.02
+    requirement_class: DESIGN_ALLOCATED_REQUIREMENT
+    requirement_basis: press seat may interfere down to -0.02 mm (retained fit) and must not exceed slip fit on the press
+      side
+    wc_value: -0.012
+    wc_margin: 0.008
+    wc_pass: true
+    rss_standard_uncertainty: null
+    rss_mean: null
+    rss_k3_bound: null
+    rss_k3_pass: null
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - fastener_preload_and_grade
+  - blind_hole_depth_tolerance
+  - locator_part_real_profile
+  - measured_positions
+  - thermal_stack
+  retained_holds:
+  - HOLD_MANUFACTURING_CONFORMITY_CMM_AND_MEASURED_EVIDENCE
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: Clocking WC 0.001890909 rad <= 2.4e-3 cross-chain limit (TC-04 margin); press/slip seat pair bounded.
+- chain_id: M7-TC-06
+  title: LOAD_BRIDGE_TO_BUS_FITMENT
+  assembly_leg: SPACECRAFT_BUS -> SPACECRAFT_LOAD_BRIDGE
+  predecessor_refs:
+    m6_chain: LOAD_BRIDGE_DATUMS_V1 fit_candidates (BRIDGE_HOLE_6P6_vs_M6_FASTENER_SHAFT)
+    predecessor: TC-007 (spacecraft side)
+  function: planar abutment and 4x M6 co-bore through-bolt attachment of the load bridge to the bus +X face at x=185.25
+  reverse_allocation:
+  - feature: LOAD_BRIDGE_HOLE_6P6
+    nominal_mm: 6.6
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_H11
+    limits_mm:
+    - 6.6
+    - 6.69
+    classification: CANDIDATE_FIT_ISO286_H11
+    datum_reference: D_BRIDGE_BUS
+    standard_reference: ISO 286-2
+    notes: M6 WP1 load-bridge fit candidate (H11/h9)
+  - feature: BUS_CIBORE_HOLE_6P6
+    nominal_mm: 6.6
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_H11
+    limits_mm:
+    - 6.6
+    - 6.69
+    classification: CANDIDATE_FIT_ISO286_H11
+    datum_reference: D_BRIDGE_BUS
+    standard_reference: ISO 286-2
+    notes: new bus-side design feature allocated by this WP; adoption WP1 DESIGN_FREEZE_ASSEMBLY_V1 PENDING_SIBLING_HASH
+  - feature: M6_FASTENER_SHAFT_PROXY
+    nominal_mm: 6.0
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_h9_ON_6P000
+    limits_mm:
+    - 5.97
+    - 6.0
+    classification: CANDIDATE_FIT_ISO286_H9_SHAFT_PROXY
+    datum_reference: D_BRIDGE_BUS
+    standard_reference: ISO 286-2
+    notes: M6 WP1 fit candidate; final fastener spec WP4 PENDING_SIBLING_HASH
+  - feature: BRIDGE_HOLE_PATTERN_POSITION
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: D_BRIDGE_BUS
+    standard_reference: ''
+    notes: ''
+  - feature: BUS_CIBORE_PATTERN_POSITION
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: D_BRIDGE_BUS
+    standard_reference: ''
+    notes: ''
+  - feature: BUS_MATE_FACE_FLATNESS
+    tolerance_type: FLATNESS
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: D_BRIDGE_BUS
+    standard_reference: ''
+    notes: ''
+  - feature: BRIDGE_BUS_FACE_FLATNESS
+    tolerance_type: FLATNESS
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: D_BRIDGE_BUS
+    standard_reference: ''
+    notes: ''
+  functional_checks:
+  - metric: cobore_minimum_radial_clearance
+    unit: mm
+    requirement_type: MIN_FLOOR
+    requirement_limit: 0.1
+    requirement_class: INTERFACE_PASS_THROUGH_DESIGN_FLOOR
+    requirement_basis: four M6 through-bolts share the 4x dia 6.6 co-bore at (+-70,+-70) between load bridge and bus +X face
+      (x=185.25); 0.10 mm design floor
+    wc_value: 0.2
+    wc_margin: 0.1
+    wc_pass: true
+    rss_standard_uncertainty: 0.043060036
+    rss_mean: 0.33
+    rss_k3_bound: 0.200819893
+    rss_k3_pass: true
+  - metric: seating_tilt
+    unit: rad
+    requirement_type: MAX_CEILING
+    requirement_limit: 0.0015
+    requirement_class: DESIGN_ALLOCATED_REQUIREMENT
+    requirement_basis: planar abutment D_BRIDGE_BUS flatness pair over 140 mm pattern span
+    wc_value: 0.000714286
+    wc_margin: 0.000785714
+    wc_pass: true
+    rss_standard_uncertainty: 0.000291606
+    rss_mean: 0.0
+    rss_k3_bound: 0.000874818
+    rss_k3_pass: true
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - bus_wall_thickness_and_tapped_stack
+  - through_bolt_length_and_preload
+  - measured_bus_face_flatness
+  - thermal_stack
+  - legacy_flange_ownership
+  retained_holds:
+  - HOLD_MANUFACTURING_CONFORMITY_CMM_AND_MEASURED_EVIDENCE
+  - HOLD_FASTENER_PRELOAD_GRADE_AND_MOS (WP4 PENDING_SIBLING_HASH)
+  - STRUCTURAL_LOAD_PATH_CONTINUITY_HOLD (WP7 FEA PENDING_SIBLING_HASH)
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: Co-bore WC min radial clearance 0.2 mm >= 0.10 floor; seating tilt WC 0.000714286 rad <= 1.5e-3. Bus-side
+    co-bore pattern is a new design feature of this allocation (bus is project-owned geometry).
+- chain_id: M7-TC-07
+  title: LOAD_BRIDGE_TO_STAGE_B_FITMENT
+  assembly_leg: SPACECRAFT_LOAD_BRIDGE -> M3R_STAGE_B
+  predecessor_refs:
+    m6_chain: 'STAGE_B_SPACECRAFT_M6_PATTERN (upgraded: bridge side now defined)'
+    predecessor: TC-007
+  function: planar abutment at x=196.0 and 4x M6 primary pattern (140x140) between the load bridge and M3R Stage B
+  reverse_allocation:
+  - feature: STAGE_B_M6_CLEARANCE_HOLE_6P6
+    nominal_mm: 6.6
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_H7
+    limits_mm:
+    - 6.6
+    - 6.615
+    classification: CANDIDATE_FIT_ISO286_H7
+    datum_reference: D_BRIDGE_M3R
+    standard_reference: ISO 286-2
+    notes: existing M3R Stage B feature (working-loop FROZEN nominal)
+  - feature: LOAD_BRIDGE_HOLE_6P6
+    nominal_mm: 6.6
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_H11
+    limits_mm:
+    - 6.6
+    - 6.69
+    classification: CANDIDATE_FIT_ISO286_H11
+    datum_reference: D_BRIDGE_M3R
+    standard_reference: ISO 286-2
+    notes: ''
+  - feature: M6_FASTENER_SHAFT_PROXY
+    nominal_mm: 6.0
+    tolerance_type: SIZE_LIMITS
+    allocated_fit: ISO286_h9_ON_6P000
+    limits_mm:
+    - 5.97
+    - 6.0
+    classification: CANDIDATE_FIT_ISO286_H9_SHAFT_PROXY
+    datum_reference: D_BRIDGE_M3R
+    standard_reference: ISO 286-2
+    notes: final fastener spec WP4 PENDING_SIBLING_HASH
+  - feature: STAGE_B_HOLE_PATTERN_POSITION
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: D_BRIDGE_M3R
+    standard_reference: ''
+    notes: ''
+  - feature: BRIDGE_HOLE_PATTERN_POSITION
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: D_BRIDGE_M3R
+    standard_reference: ''
+    notes: ''
+  - feature: STAGE_B_MATE_FACE_FLATNESS
+    tolerance_type: FLATNESS
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: D_BRIDGE_M3R
+    standard_reference: ''
+    notes: ''
+  - feature: BRIDGE_M3R_FACE_FLATNESS
+    tolerance_type: FLATNESS
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: D_BRIDGE_M3R
+    standard_reference: ''
+    notes: ''
+  - feature: HOLE_EDGE_LIGAMENT
+    tolerance_type: MINIMUM_EDGE_LIGAMENT_FLOOR
+    allocated_value: 6.0
+    unit: mm
+    classification: DESIGN_ALLOCATED_REQUIREMENT
+    datum_reference: D_BRIDGE_M3R
+    standard_reference: ''
+    notes: WC ligament Stage B 6.6425 mm / bridge 6.605 mm; structural check WP7 PENDING_SIBLING_HASH
+  functional_checks:
+  - metric: m6_minimum_radial_clearance_both_plates
+    unit: mm
+    requirement_type: MIN_FLOOR
+    requirement_limit: 0.1
+    requirement_class: INTERFACE_PASS_THROUGH_DESIGN_FLOOR
+    requirement_basis: 4x M6 primary fasteners pass Stage B (H7) and bridge (H11) holes at WC; 0.10 mm design floor
+    wc_value: 0.2
+    wc_margin: 0.1
+    wc_pass: true
+    rss_standard_uncertainty: 0.041110877
+    rss_mean: 0.31125
+    rss_k3_bound: 0.18791737
+    rss_k3_pass: true
+  - metric: edge_ligament_minimum_both_sides
+    unit: mm
+    requirement_type: MIN_FLOOR
+    requirement_limit: 6.0
+    requirement_class: GEOMETRIC_DESIGN_FLOOR
+    requirement_basis: geometric ligament floor only; structural adequacy delegated to WP7 operational FEA PENDING_SIBLING_HASH
+    wc_value: 6.605
+    wc_margin: 0.605
+    wc_pass: true
+    rss_standard_uncertainty: 0.0316557
+    rss_mean: 6.6775
+    rss_k3_bound: 6.5825329
+    rss_k3_pass: true
+  - metric: interface_seating_tilt
+    unit: rad
+    requirement_type: MAX_CEILING
+    requirement_limit: 0.0015
+    requirement_class: DESIGN_ALLOCATED_REQUIREMENT
+    requirement_basis: Stage B + bridge mate-face flatness pair over 140 mm pattern span
+    wc_value: 0.000714286
+    wc_margin: 0.000785714
+    wc_pass: true
+    rss_standard_uncertainty: 0.000291606
+    rss_mean: 0.0
+    rss_k3_bound: 0.000874818
+    rss_k3_pass: true
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - m6_threaded_stack_and_engagement
+  - preload_effects
+  - measured_flatness
+  - thermal_stack
+  retained_holds:
+  - HOLD_MANUFACTURING_CONFORMITY_CMM_AND_MEASURED_EVIDENCE
+  - HOLD_FASTENER_PRELOAD_GRADE_AND_MOS (WP4 PENDING_SIBLING_HASH)
+  - STRUCTURAL_LOAD_PATH_CONTINUITY_HOLD (WP7 FEA PENDING_SIBLING_HASH)
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: 'M6 pass-through WC min radial clearance 0.2 mm >= 0.10 floor; WC ligament 6.605 mm >= 6.0 geometric floor;
+    tilt WC 0.000714286 rad <= 1.5e-3. M6 Stage-B-side-only HOLD upgraded to analytic closure: bridge-side geometry is now
+    the M6 WP1 candidate contract (execution-plan pinned).'
+- chain_id: M7-TC-08
+  title: GRIPPER_RAIL_PALM_CLEARANCE
+  assembly_leg: GRIPPER_R1_RAIL -> GRIPPER_R1_PALM
+  predecessor_refs:
+    m4_chain: GRIPPER_FUNCTIONAL_TOLERANCE_MAP_V1
+    m6_chain: GRIPPER_CLEARANCE_SWEEP_VERDICT_V1
+  function: guarded minimum functional clearance between guide rail and palm slot over the full 0..71.5 mm stroke
+  reverse_allocation:
+  - feature: RAIL_PALM_NOMINAL_ADDITIONAL_CLEARANCE
+    tolerance_type: NOMINAL_GAP_REQUIREMENT
+    allocated_value: 0.2
+    unit: mm
+    classification: DESIGN_ALLOCATED_REQUIREMENT
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: requirement flowed down to WP1/WP5 geometry owners; NOT taken from the M4 owner example grid (that grid stays non-requirement);
+      neutral sweep witness covers 0-overlap for the R1 slot envelope
+  - feature: SLOT_WIDTH
+    tolerance_type: WIDTH_LIMITS_HALF_WIDTH
+    allocated_value: 0.03
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: ''
+  - feature: RAIL_WIDTH
+    tolerance_type: WIDTH_LIMITS_HALF_WIDTH
+    allocated_value: 0.03
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: ''
+  - feature: SLOT_STRAIGHTNESS
+    tolerance_type: STRAIGHTNESS
+    allocated_value: 0.01
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: ''
+  - feature: RAIL_STRAIGHTNESS
+    tolerance_type: STRAIGHTNESS
+    allocated_value: 0.01
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: ''
+  - feature: GUIDE_PAIR_PARALLELISM
+    tolerance_type: PARALLELISM
+    allocated_value: 0.01
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: ''
+  - feature: ASSEMBLY_DATUM_SHIFT
+    tolerance_type: ASSEMBLY_SHIFT
+    allocated_value: 0.02
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: ''
+  - feature: COATING_THICKNESS_EACH_SIDE
+    tolerance_type: COATING_THICKNESS_MAX
+    allocated_value: 0.005
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: thin hard-coat allowance; final coating selection WP6 DESIGN_MATERIAL_SELECTION_V1 PENDING_SIBLING_HASH
+  - feature: GUARD_BAND
+    tolerance_type: DECISION_GUARD_BAND
+    allocated_value: 0.02
+    unit: mm
+    classification: DESIGN_ALLOCATED_REQUIREMENT
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: covers inspection uncertainty decision rule at conformity assessment
+  functional_checks:
+  - metric: guarded_minimum_functional_clearance
+    unit: mm
+    requirement_type: MIN_FLOOR
+    requirement_limit: 0.0
+    requirement_class: DESIGN_ALLOCATED_REQUIREMENT
+    requirement_basis: no rail-palm contact over stroke 0..71.5 mm (144-sample neutral witness, consumption 0); strictly positive
+      guarded clearance at WC after all allocated consumption terms and the 0.02 mm guard band
+    wc_value: 0.06
+    wc_margin: 0.06
+    wc_pass: true
+    rss_standard_uncertainty: 0.029154759
+    rss_mean: 0.18
+    rss_k3_bound: 0.092535722
+    rss_k3_pass: true
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - thermal_stack
+  - elastic_deflection_under_authorized_load
+  - wear_debris_and_life_allowance
+  - coating_final_selection (WP6)
+  - inspection_uncertainty_type_A_B_data
+  - conformity_decision_rule_qualification
+  retained_holds:
+  - HOLD_MANUFACTURING_CONFORMITY_CMM_AND_MEASURED_EVIDENCE
+  - HOLD_THERMAL_STACKS_NO_APPROVED_CTE_OR_TEMPERATURE_RANGE
+  - HOLD_GRIPPER_ELASTIC_AND_WEAR_TERMS_REQUIRE_AUTHORIZED_LOAD_AND_LIFE_TEST
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: 'Reverse allocation sets nominal additional clearance 0.2 mm plus bounded consumption 0.12 mm and guard 0.02
+    mm -> WC guarded clearance 0.06 mm > 0; RSS k3 min 0.092535722 mm reference pass. Closure mode: allocation defines the
+    nominal-gap design requirement adopted downstream (WP1/WP5 PENDING_SIBLING_HASH).'
+- chain_id: M7-TC-09
+  title: GRIPPER_FINGER_SYMMETRY
+  assembly_leg: GRIPPER_R1_LEFT_FINGER <-> GRIPPER_R1_RIGHT_FINGER
+  predecessor_refs:
+    urdf: accepted arm_b601_v1.urdf gripper_joint1/joint2 mirrored prismatic pair
+    predecessor: TC-013 (capture centre alignment)
+  function: left/right fingertip symmetry about the palm centre plane at any stroke
+  reverse_allocation:
+  - feature: PALM_SLOT_POSITION_SYMMETRY
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH_EACH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: left/right rail slots in the single palm part; WC relative 0.10 mm
+  - feature: FINGER_RAIL_POSITION
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH_EACH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: ''
+  - feature: DRIVE_SYNCHRONISM_ERROR
+    tolerance_type: STROKE_SYNC_HALF_WIDTH
+    allocated_value: 0.1
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: GRIPPER_CAPTURE_FRAME
+    standard_reference: ''
+    notes: left/right stroke synchronism allocation; drive topology to WP5 GRIPPER_ENGINEERING_PACK_V1 PENDING_SIBLING_HASH
+  functional_checks:
+  - metric: fingertip_symmetry_error
+    unit: mm
+    requirement_type: MAX_CEILING
+    requirement_limit: 0.5
+    requirement_class: DESIGN_ALLOCATED_REQUIREMENT
+    requirement_basis: 'two-finger symmetric capture: fingertip centre offset from the palm centre plane must keep the capture
+      centre within 0.5 mm for the 22 kg / 150 kg block-model targets'
+    wc_value: 0.25
+    wc_margin: 0.25
+    wc_pass: true
+    rss_standard_uncertainty: 0.076376262
+    rss_mean: 0.0
+    rss_k3_bound: 0.229128785
+    rss_k3_pass: true
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - finger_pad_compliance
+  - target_contact_geometry
+  - measured_finger_positions
+  - drive_backlash_real_value
+  retained_holds:
+  - HOLD_MANUFACTURING_CONFORMITY_CMM_AND_MEASURED_EVIDENCE
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: Kinematic symmetry is exact by construction in the accepted URDF (mirrored prismatic pair, mirrored finger
+    CoM); manufacturing asymmetry WC 0.25 mm <= 0.5 ceiling; RSS k3 0.229128785 mm reference pass.
+- chain_id: M7-TC-10
+  title: SOLAR_HINGE_COAXIALITY
+  assembly_leg: HINGE_BRACKET_LEFT/RIGHT_LUGS (per panel)
+  predecessor_refs:
+    predecessor: TC-009 (geometric part only)
+    m6_chain: HINGE_DEPLOYMENT_CHAIN_EXECUTED_V1 chains_not_executed.radial_fit_chain
+  function: coaxiality of the two lug bore axes and hinge-bracket mount flatness per panel hinge
+  reverse_allocation:
+  - feature: LUG_BORE_POSITION_EACH
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: WING_HINGE_DATUM
+    standard_reference: ''
+    notes: evaluated over 227.0 mm hinge reference span (frozen panel chord)
+  - feature: HINGE_BRACKET_MOUNT_FLATNESS
+    tolerance_type: FLATNESS
+    allocated_value: 0.02
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: WING_HINGE_DATUM
+    standard_reference: ''
+    notes: over 227.0 mm reference span
+  functional_checks:
+  - metric: hinge_line_angular_misalignment
+    unit: rad
+    requirement_type: MAX_CEILING
+    requirement_limit: 0.001
+    requirement_class: DESIGN_ALLOCATED_REQUIREMENT
+    requirement_basis: two lug bore axes of one hinge must stay aligned so the pin is not moment-loaded and the deployed-angle
+      budget (M7-TC-11) holds; 1.0 mrad design ceiling
+    wc_value: 0.000528634
+    wc_margin: 0.000471366
+    wc_pass: true
+    rss_standard_uncertainty: 0.0001869
+    rss_mean: 0.0
+    rss_k3_bound: 0.000560701
+    rss_k3_pass: true
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - hinge_pin_and_bore_nominals_and_limits (TC-009, no numeric authority -> WP5)
+  - pin_bore_radial_fit
+  - bushing_spacer_washer_stack
+  - thermal_stack
+  - wear_life
+  retained_holds:
+  - HOLD_HINGE_HARDWARE_NOMINALS_FITS_AND_STOP_GEOMETRY (WP5 SOLAR_HINGE_DEPLOYMENT_PACK_V1 PENDING_SIBLING_HASH)
+  - HOLD_MANUFACTURING_CONFORMITY_CMM_AND_MEASURED_EVIDENCE
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: Geometric coaxiality WC misalignment 0.000528634 rad <= 1.0e-3 ceiling over the frozen 227 mm chord reference
+    span; RSS k3 0.000560701 rad reference pass. Pin/bore radial fit terms excluded (nominals absent, TC-009) — never zero-filled.
+- chain_id: M7-TC-11
+  title: SOLAR_HINGE_STOP_ANGLE
+  assembly_leg: HINGE_HARD_STOP (per panel)
+  predecessor_refs:
+    predecessor: TC-010
+    m6_chain: HINGE_DEPLOYMENT_CHAIN_EXECUTED_V1 executed_results
+  function: deployed stop-angle accuracy of the solar panel at end of travel
+  reverse_allocation:
+  - feature: STOP_ANGLE_REPEATABILITY
+    tolerance_type: ANGULAR_HALF_WIDTH_DEG
+    allocated_value: 0.5
+    unit: deg
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: WING_HINGE_DATUM
+    standard_reference: ''
+    notes: consolidated stop-chain term (stop contact geometry, contact flatness, pin freeplay at the stop) — single controllable
+      drawing requirement; decomposition to hardware features needs WP5 hinge hardware nominals
+  - feature: HINGE_LINE_MISALIGNMENT_CONTRIBUTION
+    tolerance_type: FROM_CHAIN
+    allocated_value: null
+    unit: rad
+    classification: CROSS_CHAIN_REFERENCE
+    datum_reference: WING_HINGE_DATUM
+    standard_reference: ''
+    notes: M7-TC-10 WC misalignment 5.286343e-4 rad carried into this stack
+  functional_checks:
+  - metric: deployed_angle_deviation
+    unit: rad
+    requirement_type: MAX_CEILING
+    requirement_limit: 0.017453292519943295
+    requirement_class: DESIGN_ALLOCATED_REQUIREMENT
+    requirement_basis: panel deployed-angle accuracy at the hard stop; 1.0 deg design ceiling (no mission-level pointing requirement
+      is authorized — this is a WP3 design allocation, not a flight requirement)
+    wc_value: 0.009255281
+    wc_margin: 0.008198012
+    wc_pass: true
+    rss_standard_uncertainty: 0.005041797
+    rss_mean: 0.0
+    rss_k3_bound: 0.015125391
+    rss_k3_pass: true
+  - metric: tip_lateral_displacement_at_span
+    unit: mm
+    requirement_type: MAX_CEILING
+    requirement_limit: 5.0
+    requirement_class: DESIGN_ALLOCATED_REQUIREMENT
+    requirement_basis: consequence metric at the 200 mm frozen span tip; 5 mm design ceiling protects the deployed keep-out
+      envelope
+    wc_value: 1.851029685
+    wc_margin: 3.148970315
+    wc_pass: true
+    rss_standard_uncertainty: null
+    rss_mean: null
+    rss_k3_bound: null
+    rss_k3_pass: null
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - stop_contact_geometry_detail
+  - compliance_rad_per_Nm
+  - authorized_stop_torque_Nm
+  - approved_temperature_range_degC
+  - approved_CTE_per_K
+  - wear_and_repeatability_test
+  retained_holds:
+  - HOLD_HINGE_HARDWARE_NOMINALS_FITS_AND_STOP_GEOMETRY (WP5 PENDING_SIBLING_HASH)
+  - HOLD_THERMAL_STACKS_NO_APPROVED_CTE_OR_TEMPERATURE_RANGE
+  - HOLD_DEPLOYMENT_TEST_AND_LIFE_EVIDENCE
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: WC deployed-angle deviation 0.009255281 rad (0.530288514 deg) <= 1.0 deg ceiling; RSS k3 0.015125391 rad reference
+    pass; tip consequence 1.851029685 mm at 200 mm span. M6 single-term sensitivity upgraded to a two-term design stack (stop
+    repeatability + TC-10 misalignment).
+- chain_id: M7-TC-12
+  title: WING_ROOT_POSITION
+  assembly_leg: SPACECRAFT_BUS -> HINGE_BRACKET -> PANEL_ROOT
+  predecessor_refs:
+    frame_tree: F_L [-56.75,113.15,0] / F_R [-56.75,-113.15,0] frozen origins; hinge axis B-rep probe [-61.0,+-143.15,0] axis
+      [1,0,0]
+    predecessor: TC-009/TC-010 (position aspect)
+  function: position of the panel root hinge axis relative to the spacecraft assembly frame
+  reverse_allocation:
+  - feature: HINGE_BRACKET_HOLE_POSITION
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: F_L / F_R
+    standard_reference: ''
+    notes: ''
+  - feature: BUS_SEAT_POSITION
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: F_L / F_R
+    standard_reference: ''
+    notes: ''
+  - feature: PANEL_ROOT_FITTING_HOLE_POSITION
+    tolerance_type: POSITION_RADIAL_HALF_WIDTH
+    allocated_value: 0.05
+    unit: mm
+    classification: PROCESS_CAP_ASSUMED
+    datum_reference: F_L / F_R
+    standard_reference: ''
+    notes: ''
+  functional_checks:
+  - metric: wing_root_axis_position_error
+    unit: mm
+    requirement_type: MAX_CEILING
+    requirement_limit: 0.5
+    requirement_class: DESIGN_ALLOCATED_REQUIREMENT
+    requirement_basis: panel root (hinge axis) station relative to the bus must hold the frozen deployed envelope 440.5x626.3x276.3
+      mm and the mass/CoM model validity; 0.5 mm design ceiling
+    wc_value: 0.15
+    wc_margin: 0.35
+    wc_pass: true
+    rss_standard_uncertainty: 0.05
+    rss_mean: 0.0
+    rss_k3_bound: 0.15
+    rss_k3_pass: true
+  wc_overall_pass: true
+  excluded_terms_not_zero_filled:
+  - full_hinge_kinematics_orientation (frame tree HOLD, not gated by this position chain)
+  - measured_bracket_positions
+  - thermal_stack
+  retained_holds:
+  - HOLD_MANUFACTURING_CONFORMITY_CMM_AND_MEASURED_EVIDENCE
+  status: FUNCTIONALLY_CLOSED_ANALYTIC
+  closure_note: Root position WC error 0.15 mm <= 0.5 ceiling; RSS k3 0.15 mm reference pass. Position-only chain; hinge orientation
+    kinematics stay with WP5.
+- chain_id: M7-TC-13
+  title: CAMERA_BRACKET_POINTING
+  assembly_leg: SPACECRAFT_BUS -> CAMERA_BRACKET -> SENSOR_PACKAGE
+  predecessor_refs:
+    frame_tree: SENSOR_PACKAGE UNRESOLVED_CANDIDATE_REJECTED_M3R_POSITIVE_PENETRATION
+    bom: DIGITAL_PROTOTYPE_BOM_V2_CANDIDATE DP-010 HARD_HOLD
+  function: pointing accuracy of the camera/sensor bracket relative to its mission datum
+  reverse_allocation: []
+  functional_checks: []
+  wc_overall_pass: null
+  excluded_terms_not_zero_filled: []
+  retained_holds:
+  - HOLD_CAMERA_BRACKET_POSE_NO_AUTHORIZED_GEOMETRY
+  - HOLD_POINTING_REQUIREMENT_NOT_AUTHORIZED
+  status: FUNCTIONALLY_OPEN
+  closure_note: 'No authorized bracket pose or pointing datum exists: the M4 sensor-package candidate origin [190.25,0,80.0]
+    was rejected (penetrates M3R) and no replacement pose is authorized (BOM V2 DP-010 HARD_HOLD). No nominal geometry ->
+    reverse allocation is impossible without inventing nominals (zero-fill / hard-forcing forbidden). Awaits WP1 SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml
+    PENDING_SIBLING_HASH and an authorized pointing requirement.'
+- chain_id: M7-TC-14
+  title: HDRM_PRELOAD_INTERFACE
+  assembly_leg: HDRM -> ARM_AND_SPACECRAFT_RESTRAINT
+  predecessor_refs:
+    m4_plan: HDRM_PROTOTYPE_CLOSURE_PLAN_V1 gate.architecture_selected=false
+    predecessor: TC-012 (confidence NONE)
+    bom: DIGITAL_PROTOTYPE_BOM_V2_CANDIDATE DP-011 HARD_HOLD
+  function: 'hold-down preload interface: restraint seating, preload retention and release clearance'
+  reverse_allocation: []
+  functional_checks: []
+  wc_overall_pass: null
+  excluded_terms_not_zero_filled: []
+  retained_holds:
+  - HOLD_HDRM_ARCHITECTURE_NOT_SELECTED
+  - HOLD_MATING_PATTERN_AND_PRELOAD_NO_NUMERIC_AUTHORITY
+  - HOLD_RELEASE_CLEARANCE_AND_LOADS_NOT_AUTHORIZED
+  status: FUNCTIONALLY_OPEN
+  closure_note: 'HDRM architecture is not selected (M4 closure plan: HDRM-C01..C03 unscreened), the mating pattern / preload
+    / release clearance are all null (TC-012 confidence NONE; BOM V2 DP-011 not installed). No numeric basis for a preload-interface
+    chain exists. Awaits WP5 HDRM_ENGINEERING_PACK_V1.yaml PENDING_SIBLING_HASH; the allocation framework in this register
+    is ready to receive its nominals.'
+closure_gate:
+  chain_count: 14
+  functionally_closed_analytic_count: 12
+  functionally_open_count: 2
+  open_chain_ids:
+  - M7-TC-13
+  - M7-TC-14
+  wc_all_checks_pass_in_closed_chains: true
+  verdict: 12_OF_14_FUNCTIONALLY_CLOSED_ANALYTIC_2_FUNCTIONALLY_OPEN_DOCUMENTED
+release_prohibitions_carried:
+- NO_MANUFACTURING_CONFORMITY_CLAIM_FROM_ANALYTIC_CLOSURE
+- NO_FIT_OR_INTERFERENCE_FREE_CLAIM_WITHOUT_MEASURED_EVIDENCE
+- NO_THERMAL_CLEARANCE_CLAIM_WITHOUT_APPROVED_CTE_AND_ENVIRONMENT
+- NO_FASTENER_PRELOAD_OR_MARGIN_CLAIM
+- M4_OWNER_EXAMPLE_GRID_NOT_USED_AS_REQUIREMENT
+- NO_ZERO_FILL_OF_UNKNOWN_TERMS
+source_register:
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+    bytes: 3531
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    sha256: AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B
+    bytes: 4931
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/INTERFACE_STACKUP_B601_M3R_EXECUTED_V1.yaml:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/INTERFACE_STACKUP_B601_M3R_EXECUTED_V1.yaml
+    sha256: 483D75EE43B3214B2C18552991D2E9FB738F16ADF294F8A179AAD25DBEFDDC17
+    bytes: 15674
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/GRIPPER_CLEARANCE_SWEEP_VERDICT_V1.yaml:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/GRIPPER_CLEARANCE_SWEEP_VERDICT_V1.yaml
+    sha256: DE037E3147586F1D6D22F10A44941045F9C8A3116289CFB38DD49046B41705B6
+    bytes: 7361
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/HINGE_DEPLOYMENT_CHAIN_EXECUTED_V1.yaml:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/HINGE_DEPLOYMENT_CHAIN_EXECUTED_V1.yaml
+    sha256: B40F242CF52BD4568D838E0224A61D4BBA69937CDDA372EE8EA6BC5E2AA8B551
+    bytes: 9701
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_DATUMS_V1.yaml:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_DATUMS_V1.yaml
+    sha256: 0F9B413E7B6CD451E2724AD25CA4DA41E52E02C86F1D2874460274EADBAA47A2
+    bytes: 9037
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp6_drawings_bom/DIGITAL_PROTOTYPE_BOM_V2_CANDIDATE.csv:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp6_drawings_bom/DIGITAL_PROTOTYPE_BOM_V2_CANDIDATE.csv
+    sha256: 2FA3D479FB25295DF39C023D2204B2A75D351D81B162780908CCC700D097D544
+    bytes: 6446
+  20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/05_tolerance/INTERFACE_STACKUP_B601_M3R_V1.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/05_tolerance/INTERFACE_STACKUP_B601_M3R_V1.yaml
+    sha256: A5F95A9B11ACBF04E6ABEB2E850F5E18AD7CF8CAF18D70619DF7D04A1B09DA41
+    bytes: 9509
+  20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/05_tolerance/GRIPPER_FUNCTIONAL_TOLERANCE_MAP_V1.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/05_tolerance/GRIPPER_FUNCTIONAL_TOLERANCE_MAP_V1.yaml
+    sha256: 8CD92F90346EE4481172939DF1BA182383411748D1E586DF0035EF9013A06A23
+    bytes: 4232
+  20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/05_tolerance/HINGE_DEPLOYMENT_TOLERANCE_CHAIN_V1.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/05_tolerance/HINGE_DEPLOYMENT_TOLERANCE_CHAIN_V1.yaml
+    sha256: 6E17090392887ACFB8C3C31DF828E67252B27DF3092DB13E7E7892EA8BEE3858
+    bytes: 3326
+  20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/05_tolerance/TOLERANCE_CLOSURE_EXECUTION_PLAN_V1.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/05_tolerance/TOLERANCE_CLOSURE_EXECUTION_PLAN_V1.yaml
+    sha256: 42253B264E16BD14F9366D5B2EE6C4E5BD4F44AD64F1BE480EC027D2A2AAD5EC
+    bytes: 3535
+  20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/06_mechanism/MECHANISM_STATUS_REGISTER_V1.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/06_mechanism/MECHANISM_STATUS_REGISTER_V1.yaml
+    sha256: 307A205460D746AD8B4FA3561157CA63FBAAD2EC6153D63A6FA733E695236FC9
+    bytes: 4409
+  20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/06_mechanism/HDRM_PROTOTYPE_CLOSURE_PLAN_V1.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/06_mechanism/HDRM_PROTOTYPE_CLOSURE_PLAN_V1.yaml
+    sha256: C6E812BAF9617C7E74112DF831562864E735344BCA3D3EE021E57618E121204A
+    bytes: 4756
+  20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+    sha256: 67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA
+    bytes: 6236
+  20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/05_tolerance/gripper/GRIPPER_R1_RAIL_PALM_TOLERANCE_MODEL.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/05_tolerance/gripper/GRIPPER_R1_RAIL_PALM_TOLERANCE_MODEL.yaml
+    sha256: 14D1D928A101868BC5263ADDA2332005D69D260BDC922FC307F551A3E5199A65
+    bytes: 2066
+  20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/02_interfaces/B601_BASE_ADAPTER_REV_C_INTERFACE.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/02_interfaces/B601_BASE_ADAPTER_REV_C_INTERFACE.yaml
+    sha256: D63B867B3183434C054A8840735A2CDD9C5106D430CC76E44B0C840A11A522E9
+    bytes: 7821
+  ? 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_ADAPTER_INTERFACE_SSOT.yaml
+  : path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_ADAPTER_INTERFACE_SSOT.yaml
+    sha256: 591958F3A3BD06F5BD26B8218BFE145B4894031EC5005BC58C638B56D77F6E51
+    bytes: 3316
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+    sha256: 172F3603E458F670323925E644BC68623EE9C85FCA7AF1200FAE2576EB43C68B
+    bytes: 1246
+  20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/05_tolerance/system/SYSTEM_TOLERANCE_CHAIN_REGISTER_V1.csv:
+    path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/05_tolerance/system/SYSTEM_TOLERANCE_CHAIN_REGISTER_V1.csv
+    sha256: B12EA035554BA830D88EA426C90F5B2A5A1AAA7BBFE0D6F88C99BD754AFE6C1F
+    bytes: 7418
+  20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json:
+    path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+    sha256: 7BC0DF784B36159624A8A89B67207C54C5C9C780B103CB38658DE2D6BA845F47
+    bytes: 117402
+  20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_CONTINUOUS_STROKE_SAMPLES.csv:
+    path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_CONTINUOUS_STROKE_SAMPLES.csv
+    sha256: DAE4DBD5C2300D3CEC8602FDC9B12877614A2A8E28EFCD4A9D3F4F76A231382F
+    bytes: 14679
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    bytes: 11321
+  20_engineering/config/geometry/flexible_appendage_v1.yaml:
+    path: 20_engineering/config/geometry/flexible_appendage_v1.yaml
+    sha256: 52FA88084C628CE8845E05DE0C0A892BCA5347B7146C8D1C6B99093927153786
+    bytes: 1843
+  20_engineering/config/geometry/service_spacecraft_v1.yaml:
+    path: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+    sha256: 8DD8F22FF1F893273DE2215EA12819E4D41CC0E20B853ADC0774052237881432
+    bytes: 1176

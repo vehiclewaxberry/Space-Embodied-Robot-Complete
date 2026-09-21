@@ -1,0 +1,92 @@
+schema: FEA3_SYSTEM_MODAL_MODEL_PLAN_V1
+generated_local: '2026-08-21T20:33:00+08:00'
+phase: M6_CANDIDATE_AUTHORITY_CLOSURE
+work_package: WP5_STRUCTURAL_ENTRY
+model_id: FEA3_SYSTEM_MODAL
+model_level: LEVEL_3_COUPLED_SPACECRAFT
+status: DRAFT_PRE_AUTHORITY
+formal_fea_authorized: false
+formal_fea_run_count: 0
+
+scope: >-
+  Whole-spacecraft modal and response plan: bus primary structure, B601 arm,
+  M3R interface, and left/right solar arrays. Modal characterization first;
+  sine/random response only after authorized input spectra exist.
+  Preparation plan only; no FEA executed.
+
+model_content:
+  bus_primary_structure:
+    material: null
+    panel_joint_stiffness: null
+    local_reinforcement_definition: null
+    mass_properties_authority: null
+    boundary_reference: BC-BUS-001 (HOLD, PROHIBITED_FOR_FORMAL_SYSTEM_MODEL)
+  arm:
+    authority: accepted L0 URDF mass/kinematics only (4.695555949 kg)
+    structural_flexibility: null
+  m3r_interface_link: FEA1_M3R_INTERFACE
+  solar_arrays:
+    left_hinge_hdrm: BC-SOLAR-L-001 (hinge stiffness/damping null, HDRM preload null, stop contact null; HOLD)
+    right_hinge_hdrm: BC-SOLAR-R-001 (same; HOLD)
+  configuration_mass_properties: HOLD_0_OF_9_RELEASED
+
+modal_plan_draft:
+  status: DRAFT_PRE_AUTHORITY
+  extraction_method: LANCZOS_CLASS_EIGENVALUE
+  frequency_band_Hz: null
+  mode_count_target: null
+  boundary_condition_options:
+    - id: FREE_FREE
+      use: system modal characterization reference
+      status: DRAFT_OPTION
+    - id: CONSTRAINED_AT_LAUNCHER_INTERFACE
+      use: coupled loads analysis support
+      status: HOLD_NO_LAUNCHER_OR_DEPLOYER_ICD (BC-LAUNCH-001)
+  effective_mass_and_participation_reporting: REQUIRED_DRAFT
+  modal_acceptance_criteria: null
+
+response_plan_draft:
+  status: HOLD
+  sine_response: BLOCKED (LC-002 HOLD_NO_SINE_INPUT)
+  random_response: BLOCKED (LC-003 HOLD_NO_PSD)
+  acoustic_response: BLOCKED (LC-004 HOLD_NO_ACOUSTIC_SPECTRUM)
+  damping_ratio_authority: null
+  note: no response analysis may run until authorized spectra, damping, and notching rules exist
+
+mesh_convergence_plan:
+  status: DRAFT_PRE_AUTHORITY
+  element_type_candidates:
+    bus_panels: [S4R_CLASS_SHELL]
+    arm_and_fittings: [C3D10_CLASS_TET10]
+    hinges_and_joints: [BEAM_PLUS_COUPLING idealization until stiffness authority]
+  size_sequence_mm:
+    global: [20.0, 10.0, 5.0]
+  convergence_criteria_draft:
+    modal_frequency_change_between_refinements_pct_lt: 2.0
+    modal_effective_mass_sum_fraction_target: null
+  note: placeholders for project tailoring; none approved
+
+acceptance_criteria_draft:
+  status: DRAFT_PRE_AUTHORITY
+  all_criteria: null
+  tailoring_and_owner_approval: REQUIRED_NOT_PRESENT
+
+required_authorities_before_execution:
+  - complete configuration mass properties (0 of 9 released)
+  - panel stiffness and damping (null)
+  - verified joints (HOLD)
+  - modal acceptance criteria (null)
+
+source_register:
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/07_structural_model/STRUCTURAL_MODEL_PLAN_V1.yaml
+    sha256: 340a16ddcede63bab98914d36f59c0dcee29e6727bc3c7a74c6547223eae9ebb
+  - path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/06_structural_entry/M5_STRUCTURAL_ANALYSIS_ENTRY_GATE_V1.json
+    sha256: bb8c7587ceac182ad3f15eae887e43497fba5c99c8425a41f1fffd36cd00b5d5
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/BOUNDARY_CONDITION_AUTHORITY.json
+    sha256: 4d936f4278c728243a088703e84bd421149a95780658755d05ed7cea13121de4
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_CASE_MATRIX.csv
+    sha256: cc37f1dfab7bb5be219c7df78f2276ce605475f8990e50101502fcc4f521eee5
+  - path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+
+disposition: HOLD_DO_NOT_RUN_FORMAL_FEA

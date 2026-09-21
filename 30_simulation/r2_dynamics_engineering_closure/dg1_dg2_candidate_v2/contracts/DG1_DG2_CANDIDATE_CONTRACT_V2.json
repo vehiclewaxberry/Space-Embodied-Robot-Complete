@@ -1,0 +1,132 @@
+{
+  "schema": "DG1_DG2_CANDIDATE_CONTRACT_V2",
+  "generated_date": "2026-08-27",
+  "authority_scope": "CANDIDATE_ENGINEERING_DIAGNOSTIC_ONLY",
+  "decision_rule": "Authority > Evidence > Independent reproduction > Agent opinion",
+  "claim_boundary": {
+    "allowed": [
+      "CURRENT_R2 mixed-coordinate reference-metric invariance diagnostic",
+      "CURRENT_R2 prescribed-joint-motion nonzero inertial-momentum reconstruction",
+      "per-body momentum summation independent of generalized-momentum matrix multiplication"
+    ],
+    "forbidden": [
+      "torque-driven production dynamics",
+      "contact or target attachment",
+      "actuator or hardware validity",
+      "DG3, DG4, DG5 closure",
+      "TMG-4 or TMG-6 release credit",
+      "next-stage authorization"
+    ]
+  },
+  "source_pins": {
+    "parent_dynamics_source": {
+      "path": "30_simulation/r2_dynamics_engineering_closure/src/r2_dynamics.py",
+      "bytes": 51371,
+      "sha256": "437155144E1D634936DDAD845930B0241270314C1E8319878B153933FD9B6513"
+    },
+    "parent_authority": {
+      "path": "30_simulation/r2_dynamics_engineering_closure/contracts/R2_DYNAMICS_AUTHORITY_V1.yaml",
+      "bytes": 9860,
+      "sha256": "67F69C4BBA252D4B988CB2A3403C84A25C7826BA89A003E3FBA298A70A377903"
+    },
+    "parent_config": {
+      "path": "30_simulation/r2_dynamics_engineering_closure/config/R2_DYNAMICS_ENGINEERING_CONFIG_V1.json",
+      "bytes": 3142,
+      "sha256": "E4C7B984F0A47DC6EC651976EA66A849084DF6E4C3AE1A25814C13347C2BD0BE"
+    },
+    "free_floating_tree": {
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/free_floating_dynamics.py",
+      "bytes": 30769,
+      "sha256": "8ED47D66F3805394FF369492ABD56A5F0E832AFD6D003C6FA18E66F510836813"
+    },
+    "unified_r2_backend": {
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/runtime_fail_closed_backends_v2/sim13_v2_backends/dynamics_backend.py",
+      "bytes": 24361,
+      "sha256": "3A6A890D9ABABBC4E7E64315E461F56278BF3F9D4C56DDE89607598C01632DB7"
+    },
+    "unified_r2_urdf": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/generated_v2/unified_r2_c01_no_route_c_sim_candidate_v2.urdf",
+      "bytes": 17191,
+      "sha256": "D84AA23CE98A2A9C697B1F32E433C01C3F0AE3BD0B5C56EF9A218DD88911CBDA"
+    }
+  },
+  "coordinate_contract": {
+    "joint_order": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6",
+      "gripper_joint1",
+      "gripper_joint2"
+    ],
+    "joint_types": [
+      "revolute",
+      "revolute",
+      "revolute",
+      "revolute",
+      "revolute",
+      "revolute",
+      "prismatic",
+      "prismatic"
+    ],
+    "coordinate_units": ["rad", "rad", "rad", "rad", "rad", "rad", "m", "m"],
+    "reference_scale_definition": "FINITE_URDF_JOINT_SPAN__NOT_HARDWARE_ACCURACY_OR_TASK_WEIGHTING",
+    "reference_scales_mixed_rad_m": [5.6, 3.14, 3.14, 3.44, 3.14, 6.28, 0.0715, 0.0715],
+    "alternate_scale_factors_dimensionless": [0.5, 0.75, 1.25, 1.5, 2.0, 0.8, 1.2, 0.6],
+    "normalized_coordinate_definition": "q = diag(reference_scales) * x",
+    "metric_credit_boundary": "CONDITION_NUMBER_CREDIT_ONLY_AFTER_EXPLICIT_REFERENCE_SCALE_DECLARATION"
+  },
+  "dg1_case": {
+    "q_mixed_rad_m": [-0.000014722592995215019, -1.0482002296028674, -1.3989828152470147, -1.2200100679438755, 0.000003673218594813444, 0.000018395811591279014, 0.03575, 0.03575],
+    "qdot_mixed_rad_s_m_s": [0.01, -0.012, 0.008, -0.006, 0.004, -0.002, 0.001, -0.0008],
+    "tau_mixed_Nm_N": [0.02, -0.015, 0.01, 0.008, -0.006, 0.005, 0.012, -0.009],
+    "effort_authority": "ARBITRARY_NUMERICAL_EXCITATION_NOT_HARDWARE_AUTHORITY"
+  },
+  "dg2_case": {
+    "q0_mixed_rad_m": [-0.000014722592995215019, -1.0482002296028674, -1.3989828152470147, -1.2200100679438755, 0.000003673218594813444, 0.000018395811591279014, 0.03575, 0.03575],
+    "prescribed_qdot_mixed_rad_s_m_s": [0.01, -0.012, 0.008, -0.006, 0.004, -0.002, 0.001, -0.0008],
+    "base_position_inertial_initial_m": [0.12, -0.08, 0.04],
+    "base_quaternion_body_to_inertial_initial_wxyz": [0.98, 0.1, -0.08, 0.12],
+    "linear_momentum_inertial_target_kg_m_s": [0.05, -0.03, 0.02],
+    "angular_momentum_about_inertial_origin_target_kg_m2_s": [0.04, -0.025, 0.035],
+    "duration_s": 0.02,
+    "fixed_step_s": 0.001,
+    "primary_solver": "FIXED_STEP_RK4_WITH_QUATERNION_RENORMALIZATION",
+    "cross_solver": "SCIPY_DOP853",
+    "cross_rtol": 1e-12,
+    "cross_atol": 1e-14,
+    "cross_max_step_s": 0.001,
+    "model_boundary": "PRESCRIBED_JOINT_MOTION_MOMENTUM_LEVEL_NOT_TORQUE_DRIVEN_NOT_CONTACT"
+  },
+  "thresholds": {
+    "scale_span_max_abs_mixed_rad_m": 1e-15,
+    "energy_invariance_relative_max": 1e-12,
+    "virtual_power_invariance_relative_max": 1e-12,
+    "equation_residual_normalized_max_abs_J": 1e-12,
+    "acceleration_invariance_revolute_max_abs_rad_s2": 1e-10,
+    "acceleration_invariance_prismatic_max_abs_m_s2": 1e-10,
+    "linear_momentum_residual_max_kg_m_s": 1e-11,
+    "angular_momentum_residual_max_kg_m2_s": 1e-11,
+    "matrix_vs_body_linear_max_kg_m_s": 1e-11,
+    "matrix_vs_body_angular_max_kg_m2_s": 1e-11,
+    "rk4_dop853_position_cross_max_m": 1e-9,
+    "rk4_dop853_orientation_cross_max_rad": 1e-9,
+    "rk4_dop853_joint_cross_revolute_max_rad": 1e-11,
+    "rk4_dop853_joint_cross_prismatic_max_m": 1e-11,
+    "quaternion_norm_error_max": 1e-12,
+    "minimum_joint_limit_margin_mixed_rad_m": 0.0
+  },
+  "execution_guards": {
+    "contact_called": false,
+    "target_attached": false,
+    "collision_query_called": false,
+    "path_search_called": false,
+    "control_command_issued": false,
+    "hardware_limit_claimed": false
+  },
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

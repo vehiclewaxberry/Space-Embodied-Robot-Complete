@@ -1,0 +1,44 @@
+schema: PREBIND_CAPTURE_FSM_V1
+status: PLANNED
+states:
+- id: RPO
+  topology: PRE_CAPTURE
+- id: TASK_READY
+  topology: PRE_CAPTURE
+- id: PREGRASP
+  topology: PRE_CAPTURE
+- id: COMPLIANT_CAPTURE
+  topology: COMPLIANT_CAPTURE
+- id: LOCKED_COMPOSITE
+  topology: LOCKED_COMPOSITE
+- id: SAFE_RECOVERY
+  topology: PRE_CAPTURE_OR_LOCKED_BY_SCENARIO
+- id: ABORT
+  topology: FAIL_CLOSED
+transitions:
+- from: RPO
+  to: TASK_READY
+  guard: handoff schema+plant+frame hashes valid AND SAFE00 decision ALLOW
+  phase0: NOT_EVALUATED
+- from: TASK_READY
+  to: PREGRASP
+  guard: mechanical Route-C mission state SAFE AND control authority valid
+  phase0: HOLD
+- from: PREGRASP
+  to: COMPLIANT_CAPTURE
+  guard: contact authority resolved AND state continuity ledger open
+  phase0: HOLD
+- from: COMPLIANT_CAPTURE
+  to: LOCKED_COMPOSITE
+  guard: attachment transform + impulse/momentum/energy ledger close
+  phase0: HOLD
+- from: '*'
+  to: ABORT
+  guard: UNKNOWN/UNSAFE/hash drift/schema mismatch/physics veto
+  phase0: ACTIVE_FAIL_CLOSED_RULE
+invariants:
+- No pose snap
+- Contact and locked constraint are mutually exclusive
+- PREGRASP posture cannot stand in for CAPTURE topology
+- 150 kg/3 deg/s anchor remains physics veto/abort unless a later authorized Gate
+  proves otherwise

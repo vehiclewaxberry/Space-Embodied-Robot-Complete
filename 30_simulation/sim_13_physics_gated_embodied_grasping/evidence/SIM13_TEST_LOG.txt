@@ -1,0 +1,36 @@
+SIM13 production-bound deterministic bootstrap test run
+timestamp: 2026-08-21T00:33:15+08:00
+command: SIM13_PRODUCTION_INTERFACE=<rapid/02_interfaces/MECH_RL_INTERFACE_V1.yaml> python -m pytest -q
+working_directory: 30_simulation/sim_13_physics_gated_embodied_grasping
+platform: win32
+python: 3.13.9 (G:/Windows_program_file/Anaconda/python.exe)
+pytest: 8.4.2
+production_interface_sha256: 26E5A55570BE9E1DAF6683F76FB2A68D0265872EB5FB7C876E3324914DA36BB0
+collected: 11
+passed: 11
+failed: 0
+errors: 0
+duration_s: 2.79
+
+tests/test_sim13_bootstrap.py::test_env_reset_deterministic PASSED
+tests/test_sim13_bootstrap.py::test_same_seed_same_state PASSED
+tests/test_sim13_bootstrap.py::test_asset_hash_binding PASSED
+tests/test_sim13_bootstrap.py::test_urdf_joint_count PASSED
+tests/test_sim13_bootstrap.py::test_frame_tree PASSED
+tests/test_sim13_bootstrap.py::test_collision_mesh_loading PASSED
+tests/test_sim13_bootstrap.py::test_action_mask_unknown PASSED
+tests/test_sim13_bootstrap.py::test_abort_always_available PASSED
+tests/test_sim13_bootstrap.py::test_22kg_anchor PASSED
+tests/test_sim13_bootstrap.py::test_150kg_anchor PASSED
+tests/test_sim13_bootstrap.py::test_no_false_allow PASSED
+
+Production loader summary:
+links=10; joints=9; joint_types=6R+1 fixed+2P;
+b601_mass_kg=4.695555949342986; frame_count=23;
+accepted_configuration_count=10; grasp_candidate_count=2.
+
+Scope note:
+This result proves production mechanical-asset loading, deterministic reset,
+two safe-executable anchor scenes, and fail-closed action masking. It does not
+claim contact-physics fidelity, a trained policy, grasp success, HIL, real
+robotic execution, or flight qualification.

@@ -1,0 +1,111 @@
+{
+  "run": "r01_deck_fastening_20260917",
+  "ticket": "R01_DECK_ANGLE_FASTENER_MINIMUM_PROPOSAL_R1",
+  "scope_authorized": "digital_geometry / nominal_digital_assembly 子项；父票不关闭；R07 不自动关闭",
+  "builder": "WP03 R01 唯一构建者（CAD 重任务，串行）",
+  "date": "2026-09-17",
+  "acceptance_items": [
+    {
+      "item": 1,
+      "requirement": "最终 BRep/STEP 读回两甲板共 16 个所需闭孔，原四处破边被消除",
+      "status": "PASS",
+      "evidence": "evidence/acc1_deck_closed_holes.json",
+      "key_numbers": {
+        "closed_holes": "16/16",
+        "old_pattern_residual_faces": 0,
+        "min_hole_to_column_notch_mm": 9.8,
+        "min_hole_to_deck_outer_edge_mm": 3.8,
+        "method": "build123d.import_step 读回；圆柱面完整度 + 72 点环采样 + 轴心判空"
+      }
+    },
+    {
+      "item": 2,
+      "requirement": "两层连接的基准、孔轴、方向、单位、实际夹层与配对一致",
+      "status": "PASS",
+      "evidence": "evidence/acc2_connection_consistency.json, evidence/r01_dual_hole_pairs_32.json/.csv",
+      "key_numbers": {
+        "groups": "32/32",
+        "coaxial_deviation_mm": 0.0,
+        "parallelism_deviation": 0.0,
+        "deck_angle_stackup_mm": "3.0+3.0=6.0",
+        "angle_web_stackup_mm": "3.0+2.0=5.0",
+        "datum": "S (bus_geometric_center)",
+        "units": "mm"
+      }
+    },
+    {
+      "item": 3,
+      "requirement": "头、垫、螺母/螺纹承压区完整，柱避口保留；名义几何余量与结构许用边距分别记录",
+      "status": "PASS（几何部分）；结构许用边距 UNKNOWN 显式保留",
+      "evidence": "evidence/acc3_acc4_bearing_notch_stack.json",
+      "key_numbers": {
+        "fastener_envelopes_complete": "32/32（头Ø5.5/垫Ø6×2/杆Ø3/螺母Ø6）",
+        "column_notch_walls_per_deck": 12,
+        "notch_depth_mm": 12.5,
+        "nominal_margin_angle_Y_edge_mm": 3.8,
+        "nominal_margin_to_notch_mm": 9.8,
+        "structural_allowable_edge_margin": "UNKNOWN（须绑定材料/载荷）"
+      }
+    },
+    {
+      "item": 4,
+      "requirement": "装配用标准件长度、有效啮合和防脱意图可审查；材料/等级/预紧/防松未定项保留 UNKNOWN",
+      "status": "PASS_WITH_UNKNOWNS_PRESERVED",
+      "evidence": "evidence/r01_fastener_stacks_32.json/.csv",
+      "key_numbers": {
+        "stack_rows": 32,
+        "M3x12_deck_angle_sets": 16,
+        "M3x10_angle_web_sets": 16,
+        "material_grade": "UNKNOWN",
+        "effective_thread_engagement": "UNKNOWN",
+        "preload": "UNKNOWN",
+        "locking": "UNKNOWN",
+        "unknown_zero_fill": false
+      }
+    },
+    {
+      "item": 5,
+      "requirement": "紧固件、邻近设备、立柱、侧盖及工具进入/退出均纳入具名检查集合",
+      "status": "PASS_BUILDER_SELF_CHECK（构建者自检，非独立复验）",
+      "evidence": "evidence/acc5_builder_self_check.json",
+      "key_numbers": {
+        "named_check_set_size": 108,
+        "violations": 0,
+        "penetration_sample_hits": 0,
+        "fastener_pairwise_min_distance_mm": 4.5458,
+        "sequence_constraints_recorded": 46,
+        "notable": "下舱->上舱->设备->侧盖装序约束；上甲板 x=-50 工具头顶路径与保持横梁/耳座交叉（装序未冻结，移交装配程序任务）"
+      }
+    },
+    {
+      "item": 6,
+      "requirement": "独立读回能检出旧破边、一个缺对偶/错轴线、一个垫圈或工具冲突；新候选没有新增相关未处置干涉",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "note": "独立复验属审阅者职责，本轮唯一构建者不自封独立；builder_self_check 已提供 0 新增违规的候选侧数据与可复跑脚本（scripts/s03-s07），旧破边负控可由旧孔系参数（legacy 字段）回放构造。"
+    },
+    {
+      "item": 7,
+      "requirement": "新几何、局部图纸、BOM 和质量变动同源；R07 不自动关闭",
+      "status": "PARTIAL：同源 PASS；局部尺寸图 NOT_RUN；整星全装重建/BOM.csv 重导出 NOT_RUN；R07 未触碰",
+      "evidence": "evidence/r01_bom_mass_delta.json, logs/s08_build_smoke_log.json, PATCH_NOTES.md",
+      "key_numbers": {
+        "single_source": "design_parameters.json deck_fastening_r01 + spacecraft_model.deck_fastening_parts",
+        "parameters_sha256_after": "15c2a9673be08d97ef9e4a269841b3f89118e9ffa7e501db3e840e61c9ba104e",
+        "model_sha256_after": "eb40ff8019e57cf31730856775bb57dad9e93fa545e23866fc1a30c3cc05e788",
+        "mass_delta_kg_AL_candidate": -0.003145,
+        "drawings": "NOT_RUN",
+        "full_assembly_rebuild": "NOT_RUN（烟测 383 实例通过，results 回执逐字节恢复）",
+        "issues_json_modified": false,
+        "R07_status_touched": false
+      }
+    }
+  ],
+  "not_run_register": [
+    "验收6 独立复验（审阅者）",
+    "验收3 局部尺寸图（图纸部分）",
+    "整星 361 实例全装重建与正式 BOM/STEP 重导出",
+    "材料/载荷/有效啮合/预紧/防松/结构许用边距评定（保持 UNKNOWN）"
+  ],
+  "fail_policy": "FAIL 不被 PASS 覆盖；本轮无 FAIL 项；UNKNOWN 全部显式保留"
+}

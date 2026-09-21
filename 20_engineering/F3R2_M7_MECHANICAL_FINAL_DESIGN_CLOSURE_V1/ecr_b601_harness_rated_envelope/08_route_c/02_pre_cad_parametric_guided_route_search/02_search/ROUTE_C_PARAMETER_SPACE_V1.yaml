@@ -1,0 +1,163 @@
+{
+  "schema": "ROUTE_C_PARAMETER_SPACE_V1",
+  "version": "1.0",
+  "authority_class": "PRE_CAD_DIAGNOSTIC_SEARCH_SCHEMA_NOT_DESIGN_AUTHORITY",
+  "status": "FROZEN_PARAMETER_NAMES_RANGES_UNITS_AND_UNKNOWN_FIELDS",
+  "next_stage_authorized": false,
+  "selection_status": "NO_ROUTE_C_TOPOLOGY_OR_PARAMETER_POINT_SELECTED",
+  "mutual_exclusion_rule": "Exactly one of RC-A, RC-B, RC-C or RC-D may be active in a diagnostic branch. Results shall never be averaged across branches.",
+  "joint_domain_rule": "Accepted-URDF J1..J6 ranges remain unchanged. This parameter schema cannot reduce, clip or relabel hardware joint limits.",
+  "topologies": [
+    {
+      "id": "RC-A",
+      "architecture": "captive-guided-hybrid",
+      "status": "PROPOSED_FOR_ODR42_NOT_SELECTED",
+      "J1": "captive fixed-curvature cassette",
+      "J2": "parent-child semi-captive moving guide or rolling loop",
+      "J3": "parent-child semi-captive moving guide or rolling loop",
+      "J4": "exclusive trade: side-bypass OR guided-loop",
+      "J5": "fixed-curvature wrist wrap",
+      "J6": "fixed-curvature wrist wrap",
+      "split_power_data": "TRADE_AFTER_ELECTRICAL_AND_EMC_INPUTS"
+    },
+    {
+      "id": "RC-B",
+      "architecture": "all-joint-semi-captive-carrier",
+      "status": "ALTERNATE_NOT_SELECTED",
+      "J1": "semi-captive carrier",
+      "J2": "semi-captive carrier",
+      "J3": "semi-captive carrier",
+      "J4": "semi-captive carrier",
+      "J5": "semi-captive carrier",
+      "J6": "semi-captive carrier",
+      "split_power_data": "POSSIBLE_NOT_SELECTED"
+    },
+    {
+      "id": "RC-C",
+      "architecture": "dual-dress-pack-hybrid",
+      "status": "TRADE_ONLY",
+      "J1": "captive fixed-curvature cassette",
+      "J2": "separate power and data rolling loops",
+      "J3": "separate power and data rolling loops",
+      "J4": "separate local bypasses",
+      "J5": "fixed-curvature dual wrist wraps",
+      "J6": "fixed-curvature dual wrist wraps",
+      "split_power_data": "REQUIRED_BUT_NOT_AUTHORIZED_WITHOUT_MPI_AND_EMC"
+    },
+    {
+      "id": "RC-D",
+      "architecture": "improved-free-loop",
+      "status": "REJECTED_AS_PRIMARY_CONCEPT",
+      "J1": "free storage loop",
+      "J2": "rerouted free loop",
+      "J3": "rerouted free loop",
+      "J4": "local side bypass",
+      "J5": "free wrist loop",
+      "J6": "free wrist loop",
+      "split_power_data": "OPTIONAL_NOT_SELECTED",
+      "rejection_basis": "Does not eliminate the uncontrolled fold and snag mechanisms observed in Route-B."
+    }
+  ],
+  "global_scan_axes": [
+    {
+      "id": "bundle_outer_diameter",
+      "symbol": "D_bundle",
+      "unit": "mm",
+      "diagnostic_range": {"min": 4.0, "max": 20.0},
+      "selected_value": null,
+      "uncertainty": null,
+      "authority": "SCAN_AXIS_ONLY_VENDOR_AND_MPI_VALUE_UNKNOWN"
+    },
+    {
+      "id": "vendor_minimum_bend_radius",
+      "symbol": "R_vendor_min",
+      "unit": "mm",
+      "diagnostic_range": {"min": 5.0, "max": 100.0},
+      "selected_value": null,
+      "uncertainty": null,
+      "authority": "SCAN_AXIS_ONLY_VENDOR_VALUE_UNKNOWN"
+    },
+    {
+      "id": "keepout_inflation",
+      "symbol": "k_keepout",
+      "unit": "mm",
+      "diagnostic_range": {"min": 0.0, "max": 30.0},
+      "selected_value": null,
+      "uncertainty": null,
+      "authority": "SENSITIVITY_AXIS_ONLY_NOT_A_TOLERANCE"
+    }
+  ],
+  "joint_variable_schema": {
+    "J1": [
+      {"id": "cassette_or_carrier_radius", "unit": "mm", "diagnostic_range": {"min": 20.0, "max": 150.0}, "physical_value": null},
+      {"id": "stored_wrap_angle", "unit": "deg", "diagnostic_range": {"min": 180.0, "max": 720.0}, "physical_value": null},
+      {"id": "exit_clocking", "unit": "deg", "diagnostic_range": {"min": -180.0, "max": 180.0}, "physical_value": null},
+      {"id": "carrier_travel", "unit": "mm", "diagnostic_range": {"min": 0.0, "max": 300.0}, "physical_value": null}
+    ],
+    "J2": [
+      {"id": "rolling_loop_radius", "unit": "mm", "diagnostic_range": {"min": 15.0, "max": 150.0}, "physical_value": null},
+      {"id": "guide_offset_parent", "unit": "mm", "diagnostic_range": {"min": -120.0, "max": 120.0}, "physical_value": null},
+      {"id": "guide_offset_child", "unit": "mm", "diagnostic_range": {"min": -120.0, "max": 120.0}, "physical_value": null},
+      {"id": "free_span_allowance", "unit": "mm", "diagnostic_range": {"min": 0.0, "max": 300.0}, "physical_value": null},
+      {"id": "carrier_travel", "unit": "mm", "diagnostic_range": {"min": 0.0, "max": 300.0}, "physical_value": null}
+    ],
+    "J3": [
+      {"id": "rolling_loop_radius", "unit": "mm", "diagnostic_range": {"min": 15.0, "max": 150.0}, "physical_value": null},
+      {"id": "guide_offset_parent", "unit": "mm", "diagnostic_range": {"min": -120.0, "max": 120.0}, "physical_value": null},
+      {"id": "guide_offset_child", "unit": "mm", "diagnostic_range": {"min": -120.0, "max": 120.0}, "physical_value": null},
+      {"id": "free_span_allowance", "unit": "mm", "diagnostic_range": {"min": 0.0, "max": 300.0}, "physical_value": null},
+      {"id": "carrier_travel", "unit": "mm", "diagnostic_range": {"min": 0.0, "max": 300.0}, "physical_value": null}
+    ],
+    "J4": {
+      "branch_rule": "J4_SIDE_BYPASS and J4_GUIDED_LOOP are mutually exclusive and shall not be merged into one curve, one score or one parameter point.",
+      "J4_SIDE_BYPASS": [
+        {"id": "bypass_offset", "unit": "mm", "diagnostic_range": {"min": -150.0, "max": 150.0}, "physical_value": null},
+        {"id": "bypass_radius", "unit": "mm", "diagnostic_range": {"min": 15.0, "max": 150.0}, "physical_value": null},
+        {"id": "entry_clocking", "unit": "deg", "diagnostic_range": {"min": -180.0, "max": 180.0}, "physical_value": null}
+      ],
+      "J4_GUIDED_LOOP": [
+        {"id": "rolling_loop_radius", "unit": "mm", "diagnostic_range": {"min": 15.0, "max": 150.0}, "physical_value": null},
+        {"id": "guide_offset_parent", "unit": "mm", "diagnostic_range": {"min": -120.0, "max": 120.0}, "physical_value": null},
+        {"id": "guide_offset_child", "unit": "mm", "diagnostic_range": {"min": -120.0, "max": 120.0}, "physical_value": null},
+        {"id": "carrier_travel", "unit": "mm", "diagnostic_range": {"min": 0.0, "max": 300.0}, "physical_value": null}
+      ]
+    },
+    "J5": [
+      {"id": "wrist_wrap_radius", "unit": "mm", "diagnostic_range": {"min": 10.0, "max": 120.0}, "physical_value": null},
+      {"id": "wrist_wrap_angle", "unit": "deg", "diagnostic_range": {"min": 90.0, "max": 540.0}, "physical_value": null},
+      {"id": "exit_clocking", "unit": "deg", "diagnostic_range": {"min": -180.0, "max": 180.0}, "physical_value": null},
+      {"id": "carrier_travel", "unit": "mm", "diagnostic_range": {"min": 0.0, "max": 200.0}, "physical_value": null}
+    ],
+    "J6": [
+      {"id": "wrist_wrap_radius", "unit": "mm", "diagnostic_range": {"min": 10.0, "max": 120.0}, "physical_value": null},
+      {"id": "wrist_wrap_angle", "unit": "deg", "diagnostic_range": {"min": 90.0, "max": 720.0}, "physical_value": null},
+      {"id": "exit_clocking", "unit": "deg", "diagnostic_range": {"min": -180.0, "max": 180.0}, "physical_value": null},
+      {"id": "carrier_travel", "unit": "mm", "diagnostic_range": {"min": 0.0, "max": 200.0}, "physical_value": null}
+    ]
+  },
+  "unknown_physical_inputs": {
+    "HN_02_datum_and_volume": null,
+    "HN_03_datum_and_volume": null,
+    "named_finite_guide_volumes": null,
+    "named_finite_clamp_volumes": null,
+    "named_finite_connector_volumes": null,
+    "physical_route_c_cad_branch": null,
+    "selected_bundle_construction": null,
+    "selected_bundle_outer_diameter_mm": null,
+    "selected_vendor_minimum_bend_radius_mm": null,
+    "selected_connector_envelopes": null,
+    "carrier_hard_stop_positions_mm": null,
+    "guide_material_and_wear_pair": null,
+    "manufacturing_coordinates_mm": null
+  },
+  "search_output_rules": {
+    "candidate_found_allowed_without_physical_guide_volumes": false,
+    "D_max_geometry_mm": null,
+    "R_path_min_mm": null,
+    "deltaL_mm": null,
+    "carrier_travel_mm": null,
+    "branch_result_averaging": "FORBIDDEN",
+    "scan_axis_as_measured_value": "FORBIDDEN",
+    "test_pass_as_authority": "FORBIDDEN"
+  }
+}

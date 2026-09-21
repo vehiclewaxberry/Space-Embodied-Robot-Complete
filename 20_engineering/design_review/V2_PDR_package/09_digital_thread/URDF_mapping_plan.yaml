@@ -1,0 +1,67 @@
+schema_version: v2-mechanical-urdf-mapping-plan-v0.1
+plan_id: SV2_PDR_URDF_MAPPING
+created_on: "2026-07-24"
+status: MAPPING_PLAN_ONLY_EXPORT_NOT_AUTHORIZED
+
+accepted_source:
+  path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+  link_count: 10
+  joint_count: 9
+  modify_allowed: false
+
+root_mapping:
+  CAD_object: SV2-ASM-060
+  spacecraft_interface_frame: M
+  URDF_root_frame: A0
+  transform: T_MA0_identity
+  manual_visual_offset_allowed: false
+
+identity_mapping:
+  - URDF_link: base_link
+    future_CAD_role: B601_reference_link
+  - URDF_link: link1
+    future_CAD_role: B601_reference_link
+  - URDF_link: link2
+    future_CAD_role: B601_reference_link
+  - URDF_link: link3
+    future_CAD_role: B601_reference_link
+  - URDF_link: link4
+    future_CAD_role: B601_reference_link
+  - URDF_link: link5
+    future_CAD_role: B601_reference_link
+  - URDF_link: link6
+    future_CAD_role: B601_reference_link
+  - URDF_link: gripper_link
+    future_CAD_role: B601_reference_link
+  - URDF_link: gripper_left
+    future_CAD_role: B601_reference_link
+  - URDF_link: gripper_right
+    future_CAD_role: B601_reference_link
+
+semantic_frames:
+  G:
+    source: inherited_from_accepted_URDF
+    physical_contact_authority: false
+  E_virtual:
+    source: accepted_B601_semantic_contract
+    global_pose_requires_joint_state: true
+  TCP_contact:
+    transform: T_E_TCP
+    value: null
+    enabled: false
+
+future_export_contract:
+  export_from_V2_CAD_now: false
+  generate_new_URDF_now: false
+  replace_accepted_source_now: false
+  unit_and_axis_validation_required: true
+  link_joint_name_preservation_required: true
+  independent_hash_and_topology_check_required: true
+  dynamics_authorization_required: true
+
+prohibited:
+  - merge_links_for_visual_convenience
+  - infer_inertial_properties_from_visual_CAD
+  - create_physical_TCP_or_contact
+  - inherit_scientific_Gate_PASS_from_CAD

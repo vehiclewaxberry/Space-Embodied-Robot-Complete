@@ -1,0 +1,1120 @@
+schema_version: comp-prot-03.digital-body-record.v0.1
+record_id: candidate_12u_b601_digital_body_v0_1
+phase: COMP-PROT-03-A3-G0-DIGITAL-BODY-METHOD
+created_on: "2026-07-23"
+status: PARTIAL_WITH_EXPLICIT_UNKNOWNS
+
+authority:
+  scientific_gate: false
+  runtime_configuration: false
+  cad_generation_authorized: false
+  urdf_generation_authorized: false
+  simulation_authorized: false
+  execution_authority: false
+
+parent_records:
+  - source_id: a2_mechanical_standard
+    path: ../comp_prot_03_a2_candidate_model_review/mechanical_configuration_design_standard.md
+    sha256: 61fb5695f9f3e03788a5a3e226c344217b10c5cbe121e15c2161aeab52f3242e
+    authority: A2_DESIGN_CONTRACT
+    qualification: SOURCE_BOUND
+    authoritative_fields:
+      - mechanical_topology_rules
+      - mass_and_frame_design_rules
+      - consumer_boundaries
+    limitations:
+      - design_contract_not_physical_verification
+  - source_id: a2_candidate_configuration
+    path: ../comp_prot_03_a2_candidate_model_review/candidate_configuration_v0.yaml
+    sha256: a055fb70c7e39047a84381c22bafed61a63932c334e81986a7b14599dce0a820
+    authority: A2_DESIGN_CONTRACT
+    qualification: SOURCE_BOUND
+    authoritative_fields:
+      - selected_mechanical_topology
+      - geometry_profile_candidates
+      - mass_ownership_proposal
+      - task_interface_semantics
+    limitations:
+      - candidate_model_design_only
+  - source_id: a2_digital_skeleton
+    path: ../comp_prot_03_a2_candidate_model_review/digital_skeleton_model_v0.yaml
+    sha256: 5d0f87aaabc00e43466873d67213455f75c568521eb5acaa84dbeed6d3d7248d
+    authority: A2_LOGICAL_MODEL
+    qualification: SOURCE_BOUND
+    authoritative_fields:
+      - logical_nodes_edges_and_transform_references
+      - joint_registry
+      - candidate_mass_ledger
+      - keepout_registry
+    limitations:
+      - logical_skeleton_only
+      - not_cad_or_urdf
+  - source_id: a2_db_blocker_ledger
+    path: ../comp_prot_03_a2_candidate_model_review/db_blocker_resolution_ledger.yaml
+    sha256: c71308c2b5d3cab5ebb93d2340771eb7bcddb4b9e4654c316bff5bfd1a40e7b8
+    authority: A2_BLOCKER_LEDGER
+    qualification: SOURCE_BOUND
+    authoritative_fields:
+      - blocker_disposition
+      - evidence_closure_state
+      - downstream_effect
+    limitations:
+      - one_of_fifteen_closed_by_evidence
+  - source_id: a2_cad_entry_gate
+    path: ../comp_prot_03_a2_candidate_model_review/cad_entry_gate.md
+    sha256: f2846219a6bd0ca906f9b95636b707120d22ac158c960314705dc133e5b91353
+    authority: A2_GATE
+    qualification: SOURCE_BOUND
+    authoritative_fields:
+      - cad_entry_verdict
+      - pre_a3_evidence_requirements
+      - a3_exit_requirements
+    limitations:
+      - non_scientific_gate
+
+identity:
+  configuration_id: candidate_12u_b601_space_robot_v0
+  system_role: space_embodied_robot_digital_body_candidate
+  selected_topology: A_CENTERLINE_TASK_FACE_SINGLE_ARM
+  configuration_state: CANDIDATE_MODEL_DESIGN_ONLY
+  object_registry_ref: ../comp_prot_03_a2_candidate_model_review/digital_skeleton_model_v0.yaml#nodes
+
+geometry_layer:
+  topology_ref: ../comp_prot_03_a2_candidate_model_review/digital_skeleton_model_v0.yaml
+  profile_selection:
+    property_id: selected_geometry_profile
+    subject_id: candidate_12u_b601_space_robot_v0
+    evidence_state: UNKNOWN
+    value: null
+    unit: null
+    frame_id: null
+    reference_point: null
+    configuration_state: A_CENTERLINE_TASK_FACE_SINGLE_ARM
+    source_ref_ids:
+      - a2_candidate_configuration
+      - a2_digital_skeleton
+    limitations:
+      - COMPETITION_DISPLAY_V0_and_CDS_12U_REFERENCE_not_exactly_one_selected
+    unknown_reason: geometry_profile_selection_requires_owner_signoff
+    blocked_consumers:
+      - CAD_SKELETON
+      - URDF
+      - PHYSICS_MODEL
+  entities:
+    - entity_id: candidate_12u_b601
+      entity_type: ASSEMBLY
+      geometry_state: PROPOSED
+      frame_ids:
+        - S
+        - B
+        - M
+        - A0
+      physical_property_ids:
+        - candidate_total_mass_kg
+        - candidate_aggregate_com
+        - candidate_aggregate_inertia
+      semantic_feature_ids:
+        - centered_single_arm_candidate_role
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - no_integrated_cad_or_urdf
+    - entity_id: servicer_12U_candidate
+      entity_type: RIGID_BODY
+      geometry_state: PROVISIONAL
+      frame_ids:
+        - S
+        - B
+      physical_property_ids:
+        - servicer_bus_mass_kg
+        - servicer_split_mass_kg
+      semantic_feature_ids:
+        - positive_x_task_face_mount
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - geometry_profile_unselected
+        - launch_compliance_not_evaluated
+    - entity_id: solar_panel_left_v1
+      entity_type: FLEXIBLE_BODY
+      geometry_state: PROVISIONAL
+      frame_ids:
+        - F_L
+      physical_property_ids:
+        - panel_left_mass_kg
+      semantic_feature_ids:
+        - panel_left_keepout_identity
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - panel_configuration_unknown
+        - flexible_parameters_not_measured
+    - entity_id: solar_panel_right_v1
+      entity_type: FLEXIBLE_BODY
+      geometry_state: PROVISIONAL
+      frame_ids:
+        - F_R
+      physical_property_ids:
+        - panel_right_mass_kg
+      semantic_feature_ids:
+        - panel_right_keepout_identity
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - panel_configuration_unknown
+        - flexible_parameters_not_measured
+    - entity_id: robot_mount_adapter_v0
+      entity_type: INTERFACE
+      geometry_state: PROVISIONAL
+      frame_ids:
+        - M
+        - A0
+      physical_property_ids:
+        - adapter_mass_kg
+      semantic_feature_ids:
+        - positive_x_task_face_mount
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - hole_pattern_stackup_and_clearance_not_closed
+    - entity_id: arm_b601_v1
+      entity_type: ARTICULATED_ROBOT
+      geometry_state: SOURCE_BOUND
+      frame_ids:
+        - A0
+        - G
+        - E
+        - TCP_contact
+      physical_property_ids:
+        - b601_full_urdf_mass_kg
+      semantic_feature_ids:
+        - virtual_tool_frame_candidate
+        - physical_tcp_unresolved
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - accepted_urdf_topology_does_not_close_physical_tcp
+        - portable_license_package_missing
+    - entity_id: target_debris_v0
+      entity_type: TARGET_BODY
+      geometry_state: PROVISIONAL
+      frame_ids:
+        - D
+        - C_deb
+      physical_property_ids: []
+      semantic_feature_ids:
+        - forward_end_ring_candidate_patch
+        - aft_engine_keepout
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - inactive_pre_capture_library_branch
+        - complete_capture_frame_rotation_unknown
+  frames:
+    - frame_id: S
+      parent_frame_id: null
+      transform_ref: identity
+      evidence_state: SOURCE_BOUND
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations: []
+    - frame_id: B
+      parent_frame_id: S
+      transform_ref: T_SB
+      evidence_state: UNKNOWN
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - B_may_not_default_to_S
+    - frame_id: M
+      parent_frame_id: S
+      transform_ref: T_SM_profile_selected
+      evidence_state: CONFLICTED
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - profile_dependent_transform
+    - frame_id: F_L
+      parent_frame_id: S
+      transform_ref: T_SF_L
+      evidence_state: PROVISIONAL
+      source_ref_ids:
+        - a2_digital_skeleton
+      limitations:
+        - panel_configuration_unknown
+    - frame_id: F_R
+      parent_frame_id: S
+      transform_ref: T_SF_R
+      evidence_state: PROVISIONAL
+      source_ref_ids:
+        - a2_digital_skeleton
+      limitations:
+        - panel_configuration_unknown
+    - frame_id: A0
+      parent_frame_id: M
+      transform_ref: T_MA0
+      evidence_state: PROPOSED
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - dual_owner_signoff_required
+    - frame_id: G
+      parent_frame_id: link6
+      transform_ref: T_link6_G
+      evidence_state: SOURCE_BOUND
+      source_ref_ids:
+        - a2_digital_skeleton
+      limitations: []
+    - frame_id: E
+      parent_frame_id: link6
+      transform_ref: T_link6_E_candidate
+      evidence_state: PROPOSED
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - not_canonical
+        - distinct_from_G_and_physical_TCP
+    - frame_id: TCP_contact
+      parent_frame_id: E
+      transform_ref: T_E_TCP
+      evidence_state: UNKNOWN
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - capture_tool_geometry_not_defined
+    - frame_id: D
+      parent_frame_id: null
+      transform_ref: T_SD
+      evidence_state: UNKNOWN
+      source_ref_ids:
+        - a2_digital_skeleton
+      limitations:
+        - independent_runtime_body_pre_capture
+    - frame_id: C_deb
+      parent_frame_id: D
+      transform_ref: T_DC_deb
+      evidence_state: PROVISIONAL
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - point_plus_normal_only
+        - full_rotation_unknown
+
+physical_layer:
+  representation_groups:
+    - group_id: servicer_mass_representation
+      cardinality: EXACTLY_ONE
+      members:
+        - whole_sat_reference_24kg
+        - split_bus_panels_v1
+      selected_member: split_bus_panels_v1
+      evidence_state: PROPOSED
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - mass_owner_signoff_pending
+    - group_id: b601_representation
+      cardinality: EXACTLY_ONE
+      members:
+        - full_urdf_10link
+        - locked_gripper_collapsed_future
+      selected_member: full_urdf_10link
+      evidence_state: PROPOSED
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - mass_source_owner_signoff_pending
+  mass_ownership:
+    - component_id: servicer_12U_bus_v1
+      mass_owner: servicer_split
+      representation_group: servicer_mass_representation
+      representation_member: split_bus_panels_v1
+      active: true
+      property_ref_ids:
+        - servicer_bus_mass_kg
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+    - component_id: solar_panel_left_v1
+      mass_owner: servicer_split
+      representation_group: servicer_mass_representation
+      representation_member: split_bus_panels_v1
+      active: true
+      property_ref_ids:
+        - panel_left_mass_kg
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+    - component_id: solar_panel_right_v1
+      mass_owner: servicer_split
+      representation_group: servicer_mass_representation
+      representation_member: split_bus_panels_v1
+      active: true
+      property_ref_ids:
+        - panel_right_mass_kg
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+    - component_id: robot_mount_adapter_v0
+      mass_owner: adapter_domain
+      representation_group: null
+      representation_member: adapter_v0
+      active: true
+      property_ref_ids:
+        - adapter_mass_kg
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+    - component_id: arm_b601_v1_full_urdf
+      mass_owner: b601_full_urdf_domain
+      representation_group: b601_representation
+      representation_member: full_urdf_10link
+      active: true
+      property_ref_ids:
+        - b601_full_urdf_mass_kg
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+  properties:
+    - property_id: servicer_bus_mass_kg
+      subject_id: servicer_12U_candidate
+      evidence_state: PROVISIONAL
+      value: 23.3032134
+      unit: kg
+      frame_id: S
+      reference_point: scalar_mass_no_reference_point
+      configuration_state: split_bus_panels_v1
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - no_physical_weighing
+      unknown_reason: null
+      blocked_consumers:
+        - PHYSICS_MODEL
+    - property_id: panel_left_mass_kg
+      subject_id: solar_panel_left_v1
+      evidence_state: PROVISIONAL
+      value: 0.3483933
+      unit: kg
+      frame_id: F_L
+      reference_point: scalar_mass_no_reference_point
+      configuration_state: split_bus_panels_v1
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - no_physical_weighing
+        - flexible_parameters_not_measured
+      unknown_reason: null
+      blocked_consumers:
+        - PHYSICS_MODEL
+    - property_id: panel_right_mass_kg
+      subject_id: solar_panel_right_v1
+      evidence_state: PROVISIONAL
+      value: 0.3483933
+      unit: kg
+      frame_id: F_R
+      reference_point: scalar_mass_no_reference_point
+      configuration_state: split_bus_panels_v1
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - no_physical_weighing
+        - flexible_parameters_not_measured
+      unknown_reason: null
+      blocked_consumers:
+        - PHYSICS_MODEL
+    - property_id: servicer_split_mass_kg
+      subject_id: servicer_12U_candidate
+      evidence_state: PROVISIONAL
+      value: 24.0
+      unit: kg
+      frame_id: S
+      reference_point: scalar_mass_no_reference_point
+      configuration_state: split_bus_panels_v1
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - split_scope_does_not_prove_adapter_and_arm_exclusion
+        - no_physical_weighing
+      unknown_reason: null
+      blocked_consumers:
+        - PHYSICS_MODEL
+    - property_id: adapter_mass_kg
+      subject_id: robot_mount_adapter_v0
+      evidence_state: PROVISIONAL
+      value: 1.2
+      unit: kg
+      frame_id: M
+      reference_point: scalar_mass_no_reference_point
+      configuration_state: adapter_v0
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - no_physical_weighing
+        - inclusion_in_legacy_24kg_scope_unproved
+      unknown_reason: null
+      blocked_consumers:
+        - PHYSICS_MODEL
+    - property_id: b601_full_urdf_mass_kg
+      subject_id: arm_b601_v1
+      evidence_state: PROVISIONAL
+      value: 4.695555949342986
+      unit: kg
+      frame_id: A0
+      reference_point: per_link_origins_in_accepted_urdf
+      configuration_state: full_urdf_10link
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - exact_source_decimal_is_4_6955559493429862
+        - yaml_subtotal_conflict_requires_owner_signoff
+        - digital_urdf_value_not_physical_measurement
+      unknown_reason: null
+      blocked_consumers:
+        - PHYSICS_MODEL
+    - property_id: candidate_total_mass_kg
+      subject_id: candidate_12u_b601
+      evidence_state: PROVISIONAL
+      value: 29.895555949342986
+      unit: kg
+      frame_id: S
+      reference_point: scalar_mass_no_reference_point
+      configuration_state: split_bus_panels_v1_plus_adapter_v0_plus_full_urdf_10link
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - exact_source_decimal_is_29_8955559493429862
+        - label_is_PROVISIONAL_DESIGN_LEDGER_TOTAL
+        - not_measured_or_final
+      unknown_reason: null
+      blocked_consumers:
+        - PHYSICS_MODEL
+    - property_id: candidate_aggregate_com
+      subject_id: candidate_12u_b601
+      evidence_state: UNKNOWN
+      value: null
+      unit: m
+      frame_id: null
+      reference_point: null
+      configuration_state: current_candidate
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - aggregate_recomposition_not_performed
+      unknown_reason: component_com_and_frame_ownership_not_closed
+      blocked_consumers:
+        - PHYSICS_MODEL
+        - URDF
+    - property_id: candidate_aggregate_inertia
+      subject_id: candidate_12u_b601
+      evidence_state: UNKNOWN
+      value: null
+      unit: kg_m2
+      frame_id: null
+      reference_point: null
+      configuration_state: current_candidate
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - aggregate_recomposition_not_performed
+      unknown_reason: component_inertia_frames_reference_points_and_configuration_not_closed
+      blocked_consumers:
+        - PHYSICS_MODEL
+        - URDF
+
+semantic_layer:
+  task_scope:
+    - target_capture_concept
+    - debris_removal_concept
+    - future_servicing
+  features:
+    - semantic_id: centered_single_arm_candidate_role
+      owner_entity_id: candidate_12u_b601
+      semantic_type: CONFIGURATION_STATE
+      task_phases:
+        - mission_design
+        - candidate_review
+      geometry_refs:
+        - geometry_layer.entities.candidate_12u_b601
+      physical_dependency_refs:
+        - physical_layer.properties.candidate_total_mass_kg
+      allowed_actions:
+        - review_as_single_mainline_candidate
+      forbidden_actions:
+        - claim_optimal_configuration
+        - claim_reduced_reaction_torque
+        - claim_task_feasibility
+      evidence_state: PROPOSED
+      evidence_ref_ids:
+        - a2_mechanical_standard
+        - a2_candidate_configuration
+      limitations:
+        - selected_for_minimum_evidence_drift_only
+    - semantic_id: positive_x_task_face_mount
+      owner_entity_id: robot_mount_adapter_v0
+      semantic_type: TASK_INTERFACE
+      task_phases:
+        - candidate_review
+        - future_geometry_authoring
+      geometry_refs:
+        - geometry_layer.entities.robot_mount_adapter_v0
+        - geometry_layer.frames.M
+        - geometry_layer.frames.A0
+      physical_dependency_refs:
+        - physical_layer.properties.adapter_mass_kg
+      allowed_actions:
+        - review_centerline_mount_concept
+      forbidden_actions:
+        - author_cad_before_profile_signoff
+        - claim_clearance
+      evidence_state: PROPOSED
+      evidence_ref_ids:
+        - a2_mechanical_standard
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - hole_pattern_pcd_fasteners_harness_and_tool_space_open
+    - semantic_id: panel_left_keepout_identity
+      owner_entity_id: solar_panel_left_v1
+      semantic_type: KEEP_OUT
+      task_phases:
+        - arm_motion_planning
+        - capture_proposal
+      geometry_refs:
+        - geometry_layer.entities.solar_panel_left_v1
+        - geometry_layer.frames.F_L
+      physical_dependency_refs:
+        - physical_layer.properties.panel_left_mass_kg
+      allowed_actions:
+        - include_as_collision_keepout_candidate
+      forbidden_actions:
+        - ignore_panel_configuration
+        - claim_clearance
+      evidence_state: PROVISIONAL
+      evidence_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - panel_configuration_unknown
+    - semantic_id: panel_right_keepout_identity
+      owner_entity_id: solar_panel_right_v1
+      semantic_type: KEEP_OUT
+      task_phases:
+        - arm_motion_planning
+        - capture_proposal
+      geometry_refs:
+        - geometry_layer.entities.solar_panel_right_v1
+        - geometry_layer.frames.F_R
+      physical_dependency_refs:
+        - physical_layer.properties.panel_right_mass_kg
+      allowed_actions:
+        - include_as_collision_keepout_candidate
+      forbidden_actions:
+        - ignore_panel_configuration
+        - claim_clearance
+      evidence_state: PROVISIONAL
+      evidence_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - panel_configuration_unknown
+    - semantic_id: virtual_tool_frame_candidate
+      owner_entity_id: arm_b601_v1
+      semantic_type: TASK_INTERFACE
+      task_phases:
+        - candidate_review
+        - future_skill_mapping
+      geometry_refs:
+        - geometry_layer.frames.E
+      physical_dependency_refs:
+        - physical_layer.properties.b601_full_urdf_mass_kg
+      allowed_actions:
+        - review_distinct_virtual_tool_frame
+      forbidden_actions:
+        - use_as_physical_tcp
+        - emit_control_command
+      evidence_state: PROPOSED
+      evidence_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - geometry_and_robotics_dual_signoff_pending
+    - semantic_id: physical_tcp_unresolved
+      owner_entity_id: arm_b601_v1
+      semantic_type: CONTACT_PATCH
+      task_phases:
+        - capture_proposal
+      geometry_refs:
+        - geometry_layer.frames.TCP_contact
+      physical_dependency_refs: []
+      allowed_actions:
+        - preserve_unknown_contact_datum
+      forbidden_actions:
+        - use_for_contact_execution
+        - claim_grasp_closure
+      evidence_state: UNKNOWN
+      evidence_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+        - a2_db_blocker_ledger
+      limitations:
+        - T_E_TCP_unknown
+        - interface_1_geometry_open
+    - semantic_id: forward_end_ring_candidate_patch
+      owner_entity_id: target_debris_v0
+      semantic_type: AFFORDANCE_CANDIDATE
+      task_phases:
+        - observation
+        - approach_proposal
+        - capture_proposal
+      geometry_refs:
+        - geometry_layer.entities.target_debris_v0
+        - geometry_layer.frames.C_deb
+      physical_dependency_refs: []
+      allowed_actions:
+        - observe_candidate_feature
+        - propose_approach_for_review
+      forbidden_actions:
+        - label_as_nozzle_rim
+        - claim_qualified_grasp
+        - apply_rigid_lock
+      evidence_state: PROPOSED
+      evidence_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+        - a2_db_blocker_ledger
+      limitations:
+        - canonical_geometry_source_harmonization_pending
+        - point_plus_normal_only
+    - semantic_id: aft_engine_keepout
+      owner_entity_id: target_debris_v0
+      semantic_type: KEEP_OUT
+      task_phases:
+        - observation
+        - approach_proposal
+        - capture_proposal
+      geometry_refs:
+        - geometry_layer.entities.target_debris_v0
+      physical_dependency_refs: []
+      allowed_actions:
+        - observe_keepout
+      forbidden_actions:
+        - propose_contact
+        - permit_grasp
+      evidence_state: PROPOSED
+      evidence_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+      limitations:
+        - low_confidence_placeholder_geometry
+
+evidence_layer:
+  hash_algorithm: SHA-256
+  hash_mode: RAW_BYTES
+  source_records:
+    - source_id: method_contract
+      path: digital_body_method_contract.yaml
+      sha256: 5b903426d704dbd6c9497b46db2058acdcf82b0230b9e2a03fa09eccb19a2aa4
+      authority: METHOD_CONTRACT
+      qualification: SOURCE_BOUND
+      authoritative_fields:
+        - four_layer_definition
+        - construction_stages
+        - state_vocabulary
+        - consumer_projection_rules
+      limitations:
+        - method_not_scientific_gate
+    - source_id: instance_schema
+      path: digital_body_record.schema.json
+      sha256: eb221afbe65b59642f01ffa01e2566c4470c31a85ee64636c0c3199630cfbbae
+      authority: METHOD_CONTRACT
+      qualification: SOURCE_BOUND
+      authoritative_fields:
+        - structural_requirements
+        - unknown_fail_closed_shape
+        - four_layer_record_shape
+      limitations:
+        - schema_validation_not_physical_validation
+    - source_id: a2_mechanical_standard
+      path: ../comp_prot_03_a2_candidate_model_review/mechanical_configuration_design_standard.md
+      sha256: 61fb5695f9f3e03788a5a3e226c344217b10c5cbe121e15c2161aeab52f3242e
+      authority: A2_DESIGN_CONTRACT
+      qualification: SOURCE_BOUND
+      authoritative_fields:
+        - mechanical_topology_rules
+        - mass_and_frame_design_rules
+        - consumer_boundaries
+      limitations:
+        - design_contract_not_physical_verification
+    - source_id: a2_candidate_configuration
+      path: ../comp_prot_03_a2_candidate_model_review/candidate_configuration_v0.yaml
+      sha256: a055fb70c7e39047a84381c22bafed61a63932c334e81986a7b14599dce0a820
+      authority: A2_DESIGN_CONTRACT
+      qualification: SOURCE_BOUND
+      authoritative_fields:
+        - selected_mechanical_topology
+        - geometry_profile_candidates
+        - mass_ownership_proposal
+        - task_interface_semantics
+      limitations:
+        - candidate_model_design_only
+    - source_id: a2_digital_skeleton
+      path: ../comp_prot_03_a2_candidate_model_review/digital_skeleton_model_v0.yaml
+      sha256: 5d0f87aaabc00e43466873d67213455f75c568521eb5acaa84dbeed6d3d7248d
+      authority: A2_LOGICAL_MODEL
+      qualification: SOURCE_BOUND
+      authoritative_fields:
+        - logical_nodes_edges_and_transform_references
+        - joint_registry
+        - candidate_mass_ledger
+        - keepout_registry
+      limitations:
+        - logical_skeleton_only
+    - source_id: a2_db_blocker_ledger
+      path: ../comp_prot_03_a2_candidate_model_review/db_blocker_resolution_ledger.yaml
+      sha256: c71308c2b5d3cab5ebb93d2340771eb7bcddb4b9e4654c316bff5bfd1a40e7b8
+      authority: A2_BLOCKER_LEDGER
+      qualification: SOURCE_BOUND
+      authoritative_fields:
+        - blocker_disposition
+        - evidence_closure_state
+        - downstream_effect
+      limitations:
+        - one_of_fifteen_closed_by_evidence
+    - source_id: a2_cad_entry_gate
+      path: ../comp_prot_03_a2_candidate_model_review/cad_entry_gate.md
+      sha256: f2846219a6bd0ca906f9b95636b707120d22ac158c960314705dc133e5b91353
+      authority: A2_GATE
+      qualification: SOURCE_BOUND
+      authoritative_fields:
+        - cad_entry_verdict
+        - pre_a3_evidence_requirements
+        - a3_exit_requirements
+      limitations:
+        - non_scientific_gate
+  trace_links:
+    - trace_id: trace_candidate_topology
+      field_ref: identity.selected_topology
+      evidence_ref_ids:
+        - a2_mechanical_standard
+        - a2_candidate_configuration
+      claim_state: DESIGN_BOUND
+      maximum_claim: A_is_the_single_primary_candidate_selected_for_minimum_evidence_drift
+      limitations:
+        - no_optimality_or_performance_claim
+    - trace_id: trace_logical_skeleton
+      field_ref: geometry_layer.topology_ref
+      evidence_ref_ids:
+        - a2_digital_skeleton
+      claim_state: DESIGN_BOUND
+      maximum_claim: logical_skeleton_contains_30_nodes_32_edges_and_21_registered_transform_refs
+      limitations:
+        - not_integrated_cad_or_urdf
+    - trace_id: trace_b601_topology
+      field_ref: geometry_layer.entities.arm_b601_v1
+      evidence_ref_ids:
+        - a2_digital_skeleton
+      claim_state: DESIGN_BOUND
+      maximum_claim: accepted_B601_representation_contains_10_links_and_9_joints
+      limitations:
+        - no_free_floating_performance_claim
+    - trace_id: trace_candidate_mass
+      field_ref: physical_layer.properties.candidate_total_mass_kg
+      evidence_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+        - a2_db_blocker_ledger
+      claim_state: PROVISIONAL_VALUE
+      maximum_claim: provisional_design_ledger_total_is_29_8955559493429862_kg
+      limitations:
+        - not_final_or_measured
+        - aggregate_com_and_inertia_unknown
+    - trace_id: trace_debris_semantics
+      field_ref: semantic_layer.features.forward_end_ring_candidate_patch
+      evidence_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+        - a2_db_blocker_ledger
+      claim_state: DESIGN_BOUND
+      maximum_claim: positive_Z_feature_is_named_forward_end_ring_candidate_patch_in_the_candidate_contract
+      limitations:
+        - canonical_source_harmonization_pending
+        - no_qualified_grasp_claim
+    - trace_id: trace_cad_hold
+      field_ref: consumer_readiness.CAD_SKELETON
+      evidence_ref_ids:
+        - a2_cad_entry_gate
+        - a2_db_blocker_ledger
+      claim_state: NOT_EVALUATED
+      maximum_claim: CAD_entry_remains_blocked_by_evidence
+      limitations:
+        - method_completeness_does_not_change_cad_gate
+  conflicts:
+    - conflict_id: geometry_profile_and_T_SM
+      state: OPEN
+      source_ref_ids:
+        - a2_candidate_configuration
+        - a2_digital_skeleton
+        - a2_db_blocker_ledger
+      affected_fields:
+        - geometry_layer.profile_selection
+        - geometry_layer.frames.M
+      resolution: retain_unknown_until_exactly_one_profile_and_profile_bound_T_SM_are_signed
+      blocked_consumers:
+        - CAD_SKELETON
+        - URDF
+        - PHYSICS_MODEL
+
+cross_layer_bindings:
+  - binding_id: binding_candidate_system
+    object_ref: candidate_12u_b601
+    geometry_refs:
+      - geometry_layer.entities.candidate_12u_b601
+      - geometry_layer.frames.S
+      - geometry_layer.frames.B
+      - geometry_layer.frames.M
+    physical_refs:
+      - physical_layer.properties.candidate_total_mass_kg
+      - physical_layer.properties.candidate_aggregate_com
+      - physical_layer.properties.candidate_aggregate_inertia
+    semantic_refs:
+      - semantic_layer.features.centered_single_arm_candidate_role
+    evidence_refs:
+      - a2_candidate_configuration
+      - a2_digital_skeleton
+      - a2_db_blocker_ledger
+    status: PARTIAL
+    limitations:
+      - profile_T_SB_com_and_inertia_open
+  - binding_id: binding_b601_tool
+    object_ref: arm_b601_v1
+    geometry_refs:
+      - geometry_layer.entities.arm_b601_v1
+      - geometry_layer.frames.G
+      - geometry_layer.frames.E
+      - geometry_layer.frames.TCP_contact
+    physical_refs:
+      - physical_layer.properties.b601_full_urdf_mass_kg
+    semantic_refs:
+      - semantic_layer.features.virtual_tool_frame_candidate
+      - semantic_layer.features.physical_tcp_unresolved
+    evidence_refs:
+      - a2_candidate_configuration
+      - a2_digital_skeleton
+      - a2_db_blocker_ledger
+    status: PARTIAL
+    limitations:
+      - E_and_TCP_not_closed
+      - license_package_not_portable
+  - binding_id: binding_debris_candidate_patch
+    object_ref: target_debris_v0
+    geometry_refs:
+      - geometry_layer.entities.target_debris_v0
+      - geometry_layer.frames.C_deb
+    physical_refs: []
+    semantic_refs:
+      - semantic_layer.features.forward_end_ring_candidate_patch
+      - semantic_layer.features.aft_engine_keepout
+    evidence_refs:
+      - a2_candidate_configuration
+      - a2_digital_skeleton
+      - a2_db_blocker_ledger
+    status: PARTIAL
+    limitations:
+      - target_branch_inactive_pre_capture
+      - contact_geometry_and_full_orientation_open
+
+unknown_register:
+  - unknown_id: unk_geometry_profile
+    field_ref: geometry_layer.profile_selection
+    reason: two_geometry_profiles_exist_and_exactly_one_has_not_been_signed
+    required_owner: Geometry_Frame_Owner
+    blocks:
+      - CAD_SKELETON
+      - URDF
+  - unknown_id: unk_T_SB
+    field_ref: geometry_layer.frames.B.transform_ref
+    reason: free_flyer_base_origin_and_orientation_not_signed
+    required_owner: Dynamics_Frame_Owner
+    blocks:
+      - PHYSICS_MODEL
+  - unknown_id: unk_T_SM_CDS
+    field_ref: geometry_layer.frames.M.transform_ref
+    reason: CDS_profile_mount_transform_not_reconciled
+    required_owner: Geometry_Frame_Owner
+    blocks:
+      - CAD_SKELETON
+      - URDF
+      - PHYSICS_MODEL
+  - unknown_id: unk_E_owner
+    field_ref: geometry_layer.frames.E
+    reason: virtual_tool_frame_requires_geometry_and_robotics_dual_signoff
+    required_owner: Frame_and_Robotics_URDF_Owners
+    blocks:
+      - URDF
+      - PHYSICS_MODEL
+  - unknown_id: unk_TCP
+    field_ref: geometry_layer.frames.TCP_contact
+    reason: capture_tool_geometry_and_contact_datum_not_defined
+    required_owner: Capture_Interface_Owner
+    blocks:
+      - URDF
+      - PHYSICS_MODEL
+      - EMBODIED_AGENT
+  - unknown_id: unk_aggregate_com
+    field_ref: physical_layer.properties.candidate_aggregate_com
+    reason: component_ownership_and_frame_recomposition_not_closed
+    required_owner: Mass_Dynamics_Owner
+    blocks:
+      - PHYSICS_MODEL
+  - unknown_id: unk_aggregate_inertia
+    field_ref: physical_layer.properties.candidate_aggregate_inertia
+    reason: component_tensor_reference_points_and_configuration_not_closed
+    required_owner: Mass_Dynamics_Owner
+    blocks:
+      - PHYSICS_MODEL
+  - unknown_id: unk_interface_1
+    field_ref: semantic_layer.features.physical_tcp_unresolved
+    reason: qualified_contact_patch_geometry_material_and_compliance_are_open
+    required_owner: Capture_Interface_Owner
+    blocks:
+      - PHYSICS_MODEL
+      - EMBODIED_AGENT
+  - unknown_id: unk_license_package
+    field_ref: geometry_layer.entities.arm_b601_v1
+    reason: full_license_NOTICE_upstream_commit_hash_and_modification_record_not_packaged
+    required_owner: License_Provenance_Owner
+    blocks:
+      - CAD_SKELETON
+      - URDF
+  - unknown_id: unk_mass_owner_signoff
+    field_ref: physical_layer.mass_ownership
+    reason: design_selection_exists_but_owner_signoff_and_physical_measurement_do_not
+    required_owner: Mass_Dynamics_Owner
+    blocks:
+      - CAD_SKELETON
+      - PHYSICS_MODEL
+
+consumer_readiness:
+  - consumer_id: METHOD_REVIEW
+    status: READY_WITH_LIMITATIONS
+    allowed_fields:
+      - all_four_layers
+      - explicit_unknowns
+      - source_hashes
+      - claim_boundaries
+    forbidden_fields:
+      - scientific_gate_upgrade
+      - implementation_authority
+    required_closures: []
+  - consumer_id: CAD_SKELETON
+    status: BLOCKED
+    allowed_fields:
+      - candidate_topology_for_review
+      - geometry_profile_candidates
+      - source_bound_frames
+      - keepout_candidates
+    forbidden_fields:
+      - author_integrated_cad
+      - infer_profile_or_transform
+      - claim_clearance
+    required_closures:
+      - DB-BLK-001
+      - DB-BLK-002
+      - DB-BLK-008
+      - DB-BLK-009
+      - DB-BLK-010
+      - DB-BLK-012
+      - DB-BLK-013
+      - DB-BLK-014
+  - consumer_id: URDF
+    status: BLOCKED
+    allowed_fields:
+      - accepted_b601_topology_reference
+    forbidden_fields:
+      - generate_integrated_urdf
+      - guess_tool_frame
+      - silent_link_rename
+    required_closures:
+      - DB-BLK-002
+      - DB-BLK-008
+      - DB-BLK-013
+      - DB-BLK-014
+  - consumer_id: PHYSICS_MODEL
+    status: NOT_AUTHORIZED
+    allowed_fields: []
+    forbidden_fields:
+      - consume_unknown_com_or_inertia
+      - default_B_equal_S
+      - inherit_historical_gate
+      - run_dynamics
+    required_closures:
+      - DB-BLK-001
+      - DB-BLK-002
+      - DB-BLK-008
+      - DB-BLK-009
+      - DB-BLK-011
+  - consumer_id: EMBODIED_AGENT
+    status: NOT_AUTHORIZED
+    allowed_fields:
+      - task_semantics_for_contract_review
+      - unknown_and_keepout_register
+    forbidden_fields:
+      - emit_command
+      - claim_safe_capture
+      - use_candidate_patch_as_qualified_grasp
+    required_closures:
+      - DB-BLK-002
+      - DB-BLK-004
+      - DB-BLK-009
+      - DB-BLK-011
+      - DB-BLK-012
+  - consumer_id: COMPETITION_DISPLAY
+    status: READY_WITH_LIMITATIONS
+    allowed_fields:
+      - watermarked_candidate_topology
+      - watermarked_task_semantics
+      - explicit_blocked_status
+    forbidden_fields:
+      - autonomous_capture_claim
+      - flight_compliance_claim
+      - verified_digital_prototype_claim
+    required_closures: []
+
+claim_boundary:
+  allowed_claims:
+    - a_four_layer_digital_body_construction_method_has_been_defined
+    - the_12u_b601_candidate_has_been_instantiated_as_partial_with_explicit_unknowns
+    - geometry_physics_task_semantics_and_evidence_are_cross_linked_at_contract_level
+    - CAD_entry_remains_blocked_by_evidence
+  forbidden_claims:
+    - integrated_digital_mechanical_prototype_complete
+    - all_15_db_blockers_evidence_closed
+    - final_system_mass_com_or_inertia_verified
+    - candidate_A_is_optimal_or_task_feasible
+    - CAD_URDF_dynamics_control_SAFE_RL_or_VLA_implemented

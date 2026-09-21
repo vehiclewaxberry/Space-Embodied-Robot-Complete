@@ -1,0 +1,13 @@
+schema: LABEL_TAXONOMY_V1
+labels:
+  EXECUTE: {meaning: 全部必需权威 VERIFIED 且判据放行, usable_as: 正类, runtime_reachable_now: false, reason: "接触/几何权威缺失，本增量架构不可达"}
+  MODIFY: {meaning: PROVISIONAL 存在时的上限动作（改参/降速/换策略）, usable_as: 条件正类, runtime_reachable_now: "仅 NO_CONTACT_PREBIND 诊断层"}
+  ABORT: {meaning: fail-closed 终止（含 physics-veto）, usable_as: 负类, note: "150kg@3dps 维持 ABORT，不得包装成功"}
+  UNKNOWN: {meaning: 运行时不可判定输入, usable_as: 禁止作训练类, runtime_rule: "UNKNOWN != EXECUTE，必 fail-closed"}
+  NOT_EVALUATED: {meaning: 判据未运行（权威缺失/范围外/终态 WAIT 保持窗内未渲染判据）, usable_as: 禁止作普通负样本, storage: 独立分层保存, must_carry: not_evaluated_reason}
+decisions_vs_labels: "WAIT 是运行时决策（terminal_decision 可取），不是数据集标签；终态 WAIT 的 episode 标 NOT_EVALUATED + reason（本轮 S07 INJ02a 实证触发本条款固化）"
+hard_rules:
+  - "NOT_EVALUATED 与 ABORT 语义不同：前者是'没评'，后者是'评了并拒绝'——训练/统计禁止合并"
+  - "标签由 SAFE 决策核 + label_from_decision(evaluated) 生成，人手不得改写"
+  - "writer 层硬校验（EpisodeWriteError）：见 EPISODE_SCHEMA x_forbidden"
+class_balance_policy: "D0 不做类平衡（回归集非学习集）；D1 起的采样策略须另行预注册"

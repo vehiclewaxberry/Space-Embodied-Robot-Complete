@@ -1,0 +1,586 @@
+schema: M7_WP12_SOLAR_HINGE_AND_HARNESS_DATUM_RULING_V1
+generated_local: '2026-08-22T03:13:25+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP12_SECONDARY_STRUCTURE_ADJUDICATION
+role: A1_PRODUCT_CAD
+scope: >-
+  adjudication of WP1 FINDING 2 (declared solar hinge axis lies 30.0 mm inside the
+  panel proxy, deployment sweep degenerates) and WP1 FINDING 3 (declared arm
+  harness connector face x = 215.0 mm is not supported by any modelled surface).
+frame: S (spacecraft assembly frame), mm unless stated
+release_scope: MECHANICAL_ENGINEERING_DESIGN_CLOSURE_ONLY__GATE_A_SCOPE
+gate_b: MECHANICAL_FLIGHT_QUALIFICATION_RELEASED remains HOLD
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+
+escalation_assessment:
+  O1_mission_definition_change: false
+  O2_equal_authority_contradiction_with_no_evidence: false
+  O3_frozen_architecture_change: false
+  conclusion: >-
+    decided autonomously. No geometry is moved by this ruling: the deployed panel
+    proxy position is FROZEN_GEOMETRY_SSOT and is consumed by WP2's nine-configuration
+    design mass model, WP7 and WP10. Relocating it would be an ECR-class change and
+    would invalidate a sibling work package's numerically verified result, so the
+    resolution is declarative plus analytic, never geometric.
+
+# ===========================================================================
+# FINDING 2 - SOLAR HINGE AXIS vs PANEL PROXY
+# ===========================================================================
+finding_2_solar_hinge:
+
+  wp1_statement:
+    finding: >-
+      the declared hinge axis at |y| = 143.15 mm lies 30.0 mm INSIDE the deployed
+      panel proxy, whose root edge is at |y| = 113.15 mm, so the panel proxy
+      straddles its own hinge line and the axis passes through panel material
+    consequence_as_written_by_wp1: >-
+      the minimum sweep radius is therefore 0.0 mm and the fail-closed annulus
+      degenerates to a full disc that intersects the bus
+    hold: HOLD_PANEL_ROOT_VS_HINGE_AXIS_GEOMETRY_INCONSISTENT
+
+  independent_reproduction:
+    verdict: WP1_GEOMETRY_REPRODUCED_EXACTLY
+    deployed_panel_proxy_aabb_S_mm: [-170.25, 113.15, -3.0, 56.75, 313.15, 3.0]
+    proxy_volume_mm3: 272400.0
+    proxy_box_check: 227.0 x 200.0 x 6.0 mm = 272400 mm3, matches the frozen 0.227 x 0.200 x 0.006 m
+    proxy_face_count: 6
+    proxy_solid_count: 1
+    cylindrical_faces_on_the_panel_proxy: 0
+    declared_hinge_axis_left: {point_S_mm: [-61.0, 143.15, 0.0], direction_S: [1.0, 0.0, 0.0]}
+    declared_hinge_axis_right: {point_S_mm: [-61.0, -143.15, 0.0], direction_S: [1.0, 0.0, 0.0]}
+    axis_lies_inside_panel_material: true
+    inboard_straddle_mm: 30.0
+    outboard_reach_mm: 170.0
+    r_min_mm: 0.0
+    r_max_mm: 170.0264685276972
+    r_max_closed_form: sqrt(170^2 + 3^2) - exactly reproduces WP1's 170.026469
+
+  new_evidence_wp1_did_not_have:
+
+    E7_the_declared_hinge_axis_is_corroborated_by_real_native_pin_geometry:
+      native_part: Hinge_Pin_Left.stl
+      triangles: 140
+      aabb_S_mm: [-82.0, 139.149994, -4.0, -40.0, 147.149994, 4.0]
+      derived_pin_axis_point_S_mm: [-61.0, 143.149994, 0.0]
+      derived_pin_diameter_mm: 8.0
+      derived_pin_x_span_mm: 42.0
+      mirror_part_agrees: 'Hinge_Pin_Right aabb y [-147.149994, -139.149994], z [-4.0, 4.0], x [-82.0, -40.0]'
+      conclusion: >-
+        the declared hinge axis is NOT the suspect quantity. A real Ø8 mm pin solid
+        exists in the native model exactly on (x = -61.0, |y| = 143.15, z = 0.0) with
+        the +x direction. The axis is corroborated to the tessellation precision of
+        the pin.
+
+    E8_the_panel_proxy_position_is_not_registered_to_that_axis:
+      test: >-
+        solve for the single x-axis about which the native WING_L_STOWED box maps onto
+        the native WING_L_DEPLOYED box by a rigid 90 deg rotation
+      wing_l_stowed_aabb_S_mm: [-174.5, 113.150002, -200.0, 52.5, 119.150002, 0.0]
+      wing_l_deployed_aabb_S_mm: [-174.5, 113.150002, -3.0, 52.5, 313.149994, 3.0]
+      implied_axis_S_mm: {y: 114.650002, z: -1.5}
+      offset_from_the_declared_axis_mm: 28.539444
+      radius_consistency:
+        native_stowed_max_radius_about_the_declared_axis_mm: 202.237484
+        neutral_deployed_max_radius_about_the_declared_axis_mm: 170.0264685276972
+        delta_mm: 32.211015
+      conclusion: >-
+        the native stowed and deployed panel boxes are one rigid body about an axis at
+        (y = 114.650002, z = -1.5), i.e. essentially on the panel root edge at mid
+        thickness - 28.539444 mm away from the declared and pin-corroborated hinge
+        axis. Neither the native pair nor the neutral deployed proxy is registered to
+        the hinge line. The panel BOX POSITION is the inconsistent quantity, not the axis.
+
+    E9_two_independent_upstream_consumers_already_assume_root_at_the_hinge_line:
+      consumer_1:
+        source: wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml, MAV-01
+        quoted_value: 'I_root_kg_m2 = 0.004645244, method I = m*L^2/3 with L = 0.200 m'
+        implication: >-
+          m*L^2/3 is the inertia of a plate hinged AT ITS ROOT EDGE with the whole
+          200 mm span outboard of the axis
+      consumer_2:
+        source: wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml, frozen_inputs and MAV-04
+        quoted_value: 'tip_sensitivity_mm_per_mrad = 0.2 (from M6 HINGE_DEPLOYMENT_CHAIN_EXECUTED_V1)'
+        implication: 0.2 mm per mrad implies a moment arm of exactly 200.0 mm, i.e. the full span outboard of the axis
+      conclusion: >-
+        the DESIGN INTENT is unambiguously root-at-the-hinge-line. The proxy position
+        is a mass/inertia and envelope placement that was never registered to the hinge.
+
+    E10_bounded_consequence_of_the_inconsistency:
+      note: >-
+        computed here as a cross-check input for A3 (WP5) and A0. This is NOT a WP5 edit
+        and NOT a design change; it quantifies how far the two registrations can differ.
+      I_about_the_declared_axis_root_at_axis_kg_m2: 0.004645244
+      I_about_the_declared_axis_proxy_as_placed_kg_m2: 0.00286843817
+      relative_difference_pct: -38.25
+      undamped_deployment_time_root_at_axis_s: 0.311913
+      undamped_deployment_time_proxy_as_placed_s: 0.245105
+      wp5_quoted_undamped_time_s: 0.312
+      end_stop_energy_J: 0.235619
+      end_stop_energy_sensitivity: >-
+        ZERO. KE = M_net * theta is inertia-independent, so HNG-SMS-04 (0.2356 J) and the
+        stop-strength candidate are unaffected by the registration question.
+      drive_margin_sensitivity: >-
+        ZERO. drive_margin = M_spring / (M_friction + M_harness) is a static ratio.
+      deployed_mass_model_sensitivity: >-
+        ZERO. WP2 consumes the deployed panel proxy AABB and mass, not the hinge
+        registration; the nine-configuration model is untouched by this ruling.
+      conclusion: >-
+        the inconsistency propagates into deployment RATE quantities only (I and the
+        undamped time bound), by at most 38.25 % and 21.4 % respectively, and both are
+        already DESIGN_TARGET_CANDIDATE values governed by a damper candidate. It does
+        not propagate into stop energy, drive margin, deployed geometry or the design
+        mass model.
+
+  ruling:
+    id: WP12-R-F2
+    panel_proxy_classification: >-
+      MASS_AND_ENVELOPE_PROXY_NOT_A_HINGE_CARRYING_BODY. The neutral deployed panel is a
+      single 6-planar-face rectangular box with zero cylindrical faces and volume exactly
+      227 x 200 x 6 mm3. It carries no lug, no clevis, no bore and no pin seat. It was
+      never intended to carry the hinge interface.
+    hinge_interface_geometry_status: DEFINED_NOT_MODELLED
+    hinge_axis_status: DECLARED_AND_CORROBORATED_BY_NATIVE_PIN_GEOMETRY
+    hinge_frame_classification_carried_forward: BREP_PROBE_MAPPING_NOT_MANUFACTURING_DATUM
+    panel_to_hinge_registration_status: NOT_ESTABLISHED_HOLD
+    answer_to_the_question_posed: >-
+      YES - the panel proxy box (0.227 x 0.200 x 0.006 m, 0.3483933 kg each) is a
+      mass/inertia and envelope proxy that was never intended to carry the hinge
+      interface, and the correct fix is to declare the hinge interface geometry
+      DEFINED_NOT_MODELLED with a named HOLD rather than to claim a valid deployment
+      sweep. The claim of a valid deployment sweep is NOT made.
+    forbidden_remediations:
+      - moving the deployed panel proxy to y in [143.15, 343.15] in this loop, because the
+        proxy AABB is FROZEN_GEOMETRY_SSOT and is consumed by WP2 / WP7 / WP10
+      - relocating the hinge axis, because it is corroborated by a real native pin solid
+      - claiming a deployment sweep clearance verification from either representation
+    holds:
+      - id: HOLD_PANEL_ROOT_TO_HINGE_AXIS_REGISTRATION_NOT_ESTABLISHED
+        supersedes: HOLD_PANEL_ROOT_VS_HINGE_AXIS_GEOMETRY_INCONSISTENT
+        class: NON_BLOCKING
+        external_dependency: >-
+          panel root detail design / hinge hardware datum (lug, bore, pin fit). The
+          mechanism pack already carries FREEPLAY_LIMITS_HOLD_NO_PIN_BORE_AUTHORITY for
+          the same missing datum.
+        closure_trigger: ECR-M4-class - hinge or panel-root hardware selected, or a solar hinge detail-design authorization
+      - id: HOLD_SOLAR_DEPLOYMENT_SWEEP_CLEARANCE_VERIFICATION_NOT_CLOSED
+        class: NON_BLOCKING
+        external_dependency: >-
+          rotation direction and stowed end state are unauthorized
+          (SLOT_SOLAR_STOW_AND_HINGE__UNRESOLVED) plus the registration hold above
+        closure_trigger: authorization of the stowed end state and the rotation direction
+
+  analytic_keep_out_definition:
+    question: >-
+      can the deployment sweep keep-out be defined analytically from the hinge axis and
+      panel dimensions even without a modelled hinge?
+    answer: >-
+      YES for the ENVELOPE, NO for the CLEARANCE VERIFICATION. Two envelopes are defined
+      below. KO-03A is unconditional and exact but is not a usable exclusion volume
+      because it intersects the bus. KO-03B is the physically meaningful envelope and is
+      conditional on the registration hold. The keep-out is therefore DEFINED and the
+      clearance verification is HELD.
+    KO-03A_UNCONDITIONAL_FAIL_CLOSED_ENVELOPE:
+      status: DEFINED_ANALYTICALLY_EXACT
+      inputs_used: declared hinge axis + frozen deployed panel proxy AABB only
+      axis_left_point_S_mm: [-61.0, 143.15, 0.0]
+      axis_right_point_S_mm: [-61.0, -143.15, 0.0]
+      axis_direction_S: [1.0, 0.0, 0.0]
+      swept_radius_mm: {r_min: 0.0, r_max: 170.0264685276972}
+      rotation_range: FULL_REVOLUTION (rotation direction not authorized, so a superset of any 90 deg sector)
+      x_range_S_mm: [-170.25, 56.75]
+      left_envelope_aabb_S_mm: [-170.25, -26.876469, -170.026469, 56.75, 313.176469, 170.026469]
+      right_envelope_aabb_S_mm: [-170.25, -313.176469, -170.026469, 56.75, 26.876469, 170.026469]
+      geometric_form: solid cylinder of radius r_max about the axis over the panel chord x-range (r_min = 0 because the axis passes through panel material)
+      degeneracy_statement: >-
+        this envelope reaches y = -26.876469 mm, which is 140.026469 mm inside the bus
+        outer surface at |y| = 113.15 mm. It is therefore a valid BOUND but not a usable
+        exclusion volume against the bus, and it must never be reported as a deployment
+        clearance result.
+      not_a_positive_volume_interference: >-
+        this overlap is envelope-vs-structure. instantiated_as_geometry = false for KO-03,
+        so no solid pair exists and it does not enter unexplained_positive_interference_count.
+    KO-03B_DESIGN_INTENT_SECTOR_ENVELOPE:
+      status: CONDITIONAL_ON_HOLD_PANEL_ROOT_TO_HINGE_AXIS_REGISTRATION_NOT_ESTABLISHED
+      condition: panel root edge on the hinge line, i.e. deployed panel body y in [143.15, 343.15], z in [-3, 3]
+      condition_basis: the two independent upstream consumers in E9 (I = m*L^2/3 and 0.2 mm/mrad) already assume it
+      swept_radius_mm: {r_min: 0.0, r_max: 200.0224987345174}
+      r_max_closed_form: sqrt(200^2 + 3^2)
+      rotation_range: >-
+        fail-closed over BOTH directions, i.e. the union of -90 deg to +90 deg about the
+        deployed +y direction, because the rotation direction is unauthorized
+      left_envelope_aabb_S_mm: [-170.25, 140.15, -200.022499, 56.75, 343.172499, 200.022499]
+      bus_clearance_mm: 27.0
+      bus_clearance_derivation: 140.15 - 113.15
+      statement: >-
+        under the design-intent registration the sweep is geometrically feasible with
+        27.0 mm of bus clearance even under the fail-closed both-directions assumption.
+        This demonstrates the degeneracy is a REGISTRATION DECLARATION defect, not a
+        deployment feasibility defect. It is NOT a clearance verification: it is
+        conditional on an open hold and no hardware datum exists.
+
+  consequence_for_gate_a:
+    disclaimer: criterion states are set by A0 in 12_release; these are A1's evidence-bound recommendations
+    criterion_08_SOLAR_AND_HDRM:
+      a1_recommendation: PASS_WITH_DECLARED_OPEN_ITEM
+      a1_scope: >-
+        A1 adjudicates only the GEOMETRIC leg of criterion 08. The panel hold-down /
+        release device leg (panel_hold_down_for_launch = null,
+        HOLD_PANEL_RELEASE_DEVICE_NOT_IN_WP5_SCOPE) belongs to A3/WP5 and is NOT
+        adjudicated here.
+      geometric_leg_basis:
+        - the deployment / failure / release / stop / latch STATES are enumerated by WP5
+          (HNG-SMS-01..08 plus ODR-02 failure semantics) and are not affected by this finding
+        - the hinge axis is declared and corroborated by real pin geometry
+        - the hinge interface geometry is declared DEFINED_NOT_MODELLED rather than claimed
+        - the registration inconsistency has a bounded consequence (E10) that touches only
+          candidate-level deployment RATE numbers, never stop energy, drive margin, the
+          deployed geometry or the design mass model
+      declared_open_item: panel-root-to-hinge-axis registration and the hinge hardware datum
+      external_dependency_class: EXTERNAL_EQUIPMENT_AND_HARDWARE_DATUM
+      future_trigger: ECR-M4 hinge or panel-root hardware selected
+      what_would_make_this_a_HOLD_instead: >-
+        if any operational asset consumed the hinge registration. None does - WP2's nine
+        configurations, WP7's thirteen decks, WP10 V4 and Sim13/Sim15 all consume the
+        deployed panel proxy, not the hinge sweep.
+    criterion_09_HARNESS_AND_KEEPOUT:
+      a1_recommendation: PASS_WITH_DECLARED_OPEN_ITEM
+      basis:
+        - KO-03 is now analytically DEFINED in two explicit forms with a stated conservatism
+          and a stated degeneracy, rather than left as an undefined sweep
+        - the fail-closed form KO-03A is exact and reproducible from the axis and the frozen
+          panel AABB, and it is labelled non-usable-against-the-bus in the same breath
+        - the design-intent form KO-03B shows 27.0 mm of bus clearance, bounding the risk
+      declared_open_items:
+        - solar deployment sweep clearance verification (registration + unauthorized rotation direction)
+        - moving-harness sweep not computed (HOLD_MOVING_HARNESS_SWEEP_NOT_COMPUTED, vendor bundle data absent)
+        - vendor cable OD, minimum bend radius, connector shell and cable mass per metre absent
+      future_trigger: ECR-M4 for the hinge datum; vendor harness data for the sweep
+
+# ===========================================================================
+# FINDING 3 - ARM HARNESS CONNECTOR FACE STATION x = 215.0 mm
+# ===========================================================================
+finding_3_harness_connector_datum:
+
+  wp1_statement:
+    item: >-
+      arm connector face station x = 215.0 mm is not supported by any modelled surface
+      (neutral stack ends at 210.405 mm, native boss at 208.0 mm)
+    declared_conflict: >-
+      x = 215.0 mm lies 4.595 mm beyond the neutral M3R feature stack maximum (210.405 mm)
+      and 7.0 mm beyond the native Central_Boss end face (208.0 mm)
+    hold: HOLD_ARM_CONNECTOR_FACE_STATION_UNRECONCILED
+
+  provenance_of_the_declared_value:
+    source_file: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json
+    field: harness.exit_point
+    quoted: {at: arm base_link connector face, coordinates_mm: [215.0, 0.0, 0.0]}
+    sibling_fields:
+      harness.entry_point: {at: bus Harness_Passage +x end, coordinates_mm: [171.0, 0.0, -70.0]}
+      harness.clamp_points.HC-1: {on: Adapter_Plate, x_mm: 192.0}
+      harness.clamp_points.HC-2: {on: base_link collar, x_mm: 220.0}
+    declared_maturity: harness.exists_in_assembly = false, maturity = DEFINED_NOT_MODELLED
+
+  frozen_station_stack_cross_check:
+    T_SM_dynamics_frame_x_mm: 185.25
+    T_SM_class: dynamics mounting reference, ODR-01, no solid
+    adapter_plate_face_x_mm: 198.0
+    physical_bolted_face_x_mm: 208.0
+    screw_end_faces_x_mm: 210.405
+    b601_base_link_real_flange_x_mm: 210.41
+    b601_base_link_real_flange_pattern: 8 x M3 at R45.25 mm
+    load_bridge_x_range_mm: [185.25, 196.0]
+    m3r_interface_assembly_global_x_range_mm: [196.0, 210.405]
+    datum_side_of_each_station: >-
+      185.25 / 198.0 / 208.0 / 210.405 are ALL spacecraft-side features. 208.0 is the
+      mounting plane; 210.405 is the maximum of the spacecraft-side screw stack.
+
+  new_evidence_wp1_did_not_have:
+    E11_the_L0_accepted_urdf_base_link_occupies_x_208_to_290p65:
+      source: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL (L0 accepted URDF collision and visual mesh)
+      urdf_link_visual_and_collision_origin: 'xyz="0 0 0" rpy="0 0 0" - no mesh offset'
+      mesh_local_aabb_mm: [-70.0, -100.0, 0.0, 70.0, 100.0, 82.65]
+      transform_used: T_S_B601_ARM_BASE from the WP1 build report, whose first row is [0, 0, 1, 208.0], so global_x = 208.0 + z_local
+      base_link_global_x_extent_mm: [208.0, 290.65]
+      cross_section_probe:
+        method: count base_link triangles whose z-range straddles the station plane, and report their vertex radii
+        x_208p000_z_local_0p000: {triangles_crossing: 322, vertex_radii_mm: [8.0, 117.992], material: PRESENT}
+        x_210p405_z_local_2p405: {triangles_crossing: 322, vertex_radii_mm: [8.0, 117.992], material: PRESENT}
+        x_215p000_z_local_7p000: {triangles_crossing: 514, vertex_radii_mm: [8.0, 117.992], material: PRESENT}
+        x_220p000_z_local_12p000: {triangles_crossing: 514, vertex_radii_mm: [8.0, 117.992], material: PRESENT}
+        x_290p650_z_local_82p650: {triangles_crossing: 0, material: ABSENT_END_OF_BODY}
+      note_on_a_misleading_probe: >-
+        a thin vertex-band test at z_local = 7.0 mm returns zero vertices, because a
+        prismatic collar is tessellated with vertices only at its ends. Absence of
+        vertices in a band is NOT absence of material; the plane-straddling triangle test
+        above is the correct probe. Recording this so the negative result is not reused
+        as evidence.
+      flange_corroboration: >-
+        at z_local = 2.405 mm (global x = 210.405 mm) the crossing geometry sits at radii
+        that bracket R45.25 mm, consistent with the previously measured 8 x M3 at R45.25
+        on the base_link flange.
+
+  ruling:
+    id: WP12-R-F3
+    status: GENUINELY_UNMODELLED_FEATURE_ON_A_REAL_PART__NOT_A_STALE_STATION_AND_NOT_A_WRONG_DATUM
+    three_way_verdict:
+      stale_declaration: false
+      different_datum: false
+      genuinely_unmodelled_feature: true
+    reasoning:
+      - x = 215.0 mm is 7.0 mm downstream of the arm mounting plane at x = 208.0 mm, on the
+        ARM side of the interface, and it lies inside the L0 accepted-URDF base_link body,
+        which occupies x in [208.0, 290.65] mm. 514 base_link triangles cross that plane.
+      - WP1's stated conflict is a DATUM-SIDE CATEGORY ERROR. 210.405 mm is the maximum of
+        the SPACECRAFT-SIDE M3R feature stack and 208.0 mm is the mounting plane; every
+        arm-side feature is by construction beyond both. Comparing an arm-side connector
+        face to the spacecraft-side stack maximum compares across the mounting interface.
+      - the reason no modelled surface exists at x = 215.0 mm IN THE DESIGN-FREEZE ASSEMBLY
+        is that the B601 arm is installed there as an 817.651847974 mm3 frame/axis witness
+        instead of body geometry. That is a representation limitation of the neutral chain,
+        already recorded by WP1, not a datum defect.
+      - HC-2 at x = 220.0 mm (z_local = 12.0 mm, "base_link collar") is admissible on the
+        same basis. HC-1 at x = 192.0 mm lands inside the M6 load bridge x-range
+        [185.25, 196.0] and inside the native Adapter_Plate x-range [186.0, 198.0], so it
+        is supported by modelled neutral geometry.
+    what_is_and_is_not_established:
+      established: >-
+        x = 215.0 mm is an ADMISSIBLE arm-side station: solid base_link material exists
+        there in the L0 authority representation.
+      not_established: >-
+        that a connector FEATURE exists at x = 215.0 mm. No connector geometry, no bolt
+        pattern, no shell keying and no part number exist in any model. The value is a
+        DECLARED_CANDIDATE with no vendor drawing behind it.
+      representation_caveat: >-
+        admissibility was checked against the accepted-URDF base_link. A registered
+        CAD-vs-URDF base_link divergence of order 56 mm exists, so this check is
+        representation-dependent and the existing lineage hold is retained.
+    holds:
+      - id: HOLD_ARM_SIDE_CONNECTOR_FEATURE_DEFINED_NOT_MODELLED
+        supersedes: HOLD_ARM_CONNECTOR_FACE_STATION_UNRECONCILED
+        class: NON_BLOCKING
+        external_dependency: connector part number, shell size and keying - vendor data absent
+        closure_trigger: connector selection (ECR-M4 class), after which the exact face station is taken from the vendor drawing
+      - id: HOLD_CONNECTOR_PART_NUMBER_AND_SHELL_ABSENT
+        class: NON_BLOCKING
+        external_dependency: vendor catalogue data
+        closure_trigger: connector selection
+      - id: HOLD_B51_CAD_ARM_VS_ACCEPTED_URDF_COLLISION_MESH_ARE_DIFFERENT_VERSIONS
+        class: NON_BLOCKING
+        retained: true
+        reason: the admissibility check above is bound to the accepted-URDF representation
+    correction_to_wp1_for_terminal_round_2:
+      wp1_item: 'HARNESS_ROUTING_V1.yaml arm_harness exit_point.conflict text and HOLD_ARM_CONNECTOR_FACE_STATION_UNRECONCILED'
+      wp12_ruling: >-
+        REPLACE the word "conflict" with a datum-side statement. Correct text: "x = 215.0 mm
+        is an arm-side station 7.0 mm downstream of the mounting plane at x = 208.0 mm; it
+        lies inside the L0 accepted-URDF base_link body (x in [208.0, 290.65] mm) and is
+        therefore admissible. It is not comparable with the spacecraft-side M3R feature
+        stack maximum of 210.405 mm. The connector feature itself is DEFINED_NOT_MODELLED
+        pending connector selection."
+      consequence: >-
+        this removes a false geometric conflict from the harness register while retaining
+        the genuine vendor holds. It does not close criterion 09, which still carries the
+        vendor cable and moving-sweep holds.
+
+explicit_non_claims:
+  - NO_HINGE_HARDWARE_GEOMETRY_EXISTS_IN_ANY_CHAIN
+  - NO_DEPLOYMENT_SWEEP_CLEARANCE_VERIFICATION_IS_CLAIMED
+  - NO_CONNECTOR_HARDWARE_GEOMETRY_EXISTS_IN_ANY_CHAIN
+  - NO_MEASURED_HARDWARE_VALUE_APPEARS_IN_THIS_DOCUMENT
+  - NOT_MANUFACTURING_RELEASED
+  - NOT_FLIGHT_OR_LAUNCH_QUALIFIED
+
+memory_gate:
+  available_physical_gib: 4.556671
+  total_physical_gib: 15.210205
+  threshold_gib: 6.0
+  memory_gate_passed: false
+  measurement_status: MEASURED
+  declaration: >-
+    the 6 GiB memory gate is FAILED on this host and stays declared as failed. No FreeCAD,
+    no SolidWorks, no Abaqus and no boolean kernel operation was run - only chunked
+    binary-STL streaming and STEP text parsing.
+
+source_register:
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    sha256: AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B
+    bytes: 4931
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+    bytes: 3531
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml
+    sha256: 5602CB6FC3DC983681F60D8FA94B432FBA4D432830F5B2362049DB4C1B849BF7
+    bytes: 19133
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/arm_probe.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/arm_probe.py
+    sha256: E2CB1E6B16EB1DEB6825E1DFCAC83C38373F1B5BE60B485EB0885B109386368B
+    bytes: 4763
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/body_attrib.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/body_attrib.py
+    sha256: 2C8BC1BF34A36231B384755760A9928CBD2D5A2E48F1A0F09A1020D2F810F9E0
+    bytes: 3488
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/compute_derived.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/compute_derived.py
+    sha256: D2BA572C110C43982AA5F920715BD6A5A329D64A8E4E7ED4F86AA93EDC997384
+    bytes: 11133
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f2_f3.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f2_f3.py
+    sha256: 093911E0C845583B8009588448D0181FCC593CFE71F4125529EA028E6E91C2BC
+    bytes: 4341
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f3_section.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f3_section.py
+    sha256: D574683FC3B8DCF4CAB35A01CEDA8F2A5086C59A6A473D2496D73CABC0E2016B
+    bytes: 1127
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/g08_forensic.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/g08_forensic.py
+    sha256: 4988196794D9861DDCC0CF4E5B154D5AA6682E9AB69585ABF539F99806D65E94
+    bytes: 2770
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/group_check.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/group_check.py
+    sha256: 51DEDBEAEC2C7280D57E46A3588CED2DA8505E1382E9067E4BE93EC24A67A53E
+    bytes: 1033
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/read_saddles.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/read_saddles.py
+    sha256: 6ABCA7898F1F8F3C8B5440C3A1CED5B01B0B13956A853159C1E5C08C7E16B813
+    bytes: 1556
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/refine.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/refine.py
+    sha256: EF6E1BFED236D4F8ABB820E166CB3C0B03CDE4CB1C54A04D3677E0D98A10FC3C
+    bytes: 3368
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/step_probe.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/step_probe.py
+    sha256: AD5EFEA8A09ED5166B6B618EF06EF2537089E42F205AE22792456E5B0198AD53
+    bytes: 2071
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json
+    sha256: 105BCB020FAF9F535C3A18F9A37831679F89070A8CA69C5960F959A686F332C1
+    bytes: 29415
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step
+    sha256: 8C85585E9C051AEBB849E48F56354B48BF4204F61103B550BD92FC77BA99EA9E
+    bytes: 1373004
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/HARNESS_ROUTING_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/HARNESS_ROUTING_V1.yaml
+    sha256: E54594FB51C5EC7A1BFE5180870C544BDABA315870DF7451B8B1B0235449DBAC
+    bytes: 52036
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml
+    sha256: AC446D4C685AED21A35AE5BEFAE804A8FE8C49D6103D87509ED7EC9B7EDEDB6D
+    bytes: 36933
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml
+    sha256: 0F9897EF4E41666DDB29CB0FC621DD737FDD8CCDE3F5527030E53A9D1604681A
+    bytes: 48807
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml
+    sha256: 10106444309B6E835D9C87EF41A0FF78FF4CFDAC8C773C7B9B158FC3C0DA1B05
+    bytes: 51418
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/receipt.json:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/receipt.json
+    sha256: E2F7EF70F242BB52554F1E534B2ABCA9F7D678A16197E9CDDD29CF7117B3B4FF
+    bytes: 28709
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml
+    sha256: F20BC2E97FE12AF5D3CFE48B4EDA8B82FA38BE9B3187C59C07FDAA259233786B
+    bytes: 125365
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/TOLERANCE_CHAIN_REGISTER_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/TOLERANCE_CHAIN_REGISTER_V1.yaml
+    sha256: 3E3D596EF65490B68EE875E3ECE0D1F8E6209DB75EBDC31F7E585570C68ED016
+    bytes: 23782
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml
+    sha256: 1F6E2D556921C0D69A00DFC1FDAA02FD47850F5472D4A88B4B66FD1666725FB2
+    bytes: 13650
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml
+    sha256: 1DEC46C6691E5B4BFA2258F6AA6DA9341CA86DF35F8B73354280D28F4AC305FE
+    bytes: 11002
+  ? 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+  : path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+    sha256: 172F3603E458F670323925E644BC68623EE9C85FCA7AF1200FAE2576EB43C68B
+    bytes: 1246
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_L_DEPLOYED.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_L_DEPLOYED.stl
+    sha256: F5EC27D88EAE75D3033DA5718E4C5165B8F475917D126730B69B4D02773BBE78
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/04_ARM_STOW_SUPPORT.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/04_ARM_STOW_SUPPORT.stl
+    sha256: 1C4DE2BCBE27A0278EE901E40F46542E075002ABFF99B6216F6EEC7D183FE5CD
+    bytes: 6084
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Aft_Saddle.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Aft_Saddle.stl
+    sha256: 01E997CE8BCBB92486F256A55536576333A905D0BD4A770009A072217CA71C30
+    bytes: 1484
+  ? 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_B601_ARTICULATED_ENGINEERING_ARM_STOWED_O13V.stl
+  : path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_B601_ARTICULATED_ENGINEERING_ARM_STOWED_O13V.stl
+    sha256: A134EE269689D888E8D05AA60AE05A9014FA3C139AFEF4F1E0429D8628EF57A2
+    bytes: 46026884
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Fwd_Saddle.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Fwd_Saddle.stl
+    sha256: 0ECDF0059EAB1C10FA80FB405FDDE8E7131F7F9FA41EAE3220FB56D1F009D9D6
+    bytes: 1484
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Left.stl
+    sha256: F5160C9FDDD58E55D3275DDB539EF8E424BAB1F912B0AEF70452894B5E84B4EB
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Right.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Right.stl
+    sha256: 435741BD32334372949DFA656868A5B7CD15E3320C755211C6CCD60F7D792055
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Left.stl
+    sha256: 0D6AA3A2778041143B37E2B4C3B756309F189D07D7598E6337EBCD13ADD263A2
+    bytes: 7084
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Right.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Right.stl
+    sha256: 56D39CEA1163F6FB146A10260BDD35201146C9D409E7CBD9DA352126802D937C
+    bytes: 7084
+  ? 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Launch_Lock_Interface_Reference.stl
+  : path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Launch_Lock_Interface_Reference.stl
+    sha256: D431EF8D9A20F0DE6A60789D6D100324061CA77188DD3A9C3459DC0A9C72B148
+    bytes: 2484
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Mid_Saddle.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Mid_Saddle.stl
+    sha256: AA6E7F59F2CC980A9AACC19E57811E0F5D32BFB896A54A09BD09FF53C84AC5FD
+    bytes: 1484
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Release_Clearance_Envelope.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Release_Clearance_Envelope.stl
+    sha256: 79EE616884401A4EB06A076451F75D487DB67F29234170220BE94CBF183ECB8B
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_L_STOWED.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_L_STOWED.stl
+    sha256: 02BE7F6BFA149FBC78834E7476767D5319AB0C8CEF44DB8A03E560901CED91B7
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/06_supports/F3R2_SUPPORT_V2_DEFINITION.json:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/06_supports/F3R2_SUPPORT_V2_DEFINITION.json
+    sha256: 7CA4BD5B0F83212492DE2200334D35D4F02830C0FD4164DC6C888CF354C94432
+    bytes: 17229
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json
+    sha256: 07618B5CFE2C2F1D2391B5D845CB82AD7ECFBBCC6371EEADF931289C8F2902D6
+    bytes: 5727
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    bytes: 11321
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL
+    sha256: 22641C079014FE968702393F61E7F7F1A8F80C6C1DF45A61E31545F6EAFF3B65
+    bytes: 3898684
+  30_simulation/sim_13_physics_gated_embodied_grasping/assets/BOOTSTRAP_TEST_FRAME_TREE.json:
+    path: 30_simulation/sim_13_physics_gated_embodied_grasping/assets/BOOTSTRAP_TEST_FRAME_TREE.json
+    sha256: 2FBA01A21C856CBC87C3A32D72485E340239A722E1A8F107DEC8FCAC9C3720D1
+    bytes: 1335
+  30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json:
+    path: 30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json
+    sha256: C224853EABBD00C9C14C812922E3B2A7E406AF43A81CF7CA6A307860A951466C
+    bytes: 4196
+  30_simulation/sim_13_physics_gated_embodied_grasping/src/mechanical_asset_loader.py:
+    path: 30_simulation/sim_13_physics_gated_embodied_grasping/src/mechanical_asset_loader.py
+    sha256: C0797E5786888E357784369F6601B380C4E94FAE76B3FBFCF4C46717A833E851
+    bytes: 23753

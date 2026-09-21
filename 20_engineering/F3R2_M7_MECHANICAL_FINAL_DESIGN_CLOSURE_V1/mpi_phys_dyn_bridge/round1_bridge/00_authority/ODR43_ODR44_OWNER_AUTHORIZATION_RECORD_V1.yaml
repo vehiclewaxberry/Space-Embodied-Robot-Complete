@@ -1,0 +1,148 @@
+schema: ODR43_ODR44_OWNER_AUTHORIZATION_RECORD_V1
+generated_local: '2026-08-23T17:25:11+08:00'
+generated_clock_source: LOCAL_SYSTEM_CLOCK__WAVE2A_AGENT5_CM_REGISTRATION
+generator: KIMI M7 机械终局接管 swarm Wave-2a AGENT-5（CM 登记）
+class: OWNER_DECISION_REGISTER_ADDENDUM_CANDIDATE
+record_type: CONFIGURATION_CONTROLLED_CANDIDATE_RECORD
+review_status: RECORDED_AS_DIRECTED__ADDENDUM_CANDIDATE_PENDING_OWNER_CM_FORMAL_INCORPORATION
+next_stage_authorized: false
+release_credit: false
+
+register_context:
+  statement: >-
+    现有 Owner 决定登记链（20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/）
+    止于 ODR-41：M7_OWNER_DECISION_REGISTER_V1.yaml 承载 ODR-01..ODR-06，后续 addendum 文件依次承载
+    ODR-18、ODR-19、ODR-20..ODR-26、ODR-27..ODR-34、ODR-35..ODR-41；ODR-07..ODR-17 在工作包/合同文件中
+    被消费引用。ODR-42 目前仅为 PENDING 状态的批准申请（ROUTE_C_OWNER_DECISION_REQUEST_ODR42_V1.yaml，
+    record_type=APPROVAL_REQUEST_NOT_AUTHORIZATION_RECORD），其批准记录规则要求"独立签发的 Owner 决定
+    引用其哈希"。本文件按 Owner 指令将 ODR-43 与 ODR-44 逐字登记为 configuration-controlled 候选记录；
+    本文件是 addendum candidate，待 Owner/CM 正式并入登记链，绝不修改上述任何 V1 登记原文件。
+  existing_register_chain_files:
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+      sha256_16: F5B1572C0CFCEC35
+      carries: ODR-01..ODR-06
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR18_SOLAR_HARNESS_ECR_V1.yaml
+      carries: ODR-18
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR19_SOLAR_ARRAY_R2_ECR_V1.yaml
+      carries: ODR-19
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR20_TO_ODR26_TERMINAL_R2_V1.yaml
+      carries: ODR-20..ODR-26
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR27_TO_ODR34_TERMINAL_FREEZE_V1.yaml
+      carries: ODR-27..ODR-34
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR35_TO_ODR41_B601_HARNESS_RATED_ENVELOPE_V1.yaml
+      sha256_16: 7655FA44BA4CD2B0
+      carries: ODR-35..ODR-41
+  odr42_request_file:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/ROUTE_C_OWNER_DECISION_REQUEST_ODR42_V1.yaml
+    sha256_16: B4E73CB4B143413D
+    owner_decision_at_capture: PENDING
+  numbering_note: >-
+    编号说明：ODR-42 为申请编号（由 ODR-44 裁决关闭）；ODR-43/ODR-44 为 Wave-2 Owner 指令直接给定的
+    决定编号。本登记不擅自重排编号；若 CM 并入时需调整编号或合并文本，必须走显式 Owner/ECR 动作，
+    禁止静默重号或改写逐字文本。
+
+authority_basis:
+  source: OWNER_DIRECTIVE（Wave-2a 接管主控逐字转述）
+  carried_verbatim_in:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round0_handover/00_receipt/KIMI_M7_TERMINAL_HANDOVER_RECEIPT.json
+    field: authority_basis.ODR-43_verbatim / authority_basis.ODR-44_verbatim
+  v5_required_owner_statement_source: >-
+    20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/15_loop_continuation_v5/MECHANICAL_LOOP_ENGINEERING_CONTINUATION_GATE_V5.json
+
+decisions:
+
+  - id: ODR-43
+    subject: B601_ARM_PLACEMENT_RULE
+    ruling: DUAL_FRAME_EXPLICIT_BRIDGE
+    ruling_verbatim: >-
+      ODR-43 — B601_ARM_PLACEMENT_RULE: DUAL_FRAME_EXPLICIT_BRIDGE。WP11 physical installation = PHYSICAL_INSTALLATION_AUTHORITY；ODR-01 T_SM = DYNAMICS_FRAME_AUTHORITY。必须建立唯一显式桥接 T_PHYSICAL_TO_DYNAMIC；mass/CG/inertia/interface loads/CAD geometry/collision geometry 从物理安装系进入动力学系只能经此桥。禁止：二选一、按模块混用、取平均、把 0.36889° 差值当随机不确定度、静默替换坐标。
+    structured_decomposition:
+      note: 结构化分解仅为登记索引；与逐字文本冲突时以逐字文本为准。
+      frame_authorities:
+        - frame: WP11 physical installation（WP11_PHYSICAL_GEOMETRY_CONTEXT）
+          role: PHYSICAL_INSTALLATION_AUTHORITY
+        - frame: ODR-01 T_SM（ODR01_DYNAMICS_T_SM）
+          role: DYNAMICS_FRAME_AUTHORITY
+      unique_explicit_bridge: T_PHYSICAL_TO_DYNAMIC
+      bridge_channel_rule: >-
+        mass/CG/inertia/interface loads/CAD geometry/collision geometry
+        从物理安装系进入动力学系只能经此唯一显式桥。
+      five_prohibitions:
+        - 禁止二选一（不得在两个 frame 间择一消费）
+        - 禁止按模块混用
+        - 禁止取平均
+        - 禁止把 0.36889° 差值当随机不确定度
+        - 禁止静默替换坐标
+    blocking_frontier_context:
+      e21_dual_lane_evidence:
+        odr01_dynamics_t_sm_peak_base_attitude_deviation_deg: 29.041965867604112
+        wp11_physical_geometry_context_peak_base_attitude_deviation_deg: 29.41085537835705
+        physical_minus_odr01_delta_deg: 0.3688895107529362
+        interpretation: frame-consumption ambiguity, not statistical uncertainty（standard_uncertainty=null；branch_delta_is_uncertainty=false；averaging_forbidden=true）
+      frame_definitions_source:
+        path: 30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/00_authority/E21_AUTHORITY_CONTRACT_V1.yaml
+        sha256_16: 7D2E0792B3FF6BAB
+    closes: []
+    scope: DESIGN_AND_DYNAMICS_AUTHORITY
+    does_not_close: [MECHANICAL_LOOP_V5_GATE_HOLD, E21_DIAGNOSTIC_HOLD]
+
+  - id: ODR-44
+    subject: ROUTE_C_BOUNDED_DETAILED_DESIGN_AUTHORIZATION
+    ruling: ODR-42 = APPROVE_BOUNDED_DETAILED_DESIGN
+    ruling_verbatim: >-
+      ODR-44 — ODR-42: APPROVE_BOUNDED_DETAILED_DESIGN。冻结 accepted B601 URDF、Solar Array R2、M3R authority、Gripper R1 accepted geometry、existing M7 operational FEA evidence。MPI-01..MPI-08（本任务的安装桥接工作包）全部闭合后才允许建 Route-C independent versioned CAD candidate。
+    v5_required_owner_statement_verbatim: >-
+      批准 ODR-42：APPROVE_BOUNDED_DETAILED_DESIGN；冻结 accepted URDF 与 Solar R2；完成 MPI-01..MPI-08 后方可生成独立版本 Route-C CAD。
+    structured_decomposition:
+      note: 结构化分解仅为登记索引；与逐字文本冲突时以逐字文本为准。
+      decided_request:
+        request_id: ODR-42
+        request_file: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/ROUTE_C_OWNER_DECISION_REQUEST_ODR42_V1.yaml
+        request_file_sha256_16: B4E73CB4B143413D
+        selected_option: APPROVE_BOUNDED_DETAILED_DESIGN
+      five_frozen_assets:
+        - asset: accepted B601 URDF
+          path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+          sha256_16: 1BC2B7483CD8025D
+        - asset: Solar Array R2
+          path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_CANDIDATE_V1.step
+          sha256_16: 21FF77B882DBFAB8
+        - asset: M3R authority
+          anchor: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp4_fastener_design/M3R_FASTENER_DESIGN_V1.yaml
+          anchor_sha256_16: 876E58DA0D54D8A1
+        - asset: Gripper R1 accepted geometry
+          anchor: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_R1_ENGINEERING_OWNER_CLOSURE_V1.yaml
+          anchor_sha256_16: 699BA67B5C23781F
+        - asset: existing M7 operational FEA evidence
+          anchor: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/
+      route_c_precondition: >-
+        MPI-01..MPI-08（安装桥接工作包，round0 起记为 MPI-FB-01..08 以区别于 Route-C minimum
+        product inputs 同名缩写）全部闭合后，才允许建 Route-C independent versioned CAD candidate。
+      five_shall_nots:
+        - 不得编辑或替换五项冻结资产（accepted B601 URDF、Solar Array R2、M3R authority、Gripper R1 accepted geometry、existing M7 operational FEA evidence）
+        - 不得把 Route-B seed 尺寸（OD 10.0 mm、R25 legacy、R30 终端要求值、cut length 4001.158 mm）当作 Route-C 发布值
+        - 不得继承 Route-B 诊断质量 0.68406762184 kg
+        - 不得在 MPI-01..MPI-08 全闭合前创建 Route-C independent versioned CAD candidate
+        - 不得进入 production dynamics / physical-contact RL / hardware motion（其各自 Gate 通过前），不得宣称 flight qualification / full-range qualification / formal CDR closure
+    closes: [ROUTE_C_OWNER_DECISION_REQUEST_ODR42_PENDING]
+    scope: BOUNDED_DETAILED_DESIGN_AUTHORITY
+    does_not_grant: [ROUTE_C_CAD_GENERATION_BEFORE_MPI_CLOSURE, FLIGHT_OR_FULL_RANGE_OR_CDR_CLOSURE_CLAIMS]
+
+standing_prohibitions_carried_unchanged:
+  - no_flight_or_launcher_or_manufacturing_release_claims
+  - no_zero_fill_of_unknowns
+  - no_cad_mass_override_of_accepted_urdf_masses
+  - no_typical_property_as_design_allowable_for_flight_margin
+  - memory_gate_6gib_remains_failed
+  - no_file_exists_then_pass
+  - no_null_coerced_to_zero
+  - no_PROVISIONAL_as_authority
+  - no_frame_averaging
+  - no_silent_reuse_of_legacy_24kg_mass_model_or_Solar_R1_flex_model
+  - no_renaming_of_Route_B_negative_results
+
+nonclaims:
+  - 本文件不修改、不重排、不覆盖 00_authority/ 下任何既有登记文件
+  - 本文件自身不构成新的 release credit；Mechanical Loop V5 Gate 维持 HOLD
+  - 本文件不授权任何 CAD/FEA 进程、不授权 Route-C CAD 候选生成
+  - 逐字文本的权威来源为 Owner 指令；本登记为候选记录，待 Owner/CM 正式并入后生效为受控登记条目

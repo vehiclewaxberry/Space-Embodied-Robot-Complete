@@ -1,0 +1,71 @@
+schema: B51R1_PHASE2_URDF_DEPENDENCY_AND_PARSER_GATE_V1
+generated_on: "2026-08-01"
+status: KINEMATICS_MASS_PARSE_PASS_WITH_VISUAL_COLLISION_AND_PARSER_HOLDS
+gate: DOWNSTREAM_HOLD_REGISTERED_AT_G1A
+
+accepted_urdf:
+  path: 00_BASELINE/AUTHORITIES/accepted_urdf/arm_b601_v1.urdf
+  bytes: 11321
+  sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  robot: arm_b601_v1
+  topology: 10_LINK_6R_1_FIXED_2_INDEPENDENT_P
+  mass_authority_kg_exact_text: "4.6955559493429862"
+  xml_parse: PASS
+  mimic_joint_count: 0
+
+mesh_dependency_audit:
+  reference_prefix: meshes_b601_gripper/
+  unique_expected_files: 10
+  workspace_files_found: 0
+  visual_references: 10
+  collision_references: 10
+  status: HOLD_MISSING_ALL_REFERENCED_STL_FILES
+  expected_files:
+    - {path: meshes_b601_gripper/base_link.STL, found: false, sha256: null}
+    - {path: meshes_b601_gripper/link1.STL, found: false, sha256: null}
+    - {path: meshes_b601_gripper/link2.STL, found: false, sha256: null}
+    - {path: meshes_b601_gripper/link3.STL, found: false, sha256: null}
+    - {path: meshes_b601_gripper/link4.STL, found: false, sha256: null}
+    - {path: meshes_b601_gripper/link5.STL, found: false, sha256: null}
+    - {path: meshes_b601_gripper/link6.STL, found: false, sha256: null}
+    - {path: meshes_b601_gripper/gripper_link.STL, found: false, sha256: null}
+    - {path: meshes_b601_gripper/gripper_left.STL, found: false, sha256: null}
+    - {path: meshes_b601_gripper/gripper_right.STL, found: false, sha256: null}
+
+semantic_conflicts:
+  gripper_dynamics_mode:
+    header_comment: GRIPPER_PRISMATIC_JOINTS_LOCKED_FOR_DYNAMICS_V1
+    xml_joint_model: TWO_MOVABLE_INDEPENDENT_PRISMATIC_JOINTS_ZERO_TO_0_0715_M
+    required_resolution: EXPLICIT_MODE_CONTRACT_FOR_LOCKED_DYNAMICS_V1_VERSUS_MOVABLE_2P_MECHANISM
+    status: HOLD
+  fixed_joint_axis:
+    joint: gripper_joint
+    type: fixed
+    axis_xyz: "0 0 0"
+    engineering_semantic: AXIS_IGNORED_FOR_FIXED_JOINT
+    required_resolution: PARSER_COMPATIBILITY_MATRIX_AND_IMPORT_SMOKE_TEST
+    status: HOLD
+  joint6_periodicity:
+    urdf_range_rad: "-3.14 3.14"
+    native_limit_angle_candidate_rad: "0 6.28"
+    risk: NEAR_TWO_PI_LIMIT_CAN_HIDE_BRANCH_FLIP_OR_WRAP
+    required_resolution: UNWRAPPED_JOINT_COORDINATE_AND_BRANCH_INDEX_TEST_ACROSS_SAVE_CONTINUOUS_DRIVE_AND_COLD_REOPEN
+    status: HOLD
+
+consumer_admission:
+  phase2a_reference_only_skeleton_and_carrier_frames:
+    mesh_dependency_required: false
+    condition: NO_VISUAL_OR_COLLISION_IMPORT_AND_ALL_OTHER_G1A_G1B_REQUIREMENTS_PASS
+  phase2b_fine_geometry_attachment:
+    mesh_or_equivalent_geometry_dependency_required: true
+    status: HOLD
+  mujoco_isaac_sim_collision_or_visual_export:
+    mesh_dependency_required: true
+    parser_compatibility_required: true
+    status: HOLD
+  control_or_embodied_release:
+    explicit_gripper_mode_and_safe_contract_required: true
+    status: HOLD
+
+claim_limit: URDF_KINEMATICS_AND_MASS_TEXT_PARSE_ONLY_NO_VISUAL_COLLISION_OR_SIMULATOR_DEPENDENCY_CLOSURE
+

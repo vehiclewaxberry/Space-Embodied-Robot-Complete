@@ -1,0 +1,303 @@
+schema_version: comp-prot-03-a4-component-register-v0.1
+register_id: candidate_12u_b601_a4_engineering_visual_components_v0_1
+created_on: "2026-07-23"
+status: DESIGN_REVIEW_COMPLETE_CAD_NOT_AUTHORIZED
+
+authority:
+  scientific_gate: false
+  CAD_authoring_authorized: false
+  A3_CAD_modification_authorized: false
+  URDF_authorized: false
+  dynamics_authorized: false
+  target_contact_authorized: false
+  sensor_hardware_authorized: false
+  human_approval_required_for_A4_B1: true
+
+state_vocabulary:
+  EVIDENCE_BOUND: geometry_identity_or_parameter_has_a_pinned_project_source
+  DESIGN_PROPOSAL: project_owned_visual_design_not_physical_truth
+  UNKNOWN_BLOCKED: required_physical_or_interface_truth_is_absent
+  EXCLUDED: object_or_consumer_is_out_of_scope
+
+selected_baseline:
+  profile_id: COMPETITION_DISPLAY_V0
+  envelope_mm_S: [340.5, 226.3, 226.3]
+  topology_id: A_CENTERLINE_TASK_FACE_SINGLE_ARM
+  T_SM:
+    translation_mm_S: [185.25, 0.0, 0.0]
+    rotation: R_y_plus_90_deg
+    state: EVIDENCE_BOUND
+  target_in_active_assembly: false
+  vendor_STEP_consumed: false
+
+components:
+  - component_id: master_skeleton_v1
+    parent_id: null
+    representation_layer: REF_EVIDENCE
+    evidence_state: EVIDENCE_BOUND
+    frame_id: S
+    source_refs:
+      - ../comp_prot_03_a3_geometry_only/frame_export_v0_1.yaml
+      - ../comp_prot_03_a3_g0_evidence_closure/frame_tree_v2_candidate.yaml
+    required_children:
+      - bay_boundary_datums
+      - panel_root_datums
+      - sensor_reserved_datum
+      - rear_service_face
+      - review_overlay_datums
+    unknowns: [T_SB, T_E_TCP, T_ST, T_SD]
+    blocked_consumers: [URDF, PHYSICS_MODEL, BASILISK, CONTACT_MODEL]
+
+  - component_id: primary_structure
+    parent_id: master_skeleton_v1
+    representation_layer: VISUAL_SHELL
+    evidence_state: DESIGN_PROPOSAL
+    frame_id: S
+    required_children:
+      - corner_and_end_frames
+      - longitudinal_members
+      - front_mid_rear_bay_boundaries
+      - removable_external_panels
+      - equipment_decks
+    source_refs:
+      - ../../../20_engineering/stage1_spacecraft_layout/03_mechanical_layout_notes/servicer_12U_layout_baseline_v0.md
+    forbidden_claims:
+      - verified_load_path
+      - structural_strength
+      - deployer_compliance
+      - manufacturing_ready
+    blocked_consumers: [FEA, FLIGHT, DYNAMICS]
+
+  - component_id: rail_contact_reference
+    parent_id: primary_structure
+    representation_layer: PHYSICAL_RESERVED
+    evidence_state: UNKNOWN_BLOCKED
+    frame_id: S
+    geometry_value: null
+    source_needed:
+      - selected_deployer_interface
+      - rail_cross_section
+      - contact_surface
+      - whole_vehicle_fit_check
+    blocked_consumers: [FLIGHT_ENVELOPE, DEPLOYER_CONFORMANCE]
+
+  - component_id: front_task_bay
+    parent_id: primary_structure
+    representation_layer: VISUAL_SHELL
+    evidence_state: DESIGN_PROPOSAL
+    frame_id: S
+    required_roles:
+      - robot_mount
+      - sensor_reference
+      - task_marker_reference
+      - maintenance_access
+    blocked_consumers: [FLIGHT, DYNAMICS]
+
+  - component_id: middle_platform_bay
+    parent_id: primary_structure
+    representation_layer: VISUAL_SHELL
+    evidence_state: DESIGN_PROPOSAL
+    frame_id: S
+    display_placeholders:
+      - OBC_CDH
+      - EPS_PMAD
+      - battery
+      - reaction_wheels
+      - IMU
+    placeholder_properties:
+      BOM_INCLUDED: false
+      MASS_CONTRIBUTION: false
+      MATERIAL: UNASSIGNED
+    blocked_consumers: [MASS_BUDGET, THERMAL, POWER, DYNAMICS]
+
+  - component_id: rear_service_bay
+    parent_id: primary_structure
+    representation_layer: VISUAL_SHELL
+    evidence_state: DESIGN_PROPOSAL
+    frame_id: S
+    display_placeholders:
+      - communications
+      - antenna
+      - propulsion
+      - thermal_area
+      - debug_interface
+    blocked_consumers: [PROPULSION, RF, THERMAL, FLIGHT]
+
+  - component_id: solar_panel_left
+    parent_id: primary_structure
+    representation_layer: REF_EVIDENCE
+    evidence_state: EVIDENCE_BOUND
+    frame_id: F_L
+    source_ref: ../../../20_engineering/config/geometry/flexible_appendage_v1.yaml
+    configurations:
+      DEPLOYED_REFERENCE: EVIDENCE_BOUND
+      STOWED_DISPLAY: DESIGN_PROPOSAL
+      SAFE_DISPLAY: DESIGN_PROPOSAL
+    unknowns: [hinge_hardware, lock_release, deployment_angle, harness, flight_envelope]
+    blocked_consumers: [DEPLOYMENT_DYNAMICS, FLIGHT, GLOBAL_COLLISION]
+
+  - component_id: solar_panel_right
+    parent_id: primary_structure
+    representation_layer: REF_EVIDENCE
+    evidence_state: EVIDENCE_BOUND
+    frame_id: F_R
+    source_ref: ../../../20_engineering/config/geometry/flexible_appendage_v1.yaml
+    configurations:
+      DEPLOYED_REFERENCE: EVIDENCE_BOUND
+      STOWED_DISPLAY: DESIGN_PROPOSAL
+      SAFE_DISPLAY: DESIGN_PROPOSAL
+    unknowns: [hinge_hardware, lock_release, deployment_angle, harness, flight_envelope]
+    blocked_consumers: [DEPLOYMENT_DYNAMICS, FLIGHT, GLOBAL_COLLISION]
+
+  - component_id: servicer_flange_160
+    parent_id: primary_structure
+    representation_layer: REF_EVIDENCE
+    evidence_state: EVIDENCE_BOUND
+    frame_id: M
+    mass_owner: servicer_split_owner
+    source_ref: ../../../20_engineering/config/geometry/service_spacecraft_v1.yaml
+    separate_mass_row_allowed: false
+
+  - component_id: robot_mount_adapter_v1_visual
+    parent_id: servicer_flange_160
+    representation_layer: VISUAL_SHELL
+    evidence_state: DESIGN_PROPOSAL
+    frame_id: M
+    evidence_bound_subgeometry:
+      plate_mm: [160.0, 160.0, 12.0]
+      boss_diameter_mm: 100.0
+      boss_height_mm: 15.0
+    proposal_features:
+      - stiffener_ribs
+      - cover
+      - lightening_features
+      - reference_fasteners
+      - cable_route
+      - maintenance_access
+      - virtual_FT_plane
+    mass_owner: adapter_owner
+    plate_and_boss_separate_mass_allowed: false
+    unknowns: [material, wall_thickness, fasteners, tolerance, preload, stiffness, strength]
+    blocked_consumers: [FEA, MANUFACTURING, DYNAMICS, FLIGHT]
+
+  - component_id: arm_b601_visual_reconstruction
+    parent_id: robot_mount_adapter_v1_visual
+    representation_layer: VISUAL_SHELL
+    evidence_state: DESIGN_PROPOSAL
+    frame_id: A0
+    kinematic_source: ../../../20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    geometry_source: accepted_STL_meshes
+    vendor_STEP_used: false
+    required_link_ids:
+      - base_link
+      - link1
+      - link2
+      - link3
+      - link4
+      - link5
+      - link6
+      - gripper_link
+      - gripper_left
+      - gripper_right
+    required_joint_count: 9
+    layers_per_link: [REF_EVIDENCE, VISUAL_SHELL, PHYSICAL_RESERVED]
+    required_properties:
+      - source_hash
+      - link_id
+      - parent_joint
+      - child_joint
+      - frame_id
+      - representation_layer
+      - visual_envelope_deviation
+      - NO_DYNAMICS_USE
+      - NOT_VENDOR_EXACT_CAD
+    unknowns:
+      - motor_geometry
+      - reducer_geometry
+      - bearing_geometry
+      - joint_clearance
+      - friction
+      - material
+      - structural_core
+      - true_harness
+    blocked_consumers: [MANUFACTURING, DYNAMICS, GLOBAL_COLLISION, FLIGHT]
+
+  - component_id: existing_gripper_visual
+    parent_id: arm_b601_visual_reconstruction
+    representation_layer: REF_EVIDENCE
+    evidence_state: EVIDENCE_BOUND
+    frame_id: G
+    source: accepted_URDF_and_STL
+    physical_TCP_defined: false
+    contact_geometry_active: false
+    allowed_overlays: [E_virtual_frame, Interface_0_task_marker]
+    blocked_consumers: [CONTACT_MODEL, RIGID_LOCK, CAPTURE_EXECUTION]
+
+  - component_id: embodied_capture_end_effector_future
+    parent_id: existing_gripper_visual
+    representation_layer: PHYSICAL_RESERVED
+    evidence_state: UNKNOWN_BLOCKED
+    frame_id: TCP_contact
+    value: null
+    requires_gate: A5_SENSOR_AND_END_EFFECTOR_QUALIFICATION_G0
+    blocked_consumers: [CONTACT_MODEL, CONTROL, SAFE, VLA, MANUFACTURING]
+
+  - component_id: sensor_semantic_reference
+    parent_id: front_task_bay
+    representation_layer: PHYSICAL_RESERVED
+    evidence_state: UNKNOWN_BLOCKED
+    frame_id: CS_SENSOR_RESERVED
+    allowed_geometry:
+      - datum_plane
+      - coordinate_system
+      - mounting_reservation_sketch
+      - nonphysical_cable_reference
+      - camera_fov_reference_tag
+    prohibited_geometry:
+      - qualified_camera_solid
+      - lens_with_claimed_optics
+      - calibrated_FOV_volume
+    required_properties:
+      IS_HARDWARE: false
+      BOM_INCLUDED: false
+      MASS_CONTRIBUTION: false
+      MATERIAL: UNASSIGNED
+      SENSOR_MODEL: UNKNOWN
+      CALIBRATION_STATE: UNKNOWN
+      EXECUTION_AUTHORITY: false
+    blocked_consumers: [PERCEPTION, FOV_VALIDATION, MASS_BUDGET, THERMAL, POWER]
+
+  - component_id: target_scene_reference
+    parent_id: null
+    representation_layer: PHYSICAL_RESERVED
+    evidence_state: EXCLUDED
+    active_assembly_member: false
+    fixed_mate_allowed: false
+    contact_mate_allowed: false
+    rigid_lock_allowed: false
+    blocked_consumers: [TARGET_INTEGRATION, CONTACT_MODEL, RIGID_LOCK]
+
+review_overlays:
+  - overlay_id: evidence_state_overlay
+    required_states: [EVIDENCE_BOUND, DESIGN_PROPOSAL, UNKNOWN_BLOCKED, EXCLUDED]
+  - overlay_id: frame_overlay
+    required_frames: [S, M, A0, G, E_virtual, TCP_contact]
+  - overlay_id: panel_keepout_overlay
+    state: DESIGN_PROPOSAL
+  - overlay_id: rail_protrusion_overlay
+    state: UNKNOWN_BLOCKED
+  - overlay_id: static_interference_overlay
+    scope: one_named_configuration_and_one_named_arm_pose_only
+  - overlay_id: semantic_task_marker_overlay
+    execution_authority: false
+
+claim_boundary:
+  maximum_A4_B1_claim: engineering_visual_mechanical_prototype_with_explicit_physical_limitations
+  forbidden:
+    - vendor_exact_CAD
+    - manufacturing_ready
+    - flight_ready
+    - dynamics_ready
+    - calibrated_perception
+    - physical_capture_interface
+    - autonomous_capture

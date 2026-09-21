@@ -1,0 +1,23 @@
+{
+ "existing_contract": {
+  "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/05_contact_identification/CONTACT_MODEL_PARAMETER_CONTRACT_V1.yaml",
+  "sha256": "1BF741A508AA6F263D81458184840F2AD6608652250256CE84D7F2656BD04B6B",
+  "status": "HOLD_ALL_PHYSICAL_CONTACT_PARAMETERS_AND_FRAMES_INCOMPLETE",
+  "zero_fill_forbidden": true,
+  "physical_contact_kernel_authorized": false
+ },
+ "field_truth": {
+  "normal_contact": "stiffness/damping/exponent/restitution/regularization_velocity ALL null (HOLD_TEST_IDENTIFICATION_REQUIRED / HOLD_MODEL_SELECTION_REQUIRED / HOLD_NUMERICAL_VV_REQUIRED)",
+  "tangential_contact": "static/kinetic friction, tangential stiffness/damping, stick-slip velocity ALL null (HOLD_MATERIAL_PAIR_AND_TEST_REQUIRED)",
+  "gripper_actuator": "stroke_m=0.0715 (DIGITAL_GEOMETRY_VALUE_UNCERTAINTY_HOLD, source GRIPPER_R1_GEOMETRY_VALIDATION.json); closing_velocity/continuous_force/peak_force/power_off_holding_force/control_latency ALL null (HOLD_HARDWARE_AUTHORITY)",
+  "contact_geometry": "left/right contact frames, target surface normal, effective area, initial gap ALL null",
+  "structural_mapping": "T_arm_base_from_wrist AVAILABLE_AS_FUNCTION_OF_Q_FROM_ACCEPTED_URDF; T_wrist_from_contact/T_load_bridge_from_m3r null; T_m3r_from_arm_base DIGITAL_GEOMETRY_ONLY",
+  "contact_window": "sim_11 T_c=20ms nominal PROVISIONAL (待 B601 夹爪实测), 5-100ms swept; AGENTS.md 待办2: 硬件组实测闭合时间后替换并重跑"
+ },
+ "work_orders_for_loop_b": [
+  "WO-C1: build DESIGN_CONTACT_MODEL_V1 (bounded provisional): every null field gets nominal/lower/upper/authority/source/confidence; sources=literature analogs + material pairs (wp6) + sim_11 window sweep + gripper geometry; NO zero-fill, NO invented measurement",
+  "WO-C2: AS_BUILT_CONTACT_MODEL=null MEASUREMENT_PENDING for all fields",
+  "WO-C3: define UNKNOWN/ABORT policy hook so sim13 contact gate V2 (NC19) refuses out-of-envelope contact",
+  "WO-C4: keep CT01..CT05 test-authority placeholders as external HOLDs"
+ ]
+}

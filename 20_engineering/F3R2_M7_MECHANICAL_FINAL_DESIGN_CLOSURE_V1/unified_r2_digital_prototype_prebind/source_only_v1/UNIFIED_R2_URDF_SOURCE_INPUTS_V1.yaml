@@ -1,0 +1,159 @@
+schema: UNIFIED_R2_URDF_SOURCE_INPUTS_V1
+generated_date_local: '2026-08-24'
+artifact_class: DORMANT_SOURCE_ONLY_INPUT_REGISTRY
+configuration:
+  configuration_id: C01
+  canonical_name: DEPLOYED_NOMINAL
+  snapshot_class: C01_DEPLOYED_SNAPSHOT_SIMULATION_CANDIDATE
+  continuous_solar_deployment_claimed: false
+units: {length: m, mass: kg, inertia: kg*m^2, angle: rad}
+matrix_semantics: p_parent = R_parent_child * p_child + t_parent_child
+
+source_pins:
+  accepted_b601_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    bytes: 11321
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  m7_r2_mass_properties:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+    bytes: 223714
+    sha256: 3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB
+  solar_root_frames:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/internal_geometry_authority_closure/SOLAR_R2_ROOT_FRAME_REGISTRATION_V1.yaml
+    bytes: 9810
+    sha256: 95011198263005A4CDA60FE24C1FB04583384889479C0B8E9AC20C2B411D93DC
+  m4_frame_tree:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+    bytes: 6236
+    sha256: 67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA
+  b601_linklocal_bounds:
+    path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/B601_CAD_MESH_FRAME_DECISION_V1.json
+    bytes: 32652
+    sha256: 2A99484C6CE55B402CB06380F5DCB71D5A8B4BA622A371EEF72F4EC69EF124FF
+  base_prebind_gate:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/UNIFIED_R2_PREBIND_GATE_V1.json
+    bytes: 3618
+    sha256: DA1F2661C3CCF641C9379CE50406A14510FABA9DC04B4E02F616768194F8CEAA
+  existing_urdf_design_ledger:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/UNIFIED_R2_URDF_DESIGN_LEDGER_V1.yaml
+    bytes: 42350
+    sha256: CF5803D1E0A4CDC37635009DD28F62D25E367270A45F54C02E66BF539382D294
+
+topology_contract:
+  physical_links: 15
+  joints: 14
+  actuated_dof: 8
+  joint_type_counts: {revolute: 6, prismatic: 2, fixed: 6}
+  arm_subtree: {links: 10, joints: 9, revolute: 6, prismatic: 2, fixed: 1}
+  added_links: [spacecraft_bus, load_bridge_candidate, m3r_lumped_link, solar_r2_left_c01_snapshot, solar_r2_right_c01_snapshot]
+  solar_snapshot_joints: fixed
+  future_root_joint_contract_sidecar_only:
+    axis_in_joint_frame: [1.0, 0.0, 0.0]
+    limits_rad: [0.0, 1.5707963267948966]
+    continuous_deployment_urdf_authorized: false
+
+frames:
+  T_S_M3R_LOCAL:
+    - [0.0, 0.0, 1.0, 0.208]
+    - [0.422618483193, 0.906307683772, 0.0, 0.000015994151]
+    - [-0.906307683772, 0.422618483193, 0.0, -0.000086366070]
+    - [0.0, 0.0, 0.0, 1.0]
+  T_S_B601_ARM_BASE_PHYSICAL:
+    - [0.0, 0.0, 1.0, 0.208]
+    - [0.422618483193, 0.906307683772, 0.0, 0.0]
+    - [-0.906307683772, 0.422618483193, 0.0, 0.0]
+    - [0.0, 0.0, 0.0, 1.0]
+  T_S_R2_ROOT_L:
+    - [-1.0, 0.0, 0.0, 0.0]
+    - [0.0, -1.0, 0.0, 0.1154]
+    - [0.0, 0.0, 1.0, -0.10815]
+    - [0.0, 0.0, 0.0, 1.0]
+  T_S_R2_ROOT_R:
+    - [1.0, 0.0, 0.0, 0.0]
+    - [0.0, 1.0, 0.0, -0.1154]
+    - [0.0, 0.0, 1.0, -0.10815]
+    - [0.0, 0.0, 0.0, 1.0]
+
+components_c01:
+  spacecraft_bus:
+    source_component_id: bus_primary_structure
+    mass_kg: 23.3032134
+    com_S_m: [-0.0007955, 0.0, 0.000587]
+    inertia_about_com_S_kg_m2:
+      - [0.193585, 0.0, -0.0007228]
+      - [0.0, 0.3485384, 0.0]
+      - [-0.0007228, 0.0, 0.347072]
+    authority: DESIGN_MODEL_R2_MERGED_RSS_NOT_MEASURED
+    broadphase_box_size_m: [0.3405, 0.2263, 0.2263]
+  load_bridge_candidate:
+    source_component_id: spacecraft_load_bridge_candidate
+    mass_kg: 0.702195458
+    com_S_m: [0.19062500000000007, 0.000015994000000005556, -0.00008636600000000464]
+    inertia_about_com_S_kg_m2:
+      - [0.0031222893683617043, 2.232120452943751e-21, 0.0]
+      - [2.232120452943751e-21, 0.001567906972732106, -3.659347861698557e-22]
+      - [0.0, -3.659347861698557e-22, 0.001567906972732097]
+    authority: MATERIAL_DERIVED_CANDIDATE_NOT_MANUFACTURING_AUTHORITY
+    broadphase_box_size_m: [0.01075, 0.160, 0.160]
+  m3r_lumped_link:
+    source_component_id: m3r_stage_a_plus_stage_b_budget_envelope
+    mass_kg: 0.7619
+    com_S_m: [0.2033879448873743, 0.000015994, -0.000086366]
+    inertia_about_com_S_kg_m2:
+      - [0.0035940027551963787, 0.0, 0.0]
+      - [0.0, 0.0018089624667639822, 0.0]
+      - [0.0, 0.0, 0.0018089624667639822]
+    authority: BUDGETED_LUMPED_STAGE_A_PLUS_STAGE_B
+    collision: null
+  b601_complete_arm_including_gripper:
+    mass_kg: 4.695555949342986
+    authority: ACCEPTED_URDF_KINEMATIC_AND_MASS_INERTIA_SUBTREE
+  solar_r2_left_c01_snapshot:
+    mass_kg: 0.78
+    com_S_m: [0.0, 0.346553846, -0.099134615]
+    inertia_about_com_S_kg_m2:
+      - [0.030004785546499838, 0.0, 0.0]
+      - [0.0, 0.004930698924865386, 0.002295028962016152]
+      - [0.0, 0.002295028962016152, 0.03317408662163446]
+    authority: MATERIAL_DERIVED_CANDIDATE_NOT_MEASURED
+  solar_r2_right_c01_snapshot:
+    mass_kg: 0.78
+    com_S_m: [0.0, -0.346553846, -0.099134615]
+    inertia_about_com_S_kg_m2:
+      - [0.030004785546499838, 0.0, 0.0]
+      - [0.0, 0.004930698924865386, -0.002295028962016152]
+      - [0.0, -0.002295028962016152, 0.03317408662163446]
+    authority: MATERIAL_DERIVED_CANDIDATE_NOT_MEASURED
+  total_mass_kg: 31.022864807342987
+
+collision_policy:
+  class: PRIMITIVE_BROADPHASE_ONLY
+  bus: envelope box
+  bridge: candidate envelope box
+  b601_base_through_link6: boxes recomputed from source link-local bounds
+  gripper_palm: box recomputed from R1 palm bounds in gripper_link
+  gripper_fingers: OMITTED_PENDING_CHILD_LOCAL_REBASE
+  m3r: OMITTED_PENDING_AUTHORIZED_ENVELOPE
+  solar: three primitive leaf boxes per fixed deployed snapshot wing
+  excluded: [original_B601_STL_collision, desktop_base_phantom, Route-C, harness, HDRM_detail, target_satellite, target_debris]
+  contact_authority: false
+
+physical_capability_holds:
+  gripper_model_velocity_literal_m_s: 15.0
+  physical_gripper_speed_m_s: null
+  physical_gripper_timing_s: null
+  physical_contact_capability: null
+  route_c_geometry: null
+  route_c_status: HOLD_ABSENT
+  flight_qualification: HOLD
+
+authority_flags:
+  execution_authorized: false
+  urdf_emitted: false
+  sim13_rebind_authorized: false
+  physical_contact_ready: false
+  flight_qualified: false
+  owner_accepted: false
+  next_stage_authorized: false
+  release_credit: false
+

@@ -1,0 +1,138 @@
+# -*- coding: utf-8 -*-
+# s08: 汇总 R07-E3 机器验收摘要（ACCEPTANCE_SUMMARY.json，UTF-8/LF）
+import io, json, os
+
+RUN = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+summary = {
+    "run": "r07_e3_retention_joints_20260918",
+    "ticket": "R07-E3",
+    "scope": "R07 父票的 E3 两条边（同一保持器模块一个 run 交付）：connection_edges[3] 保持横梁→上纵梁 与 connection_edges[4] 保持足叉→屋顶耳座（数字几何候选）；E1/E2/E4 与 A/B 支承不动",
+    "status": "DIGITAL_GEOMETRY_CANDIDATE_COMPLETE_WITH_NOT_RUNS",
+    "parent_ticket_closure": "NOT_CLOSED; 父票 R07 不关闭，仅 E3 两条边完成数字几何候选",
+    "geometric_truth_registration": {
+        "fit_band_5mm": "横梁端面贴合纵梁内腹面 y=±101.15，贴合带 z∈[101.15,106.15] 仅 5mm；横梁顶面 z≥106.15 被耳座占据 → 端面加高/顶盖板/上夹角方案全部否决",
+        "no_anti_crush_sleeve": "E1 式防压套(OD4)要求栓位 z≥105.15 与孔缘闭合要求 z≤104.45 不可兼得 → 边1 不带套，栓位 z=103.65 贴合带居中；管壁压溃控制 NOT_RUN 登记",
+        "mast_hub_exclusion": "足叉槽内 z≥125.15 为轮毂 r10 干涉域 → 边2 栓链槽内零凸出；头/垫圈置于横梁底面下（舱内侧）",
+        "pivot_vs_foot_chain": "Ø8.4 枢轴+Ø8 销(z=135.15)=运动铰（§4.2 不属本包）；脚座栓链=释放前保持；栓链未拆则机构不可折 INTERLOCK_REGISTERED",
+        "existing_spare_hole": "横梁/耳座既有中心 Ø4.5 孔留备用 UNUSED_EXISTING_SPARE；新孔与其边缘距 2.03"
+    },
+    "design": {
+        "edge1_clamp": {
+            "groups": 4, "group_ids": ["J01", "J02", "J03", "J04"], "bolt_positions": 8, "part_count": 16,
+            "concept": "E1 式端面直连：每端 2 枚 M3 候选 Y 栓（x=横梁心±4.5, z=103.65）自上纵梁外腹面穿双壁入横梁端面盲孔（Ø3.4 深7，名义贯入5 SHORT_ENGAGEMENT_REGISTERED）；TWO_BOLT_POSITIVE 防转；无防压套 REGISTERED",
+            "fastener": "M3_UNSELECTED 杆3/孔3.4/头5.5×3/垫6/3.4×0.5"
+        },
+        "edge2_foot": {
+            "groups": 2, "group_ids": ["C01", "C02"], "bolt_positions": 4, "part_count": 8,
+            "concept": "M4 竖栓链：每足叉 2 栓（x=站心±5.5, y=-90.65）自舱内由下向上经横梁→耳座对偶孔拧入足叉脚座盲孔（Ø4.5 深7 打通至槽底，名义啮合5 SHORT_ENGAGEMENT_REGISTERED；尖距槽底 2，槽内零凸出）",
+            "fastener": "M4_UNSELECTED 杆4/孔4.5/头7×4/垫9/4.5×1"
+        },
+        "new_part_count": 24,
+        "new_part_breakdown": {"clamp_bolt": 8, "clamp_washer": 8, "foot_bolt": 4, "foot_washer": 4},
+        "modified_member_count": 8,
+        "modified_members": ["RB_longeron_1_1", "RB_longeron_-1_1", "hold_crossbeam_0", "hold_crossbeam_1",
+                              "hold_roof_lug_0_-94.15", "hold_roof_lug_1_-94.15", "hold_pivot_clevis_0", "hold_pivot_clevis_1"],
+        "param_block": "20_engineering/service_robot_wp03_spacecraft_body_r1/design_parameters.json::retention_joints_r07_e3",
+        "model_entry": "spacecraft_model.py::retention_clamp_spec/parts + retention_foot_spec/parts；build() 消费（ONBOARD_RETENTION, SIMPLIFIED_PROXY）；rootadd 上纵梁分支 + E3 孔（仅 z>0）；保持器循环构件孔 delta"
+    },
+    "iteration_history": {
+        "probe_FAIL_v1": "边1 端面栓杆 vs 边2 竖栓杆相贯 4 对 16.37mm3（x 中心距 1.0 < 杆径和 3.5）；归档 logs/s01b_probe_FAIL_v1.log（FAIL 不覆盖）",
+        "v2_fix": "scripts/s01d_param_fix_v2.py：边2 栓链 y -94.15→-90.65 + 边1 盲孔深 12→7（贯入 8→5）；净距：杆-杆 3.5 / 孔-孔 1.25 / 耳座孔缘 1.25 / 备用孔缘 2.03",
+        "probe_v2": "hits 0, instances 483（logs/s01b_probe_v2.log）",
+        "rejected_alternatives": "x 向错位（垫圈承压 x 偏距 ≤6.5 与栓对间距不可兼得）；栓链 y 进一步外移（耳座孔缘闭合与盲孔深度不可兼得）"
+    },
+    "registration_tables": {
+        "dual_hole_pairs_rows": 12, "fastener_stacks_rows": 12, "mounting_surfaces_rows": 6, "tool_paths_rows": 6,
+        "files": [
+            "evidence/e3_dual_hole_pairs_12.json/.csv",
+            "evidence/e3_fastener_stacks_12.json/.csv",
+            "evidence/e3_mounting_surfaces.json",
+            "evidence/e3_tool_paths.json"
+        ]
+    },
+    "smoke": {
+        "baseline_instances_e2_closed": 459,
+        "expected_instances": 483,
+        "actual_instances": 483,
+        "e3_instances": 24,
+        "composition": "483 = 459 + 24（8 clamp_bolt + 8 clamp_washer + 4 foot_bolt + 4 foot_washer）",
+        "model_valid": True,
+        "verdict": "PASS",
+        "evidence": "logs/s07_build_smoke_log.json"
+    },
+    "readback": {
+        "verdict": "PASS",
+        "hole_counts": {
+            "RB_longeron_±1_1_yaxis_d3p4": "14/根 = E2 基线 10 + 4",
+            "hold_crossbeam_k": "Y 盲孔 4 + Z 孔 4（2 新+2 备用）",
+            "hold_roof_lug_k_-94.15": "Z 孔 3（2 新+1 备用）",
+            "hold_pivot_clevis_k": "Z 盲孔 2"
+        },
+        "coaxial_pairs": 12,
+        "max_axis_offset_mm": 0.0,
+        "max_parallel_deviation": 0.0,
+        "blind_hole_truth": "边1 横梁盲孔孔底完整（轴心孔底前0.5空/外0.5回实体）；边2 足叉盲孔打通至槽底（孔内/槽内轴心均空）",
+        "evidence": "evidence/acc_readback_holes_coaxial.json"
+    },
+    "boolean_interference": {
+        "verdict": "PASS",
+        "verdict_semantics": "PASS 口径=无 E3 新增干涉；既有项见 registered_*（结转登记、不覆盖、不静默剔除）",
+        "authoritative_method": "OCP BRepAlgoAPI_Common 原生 + BRepGProp.VolumeProperties_s（E2 审阅勘误 O2；禁用 build123d Shape.intersect）",
+        "pairs_checked": {"A_e3_vs_other": 64, "B_e3_vs_e3": 12, "C_named_clearance_checks": 80},
+        "new_positive_pairs": 0,
+        "max_common_volume_mm3": 0.0,
+        "sampling_points_inside_neighbor": 0,
+        "registered_preexisting_carried_forward": [
+            {"pair": ["RB_upper_beam_160", "shear_web_screw_-1_150_94"], "common_volume_mm3": 0.4610888343501606, "bit_identical_to_e1_registration": True},
+            {"pair": ["RB_upper_beam_160", "shear_web_screw_1_150_94"], "common_volume_mm3_now": 0.4610888343501606, "e1_registered_mm3": 0.46108883435016085, "bit_identical_to_e1_registration": False,
+             "note": "末位差 2.5e-16：OCP 原生求积路径 vs E1 原口径；如实登记不覆盖"}
+        ],
+        "registered_thread_engagement_convention": "8 对端塞 vs M4 端面螺钉包络重叠 49.71–49.72 mm³ = WP02 螺纹啮合表示惯例（Ø4 栓入 Ø3.3 导孔）；两者均未被 E3 修改",
+        "evidence": "evidence/acc_interference_boolean.json"
+    },
+    "mass_delta": {
+        "added_part_count": 24,
+        "modified_member_count": 8,
+        "added_volume_mm3": 3850.619,
+        "removed_volume_mm3": 2827.194,
+        "removed_volume_basis": "实算：上纵梁基线=E2 run 同名导出 STEP；hold 构件基线=spacecraft_model 同源构造行复建；单孔去除 59.232mm3 经独立 Common 复算一致",
+        "net_allocated_mass_delta_kg": 0.0,
+        "net_al_candidate_mass_delta_kg": 0.002763246,
+        "material_status": "UNKNOWN; 全部 24 件无螺纹包络 NOT_ALLOCATED（净分配质量增量 0 为如实登记，非零填）；铝 2.7e-6 当量仅供预算",
+        "evidence": "evidence/e3_bom_mass_delta.json"
+    },
+    "cross_run_consistency": {
+        "longeron_step_vs_e2": "哈希不一致属预期：本 run 实改上纵梁（每根 +4 Y 向 Ø3.4 贯穿孔）；读回孔数 14 = E2 基线 10 + 4 逐位核对",
+        "hold_parts_naming": "hold_* 为 WP03 原生实例名（无 _WP03 后缀）"
+    },
+    "results_receipt_change": {
+        "file": "20_engineering/service_robot_wp03_spacecraft_body_r1/results/service_structure_instances.json",
+        "cause": "s06/s07 构建副作用：回执须匹配现行源码（同 R01/E1/E2 模式）",
+        "old_version_backup": "logs/service_structure_instances.json.pre_e3_smoke_bak",
+        "restore": "NOT_RESTORED（回执语义=现行源码实例数）"
+    },
+    "not_run": [
+        "独立第三方复验（独立复算/复跑）",
+        "载荷/强度校核：边1 栓剪切/承压（贯入 5mm SHORT_ENGAGEMENT_REGISTERED）、纵梁管壁压溃（无防压套 REGISTERED）；边2 栓拉伸/剪切、脚座盲孔啮合 5mm SHORT_ENGAGEMENT_REGISTERED、耳座孔缘 1.25 承压",
+        "紧固件选型/配合等级/防松/材料（全部 UNSELECTED/UNKNOWN）",
+        "保持器接触刚度（捕获载荷路径，§4.2 不属本包）",
+        "制造性审查：0.2/0.25mm 每边配合隙、1.25mm 孔缘、2.03mm 备用孔距公差堆叠；端面盲孔攻丝工艺",
+        "工具路径实物回放（仅几何可达性登记；边2 舱内件须在甲板/设备装入前施装）",
+        "释放互锁顺序实物验证（栓链未拆则机构不可折 INTERLOCK_REGISTERED）",
+        "实物试配/装配"
+    ],
+    "constraints_honored": [
+        "E1/E2/E4 与 A/B 支承未动",
+        "未改写 gate/issues.json/CURRENT 指针",
+        "WP02 文件只读",
+        "未执行 git 提交",
+        "UNKNOWN 零填禁止（质量 NOT_ALLOCATED 如实登记）",
+        "FAIL 不覆盖（探针 FAIL v1 归档 logs/s01b_probe_FAIL_v1.log）"
+    ]
+}
+
+out = os.path.join(RUN, "ACCEPTANCE_SUMMARY.json")
+with open(out, "wb") as f:
+    f.write((json.dumps(summary, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+print("WROTE", out)

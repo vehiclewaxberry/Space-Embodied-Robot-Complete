@@ -1,0 +1,13 @@
+e3_parts 24 instances 483 pairs_checked 80
+hits 4 elapsed_s 15.64
+HIT e3_clamp_bolt_J02_0 vs e3_foot_bolt_C01_0 16.370042182855656
+HIT e3_clamp_bolt_J02_1 vs e3_foot_bolt_C01_1 16.370132204695462
+HIT e3_clamp_bolt_J04_0 vs e3_foot_bolt_C02_0 16.370042181704193
+HIT e3_clamp_bolt_J04_1 vs e3_foot_bolt_C02_1 16.370132203247618
+
+诊断（s01c_hit_bbox_diagnostic.py）：
+- e3_clamp_bolt_J02_0 bbox x[-122.25,-116.75] y[-116.65,-93.15] z[100.9,106.4]（Y 轴栓，杆过 y=-94.15 与脚座栓链相贯）
+- e3_foot_bolt_C01_0 bbox x[-124.0,-117.0] y[-97.65,-90.65] z[91.15,123.15]（Z 轴栓，杆跨 z[95.15,123.15]）
+- 冲突本质：边1 端面栓杆（x=站心±4.5, z=103.65, y 贯梁深）与边2 竖栓杆（x=站心±5.5, y=-94.15, z 全跨）在 y=-94.15 处相贯，x 中心距仅 1.0 < 杆径和 3.5。
+- hold_roof_lug_0_-94.15 y[-101.15,-87.15]；hold_pivot_clevis_0 y[-112,-86] z[118.15,148.15]。
+修复方向（v2）：边2 栓 y -94.15→-91.9 + 边1 端面盲孔深 8→5（栓杆端 y -93.15→-96.15），杆-杆 y 净距 2.25。

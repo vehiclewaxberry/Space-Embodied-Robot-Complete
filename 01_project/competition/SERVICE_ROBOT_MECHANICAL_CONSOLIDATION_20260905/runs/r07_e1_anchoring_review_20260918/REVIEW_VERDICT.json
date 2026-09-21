@@ -1,0 +1,124 @@
+{
+  "review": "R07_E1_INDEPENDENT_REVERIFY",
+  "review_run": "r07_e1_anchoring_review_20260918",
+  "reviewed_run": "r07_root_longeron_anchoring_20260917",
+  "reviewed_commit": "6579aee8",
+  "reviewer_role": "WP03 R07-E1 独立审阅者（只读；不改候选；不执行 git 提交）",
+  "scope": "仅 R07 父票 E1 一边（桥/上下横梁→主纵梁锚固）数字几何候选的独立复验；E2-E4 与 A/B 支承不在本次范围",
+  "basis_pins": {
+    "params_sha256": "c875b6b22b719c8e74eed87016a5c4f4a8e65f24baa0f85300081bb05d79e2d6",
+    "source_sha256": "15573df4fe7dafcdc986e3b7b623f18065acd875d1eb82b95c731f0226b3ca82",
+    "export_hash_pin": {
+      "checked": 57,
+      "mismatches": []
+    },
+    "snapshot_vs_git_old_state": {
+      "rev": "6579aee8^",
+      "path": "20_engineering/service_robot_wp03_spacecraft_body_r1/root_structure.py",
+      "eol_note": "git 仓库存 LF；快照/工作区为 CRLF；按 LF 归一化后比对内容",
+      "sha256_lf_normalized_old": "ef910969e6ee993c381f045fa6c4f8e6b7e8fb9beb7d7db9c76af1348b526ca7",
+      "sha256_lf_normalized_snapshot": "ef910969e6ee993c381f045fa6c4f8e6b7e8fb9beb7d7db9c76af1348b526ca7",
+      "content_identical": true
+    }
+  },
+  "sub_verdicts": {
+    "readback": "PASS",
+    "negative_controls": "PASS",
+    "preexisting_check": "PASS",
+    "new_interference_scan": "PASS",
+    "spotcheck": "PASS"
+  },
+  "key_results": {
+    "coaxial_max_axis_offset_mm": 1.4210854715202004e-14,
+    "stations_checked": 16,
+    "negative_controls": {
+      "NC_a_V1_replay_max_mm3": 28.854630126388706,
+      "NC_a_V1_registered_mm3": 28.854630126389758,
+      "NC_a_V1_positives": 16,
+      "NC_a_V3_control_positives": 0,
+      "NC_a2_V2_replay_max_mm3": 15.208025245922503,
+      "NC_a2_V2_registered_mm3": 15.208025245922368,
+      "NC_a2_V2_positives": 10,
+      "NC_b_mutation_detection": true,
+      "NC_c_conflict_mutation_mm3": 70.6858347057704,
+      "NC_c_real_bolt_control_mm3": 0.0
+    },
+    "preexisting_interference": {
+      "conclusion": "PRE_EXISTING_CONFIRMED",
+      "recomputed": {
+        "shear_web_screw_-1_150_94": {
+          "control_mm3": 0.4610888343501606,
+          "control_bit_identical": true
+        },
+        "shear_web_screw_1_150_94": {
+          "control_mm3": 0.46108883435016085,
+          "control_bit_identical": true
+        }
+      }
+    },
+    "new_interference_scan": {
+      "pairs": {
+        "A_anchor_vs_other": 110,
+        "B_anchor_vs_anchor": 32,
+        "C_member_vs_other": 205
+      },
+      "new_positives": 0,
+      "registered_preexisting_positives": 2,
+      "named_clearance_checks": 96,
+      "named_clearance_all_pass": true
+    },
+    "spotcheck_consistency": "14/14"
+  },
+  "observations": [
+    {
+      "id": "O1",
+      "severity": "NOTE",
+      "topic": "x=160 单栓站防转不对称",
+      "text": "G03/G04/G07/G08 为单栓+REGISTERED_SECONDARY（M6 夹接/贯通杆夹接链/桥双栓同板路径），滑移与残余转角 UNKNOWN；与 x=20 站 TWO_BOLT_POSITIVE 不构成同等防转。登记充分性可接受，但载荷/强度评级前不得按双栓站等效处理。"
+    },
+    {
+      "id": "O2",
+      "severity": "NOTE",
+      "topic": "制造性 NOT_RUN",
+      "text": "防压套与管腔 z 边距仅 0.15mm、套壁 0.3mm 薄壁；制造性审查在 not_run 清单显式登记，未闭环前不构成制造放行。"
+    },
+    {
+      "id": "O3",
+      "severity": "PROCESS",
+      "topic": "V1/V2 FAIL JSON 被同名覆盖",
+      "text": "两轮 FAIL 的机器裁决 JSON 被同名覆盖，仅存数值于 PATCH_NOTES/ACCEPTANCE；本审阅已按 s03b/s03c 参数 diff 独立回放复现 28.85/15.21 mm³ 两个 FAIL 量级（逐位一致），历史可追溯性部分修复；建议后续 FAIL 文件一律带版本后缀（候选方已自 V3 起改正）。"
+    },
+    {
+      "id": "O4",
+      "severity": "PROCESS",
+      "topic": "参数块路径笔误",
+      "text": "ACCEPTANCE_SUMMARY.design.param_block 写作 20_engineering/service_robot_wp03_spacecraft_body_r1/config/design_parameters.json，实际文件在工程根目录（无 config/ 子层）；哈希钉固不受影响。"
+    },
+    {
+      "id": "O5",
+      "severity": "NOTE",
+      "topic": "既有干涉须上报父票",
+      "text": "RB_upper_beam_160 vs shear_web_screw_±1_150_94 的 0.461mm³ 经 r32 确认为改前既有（WP02 横梁端角 vs 既有剪力板栓包络，git 旧态内容一致）；不在 E1 处置，但应随父票 R07/WP02 lineage 上报跟踪，不得在后续汇总中静默消失。"
+    },
+    {
+      "id": "O6",
+      "severity": "PROCESS",
+      "topic": "干涉对计数标签互换",
+      "text": "ACCEPTANCE_SUMMARY.boolean_interference.pairs_checked 的 A/B 标签 (A_anchor_vs_anchor=110, B_anchor_vs_other=32) 与 s04 内部键名互换；s04/r33 一致口径为 A=锚固件 vs 既有件 110、B=锚固件两两 32、C=改件 vs 既有件 205。数值无误，仅标签笔误。"
+    }
+  ],
+  "limitations_carried_from_candidate": [
+    "载荷/强度校核 NOT_RUN（拉剪/承压/滑移/预紧/有效啮合）",
+    "材料/等级/预紧/防松/有效啮合 UNKNOWN 保留，零填充禁止",
+    "0.15mm 栓孔边距与 0.3mm 薄壁套制造性审查 NOT_RUN",
+    "工具路径仅几何可达性登记，实物回放 NOT_RUN",
+    "R14 参数扰动敏感性 NOT_RUN",
+    "实物试配/装配 NOT_RUN"
+  ],
+  "whole_design_complete": false,
+  "manufacturing_release": false,
+  "parent_ticket_r07_closure": "NOT_CLOSED（本复验不构成父票关闭依据）",
+  "verdict": "R07_E1_INDEPENDENT_REVERIFY_PASS_WITH_OBSERVATIONS",
+  "verdict_semantics": "PASS_WITH_OBSERVATIONS=全部独立机器核查通过；观察项 O1-O6 为登记/流程类备注，不构成阻断；候选维持 DIGITAL_GEOMETRY_CANDIDATE 等级，不升级为制造放行或全设计完成",
+  "generated_at": "2026-09-18T20:30:41"
+}

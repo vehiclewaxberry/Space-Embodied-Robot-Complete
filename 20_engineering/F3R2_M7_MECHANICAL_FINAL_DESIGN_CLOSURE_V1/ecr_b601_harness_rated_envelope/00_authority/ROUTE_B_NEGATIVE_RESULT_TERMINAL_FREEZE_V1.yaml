@@ -1,0 +1,250 @@
+schema: ROUTE_B_NEGATIVE_RESULT_TERMINAL_FREEZE_V1
+generated_local: '2026-08-23T20:36:30+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+generator: >-
+  KIMI M7 机械终局接管 swarm Wave-4a (ODR-45..49 owner decisions + R2
+  full-flex closure) - A5 subagent (Route-B negative-result terminal freeze,
+  ODR-48 execution)
+class: TERMINAL_FREEZE_RECORD
+authority: ODR-48
+authority_record:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+  sha256: null
+  presence_at_emission: false
+  note: >-
+    The ODR-45..49 owner decision record was still being written by the owning
+    swarm role at emission time (retried over ~5 minutes, last check
+    2026-08-23T20:36:12+08:00).  sha256 stays explicit null and is never
+    coerced; downstream consumers must pin its sha256 after the record is
+    emitted.  This freeze cites ODR-48 per the Wave-4a task directive.
+review_status: FROZEN_AS_DIRECTED__ODR48_EXECUTION
+next_stage_authorized: false
+release_credit: false
+
+canonical_machine_headline: 'ROUTE_B_FULL_RANGE_FIXED_EXTERNAL_HARNESS = REJECTED_BY_EXACT_KINEMATIC_SWEEP'
+canonical_headline_note: >-
+  This phrase is coined by ODR-48 and is the canonical forward citation for
+  the Route-B terminal negative result.  Historical status strings remain
+  verbatim in their frozen files and are NOT rewritten by this record:
+  "route_b: REJECTED" (B601_HARNESS_TERMINAL_GATE_V1.json);
+  "CLOSED_WITH_NEGATIVE_RESULT__ROUTE_B_REJECTED__ROUTE_C_TRIGGERED"
+  (ECR_B601_HARNESS_RATED_ENVELOPE_01_WORK_ORDER_V1.yaml status);
+  "FAIL_ROUTE_B_MANDATORY_STATES_OR_TRAJECTORIES"
+  (B601_HARNESS_TERMINAL_GATE_V1.json TMG-4 Harness state).
+
+citation_anchor:
+  role: CANONICAL_NUMERIC_ANCHOR_FOR_ALL_FORWARD_CITATIONS
+  source:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V2.json
+    sha256: DB86348B8276FB2DCEB48DA30D1969948B37AAC4DF6D67D7588D928CF8281FAE
+    field: checks
+  clearance_worst_mm: -11.9938
+  clearance_worst_state: SWEEP_joint2_09
+  clearance_worst_against: link3
+  min_bend_radius_mm: 0.1
+  min_bend_argmin: CORNER_110000:span_link5
+  pinch_worst_mm: -11.9902
+  pinch_worst_state: HARDSTOP_joint4_hi
+  pinch_worst_joint: joint5
+  source_verdict: FAIL
+
+historical_spellings_verbatim:
+  prohibition: >-
+    NEVER merge, average, round-trip or cross-cite the three Route-B rejection
+    numeric spellings.  Each spelling is cited only verbatim, with its own
+    source path and sha256.
+  v1_machine_headline:
+    clearance_worst_mm: -11.8667
+    clearance_worst_state: LHS_06
+    clearance_worst_against: link5
+    min_bend_radius_mm: 1.081
+    min_bend_argmin: SWEEP_joint5_00:fillet_node_12
+    pinch_worst_mm: -11.3573
+    pinch_worst_state: HARDSTOP_joint4_lo
+    pinch_worst_joint: joint5
+    source:
+      path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V1.json
+      sha256: 10EA7420BD30CEBA2F07404FB8B731264C2765B0FB11BBA091CCF9B688F6613A
+      field: checks
+  rounded_narrative:
+    collision_mm: -11.86
+    bend_mm: 2.26
+    pinch_mm: -11.83
+    source:
+      path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/ECR_SOLAR_ARRAY_R2_WORK_ORDER_V1.yaml
+      sha256: 1FC4CC686F8257BD5EA1BBDEB3CE24E3E299EF07E5815D6324299AA86E263034
+      location: >-
+        execution_status_2026_08_23_final, 'ODR-29 / R2-HRN-04+05' block,
+        V1 FAIL narrative line (~line 155): "V1 FAIL (collision -11.86 mm,
+        bend 2.26 mm, pinch -11.83 mm)"
+
+root_cause_verbatim:
+  source: >-
+    HARNESS_B601_FULL_FK_SWEEP_V2.json failure_analysis.root_causes and
+    failure_analysis.what_would_be_needed (carried verbatim; sha256 pinned
+    under citation_anchor)
+  summary: >-
+    The fixed external harness corridor is consumed: collision, bend and
+    pinch constraints cannot all be satisfied over the full accepted B601
+    hardware envelope by the tested fixed external routing candidate family.
+  root_causes:
+    - >-
+      j2/j3 fold-flat envelope: the link2/link3 bars (max radius 292.5/277.0
+      mm about their joint axes) sweep the full azimuth circle; the joint1
+      clock-spring coil (r=72.05 mm, plane x=330 mm) and every near-base
+      routing element are engulfed (worst: -11.994 mm vs link3 at
+      SWEEP_joint2_09, i.e. the centerline is 7 mm inside link3's surface at
+      the coil plane)
+    - >-
+      corner states (all six joints at hard limits) bring non-adjacent links
+      into contact with span runs designed against single-joint sweeps (e.g.
+      link2 -11.6 mm at CORNER_000000, link4 -11.99 mm at SWEEP_joint4_32)
+    - >-
+      wrist spans between the j5/j6 clock-spring wraps retain sub-class bends
+      (0.10 mm at CORNER_110000) - residual Catmull-Rom cusp at the
+      wrap-to-span join at extreme poses
+    - >-
+      pinch bands at hard stops reach -12 mm: fold closures land on spans
+      anchored near the joint interfaces
+  what_would_be_needed:
+    - routing through hollow joint shafts or slip rings (vendor/arm hardware change) for j2/j3
+    - >-
+      OR a reduced harness-rated motion envelope (harness only rated over the
+      mission poses + bounded joint subsets, with the full-fold states
+      declared transport/service-only and harness removed or reeved for them)
+    - OR an articulated dress-pack with guided carriers (new hardware, its own gate)
+
+wording_discipline:
+  permitted_claim: 当前受测试的固定外置线束架构无法覆盖完整 accepted B601 hardware envelope
+  forbidden_overclaim: 任何外部走线从数学上都绝对不可能
+  forbidden_overclaim_extension: >-
+    Any equivalent universal-impossibility phrasing is likewise forbidden.
+    This record freezes a tested candidate family's negative result; it is
+    not a mathematical impossibility proof over all conceivable external
+    topologies.
+
+route_c_requirement_input:
+  requirement_id: ROUTE_C_MUST_OVERCOME_ROUTE_B_FAILURE_MODES
+  registered_as: C2 requirement (Route-C detailed-design input)
+  cross_pin:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/02_pre_cad_parametric_guided_route_search/00_authority/ROUTE_C_PRECAD_DIAGNOSTIC_CONTRACT_V1.yaml
+    sha256: 46DE7E9D5C4E49060529364535C6B3D5967B7DCB740F8CE2FA8B69A46C7BB5A7
+    block: route_b_v2_hard_negative_results_verbatim
+    block_content_verbatim:
+      clearance_worst_mm: -11.9938
+      clearance_worst_state: SWEEP_joint2_09
+      clearance_worst_against: link3
+      min_bend_radius_mm: 0.1
+      min_bend_argmin: CORNER_110000:span_link5
+      pinch_worst_mm: -11.9902
+      pinch_worst_state: HARDSTOP_joint4_hi
+      pinch_worst_joint: joint5
+      source_verdict: FAIL
+      terminal_route_b_disposition: REJECTED
+  edit_boundary: >-
+    This record registers the C2 requirement and cross-pins the diagnostic
+    contract; it does NOT edit ROUTE_C_PRECAD_DIAGNOSTIC_CONTRACT_V1.yaml.
+
+closure:
+  route_b_iteration: CLOSED
+  reopening: NONE_PERMITTED
+  re_criteria: NONE_PERMITTED
+  further_mechanical_design_time_on_route_b: NONE
+  closes_open_items:
+    - id: OI-R1-04
+      note: >-
+        This freeze resolves the owner decision OI-R1-04 was awaiting
+        (canonical anchor = V2 machine headline).  Formal register closure is
+        executed by the CM agent refresh; this record does not touch any
+        OPEN_ITEMS*.csv.
+  terminal_gate_carried_verbatim:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/07_release/B601_HARNESS_TERMINAL_GATE_V1.json
+    sha256: D65BD945B3F0C93041BFD10CFABCD9E423596B3FC19400C45FA58CB08DE96AF4
+    route_b: REJECTED
+    route_c: TRIGGERED
+    tmg4_id: TMG-4
+    tmg4_name: Harness
+    tmg4_state: FAIL_ROUTE_B_MANDATORY_STATES_OR_TRAJECTORIES
+    tmg4_note: never renamed FULL_RANGE_HARNESS_PASS
+    internal_mechanical_holds:
+      - ROUTE_B_KEY_STATES_OR_MISSION_COVERAGE_FAILED
+      - MANDATORY_MISSION_TRAJECTORY_AUTHORITY_INCOMPLETE
+      - HARNESS_JOINT_RESISTANCE_TORQUE_UNKNOWN
+  ecr_work_order_closure_carried_verbatim:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/00_authority/ECR_B601_HARNESS_RATED_ENVELOPE_01_WORK_ORDER_V1.yaml
+    sha256: 673FECD4F502C91AB6E3BAD038E5B48974804EE556070C25AF125B9BD4FF8775
+    status: CLOSED_WITH_NEGATIVE_RESULT__ROUTE_B_REJECTED__ROUTE_C_TRIGGERED
+    closure_result:
+      exact_map: 0_SAFE__75_UNSAFE__0_UNKNOWN
+      mandatory_mission_key_states: 0_SAFE__10_UNSAFE__0_UNKNOWN
+      released_continuous_trajectories: 0_OF_8
+      handoff_v2: 11_OF_12__G12_FAIL
+      independent_validation: 11_OF_11_PASS
+      route_b: REJECTED
+      route_c: TRIGGERED_PENDING_DETAILED_DESIGN_AUTHORIZATION
+      terminal_mechanical_release: NOT_RELEASED
+
+holds_carried_verbatim:
+  source: HARNESS_B601_FULL_FK_SWEEP_V2.json holds (sha256 pinned under citation_anchor)
+  holds:
+    - HOLD_VENDOR_MINIMUM_BEND_RADIUS_ABSENT (gate uses class value 25.0 mm)
+    - HOLD_VENDOR_CABLE_OUTER_DIAMETER_ABSENT (tube radius 5.0 mm candidate)
+    - HOLD_CONNECTOR_PART_NUMBER_AND_SHELL_ABSENT
+    - HOLD_STRAIN_RELIEF_HARDWARE_NOT_SELECTED (P-clamp scheme is candidate)
+    - HOLD_ARM_CONNECTOR_FACE_STATION_UNRECONCILED (WP1 carry-over)
+    - HOLD_CLAMP_POSES_Y_AND_Z_UNDEFINED (WP1; this gate derives candidates)
+    - HOLD_CLEARANCE_VS_VENDOR_COLLISION_MESHES_NOT_CARRIER_CAD (carrier FCStd files contain no solids; 02_carriers missing)
+    - HOLD_SELF_COLLISION_OF_COIL_NOT_EVALUATED
+    - HOLD_CAMERA_AND_HDRM_CABLE_RUNS_NOT_IN_SCOPE (H-RUN-01 only)
+
+verification_record:
+  method: sha256 over raw bytes; full 64-hex pins; every pin cited in this record recomputed by this agent at emission time
+  verified_at_local: '2026-08-23T20:36:30+08:00'
+  entries:
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V2.json
+      sha256: DB86348B8276FB2DCEB48DA30D1969948B37AAC4DF6D67D7588D928CF8281FAE
+      bytes: 20197
+      result: MATCH (task-brief prefix DB86348B8276FB2D; identical to ROUTE_C_PRECAD_DIAGNOSTIC_CONTRACT_V1 source_hash_pins.route_b_full_fk_v2 and ROUTE_B_FROZEN_INPUT_PINS_V1 full_range_negative_result pins)
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V1.json
+      sha256: 10EA7420BD30CEBA2F07404FB8B731264C2765B0FB11BBA091CCF9B688F6613A
+      bytes: 13607
+      result: MATCH (identical to ROUTE_C_PRECAD_DIAGNOSTIC_CONTRACT_V1 source_hash_pins.route_b_full_fk_v1)
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/ECR_SOLAR_ARRAY_R2_WORK_ORDER_V1.yaml
+      sha256: 1FC4CC686F8257BD5EA1BBDEB3CE24E3E299EF07E5815D6324299AA86E263034
+      bytes: 8758
+      result: RECOMPUTED (no pre-existing pin cited against it in this record)
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/07_release/B601_HARNESS_TERMINAL_GATE_V1.json
+      sha256: D65BD945B3F0C93041BFD10CFABCD9E423596B3FC19400C45FA58CB08DE96AF4
+      bytes: 2486
+      result: MATCH (task-brief pin D65BD945B3F0C93041BFD10CFABCD9E423596B3FC19400C45FA58CB08DE96AF4)
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/00_authority/ECR_B601_HARNESS_RATED_ENVELOPE_01_WORK_ORDER_V1.yaml
+      sha256: 673FECD4F502C91AB6E3BAD038E5B48974804EE556070C25AF125B9BD4FF8775
+      bytes: 2959
+      result: RECOMPUTED (no pre-existing pin cited against it in this record)
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/02_pre_cad_parametric_guided_route_search/00_authority/ROUTE_C_PRECAD_DIAGNOSTIC_CONTRACT_V1.yaml
+      sha256: 46DE7E9D5C4E49060529364535C6B3D5967B7DCB740F8CE2FA8B69A46C7BB5A7
+      bytes: 12556
+      result: RECOMPUTED (no pre-existing pin cited against it in this record)
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+      sha256: null
+      result: NOT_PRESENT_AT_EMISSION - explicit null, never coerced; see authority_record.note
+
+self_hash_policy: >-
+  SELF_REFERENCE_EXCLUDED - this file carries no hash of itself; downstream
+  consumers pin its sha256 after emission (same policy as e21/V5 manifests
+  and 02_bridge)
+
+does_not_grant:
+  - ROUTE_C_CAD_GENERATION_OR_RELEASE
+  - FLIGHT_QUALIFICATION_OR_FULL_RANGE_QUALIFICATION_CLAIMS
+  - PRODUCTION_DYNAMICS_PHYSICAL_CONTACT_RL_OR_HARDWARE_MOTION_ENTRY
+  - ANY_REOPENING_OF_ROUTE_B
+  - AUTHORITY_OVER_ANY_OPEN_ITEMS_REGISTER (CM agent formalizes OI-R1-04 closure)
+
+nonclaims:
+  - 本记录不修改任何冻结文件（V1/V2 sweep、终局 Gate、ECR 工作单、Route-C 预CAD 诊断合同均保持逐字原样）
+  - 本记录不构成 release credit，不授权任何下一阶段
+  - candidate ≠ authority；test PASS ≠ gate PASS；PROVISIONAL 永不静默升级
+  - 本记录不证明"任何外部走线从数学上都绝对不可能"；仅冻结受测试固定外置线束候选族在完整 accepted B601 hardware envelope 上的负结果
+  - OI-R1-04 的登记簿形式闭合由 CM agent 执行；本记录不编辑任何 OPEN_ITEMS*.csv
+  - 本记录不消费任何 legacy R1-lane 数值（0.3483933 kg、1.7419665、legacy 24.0 kg mass model、"measured_mass"）

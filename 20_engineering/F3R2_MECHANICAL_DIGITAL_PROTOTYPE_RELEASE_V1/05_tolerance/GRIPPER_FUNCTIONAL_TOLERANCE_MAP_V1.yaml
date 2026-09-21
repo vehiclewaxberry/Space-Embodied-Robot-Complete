@@ -1,0 +1,106 @@
+schema_version: GRIPPER_FUNCTIONAL_TOLERANCE_MAP_V1
+generated_local: '2026-08-21T14:56:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M4_SPACECRAFT_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE
+overall_status: NEUTRAL_DIGITAL_SWEEP_PASS_MANUFACTURING_TOLERANCE_MAP_HOLD
+
+sources:
+  predecessor_measurement_model:
+    path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/05_tolerance/gripper/GRIPPER_R1_RAIL_PALM_TOLERANCE_MODEL.yaml
+    sha256: 14D1D928A101868BC5263ADDA2332005D69D260BDC922FC307F551A3E5199A65
+  neutral_geometry_validation:
+    path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+    sha256: 7BC0DF784B36159624A8A89B67207C54C5C9C780B103CB38658DE2D6BA845F47
+
+units:
+  clearance: mm
+  stroke: mm
+  angle: rad
+  temperature: degC
+  force: N
+
+verified_neutral_digital_domain:
+  stroke_min_mm: 0.0
+  stroke_max_mm: 71.5
+  sample_step_mm: 0.5
+  sample_count: 144
+  positive_rail_palm_overlap_count: 0
+  classification: DERIVED_NEUTRAL_GEOMETRY_ONLY
+  verdict: PASS_NEUTRAL_ONLY
+
+manufacturing_measurement_model:
+  measurand: guarded_minimum_functional_clearance
+  unit: mm
+  equation: C_guarded = W_slot - W_rail - t_coating_left - t_coating_right - delta_slot_straightness - delta_rail_straightness - delta_parallelism - delta_assembly - delta_thermal - delta_elastic - delta_wear_debris - guard_band
+  required_inputs_per_term: [estimate, standard_uncertainty, distribution, degrees_of_freedom, source]
+  correlations_required: true
+  worst_case_required: true
+  GUM_and_Monte_Carlo_required: true
+  conformity_decision_rule_required: true
+  all_input_estimates_complete: false
+  all_input_uncertainties_complete: false
+
+owner_example_sensitivity_grid:
+  source_role: M4_PHASE_RULING_EXAMPLE_NOT_A_RELEASED_REQUIREMENT
+  candidate_nominal_clearance_mm: [0.05, 0.10, 0.15, 0.20]
+  parameter_classification: PARAMETRIC_SENSITIVITY_ONLY
+  scan_executed: false
+  reason_not_executed: geometric offset topology and all manufacturing thermal elastic wear and decision-rule terms are not controlled
+  acceptance_use_authorized: false
+
+map_states:
+  - state: CLOSED
+    travel_mm: 0.0
+    neutral_overlap_status: PASS_NEUTRAL_SCOPE_WITH_FUNCTIONAL_FINGER_CONTACT_SEPARATED
+    nominal_manufacturing_clearance_mm: null
+    worst_case_minimum_clearance_mm: null
+    combined_standard_uncertainty_mm: null
+    expanded_uncertainty_mm: null
+    coverage_factor: null
+    coverage_probability: null
+    verdict: HOLD
+  - state: PARTIAL
+    travel_mm: null
+    neutral_overlap_status: PASS_WITHIN_144_SAMPLE_NEUTRAL_WITNESS
+    nominal_manufacturing_clearance_mm: null
+    worst_case_minimum_clearance_mm: null
+    combined_standard_uncertainty_mm: null
+    expanded_uncertainty_mm: null
+    coverage_factor: null
+    coverage_probability: null
+    verdict: HOLD
+  - state: PREGRASP
+    travel_mm: 55.0
+    neutral_overlap_status: PASS_NEUTRAL_SCOPE
+    nominal_manufacturing_clearance_mm: null
+    worst_case_minimum_clearance_mm: null
+    combined_standard_uncertainty_mm: null
+    expanded_uncertainty_mm: null
+    coverage_factor: null
+    coverage_probability: null
+    verdict: HOLD
+  - state: OPEN
+    travel_mm: 71.5
+    neutral_overlap_status: PASS_NEUTRAL_SCOPE
+    nominal_manufacturing_clearance_mm: null
+    worst_case_minimum_clearance_mm: null
+    combined_standard_uncertainty_mm: null
+    expanded_uncertainty_mm: null
+    coverage_factor: null
+    coverage_probability: null
+    verdict: HOLD
+
+closure_measurements:
+  - datum-controlled slot width and rail maximum-material width over engaged length
+  - slot and rail straightness plus guide-pair parallelism
+  - assembly locator and datum shift
+  - selected coating thickness on both mating surfaces
+  - approved material CTE and environmental temperature range
+  - elastic deflection under authorized guide load
+  - wear debris and life allowance from qualified cycle testing
+  - inspection uncertainty and decision-rule guard band
+
+release_prohibitions:
+  - DO_NOT_TREAT_ZERO_DIGITAL_OVERLAP_AS_POSITIVE_MANUFACTURING_CLEARANCE
+  - DO_NOT_TREAT_THE_0P05_TO_0P20_MM_GRID_AS_A_DESIGN_REQUIREMENT
+  - DO_NOT_REPORT_A_CLEARANCE_PASS_UNTIL_ALL_TERMS_AND_UNCERTAINTIES_CLOSE

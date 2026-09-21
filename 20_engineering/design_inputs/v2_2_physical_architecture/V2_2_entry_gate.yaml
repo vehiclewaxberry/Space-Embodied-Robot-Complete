@@ -1,0 +1,34 @@
+gate_id: COMP-PROT-03-A4-B5-V2_2-PHYSICAL-ARCHITECTURE
+phase: V2.2 pre-CAD
+date: "2026-07-25"
+status: FREEZE_DRAFT_AWAITING_HUMAN_RATIFICATION
+
+upstream_terminal_state:
+  v2_1: B4_1_NATIVE_REFERENCE_CAD_BUILT_ACCEPTANCE_HOLD   # 语义参考 CAD，机构未实体化
+  red_team_gate: { semantic_reference_scaffold: PASS_CONDITIONAL,
+                   physical_mechanism_detail: HOLD }
+
+gate_0:
+  id: BUS_ENVELOPE_BASELINE_RESOLVED
+  conflict: "340.5×226.3×226.3 (COMPETITION_DISPLAY_V0) vs 366.0×226.3×226.3 (12U 校正)"
+  interim_rule: 长度参数化 BUS_X_TOTAL=GATE_PENDING；340.5 停止向新几何/图纸传播；
+    站位一律锚点/比例表达
+  resolution_owner: human
+  ripple_on_ruling: [T_SM 数值复核, 舱段站位, 翼弦覆盖域, keepout X 域, 图框标注]
+
+registered_conflicts:
+  solar_dual_track: "两段式折叠翼(V2.2 机构轨) vs 单板 200×227×6(动力学 SSOT 轨,
+    sim_07/ANCF 消费中)——SSOT 变更请求获批并重跑挂链仿真前双轨分离，禁交叉引用"
+  c5_stow_envelope: "238.3>226.3 负结果保留；解决方向集见冻结文档 §5"
+
+deliverable: V2_2_PHYSICAL_ARCHITECTURE_FREEZE.md
+acceptance_ladder: L1 功能几何 → L2 装配接口 → L3 运动与包络 → L4 工程释放入口
+l4_boundary: FEA/动力学/质量权威化/SSOT 反哺须另行人工授权
+
+next_authorization_needed:
+  - 批准冻结文档（逐节可批注）
+  - 裁决 Gate 0
+  - 裁决太阳翼双轨/SSOT 变更路径
+  - 授权 Space_Embodied_Robot_CAD_V2_2 实体深化
+inherited_hard_blocks: [H1..H9]
+frozen_baselines_untouched: [V2.0(57 封存), V2.1(ACCEPTANCE_HOLD 态封存), accepted B601]

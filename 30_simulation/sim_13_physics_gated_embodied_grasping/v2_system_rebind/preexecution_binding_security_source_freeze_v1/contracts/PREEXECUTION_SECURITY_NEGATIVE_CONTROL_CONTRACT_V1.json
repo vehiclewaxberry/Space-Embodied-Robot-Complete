@@ -1,0 +1,37 @@
+{
+  "schema": "SIM13_PREEXECUTION_SECURITY_NEGATIVE_CONTROL_CONTRACT_V1",
+  "single_fault_controls": [
+    {
+      "id": "NC15",
+      "stimulus": "STALE_OR_REPLAYED_GATE_SNAPSHOT",
+      "source_only_probe": "VERIFY_FRESH_RECEIPT_READ_ONLY_THEN_SEED_SYNTHETIC_ALREADY_CONSUMED_NONCE_AND_REPLAY_IDENTICAL_BYTES",
+      "required_reason": "REPLAY_NONCE",
+      "canonical_outcome": "MASK_TO_ABORT_ONLY"
+    },
+    {
+      "id": "NC16",
+      "stimulus": "DIRECT_BACKEND_CALL_BYPASSES_SAFETY_SHIELD",
+      "source_only_probe": "REMOVE_ONLY_SHIELD_ATTESTATION_FROM_A_NON_ABORT_BACKEND_REQUEST",
+      "required_reason": "SHIELD_ATTESTATION_REQUIRED",
+      "canonical_outcome": "MASK_TO_ABORT_ONLY"
+    },
+    {
+      "id": "NC20",
+      "stimulus": "DEBRIS_150KG_3DPS_REQUESTS_NON_ABORT_WITHOUT_FEASIBILITY_AND_POST_GRASP_PASS",
+      "source_only_probe": "FIRST_VERIFY_COMPLETE_SEVEN_RECORD_ACTION_BOUND_BASELINE_WITH_AUTHENTICATED_FAIL_VERDICTS_THEN_RUN_TWO_ISOLATED_SUBPROBES_REMOVING_ONLY_FEASIBILITY_OR_ONLY_POST_GRASP",
+      "required_reason": "MISSING_RECEIPT_KIND:FEASIBILITY_150KG_V2|MISSING_RECEIPT_KIND:POST_GRASP_V2",
+      "canonical_outcome": "MASK_TO_ABORT_ONLY"
+    }
+  ],
+  "execution_invariants": [
+    "TWO_DETERMINISTIC_REPEATS",
+    "ZERO_NON_ABORT_EXECUTIONS",
+    "ALL_PROVIDED_KNOWN_RECEIPTS_VERIFIED_BEFORE_MISSING_DECISION",
+    "DENIAL_AND_SOURCE_SCOPE_LOCK_CONSUME_ZERO_NONCES",
+    "EXACT_REASON_MATCH",
+    "PARENT_BASELINE_HASHES_UNCHANGED"
+  ],
+  "formal_parent_credit_promoted": false,
+  "effective_source_only_frontier_if_all_pass": "18_OF_20",
+  "remaining_holds": ["NC18", "NC19"]
+}

@@ -1,0 +1,39 @@
+schema: B601_HARNESS_EXACT_PREDICATE_CONTRACT_V1
+generated_local: '2026-08-23T11:16:42.776106+08:00'
+authority: ODR-37
+api: HarnessExactEvaluator.check(q_rad, state_id)
+source:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/02_exact_predicate/harness_exact_check.py
+  sha256: 327F6C907A1F9281071E74BA931C3A42C36AA1782897CCC3D6972B66E1129C28
+kernel:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/sweep_b601_harness_full_fk.py
+  sha256: F99FF775B20940D4F5338E2AECA6F9C03D565FF718170B92B6C97CBDEB499261
+frozen_input_pins:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/00_authority/ROUTE_B_FROZEN_INPUT_PINS_V1.yaml
+  expected_sha256_compiled_into_evaluator: 6BB8E9C5FF6910BE07D1720D320C4CB560A2CF07AD254DEB83E931AF4731C588
+  actual_sha256: 6BB8E9C5FF6910BE07D1720D320C4CB560A2CF07AD254DEB83E931AF4731C588
+  match: true
+  mismatch_classification: UNKNOWN
+  mismatch_action: ABORT
+input_units:
+  q_rad: rad
+margins:
+  clearance_mm: minimum signed centerline-to-solid distance minus bundle radius
+  bend_margin_mm: minimum centerline bend radius minus 30.0 mm terminal requirement
+  pinch_mm: minimum signed joint-interface cable-to-parent/child clearance
+  length_margin_mm: 4001.158 mm cut-length candidate minus required centerline length
+  joint_limit_margin_rad: minimum accepted-URDF hardware-limit margin
+safe_rule: all five margins >= 0 and empty_comparison_sets == 0
+classification:
+- SAFE
+- UNSAFE
+- UNKNOWN
+fail_closed:
+  UNKNOWN: ABORT
+  UNSAFE: ABORT
+  SAFE: ALLOW_AFTER_OTHER_GATES
+map_and_surrogate_authority: ADVISORY_PREFILTER_ONLY
+runtime_integrity_rule: every evaluator startup verifies the frozen pin-file hash, every direct dependency, and
+  every V2 transitive geometry input before loading geometry
+known_conservative_limitation: protected feedthrough/clamp/backshell contact zones are not exempted; this can create
+  conservative false negatives but cannot create an unsafe ALLOW

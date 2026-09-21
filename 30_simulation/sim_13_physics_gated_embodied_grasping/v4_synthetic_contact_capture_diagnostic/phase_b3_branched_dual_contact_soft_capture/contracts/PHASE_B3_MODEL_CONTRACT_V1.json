@@ -1,0 +1,71 @@
+{
+  "schema": "SIM13_V4B3_SYNTHETIC_BRANCHED_DUAL_CONTACT_MODEL_CONTRACT_V1",
+  "scope": "SYNTHETIC_DIAGNOSTIC_ONLY",
+  "topology": "FREE_BASE_PLUS_6R_SERIAL_ARM_PLUS_FIXED_PALM_PLUS_TWO_PARALLEL_INDEPENDENT_P_FINGERS",
+  "generalized_velocity_order": ["v_base_I_3", "omega_base_I_3", "qdot_R_6", "qdot_left_P", "qdot_right_P"],
+  "synthetic_contact_geometry": {
+    "target": "sphere",
+    "left_pad": "named palm-frame assumption; not an inferred URDF contact frame",
+    "right_pad": "named palm-frame assumption; not an inferred URDF contact frame",
+    "contact_count": 2,
+    "common_points": "p_c_left and p_c_right remain separate"
+  },
+  "per_contact_law": {
+    "contact_type": "hard-finger frictional point contact; each point transmits force only and no independent contact torque",
+    "gap": "g_i=norm(p_pad_i-p_target)-R",
+    "normal": "n_i=(p_pad_i-p_target)/norm(p_pad_i-p_target)",
+    "normal_force": "Fn_i=k_i*delta_i+c_i*max(-v_rel_n_i,0); zero when delta_i<=0",
+    "friction": "Ft_i=-mu_i*Fn_i*v_t_i/sqrt(v_t_i_dot_v_t_i+v_eps_i^2)",
+    "action_reaction": "service +F_i; target -F_i at the same p_c_i",
+    "service_wrench": "Jv_pad_i^T*F_i+Jw_finger_i^T*((p_c_i-p_pad_i)xF_i)",
+    "target_torque": "sum_i((p_c_i-p_target)x(-F_i))"
+  },
+  "soft_capture_transient_candidate": {
+    "required": [
+      "both_contacts_compressive", "dual_contact_dwell_reached", "normals_opposed",
+      "target_center_inside_capture_corridor", "penetration_bounded",
+      "target_center_relative_speed_bounded", "target_angular_speed_bounded",
+      "left_and_right_contact_normal_speed_bounded",
+      "left_and_right_contact_tangential_speed_bounded",
+      "left_and_right_fingers_not_opening",
+      "all_dimensioned_ledgers_closed"
+    ],
+    "not_equivalent_to": ["LOCKED", "GRASP_SUCCESS", "retained_transform", "attached_target_release"]
+  },
+  "synthetic_candidate_thresholds": {
+    "dual_contact_dwell_s": 0.001,
+    "normals_opposition_max_dot": -0.95,
+    "target_center_relative_speed_max_m_s": 0.02,
+    "target_relative_omega_max_rad_s": 0.08,
+    "contact_abs_normal_speed_max_m_s": 0.008,
+    "contact_tangential_speed_max_m_s": 0.005,
+    "finger_opening_speed_max_m_s": 0.00001,
+    "minimum_normal_force_n": 0.05,
+    "maximum_penetration_m": 0.002
+  },
+  "ledger_tolerances_by_dimension": {
+    "total_linear_momentum_drift_n_s": 1e-9,
+    "total_angular_momentum_drift_n_m_s": 1e-9,
+    "service_and_target_linear_impulse_identity_n_s": 1e-9,
+    "service_and_target_angular_impulse_identity_n_m_s": 1e-9,
+    "mechanical_plus_dissipated_energy_drift_j": 1e-7,
+    "action_reaction_error_n": 1e-12,
+    "common_point_shift_error_n_m": 1e-12,
+    "target_torque_identity_error_n_m": 1e-12,
+    "virtual_power_identity_error_w": 1e-12,
+    "friction_positive_power_w": 1e-12,
+    "dissipation_monotonic_violation_j": 1e-14
+  },
+  "grasp_map_ruling": {
+    "definition": "G=[[I,I],[skew(r_left),skew(r_right)]] about target COM",
+    "svd_normalization": "divide moment rows by L_ref=0.5*norm(p_right-p_left)",
+    "expected_rank_for_two_distinct_force_points": 5,
+    "full_6d_wrench_span": false,
+    "full_6d_force_closure": false,
+    "forbidden_claim": "two hard-finger point contacts cannot generate a pure torque about their connecting line"
+  },
+  "forbidden_aggregation": [
+    "average_contact_point", "average_contact_normal", "single_combined_contact_impulse",
+    "mixed_linear_and_angular_momentum_norm", "mixed_R_and_P_effort_norm"
+  ]
+}

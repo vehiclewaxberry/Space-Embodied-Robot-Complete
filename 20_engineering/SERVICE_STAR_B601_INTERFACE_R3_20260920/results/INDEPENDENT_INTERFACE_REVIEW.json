@@ -1,0 +1,1033 @@
+{
+  "schema": "INDEPENDENT_INTERFACE_REVIEW_R3_V1",
+  "reviewer": "/root/r3_interface_review",
+  "builder": "/root",
+  "reviewed_utc": "2026-09-19T17:40:07.800860+00:00",
+  "status": "PASS_WITH_OBSERVATIONS__LOGICAL_INTERFACE_AND_STATIC_RESERVATION_ONLY",
+  "scope": "read-only sources, logical interface, dimensional and STEP checks; native SolidWorks and final visualization explicitly excluded",
+  "changed_design_files": false,
+  "output_file_only": "results/INDEPENDENT_INTERFACE_REVIEW.json",
+  "review_rounds": [
+    {
+      "round": 1,
+      "area": "Completeness",
+      "status": "PASS",
+      "passed_gate_items": "No relevant Gate1-5 explicit PASS is asserted; existing R2 8 links rechecked because R3 derives from them",
+      "conclusion": "Complete within user-authorized seven-node logical-interface and board-space scope"
+    },
+    {
+      "round": 2,
+      "area": "Risk Identification",
+      "status": "PASS",
+      "passed_gate_items": "No numbered Gate credit inherited",
+      "conclusion": "Version, isolation, regeneration, host assumption, propulsion uncertainty and flight-credit boundaries are explicit"
+    },
+    {
+      "round": 3,
+      "area": "Implementability",
+      "status": "CONCERN",
+      "passed_gate_items": "No numbered Gate credit inherited",
+      "findings": [
+        "IR06"
+      ],
+      "recommendation": "Next stage bind physical board/connector pinout, power and isolation; current file is editable digital reservation only"
+    },
+    {
+      "round": 4,
+      "area": "Cost Reasonableness",
+      "status": "CONCERN",
+      "passed_gate_items": "No numbered Gate credit inherited",
+      "findings": [
+        "IR07"
+      ],
+      "recommendation": "Real candidate BOM and current quote required; no costs or new mass certified here"
+    },
+    {
+      "round": 5,
+      "area": "Validation Coverage",
+      "status": "CONCERN",
+      "passed_gate_items": "R2 historical electrical review remains its bounded evidence; no full-system PASS inherited",
+      "findings": [
+        "IR05",
+        "IR08"
+      ],
+      "recommendation": "CAN timing/termination, physical assembly/wiring, staged power and environmental tests remain separate acceptance"
+    }
+  ],
+  "findings": [
+    {
+      "id": "IR01",
+      "initial_status": "CONCERN",
+      "status": "RESOLVED",
+      "finding": "route_radius_mm initially 3 while geometry used R2",
+      "resolution": "Final parameter is 2 and source reads it with a frozen-geometry assertion; CAD limitation disclosed",
+      "evidence": "BOARD_RESERVATION.json; .step.py; README"
+    },
+    {
+      "id": "IR02",
+      "initial_status": "CONCERN",
+      "status": "RESOLVED",
+      "finding": "OEM 200mm custom cable initially labelled single-ended; pinned BOM says both ends straight",
+      "resolution": "custom_both_straight_qty=1 and README now agrees with pinned BOM"
+    },
+    {
+      "id": "IR03",
+      "initial_status": "CONCERN",
+      "status": "RESOLVED",
+      "finding": "Initial route endpoints Y=-15 missed legacy connector entry Y=-13 by 2mm",
+      "resolution": "Final endpoints are ARM(-108,-13,5), HOST(-104,-13,5), both source proxies, not mating contacts"
+    },
+    {
+      "id": "IR04",
+      "initial_status": "FAIL",
+      "status": "RESOLVED",
+      "finding": "Intermediate host-route attempt SHA768a4e32 intersected trunk_clip_standoff_-140 by 14.137166941154073mm3 in each of 3 poses",
+      "resolution": "Builder retains ATTEMPT02/03 reports; final independent 36 exact intersections find none; final STEP SHA is separately bound"
+    },
+    {
+      "id": "IR05",
+      "status": "OBSERVATION",
+      "finding": "1Mbit/s legacy manuals versus SDK SocketCAN example 500kbit/s; 921600 baud is serial, V4 bitrate/readback remains unverified",
+      "recommendation": "Use 1Mbit/s only as candidate contract; freeze actual supported common bitrate, termination ownership and bus timing before wiring release"
+    },
+    {
+      "id": "IR06",
+      "status": "OBSERVATION",
+      "finding": "60x40 board and ports are functional reservation; MPN, physical pin numbering, logic voltage, current, cable lengths, crimp and isolation circuit remain unknown",
+      "recommendation": "Carry these as next-stage interface/EDA acceptance inputs; do not use this review to authorize manufacture or power"
+    },
+    {
+      "id": "IR07",
+      "status": "OBSERVATION",
+      "finding": "No current new-BOM quote, purchased-board mass or material card; 0.8kg is only inherited budget",
+      "recommendation": "Bind real candidates to envelope, cost, power, thermal and mass before claiming engineering closure"
+    },
+    {
+      "id": "IR08",
+      "status": "OBSERVATION",
+      "finding": "Static 3 poses do not verify installation tooling, dynamic bend, EMC, full thermal or flight radiation/vacuum/vibration/life",
+      "recommendation": "Retain independent physical acceptance stages and V4 environment qualification as unpassed"
+    }
+  ],
+  "checks": [
+    {
+      "id": "C01_seven_nodes_and_roles",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C02_J1_SDK_map",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C02_J2_SDK_map",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C02_J3_SDK_map",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C02_J4_SDK_map",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C02_J5_SDK_map",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C02_J6_SDK_map",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C02_GRIPPER_SDK_map",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C03_unique_CAN_and_feedback_IDs",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C04_BOM_3_4340P_4_4310",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C05_V4_not_legacy_ratings",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C06_no_flash_or_timeout_credit",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C07_host_is_explicit_assumption",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C08_no_physical_or_manufacturing_credit",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C09_twelve_logical_cables",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C10_arm_chain_contiguous",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C11_reference_pack_corrected",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C12_no_BOM_double_count_or_false_cut_lengths",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C13_R2_A07",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C13_R2_A08",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C13_R2_A09",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C13_R2_A10",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C13_R2_C01",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C13_R2_C02",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C13_R2_C03",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C13_R2_C04",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C14_exactly_eight_inherited",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C15_no_endpoint_cross_net_join",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C16_no_R3_short_WP10_ARM_RETURN__WP10_INPUT_RETURN",
+      "pass": true,
+      "evidence": "R3 additions only, not galvanic isolation certification of all upstream circuits"
+    },
+    {
+      "id": "C16_no_R3_short_WP10_AUX_PROTECT_RTN__WP10_INPUT_RETURN",
+      "pass": true,
+      "evidence": "R3 additions only, not galvanic isolation certification of all upstream circuits"
+    },
+    {
+      "id": "C16_no_R3_short_HOST_CAN_REFERENCE__WP10_ARM_RETURN",
+      "pass": true,
+      "evidence": "R3 additions only, not galvanic isolation certification of all upstream circuits"
+    },
+    {
+      "id": "C16_no_R3_short_SHIELD_CHASSIS_RESERVATION__WP10_ARM_RETURN",
+      "pass": true,
+      "evidence": "R3 additions only, not galvanic isolation certification of all upstream circuits"
+    },
+    {
+      "id": "C17_unique_14_logical_pins",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C18_logic_mating_wiring_unknown",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C19_CSV_B601_JOINT_MAP.csv",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C19_CSV_CABLE_CONNECTION_PLAN.csv",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "C19_CSV_PROPOSED_INTERFACE_PINS.csv",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "S01_local_lock_1",
+      "pass": true,
+      "evidence": "NEUTRAL_SOURCE_MAP.json"
+    },
+    {
+      "id": "S01_local_lock_2",
+      "pass": true,
+      "evidence": "INTEGRATED_ASSEMBLY_PLAN.json"
+    },
+    {
+      "id": "S01_local_lock_3",
+      "pass": true,
+      "evidence": "SOURCE_LOCAL_BOUNDS.json"
+    },
+    {
+      "id": "S01_local_lock_4",
+      "pass": true,
+      "evidence": "HARNESS_CONNECTION_MATRIX.json"
+    },
+    {
+      "id": "S01_local_lock_5",
+      "pass": true,
+      "evidence": "ELECTRICAL_CURRENT_BASELINE.json"
+    },
+    {
+      "id": "S01_local_lock_6",
+      "pass": true,
+      "evidence": "DM_BUS_VOLTAGE_BINDING.json"
+    },
+    {
+      "id": "S01_local_lock_7",
+      "pass": true,
+      "evidence": "POWER_CHAIN_SELECTION.json"
+    },
+    {
+      "id": "S01_local_lock_8",
+      "pass": true,
+      "evidence": "official_dm_motor.yaml"
+    },
+    {
+      "id": "S01_local_lock_9",
+      "pass": true,
+      "evidence": "HANDOFF_LATEST.json"
+    },
+    {
+      "id": "S01_local_lock_10",
+      "pass": true,
+      "evidence": "dm4310_v1_1_manual_v1_0.pdf"
+    },
+    {
+      "id": "S01_local_lock_11",
+      "pass": true,
+      "evidence": "dm4340p_manual_v1_0.pdf"
+    },
+    {
+      "id": "S01_local_lock_12",
+      "pass": true,
+      "evidence": "DM4310_Default_Parameters.txt"
+    },
+    {
+      "id": "S01_local_lock_13",
+      "pass": true,
+      "evidence": "DM4340P_Default_Parameters.txt"
+    },
+    {
+      "id": "S01_local_lock_14",
+      "pass": true,
+      "evidence": "wp10_system.xml"
+    },
+    {
+      "id": "S02_public_lock_1",
+      "pass": true,
+      "evidence": "sources/b601__LICENSE"
+    },
+    {
+      "id": "S02_public_lock_2",
+      "pass": true,
+      "evidence": "sources/b601__README.md"
+    },
+    {
+      "id": "S02_public_lock_4",
+      "pass": true,
+      "evidence": "sources/b601__hardware__reBot_B601_DM__performance_testing__Performance_Testing_Fr.md"
+    },
+    {
+      "id": "S02_public_lock_5",
+      "pass": true,
+      "evidence": "sources/b601__hardware__reBot_B601_DM__performance_testing__Performance_Testing_JP.md"
+    },
+    {
+      "id": "S02_public_lock_6",
+      "pass": true,
+      "evidence": "sources/b601__hardware__reBot_B601_DM__performance_testing__Performance_Testing_es.md"
+    },
+    {
+      "id": "S02_public_lock_7",
+      "pass": true,
+      "evidence": "sources/b601__hardware__reBot_B601_DM__performance_testing__Performance_Testing_zh.md"
+    },
+    {
+      "id": "S02_public_lock_8",
+      "pass": true,
+      "evidence": "sources/b601__hardware__reBot_B601_DM__readme.md"
+    },
+    {
+      "id": "S02_public_lock_9",
+      "pass": true,
+      "evidence": "sources/b601__hardware__reBot_B601_DM__readme_es.md"
+    },
+    {
+      "id": "S02_public_lock_10",
+      "pass": true,
+      "evidence": "sources/b601__hardware__reBot_B601_DM__readme_fr.md"
+    },
+    {
+      "id": "S02_public_lock_11",
+      "pass": true,
+      "evidence": "sources/b601__hardware__reBot_B601_DM__readme_jp.md"
+    },
+    {
+      "id": "S02_public_lock_12",
+      "pass": true,
+      "evidence": "sources/b601__hardware__reBot_B601_DM__readme_zh.md"
+    },
+    {
+      "id": "S02_public_lock_13",
+      "pass": true,
+      "evidence": "sources/sdk__README.md"
+    },
+    {
+      "id": "S02_public_lock_14",
+      "pass": true,
+      "evidence": "sources/sdk__config__rebotarm.yaml"
+    },
+    {
+      "id": "S02_public_lock_15",
+      "pass": true,
+      "evidence": "sources/sdk__config__rebotarm_dm.yaml"
+    },
+    {
+      "id": "S02_public_lock_16",
+      "pass": true,
+      "evidence": "sources/seeed_quickstart_ja.html"
+    },
+    {
+      "id": "S02_public_lock_17",
+      "pass": true,
+      "evidence": "sources/seeed_dm_series.html"
+    },
+    {
+      "id": "S02_public_lock_18",
+      "pass": true,
+      "evidence": "sources/nasa_avionics.html"
+    },
+    {
+      "id": "S02_public_lock_19",
+      "pass": true,
+      "evidence": "sources/nasa_thermal.html"
+    },
+    {
+      "id": "S02_public_lock_20",
+      "pass": true,
+      "evidence": "sources/nasa5017b.pdf"
+    },
+    {
+      "id": "S03_four_legacy_sources",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M01_same_slot_dimensions",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M02_no_new_mass_credit",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M03_holes_not_existing_structure_cut",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M04_solid_1",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M04_solid_2",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M04_solid_3",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M04_solid_4",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M04_solid_5",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M04_solid_6",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M04_solid_7",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M04_solid_8",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M05_eight_solids",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M06_hole_1",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M06_hole_2",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M06_hole_3",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M06_hole_4",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M07_analytic_geometry_volume",
+      "pass": true,
+      "evidence": {
+        "actual_mm3": 49799.549256631864,
+        "analytic_mm3": 49799.54925663186,
+        "error_mm3": 7.275957614183426e-12,
+        "route_lengths_mm": [
+          15.283185307179586,
+          29.283185307179586
+        ],
+        "route_endpoints_x": [
+          [
+            -118,
+            -108
+          ],
+          [
+            -80,
+            -104
+          ]
+        ]
+      }
+    },
+    {
+      "id": "M08_final_step_bound_to_builder_check",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M09_endpoints_reach_declared_plane",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "M10_independent_all_state_static_intersections",
+      "pass": true,
+      "evidence": {
+        "state_instance_counts": {
+          "service": 1110,
+          "parking": 1110,
+          "released": 1110
+        },
+        "exact_checks": 36,
+        "aabb_rejections": 26580,
+        "collisions": []
+      }
+    },
+    {
+      "id": "M11_match_builder_static_outcome",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "P01_real_propulsion_stays_unbound",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "P02_existing_propulsion_assets_present",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "P03_no_upgraded_physical_release",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "D01_CAN_source_difference_and_terminations_disclosed",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "D02_editability_limit_disclosed",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "D03_full_system_flight_limits_disclosed",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "id": "D04_source_unchanged_during_review",
+      "pass": true,
+      "evidence": null
+    }
+  ],
+  "summary": {
+    "checks": 99,
+    "passed": 99,
+    "failed": [],
+    "native_reviewed": false,
+    "whole_design_complete": false,
+    "ready_to_wire": false,
+    "ready_to_power": false,
+    "flight_ready": false
+  },
+  "independent_geometry": {
+    "method": "Independent inline OCCT cold STEP read; analytic volume and hole-point checks; every new solid screened against all 1110 rows per frozen R1 state; no builder code import/execute",
+    "final_step_sha256": "a1af0ecbb21bfe5519a0af13ccb5dc78b68a6c4007610b33aed44f12dd6bdbac",
+    "parts": [
+      {
+        "index": 1,
+        "valid": true,
+        "volume_mm3": 3788.5281459635844,
+        "bounds_mm": [
+          [
+            -130,
+            -68,
+            -1.6
+          ],
+          [
+            -70,
+            -28,
+            0
+          ]
+        ]
+      },
+      {
+        "index": 2,
+        "valid": true,
+        "volume_mm3": 43200,
+        "bounds_mm": [
+          [
+            -130,
+            -68,
+            0
+          ],
+          [
+            -70,
+            -28,
+            18
+          ]
+        ]
+      },
+      {
+        "index": 3,
+        "valid": true,
+        "volume_mm3": 768,
+        "bounds_mm": [
+          [
+            -86,
+            -28,
+            1
+          ],
+          [
+            -74,
+            -20,
+            9
+          ]
+        ]
+      },
+      {
+        "index": 4,
+        "valid": true,
+        "volume_mm3": 768,
+        "bounds_mm": [
+          [
+            -124,
+            -28,
+            1
+          ],
+          [
+            -112,
+            -20,
+            9
+          ]
+        ]
+      },
+      {
+        "index": 5,
+        "valid": true,
+        "volume_mm3": 384,
+        "bounds_mm": [
+          [
+            -94,
+            -76,
+            1
+          ],
+          [
+            -86,
+            -68,
+            7
+          ]
+        ]
+      },
+      {
+        "index": 6,
+        "valid": true,
+        "volume_mm3": 576,
+        "bounds_mm": [
+          [
+            -116,
+            -76,
+            1
+          ],
+          [
+            -104,
+            -68,
+            7
+          ]
+        ]
+      },
+      {
+        "index": 7,
+        "valid": true,
+        "volume_mm3": 108.03047104009855,
+        "bounds_mm": [
+          [
+            -119.5000001,
+            -20,
+            3.4999999
+          ],
+          [
+            -106.5,
+            -13,
+            6.5000001
+          ]
+        ]
+      },
+      {
+        "index": 8,
+        "valid": true,
+        "volume_mm3": 206.99063962817868,
+        "bounds_mm": [
+          [
+            -105.5,
+            -20,
+            3.4999999
+          ],
+          [
+            -78.4999999,
+            -13,
+            6.5000001
+          ]
+        ]
+      }
+    ],
+    "volume_mm3": 49799.549256631864,
+    "analytic_mm3": 49799.54925663186,
+    "route_lengths_mm": [
+      15.283185307179586,
+      29.283185307179586
+    ],
+    "exact_boolean_checks": 36,
+    "broadphase_rejections": 26580,
+    "all_boolean_results_valid": true,
+    "collisions": [],
+    "source_state_instance_counts": {
+      "service": 1110,
+      "parking": 1110,
+      "released": 1110
+    },
+    "source_step_hashes": {
+      "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\mechanical\\battery_internal_route.step": "fe17f8e43a82f0a3beb073d1bf572e4dcd6fe80b452635a068a9920c45f4515b",
+      "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\WP05_SW_20260907\\sources\\connector_battery_7ab90c7f_service_solid.step": "b9c648b62ff6df325d91cc0ed4dd0f0c5e6897f5327b073b9862d88144267f23",
+      "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\mechanical\\trunk_high_base.step": "3493b4309489b2ab13412b337e3ace4f3e545a3d5c06768586e6d79861f1b27b"
+    },
+    "source_scope": "R1 neutral baseline 3 fixed poses; R2 release-route geometry and R3 native assembly not independently re-evaluated here"
+  },
+  "reviewed_file_snapshots": [
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\inputs\\B601_DRIVER_BASELINE.json",
+      "sha256": "9abe4f27505e773648239394e405a2c94aa1eda758e65713e09b0d5828238ff7",
+      "bytes": 3537
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\inputs\\BOARD_RESERVATION.json",
+      "sha256": "60f4f3b3034726c5a47b1a1a859c1bd3d4ab4924b50ac157e5c50ca44abafb07",
+      "bytes": 1885
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\inputs\\CABLE_CONNECTION_PLAN.json",
+      "sha256": "db0701bb77677ebccdae8aa794ffe6a077a9905133dc236c918eeae6804939bb",
+      "bytes": 4455
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\inputs\\DESIGN_ASSUMPTIONS.json",
+      "sha256": "64e8c452e30afa1e94826a97927e9bb16e000e5d8524c56d8984f715d09dc185",
+      "bytes": 734
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\inputs\\INTERFACE_CONNECTIONS.json",
+      "sha256": "460aa2a7d217007b2aaabf5dd0de4c815e984ca1ec14d6f4ffdb1fe00f6a3f48",
+      "bytes": 7317
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\inputs\\SOURCE_LOCK.json",
+      "sha256": "b061e8ea7bbd480e02b3179bad1e9ca83b3f80bf9a8a401c4fcd08edd75171e7",
+      "bytes": 5102
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\cad\\B601_INTERFACE_RESERVATION.step",
+      "sha256": "a1af0ecbb21bfe5519a0af13ccb5dc78b68a6c4007610b33aed44f12dd6bdbac",
+      "bytes": 154296
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\cad\\B601_INTERFACE_RESERVATION.step.py",
+      "sha256": "4a1f4b062dff5d79a079d88ed981cde6d027397a791129076c6de8be6a330321",
+      "bytes": 2381
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\results\\RESERVATION_STATIC_CHECK.json",
+      "sha256": "5c891ea837ea7d268f6bb4f4c58d7a6321319f501e37f807bcbaa8dde136fc6b",
+      "bytes": 3386
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\sources\\PUBLIC_SOURCE_MANIFEST.json",
+      "sha256": "a27245834540d16d29652d1eb114193b5ad84a85bbfbf289ae763c015ede2332",
+      "bytes": 7113
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\sources\\LOCAL_MANUAL_PROVENANCE.json",
+      "sha256": "8b4c7b7318a7861e4af4b9401254ed7266d2bec7a1a21e49c40d1b2dc7d5b7a9",
+      "bytes": 1305
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\sources\\sdk__config__rebotarm_dm.yaml",
+      "sha256": "b3206610abd4618c5a1cecfc04abeecb2fef7f6b5b66dbc02e3a2de5c2b95dfb",
+      "bytes": 2611
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\sources\\sdk__README.md",
+      "sha256": "9f84136ec6502eb6063be29353f59a06e7ff869eff5773031487590daed20a6f",
+      "bytes": 8507
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\sources\\b601__hardware__reBot_B601_DM__readme_zh.md",
+      "sha256": "89889418bd557b844714e6ff9710c96d3d82ecb1f817e9fe41ec0183c5cbc6da",
+      "bytes": 35961
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\sources\\dm4310_v1_1_manual_v1_0.pdf.txt",
+      "sha256": "45be30937c8a07f9e5fc13beb1fba259e7739dac02ddbfa44a184dcdd29817bb",
+      "bytes": 11500
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\sources\\dm4340p_manual_v1_0.pdf.txt",
+      "sha256": "f4dcbc97fcc92d97c479bc2caeebeae9d9804cc9dd49e7b119caee1e3aa504af",
+      "bytes": 45878
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\docs\\B601_JOINT_MAP.csv",
+      "sha256": "62c33e99014a60c8a4946fac53edee2b398d8fa5817ae6732dbaffbbea00c62d",
+      "bytes": 751
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\docs\\CABLE_CONNECTION_PLAN.csv",
+      "sha256": "01e779990a09bacf104a39efc01e94a03e78376de211e3cef4b9fb03ef7de3ca",
+      "bytes": 1853
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\docs\\PROPOSED_INTERFACE_PINS.csv",
+      "sha256": "a0dbba7f1909576a61dffaf5c8d2742526137968bb0e39d5868f92cc7f1fb1b7",
+      "bytes": 1402
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\docs\\CAD_BRIEF.md",
+      "sha256": "d036b433d316ad94def2244d9c98a14a68d88373fd0629a88b6b4b8eb9b5b0bd",
+      "bytes": 1720
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\README.md",
+      "sha256": "bce7a506950344055c8a0158b85977304a6d28e6f6f4b53a3d7876ac0f92517f",
+      "bytes": 6352
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\服务星系统组成与设计决策_R3_20260920.md",
+      "sha256": "e9a726848392f9ae59f4cc479a494a0fe0b41c386e0dc7347a3db4721f540c53",
+      "bytes": 13127
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_INTERNAL_HARNESS_ORBIT_R2_20260919\\inputs\\ACTUATION_CURRENT.json",
+      "sha256": "57b873d5c726b3bf134f909ca566b293c7b7e7c0e05e2bcd45c0c8ca602cf72f",
+      "bytes": 6240
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_INTERNAL_HARNESS_ORBIT_R2_20260919\\results\\INDEPENDENT_ELECTRICAL_REVIEW.json",
+      "sha256": "888be8921f82afd4ba999868b0e4550bf0afc4af3374e25857c024901c1e8af6",
+      "bytes": 12539
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_INTERNAL_HARNESS_ORBIT_R2_20260919\\docs\\PROPULSION_GAP_ACTIONS.csv",
+      "sha256": "bab536b2a86d54f3640241a125869b91a67dfbad739e0338ca5ad309cfdf0118",
+      "bytes": 3907
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\tools\\build_contract.py",
+      "sha256": "9e6e42d8432d68f95e2a680eaeffaf4b7ee5b7ec26a87ae8e9dd9331bf699472",
+      "bytes": 11440
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\tools\\check_reservation.py",
+      "sha256": "0856a4596eab381618e4d0adc689e4d894126b635f8eeeaac48c7a090684e990",
+      "bytes": 5083
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\results\\RESERVATION_ATTEMPT_02_COLLISION.json",
+      "sha256": "0d7c108f508da04e08400816392e5b2fd2282c5006766c11a33d7b87b0943b3e",
+      "bytes": 3852
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_B601_INTERFACE_R3_20260920\\results\\RESERVATION_ATTEMPT_03_COLLISION.json",
+      "sha256": "0363187bbb01c2c1d8ba089da18378f77a34cbaaa5a1b2ff35be7448e5028d6e",
+      "bytes": 3852
+    }
+  ],
+  "source_locks": [
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_DIGITAL_PROTOTYPE_R1_20260919\\inputs\\NEUTRAL_SOURCE_MAP.json",
+      "sha256": "e9939b4979034e381e370658b39c151e7b7a6739721cc4e8a08e0c09f67d6c45"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_DIGITAL_PROTOTYPE_R1_20260919\\inputs\\INTEGRATED_ASSEMBLY_PLAN.json",
+      "sha256": "52e96bc79de83ed2378ea30f03b106471232e381512202dea1338c2e0edc0734"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_INTERNAL_HARNESS_ORBIT_R2_20260919\\inputs\\SOURCE_LOCAL_BOUNDS.json",
+      "sha256": "f7a5092a2a3a0088d54310c8104519e1c2eb267b158069d1bec2ed93afb09aa9"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_INTERNAL_HARNESS_ORBIT_R2_20260919\\inputs\\HARNESS_CONNECTION_MATRIX.json",
+      "sha256": "b8bbe82148223a15f1ea5df2be0188bf0954b7e080104cc68d4ec86d151d0584"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\SERVICE_STAR_INTERNAL_HARNESS_ORBIT_R2_20260919\\inputs\\ELECTRICAL_CURRENT_BASELINE.json",
+      "sha256": "92937332c8e253b76467ba77f87ac51e0f34d3439efc709c7af93ab92cc43f8e"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\power\\DM_BUS_VOLTAGE_BINDING.json",
+      "sha256": "de5356cc53ec0daee63c69225534ddbefa4e4a29139ca51984e791200c5705d8"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\power\\POWER_CHAIN_SELECTION.json",
+      "sha256": "a964ee70818ccb9d3b0430b33ff13878df5ce3c2b9afd697feceda06ab00ef98"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\sources\\official_dm_motor.yaml",
+      "sha256": "b58928907d9524b9591a5b5a5f01f05b0473085669bcb98d54334b1f7e767dab"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\coupled_closure\\HANDOFF_LATEST.json",
+      "sha256": "27c3da9aae1bb29e6079b430ff096028b1e4a7fd048a04dbda143ed26a94d3b5"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\sources\\dm4310_v1_1_manual_v1_0.pdf",
+      "sha256": "3aa891a9014e0b9d8310b7603acaa29205e861f21cd6444d64d273215dc756dc"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\sources\\dm4340p_manual_v1_0.pdf",
+      "sha256": "f044a7f283ebd995e1f99ea6584c2e1141f8d32f7fa7948f8e353ce44c889b89"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\sources\\DM4310_Default_Parameters.txt",
+      "sha256": "ae476a72a6afa4e72371a748b62162ac62e8c285be1013f3dad1a48c557d5653"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\sources\\DM4340P_Default_Parameters.txt",
+      "sha256": "55c72881574179bdccdfc39fc229edf1cdbb49ca8974b053fe7a35fef42aeb42"
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\results\\stop_v36\\pcb\\thermal_filter_20260916\\native_20260916_a\\wp10_system.xml",
+      "sha256": "90497ad91d4b8ec2c39e6eda819b94e3fbcf9f908861aae22e6c90c5bf1a1939"
+    }
+  ],
+  "public_acquisition_failures_disclosed": [
+    {
+      "file": "sources/b601__hardware__reBot_B601_DM__performance_testing__Performance_Testing.md",
+      "url": "https://raw.githubusercontent.com/Seeed-Projects/reBot-DevArm/9f767783d761a8be0e9bb6fbc5ef1ae09fd68bbb/hardware/reBot_B601_DM/performance_testing/Performance_Testing.md",
+      "error": "<urlopen error _ssl.c:1015: The handshake operation timed out>"
+    }
+  ],
+  "initial_negative_evidence": {
+    "initial_step_sha256": "32e8669e52d8bb25ec610c70a1a530e9674884522e867737993e11dc98c5510c",
+    "initial_route_end_Y_mm": -15,
+    "intermediate_collision_step_sha256": "768a4e3247ce012fe27908bf9dacfd867d18a68f8941968cf677ab2e2a5fae6e",
+    "independently_reproduced_collision_mm3_per_pose": 14.137166941154073
+  },
+  "limitations": [
+    "No hardware command emitted; no schematic or PCB edited",
+    "No numbered scientific Gate upgraded",
+    "No current price/stock/lifecycle or procurement qualification claimed",
+    "README and project document snapshots are as-of review; later native-only edits require separate builder verification"
+  ]
+}

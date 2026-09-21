@@ -1,0 +1,26 @@
+{
+  "schema": "B51R1_S02_R1_CONFIGURATION_ACTIVATION_INCIDENT_SCOPE_CORRECTION_ADDENDUM_V1",
+  "generated_at": "2026-08-02T23:49:52+08:00",
+  "status": "INCIDENT_ROOT_CAUSE_DIRECTION_CORRECTED_BY_S02_R2_DIAGNOSTIC",
+  "incident_path": "07_VERIFICATION/AUTONOMOUS/S02_R1/B51R1_S02_R1_CONFIGURATION_ACTIVATION_HANG_FAIL_CLOSED_INCIDENT.json",
+  "incident_sha256": "878795ECA08BFB8EAC8F22ADE3C0712411381934FDA8345D2447FF7FAD7F6F4F",
+  "prior_hypothesis": "COMMON_CANONICAL was already active and redundant activation caused the hang",
+  "new_runtime_evidence": {
+    "cold_open_initial_active_configuration": "MODE_B_EVALUATION",
+    "mode_b_to_common_show_configuration_passed": true,
+    "mode_b_to_common_elapsed_seconds": 7.47,
+    "common_rebuild_passed": true,
+    "common_to_mode_a_passed": true,
+    "mode_a_to_mode_b_passed": true
+  },
+  "corrected_root_cause_direction": "The configuration transition itself is valid. The failed V3 verifier retained unscoped temporary ConfigurationManager and ActiveConfiguration COM proxies at four direct-expression call sites; the passing diagnostic used an explicitly released helper and bounded before/after progress stages.",
+  "required_tool_correction": {
+    "replace_all_direct_configuration_manager_active_configuration_expressions": true,
+    "active_configuration_helper_must_release_configuration_and_manager_rcws": true,
+    "skip_show_if_already_active": true,
+    "preserve_read_only_and_zero_save_calls": true
+  },
+  "diagnostic_gate_path": "07_VERIFICATION/AUTONOMOUS/S02_R2/B51R1_S02_R2_CONFIGURATION_ACTIVATION_DIAGNOSTIC_GATE.json",
+  "prior_incident_preserved": true,
+  "claim_limit": "ROOT_CAUSE_SCOPE_CORRECTION_ONLY_NO_S02_R2_COLD_REOPEN_OR_S03_CREDIT"
+}

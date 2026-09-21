@@ -1,0 +1,60 @@
+{
+  "schema": "ROUTE_C_TOPOLOGY_DOWNSELECT_V1",
+  "generated_utc": "2026-08-25T10:02:34Z",
+  "stage": "RC-2_TOPOLOGY_DOWNSELECT",
+  "trade_table": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_TOPOLOGY_TRADE_V2.csv",
+  "evaluation_rule": {
+    "method": "STRICT_LEXICOGRAPHIC_ORDER",
+    "criteria_order": [
+      "1 safety_constraints_no_uncontrolled_fold_or_snag",
+      "2 mission_coverage_capability",
+      "3 frozen_interface_compatibility",
+      "4 thermal_tolerance_margin",
+      "5 maintainability",
+      "6 joint_added_torque",
+      "7 mass",
+      "8 complexity"
+    ],
+    "no_weighted_averaging": true,
+    "hard_failure_rule": "a FAIL_HARD or HIGH_RISK_FAIL at any criterion eliminates the candidate regardless of later criteria; eliminated candidates are not scored downstream"
+  },
+  "candidates": [
+    {
+      "id": "C1",
+      "label": "joint-local guided loops",
+      "eliminated_at": "criterion 1",
+      "elimination_evidence": "J2/J3 joint-local loops require unconstrained free spans over 3.14 rad joint ranges, recreating Route-B failure mechanisms NRB-01 (clearance -11.8667 mm, bend 1.081 mm, pinch -11.3573 mm) and NRB-02 (clearance -11.9938 mm, bend 0.1 mm, pinch -11.9902 mm)",
+      "verdict": "FAIL_HARD"
+    },
+    {
+      "id": "C2",
+      "label": "semi-captive link-mounted dress pack (all joints)",
+      "eliminated_at": "criterion 3",
+      "elimination_evidence": "carrier tracks on all links conflict with frozen envelopes: link4/5/6 usable spans (78.3/23.7/40.0 mm per accepted URDF joint origins) are shorter than one carrier stroke plus end fittings at E2.10-class pitch 20 mm; wrist carriers approach gripper keepout; base carriers approach Solar R2 deployment corridor; frozen keepouts not modifiable",
+      "verdict": "HIGH_RISK_FAIL"
+    },
+    {
+      "id": "C3",
+      "label": "segmented guided dress-pack hybrid",
+      "eliminated_at": null,
+      "per_criterion": {
+        "1_safety": "PASS - all dynamic spans guided; no global free-hanging harness",
+        "2_mission_coverage": "PASS - take-up capacity 1877.766 mm vs required 1333.82 mm (40.78 percent margin) over full hardware envelope; wrist envelope minimized at the NRB-02 pinch region",
+        "3_frozen_interface": "PASS - fixed channels on long links only; single 110.0 mm stroke carrier at J3; derived brackets only; frozen assets untouched",
+        "4_thermal_tolerance": "MEDIUM_HIGH",
+        "5_maintainability": "HIGH - segmented per-joint service loops, wrist connector split",
+        "6_joint_added_torque": "LOW_MEDIUM - restoring-torque verification remains declared C5 hold",
+        "7_mass": "MEDIUM - mass_delta_by_link candidates only, RC-5 propagation scope",
+        "8_complexity": "MEDIUM"
+      },
+      "verdict": "SELECTED"
+    }
+  ],
+  "selection": "C3",
+  "selection_architecture": "Bus Feedthrough -> J1 Protected Annular Service Loop -> Link-1 Fixed Channel -> J2 Semi-Captive Guided U-Loop -> Link-2 Fixed Channel -> J3 Mini Cable-Carrier/Moving-Guide Hybrid -> Link-3/4 Fixed Channel -> J4-J6 Short Joint-Local Service Loops -> Wrist Strain Relief -> Gripper/Sensor Connectors",
+  "consistency_with_odr_52": "CONSISTENT - selection reproduces the ODR-52 ROUTE_C_SEGMENTED_GUIDED_DRESS_PACK_V1 architecture with per-criterion machine-readable evidence",
+  "evidence_sufficiency_note": "evidence does NOT reject C3 at any of the 8 lexicographic criteria; had any criterion produced a hard failure for C3 it would have been recorded here as FAIL_DOCUMENTED",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

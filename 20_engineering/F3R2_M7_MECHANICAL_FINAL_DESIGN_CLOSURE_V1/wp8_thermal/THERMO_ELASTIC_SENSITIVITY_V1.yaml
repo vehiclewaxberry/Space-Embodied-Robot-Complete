@@ -1,0 +1,360 @@
+schema: M7_WP8_THERMO_ELASTIC_SENSITIVITY_V1
+generated_local: '2026-08-22T01:12:30+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP8_THERMAL
+classification: ANALYTIC_DESIGN_ASSUMPTION_LEVEL -- pure closed-form thermo-elastic sensitivity; no thermal test, no on-orbit temperature measurement,
+  no flight-qualification claim
+authority_basis:
+  owner_decisions: 00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml (ODR-01..06; none grants thermal environment authority)
+  execution_plan: 00_authority/M7_EXECUTION_PLAN_V1.md (WP8 contract row; contract geometry quoted verbatim)
+  gate_mapping: Gate A operational modes (mechanism analytical + thermal) -> WP5+WP8; Gate B stays HOLD
+  odr_scope_note: ODR-06 authorizes operational-load FEA only; it does not authorize thermal environments. WP8 therefore runs at ANALYTIC_DESIGN
+    level over ASSUMPTION candidate bands.
+reference_temperature:
+  t_ref_degC: 20.0
+  basis: ASSEMBLY_ROOM_TEMPERATURE_ASSUMPTION_CONSISTENT_WITH_AL_CTE_SOURCE_INTERVAL_LOWER_BOUND_20_DEGC
+  hot_case: delta_T = T_hot - T_ref (positive)
+  cold_case: delta_T = T_cold - T_ref (negative)
+  hot_to_cold_case: delta_T_span = T_hot - T_cold; linear model -> span is reference-temperature independent
+temperature_bands:
+- band_id: GEVS_TYP_MAX_PREDICTED_FLIGHT
+  t_cold: -5.0
+  t_hot: 45.0
+  flag: ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL
+  source: M6 WP4 ENV-ONORBIT-THERMAL-SCREENING-V1 candidate bands
+  environment_authority: HOLD_ASSUMPTION_ONLY_NO_ON_ORBIT_PREDICTION
+- band_id: GEVS_TYP_OPERATIONAL
+  t_cold: -10.0
+  t_hot: 50.0
+  flag: ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL
+  source: M6 WP4 ENV-ONORBIT-THERMAL-SCREENING-V1 candidate bands
+  environment_authority: HOLD_ASSUMPTION_ONLY_NO_ON_ORBIT_PREDICTION
+- band_id: GEVS_TYP_ACCEPTANCE_TEST
+  t_cold: -15.0
+  t_hot: 55.0
+  flag: ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL
+  source: M6 WP4 ENV-ONORBIT-THERMAL-SCREENING-V1 candidate bands
+  environment_authority: HOLD_ASSUMPTION_ONLY_NO_ON_ORBIT_PREDICTION
+- band_id: GEVS_TYP_PROTOFLIGHT_TEST
+  t_cold: -20.0
+  t_hot: 60.0
+  flag: ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL
+  source: M6 WP4 ENV-ONORBIT-THERMAL-SCREENING-V1 candidate bands
+  environment_authority: HOLD_ASSUMPTION_ONLY_NO_ON_ORBIT_PREDICTION
+- band_id: MIL_STD_1540_REFERENCE_PROTOQUALIFICATION_TEST
+  t_cold: -29.0
+  t_hot: 66.0
+  flag: ASSUMPTION_REFERENCE_BAND_MIL_STD_1540_BEYOND_GEVS
+  source: M6 WP4 ENV-ONORBIT-THERMAL-SCREENING-V1 candidate bands
+  environment_authority: HOLD_ASSUMPTION_ONLY_NO_ON_ORBIT_PREDICTION
+- band_id: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+  t_cold: -34.0
+  t_hot: 71.0
+  flag: ASSUMPTION_REFERENCE_BAND_MIL_STD_1540_BEYOND_GEVS
+  source: M6 WP4 ENV-ONORBIT-THERMAL-SCREENING-V1 candidate bands
+  environment_authority: HOLD_ASSUMPTION_ONLY_NO_ON_ORBIT_PREDICTION
+cte_register:
+- material: AL6061
+  cte_per_K: 2.36e-05
+  status: M6_LIBRARY_CANDIDATE_TYPICAL_MEAN_20_TO_100_DEGC
+- material: AL7075
+  cte_per_K: 2.34e-05
+  status: M6_LIBRARY_CANDIDATE_TYPICAL_MEAN_20_TO_100_DEGC
+- material: TI6AL4V
+  cte_per_K: 8.88e-06
+  status: M6_LIBRARY_CANDIDATE_NASA_REFERENCE_SOURCE_INTERVAL_NULL
+- material: T700S_FIBER
+  cte_per_K: -3.8e-07
+  status: M6_LIBRARY_FIBER_REFERENCE_ONLY_NOT_A_LAMINATE_PROPERTY
+- material: A286
+  cte_per_K: 1.65e-05
+  status: GENERIC_ENGINEERING_REFERENCE_ASSUMPTION_LIBRARY_VALUE_NULL_UNVERIFIED
+- material: CRES304
+  cte_per_K: 1.73e-05
+  status: GENERIC_ENGINEERING_REFERENCE_ASSUMPTION_LIBRARY_VALUE_NULL_UNVERIFIED
+joint_stiffness_model:
+  model: Shigley frustum member stiffness + bolt spring, preload-free thermal increment dF = d_alpha*dT*L_grip*k_eq
+  m4_stress_area_mm2: 8.778699557218768
+  stress_area_basis: ISO 898-1 analytic formula As = pi/4*(d-0.9382*p)^2, d=4.0, p=0.7 (derived, not measured)
+  l_grip_mm: 8.0
+  l_grip_basis: M3R_ADAPTER_INTERFACE_SSOT stage_A_interface_ring.total_thickness_mm (CANDIDATE)
+  e_bolt_MPa: 200000.0
+  e_bolt_basis: GENERIC_REFERENCE_ASSUMPTION_LIBRARY_NULL
+  e_member_MPa: 68300.0
+  e_member_basis: M6 library candidate TYPICAL_AT_20_DEGC
+  k_bolt_N_per_mm: 219467.4889304692
+  k_member_N_per_mm: 303259.5788817257
+  k_eq_N_per_mm: 127323.8413879037
+  preload_drift_per_K_N:
+    BOLT_A286__MEMBER_AL6061: 7.23199419083293
+    BOLT_CRES304__MEMBER_AL6061: 6.417121605950347
+    PER_UNIT_MISMATCH_1E6_PER_K: 1.0185907311032296
+  limitations:
+  - Single-frustum same-material analytic approximation; embedment, thread load distribution, plating not modelled
+  - Initial preload unknown until WP4 TORQUE_PRELOAD_SCHEDULE_V1 lands (PENDING_SIBLING_HASH)
+  - 'Sign convention: dT>0 with alpha_member>alpha_bolt -> preload INCREASE; dT<0 -> preload DECREASE'
+models:
+- interface: M3R_B601_JOINT
+  metric: preload_drift_N
+  equation: dF = (alpha_Al6061 - alpha_bolt) * dT * L_grip * k_eq
+  scenarios:
+  - BOLT_A286__MEMBER_AL6061
+  - BOLT_CRES304__MEMBER_AL6061
+  - BOLT_PARAMETRIC_UNIT_MISMATCH_1E6_PER_K
+- interface: M3R_B601_JOINT
+  metric: pattern_radial_drift_mm
+  equation: d_r = (alpha_StageA - alpha_B601base) * dT * R_PATTERN, R_PATTERN = 45.254821 mm (PCD 90.509642/2)
+  scenarios:
+  - BASE_AL6061_ASSUMPTION
+  - BASE_CRES304_ASSUMPTION
+  - BASE_TI6AL4V_ASSUMPTION
+  note: B601 base material unknown -> swept over Al/CRES/Ti declared assumptions
+- interface: M3R_B601_JOINT
+  metric: hole_shaft_radial_clearance_change_mm
+  equation: dC = (alpha_Al*D_hole - alpha_bolt*D_bolt) * dT / 2, D_hole=4.6, D_bolt=4.0
+  scenarios:
+  - BOLT_A286_IN_AL6061_STAGE_A
+  - BOLT_CRES304_IN_AL6061_STAGE_A
+- interface: GRIPPER_R1_RAIL_PAIR
+  metric: along_stroke_relative_shift_mm / across_gap_clearance_change_per_mm_width
+  equation: d_u = d_alpha * dT * L_stroke (71.5 mm contract); dC/W = d_alpha * dT per mm width
+  scenarios:
+  - RAIL_AL6061__CARRIAGE_AL6061_SAME_ALLOY
+  - RAIL_AL6061__CARRIAGE_AL7075_MIXED
+  note: Fills M6 WP3 excluded term delta_thermal analytically; rail width nominal stays null (HOLD, no zero-fill)
+- interface: SOLAR_HINGE_PIN_BORE
+  metric: diametral_clearance_change_per_mm_pin_diameter
+  equation: dC_dia/D = (alpha_Al_bore - alpha_pin) * dT
+  scenarios:
+  - PIN_A286__BORE_AL6061
+  - PIN_CRES304__BORE_AL6061
+  note: Pin/bore nominals HOLD (M6 TC-009); absolute clearance = coefficient x authorized pin diameter (WP5)
+- interface: CAMERA_BRACKET_LINK6
+  metric: optical_frame_translation_mm + pointing_drift_under_gradient_rad
+  equation: translation = alpha*dT*L_lever (74.026 mm from proposed offset [0,-46,58]); theta = alpha*dT_grad*L/t
+  note: Uniform-dT first-order rotation = 0 for symmetric bracket (analytic result); gradient grid 1/2/5/10 K ASSUMPTION over t=26/40 mm sections
+- interface: SOLAR_PANEL_WING_TIP
+  metric: tip_in_plane_displacement_relative_to_hinge_root_mm
+  equation: u_tip = alpha_laminate * dT * L_span (200 mm contract)
+  note: Laminate CTE unknown (fiber -0.38e-6/K is fiber-only, not a laminate property) -> explicit ASSUMPTION grid {-0.38,0,1,2,3}e-6/K
+envelope_extremes:
+  m3r_preload_drift_N:
+    min:
+      scenario: BOLT_A286__MEMBER_AL6061
+      case: COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: -390.527686305
+    max:
+      scenario: BOLT_A286__MEMBER_AL6061
+      case: HOT_TO_COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: 759.359390037
+  m3r_pattern_radial_drift_mm:
+    min:
+      scenario: BASE_TI6AL4V_ASSUMPTION
+      case: COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: -0.0359721521165
+    max:
+      scenario: BASE_TI6AL4V_ASSUMPTION
+      case: HOT_TO_COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: 0.0699458513376
+  m3r_hole_shaft_radial_clearance_change_mm:
+    min:
+      scenario: BOLT_A286_IN_AL6061_STAGE_A
+      case: COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: -0.00114912
+    max:
+      scenario: BOLT_A286_IN_AL6061_STAGE_A
+      case: HOT_TO_COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: 0.0022344
+  gripper_along_stroke_relative_shift_mm:
+    min:
+      scenario: RAIL_AL6061__CARRIAGE_AL7075_MIXED
+      case: HOT_TO_COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: -0.0015015
+    max:
+      scenario: RAIL_AL6061__CARRIAGE_AL7075_MIXED
+      case: COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: 0.0007722
+  hinge_diametral_clearance_per_mm_pin_mm_per_mm:
+    min:
+      scenario: PIN_A286__BORE_AL6061
+      case: COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: -0.0003834
+    max:
+      scenario: PIN_A286__BORE_AL6061
+      case: HOT_TO_COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: 0.0007455
+  camera_optical_frame_translation_mm:
+    min:
+      scenario: BRACKET_AL6061_PROPOSED_MOUNT_DEFINED_NOT_MODELLED
+      case: COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: -0.0943400369557
+    max:
+      scenario: BRACKET_AL6061_PROPOSED_MOUNT_DEFINED_NOT_MODELLED
+      case: HOT_TO_COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: 0.183438960747
+  camera_pointing_gradient_rad:
+    min:
+      scenario: BRACKET_AL6061_T_40MM_SECTION
+      case: GRADIENT
+      band: GRADIENT_ASSUMPTION_GRID
+      value: 4.3675943035e-05
+    max:
+      scenario: BRACKET_AL6061_T_26MM_SECTION
+      case: GRADIENT
+      band: GRADIENT_ASSUMPTION_GRID
+      value: 0.000671937585154
+  wing_tip_in_plane_displacement_mm:
+    min:
+      scenario: LAMINATE_CTE_3P0E-6_ASSUMPTION_GRID_POINT
+      case: COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: -0.0324
+    max:
+      scenario: LAMINATE_CTE_3P0E-6_ASSUMPTION_GRID_POINT
+      case: HOT_TO_COLD
+      band: MIL_STD_1540_REFERENCE_QUALIFICATION_TEST
+      value: 0.063
+design_envelope_conclusions:
+  level: ANALYTIC_DESIGN -- functional retention statements over candidate bands; none is a flight or qualification claim
+  conclusions:
+  - interface: M3R_B601_JOINT
+    verdict: FUNCTION_RETAINED_CONDITIONAL_ON_WP4_PRELOAD
+    detail: 'Preload drift envelope +/-370..391 N (A286) / +/-327..346 N (CRES304) over the widest qualification band ends (delta_T +51 / -54
+      K); hot-to-cold excursion 759 N (A286). Drift is <7% of the A286 public-distributor min-proof reference (5750 N). Function is retained at
+      design level PROVIDED the WP4 torque-preload schedule sets initial preload with cold-side residual > 0 plus margin (rule of thumb: initial
+      preload >= 3x drift, i.e. >= ~1.2 kN). No compensation hardware indicated; verification action sits with WP4/WP7.'
+  - interface: M3R_B601_JOINT pattern alignment
+    verdict: FUNCTION_RETAINED_UNDER_AL_BASE__REQUIRES_CONFIRMATION_OF_B601_BASE_MATERIAL
+    detail: 'Pattern radial drift is computed zero for an Al base (equal candidate CTEs), 30%% of the M6 WP3 WC candidate clearance (0.101015
+      mm) for a CRES base, and up to 70%% (HIGH) for a Ti-6Al-4V base on the 105 K qualification swing. Hole-shaft clearance change is <=1.1%%
+      of WC in all bands. Action: identify B601 base material (WP9 ICD_V3_DRAFT); if Ti/steel, stay within the GEVS operational band or clock
+      the pattern for the mid-temperature state.'
+  - interface: GRIPPER_R1_RAIL_PAIR
+    verdict: FUNCTION_RETAINED_ALL_BANDS_NO_COMPENSATION
+    detail: 'Al/Al rail pair: along-stroke relative shift <=1.6e-3 mm even on the 105 K swing (mixed 6061/7075 worst case) = <=3%% of the M4 owner
+      example grid minimum (0.05 mm, not a requirement); same-alloy pair is computed zero. The M6 WP3 excluded term delta_thermal is now analytically
+      bounded at design level and is negligible against the candidate gap grid.'
+  - interface: SOLAR_HINGE_PIN_BORE
+    verdict: COEFFICIENT_CLOSED__ABSOLUTE_MARGIN_PENDING_HINGE_NOMINALS
+    detail: Diametral clearance coefficient 7.1e-6/K (A286 pin) resp. 6.3e-6/K (CRES pin) per mm of pin diameter; on the qualification swing this
+      is 7.5e-4 resp. 6.6e-4 mm per mm diameter (e.g. a 6 mm pin would see ~4.5e-3 mm). Absolute margin cannot close until WP5 fixes pin/bore
+      nominals (M6 TC-009 HOLD preserved; no zero-fill applied).
+  - interface: CAMERA_BRACKET_LINK6
+    verdict: FUNCTION_RETAINED_FOR_POINTING_BUDGETS_ABOVE_ABOUT_1_MRAD__GRADIENT_CONTROL_IF_TIGHTER
+    detail: 'Uniform-dT optical-frame translation <=0.089 mm (qualification hot end); first-order angular drift under uniform dT is analytically
+      zero for a symmetric bracket. Through-section gradients drive pointing: 0.067 mrad/K for the thin (26 mm) section -- 0.34 mrad at an assumed
+      5 K gradient, 0.67 mrad at 10 K. If a pointing requirement tighter than ~0.3 mrad emerges, apply gradient control (conduction path / isolation)
+      or a thicker bracket section; requirement authority does not exist yet (NOT_ASSESSABLE).'
+  - interface: SOLAR_PANEL_WING_TIP
+    verdict: FUNCTION_RETAINED_ALL_BANDS__LAMINATE_CTE_CHARACTERIZATION_STAYS_HOLD
+    detail: In-plane tip growth <=0.063 mm over the 105 K qualification swing for laminate CTE up to 3e-6/K (assumption grid); two orders below
+      the M6 WP3 hinge stop-driven tip WC (1.745 mm, different DOF, context only). No compensation indicated. Laminate CTE characterization remains
+      WP6/HOLD; fiber value -0.38e-6/K used as reference row only, never as a laminate property.
+retained_holds:
+- HOLD_THERMAL_ENVIRONMENT_AUTHORITY (candidate bands are ASSUMPTION, no on-orbit prediction or test)
+- HOLD_NO_THERMAL_VACUUM_TEST_OR_ON_ORBIT_TEMPERATURE_MEASUREMENT_CLAIM
+- HOLD_BOLT_CTE_GENERIC_REFERENCE_ASSUMPTION (A286/CRES CTE null in M6 library; replace with controlled source before design freeze of preload
+  numbers)
+- HOLD_INITIAL_PRELOAD_AUTHORITY (WP4 TORQUE_PRELOAD_SCHEDULE_V1 sibling not landed)
+- HOLD_HINGE_PIN_AND_BORE_NOMINALS (M6 TC-009; WP5 sibling)
+- HOLD_GRIPPER_RAIL_WIDTH_NOMINAL (rail/slot width stays null; across-gap term reported per mm width)
+- HOLD_CFRP_LAMINATE_CTE_UNKNOWN (assumption grid only; fiber reference never used as laminate property)
+- HOLD_B601_BASE_MATERIAL_UNIDENTIFIED (pattern drift swept over declared assumptions)
+- HOLD_CAMERA_REQUIREMENT_AUTHORITY_ABSENT (proposed mount DEFINED_NOT_MODELLED; no pointing budget)
+- HOLD_LAUNCH_QUALIFICATION_THERMAL_OR_STRUCTURAL (ODR-06 scope; launcher ICD absent)
+- HOLD_CTE_EXTRAPOLATION_BELOW_SOURCE_INTERVAL_ON_COLD_ROWS (constant-CTE analytic model flagged ASSUMPTION)
+sibling_interface_notes:
+- sibling: wp3_tolerance_alloc/TOLERANCE_ALLOCATION_RESULTS_V1.yaml
+  sha256: PENDING_SIBLING_HASH
+  note: Per-K thermal coefficients herein are ready to enter M7 14-chain allocation thermal terms
+- sibling: wp4_fastener_design/TORQUE_PRELOAD_SCHEDULE_V1.csv
+  sha256: PENDING_SIBLING_HASH
+  note: WP8 preload drift (N/K per bolt scenario) must be stacked against WP4 initial preload; residual-preload check deferred to integration
+- sibling: wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml and SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml
+  sha256: PENDING_SIBLING_HASH
+  note: Hinge diametral coefficient (mm/mm-dia/K) awaits authorized pin diameter from WP5
+- sibling: wp7_fea_operational/FEA1_RESULTS_V1.csv
+  sha256: PENDING_SIBLING_HASH
+  note: ODR-06 operational FEA list contains no thermal load case; WP8 analytic envelopes are the design-level thermal evidence for Gate A
+- sibling: wp9_release_package/ICD_V3_DRAFT.yaml
+  sha256: PENDING_SIBLING_HASH
+  note: B601 base material identification and camera pointing budget are integration actions for the ICD draft
+csv_companion:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv
+  sha256: 877FB789062C793ED02F1FE1641F1EF08D0DA60F2A43EE03582BAAA7EA48245A
+  bytes: 262287
+  row_count: 368
+release_prohibitions:
+- NO_FLIGHT_OR_LAUNCHER_OR_QUALIFICATION_CLAIM_FROM_THIS_ENVELOPE
+- NO_THERMAL_TEST_OR_ON_ORBIT_TEMPERATURE_MEASUREMENT_CLAIM
+- NO_ASSUMPTION_BAND_MAY_AUTHORIZE_ENVIRONMENT_CLOSURE
+- NO_GENERIC_REFERENCE_FASTENER_CTE_MAY_BE_PROMOTED_TO_AUTHORITY
+- NO_FIBER_CTE_MAY_BE_APPLIED_AS_A_LAMINATE_PROPERTY
+- NO_ZERO_FILL_OF_UNKNOWN_NOMINALS (rail width, pin diameter, initial preload stay null/pending)
+- DESIGN_LEVEL_RESULTS_ARE_NOT_FLIGHT_QUALIFIED
+source_register:
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/README.md:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/README.md
+    sha256: ABEC61622BF7429CED1B0466FD9BEB5B4D1FE0E53B01275214BA6EAF784824F7
+    bytes: 2592
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+    bytes: 3531
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    sha256: AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B
+    bytes: 4931
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml
+    sha256: 53DD6E9139675D49D1295E20C05832BA3618325E4F0BA6E47EA8FF9361716F50
+    bytes: 33584
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/INTERFACE_STACKUP_B601_M3R_EXECUTED_V1.yaml:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/INTERFACE_STACKUP_B601_M3R_EXECUTED_V1.yaml
+    sha256: 483D75EE43B3214B2C18552991D2E9FB738F16ADF294F8A179AAD25DBEFDDC17
+    bytes: 15674
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/HINGE_DEPLOYMENT_CHAIN_EXECUTED_V1.yaml:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/HINGE_DEPLOYMENT_CHAIN_EXECUTED_V1.yaml
+    sha256: B40F242CF52BD4568D838E0224A61D4BBA69937CDDA372EE8EA6BC5E2AA8B551
+    bytes: 9701
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/GRIPPER_CLEARANCE_SWEEP_VERDICT_V1.yaml:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/GRIPPER_CLEARANCE_SWEEP_VERDICT_V1.yaml
+    sha256: DE037E3147586F1D6D22F10A44941045F9C8A3116289CFB38DD49046B41705B6
+    bytes: 7361
+  20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_DATUMS_V1.yaml:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_DATUMS_V1.yaml
+    sha256: 0F9B413E7B6CD451E2724AD25CA4DA41E52E02C86F1D2874460274EADBAA47A2
+    bytes: 9037
+  ? 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_ADAPTER_INTERFACE_SSOT.yaml
+  : path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_ADAPTER_INTERFACE_SSOT.yaml
+    sha256: 591958F3A3BD06F5BD26B8218BFE145B4894031EC5005BC58C638B56D77F6E51
+    bytes: 3316
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+    sha256: 172F3603E458F670323925E644BC68623EE9C85FCA7AF1200FAE2576EB43C68B
+    bytes: 1246
+  20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/05_tolerance/gripper/GRIPPER_R1_RAIL_PALM_TOLERANCE_MODEL.yaml:
+    path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/05_tolerance/gripper/GRIPPER_R1_RAIL_PALM_TOLERANCE_MODEL.yaml
+    sha256: 14D1D928A101868BC5263ADDA2332005D69D260BDC922FC307F551A3E5199A65
+    bytes: 2066
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json
+    sha256: 07618B5CFE2C2F1D2391B5D845CB82AD7ECFBBCC6371EEADF931289C8F2902D6
+    bytes: 5727
+  20_engineering/config/geometry/flexible_appendage_v1.yaml:
+    path: 20_engineering/config/geometry/flexible_appendage_v1.yaml
+    sha256: 52FA88084C628CE8845E05DE0C0A892BCA5347B7146C8D1C6B99093927153786
+    bytes: 1843

@@ -1,0 +1,68 @@
+# V2.1 工程图登记（B4-0 冻结的交付清单；组织方式借鉴 BIRDS-X 图纸包结构，
+# 见 open_source_feature_adoption_matrix.yaml 对应行；图纸在 B4-1 产出）
+register_id: V2_1_DRAWING_REGISTER
+generated: "2026-07-25"
+numbering_rule: 域前缀-类型-序号（GA=总装 STR=结构 ARM=机械臂接口 SA=太阳翼 MNT=维护 EVD=证据）
+traceability_rule: 每张图登记 源装配/零件、配置、claim_limit；图-模型-清单三向追溯（BIRDS-X 模式）
+
+drawings:
+  GA-001:
+    title: 总装图
+    content: 三视图、包络 340.5×226.3×226.3、坐标系 S/M/A0/F_L/F_R、六配置索引、总装 BOM
+    source_model: Assembly/Spacecraft_Service_Vehicle_V2_1.SLDASM
+    claim_limit: display_profile_only_NON_FLIGHT
+  STR-001:
+    title: 主结构爆炸图
+    content: 端框、四纵梁、三横框、设备甲板、可拆外板分解与装配顺序
+    source_model: Primary_Frame_V2_1.SLDASM
+    claim_limit: topology_and_assembly_order_only_no_fasteners_final
+  STR-002:
+    title: 三舱剖视图
+    content: 前任务舱/中平台舱/后服务舱剖切，volume owner 与甲板/走廊可读
+    source_model: Spacecraft_Service_Vehicle_V2_1.SLDASM (剖切配置)
+    claim_limit: bay_organization_only
+  ARM-ICD-001:
+    title: B601 安装接口控制图
+    content: 法兰 15×160×160、adapter 12×160×160、boss Ø100×15、A0/T_SM、工具空间、线缆通道；符号六维载荷（无数值）
+    source_model: Robot_Mount_Module_V2_1.SLDASM
+    claim_limit: interface_geometry_only_loads_UNKNOWN_NO_STRENGTH_CLAIM
+  SA-ICD-001:
+    title: 太阳翼根部接口控制图（左）
+    content: 根部支座、铰链轴线、机械止挡、线缆跨越区、与横框衔接
+    source_model: Solar_Array_Root_Module_Left.SLDASM
+    claim_limit: hinge_axis_reference_only_shaft_bearing_spring_UNKNOWN
+  SA-ICD-002:
+    title: 太阳翼根部接口控制图（右）
+    content: 同 SA-ICD-001 镜像（独立对象身份）
+    source_model: Solar_Array_Root_Module_Right.SLDASM
+    claim_limit: 同 SA-ICD-001
+  SA-PRT-001:
+    title: 太阳翼板零件图
+    content: 基板 200×227×6、太阳电池区 reference、安装孔、边缘 keepout
+    source_model: Solar_Wing_*_V2_1/Solar_Panel_Substrate
+    claim_limit: substrate_display_dims_cell_layout_and_layup_UNKNOWN
+  SA-STOW-001:
+    title: 收拢包络图
+    content: PANEL_STOWED_PROPOSAL 配置边界（项目配置边界，不声称发射合规）
+    source_model: Spacecraft_Service_Vehicle_V2_1.SLDASM @STOWED
+    claim_limit: project_configuration_boundary_only_NO_LAUNCH_COMPLIANCE
+  SA-SWEEP-001:
+    title: 展开扫掠图
+    content: 展开扫掠面 vs B601 q0 工作空间、任务面、天线/外板 keepout；含单翼失败扫掠
+    source_model: Sweep_Keepout_Surface + B601 q0 包络
+    claim_limit: geometric_sweep_reference_only_no_deployment_dynamics
+  MNT-001:
+    title: 维修性图
+    content: 面板拆除序列、设备托盘抽取、铰链访问、线束维修通道
+    source_model: Harness_and_Service_References.SLDASM + SERVICE_ACCESS 配置
+    claim_limit: review_responsibility_only_no_tool_size_no_reachability_proof
+  EVD-001:
+    title: 状态与证据图
+    content: EVIDENCE_BOUND / DESIGN_PROPOSAL / UNKNOWN / EXCLUDED 全对象着色总览
+    source_model: Evidence_and_Keepout_Overlays.SLDASM
+    claim_limit: evidence_state_map_only
+
+fastener_register:
+  file: v2_1_fastener_register.csv (B4-1 产出)
+  rule: BIRDS-X 螺钉清单模式；B4-1 仅登记位置与规格占位，预紧/扭矩 UNKNOWN
+exploded_views_rule: 爆炸图不当作维护可达性证明（沿用 V2.0 治理）

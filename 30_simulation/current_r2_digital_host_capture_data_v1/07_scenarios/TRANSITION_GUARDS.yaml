@@ -1,0 +1,14 @@
+schema: TRANSITION_GUARDS_V1
+guards:
+  G_INPUT_HASH: {check: "INPUT_HASHES.csv 全行 verify_file_sha256", on_fail: {status: MISMATCH, decision: ABORT}}
+  G_UNIT: {check: "assert_si_plausible_arm_model + assert_joint_limits_plausible_rad", on_fail: {status: MISMATCH, decision: ABORT}}
+  G_FRAME: {check: "frame graph 状态 ∈ {ACCEPTED, NOMINAL}（本场景消费的链）", on_fail: {status: UNKNOWN, decision: ABORT}}
+  G_T_E_T: {check: "scope=CONTACT_* 时 T_E_T=VERIFIED 回执", on_fail: {status: MISSING, decision: ABORT, note: "C08/C09 保持 NOT_EVALUATED"}}
+  G_COLLISION: {check: "scope 含路径评价时全部 pair 状态 != UNKNOWN", on_fail: {decision: ABORT}}
+  G_M01_CERT: {check: "运动场景引用连续证书（递归边细分+时间律+哈希）", on_fail: {decision: ABORT, note: "离散采样不算证书"}}
+  G_SOLVER: {check: "isfinite(state) 且 |ω_base|<1e3 rad/s", on_fail: {exception: SolverNonConvergence, decision: ABORT}}
+  G_STALE: {check: "测量龄 <= 2.0 s", on_soft_fail: WAIT, on_hard_fail: ABORT}
+  G_FEASIBILITY_VETO: {check: "150kg@3dps 请求非 ABORT 动作需 FEASIBILITY_PASS", on_fail: {decision: ABORT, reason: MISSION_VETO_INFEASIBLE_RATE, anchor: "sim_10 w_plus=3.0633304945807067 dps INFEASIBLE_RATE；与 sim_13 NC20 同口径"}}
+  G_WHEEL: {check: "轮组动量裕度声明口径(h_C)且不饱和", on_fail: {status: MISMATCH, decision: ABORT}}
+evaluation_order: [G_INPUT_HASH, G_UNIT, G_FRAME, G_T_E_T, G_COLLISION, G_M01_CERT, G_FEASIBILITY_VETO, G_WHEEL, G_STALE, G_SOLVER]
+principle: "任一 guard 产生 MISSING/UNKNOWN/MISMATCH/NOT_EVALUATED → 不可达 EXECUTE；PROVISIONAL 只在场景显式豁免下达 MODIFY 上限"

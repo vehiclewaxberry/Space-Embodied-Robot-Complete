@@ -1,0 +1,151 @@
+{
+  "schema": "ROUTE_C_V9F_MANDATORY_M01_FALSIFIER_GATE_V1",
+  "generated_utc": "DETERMINISTIC_INTEGRATIVE_RULING_NO_WALLCLOCK",
+  "authority": "NEGATIVE_ONLY_EARLY_FALSIFIER_GATE__CANNOT_ISSUE_PASS_OR_RELEASE_CREDIT",
+  "scope": "V9F under the current frozen M01 straight-q interpolation used by the Route-C evaluator",
+  "input_pins": {
+    "odr_58_record": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR-58_RECORD.json",
+      "sha256": "67374EA72CD6B39912CF1291E67CD9FD2780BAE5E0B50619847C50681A5878EE"
+    },
+    "fallback_authority_binding": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_V9F_FALLBACK_AUTHORITY_BINDING.json",
+      "sha256": "6C49A1604F15FD7E338F6019EBB34E39341683DDC4611B5237B53ECC990F7F7D"
+    },
+    "v9_input_manifest": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_V9_INPUT_MANIFEST.json",
+      "sha256": "24B9E2BFB21930E44945C0BA979351CFB9EB23358755D1018FCC4602CDED7E7C"
+    },
+    "build_receipt": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/B601_ROUTE_C_BUILD_RECEIPT_V9F.json",
+      "sha256": "8B6C877AF2B2397102D87381F35BE8D78151DF1E97B57A1C45FE4C8972D153FC"
+    },
+    "centerline": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/B601_ROUTE_C_HARNESS_CENTERLINE_V9F.json",
+      "sha256": "177B6C5B8E5640018220D9C6E29ACBD6A8E900E573B560D28462B4614AEDBFFB"
+    },
+    "mesh_manifest": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_SWEEP_MESH_PACK_V9F/MANIFEST.json",
+      "sha256": "A90123580F73A7FF2DCE3F7A5BDB31DC31A1741D69A3CBFE837CB4DB53A00F25"
+    },
+    "mission_contract": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/04_mission/B601_MANDATORY_MISSION_TRAJECTORY_CONTRACT_V1.yaml",
+      "sha256": "C06A40DE171F0517ACB34CCC14C918A9A4252F7B55A425B2CBAC95229B44A98A"
+    },
+    "reference_evaluator": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/_work/v9f_evaluator_pre_redteam_fix/ROUTE_C_EXACT_SWEEP_V9F_PRE_PERFORMANCE_REFERENCE.py",
+      "sha256": "46732BB71605E6EE52488C6324FB47E5E7C009490A3E94F49DE95EC2B0DF6244"
+    },
+    "p0_evaluator": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_EXACT_SWEEP_V9F.py",
+      "sha256": "9F26AC9A8DE5E2EEB57103F07B769EB43AC30A8FBAFD90FE8DF5D501FA8C8A7F"
+    },
+    "single_pose_three_way_evidence": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/_work/v9f_p1_candidate/REFERENCE_VS_P0_SINGLE_POSE_BENCHMARK_V2.json",
+      "sha256": "8B49A56630D57563F8499FE460F3ED7A8470E223AFDEC1A2F62552677EEED93F"
+    },
+    "independent_review": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/_work/v9f_p1_candidate/REFERENCE_VS_P0_SINGLE_POSE_BENCHMARK_V2_REVIEW.json",
+      "sha256": "1EDB83753BBB4D3A74FF4A9F746C113F57E39117F3B4E6C15E852932CEB9F06B"
+    }
+  },
+  "falsifier_logic": {
+    "predicate": "Every evaluated pose on each required current mission segment must have gated clearance >= 0 mm; UNKNOWN never passes.",
+    "negative_only_rule": "One reproducible required-segment pose with raw or gated clearance < 0 mm is sufficient to reject the current candidate/trajectory contract. A finite set of passing poses would not be sufficient to issue PASS.",
+    "raw_penetration_prevents_margin_only_explanation": true,
+    "full_sweep_required_to_confirm_this_failure": false,
+    "full_sweep_required_to_issue_any_future_pass": true
+  },
+  "witness": {
+    "segment": "M01",
+    "segment_from": "STOW",
+    "segment_to": "RELEASE_CLEAR",
+    "segment_purpose": "ARM_RELEASE",
+    "segment_contract_status": "UNKNOWN",
+    "segment_trajectory_authority": "MISSING",
+    "evaluated_path_model": "CURRENT_ROUTE_C_EVALUATOR_STRAIGHT_Q_INTERPOLATION",
+    "fraction": 0.5,
+    "q_rad": [
+      0.48495749999999993,
+      -2.513274,
+      -1.5446165,
+      -0.8826395,
+      -0.44465750000000004,
+      -0.02618
+    ],
+    "q_bytes_sha256": "CBAA4849D7C3DB6FBF8CF642942328C286FDA5D055491EEC58C7D2C937879FBB",
+    "result_fingerprint_sha256": "607BEF54C51C31A1C66619AE0A02026094C376942D47F659DCAB194DBB57A538",
+    "strict_equivalence": {
+      "reference_equals_new_p0": true,
+      "new_p0_replays_existing_p0": true,
+      "nodes_compared": 43,
+      "binary64_values_compared": 19,
+      "mismatch_count": 0
+    },
+    "collision": {
+      "segment": "SEG-04_J4_CHAINLESS_TROMBONE_EXTERNAL_ANNULAR_FOLLOWER",
+      "section_index": 6,
+      "section_semantics": "LINK4_ONLY_DOWNSTREAM_CONDUIT_AFTER_EXTERNAL_ANNULAR_FOLLOWER",
+      "cable_host": "link4",
+      "obstacle_field": "vendor:link3",
+      "alternate_attachment": false,
+      "point_A0_q0_mm": [-100.0, -19.52525939573458, 313.01335907110507],
+      "raw_clearance_mm": -10.729480331980062,
+      "derate_mm": 6.583916664717045,
+      "gated_clearance_mm": -17.313396996697108,
+      "raw_physical_penetration": true
+    },
+    "comparison_counts": {
+      "vendor": 1249,
+      "route_c_hardware": 3541,
+      "bus": 72,
+      "gripper": 286,
+      "solar": 0,
+      "total": 5148
+    },
+    "j4_internal_mechanism_at_witness": {
+      "dynamic_exchange_length_residual_mm": 2.2737367544323206e-13,
+      "follower_closure_residual_mm": 3.4663344297953113e-10,
+      "dynamic_min_bend_radius_mm": 55.0,
+      "stage_overlap_mm": 47.71586208333333,
+      "hard_stop_margin_mm": 29.85241375000001,
+      "annulus_guide_margin_rad": 0.42715376579064346,
+      "within_q4_hardware_limits": true,
+      "interpretation": "The falsifier is external Link4-bundle versus Link3-body interference, not failure of the analytic J4 length-exchange identity or local travel limits."
+    }
+  },
+  "scope_boundary": {
+    "proven": "V9F cannot pass the current Route-C mission coverage contract/evaluator because its current M01 evaluated path contains physical penetration.",
+    "not_proven": [
+      "No collision-free alternative 6-DOF path exists between STOW and RELEASE_CLEAR.",
+      "Every possible passive external dress-pack architecture is physically impossible.",
+      "Vendor internal routing or slip-ring integration is impossible.",
+      "A mission-domain reduction is acceptable."
+    ],
+    "alternative_trajectory_search": "NOT_AUTHORIZED_OR_EXECUTED__M01_TRAJECTORY_AUTHORITY_IS_MISSING",
+    "architecture_infeasibility_proven": false
+  },
+  "bounded_loop_accounting": {
+    "primary_architecture_candidates_used": 1,
+    "same_architecture_repairs_used": 1,
+    "technically_distinct_fallbacks_used": 1,
+    "remaining_authorized_geometry_candidates": 0,
+    "additional_waypoint_or_geometry_tuning_authorized": false
+  },
+  "candidate_disposition": "REJECTED_UNDER_CURRENT_FROZEN_MANDATORY_M01_EVALUATION",
+  "route_c_formal_pass": false,
+  "route_c_full_mission_gate_emitted": false,
+  "tmg2_reopen": "NOT_REACHED__ROUTE_C_NEGATIVE_FALSIFIER",
+  "unified_r2_rebind": "NOT_AUTHORIZED",
+  "mechanical_to_embodied_handoff": "NOT_AUTHORIZED__REMAINS_NOT_12_OF_12",
+  "sim13": "NOT_AUTHORIZED_BY_MECHANICAL_CHAIN",
+  "owner_architecture_choices": [
+    "KEEP_ROUTE_C_TMG4_AND_MECHANICAL_RELEASE_ON_HOLD",
+    "AUTHORIZE_A_NEW_MISSION_TRAJECTORY_OR_MISSION_DOMAIN_DECISION_WITHOUT_REUSING_THIS_AS_A_PASS",
+    "AUTHORIZE_VENDOR_INTERNAL_ROUTING_OR_SLIP_RING_ARCHITECTURE_CHANGE"
+  ],
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false,
+  "verdict": "V9F_REJECTED_BY_EXACT_EQUIVALENT_RAW_PENETRATION_WITNESS_ON_CURRENT_M01_PATH__GEOMETRY_BUDGET_EXHAUSTED__NO_RELEASE_CREDIT"
+}

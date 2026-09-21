@@ -1,0 +1,115 @@
+schema: STRUCTURAL_ENTRY_SUBGATE_EVIDENCE_MAP_V1
+generated_local: '2026-08-21T20:35:00+08:00'
+phase: M6_CANDIDATE_AUTHORITY_CLOSURE
+work_package: WP5_STRUCTURAL_ENTRY
+status: DRAFT_PRE_AUTHORITY
+formal_fea_run_count: 0
+
+mapping_rule: >-
+  Each M5 structural-entry mandatory subgate is mapped to existing baseline
+  evidence and to new evidence produced in this WP. Subgate states are NOT
+  changed by this map: every subgate remains HOLD. This file is an evidence
+  pointer index, not a gate decision.
+
+subgate_map:
+  - subgate: controlled_structural_geometry
+    m5_status: HOLD_SPACECRAFT_LOAD_BRIDGE_AND_JOINT_DETAILS
+    status_this_wp: HOLD
+    existing_evidence:
+      - 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/B601_CAD_MESH_FRAME_DECISION_V1.json
+      - 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/
+      - 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/BOUNDARY_CONDITION_AUTHORITY.json (BC-M3R-001 geometry mapped)
+    new_evidence_this_wp:
+      - wp5_structural_entry/FEA1_M3R_INTERFACE_MODEL_PLAN_V1.yaml (geometry domain boundary draft, exclusions and HOLDs explicit)
+    open_hold_items: [spacecraft load bridge geometry, legacy flange x 170.25-185.25 mm ownership, bus-side structural domain, joint detail authority]
+
+  - subgate: load_cases_and_factors
+    m5_status: HOLD_NO_FLIGHT_OR_PHYSICAL_CONTACT_LOAD_AUTHORITY
+    status_this_wp: HOLD
+    existing_evidence:
+      - 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/AUTHORIZED_MECHANICAL_LOADS_V1.yaml (19 load families, most HOLD)
+      - 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_CASE_MATRIX.csv (21 cases)
+      - 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_COMBINATION_MATRIX.csv (13 combinations, all HOLD)
+      - 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/DERIVED_CAPTURE_LOAD_ENVELOPE_V1.csv (DERIVED, not structural authority)
+    new_evidence_this_wp:
+      - wp5_structural_entry/FEA2_B601_MODEL_PLAN_V1.yaml (four operational cases mapped to LC-010/011/013/014/015 with claim limits)
+    open_hold_items: [launcher ICD, approved combination factors, stop law, contact force-time authority, capture dispersion authority]
+
+  - subgate: boundary_conditions
+    m5_status: HOLD_REJECTED_M_FRAME_REPLACEMENT_TRANSFORM_NULL
+    status_this_wp: HOLD
+    existing_evidence:
+      - 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/BOUNDARY_CONDITION_AUTHORITY.json (9 boundaries, verdict NOT_READY)
+    new_evidence_this_wp:
+      - wp5_structural_entry/FEA1_M3R_INTERFACE_MODEL_PLAN_V1.yaml (boundary_conditions draft honoring CDR modeling constraints)
+    open_hold_items: [M-frame replacement transform null, bus-side stiffness null, launcher/separation interface frames null]
+
+  - subgate: contact_and_fastener_definition
+    m5_status: HOLD_PHYSICAL_PARAMETERS_NULL
+    status_this_wp: HOLD
+    existing_evidence:
+      - 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/04_joint_load_model/M5_ANALYTIC_JOINT_LOAD_MODEL_V1.yaml
+      - 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/04_joint_load_model/M5_FASTENER_GROUP_INFLUENCE_MATRIX_V1.csv
+    new_evidence_this_wp:
+      - wp5_structural_entry/FASTENER_GROUP_ANALYTIC_UNIT_LOAD_V1.csv (4x HM4-75 unit-load distribution, 24 responses)
+      - wp5_structural_entry/FASTENER_GROUP_ANALYTIC_NOTE_V1.yaml (assumptions and prohibited uses declared)
+      - wp5_structural_entry/FEA1_M3R_INTERFACE_MODEL_PLAN_V1.yaml (contact pair list, all HOLD)
+    open_hold_items: [preload null, friction null, contact definition null, clearance null]
+
+  - subgate: material_allowables
+    m5_status: HOLD_PROCUREMENT_TEMPERATURE_AND_STATISTICAL_BASIS
+    status_this_wp: HOLD
+    existing_evidence:
+      - 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/04_material_database/PROTOTYPE_MATERIAL_LIBRARY_V1.yaml (candidate class)
+    new_evidence_this_wp: []
+    sibling_wp_pointer: wp4_materials/ (parallel WP, candidate library V2; not verified at WP5 generation time)
+    open_hold_items: [procurement basis, temperature dependence, statistical allowable basis]
+
+  - subgate: configuration_mass_properties
+    m5_status: HOLD_0_OF_9_RELEASED
+    status_this_wp: HOLD
+    existing_evidence:
+      - 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/SYSTEM_MASS_PROPERTIES_V3.yaml
+      - 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/CONFIGURATION_LIBRARY_V1.yaml
+    new_evidence_this_wp: []
+    sibling_wp_pointer: wp2_mass_properties/ (parallel WP, diagnostic 9-configuration aggregation; not verified at WP5 generation time)
+    open_hold_items: [0 of 9 configurations released, bus/panel inertia authority incomplete (LG-018)]
+
+  - subgate: mesh_convergence_and_quality_plan
+    m5_status: PENDING_CONTROLLED_MODEL_SCOPE
+    status_this_wp: HOLD
+    existing_evidence:
+      - 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/07_structural_model/STRUCTURAL_MODEL_PLAN_V1.yaml
+    new_evidence_this_wp:
+      - wp5_structural_entry/FEA1_M3R_INTERFACE_MODEL_PLAN_V1.yaml (mesh convergence plan draft)
+      - wp5_structural_entry/FEA2_B601_MODEL_PLAN_V1.yaml (mesh convergence plan draft)
+      - wp5_structural_entry/FEA3_SYSTEM_MODAL_MODEL_PLAN_V1.yaml (mesh convergence plan draft)
+    open_hold_items: [element types/sizes/criteria are DRAFT_PRE_AUTHORITY; no approved quality metrics]
+
+  - subgate: acceptance_criteria
+    m5_status: HOLD_PROJECT_TAILORING_AND_OWNER_APPROVAL
+    status_this_wp: HOLD
+    existing_evidence: []
+    new_evidence_this_wp:
+      - wp5_structural_entry/FEA1_M3R_INTERFACE_MODEL_PLAN_V1.yaml (acceptance criteria draft skeleton, values null)
+      - wp5_structural_entry/FEA2_B601_MODEL_PLAN_V1.yaml (acceptance criteria draft skeleton, values null)
+      - wp5_structural_entry/FEA3_SYSTEM_MODAL_MODEL_PLAN_V1.yaml (acceptance criteria draft skeleton, values null)
+    open_hold_items: [project tailoring record absent, owner approval absent, all criteria values null]
+
+source_register:
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/07_structural_model/STRUCTURAL_ANALYSIS_ENTRY_GATE.json
+    sha256: 04c6c66623fa867a17ee964c69574364840949224d1e19ed07a8f7e36fac8473
+  - path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/06_structural_entry/M5_STRUCTURAL_ANALYSIS_ENTRY_GATE_V1.json
+    sha256: bb8c7587ceac182ad3f15eae887e43497fba5c99c8425a41f1fffd36cd00b5d5
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/AUTHORIZED_MECHANICAL_LOADS_V1.yaml
+    sha256: 82e331239d6eb86ee4b617145022e62133f5d837403119cdad2add83bcb78797
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_CASE_MATRIX.csv
+    sha256: cc37f1dfab7bb5be219c7df78f2276ce605475f8990e50101502fcc4f521eee5
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_COMBINATION_MATRIX.csv
+    sha256: a2f60430fb7b6223e67c71234fa66637613dc31857c72d1cf45df1f82289cb6c
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/BOUNDARY_CONDITION_AUTHORITY.json
+    sha256: 4d936f4278c728243a088703e84bd421149a95780658755d05ed7cea13121de4
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_SOURCE_GAP_REGISTER.csv
+    sha256: a2108a335458da1dc87a845d8b25526ed6db2fe373b289c9e238c23c289d2414
+
+disposition: ALL_SUBGATES_REMAIN_HOLD_NO_FEA_AUTHORIZED

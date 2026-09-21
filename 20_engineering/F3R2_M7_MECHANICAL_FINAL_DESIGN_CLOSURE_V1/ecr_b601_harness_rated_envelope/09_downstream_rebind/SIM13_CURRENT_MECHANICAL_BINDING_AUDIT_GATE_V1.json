@@ -1,0 +1,192 @@
+{
+  "schema": "SIM13_CURRENT_MECHANICAL_BINDING_AUDIT_GATE_V1",
+  "generated_from_latest_bound_evidence": "2026-08-23T11:22:00.413552+08:00",
+  "authority_scope": "READ_ONLY_DOWNSTREAM_REBIND_AUDIT",
+  "baseline_mutation_authorized": false,
+  "input_manifest": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/09_downstream_rebind/SIM13_CURRENT_BINDING_AUDIT_INPUT_MANIFEST_V1.json",
+    "sha256": "AB1FD812A4BAAA57CBCA7543F1AB49001BC14EFB1C9705180593C5F38F5E37DC",
+    "input_count": 10
+  },
+  "observations": [
+    {
+      "id": "A01",
+      "name": "INPUTS_HASH_BOUND",
+      "observed": true,
+      "evidence": {
+        "input_count": 10
+      }
+    },
+    {
+      "id": "A02",
+      "name": "M7_TERMINAL_EVIDENCE_NEWER_THAN_SIM13_HISTORY",
+      "observed": true,
+      "evidence": {
+        "m7_terminal_generated_local": "2026-08-23T11:22:00.413552+08:00",
+        "sim13_receipt_validated_at": "2026-08-21T00:33:15+08:00",
+        "sim13_bootstrap_generated_at": "2026-08-21T00:33:20+08:00"
+      }
+    },
+    {
+      "id": "A03",
+      "name": "M7_ROUTE_B_REJECTED",
+      "observed": true,
+      "evidence": {
+        "route_b": "REJECTED"
+      }
+    },
+    {
+      "id": "A04",
+      "name": "M7_MECHANICAL_DESIGN_NOT_RELEASED",
+      "observed": true,
+      "evidence": {
+        "mechanical_design": "NOT_RELEASED"
+      }
+    },
+    {
+      "id": "A05",
+      "name": "M7_NEXT_STAGE_NOT_AUTHORIZED",
+      "observed": true,
+      "evidence": {
+        "next_stage_authorized": false
+      }
+    },
+    {
+      "id": "A06",
+      "name": "M7_MISSION_COVERAGE_FAILED",
+      "observed": true,
+      "evidence": {
+        "mandatory_states": 10,
+        "mandatory_states_safe": 0,
+        "released_trajectories": 0,
+        "required_trajectories": 8
+      }
+    },
+    {
+      "id": "A07",
+      "name": "M7_HANDOFF_FAILED_AT_G12",
+      "observed": true,
+      "evidence": {
+        "passed": 11,
+        "total": 12,
+        "failing_checks": [
+          "G12"
+        ]
+      }
+    },
+    {
+      "id": "A08",
+      "name": "SIM13_CONFIG_STILL_BINDS_V1",
+      "observed": true,
+      "evidence": {
+        "mechanical_interface_path": "../../../20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MECH_RL_INTERFACE_V1.yaml"
+      }
+    },
+    {
+      "id": "A09",
+      "name": "SIM13_HISTORICAL_RECEIPT_BINDS_SAME_V1",
+      "observed": true,
+      "evidence": {
+        "production_interface_path": "../../../20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MECH_RL_INTERFACE_V1.yaml",
+        "interface_schema_version": "MECH_RL_INTERFACE_V1",
+        "historical_production_binding_passed": true
+      }
+    },
+    {
+      "id": "A10",
+      "name": "SIM13_LOADER_HARD_CODES_V1_SCHEMA_AND_FILENAME",
+      "observed": true,
+      "evidence": {
+        "loader_schema_constant": "MECH_RL_INTERFACE_V1",
+        "required_filename_literal_present": true
+      }
+    },
+    {
+      "id": "A11",
+      "name": "SIM13_RUNTIME_SAFETY_SNAPSHOT_HAS_NO_HARNESS_GATE",
+      "observed": true,
+      "evidence": {
+        "runtime_gate_count": 8,
+        "runtime_gate_fields": [
+          "ik_reachable",
+          "external_collision_clear",
+          "keep_out_clear",
+          "sim10_gate",
+          "safe00_state",
+          "post_grasp_stability_gate",
+          "gripper_configuration_accepted",
+          "target_surface_normal_valid"
+        ],
+        "harness_gate_fields": []
+      }
+    },
+    {
+      "id": "A12",
+      "name": "SIM13_BACKEND_IS_KINEMATIC_AND_DOES_NOT_UPDATE_COLLISION",
+      "observed": true,
+      "evidence": {
+        "scope": "KINEMATIC_BOOTSTRAP_NOT_CONTACT_OR_TRAINING_PHYSICS",
+        "reset_collision_detected_false": true,
+        "step_replace_keywords": [
+          "last_strategy_id",
+          "simulation_time_s",
+          "target_relative_quaternion_xyzw",
+          "task_phase"
+        ],
+        "step_updates_any_robot_or_collision_state": false
+      }
+    },
+    {
+      "id": "A13",
+      "name": "M7_G12_RUNTIME_BINDING_TERM_IS_ONLY_STRING_HEURISTIC",
+      "observed": true,
+      "evidence": {
+        "g12_reported_term": true,
+        "builder_expression": "\"harness\" in contract[\"rl_action_mask\"].lower()",
+        "runtime_action_mask_source_was_not_consumed_by_g12": true
+      }
+    },
+    {
+      "id": "A14",
+      "name": "HISTORICAL_BOOTSTRAP_ALREADY_LIMITED_TO_KINEMATIC_SCOPE",
+      "observed": true,
+      "evidence": {
+        "gate_status": "SIM13_ENVIRONMENT_BOOTSTRAP_PASS",
+        "scope": "DETERMINISTIC_KINEMATIC_BOOTSTRAP_NOT_CONTACT_PHYSICS_OR_TRAINING",
+        "next_stage_authorized": false
+      }
+    }
+  ],
+  "observation_count": 14,
+  "observations_confirmed": 14,
+  "observations_unconfirmed": [],
+  "historical_evidence_disposition": {
+    "sim13_production_binding_receipt_preserved": true,
+    "sim13_environment_bootstrap_gate_preserved": true,
+    "historical_bootstrap_result": "SIM13_ENVIRONMENT_BOOTSTRAP_PASS",
+    "historical_scope_remains_valid": "KINEMATIC_BOOTSTRAP_ONLY",
+    "historical_evidence_not_rewritten": true
+  },
+  "current_authority": {
+    "mechanical_release": false,
+    "production_dynamics_ready": false,
+    "physical_contact_ready": false,
+    "physics_gated_rl_ready": false,
+    "hardware_motion_ready": false,
+    "diagnostic_kinematic_bootstrap_only": true,
+    "abort_always_available": true
+  },
+  "verdict": "CURRENT_SIM13_PRODUCTION_MECHANICAL_BINDING_INVALIDATED_BY_NEWER_M7_EVIDENCE",
+  "verdict_issued": true,
+  "required_action": "ABORT_OR_DIAGNOSTIC_KINEMATIC_BOOTSTRAP_ONLY_UNTIL_ROUTE_C_AND_RUNTIME_REBIND_PASS",
+  "reentry_requirements": [
+    "Route C detailed design is authorized, realized and passes its exact harness predicate",
+    "mandatory mission states and complete trajectories obtain released harness authority",
+    "a new interface version is hash-bound and consumed by the Sim13 loader",
+    "SafetyGateSnapshot contains a fail-closed runtime harness state",
+    "runtime negative controls prove harness FAIL and UNKNOWN mask every non-ABORT action",
+    "a separate contact-physics/production-dynamics gate is passed"
+  ],
+  "next_stage_authorized": false,
+  "prohibition": "do not use the historical V1 receipt as current production/contact/RL mechanical authority"
+}

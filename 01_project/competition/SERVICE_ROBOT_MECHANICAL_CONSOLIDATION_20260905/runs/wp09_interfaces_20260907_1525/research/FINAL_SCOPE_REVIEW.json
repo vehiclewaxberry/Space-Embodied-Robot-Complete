@@ -1,0 +1,171 @@
+{
+  "schema": "SEI_FINAL_SCOPE_REVIEW_V1",
+  "date": "2026-09-07",
+  "reviewer": "independent propulsion/electrical source checker",
+  "status": "PASS_SCOPE_AND_ARITHMETIC_ONLY",
+  "review_scope": "Read-only inspection of four requested delivery files against official selection record and bounded scalar arithmetic. Only this new review JSON is written.",
+  "reviewed_files": [
+    {
+      "path": "ecad/SELECTED_DM_ARCHITECTURE.json",
+      "sha256": "32f16e14288ec7fb9019fda3ff8e78428617172ff1f90e4526d03f66cda0d1a5"
+    },
+    {
+      "path": "ecad/DM_SELECTED_FROM_TO.csv",
+      "sha256": "ca379481ad2daa7a0a6128a390b62b51a5a436afadeb5c17efb37d484e15980d"
+    },
+    {
+      "path": "docs/SELECTED_DM_ARCHITECTURE_ZH.md",
+      "sha256": "6b4d7fe3e068ce3faf19b0056ca36badbede6d9c10c7f239c9fb0fa5f4eac684"
+    },
+    {
+      "path": "results/PROPULSION_CAPABILITY_BOUNDS.json",
+      "sha256": "29ef8cdef8436c7eef090ec86b924d30bd9bbba6b50285ec9e849c5bedc361f1"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "research/FINAL_SELECTION_DM.json",
+      "sha256": "eae20403e0f821868c289e115d6924160a5f57db78655f722ddd9ce58396375d"
+    },
+    {
+      "path": "results/EMISSION_V6.json",
+      "sha256": "96991cdd219a7dbc85804b463a79e88073cb259ed74774017ed535d5501067cd"
+    }
+  ],
+  "checks": [
+    {
+      "id": "C01_SELECTION_HASH",
+      "result": "PASS",
+      "detail": "Architecture binds actual FINAL_SELECTION_DM.json bytes."
+    },
+    {
+      "id": "C02_DM_PSU_NOT_PEAK",
+      "result": "PASS",
+      "detail": "24 V 15 A is the Seeed DM setup PSU reference; actual arm task peak remains unmeasured."
+    },
+    {
+      "id": "C03_RSP_RATING_EXTERNAL",
+      "result": "PASS",
+      "detail": "RSP-500-24 is external ground support. No onboard or flight credit."
+    },
+    {
+      "id": "C04_TB2_POLARITY_GROUP",
+      "result": "PASS",
+      "detail": "Matches official RSP PDF p.3; selected individual terminals remain blank; CN100 excluded from main current."
+    },
+    {
+      "id": "C05_BPX_LIMIT_NOT_STACK_CAPACITY",
+      "result": "PASS",
+      "detail": "6 A remains the battery public module limit, not an available whole-EPS allocation. Complete Dock option and shared-load limits are unclosed; no arm load assigned here."
+    },
+    {
+      "id": "C06_I7C_NOT_CURRENT_PATH",
+      "result": "PASS",
+      "detail": "Two i7C-PC3 modules remain future integration reference, not BPX-powered 15 A arm path."
+    },
+    {
+      "id": "C07_NULLS_PRESERVED",
+      "result": "PASS",
+      "detail": "Destination contacts, cable gauge, cut lengths, grounding/isolation and regeneration are unknown, not zero or complete."
+    },
+    {
+      "id": "C08_CSV_SHAPE",
+      "result": "PASS",
+      "detail": "4 rows, each with 12 columns; two power nets and two CAN signal nets."
+    },
+    {
+      "id": "C09_PROTOCOLS_SEPARATED",
+      "result": "PASS",
+      "detail": "DM CAN and legacy MiPS RS-422 are separated; no physical pin inferred from CAN address or family name."
+    },
+    {
+      "id": "C10_OLD_IMPULSE_MINIMUM_ARM",
+      "result": "PASS",
+      "detail": "3.65 N m s / 44 N s = 0.0829545454545 m. This is an ideal necessary scalar bound, not the spacecraft actual lever arm."
+    },
+    {
+      "id": "C11_SCALAR_CASE_ARITHMETIC",
+      "result": "PASS",
+      "detail": "All 4 cases reproduce r*44, r*5*0.01 and 3.65/tau in m, N s, N, s. No 82 N s or 25 mN substitution found."
+    },
+    {
+      "id": "C12_SCALAR_SCOPE",
+      "result": "PASS",
+      "detail": "Optimistic all-jet torque/time arithmetic is not a demonstrated simultaneous firing capability, actual wrench, translation cancellation or mission-time guarantee."
+    },
+    {
+      "id": "C13_NO_RELEASE",
+      "result": "PASS",
+      "detail": "No hardware, fabrication, flight, dynamics or scientific-Gate completion invented."
+    },
+    {
+      "id": "C14_GEOMETRY_COUNT_AND_LINK",
+      "result": "PASS",
+      "detail": "Document count 82 matches EMISSION_V6 parts. This verifies count only, not geometry/assembly validity; linked selection document exists."
+    }
+  ],
+  "case_recalculation": [
+    {
+      "r_m": 0.05,
+      "impulse_Nms": 2.2,
+      "torque_Nm": 0.0025,
+      "time_s": 1460.0,
+      "formula_match": true,
+      "necessary_inequality_match": true
+    },
+    {
+      "r_m": 0.1,
+      "impulse_Nms": 4.4,
+      "torque_Nm": 0.005,
+      "time_s": 730.0,
+      "formula_match": true,
+      "necessary_inequality_match": true
+    },
+    {
+      "r_m": 0.2,
+      "impulse_Nms": 8.8,
+      "torque_Nm": 0.01,
+      "time_s": 365.0,
+      "formula_match": true,
+      "necessary_inequality_match": true
+    },
+    {
+      "r_m": 0.3,
+      "impulse_Nms": 13.2,
+      "torque_Nm": 0.015,
+      "time_s": 243.33333333333334,
+      "formula_match": true,
+      "necessary_inequality_match": true
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_observations": [
+    {
+      "id": "O01",
+      "file": "results/PROPULSION_CAPABILITY_BOUNDS.json",
+      "recommendation": "For self-contained future machine consumption, consider adding explicit reference_part=X14029003-1, total_impulse_Ns=44, nozzle_count=5, individual_reference_thrust_N=0.01 and source hash. Current old-model binding is conveyed in notes and surrounding selected architecture; numerical values correctly reproduce the old source.",
+      "reason": "Provenance and assumptions are easier to audit when encoded as inputs; no present mixed-generation numerical error found."
+    },
+    {
+      "id": "O02",
+      "file": "results/PROPULSION_CAPABILITY_BOUNDS.json",
+      "recommendation": "When presenting the ideal time bound, always retain that five reference thrusts were summed optimistically and that joint firing/manifold capability and vector alignment are not established.",
+      "reason": "Current scalar-only status and unknown wrench correctly withhold mission capability; a downstream chart must not lose these qualifications."
+    }
+  ],
+  "no_claim_credit": {
+    "electrical_harness_complete": false,
+    "hardware_energization": false,
+    "geometry_validation_by_this_review": false,
+    "pressure_system_release": false,
+    "mission_detumbling_proof": false,
+    "flight_release": false
+  },
+  "counts": {
+    "checks": 14,
+    "pass": 14,
+    "fail": 0,
+    "blocking_findings": 0,
+    "nonblocking_observations": 2
+  }
+}

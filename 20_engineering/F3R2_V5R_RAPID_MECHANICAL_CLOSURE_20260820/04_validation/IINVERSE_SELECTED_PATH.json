@@ -1,0 +1,124 @@
+{
+  "schema": "V5R_IINVERSE_SELECTED_PATH_V1",
+  "generated_utc": "2026-08-20T15:03:53.9111637Z",
+  "selection_basis": "EXISTING_ATTACH_ONLY_ROUND1_ROUND2_STEP_ISOLATION_AND_CORRECTED_ORDER_RECEIPTS",
+  "live_com_rerun_for_this_file": false,
+  "owner_ruling_in_effect": "AUTHORIZE_LOW_MEMORY_EXECUTION_WITH_BOUNDED_NATIVE_ATTEMPTS_20260820",
+  "memory_gate_status": "OWNER_OVERRIDE_LOW_MEMORY",
+  "memory_gate_passed": false,
+  "owner_override_used": true,
+  "execution_authorized": true,
+  "execution_authorized_by_owner_override": true,
+  "claims_explicitly_not_made": [
+    "MEMORY_GATE_PASS",
+    "TOOLING_GATE_PASS",
+    "AVAILABLE_MEMORY_GE_6_GIB"
+  ],
+  "selected_path_id": "INVERSE_DISPID9_PLUS_MULTIPLY_DISPID1_WITH_RECEIVER_SWAP",
+  "selected_path": {
+    "inverse": {
+      "member": "Inverse",
+      "dispid": 9,
+      "binding": "makepy static IMathTransform member",
+      "production_call": "first_transform.Inverse()",
+      "observed_result": "PASS",
+      "observed_return_type": "CDispatch",
+      "evidence": {
+        "path": "04_validation/LOOP1E_STEP_ISOLATION_RECEIPT.json",
+        "json_pointer": "/steps/11",
+        "step": "S12_Inverse_dispid9"
+      }
+    },
+    "multiply": {
+      "member": "Multiply",
+      "dispid": 1,
+      "binding": "makepy static IMathTransform member",
+      "production_call": "second_transform.Multiply(inverse)",
+      "observed_result": "PASS",
+      "observed_return_type": "CDispatch",
+      "evidence": {
+        "path": "04_validation/LOOP1E_STEP_ISOLATION_RECEIPT.json",
+        "json_pointer": "/steps/8",
+        "step": "S9_Multiply_dispid1_wrapped"
+      }
+    },
+    "receiver_swap": {
+      "required": true,
+      "observed_semantics": "X.Multiply(Y) == M_Y x M_X",
+      "intended_quantity": "A^-1 B",
+      "correct_call": "second_transform.Multiply(inverse)",
+      "incorrect_name_only_swap": "inverse.Multiply(second_transform)",
+      "incorrect_result": "B A^-1",
+      "evidence": {
+        "path": "04_validation/LOOP1E_CORRECTED_ORDER_RECEIPT.json",
+        "json_pointers": ["/established_semantics", "/candidate_call", "/pairs", "/patch_semantics"]
+      }
+    }
+  },
+  "validation": {
+    "pair_count": 3,
+    "maximum_residual_vs_independent_A_inverse_B": 1.1102230246251565e-16,
+    "tolerance": 1e-12,
+    "all_shape_guards_pass": true,
+    "all_pairs_pass": true,
+    "source": "04_validation/LOOP1E_CORRECTED_ORDER_RECEIPT.json"
+  },
+  "round1_caveat": {
+    "reported_recommended_candidate": null,
+    "reported_working_candidate_count": 0,
+    "status": "SUPERSEDED_FOR_SELECTION_BY_STEP_ISOLATION",
+    "reason": "ROUND1 called the independently broken inv.IMultiply(T) inside every candidate envelope. C2 static Inverse and C6 raw DISPID 9 were therefore false negatives. C5/C6 also duplicated C1/C2 because DISPATCH_METHOD equals makepy wFlags 1."
+  },
+  "rejected_members": [
+    {"member": "IInverse", "dispid": 10, "result": "FAIL_61836", "evidence": "STEP_ISOLATION:/steps/10"},
+    {"member": "IMultiply", "dispid": 2, "result": "FAIL_61836", "evidence": "STEP_ISOLATION:/steps/6,/steps/7,/steps/9"}
+  ],
+  "patch_binding": {
+    "changed_file": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py",
+    "changed_function": "relative_transform",
+    "functional_changes_required": 2,
+    "change_1": {
+      "from": "inverse_raw = first_transform.IInverse()",
+      "to": "inverse_raw = first_transform.Inverse()"
+    },
+    "change_2": {
+      "from": "relative_raw = inverse.IMultiply(second_transform)",
+      "to": "relative_raw = second_transform.Multiply(inverse)"
+    },
+    "single_line_IInverse_only_patch_is_valid": false,
+    "single_line_patch_rejection_reason": "Direct observation proves IMultiply/DISPID 2 is independently broken; changing only IInverse would fail on the next COM call."
+  },
+  "hashes": {
+    "loop1e_pre_patch_sha256": "1F8E83AC067A2C4218BCECADBD192A68D55D09A2DC2C4B896E1BD475141B0419",
+    "loop1e_pre_patch_bytes": 242313,
+    "loop1e_post_patch_sha256": "0D66FCDE114F40E3A339692FA93F2DACE426740952AA362EE73C2B983F61072A",
+    "loop1e_post_patch_bytes": 243627,
+    "base_helper_root_sha256": "E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906",
+    "base_helper_run_root_sha256": "E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906",
+    "base_helper_unchanged": true,
+    "source": "04_validation/LOOP1E_PATCH_RECEIPT.json"
+  },
+  "source_receipts": [
+    {
+      "path": "04_validation/LOOP1E_IINVERSE_PROBE_RECEIPT.json",
+      "sha256": "3C51D25108A78FA69B8BAF052E2540278BEE2D7E55C70FF1E55F5164AA26C77E"
+    },
+    {
+      "path": "04_validation/LOOP1E_IINVERSE_PROBE_ROUND2_RECEIPT.json",
+      "sha256": "83CBD16D00598A14759CFD57A5E14B0A8751BD4D83CD93EB3A93F168CCE86A18"
+    },
+    {
+      "path": "04_validation/LOOP1E_STEP_ISOLATION_RECEIPT.json",
+      "sha256": "1A834775296A3D2F1E509B94796D6218F3A5ADE91F403C771767526E5C11F4D2"
+    },
+    {
+      "path": "04_validation/LOOP1E_CORRECTED_ORDER_RECEIPT.json",
+      "sha256": "FF9DACBFC746EA066174CCAA2F632B2FFF750C90EF010E6744397149262982B8"
+    },
+    {
+      "path": "04_validation/LOOP1E_PATCH_RECEIPT.json",
+      "sha256": "8EC4EBB47AB3F9E4AC5CDEA02A48C664BF8B74BAAF3F72DE4DA64453366FF4C4"
+    }
+  ],
+  "verdict": "IINVERSE_PATH_SELECTED_SEMANTICS_VERIFIED_PATCH_HASH_BOUND"
+}

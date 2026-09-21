@@ -1,0 +1,73 @@
+registry_id: ASSET00_ASSET_REGISTRY
+date: "2026-07-26"
+scope: 只读普查；唯一写入区=本 evidence/asset00/；冻结目录与动力学 SSOT 未触碰（C1）
+
+# ── (a) 精细 B601 资产 ────────────────────────────────────────────────
+fine_b601:
+  integrated_step_local:
+    path: F:/Robotic arm/High_performance_robotics_arm/vendor/reBot-DevArm/hardware/reBot_B601_DM/reBot_B601_DM_v1.1_20260425.step
+    bytes: 35114019
+    sha256: 87a0537d1afd50c04fc441fde11dd4f2ebbb368fe27f6c10fda8567be696d968   # 与 a3 asset_import_manifest 记录逐位一致
+    source: vendor官方（Seeed-Projects/reBot-DevArm）
+    version_date: "20260425"
+  version_gap_entry:
+    note: 上游存在 v1.1_20260625 版；本地克隆（commit 71a1a6e，2026-06-08）早于该版发布，
+      本地无此文件。采纳前若需最新版须另行下载并重钉哈希（独立条目，不阻塞本轮）。
+  metal_parts:
+    dir: vendor/reBot-DevArm/hardware/reBot_B601_DM/Metal_Parts
+    count: 56
+    total_mb: 19.3
+    link_coverage: [Link1, Link2, Link3_L, Link3_R, Link5, Wrist_Bracket, 齿轮/夹爪连接件等]
+    naming_note: 03- 与 03_ 双前缀并存（同名双版本，采纳时须择一钉定）
+  printed_parts:
+    dir: vendor/reBot-DevArm/hardware/reBot_B601_DM/3D_Printed_Parts
+    count: 54
+    total_mb: 10.5
+    key_items: [01_BASE_Link, 01_Finger, 各段 Cover/Filler/Limit, 相机支架 D405/D435, 软爪]
+  purchased_parts:
+    dir: Purchased_Parts
+    step_count: 0   # 电机等采购件无 STEP（Link4/6 段几何缺口的一部分）
+  hashes_detail: vendor_file_hashes.json（56+54 文件逐一 SHA-256）
+  joint_mapping_table:   # 逐关节闭合检查（A2 要求）
+    base_link:  { metal: [], printed: [01_BASE_Link, 01_BASE_Plate], gap: 电机壳无STEP }
+    link1:      { metal: [03_Link1], printed: [覆盖件], gap: null }
+    link2:      { metal: [03_Link2], printed: [覆盖件/填充件], gap: null }
+    link3:      { metal: [03_Link3_L, 03_Link3_R], printed: [], gap: null }
+    link4:      { metal: [], printed: [Upper_Arm_Cover/Filler 系], gap: 主承力段由电机壳构成_无STEP }
+    link5:      { metal: [03_Link5], printed: [], gap: null }
+    link6:      { metal: [02_Wrist_Bracket, Lower_Wrist_Link_L/R], printed: [腕部件], gap: 电机壳无STEP }
+    gripper:    { metal: [02_Gripper_Connector_A/B, 02_RACK, 02_Gear_Connector], printed: [01_Finger, 软爪系], gap: null }
+    conclusion: 逐连杆拼装（P-B）存在 base/link4/link6 三处电机壳几何缺口——
+      Metal+Printed 无法独立闭合六关节链，缺口只能以包络补齐或由整臂 STEP 补齐
+
+# ── (b) 开源参考许可分类 ───────────────────────────────────────────────
+open_source_refs:
+  reBot-DevArm:
+    remote: https://github.com/Seeed-Projects/reBot-DevArm.git
+    commit: 71a1a6e662c3935c83d46e11c8d610d1e92b0486   # 2026-06-08
+    license: CERN-OHL-W-2.0（LICENSE 正文本地核验："CERN Open Hardware Licence Version 2 - Weakly Reciprocal"）
+    classification: USABLE
+    obligations: 保留署名与 notice（80_third_party/notices/rebot_b601 已存在）；
+      仅修改臂本体设计源才触发同许可开源义务——竞赛导入/仿真/渲染安全
+  reBotArmController_ROS2:
+    remote: https://github.com/Seeed-Projects/reBotArmController_ROS2.git
+    commit: 319100d3ebb529d43c5a874fa92104fa1062493f   # 2026-06-04
+    license: 无 LICENSE 文件
+    classification: UNKNOWN_LICENSE（按 RESTRICTED 处理：禁几何再分发，内部研究使用不阻塞）
+
+# ── (c) fixend/accepted URDF 溯源（→ E3）──────────────────────────────
+urdf_provenance:
+  accepted: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf (sha256 1bc2b748…)
+  origin_repo: reBotArmController_ROS2 @ 319100d3
+  origin_file: src/rebotarm_bringup/description/urdf/reBot_B601_DM_with_gripper.urdf
+  evidence:
+    - meshes_b601_gripper 10 STL 与该仓库同名目录哈希 10/10 逐位一致（决定性）
+    - 原始文件头标注 SolidWorks-to-URDF Exporter 生成
+    - accepted 为其项目改造衍生（夹爪 prismatic 锁定、重命名、858 行 diff）
+  escalation: E3（来源仓库无许可证；内部研究不阻塞；对外分发 URDF/网格前需许可澄清）
+
+# ── (d) V2.2 现状 ────────────────────────────────────────────────────
+v2_2_status: 引用 evidence/b5_verify/machine_check.json（V22_MACHINE_CHECK_PASS 102/102），不重验
+
+step_import_note: STEP 导入为哑实体（无特征树可失败），COM 稳定性优于参数化重建；
+  深检数据见 b601_step_deepcheck.json

@@ -1,0 +1,116 @@
+schema_version: e16_sync_capture_v1
+campaign_id: P0-C-216-rigid-sync-20260714
+frozen_baseline_commit: 6c15395f444f693adad6ff0dfc9a3cfc0b4cf310
+
+scope:
+  target_id: target_debris_v0
+  target_mass_kg: 150.0
+  target_tumble_rate_dps: 3.0
+  target_tumble_axis_I: [1.0, 0.15, 0.4]
+  grasp_points: [P1, P2, P3]
+  capture_phases_s: [0.0, 30.0, 60.0, 90.0]
+  closure_speeds_mps: [0.005, 0.01, 0.02]
+  task_modes: [pose_6d, approach_5d]
+  alpha_values: [0.0, 0.8, 1.0]
+  expected_cases: 216
+  capture_mode: rigid_6dof
+
+twist_contract:
+  ordering: [vx, vy, vz, wx, wy, wz]
+  expression_frame: I
+  point: coincident_EE_and_target_grasp_G_at_contact
+  equation: xi_EE_des_I = alpha * xi_G_I + xi_closure_I
+  xi_G_I: [v_G_I_mps, omega_target_I_radps]
+  xi_closure_I: [-v_close * outward_surface_normal_I, [0, 0, 0]]
+  sign: positive_v_close_moves_EE_toward_target_against_outward_normal
+  linear_unit: m/s
+  angular_unit: rad/s
+  transform_to_base: diag(R_BI, R_BI)
+
+scene:
+  model: e15_common_base_v1
+  common_base_R_IB:
+    - [-1.0, 0.0, 0.0]
+    - [0.0, -1.0, 0.0]
+    - [0.0, 0.0, 1.0]
+  common_base_t_IB_m: [1.60973, 0.0, 1.12054]
+  target_origin_I_m: [0.0, 0.0, 0.0]
+  approach_duration_s: 8.0
+  terminal_tracking_residual_tol: 1.0e-9
+  terminal_momentum_tol: 1.0e-9
+  terminal_generalized_jacobian_condition_max: 1000000.0
+
+grasp_geometry:
+  P1:
+    point_T_m: [0.65973, 0.0, 1.02054]
+    outward_normal_T: [1.0, 0.0, 0.0]
+  P2:
+    point_T_m: [-0.00027, 0.66, 1.02054]
+    outward_normal_T: [0.0, 1.0, 0.0]
+  P3:
+    point_T_m: [0.65973, 0.0, -0.87946]
+    outward_normal_T: [1.0, 0.0, 0.0]
+
+hard_constraints_frozen:
+  collision_margin_min_m: 0.02
+  condition_number_max: 10000.0
+  post_capture_rate_max_dps: 2.0
+  wheel_momentum_max_Nms: 5.475
+  flexible_energy_max_J: 0.001
+  joint_limit_margin_min_rad: 0.05
+  thruster_lever_m: 0.17
+  thruster_total_impulse_max_Ns: 32.205882352941174
+  cold_gas_isp_s: 60.0
+  g0_mps2: 9.80665
+  threshold_status: PROVISIONAL_INHERITED_WITHOUT_RELAXATION
+  note: thruster impulse limit is algebraically H_max / lever and is not an independent requirement
+
+flex_policy:
+  run_ancf: false
+  status_for_all_new_alpha_cases: UNKNOWN
+  reason: no validated candidate-level flexible evidence exists for the new synchronized terminal states
+  safe_claim_when_unknown: false
+
+line_A_geometry_source:
+  path: 40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_geometry_roll_details.csv
+  sha256: 8580332f252a564d8e0be05b4d1b3cd5e2b25e11cb1eb816781ab66b693479cc
+  expected_rows: 96
+  expected_groups: 24
+  selected_rule: hard screens -> maximum manipulability -> minimum absolute roll -> signed roll
+
+protected_sources:
+  40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_gate_check.json: 63f6c6035960afcbb4389a85073c12a7dab0dad5c71188461ecbdd6deb9db84e
+  20_engineering/config/grasp_evaluator/hard_constraints_v1.yaml: bc4acfab2251afab650f4e5e19578e66fabc6fe965b33b0edff106f693107443
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+  20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv: 4bd29cd3e583862bc2dc41e5cca4aac3c572ea6a258fe99e0396ccd2bd66a273
+  30_simulation/sim_05_free_floating_arm/dynamics.py: 8ff7660f6606bd9435378802649ca597dddf7748a835873b07e8ffacaf4b1b11
+  30_simulation/common/capture_impulse.py: 93a55881a0d784efa8d4faa433c522370c657ee6e4472d4be05369a1db5d8ba6
+  30_simulation/common/rigid_body.py: 5cd85ff021c51c9e0ceda42b7db6377fd44763b1dc85a6987b98681296c52dd2
+
+strategy_protocol:
+  G0: fixed P1, phase 0 s, closure 0.01 m/s, pose_6d, alpha 0
+  G1: alpha 0 geometry-only maximum manipulability, deterministic lexical tie break
+  G2: alpha 0, then the frozen ranking protocol below
+  G2-Sync: all alpha values, then the frozen ranking protocol below
+
+ranking_protocol:
+  order:
+    - minimum Pareto layer
+    - maximum frozen core margin, with differences <= 1.0e-9 treated as numerical ties
+    - minimum equal-weight normalized initial linear/angular impulse objective
+    - minimum terminal joint speed
+    - minimum terminal base rate
+    - lexical case_id only as the final exact tie breaker
+  core_margin_tie_tolerance: 1.0e-9
+  initial_impulse_objective: sqrt(0.5 * ((J_linear/J_linear_G0)^2 + (J_angular/J_angular_G0)^2))
+  normalization_reference: frozen G0 case P1, 0 s, 0.01 m/s, pose_6d, alpha 0
+  reason: prevent conserved-state roundoff from outranking the intended low-impact objective
+
+statistics:
+  paired_block: grasp_point x phase x closure_speed x task_mode among complete dynamic triples
+  primary_test: Friedman repeated-measures test across alpha
+  effect_size: Kendall_W
+  pairwise_test: two-sided Wilcoxon signed-rank with Holm correction
+  pairwise_effect_size: matched-pairs rank-biserial correlation
+  normality_diagnostic: Shapiro-Wilk on paired differences
+  interpretation_limit: deterministic design points are not a random population sample

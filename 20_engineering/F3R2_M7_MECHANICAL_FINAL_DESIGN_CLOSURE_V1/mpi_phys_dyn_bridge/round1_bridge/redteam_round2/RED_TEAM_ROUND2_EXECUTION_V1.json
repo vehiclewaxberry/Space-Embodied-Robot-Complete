@@ -1,0 +1,229 @@
+{
+  "schema": "RED_TEAM_ROUND2_EXECUTION_V1",
+  "generated_local": "2026-08-23T19:05:00+08:00",
+  "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+  "generator": "KIMI M7 Wave-2b REDTEAM-2 subagent (read-only; pure python 3.13.9 + numpy 2.3.5 + scipy 1.16.3 + hashlib; no CAD/FEA process; git unused)",
+  "attack_plan_basis": "round0_handover/04_red_team/RED_TEAM_ATTACK_PLAN_V1.md sec.2 (Falsifier protocols) + redteam_round1/RED_TEAM_ROUND1_EXECUTION_V1.md sec.7 (next-sweep attack order)",
+  "scope": "round1_bridge main-chain products FB-02..FB-07 (bridge file, FB-03 21/21, FB-04 12/12, FB-05 13/13, FB-06 8/8, V6/R3 candidates) plus all round1 landed artifacts and upstream hash-pinned sources",
+  "verdict_vocabulary": {
+    "attack": "fired / not_fired",
+    "falsification": "SURVIVED / FALSIFIED / NOT_INDEPENDENTLY_REPRODUCIBLE",
+    "severity": "HIGH / MEDIUM / LOW (LOW = hygiene; findings kept only when SURVIVED_FALSIFICATION)"
+  },
+  "reproduction_package": {
+    "rt2_static_attacks.py": {"bytes": 45995, "sha256": "47E8E2EB33D4E2DDAD060C6136DEB344D386DD4D825AF21496D5D235849B7D4F", "role": "S0-S7 static attacks: hash sentinel, ATK-11 rebuild, ATK-06 blacklist, ATK-04 bridge-id audit, ATK-12 Steiner/uncertainty, FB-06 nine-config recompute, V6/R3 audit, hygiene sweeps"},
+    "rt2_static_output.json": {"bytes": 110644, "sha256": "A0D0C2693184B07D109A83670E522120124057F66BAA133F288204C1AFD454F6", "role": "raw static-attack output (all numbers re-runnable)"},
+    "rt2_e21_rerun.py": {"bytes": 15827, "sha256": "9D2C84B3F77B174862AA6B70266907BE0FDA74871F156816C66984A1D01E6160", "role": "independent e21 bridged-lane rerun (3 Radau lanes) + FB-06 FK cross-checks + pollution sentinel"},
+    "rt2_e21_rerun_output.json": {"bytes": 8619, "sha256": "5E0583CFF25AF4457A6E4649700BD2EA880E86C3910462796847510F5DF1776D", "role": "rerun output 23/23 PASS"},
+    "self_hash_policy": "SELF_REFERENCE_EXCLUDED - the two report files (this JSON + .md) carry no self hash; downstream consumers pin them after emission (project convention)"
+  },
+  "attacks": {
+    "a_ATK11_bridge_body": {
+      "fired": false, "verdict": "SURVIVED",
+      "method": "B independently rebuilt from hash-pinned e21 authority contract via two paths (dense inv; analytic rigid inverse); compared element-wise with the frozen bridge file; det/orthogonality/chirality/direction/truncation witnesses all recomputed",
+      "evidence": {
+        "stored_B_vs_rebuilt_max_abs": 0.0,
+        "dense_vs_rigid_rebuild_max_abs": 0.0,
+        "stored_invB_vs_rebuilt_dense_path_max_abs": 4.709566070459914e-13,
+        "stored_invB_equals_inv(T_phys)@T_dyn_path": true,
+        "bridge_published_dense_vs_rigid_gap": 4.709566070459914e-13,
+        "stored_CS_vs_rebuilt_max_abs": 4.709566070459914e-13,
+        "det_R_B": 1.0000000000005196,
+        "max_abs_RtR_minus_I": 5.195843755245733e-13,
+        "T_dyn_at_B_minus_T_phys_max_abs": 0.0,
+        "direction_semantics_point_closure_worst": 0.0,
+        "chirality_plus_candidate_deg": 0.0,
+        "chirality_minus_candidate_deg": 50.000027999951776,
+        "quaternion_stored_vs_rebuilt_up_to_sign": 0.0,
+        "quaternion_axis_flipped_rejected_at": 0.4328794664297816,
+        "contract_derived_angle_deg": 25.000013999964253,
+        "angle_gap_vs_25p000014_deg": 3.574740503609064e-11,
+        "exact_theta_synthesis_vs_bridge": 4.991562718714704e-13,
+        "exact_25deg_reference_vs_bridge": 2.2145230055281573e-07,
+        "rounded_spelling_6digit_trig_vs_bridge": 4.83193000000437e-07,
+        "c01_spelling_witness_rt2_m": 1.1314150163732986e-07,
+        "c01_spelling_witness_published_m": 1.1314152027209831e-07,
+        "bridge_sha256": "0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C"
+      },
+      "notes": "truncation dual-version control honestly registered; see finding RT2-F01 for the register-entry spelling/method nuance (LOW, no engineering impact)"
+    },
+    "b_ATK06_silent_average": {
+      "fired": false, "verdict": "SURVIVED",
+      "method": "numeric blacklist (avg peak 29.226410622980581, lane CG/inertia midpoints, legacy 24.0/23.3032134/0.3483933/1.7419665/R1 EI triple) scanned at rel-tol 1e-9 over every numeric leaf of all 31 round1 files; string scan; average/midpoint/blend/select keyword scan with per-line classification; rotation-block det anomaly scan (|det-1|>1e-6)",
+      "evidence": {
+        "hard_blacklist_hits_in_main_chain_products": 0,
+        "hard_hits_total": 8,
+        "hard_hits_location": "ALL inside redteam_round1 own outputs = preregistered detector discriminants (silent_average_discriminant_deg, cg_midpoint_blacklist, inertia_midpoint_max_element) - legitimate witness registration, not averaging",
+        "legacy_bus_23p3032134_hits": "9 hits, all FB-06 bus_primary_structure rows; arithmetic lineage verified: M4 bus_core 22.927194215348 + legacy_flange 0.376019184652 = 23.3032134 exactly; system total is 31.022864807342987 (not 24.0); context = legitimate accepted-ledger carry",
+        "legacy_24kg_hits": "2 hits, both JSON line-number fields (value 24.0 as line number) in round1_verify_output.json - false positives, not masses",
+        "r1_panel_value_hits": 0,
+        "rotation_block_det_anomalies": 0,
+        "keyword_hits": {"prohibition_context": 47, "reviewed_individually": 51, "active_averaging_or_selection_found": 0},
+        "files_scanned": 31
+      }
+    },
+    "c_ATK04_frame_mixing": {
+      "fired": false, "verdict": "SURVIVED",
+      "method": "every cross-frame quantity must cite the unique bridge id + recomputed bridge sha256; residual either/or semantics grep",
+      "evidence": {
+        "fb06_configs_with_unique_bridge_id_and_matching_sha": "9/9",
+        "fb06_arm_rows_bridge_uncertainty_null": "9/9",
+        "fb06_non_arm_members_carrying_bridge_provenance": 0,
+        "fb06_top_consumption_semantics": "SINGLE_ODR01_DYNAMICS_CONSUMPTION; physical-rail arm rows (C01..C06) re-expressed via C_S conjugate of the frozen bridge; no selection, no averaging, no uncertainty re-label",
+        "v6_installation_bridge_sha_ok": true,
+        "r3_mount_level_bridge_sha_ok": true,
+        "v6_r3_validation_and_evidence_shas_all_recomputed_match": true,
+        "residual_two_choice_semantics": "none (all select/choose hits are prohibition text, hold names, or the explicit single written MC-A ruling record)"
+      }
+    },
+    "d_ATK12_steiner_and_uncertainty": {
+      "fired": false, "verdict": "SURVIVED",
+      "method": "independent Steiner/conjugated-transform recomputation from hash-pinned e21 residual JSON; literal-reading forbidden detector; FB-06 arm-row uncertainty deep-verbatim audit vs V3_R2",
+      "evidence": {
+        "steiner_witness_m_times_d2": 0.0024302436760318276,
+        "conjugated_about_origin_transform_vs_first_principles_max_abs": 5.39124300757976e-13,
+        "literal_unconjugated_reading_deviation": 0.007710680881610109,
+        "literal_reading_registered_as_FORBIDDEN": true,
+        "lane_delta_cg_norm_recomputed": 0.003524348142565572,
+        "lane_delta_inertia_recomputed": 0.10311953522847439,
+        "bridged_system_vs_published_wp11_cg_max_abs": 1.3877787807814457e-17,
+        "bridged_system_vs_published_wp11_inertia_max_abs": 1.127986593019159e-13,
+        "uncertainty_blocks_verbatim_vs_V3R2_all_9_configs": true,
+        "arm_values_actually_moved_C01_C06": true,
+        "uncertainty_RURT_rotation_found_anywhere": false
+      }
+    },
+    "e_e21_bridged_rerun": {
+      "fired": false, "verdict": "SURVIVED",
+      "method": "own runner in own output dir; e21 module + b601 model imported read-only via importlib (dont_write_bytecode); mount rebuilt from contract (not from bridge file); 77-file watch-directory hash sentinel before/after",
+      "evidence": {
+        "checks": "23/23 PASS",
+        "independent_B_vs_bridge_file": 0.0,
+        "mount_equals_T_phys": 0.0,
+        "consumer_ambiguity_count": 0,
+        "peak_base_attitude_deviation_deg": 29.41085537835705,
+        "peak_equals_published_wp11_exact": true,
+        "bridged_minus_odr01_reference_deg": 0.3688895107529362,
+        "nfev_bridged": 5013,
+        "momentum_dP": 2.582350176184633e-16,
+        "momentum_dL": 2.3686440571016716e-16,
+        "energy_audit_relative": 4.0484963084180175e-11,
+        "quat_pre_normalization": 2.1760371282653068e-13,
+        "quat_post_normalization": 2.220446049250313e-16,
+        "mass_matrix_min_eigenvalue": 0.00039091914924673215,
+        "initial_mass_error_vs_ledger": 0.0,
+        "initial_cg_error_vs_ledger": 0.003524348142565558,
+        "initial_inertia_error_vs_ledger": 0.10311953522836159,
+        "full_state_bridged_vs_wp11_reference": 0.0,
+        "acceptance_uses_legacy_peak_proximity": false,
+        "e21_dir_pollution": "0 new / 0 drifted / 0 deleted across 77 watched files (incl. full e21 module, sim_05, URDF, wp2, M6 transforms)"
+      }
+    },
+    "f_FB06_nine_configuration": {
+      "fired": false, "verdict": "SURVIVED",
+      "method": "V3_R2 members re-aggregated independently; arm rows C01..C06 re-expressed via own C_S = T_dyn @ inv(T_phys); C07..C09 untouched; compared with FB-06 published candidates; delta explanation re-derived; non-arm members deep-verbatim check",
+      "evidence": {
+        "mass_invariant_exact_zero_all_9": true,
+        "aggregator_members_to_stated_worst": 1.734723475976807e-18,
+        "rt2_candidate_vs_fb06_cg_worst": 1.5400875019722093e-14,
+        "rt2_candidate_vs_fb06_inertia_worst": 3.574918139293004e-13,
+        "delta_cg_explained_worst_residual": 6.938893903907228e-18,
+        "delta_inertia_explained_worst_residual": 8.881784197001252e-16,
+        "c07_c09_exact_zero": true,
+        "c05_pose_status_carried_verbatim": "HELD_CANDIDATE_FK_REGRESSION_FAIL_MAX_RESIDUAL_567P734_MM_RETAINED_FACT_NOT_ABSORBED_BY_UNCERTAINTY",
+        "non_arm_members_deep_verbatim_all_9": true,
+        "arm_row_nonbridged_fields_verbatim_all_9": true,
+        "fk_cross_check_rt2_cg_m": [1.1314151618148656e-07, 1.0857568217800054e-07, 0.0],
+        "fk_cross_check_matches_published_exactly": true
+      }
+    },
+    "g_V6_R3_candidates": {
+      "fired": false, "verdict": "SURVIVED",
+      "method": "base files hash+bytes vs round0 receipt pins (pre-Wave-2a independent anchor); verbatim list compares against live sources; status-field audit",
+      "evidence": {
+        "wp10_V5_R2_base": {"sha256": "9B6D8025D3318A66AB7DD9BD15F7EEE2CDE31DD7A0A9A4FDB5CE4AEB60DE8203", "bytes": 18869, "matches_round0_receipt": true},
+        "wp13_R2_base": {"sha256": "5DDA627794A4B29D087D7489BECC7A98ED632BC6EAC0413CD9F7226C03AE1E7C", "bytes": 95903, "matches_round0_receipt": true},
+        "v5_fail_closed_invariants_carried_verbatim": "11/11 in V6 and 11/11 in R3",
+        "r2_retained_holds_carried_verbatim": "11/11",
+        "r2_prohibitions_carried_verbatim": "8/8",
+        "e21_mandatory_holds_carried_verbatim": "11/11 in both V6 and R3",
+        "candidate_naming_and_flags": "filenames contain CANDIDATE; candidate: true; status CANDIDATE_ONLY__NOT_RELEASE...; review_status PENDING_OWNER_REVIEW",
+        "next_stage_authorized": false,
+        "release_credit": false,
+        "v5_gate_today": {"gate": "HOLD", "next_stage_authorized": false, "single_consumption_rule_resolved": false}
+      }
+    },
+    "h_hash_sentinel": {
+      "fired": true,
+      "fired_target": "exactly one pre-registered upstream self-hash DRIFT reproduced (OI-R1-01); zero new drift",
+      "verdict": "SURVIVED",
+      "evidence": {
+        "round1_product_files_registered": 31,
+        "upstream_unique_pinned_paths": 46,
+        "upstream_match": 45,
+        "upstream_conflict": "SOLAR_ARRAY_R2_BUILD_REPORT_V1.json: recomputed 6160C1D0970B7EA1... matches the receipt-declared actual; expected AFE4CA26... is the file's self-recorded hash which can never match (self-reference); registered open item OI-R1-01 AWAITING_UPSTREAM_ERRATUM; both real artifacts (STEP/FCStd) recompute PASS",
+        "mutation_negative_control": "1-byte in-memory mutation of bridge detected (detector fired)",
+        "rt1_f01_addendum_independent_recompute": "16/16 full-64-hex pins MATCH",
+        "key_upstream_all_match": ["e21 contract", "e21 campaign", "e21 src", "e21 gate", "e21 both lane summaries", "e21 residual", "e21 nine-config audit", "URDF", "Solar R2 STEP", "wp2 V3_R2", "wp10 V5_R2", "wp13 R2", "V5 gate", "M3R stack", "M3R flange json", "F3R2 initial pose", "frame tree", "WP11 calibration", "M6 transforms", "M7 ODR register", "b601_model.py"]
+      }
+    }
+  },
+  "findings": [
+    {"id": "RT2-F01", "severity": "LOW", "status": "SURVIVED_FALSIFICATION",
+     "artifact": "02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml known_deviation_register[WP11-F-03_ROUNDED_CLOCK_SPELLING]",
+     "statement": "entry text quotes the 6-digit trig spelling (sin/cos = 0.422618/0.906308) but the registered matrix_max_abs_vs_bridge = 5.180141831595542e-07 corresponds to the angle-synthesis reconstruction (theta = 24.999981252 deg, full-precision trig); the 6-digit trig spelling itself gives 4.83193000000437e-07 (norm defect of the 6-digit pair = 1.6478799991226367e-07). The two reconstructions differ by 3.49e-08 in matrix elements",
+     "impact": "none on engineering: the physical C01 arm-CG witness reproduces under BOTH spellings (rt2: 1.1314150163732986e-07 m vs published 1.1314152027209831e-07 m; mutual 1.9e-14 m); deviation class ~1.1e-4 mm unchanged; FB04-11/FB06-06 bands unaffected",
+     "disposition": "before Owner signature, annotate the register entry with which reconstruction the matrix_max_abs figure belongs to (or register both)"},
+    {"id": "RT2-F02", "severity": "LOW", "status": "SURVIVED_FALSIFICATION",
+     "artifact": "03_validation/MPI03_BRIDGE_NUMERICAL_VALIDATION.json FB03-14/15/16",
+     "statement": "the 1e-16 limits on 'stored vs independent re-derivation' checks are same-path recomputations (identical numpy/LAPACK op sequence) and are therefore vacuously satisfied; the genuinely independent cross-path quantities (dense-vs-rigid inverse 4.709566070459914e-13; stored-B x stored-invB roundtrip 5.195843755245733e-13) are nonetheless honestly published in the bridge file numerical_health and reproduce exactly under rt2 independent recomputation",
+     "impact": "none; no concealment (cross-path values are on record); 21/21 PASS stands - all key invariants independently reproduced by rt2 with separately written code",
+     "disposition": "hygiene: FB-08 or a future validation round may relabel FB03-14/15/16 as same-path reproduction checks and cite the cross-path witnesses as the independent evidence"},
+    {"id": "RT2-F03", "severity": "LOW", "status": "SURVIVED_FALSIFICATION",
+     "artifact": "07_rebind V6/R3 candidates",
+     "statement": "the same files carry e21 mandatory_holds single_arm_placement_consumption_semantics: UNRESOLVED verbatim AND new blocks declaring single_consumption_semantics: PHYSICAL_AUTHORITY_BRIDGED_INTO_ODR01_DYNAMICS_FRAME with consumer_ambiguity_count: 0",
+     "impact": "assessed as deliberate coexistence, not contradiction: candidate-level engineering resolution via ODR-43 bridge (explicitly NOT a selection) vs authority-level hold that only Owner/FB-08 can lift; consistent with fail-closed discipline; V5 gate file itself remains HOLD with single_consumption_rule_resolved: false (verified today)",
+     "disposition": "advisory: FB-08 gate text should state this coexistence explicitly so downstream readers do not misread the two fields as contradictory"},
+    {"id": "RT2-F04", "severity": "LOW", "status": "SURVIVED_FALSIFICATION",
+     "artifact": "30_simulation/sim_05_free_floating_arm/__pycache__/ (8 pre-existing .pyc files)",
+     "statement": "historical __pycache__ predates this round; rt2 rerun snapshot before/after is bit-identical (0 new / 0 drifted / 0 deleted); e21 module directory carries no __pycache__; rt2 imports used importlib + dont_write_bytecode",
+     "impact": "none",
+     "disposition": "hygiene note only; no action required for the gate"}
+  ],
+  "findings_summary": {"HIGH": 0, "MEDIUM": 0, "LOW": 4, "FALSIFIED": 0},
+  "baseline_discrepancy_notes": [
+    "redteam_round1 report quoted the +/-theta chirality separation as 49.986 deg; rt2 direct computation gives 50.000027999951776 deg (= 2 x 25.000014 exactly). The difference is test-vector dependent (a non-axis-perpendicular test vector shrinks the apparent angle); the invariant claim ('~50 deg separation, no tolerance can absorb') is unaffected",
+    "round0 attack plan quoted the ODR01 lane CG y-component as 4.376e-05 (truncated); the hash-pinned lane file carries 4.37633035602944e-05; all rt2 computations used the full-precision pinned value",
+    "round0 attack plan Steiner witness expectation 2.4302436760318294e-3 vs this round's recomputation 0.0024302436760318276 (last-ulp path noise, already noted by RT1-F05)"
+  ],
+  "concurrent_wave2b_landings_observed": {
+    "decisions/ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.yaml+.md": "MC-A ruling ISSUED_AND_EFFECTIVE_AT_ENGINEERING_LEVEL__PENDING_OWNER_CONFIRMATION__REVERSIBLE_VIA_ECR (OI-R1-06 engineering-discharged); ruling numbers verbatim-consistent with R2 flex inventory (checked by CM-FIX); outside rt2 attack surface",
+    "00_authority/R2_FLEX_INPUT_INVENTORY_V1_FULLHASH_ADDENDUM_V1.json": "RT1-F01 fix; rt2 independently recomputed 16/16 pins MATCH",
+    "00_authority/OPEN_ITEMS_UPDATE_V1.csv": "OI-R1-05 (P10-P12 RFI gap) remains STILL_HIGH__RFI_MEMO_RECORDED_GAP_OPEN; OI-R1-01 remains AWAITING_UPSTREAM_ERRATUM; OI-R1-06 ENGINEERING_DISCHARGED__OWNER_CONFIRMATION_PENDING",
+    "00_authority/MPI_BRIDGE_PACKAGE_MANIFEST_V1.json": "42-file snapshot at 18:38:10; pins the FIRST version of rt2_static_output.json (d62c1b93..., 110644 B) which has since been re-run (now A0D0C269..., same byte count); manifest self-declares 'snapshot at generated_local; later files need re-walk registration' - CM-FIX should refresh after redteam_round2 finalizes"
+  },
+  "coverage": {
+    "assigned_attacks": ["a", "b", "c", "d", "e", "f", "g", "h"],
+    "executed": 8,
+    "fb03_all_21_checks_key_invariants_independently_reproduced": true,
+    "fb04_all_12_checks_key_quantities_independently_reproduced": true,
+    "fb05_all_13_checks_key_quantities_independently_reproduced": true,
+    "fb06_all_9_configurations_recomputed": true,
+    "not_independently_reproducible_registrations": "none new (no CAD/FEA kernel path was needed for any verdict)"
+  },
+  "gate_recommendation_for_MPI_FB08": {
+    "recommendation": "PASS_RECOMMENDED",
+    "scope_of_recommendation": "red-team attack surface only: integrity of the FB-02..FB-07 main-chain products (bridge correctness, no silent average, no frame mixing, Steiner completeness, single-consumer rerun, nine-config propagation, candidate rebinding, hash chain)",
+    "rationale": "all eight assigned attacks not_fired on the main chain; HIGH=0 MEDIUM=0; the only fired detection is a pre-registered upstream self-hash DRIFT (OI-R1-01) reproduced, not new",
+    "conditions_the_gate_must_still_evaluate_outside_redteam_surface": [
+      "OI-R1-05 P10-P12 RFI gap remains HIGH OPEN (Route-C side; does not touch bridge integrity)",
+      "OI-R1-06 MC-A ruling: engineering-discharged, Owner confirmation pending; severity demotion is CM/Owner口径",
+      "OI-R1-01 solar build-report self-hash DRIFT awaiting upstream erratum (both real artifacts PASS)",
+      "V5 gate today: HOLD, next_stage_authorized=false, single_consumption_rule_resolved=false; every round1 product self-reports next_stage_authorized=false / release_credit=false - consistent",
+      "4x LOW findings (RT2-F01..F04) - hygiene/advisory class, none blocking"
+    ],
+    "explicit_nonclaim": "this recommendation grants no release, production, manufacturing, qualification, launcher or flight authority; it only states the main-chain products survived the round-2 red-team attack"
+  },
+  "next_stage_authorized": false,
+  "release_credit": false
+}

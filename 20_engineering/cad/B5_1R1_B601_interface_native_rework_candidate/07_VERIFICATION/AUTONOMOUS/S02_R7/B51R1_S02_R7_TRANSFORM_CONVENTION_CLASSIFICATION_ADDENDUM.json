@@ -1,0 +1,31 @@
+{
+  "schema": "B51R1_S02_R7_TRANSFORM_CONVENTION_CLASSIFICATION_ADDENDUM_V1",
+  "generated_at": "2026-08-03T03:17:00+08:00",
+  "status": "PASS_RAW_TRANSFORM_CLASSIFIED_AS_LOCAL_TO_MODEL_POSE_FOR_CONTROLLED_DATUM_READBACK",
+  "session_id": "S02_R7",
+  "evidence_receipt": {
+    "path": "07_VERIFICATION/AUTONOMOUS/S02_R7/B51R1_S02_R7_TRANSFORM_DIAGNOSTIC_RECEIPT.json",
+    "bytes": 8887,
+    "sha256": "68F272E242C03FF0D5837CB780544A24040856443EC24A29A53255DB64C5CE38"
+  },
+  "classification": {
+    "canonical_pose_source": "RAW_ICoordinateSystemFeatureData_Transform_AND_RAW_IModelDocExtension_GetCoordinateSystemTransformByName",
+    "translated_coordinate_system_raw_matches": "3/3",
+    "translated_coordinate_system_inverse_matches": "0/3",
+    "reference_plane_raw_matches": "3/3",
+    "reference_plane_inverse_matches": "0/3",
+    "dual_coordinate_api_raw_max_abs_error": 0.0,
+    "translation_tolerance_m": 1.0e-9
+  },
+  "cross_evidence": {
+    "mechanical_baseline_positive_x_origins_m": [0.183, 0.18525, 0.198],
+    "step_witness_positive_x_origins_m": [0.183, 0.18525, 0.198],
+    "native_raw_positive_x_origins_m": [0.183, 0.18525, 0.198],
+    "protected_geometry_defect": false
+  },
+  "root_cause": "S02_R2 verifier inverted transforms whose raw ArrayData already represented the controlled local frame pose in model coordinates; the inversion introduced the false negative X translation.",
+  "repair_rule": "The next cold-reopen verifier shall compare the two raw coordinate-system APIs directly against the controlled local-to-model pose and shall use the raw IRefPlane.Transform pose for plane origin and axis checks.",
+  "s02_pass_claim_allowed": false,
+  "next_required_session": "S02_R8_FULL_COLD_REOPEN_WITH_RAW_POSE_CONVENTION",
+  "claim_limit": "TRANSFORM_DIRECTION_CLASSIFICATION_ONLY_NO_S02_PASS_ACTIVE_CANDIDATE_OR_S03_CREDIT"
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "CTRL_R2_PHASE_TASK_CONTRACT_V1",
+  "arm_physical_dof": 6,
+  "gripper_physical_dof": 2,
+  "total_movable_dof": 8,
+  "arm_joint_types": ["revolute", "revolute", "revolute", "revolute", "revolute", "revolute"],
+  "gripper_joint_types": ["prismatic", "prismatic"],
+  "virtual_seventh_revolute_joint_forbidden": true,
+  "stage_order": ["FAR_APPROACH_5D", "FINAL_ALIGNMENT_6D", "GRIPPER_OPERATION_2P"],
+  "stages": {
+    "FAR_APPROACH_5D": {
+      "task_dimension": 5,
+      "controlled_quantities": ["position_x", "position_y", "position_z", "approach_axis_plane_1", "approach_axis_plane_2"],
+      "active_joints": ["joint1", "joint2", "joint3", "joint4", "joint5", "joint6"],
+      "gripper_mode": "CONTROL_REQUESTS_LOCKED_AT_DECLARED_QP__QDOTP_ZERO_IS_NOT_DYNAMIC_LOCK_PROOF__REACTION_SOLVER_BELONGS_TO_DYNAMICS_LANE",
+      "legal_nullspace_dimension_if_rank_five": 1,
+      "legal_secondary_objectives": ["joint_limit_avoidance", "base_reaction_reduction", "flex_excitation_reduction", "harness_margin_only_AFTER_AUTHORIZED_BINDING"],
+      "collision_credit": false
+    },
+    "FINAL_ALIGNMENT_6D": {
+      "task_dimension": 6,
+      "controlled_quantities": ["position_x", "position_y", "position_z", "orientation_x", "orientation_y", "orientation_z"],
+      "active_joints": ["joint1", "joint2", "joint3", "joint4", "joint5", "joint6"],
+      "gripper_mode": "CONTROL_REQUESTS_LOCKED_AT_DECLARED_QP__QDOTP_ZERO_IS_NOT_DYNAMIC_LOCK_PROOF__REACTION_SOLVER_BELONGS_TO_DYNAMICS_LANE",
+      "legal_nullspace_dimension_if_rank_six": 0,
+      "nullspace_secondary_objectives_allowed": false,
+      "collision_credit": false
+    },
+    "GRIPPER_OPERATION_2P": {
+      "task_dimension": 2,
+      "controlled_quantities": ["left_prismatic_displacement", "right_prismatic_displacement"],
+      "active_joints": ["gripper_joint1", "gripper_joint2"],
+      "joint_type_exact": "prismatic",
+      "requires_actuator_force_model": true,
+      "requires_stroke_limit_enforcement": true,
+      "requires_contact_sensing_and_transition_authority": true,
+      "current_implementation_state": "HOLD_MEASUREMENT_PENDING_AND_CONTACT_NOT_AS_BUILT"
+    }
+  },
+  "unknown_or_dimension_mismatch_policy": "FAIL_CLOSED",
+  "task_space_metric_contract": {
+    "status": "UNBOUND",
+    "characteristic_length_m": null,
+    "weighting_matrix": null,
+    "mixed_linear_angular_svd_or_residual_credit_allowed": false
+  },
+  "task_dimension_contract_complete": true,
+  "task_contract_complete": false,
+  "task_execution_authorized": false,
+  "release_credit": false
+}

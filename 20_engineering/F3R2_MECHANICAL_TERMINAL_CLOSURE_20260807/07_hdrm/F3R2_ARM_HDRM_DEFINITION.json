@@ -1,0 +1,403 @@
+{
+  "schema": "F3R2_G4_DEFINITION_V1",
+  "arm_hdrm": {
+    "designation": "ARM_HDRM",
+    "maturity": "COMPETITION_DEMONSTRATOR_ONLY",
+    "flight_status": "FLIGHT_MODEL_PROCUREMENT_TBD",
+    "not_to_be_confused_with": "the SOLAR array HDRM (HDRM_Base_1/2_L/R, HDRM_Rod_1/2_L/R) at z = -112..-88, which restrains the wings, not the arm",
+    "existing_reference_geometry": {
+      "Launch_Lock_Interface_Reference_mm": [
+        -10.0,
+        -84.0,
+        132.0,
+        10.0,
+        84.0,
+        168.0
+      ],
+      "Release_Clearance_Envelope_mm": [
+        -110.0,
+        -70.0,
+        264.08,
+        70.0,
+        110.0,
+        354.0
+      ],
+      "status": "REFERENCE_VOLUMES_ONLY_NOT_A_MECHANISM"
+    },
+    "interface_station": {
+      "restraint_plane_x_mm": 0.0,
+      "restraint_band_z_mm": [
+        132.0,
+        168.0
+      ],
+      "reason": "the reference block spans x -10..10, z 132..168, i.e. across the arm's stowed body"
+    },
+    "load_path": "arm link -> HDRM cup -> preload rod -> HDRM base -> bus deck; launch loads bypass the joints entirely",
+    "release_direction": "+Z, away from the bus deck",
+    "stroke_mm": {
+      "value": 6.0,
+      "status": "CANDIDATE",
+      "authority": "no vendor value exists; 6 mm is the candidate stroke carried from the earlier campaign and must be replaced by the procured device's datasheet"
+    },
+    "states": {
+      "LOCKED": {
+        "preload_N": "TBD_LAUNCH_LOAD_CASE",
+        "switch": "closed",
+        "arm_powered": false,
+        "arm_commandable": false,
+        "geometry": "cup fully engaged, 0 mm stroke"
+      },
+      "RELEASE_START": {
+        "preload_N": 0.0,
+        "switch": "closed",
+        "arm_powered": true,
+        "arm_commandable": false,
+        "geometry": "pyro/HOP fired, rod free, cup still engaged"
+      },
+      "RELEASED": {
+        "preload_N": 0.0,
+        "switch": "open",
+        "arm_powered": true,
+        "arm_commandable": true,
+        "geometry": "rod retracted 6 mm, residual envelope clear of the arm"
+      },
+      "RELEASE_FAILED": {
+        "preload_N": "unknown",
+        "switch": "closed_after_timeout",
+        "arm_powered": true,
+        "arm_commandable": false,
+        "action": "fail-closed: arm stays uncommandable, mission enters MANUAL_RECOVERY"
+      },
+      "GROUND_UNLOCK": {
+        "preload_N": 0.0,
+        "switch": "open",
+        "arm_powered": false,
+        "arm_commandable": true,
+        "geometry": "manual bolt removed, AIT only"
+      }
+    },
+    "mechanical_stop": {
+      "type": "hard shoulder on the rod",
+      "limits_stroke_to_mm": 6.0
+    },
+    "state_switch": {
+      "type": "redundant microswitch pair",
+      "wiring": "2x SPDT, cross-strapped"
+    },
+    "electrical": {
+      "connector": "9-pin micro-D",
+      "circuits": [
+        "fire A",
+        "fire B",
+        "switch A",
+        "switch B"
+      ]
+    },
+    "post_release_residual_envelope_mm": {
+      "box": [
+        -15.0,
+        -89.0,
+        127.0,
+        15.0,
+        89.0,
+        179.0
+      ],
+      "note": "the retracted rod plus 5 mm handling margin; the arm must clear THIS, not the locked envelope"
+    },
+    "disengagement_order": [
+      "1. ARM_HDRM LOCKED -> RELEASE_START (preload dumped)",
+      "2. ARM_HDRM RELEASE_START -> RELEASED (rod retracts 6 mm)",
+      "3. arm lifts off MID backup support (2.00 mm nominal gap, no force to overcome)",
+      "4. arm lifts off G08 primary cradle",
+      "5. arm lifts off G07 primary cradle",
+      "6. arm reaches Q_RELEASE_CLEAR",
+      "NOTE: this order is a DESIGN INTENT sequence; it has not been swept for clearance (G5 covers only frozen end states)"
+    ]
+  },
+  "camera": {
+    "designation": "SERVICE_CAMERA",
+    "exists_in_assembly": false,
+    "maturity": "DEFINED_NOT_MODELLED",
+    "consequence": "every camera-visibility criterion in this campaign is reported NOT_EVALUATED_NO_CAMERA_IN_ASSEMBLY and is NOT counted as passed -- including requirement 'camera usable' for Q_DEPLOYED_HOME",
+    "proposed_mount": {
+      "host_link": "link6",
+      "rationale": "wrist mounting keeps the target in view through the whole service approach without a separate pointing mechanism",
+      "bracket": {
+        "material": "Al 6061-T6",
+        "mass_g": 34.0,
+        "envelope_mm": [
+          40.0,
+          34.0,
+          26.0
+        ]
+      }
+    },
+    "optical_frame": {
+      "name": "camera_optical_frame",
+      "parent": "link6",
+      "convention": "REP-103 optical: +Z forward, +X right, +Y down",
+      "offset_from_link6_mm": [
+        0.0,
+        -46.0,
+        58.0
+      ],
+      "rpy_rad": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "status": "PROPOSED_NOT_CALIBRATED"
+    },
+    "field_of_view_deg": {
+      "horizontal": 66.0,
+      "vertical": 52.0,
+      "status": "TYPICAL_CLASS_VALUE_NOT_SELECTED"
+    },
+    "views": {
+      "STOW": "OCCLUDED -- in stow the wrist faces the bus deck; no useful view (geometric reading of the stowed link6 box [-1.1, -16.8, 233.3, 76.0, 75.2, 331.4])",
+      "Q_DEPLOYED_HOME": "NOT_EVALUATED_NO_CAMERA",
+      "SERVICE_GRASP": "NOT_EVALUATED_NO_CAMERA"
+    }
+  },
+  "harness": {
+    "designation": "ARM_HARNESS",
+    "exists_in_assembly": false,
+    "maturity": "DEFINED_NOT_MODELLED",
+    "existing_bus_features": {
+      "Harness_Passage_mm": [
+        64.0,
+        -30.0,
+        -82.0,
+        171.0,
+        30.0,
+        -58.0
+      ],
+      "Harness_Service_Loop_Left_mm": [
+        -110.0,
+        113.15,
+        -30.0,
+        -90.0,
+        131.15,
+        -10.0
+      ],
+      "Harness_Service_Loop_Right_mm": [
+        -110.0,
+        -131.15,
+        -30.0,
+        -90.0,
+        -113.15,
+        -10.0
+      ]
+    },
+    "entry_point": {
+      "at": "bus Harness_Passage, +x end",
+      "coordinates_mm": [
+        171.0,
+        0.0,
+        -70.0
+      ]
+    },
+    "exit_point": {
+      "at": "arm base_link connector face",
+      "coordinates_mm": [
+        215.0,
+        0.0,
+        0.0
+      ]
+    },
+    "clamp_points": [
+      {
+        "id": "HC-1",
+        "on": "Adapter_Plate",
+        "x_mm": 192.0
+      },
+      {
+        "id": "HC-2",
+        "on": "base_link collar",
+        "x_mm": 220.0
+      },
+      {
+        "id": "HC-3",
+        "on": "link1 shoulder",
+        "note": "rotating"
+      },
+      {
+        "id": "HC-4",
+        "on": "link3 mid-span"
+      },
+      {
+        "id": "HC-5",
+        "on": "link6 wrist, before the camera"
+      }
+    ],
+    "service_loop": {
+      "length_mm": 120.0,
+      "location": "at HC-2/HC-3",
+      "purpose": "absorbs joint1 rotation"
+    },
+    "minimum_bend_radius_mm": 25.0,
+    "bundle_outer_diameter_mm": 9.0,
+    "sweep_envelope": {
+      "poses": [
+        "Q_DEPLOYED_HOME",
+        "Q_SERVICE_READY"
+      ],
+      "status": "NOT_COMPUTED_NO_HARNESS_GEOMETRY",
+      "why": "a sweep of a cable that does not exist would be a fabricated envelope; the clamp scheme above is the input to that sweep once the harness is modelled"
+    }
+  },
+  "gripper": {
+    "designation": "TWO_FINGER_GRIPPER",
+    "cad_reality": {
+      "solids_in_cad": 1,
+      "cad_part": "B51_REF_gripper_detail_LINKLOCAL",
+      "stowed_box_mm": [
+        -78.07,
+        -84.74,
+        216.19,
+        45.43,
+        114.8,
+        381.1
+      ],
+      "finding": "the CAD carries a SINGLE gripper solid; it has no separated fingers"
+    },
+    "urdf_reality": {
+      "joints": [
+        "gripper_joint1",
+        "gripper_joint2"
+      ],
+      "type": "prismatic",
+      "travel_mm": [
+        0.0,
+        71.5
+      ],
+      "links_declared": [
+        "gripper_left",
+        "gripper_right"
+      ],
+      "cad_mapping": "MISSING for both fingers -- F3R1_LINK_COMPONENT_MAPPING.csv records gripper_left and gripper_right as MISSING"
+    },
+    "maturity": "SEPARATION_REQUIRED_NOT_DONE",
+    "explicit_non_claim": "the single visual gripper solid is NOT presented as two movable fingers, and no OPEN/PREGRASP/CLOSED/HOLDING CAD configuration is claimed to exist",
+    "states_defined": {
+      "OPEN": {
+        "finger_travel_mm": 71.5,
+        "jaw_opening_mm": 143.0,
+        "status": "DEFINED_NOT_MODELLED"
+      },
+      "PREGRASP": {
+        "finger_travel_mm": 55.0,
+        "jaw_opening_mm": 110.0,
+        "status": "DEFINED_NOT_MODELLED"
+      },
+      "CLOSED": {
+        "finger_travel_mm": 0.0,
+        "jaw_opening_mm": 0.0,
+        "status": "DEFINED_NOT_MODELLED"
+      },
+      "HOLDING": {
+        "finger_travel_mm": "target dependent",
+        "grip_force_N": "TBD_CONTACT_CASE",
+        "status": "DEFINED_NOT_MODELLED"
+      }
+    },
+    "what_must_be_done": [
+      "split B51_REF_gripper_detail into palm + two finger solids",
+      "bind each finger to gripper_joint1 / gripper_joint2",
+      "author the four states as CAD configurations",
+      "re-run clearance with the fingers at OPEN (the widest state)"
+    ],
+    "why_it_matters_for_this_gate": "OPEN is the widest gripper state; all clearance numbers in this campaign were measured with the single closed-looking solid, so gripper clearance is valid for that solid only and is NOT valid for the open jaw"
+  },
+  "parts": [
+    {
+      "part": "ARM_HDRM_CUP",
+      "kind": "restraint cup",
+      "qty": 1,
+      "material": "Ti-6Al-4V",
+      "volume_mm3": 4987.59,
+      "mass_g": 22.095,
+      "note": "engages the arm restraint boss",
+      "dimension_source": "sized to the reference block"
+    },
+    {
+      "part": "ARM_HDRM_ROD",
+      "kind": "preload rod",
+      "qty": 1,
+      "material": "A286",
+      "volume_mm3": 2312.21,
+      "mass_g": 18.151,
+      "note": "6 mm candidate stroke, hard shoulder",
+      "dimension_source": "candidate stroke"
+    },
+    {
+      "part": "ARM_HDRM_BASE",
+      "kind": "deck bracket",
+      "qty": 1,
+      "material": "Al 6061-T6",
+      "volume_mm3": 14080.0,
+      "mass_g": 38.016,
+      "note": "bolts to the bus deck",
+      "dimension_source": "footprint of the reference block"
+    },
+    {
+      "part": "ARM_HDRM_SWITCH",
+      "kind": "microswitch pair",
+      "qty": 2,
+      "material": "assembly",
+      "volume_mm3": 900.0,
+      "mass_g": 1.8,
+      "note": "redundant state sensing",
+      "dimension_source": "typical micro-D switch envelope"
+    },
+    {
+      "part": "CAMERA_BRACKET",
+      "kind": "wrist bracket",
+      "qty": 1,
+      "material": "Al 6061-T6",
+      "volume_mm3": 9900.8,
+      "mass_g": 26.732,
+      "note": "hosts the service camera",
+      "dimension_source": "proposed envelope"
+    },
+    {
+      "part": "SERVICE_CAMERA",
+      "kind": "camera module",
+      "qty": 1,
+      "material": "COTS",
+      "volume_mm3": 62000.0,
+      "mass_g": 62.0,
+      "note": "class placeholder, not a selected part",
+      "dimension_source": "typical small-sat camera mass 62 g"
+    },
+    {
+      "part": "ARM_HARNESS_BUNDLE",
+      "kind": "cable bundle",
+      "qty": 1,
+      "material": "PTFE/Cu",
+      "volume_mm3": 57255.48,
+      "mass_g": 125.962,
+      "note": "9 mm bundle, ~900 mm routed length",
+      "dimension_source": "route length from entry to wrist"
+    },
+    {
+      "part": "HARNESS_CLAMP",
+      "kind": "P-clamp",
+      "qty": 5,
+      "material": "Al + silicone",
+      "volume_mm3": 600.0,
+      "mass_g": 8.1,
+      "note": "one per clamp point",
+      "dimension_source": "standard 9 mm P-clamp"
+    }
+  ],
+  "total_mass_g": 302.86,
+  "maturity_summary": {
+    "ARM_HDRM": "COMPETITION_DEMONSTRATOR_ONLY / FLIGHT_TBD",
+    "CAMERA": "DEFINED_NOT_MODELLED (all visibility NOT_EVALUATED)",
+    "HARNESS": "DEFINED_NOT_MODELLED (no sweep computed)",
+    "GRIPPER": "SEPARATION_REQUIRED_NOT_DONE"
+  },
+  "verdict": "G4_DEFINED_NOT_MODELLED",
+  "protected_post": "ALL_PROTECTED_UNCHANGED"
+}

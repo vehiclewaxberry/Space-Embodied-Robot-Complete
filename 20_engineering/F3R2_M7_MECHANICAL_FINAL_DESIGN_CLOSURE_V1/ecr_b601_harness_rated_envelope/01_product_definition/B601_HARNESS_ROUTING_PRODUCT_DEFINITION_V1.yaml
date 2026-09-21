@@ -1,0 +1,151 @@
+schema: B601_HARNESS_ROUTING_PRODUCT_DEFINITION_V1
+generated_local: '2026-08-23T11:16:42.765106+08:00'
+authority: ODR-35..ODR-41
+product_status: FROZEN_TESTED_CANDIDATE__ROUTE_B_REJECTED
+route_id: B601_HARNESS_RATED_ROUTING_V1
+architecture: EXTERNAL_FIXED_DRESS_PACK_WITH_RATED_ENVELOPE
+scope: H-RUN-01_ARM_POWER_AND_DATA only
+out_of_scope:
+- camera harness
+- HDRM harness
+- flight electrical qualification
+hardware_items:
+- part_id: HRN-B601-001
+  name: base feedthrough and abrasion grommet
+  definition: P0/HN-01 interface
+  selection: null
+  status: HOLD_VENDOR_SELECTION
+- part_id: HRN-B601-002
+  name: joint1 captive clock-spring coil guide
+  definition:
+    plane_x_S_mm: 330.0
+    candidate_radius_mm: 72.05
+  status: TESTED_CANDIDATE
+- part_id: HRN-B601-003
+  name: base fixed clamps HC-1/HC-2
+  definition:
+    P1_S_mm:
+    - 200.0
+    - -81.085
+    - -85.728
+    P2_S_mm:
+    - 272.0
+    - -95.349
+    - -74.495
+  status: CANDIDATE_NOT_DRAWING_RELEASED
+- part_id: HRN-B601-004
+  name: link1 moving clamp HC-3
+  definition:
+    link1_local_mm:
+    - 38.626
+    - 60.821
+    - 37.35
+  status: CANDIDATE_NOT_DRAWING_RELEASED
+- part_id: HRN-B601-005
+  name: joint2-joint4 axial U-bend guides
+  definition:
+    joint2:
+      radius_mm: 35.0
+      azimuth_deg: 315.0
+      station_mm: 0.0
+      preferred_azimuth_deg: -44.47
+      topology: axial_side_bypass_loop
+    joint3:
+      radius_mm: 35.0
+      azimuth_deg: 15.0
+      station_mm: 0.0
+      preferred_azimuth_deg: 10.7
+      topology: axial_side_bypass_loop
+    joint4:
+      radius_mm: 35.0
+      azimuth_deg: 150.0
+      station_mm: 0.0
+      preferred_azimuth_deg: 154.24
+      topology: axial_side_bypass_loop
+  status: TESTED_CANDIDATE
+- part_id: HRN-B601-006
+  name: joint5-joint6 wrist wraps
+  definition:
+    joint5:
+      radius_mm: 48.348
+      azimuth_deg: 210.0
+      station_mm: -30.0
+      preferred_azimuth_deg: 210.0
+      topology: clock_spring_wrap_wrist
+    joint6:
+      radius_mm: 42.479
+      azimuth_deg: 345.0
+      station_mm: 40.0
+      preferred_azimuth_deg: 345.0
+      topology: clock_spring_wrap_wrist
+  status: TESTED_CANDIDATE
+- part_id: HRN-B601-007
+  name: link-side sleeve and P-clamp set
+  quantity: 18
+  status: HOLD_VENDOR_SELECTION
+- part_id: HRN-B601-008
+  name: gripper backshell and strain relief
+  definition:
+    G0_gripper_link_local_mm:
+    - -80.0
+    - 0.0
+    - 50.0
+  status: HOLD_CONNECTOR_SELECTION
+length_ledger:
+  cut_length_candidate_mm: 4001.158
+  maximum_geometric_path_in_full_range_sweep_mm: 3810.627
+  installation_surplus_at_full_range_argmax_mm: 190.531
+  joint1_takeup_supply_mm: 403.48
+  joint1_wp1_requirement_mm: 347.493596
+  joint1_takeup_margin_mm: 55.986404
+  semantic_correction: 403.48 mm is joint1 take-up supply, not additional cut-length service reserve
+cross_section_candidate:
+  overall_diameter_mm: 10.0
+  tube_radius_used_by_v2_mm: 5.0
+  conductors_mass_proxy: 24 x TE SPEC55 22-AWG proxy
+  vendor_selection_status: HOLD
+bend_requirement:
+  terminal_design_requirement_mm: 30.0
+  basis: 'NASA-STD-8739.4A Table 7-1: overall harness with AWG 10 or smaller and no coax, minimum 3 x OD'
+  official_source: https://standards.nasa.gov/standard/nasa/nasa-std-87394
+  v2_legacy_candidate_class_mm: 25.0
+  v2_minimum_measured_mm: 0.1
+  status: FAIL
+mass_proxy_source:
+  part: TE 55/9952-22-1(LAT3)
+  nominal_mass_kg_per_km_per_wire: 4.27
+  nominal_od_mm_per_wire: 1.1
+  official_source: https://www.te.com/en/product-7534143001.html
+  use_restriction: mass proxy only; not an electrical or flight part selection
+frozen_geometry_source:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V2.json
+  sha256: DB86348B8276FB2DCEB48DA30D1969948B37AAC4DF6D67D7588D928CF8281FAE
+negative_result:
+  summary: full-envelope external harness routing is falsified by this candidate family on the accepted geometry
+  root_causes:
+  - 'j2/j3 fold-flat envelope: the link2/link3 bars (max radius 292.5/277.0 mm about their joint axes) sweep the
+    full azimuth circle; the joint1 clock-spring coil (r=72.05 mm, plane x=330 mm) and every near-base routing element
+    are engulfed (worst: -11.994 mm vs link3 at SWEEP_joint2_09, i.e. the centerline is 7 mm inside link3''s surface
+    at the coil plane)'
+  - corner states (all six joints at hard limits) bring non-adjacent links into contact with span runs designed
+    against single-joint sweeps (e.g. link2 -11.6 mm at CORNER_000000, link4 -11.99 mm at SWEEP_joint4_32)
+  - wrist spans between the j5/j6 clock-spring wraps retain sub-class bends (0.10 mm at CORNER_110000) - residual
+    Catmull-Rom cusp at the wrap-to-span join at extreme poses
+  - 'pinch bands at hard stops reach -12 mm: fold closures land on spans anchored near the joint interfaces'
+  what_would_be_needed:
+  - routing through hollow joint shafts or slip rings (vendor/arm hardware change) for j2/j3
+  - OR a reduced harness-rated motion envelope (harness only rated over the mission poses + bounded joint subsets,
+    with the full-fold states declared transport/service-only and harness removed or reeved for them)
+  - OR an articulated dress-pack with guided carriers (new hardware, its own gate)
+  positive_results:
+  - FK pipeline validated to 0.0000 mm against all five witness STEP marker sets + base face x=208.000 mm
+  - joint1 coil model now exactly 1:1 (clamp azimuth residual 0.0 rad over the sweep); take-up supply 403.5 mm vs
+    requirement 347.493596 mm
+  - axial side-bypass loops achieve pinch-free stations by construction and U-turn radius >= 26 mm by construction
+  - wrist clock-spring wraps (j5 r=48.35, j6 r=42.48 mm) are locally clean at their own joints
+open_product_items:
+- electrical load map and conductor count not approved
+- connector and strain-relief part numbers absent
+- clamp drawings and fastener schedule absent
+- unplaced cut-length surplus geometry unresolved
+- bundle stiffness/friction/rate-dependent resistance unmeasured

@@ -1,0 +1,92 @@
+{
+  "review": "r01_deck_fastening_20260917_review",
+  "ticket": "R01_DECK_ANGLE_FASTENER_MINIMUM_PROPOSAL_R1 / WP03 计划 §3.2 验收6 独立复验",
+  "reviewer": "WP03 R01 独立审阅者（只读最终导出，未修改候选，未执行 git 提交）",
+  "reviewed_run": "F:/China Graduate Future Flight Vehicle Innovation Competition/01_project/competition/SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905/runs/r01_deck_fastening_20260917",
+  "reviewed_builder_commit": "bd126961",
+  "builder_summary_sha256": "813f69b75ca74d194f9620bb4fa79bf8a5b1fe7e47a726e78cca4d8b3cfb75b7",
+  "date": "2026-09-17",
+  "verdict": "R01_ACC6_INDEPENDENT_REVERIFY_FAIL__WEB_FASTENER_HEAD_WASHER_EMBEDDED_0p5MM_IN_SHEAR_WEB_16X",
+  "verdict_reason": "验收6 第四分句不满足：新候选存在新增相关未处置干涉——全部 16 件角材—腹板紧固件（{lower,upper}_angle_web_fastener_*）头侧垫圈（Ø6x0.5）承压面位于剪力腹板外表面内侧 0.5mm，垫圈环形承压区（r1.7..3.0）整体嵌入腹板材料，布尔交集体积每件 9.597566 mm3（理论 π(3^2-1.7^2)*0.5=9.60 吻合）。16 件甲板紧固件对照干净（交集体积 0）。",
+  "sub_results": {
+    "t1_independent_readback": {
+      "verdict": "PASS",
+      "closed_holes": "16/16",
+      "deck_angle_coaxial_ok": 16,
+      "angle_web_coaxial_ok": 16,
+      "fastener_envelopes_complete": "32/32",
+      "export_sha256_all_match": true,
+      "evidence": "evidence/review_t1_readback.json"
+    },
+    "nc1_legacy_broken_edge": {
+      "verdict": "NC1_PASS_old_broken_edges_detected",
+      "broken_edges_detected": "4/4",
+      "false_positives_on_12_intact_holes": 0,
+      "legacy_source_sha256": "11bd80a667505fc5fd0cf9bc79f7a892bcab5424ae16997de4fd0f163f53a2e9",
+      "evidence": "evidence/review_nc1_legacy_broken_edge.json"
+    },
+    "nc2_missing_dual_axis": {
+      "verdict": "NC2_PASS_missing_dual_and_axis_offset_detected",
+      "missing_dual_detected": true,
+      "measured_deviation_mm": 1.0,
+      "false_positives": [],
+      "evidence": "evidence/review_nc2_missing_dual_axis.json"
+    },
+    "nc3_washer_tool_conflict": {
+      "verdict": "NC3_PASS_washer_oversize_and_tool_conflict_detected",
+      "washer_OD8_detected": true,
+      "tool_conflict_detected": true,
+      "real_overhead_hit_reproduced": true,
+      "evidence": "evidence/review_nc3_washer_tool_conflict.json"
+    },
+    "t5_interference_scan_sampling": {
+      "verdict": "INDEPENDENT_SCAN_NO_UNRESOLVED_INTERFERENCE",
+      "named_set": 108,
+      "violations_sampling_scheme": 0,
+      "sequence_constraints": 46,
+      "pairwise_min_mm": 4.545797,
+      "known_blind_spot": "初版 T5 与构建者 acc5 的穿透采样仅覆盖杆面 r=1.5 环点与头/垫/螺母轴心点，未覆盖垫圈环形承压区（r 1.7..3.0）；盲区由验收4 杆长/承压面抽验暴露，本补充检查以布尔交集体积闭合。",
+      "evidence": "evidence/review_t5_interference_scan.json"
+    },
+    "t5b_interference_scan_boolean": {
+      "verdict": "T5B_INTERFERENCE_FOUND__WASHER_EMBEDDED_IN_SHEAR_WEB",
+      "violation_count": 16,
+      "common_volume_each_mm3": 9.597566,
+      "affected": "全部 16 件角材—腹板紧固件",
+      "evidence": "evidence/review_t5b_envelope_interference.json"
+    },
+    "t6_spotcheck_acc1_to_5": {
+      "verdict": "SPOTCHECK_DISCREPANCY_FOUND",
+      "agreement": "27/30",
+      "agreement_rate": 0.9,
+      "discrepancies": [
+        "验收3：腹板紧固件头垫圈承压区被腹板吞没（交集体积 9.597566 mm3），构建者\"承压区完整\"不成立",
+        "验收4：腹板件承压面到杆尖读回测量 9.5mm != 名义 M3x10（同一根因）",
+        "验收5：构建者 acc5 violations=0 为采样盲区假阴性，布尔口径 16 处未处置干涉"
+      ],
+      "evidence": "evidence/review_t6_spotcheck.json"
+    }
+  },
+  "builder_claims_not_confirmed": [
+    "ACCEPTANCE_SUMMARY 验收3 \"头、垫、螺母/螺纹承压区完整\"（对 16 件腹板紧固件不成立）",
+    "ACCEPTANCE_SUMMARY 验收5 \"violations: 0 / penetration_sample_hits: 0\"（采样盲区假阴性）",
+    "r01_fastener_stacks_32 腹板件 underhead_length_mm=10（读回承压面到杆尖 9.5mm）"
+  ],
+  "builder_claims_confirmed": [
+    "验收1：16/16 闭孔、旧破边消除、最小孔到避口 9.8mm、到外边 3.8mm（独立读回一致）",
+    "验收2：32/32 组同轴偏差 0.0、夹层 6.0/5.0mm（独立重算一致）",
+    "验收5：具名集合 108、两两最小间隙 4.5458mm、装序约束 46 条、穿透采样 0（同口径一致）"
+  ],
+  "root_cause_hypothesis_not_a_fix": "工程源 spacecraft_model.py deck_fastening_parts 腹板紧固件行头垫圈中心 side*102.9（y 102.65..103.15），相对贴面正确值 side*103.4 内移 0.5mm；审阅者不修改候选。",
+  "scope_limits": {
+    "whole_design_complete": false,
+    "manufacturing_release": false,
+    "material_grade_preload_locking_engagement": "UNKNOWN（保持构建者原样，未评定）",
+    "structural_allowable_edge_margin": "UNKNOWN（须绑定材料/载荷）",
+    "full_assembly_rebuild": "NOT_RUN（属构建者验收7 范围）",
+    "review_scope": "仅 run exports/ 数字几何名义装配；未评审图纸/BOM/质量链"
+  },
+  "fail_policy": "FAIL 不被 PASS 覆盖；本 FAIL 不否定三负控与读回 PASS 分结论",
+  "recommended_builder_action": "腹板紧固件头垫圈/头整体外移 0.5mm 使承压面与腹板外表面重合（side*103.15），重导出后重跑验收1-6；构建者 acc5 穿透采样建议增补垫圈环形承压区采样或直接采用布尔交集口径。",
+  "elapsed_note": "各子项耗时见各自 evidence JSON"
+}

@@ -1,0 +1,24 @@
+# 证据汇总与展示工件
+
+<!-- WORKSPACE_NAV_START -->
+**2026-09-21 目录整理入口：** [本域用途与归档总览](../01_project/governance/WORKSPACE_ORGANIZATION_20260921/WORKSPACE_INDEX.html?domain=40_evidence) · [全项目导航](../PROJECT_MAP.md)。历史来源和证据原位保留；本轮整理不改变设计或科学结论。
+<!-- WORKSPACE_NAV_END -->
+
+导航整理：2026-09-06。本域保存跨模块汇总、图表、媒体、离线回放和冻结展示副本。展示及汇总的来源仍由原始结果拥有者负责。
+
+- [展示与冻结工件](artifacts/)和[汇总表](tables/)：按对应生成来源与时间阅读。
+- [研究仪表板](artifacts/visualization/project_visualization_v1_research.html)：既有研究证据的离线汇总；[构建工具说明](../70_tools/research_dashboard/README.md)。
+- [历史比赛回放](artifacts/competition_convergence/)：比赛展示材料，不代表后续机械或硬件完成状态。
+- [原始仿真证据](../30_simulation/README.md)与[工程候选证据](../20_engineering/README.md)：核查表图、媒体引用的模型和机器记录。
+
+总览、截图和冻结副本不替代源 Gate、配置或实际试验记录。
+
+## 子目录与保留边界
+
+| 子目录 | 实际用途 | 本轮处置 |
+|---|---|---|
+| [artifacts/](artifacts/) | 离线展示、资格预检展示、历史比赛回放及冻结证据快照 | 保留生成物与其来源链；不把画面或副本当作新机器结果 |
+| [c1_evidence/](c1_evidence/) | B51/F3 各阶段的原始 CAD/CAE 接口诊断、载荷与执行证据，含历史辅助源码 | 独有诊断、失败、见证和源文件保留；未作物理正确性复审 |
+| [tables/](tables/) | 有日期的主张映射、文献扫描与研究规划汇总表 | 保留原表；表中的状态由引用的原始记录解释 |
+
+旧域说明中重复的展示与 Gate 责任声明已并入上文；原始字节可从本轮 SQLite 备份恢复。各报告若主题相近但绑定不同构型、阶段、试验或见证，不作为重复文件删除。

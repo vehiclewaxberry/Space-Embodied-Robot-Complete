@@ -1,0 +1,86 @@
+{
+ "fail_closed_invariants": [
+  "UNKNOWN is never ALLOW and never PASS",
+  "no accepted/donor/historical gate file is modified by this build",
+  "no parent gate is reissued by this build",
+  "passing negative controls does not authorize non-ABORT execution",
+  "release_credit remains false"
+ ],
+ "generated_utc": "DETERMINISTIC_BUILD_NO_WALLCLOCK",
+ "maximum_operational_state": "ABORT_ONLY_WITH_VALIDATED_FAIL_CLOSED_BACKENDS_20_OF_20_NC__PRODUCTION_NON_ABORT_STILL_MASKED_BY_12_GATE_AUTHORITY",
+ "negative_controls": {
+  "NC15": {
+   "backend_source": {
+    "matches": 1,
+    "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/runtime_fail_closed_backends_v2/sim13_v2_backends/snapshot_receipt.py",
+    "sha256": "7EC646D33D1086E51DFFDCD474F44F1D267A70890B7B9C57E7AFC2ED7AB60BA5"
+   },
+   "evidence": "stale snapshot -> SNAPSHOT_REJECTED_STALE; replayed nonce -> SNAPSHOT_REJECTED_NONCE_REPLAY; both MASK_TO_ABORT_ONLY",
+   "semantics": "fresh action/context-bound snapshot receipt, trusted clock, nonce, replay store",
+   "state": "PASS"
+  },
+  "NC16": {
+   "backend_source": {
+    "matches": 1,
+    "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/runtime_fail_closed_backends_v2/sim13_v2_backends/capability.py",
+    "sha256": "EBE52C903F388A32192716D907D3A66051CB0B1D45309F041B0998B653D2F44B"
+   },
+   "evidence": "unshielded direct call -> BACKEND_REJECTS_UNSHIELDED_NON_ABORT -> MASK_TO_ABORT_ONLY; foreign-source token -> CAPABILITY_TOKEN_BACKEND_SOURCE_MISMATCH",
+   "semantics": "backend capability token + mandatory shield-attestation admission",
+   "state": "PASS"
+  },
+  "NC18": {
+   "evidence": "10x1ms real state evolution detected (revolute_qdot_max 0.12593 rad/s), momentum residual ~1e-19 (limit 1e-9); phase-only mutant -> DYNAMICS_STATE_UPDATE_FAILURE_PHASE_ONLY",
+   "gate_pin": {
+    "bytes": 442,
+    "exists": true,
+    "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/runtime_fail_closed_backends_v2/results/SIM13_DYNAMICS_BACKEND_GATE_V2.json",
+    "sha256": "BC02C02B75C0BF7E36C8629C57509D38084F028BB6E586256D3506501684B61E"
+   },
+   "semantics": "integrated non-ABORT joint/base/end-effector state evolution backend on unified URDF + free_floating_dynamics",
+   "state": "PASS"
+  },
+  "NC19": {
+   "evidence": "detector sabotage -> CONTACT_DETECTION_FAILURE; out-of-envelope -> CONTACT_ENVELOPE_UNKNOWN_MASKS_TO_ABORT; released contact geometry artifact emitted",
+   "gate_pin": {
+    "bytes": 452,
+    "exists": true,
+    "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/runtime_fail_closed_backends_v2/results/SIM13_CONTACT_GRASP_GATE_V2.json",
+    "sha256": "F13B755EA0B3A9BB34FBF1BCF90343347A53C28B04EF59A3A207ADABA624A81A"
+   },
+   "semantics": "authoritative narrow-phase contact backend bound to DESIGN_CONTACT_MODEL_V1 envelope (BOUNDED_PROVISIONAL)",
+   "state": "PASS_BOUNDED_PROVISIONAL"
+  },
+  "NC20": {
+   "backend_source": {
+    "matches": 1,
+    "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/runtime_fail_closed_backends_v2/sim13_v2_backends/feasibility_evaluator.py",
+    "sha256": "58CCAE2642A0570C77060317D8E041B03444A7C933378372718D94085C468268"
+   },
+   "evidence": "omega+=3.0633304945807067 dps -> INFEASIBLE_RATE / FEASIBILITY_FAIL / POST_GRASP_STABILITY_FAIL_WHEELS_ONLY; missing receipt -> FEASIBILITY_RECEIPT_MISSING; veto -> MISSION_VETO_INFEASIBLE_RATE -> MASK_TO_ABORT_ONLY; min_H_required=3.650992635553959 Nms",
+   "semantics": "action-bound 150kg feasibility/post-grasp evaluator receipt (sim10/sim12 anchors)",
+   "state": "PASS"
+  }
+ },
+ "negative_controls_evidence_pin": {
+  "bytes": 16170,
+  "exists": true,
+  "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/runtime_fail_closed_backends_v2/evidence/SIM13_V2_BACKENDS_NEGATIVE_CONTROLS_V2.json",
+  "sha256": "F2A4E2ADD3F2CDC8948D60577EC022E541E8B28055D8B87675A04309E70AD871"
+ },
+ "next_stage_authorized": false,
+ "non_abort_execution_credit": 0,
+ "owner_directive": "CLAUDE CODE TAKEOVER DIRECTIVE — R2 MECHANICAL–M01–SIM13 INTEGRATION CLOSURE (2026-08-28)",
+ "release_credit": false,
+ "review_status": "PENDING_OWNER_REVIEW",
+ "schema": "SIM13_NC15_NC16_NC18_NC19_NC20_EVIDENCE_V1",
+ "verdict": "SIM13_NC15_NC16_NC18_NC19_NC20_EVIDENCE_REGISTERED__ALL_PASS_AT_BACKEND_SUBSCOPE__ABORT_ONLY_PRESERVED__NO_SYSTEM_BINDING_OR_RELEASE_CREDIT",
+ "work_orders_pin": {
+  "bytes": 4305,
+  "exists": true,
+  "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/loop_b/SIM13_BACKEND_WORK_ORDERS_V1.json",
+  "sha256": "4D169444C0462B8E29B38FF620880351EBB85DABE12848E9D3D4C379F70B3643"
+ },
+ "work_orders_state": "SUPERSEDED — all five backends delivered 2026-08-25 and closed 5/5 in the post-terminal handoff addendum; this file registers their evidence without re-implementation",
+ "work_package": "D — SIM13 FIVE OPEN NEGATIVE CONTROLS (evidence registration; backends pre-existing)"
+}

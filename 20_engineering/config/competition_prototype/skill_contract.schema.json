@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:space-embodied-agent:comp-prot-01:skill-contract:v1",
+  "title": "Space Embodied Agent V1 Two-Level Skill Contract",
+  "$comment": "STATUS=PROTOTYPE_CONTRACT; two-level skill proposal only; no controller or finite-state-machine implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+    },
+    "taskSkill": {
+      "type": "string",
+      "enum": [
+        "INTERCEPT_TARGET",
+        "APPROACH_TARGET",
+        "CAPTURE_TARGET",
+        "STABILIZE_TARGET",
+        "REDUCE_ROTATION",
+        "TRANSFER_TARGET"
+      ]
+    },
+    "physicsPrimitive": {
+      "type": "string",
+      "enum": [
+        "approach_trajectory",
+        "velocity_matching",
+        "momentum_exchange",
+        "grasp_closure",
+        "attitude_compensation"
+      ]
+    },
+    "contractState": {
+      "type": "string",
+      "enum": [
+        "STATE_ENVELOPE_READY",
+        "CANDIDATE_PROPOSED",
+        "SKILL_PROPOSED",
+        "PHYSICS_REVIEWED",
+        "SAFE_REVIEW_PENDING",
+        "EXECUTION_AUTHORIZATION_PENDING",
+        "FAIL_CLOSED_HOLD"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "contract_status",
+    "skill_contract_id",
+    "created_at",
+    "valid_until",
+    "target_envelope_ref",
+    "candidate_bundle_ref",
+    "task_skill",
+    "physics_primitives",
+    "transition_proposal",
+    "required_reviews",
+    "proposal_only",
+    "execution_authority",
+    "provisional_flags"
+  ],
+  "properties": {
+    "schema_version": {"const": "comp-prot-01.skill-contract.v1"},
+    "contract_status": {"const": "PROTOTYPE_CONTRACT"},
+    "skill_contract_id": {"$ref": "#/$defs/identifier"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": "string", "format": "date-time"},
+    "target_envelope_ref": {"$ref": "#/$defs/identifier"},
+    "candidate_bundle_ref": {"$ref": "#/$defs/identifier"},
+    "task_skill": {"$ref": "#/$defs/taskSkill"},
+    "physics_primitives": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sequence", "primitive", "intent_code", "input_refs", "required_evidence_types"],
+        "properties": {
+          "sequence": {"type": "integer", "minimum": 1, "maximum": 8},
+          "primitive": {"$ref": "#/$defs/physicsPrimitive"},
+          "intent_code": {"type": "string", "pattern": "^[A-Z0-9_:-]{1,128}$"},
+          "input_refs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/identifier"}
+          },
+          "required_evidence_types": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "APPLICABILITY_DOMAIN",
+                "GEOMETRY_CONSTRAINT",
+                "CONTACT_CONSTRAINT",
+                "MOMENTUM_LEDGER",
+                "RESOURCE_LEDGER",
+                "FLEX_STATUS",
+                "WORST_CASE_ENDPOINTS",
+                "PROVENANCE"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "transition_proposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from_state",
+        "proposed_to_state",
+        "precondition_refs",
+        "completion_evidence_types",
+        "fail_closed_reason_codes"
+      ],
+      "properties": {
+        "from_state": {"$ref": "#/$defs/contractState"},
+        "proposed_to_state": {"$ref": "#/$defs/contractState"},
+        "precondition_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "completion_evidence_types": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Z0-9_:-]{1,128}$"}
+        },
+        "fail_closed_reason_codes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Z0-9_:-]{1,128}$"}
+        }
+      }
+    },
+    "required_reviews": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["physics_tool", "safe_extension", "external_authorization"],
+      "properties": {
+        "physics_tool": {"const": true},
+        "safe_extension": {"const": true},
+        "external_authorization": {"const": true}
+      }
+    },
+    "proposal_only": {"const": true},
+    "execution_authority": {"const": false},
+    "provisional_flags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z0-9_:-]{1,128}$"}
+    }
+  }
+}

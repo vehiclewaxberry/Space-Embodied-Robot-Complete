@@ -1,0 +1,49 @@
+{
+  "schema": "ROUTE_C_LINK2_B12_PRE_ROOT_REPLAY_NOT_CLEAN_PASS_V1",
+  "generated_utc": "DETERMINISTIC_REVIEW_RECORD_NO_WALLCLOCK",
+  "classification": "HISTORICAL_NEGATIVE_ZERO_CREDIT",
+  "superseded_package_state": {
+    "gate": {
+      "bytes": 6567,
+      "sha256": "D9FA6FC857C06373283698F33427D85711F1685DFD3BFDB9339E02284764A198"
+    },
+    "manifest": {
+      "bytes": 15389,
+      "sha256": "B89B903F336565E7AF0A83BF7B38EA11A2539A1BA19AE53302E7BFE3D097E80A"
+    },
+    "inventory": {
+      "bytes": 29137,
+      "sha256": "2F8C3C92E7D09C6F0709873CDC1F9543B457047CA6E651C8673D73FD17667C0F"
+    },
+    "fresh_process_script": {
+      "bytes": 3521,
+      "sha256": "E466BE15CB0E5A07D5883E2F591506F8E7E1D9596AC1CC761DE6E39378E395E9"
+    },
+    "fresh_process_receipt": {
+      "bytes": 18246,
+      "sha256": "00AA0022100A1AB36052D16C95C065AEB5E79A3D65D79D1691A0D02845393FBB"
+    }
+  },
+  "root_replay_observation": {
+    "builder_check": "PASS",
+    "negative_controls": "51/51 PASS",
+    "independent_validation": "12 objects and 9 poses PASS",
+    "fresh_process_determinism": "2 builder plus 2 validator replays reported deterministic",
+    "pytest": "10/10 PASS",
+    "manifest_rebuild": "FAIL_CLOSED",
+    "failure": "forbidden cache/temp file in manifest: 02_builder/__pycache__/link2_pose_adapter.cpython-313.pyc"
+  },
+  "root_cause": "verify_fresh_process_determinism.py launched builder and validator child processes without -B and without a fixed PYTHONDONTWRITEBYTECODE environment; the builder imported link2_pose_adapter and emitted bytecode inside the package",
+  "required_repair": [
+    "launch every fresh child with python -B",
+    "set PYTHONDONTWRITEBYTECODE=1 PYTHONHASHSEED=0 PYTHONUTF8=1",
+    "fail before and after replay if package cache pyc or tmp exists",
+    "remove only the generated package-local cache after recording this negative",
+    "reissue fresh receipt manifest inventory and local Gate then replay from root"
+  ],
+  "thresholds_relaxed": false,
+  "geometry_or_fk_scientific_failure": false,
+  "system_status_changed": false,
+  "system_credit": 0,
+  "verdict": "SUPERSEDED_PRE_AUTHORITY_NOT_CLEAN_PASS__FRESH_CHILD_BYTECODE_SIDE_EFFECT__ZERO_CREDIT"
+}

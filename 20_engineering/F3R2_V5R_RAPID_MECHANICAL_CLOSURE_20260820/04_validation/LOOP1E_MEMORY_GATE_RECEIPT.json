@@ -1,0 +1,63 @@
+{
+ "schema": "V5R_LOOP1E_MEMORY_GATE_RECEIPT_V1",
+ "task": "V5_LOOP1E_NATIVE_RECOVERY_R1",
+ "phase": "PHASE_B_MEMORY_GATE",
+ "timestamp_utc": "2026-08-20T06:23:32Z",
+ "method": "replicates base helper memory_gate(): ten GlobalMemoryStatusEx samples at 0.25 s spacing",
+ "minimum_required_gib": 6.0,
+ "available_gib_samples": [
+  1.289764,
+  1.288754,
+  1.28994,
+  1.292236,
+  1.298061,
+  1.292267,
+  1.295025,
+  1.28801,
+  1.303333,
+  1.300072
+ ],
+ "min_sample_gib": 1.28801,
+ "max_sample_gib": 1.303333,
+ "total_physical_gib": 15.21,
+ "memory_load_pct": 91,
+ "solidworks_processes_running": 0,
+ "all_ten_samples_ge_threshold": false,
+ "gate_result": "FAIL",
+ "verdict": "MEMORY_GATE_FAIL_NATIVE_EXECUTION_BLOCKED",
+ "solidworks_opened": false,
+ "override_used_by_this_receipt": false,
+ "CRITICAL_FINDING_OVERRIDE_BYPASS_STILL_ARMED": {
+  "severity": "HIGH",
+  "statement": "The owner ruling says 'stop if the memory gate is not satisfied; do not use override'. That instruction CANNOT self-enforce in the current on-disk state: the memory gate is bypassed by a persistent write-once receipt file, not by a runtime flag.",
+  "mechanism": "F3R2_V5_NATIVE_LOOP1_IMPORT_ATTACH_ONLY.py:341 -> `if not mo.override_allowed() and not all(sample >= MIN_AVAILABLE_GIB ...)` . The same short-circuit repeats at line 470 inside audit_g0().",
+  "override_module": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/F3R2_V5_MEMORY_OVERRIDE.py",
+  "override_receipt": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/00_authority/V5_MEMORY_GATE_USER_OVERRIDE.json",
+  "override_receipt_present": true,
+  "override_receipt_mtime": "2026-08-10 15:51",
+  "override_flag": true,
+  "override_scope": "ALL_V5_NATIVE_EXECUTION_AND_G0",
+  "override_origin_instruction": "不要管门限了开始就行 (2026-08-10)",
+  "override_recorded_samples_gib": [
+   4.549,
+   4.547,
+   4.561,
+   4.561,
+   4.559,
+   4.558,
+   4.557,
+   4.677,
+   4.685,
+   4.688
+  ],
+  "consequence": "If Loop1E is launched as-is, memory_gate() will NOT raise AVAILABLE_RAM_HOLD at 2.1 GiB. It will record the samples and continue into SolidWorks. The 2026-08-20 ruling's precondition available_memory_gib_ge_6 would be silently unmet-but-unenforced.",
+  "aggravating_factor": "measured availability today (~2.1 GiB) is LOWER than the 4.55-4.69 GiB that prompted the original override, so the override is now being applied far outside the conditions under which it was granted",
+  "not_actioned_by_agent": "the override receipt lives inside the frozen V5 directory and is a write-once authorization record; removing or editing it is an owner decision, not an agent action",
+  "owner_options": [
+   "O1 (recommended): owner revokes the override for this round - rename/relocate V5_MEMORY_GATE_USER_OVERRIDE.json, or add a superseding revocation receipt the module honours, so the 6 GiB gate becomes self-enforcing again",
+   "O2: keep the override but free memory first so the real samples clear 6.0 GiB anyway, making the bypass moot",
+   "O3: explicitly re-authorize running at ~2 GiB, accepting the documented low-memory crash risk (2 prior memory-death events on this machine); NOT recommended"
+  ]
+ },
+ "blocking_conclusion": "PHASE_C_PATCH_MAY_PROCEED_STATICALLY_PHASE_D_LOOP1E_RUN_BLOCKED"
+}

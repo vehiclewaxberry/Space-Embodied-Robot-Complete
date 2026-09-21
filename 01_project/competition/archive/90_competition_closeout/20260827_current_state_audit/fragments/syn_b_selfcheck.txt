@@ -1,0 +1,31 @@
+SYN-B 自检报告（裁决数据类交付）
+================================
+生成时间口径: 2026-08-27（本地）。执行模式: 只读综合——全程未修改 fragments、源码、CAD、Gate；唯一写入为 90_competition_closeout/20260827_current_state_audit/ 下 4 个最终文件与本自检文件。
+
+## 交付文件清单（行数/字节）
+
+- 02_CURRENT_AUTHORITY_SELECTION.json: 174 行, 24272 B。七域 current_authority（science_innovation/mechanical/dynamics/control_safe/sim13/embodied_hil/competition_delivery），每域含 authority_path/verdict/sha256_12/last_verified/supersedes/conflicts/notes 七键；registered_conflicts 7 条（CONF-01..07）各带 parties+resolution_rule。
+- 04_COMPETITION_REQUIREMENTS_MATRIX.csv: 14 行（1 注释状态行+表头+12 数据行）, 6603 B。首行 COMPETITION_REQUIREMENT_STATUS=UNKNOWN_BLOCKING_FORMAT_CONFIRMATION（P0）。覆盖任务要求的 12 个要求项；in_repo_status 分布: MISSING×6, MISSING+VERIFIED(资产)×2, MISSING 双缺×2, MISSING+UNKNOWN×1, PROVISIONAL(截止时间)×1；authority_level 全部 NONE（官方文件仓内零命中, 证据 fragments/compdeliv findings §A.1/B-CD01）。
+- 05_RESEARCH_GAP_MATRIX.csv: 88 行（3 注释行+表头+10 E-COMP 行+1 附录注释行+附录表头+72 附录行）, 50023 B。E-COMP-01..04=EXECUTE_NOW, E-COMP-05..09=DEFER_POST_COMPETITION（E-COMP-05 双处置并列）, E-COMP-10=ABANDON_FOR_CURRENT_SCOPE——与任务书初裁一致。附录合并 7 个 fragments 的 blockers.csv 共 72 行（mech 16/dyn 10/ctrl 8/sim13 10/embodied 8/compdeliv 11/memory 9），逐行 verbatim、首列加 source_fragment 溯源。
+- 06_CLAIM_EVIDENCE_MATRIX.csv: 33 行（3 注释行+表头+29 数据行）, 21878 B。类别分布: CORE×9（C1-C5 核心主张+S1-S4 支撑性物理证据行, 覆盖 sim_05/06/07/08/10/11/12, e23, SAFE-00, CTRL-01/02 具体 gate JSON+行定位）, BASELINE_ONLY×9, FORBIDDEN_NOW×5, BOUNDARY_PRIOR_ART×6（Wang2026/Lu2026/Ma2026/Cai2026/Mao2026/AA246:734-744, 均注明检索截止 2026-07-18+08-23 补检）。
+
+## 机器自检结果（全部 PASS）
+
+1. 02 JSON 解析通过；7 域键序与任务书一致；每域 7 键齐全；sha256_12 全部匹配 [0-9a-f]{12}；7 条冲突均含 resolution_rule。
+2. 04/05/06 CSV 经 Python csv.reader 解析：列数逐行等于表头（9/11/9）；04 首行状态 token 存在；05 十个 disposition 与任务书映射逐项断言相等；E-COMP-05 disposition_reason 同时含 DEFER_POST_COMPETITION 与 EXECUTE_NOW 两种处置。
+3. 06 全部 sha256_12 字段（含多锚点分号分隔）逐 token 校验为 12-hex。
+4. 证据路径存在性: 02 的 7 条 authority_path + 06 的 evidence_path 展开共 42 条, 缺失 0；另抽查 17 条关键证据（00_RELEASE_GATE/sim_10/sim_11/sim_12/SAFE-00/CTRL-01/CTRL-02/e15/e23/competition_gate/查新裁决/CURRENT_GATE_MATRIX/SIM13_20_OF_20/addendum/联合 Gate/mp4/pptx）全部存在。
+5. 附录行数对账: 72=16+10+8+10+8+11+9, 与各 fragments blockers.csv 原始行数一致; 合并脚本含表头断言, 防止列序漂移。
+
+## 口径与边界声明
+
+- E-COMP 编号仓内无注册表（embodied fragment 确认 E-COMP-05 仓内 grep 零命中）；E-COMP-01/06/07/08/09/10 的实验语义按任务书描述映射并已在 disposition_reason 注明, 须 Owner 核对编号清单。
+- 04 全部 requirement 行 authority_level=NONE：仓内无 2026 正式参赛文件；归档 0715 描述（e65cf431ba00）按 AGENTS.md L14 禁作现行依据, 仅作背景线索；禁止往届规则替代。
+- 06 中 S1-S4 为 CORE 类支撑性物理证据行（服务 C2/C4 物理链）, 非独立新主张；claim_class 词表未越出任务书四类（CORE 内部分层）。
+- 铁律执行检查: 未把任何子 PASS 升级为父 Gate（CONF-01 双口径并置）；UNKNOWN 未映射 EXECUTE（E-COMP-07=UNKNOWN_NOT_SEARCHED 记为不可获得）；source-only 未写成 current-system（E-COMP-02 收紧为 source-only/accepted-B601 口径）；模块 PASS 未写成执行授权（SAFE-00/CTRL-02 均带 PENDING_REVIEW+next_stage_authorized=false）；未删除任何 REPEAT/HOLD/负结果（e15/CTRL-01/WAVE1_REPEAT/V9F/E22 等均原样引用）。
+
+## 已知限制
+
+- 04 的 user_provided_background 列仅「提交硬截止 2026-09-01」一条用户口径; 其余官方字段仓内与用户背景均缺。
+- 继承包质量数字转录差异（4.6955559493429862 vs 4.695555949342986 kg）按 L0 层级文件口径登记于 CONF-06, 未回改任何原文。
+- 本代理未重算 fragments 已复算的 sha256（fragments 各自完成复算并交叉比对）; 本自检只对证据路径存在性与文件结构做机器校验。

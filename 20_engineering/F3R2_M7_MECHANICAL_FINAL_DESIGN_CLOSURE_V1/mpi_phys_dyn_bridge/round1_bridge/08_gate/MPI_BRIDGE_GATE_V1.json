@@ -1,0 +1,181 @@
+{
+  "schema": "MPI_BRIDGE_GATE_V1",
+  "generated_local": "2026-08-23T19:37:00+08:00",
+  "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+  "generator": "KIMI M7 机械终局接管 Gate 组装代理 MPI-FB-08 (pure python 3.13.9 + numpy 2.3.5 + pyyaml 6.0.3; read-only on all upstream/round0/round1 files; writes only inside round1_bridge/08_gate/; no CAD/FEA process; git read-only)",
+  "authority_basis": {
+    "ODR-43": "B601_ARM_PLACEMENT_RULE: DUAL_FRAME_EXPLICIT_BRIDGE - unique explicit T_PHYSICAL_TO_DYNAMIC; no selection, no per-module mixing, no averaging, the 0.36889 deg branch delta is not a random uncertainty, no silent coordinate substitution",
+    "ODR-44": "APPROVE_BOUNDED_DETAILED_DESIGN - accepted URDF / Solar R2 / M3R / Gripper R1 / M7 FEA frozen; no Route-C independent versioned CAD candidate before MPI-FB-01..08 all closed",
+    "criteria_source": "round0_handover/01_frame_authority/MPI01_BRIDGE_DERIVATION_PLAN_V1.md section (f), 9 fail-closed criteria"
+  },
+  "mpi_gate": "PASS",
+  "gate_scope": "PASS covers ONLY the installation-semantics bridging: the five ambiguities (frame / mass / inertia / consumer / hash) are machine-verified at zero across the MPI-FB-02..07 main chain, and the nine FB-01 section-(f) criteria all pass with FB-08 independent recomputation. This PASS grants no release, production, manufacturing, qualification, launcher or flight authority, and does not lift any HOLD.",
+  "bottom_line_metrics": {
+    "frame_ambiguity": 0,
+    "mass_inconsistency": 0.0,
+    "inertia_inconsistency": 0.0,
+    "consumer_ambiguity": 0,
+    "hash_mismatch": 0,
+    "definitions": {
+      "frame_ambiguity": "count of competing bridge definitions / uncited cross-frame consumers: exactly one T_PHYSICAL_TO_DYNAMIC definition file exists in the package (B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml); 23 other package files cite it, all with the verified sha256 0ACEB659284CAB86",
+      "mass_inconsistency": "max |candidate_mass - V3_R2 stated mass| over C01..C09, exact-zero required; recomputed = 0.0 for all 9",
+      "inertia_inconsistency": "unexplained candidate-vs-stated inertia residual after accounting for the bridge action on the arm row; recomputed explanation residual = 0.0 on spot configs C01/C05/C07 (FB-06 all-9 worst 5.55e-16 <= 1e-12)",
+      "consumer_ambiguity": "consumer_ambiguity_count field in FB-05/V6/R3 (all 0) + FB-05 audit mount_construction_sites_in_runner=1 + FB-06 9/9 SINGLE_ODR01_DYNAMICS_CONSUMPTION via the unique bridge",
+      "hash_mismatch": "manifest V2 walk: 41/42 V1 entries byte-exact, 0 missing, 1 documented re-run (rt2_static_output.json, pinned inside RED_TEAM_ROUND2_EXECUTION_V1.json); 31 cross-reference pins (26 upstream + 5 package products) recomputed with 0 mismatch; the only known exception is the pre-registered upstream self-hash DRIFT OI-R1-01 (awaiting upstream erratum), reproduced as registered, not a new mismatch"
+    }
+  },
+  "criteria_evaluation": [
+    {
+      "id": "FB08-C01",
+      "criterion_from_FB01_sec_f": "bridge file exists, sha256 self-consistent, both source transforms bit-identical to the e21 authority contract (field-level numeric comparison, not file-exists)",
+      "status": "PASS",
+      "evidence": {
+        "bridge_file": "round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml",
+        "bridge_sha256_recomputed": "0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C",
+        "contract_sha256_recomputed": "7D2E0792B3FF6BAB9BD9AE11A605341B20BAAB821961A7BA8E119996D1515D81",
+        "fb08_checks": ["V01-01", "V01-02", "V01-03", "V08-01"],
+        "recomputed": "bridge-file T_S_A0_dynamics/T_S_A0_physical vs contract placement_hypotheses max-abs = 0.0 / 0.0; B rebuilt from hash-pinned contract via rigid inverse vs stored bridge max-abs = 0.0 (dense-vs-rigid path 0.0)"
+      }
+    },
+    {
+      "id": "FB08-C02",
+      "criterion_from_FB01_sec_f": "FB-03 roundtrip/orthogonality/determinant/chirality all <= 1e-12; mutation negative controls all caught",
+      "status": "PASS",
+      "evidence": {
+        "file": "round1_bridge/03_validation/MPI03_BRIDGE_NUMERICAL_VALIDATION.json",
+        "fb08_checks": ["V01-04", "V01-05", "V01-06", "V01-07", "V01-09", "V01-10", "V02-01", "V02-02", "V02-03"],
+        "recomputed": "closure T_dyn@B==T_phys max-abs = 0.0; det(R_B)-1 = +5.195843755245733e-13 (chirality +1 preserved); max|R^T R - I| = 5.195843755245733e-13; roundtrip max(inv(B)@B, B@inv(B)) - I = 5.195843755245733e-13; derived angle 25.000013999932346 deg, axis [0,0,1], quaternion match <= 3.1e-13; FB-03 report 21/21 PASS fields verified; FB-08 mutation controls fired (theta-flip closure 0.8452369663858903, t-flip 0.045499999999999985, frame-averaged det 0.9531538418861297 -> |det-1| > 1e-6); FB-03 six mutation detectors all fired"
+      }
+    },
+    {
+      "id": "FB08-C03",
+      "criterion_from_FB01_sec_f": "FB-04 full validation checklist passes; no element-wise rotation, no uncertainty-matrix misuse (T(R) induced-map implementation confirmed)",
+      "status": "PASS",
+      "evidence": {
+        "file": "round1_bridge/04_mass/MPI04_MASS_INERTIA_BRIDGE_VALIDATION.json",
+        "fb08_checks": ["V03-01", "V03-02", "V03-03", "V03-04", "V03-05", "V03-06", "V05-02"],
+        "recomputed": "mass invariant exact 0 (all FB-04 objects); arm CG map r_A0dyn == B@r_A0phys max-abs 1.73e-18 m; about-CG pure-rotation principal invariance 1.31e-13 <= 1e-12; Steiner witness m*t^2 = 0.0024302436760318276 kg m^2 recomputed with diff 0.0; literal un-conjugated reading deviation 0.007710680881610109 clearly nonzero and registered FORBIDDEN; WP11 physical lane independently re-aggregated from hash-pinned V3_R2 C07 members via C_S_inv: mass diff 0.0, CG max-abs 6.05e-17, inertia max-abs 1.16e-15 vs FB-04 published; lane deltas recomputed (CG 0.003524348142565545 m, inertia 0.1031195352284735 kg m^2) = published 0.003524348142565558 / 0.10311953522836159 at 1e-14/1e-10 path noise, fully explained by the bridge action, not zeroed; uncertainty policy confirmed: bridge uncertainty = null, member declared uncertainties carried verbatim (V05-02 arm non-bridged fields incl. uncertainty blocks deep-equal V3_R2 on C01/C05/C07), no R U R^T anywhere (rt2 attack d concurs)"
+      }
+    },
+    {
+      "id": "FB08-C04",
+      "criterion_from_FB01_sec_f": "FB-05 rerun consumer_ambiguity_count == 0 and all numerical invariants in band; outputs did not overwrite any upstream file (directory-level hash scan)",
+      "status": "PASS",
+      "evidence": {
+        "file": "round1_bridge/05_e21_bridged/E21_BRIDGED_ARM_PLACEMENT_GATE_V2.json",
+        "fb08_checks": ["V04-01", "V04-02", "V04-03", "V04-04", "V04-05", "V09-02"],
+        "recomputed": "consumer_ambiguity_count = 0 (field verified; audit mount_construction_sites_in_runner = 1; single_rule = PHYSICAL_AUTHORITY_BRIDGED_INTO_DYNAMICS_FRAME; mount T_S_A0_dyn @ B == T_phys at 0.0); single authoritative peak 29.41085537835705 deg with standard_uncertainty = null; acceptance declaration verified present (never proximity to 29.041965867604112 / 29.41085537835705); invariants in band (dP 2.58e-16, dL 2.37e-16, energy 4.05e-11, quat-post 2.22e-16, mass-matrix min-eig 3.91e-4); mandatory_holds dict == e21 authority contract verbatim; RT2 independent rerun 23/23 PASS reproduces every key value (incl. full-state bridged == wp11 reference at 0.0); non-overwrite: FB05-13 directory sentinel empty + rt2 77-file watch 0 new/0 drifted/0 deleted + FB-08 recomputed all 26 upstream pins incl. e21 module files with 0 mismatch"
+      }
+    },
+    {
+      "id": "FB08-C05",
+      "criterion_from_FB01_sec_f": "FB-06 nine-configuration candidate ledger mass invariant exact zero per configuration; all differences vs e21 published values have spelling-level analytic explanations",
+      "status": "PASS",
+      "evidence": {
+        "file": "round1_bridge/06_mass_propagation/SYSTEM_MASS_PROPERTIES_BRIDGED_V1.yaml",
+        "fb08_checks": ["V05-01", "V05-02", "V05-03", "V05-04", "V05-05"],
+        "recomputed": "mass invariant candidate - V3_R2 stated = exact 0.0 on all 9 configurations (independent re-parse of both files); C07..C09 candidate totals identical to stated (exact 0); spot re-aggregation C01/C05/C07 from FB-06 composition_candidate members (6 members each: bus, arm, m3r, bridge, 2 wings): mass/CG/inertia-about-system-CG match bridged_candidate at 0.0 / 0.0 / <= 8.7e-19; arm-row re-expression via stored C_S reproduces FB-06 arm rows at max-abs 0.0 (C01/C05) and byte-equal (C07); delta explanation residual (candidate-stated == arm-row-only bridge action) = 0.0 on C01/C05/C07; non-arm members and arm non-bridged fields (incl. uncertainty blocks) deep-equal V3_R2; C05 pose_status HELD_CANDIDATE_FK_REGRESSION_FAIL_MAX_RESIDUAL_567P734_MM_RETAINED_FACT_NOT_ABSORBED_BY_UNCERTAINTY carried verbatim; FK residuals C01 1.1314151618148656e-07 m / C05 1.0857568217800054e-07 m inside registered WP11-F-03 spelling band, C07 machine-zero; recomputed candidate inertias SPD (min eig 0.554 / 0.396 / 0.488); FB-06 gate_checks 8/8 PASS fields verified"
+      }
+    },
+    {
+      "id": "FB08-C06",
+      "criterion_from_FB01_sec_f": "FB-07 candidate interface/contract files exist and R2 base files' hashes unchanged",
+      "status": "PASS",
+      "evidence": {
+        "files": ["round1_bridge/07_rebind/MECH_DYNAMICS_INTERFACE_V6_CANDIDATE.yaml", "round1_bridge/07_rebind/EMBODIED_MECHANICAL_CONTRACT_R3_CANDIDATE.yaml"],
+        "fb08_checks": ["V06-01", "V06-02", "V06-03"],
+        "recomputed": "both candidates carry candidate: true, CANDIDATE filenames, status CANDIDATE_ONLY__NOT_RELEASE..., next_stage_authorized = false, release_credit = false, bridge sha256 0ACEB659284CAB86 pinned; base files recomputed: MECH_DYNAMICS_INTERFACE_V5_R2.yaml = 9B6D8025D3318A66AB7DD9BD15F7EEE2CDE31DD7A0A9A4FDB5CE4AEB60DE8203, EMBODIED_MECHANICAL_CONTRACT_R2.yaml = 5DDA627794A4B29D087D7489BECC7A98ED632BC6EAC0413CD9F7226C03AE1E7C, both matching the pre-Wave-2a round0 receipt pins (byte-unchanged); verbatim carries machine-compared: e21 mandatory_holds 11/11 in V6 and R3, V5 fail_closed_invariants 11/11 in V6 and R3, R2 retained_holds 11/11, R2 prohibitions_honored 8/8; all source_register sha256 in V6/R3 recomputed match (bridge/FB-03/FB-04/FB-05/FB-06/V5_R2/R2/V5 gate/e21 contract/V3_R2)"
+      }
+    },
+    {
+      "id": "FB08-C07",
+      "criterion_from_FB01_sec_f": "discipline scan: no averaging, no either/or selection, no per-module mixing, no null->0, no branch-delta-as-uncertainty, no silent legacy 24 kg / Solar R1 flexibility consumption (grep/hash audit over all new files)",
+      "status": "PASS",
+      "evidence": {
+        "fb08_checks": ["V07-01", "V07-02", "V07-03", "V07-04"],
+        "recomputed": "numeric blacklist over all parsed numeric leaves of the 7 main-chain products (bridge, FB-03, FB-04, FB-05, FB-06, V6, R3) at rel-tol 1e-9: 0 hits for averaged peak 29.226410622980581 deg, 0 hits for lane CG/inertia element-wise midpoints (computed from the two published lanes), 0 hits for legacy 24.0 kg / R1 panel 0.3483933 / 1.7419665; keyword scan (averag*/midpoint/blend): 14 hits, every one in prohibition / negation / declaration-false / detector-name context (listed in FB08_INDEPENDENT_RECOMPUTATION_V1.json V07-02); standard_uncertainty stays null on the bridged result and the 0.3688895107529362 deg delta is carried as frame-consumption difference, never re-labeled; no measured_mass field introduced in V6/R3 (single hit is the carried prohibition text itself); rt2 attack b/c (blacklist over 31 files, frame-mixing audit) concur SURVIVED"
+      }
+    },
+    {
+      "id": "FB08-C08",
+      "criterion_from_FB01_sec_f": "all mandatory HOLDs carried verbatim: e15 REPEAT_ANCF_CERTIFICATION, R2_HRN_04 FAIL_REDESIGN_REQUIRED, r2_full_flexible_coupling NOT_EVALUATED, collision/contact/target/mission/production/flight HOLD, owner_review PENDING",
+      "status": "PASS",
+      "evidence": {
+        "fb08_checks": ["V04-04", "V06-02", "V10-01"],
+        "recomputed": "e21 mandatory_holds dict (11 keys incl. single_arm_placement_consumption_semantics: UNRESOLVED) deep-equal in FB-05, V6, R3 vs the hash-pinned authority contract; V5 gate re-read today: gate = HOLD, next_stage_authorized = false, single_consumption_rule_resolved = false; e15 gate_summary overall = REPEAT_ANCF_CERTIFICATION (hash AAB4D609... verified); R2-HRN-04 FAIL_REDESIGN_REQUIRED present in carried holds; collision/contact/target_attachment/mission_capture HOLD_NOT_EVALUATED, production/flight HOLD, owner_review PENDING_OWNER_REVIEW - all verbatim"
+      }
+    },
+    {
+      "id": "FB08-C09",
+      "criterion_from_FB01_sec_f": "gate output = input package for the MECHANICAL_LOOP V5 re-evaluation (bridge + candidate ledger + candidate interface + validation reports); next_stage_authorized remains the owner's ruling, this package does not self-authorize; Route-C independent versioned CAD candidate stays forbidden until MPI-FB-01..08 all closed (ODR-44)",
+      "status": "PASS",
+      "evidence": {
+        "fb08_checks": ["V10-01"],
+        "recomputed": "input package inventoried below with recomputed hashes; this gate sets next_stage_authorized = false and release_credit = false; ODR-43/ODR-44 owner authorization record remains RECORDED_AS_DIRECTED__ADDENDUM_CANDIDATE_PENDING_OWNER_CM_FORMAL_INCORPORATION; Route-C C2-01 registry skeleton verified all value: null / status: HOLD (no AVAILABLE entry); V5 gate remains HOLD"
+      }
+    }
+  ],
+  "criterion_counts": {"total": 9, "pass": 9, "fail": 0},
+  "redteam_round2_finding_dispositions": {
+    "RT2-F01": {
+      "severity": "LOW",
+      "disposition": "TEXT-LEVEL ANNOTATION RECORDED, frozen file NOT modified: in 02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml known_deviation_register[WP11-F-03_ROUNDED_CLOCK_SPELLING], the quoted 6-digit trig spelling (sin/cos = 0.422618/0.906308) and the registered matrix_max_abs_vs_bridge = 5.180141831595542e-07 belong to two different reconstructions - the 5.180e-07 figure corresponds to the angle-synthesis reconstruction (theta = 24.999981252 deg, full-precision trig); the literal 6-digit trig spelling itself gives 4.83193000000437e-07 (rt2 recomputed). Before Owner signature the register entry should be annotated with which reconstruction the figure belongs to (or both registered). No engineering impact: the C01 arm-CG witness reproduces under both spellings (mutual 1.9e-14 m) and the deviation class ~1.1e-4 mm is unchanged; FB04-11/FB06-06 bands unaffected. This gate independently verified the physical-witness path only (1.1314151618148656e-07 m, band PASS).",
+      "action_required_by": "Owner/CM annotation pass before owner signature; does not block this gate's PASS scope"
+    },
+    "RT2-F02": {
+      "severity": "LOW",
+      "disposition": "TEXT-LEVEL RELABEL RECORDED, frozen file NOT modified: 03_validation/MPI03_BRIDGE_NUMERICAL_VALIDATION.json checks FB03-14/15/16 ('stored vs independent re-derivation', 1e-16 limits) are same-path recomputations (identical numpy/LAPACK op sequence) and are therefore vacuously satisfied; this gate relabels them as SAME-PATH REPRODUCTION CHECKS and cites as the genuinely independent evidence the cross-path witnesses: dense-vs-rigid inverse 4.709566070459914e-13 (bridge numerical_health.independent_dense_inverse_max_abs_vs_rigid_inverse), stored-B x stored-invB roundtrip 5.195843755245733e-13, plus rt2's separately-coded reproduction (stored B vs rebuilt 0.0) and this gate's own rigid-inverse rebuild (V01-03, 0.0). 21/21 PASS stands.",
+      "action_required_by": "future validation round may fold the relabel into the JSON; does not block this gate's PASS scope"
+    },
+    "RT2-F03": {
+      "severity": "LOW",
+      "disposition": "EXPLICIT COEXISTENCE STATEMENT (required in gate text): the e21 mandatory_holds field single_arm_placement_consumption_semantics: UNRESOLVED carried verbatim inside the V6/R3 candidates is the e21 authority contract's historical state at the authority level - it is carried verbatim by design and only Owner/CM can lift it. The V6/R3 single_consumption_semantics_block (PHYSICAL_AUTHORITY_BRIDGED_INTO_ODR01_DYNAMICS_FRAME, consumer_ambiguity_count: 0) is a FORWARD CANDIDATE-LEVEL semantics introduced from FB-05 onward under the ODR-43 bridge; candidate != promotion. The two fields coexist without contradiction: the authority-level hold stays until the Owner rules, the candidate-level single consumption is exactly what this gate has verified at the engineering level. V5 gate today still reads single_consumption_rule_resolved: false (verified by FB-08 V10-01), consistent with this reading.",
+      "action_required_by": "none for this gate; Owner/CM formal incorporation of ODR-43/44 addendum candidates remains pending"
+    },
+    "RT2-F04": {
+      "severity": "LOW",
+      "disposition": "HYGIENE NOTE, no action: 30_simulation/sim_05_free_floating_arm/__pycache__/ (8 pre-existing .pyc) predates this round; rt2 before/after snapshot bit-identical; FB-08 ran with default bytecode settings but wrote only inside 08_gate/ and imported no upstream module (all upstream access via raw file bytes / yaml / json parse), so no upstream __pycache__ state was touched."
+    }
+  },
+  "input_package_for_mechanical_loop_v5_reevaluation": {
+    "bridge": {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml", "sha256": "0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C"},
+    "bridge_validation": {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/03_validation/MPI03_BRIDGE_NUMERICAL_VALIDATION.json", "sha256": "CEBCF446F788555AFDF19D1F81A06BE64B2DC3D59B5350AED1C9EFCCD2F99D68"},
+    "mass_inertia_validation": {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/04_mass/MPI04_MASS_INERTIA_BRIDGE_VALIDATION.json", "sha256": "41FCE5D7947D52A86A4A7953C360EA5A56D63E9F9635DCC4A87B4E2BB3766855"},
+    "e21_bridged_single_consumer_gate": {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/05_e21_bridged/E21_BRIDGED_ARM_PLACEMENT_GATE_V2.json", "sha256": "7F670C69C6EDCF6CBF783DC22843C9EF53FD82FA88313E913C855FEB0A47E707"},
+    "candidate_mass_ledger": {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/06_mass_propagation/SYSTEM_MASS_PROPERTIES_BRIDGED_V1.yaml", "sha256": "E5D13A8D105B78C703EFA963BCF73714586E564F9951228AFBA9AF81ECB71528"},
+    "candidate_interface_v6": {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/07_rebind/MECH_DYNAMICS_INTERFACE_V6_CANDIDATE.yaml", "sha256": "4C52A68AA6E0749A2425D9E8CDB6C9F4477F5D4047C9D6C0BA6F0D95E97D184D"},
+    "candidate_contract_r3": {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/07_rebind/EMBODIED_MECHANICAL_CONTRACT_R3_CANDIDATE.yaml", "sha256": "F3D6EC1D370FB26215A259391D5026CA4C261C7C4880AE6FD70AE2C0F0DDFC56"},
+    "redteam_round2": {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/redteam_round2/RED_TEAM_ROUND2_EXECUTION_V1.json", "sha256": "E49F66F0AFD7335587D26EB85CBF1970B4B6CCB1E2ACCA08860CA4D64A477724"},
+    "package_manifest_v2": {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/MPI_BRIDGE_PACKAGE_MANIFEST_V2.json", "sha256": "EF9D71C697A1CEADFA98F4C960B0C4BD4FD52FEF6F2EBD738B39B3C6AFB4741D"},
+    "fb08_independent_recomputation": {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/FB08_INDEPENDENT_RECOMPUTATION_V1.json", "sha256": "A5678600AE04EA329D627912C6ED0728943F1E2795160DDFB2CF9697B318F44D"}
+  },
+  "nonclaims": [
+    "this PASS covers installation-semantics bridging only (frame/mass/inertia/consumer/hash five ambiguities zeroed); it is not a system-level mechanical release",
+    "Route-C physical inputs remain all-HOLD: OI-R1-05 (P10 guide-friction candidate / P11 guide curvature / P12 carrier dimensions) remains STILL_HIGH__RFI_MEMO_RECORDED_GAP_OPEN",
+    "r2_full_flexible_coupling remains NOT_EVALUATED",
+    "e15 remains REPEAT_ANCF_CERTIFICATION",
+    "R2-HRN-04 remains FAIL_REDESIGN_REQUIRED",
+    "the MECHANICAL_LOOP V5 gate remains HOLD (single_consumption_rule_resolved = false, next_stage_authorized = false)",
+    "owner_confirmation = PENDING: the bridge remains FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION; ODR-43/ODR-44 records remain addendum candidates pending Owner/CM formal incorporation; MC-A ruling is engineering-effective pending Owner confirmation",
+    "OI-R1-01 (SOLAR_ARRAY_R2_BUILD_REPORT_V1.json self-hash DRIFT) remains AWAITING_UPSTREAM_ERRATUM; reproduced as registered, not a new mismatch",
+    "OI-R1-03 (topology nomenclature) and OI-R1-04 (Route-B negative-result citation) remain AWAITING_OWNER",
+    "no production, manufacturing, qualification, launcher or flight authority is granted; test PASS grants no authority"
+  ],
+  "route_c_cad_entry": "DOUBLY_BLOCKED, not unblocked by this gate: (1) ODR-44 forbids any Route-C independent versioned CAD candidate before MPI-FB-01..08 all closed AND owner-level incorporation; (2) C2-01 registry (ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml) remains all-null/all-HOLD (verified: no AVAILABLE entry), so Route-C MPI-06/07 cannot close regardless",
+  "downstream_unblocked": [
+    "MECH_DYNAMICS_INTERFACE_V6_CANDIDATE and EMBODIED_MECHANICAL_CONTRACT_R3_CANDIDATE may enter the formal rebinding review (they remain candidate-level; review does not equal promotion)",
+    "ROM participation-factor computation precondition (R2_ROM_PARTICIPATION_DAMPING_SPEC_DRAFT_V1 SLOT-07) released at ENGINEERING level by MC-A ruling ENG-RULING-DYN-MASS-ALLOC-MC-A-V1 (leaf-only Mqq sole authoritative; Owner confirmation pending)"
+  ],
+  "manifest_v2_summary": {
+    "file_count": 50,
+    "counts_by_wave": {"wave_2a_round0": 10, "wave_2a_round1": 27, "wave_2b": 10, "wave_2c_fb08_gate": 3},
+    "v1_crosscheck": {"v1_entries": 42, "byte_exact_match": 41, "missing": 0, "documented_rerun": 1, "undocumented_mismatch": 0},
+    "note": "rt2_static_output.json re-run by red team after V1 snapshot (same 110644 bytes, hash now A0D0C269... pinned inside RED_TEAM_ROUND2_EXECUTION_V1.json reproduction_package) is registered as DOCUMENTED_RE_RUN; the two gate text files landing after the manifest snapshot are listed under expected_post_snapshot_landings for the next CM re-walk"
+  },
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false,
+  "released_segments": 0,
+  "self_hash_policy": "SELF_REFERENCE_EXCLUDED - this file carries no hash of itself; downstream consumers pin its sha256 after emission (same policy as e21/V5 manifests and 02_bridge)",
+  "companion_human_readable": "MPI_BRIDGE_GATE_V1.md (same directory; on conflict the JSON structured fields govern)"
+}

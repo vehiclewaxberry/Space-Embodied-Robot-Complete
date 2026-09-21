@@ -1,0 +1,25 @@
+# sim_08 v0 assumptions — every number is a placeholder CLASS value, to be replaced by
+# selected COTS datasheets before the report freeze. Sources = typical ranges from
+# NASA SmallSat SOA 2026 (20_engineering/stage1_spacecraft_layout/01_standards/).
+capture:
+  source: 30_simulation/common/capture_impulse.py (validated by sim_06 tests, Gate A passed)
+  v_app_mps: 0.01          # nominal residual approach speed at contact
+  grasp: CAD JSON grasp points (debris nozzle rim / satellite adapter ring)
+architecture:
+  coarse_detumble: thruster couple (external momentum removal)
+  fine_stabilize: 3-axis reaction wheels (internal redistribution only)
+  unload: thrusters (magnetorquer unload listed as future work, torque too low for coarse stage)
+thrusters:
+  configuration: 2-thruster couple, moment arm l_T
+  lever_arms_m: [0.05, 0.10, 0.17]     # 12U max half-dimension ~0.17 m
+  force_classes_N: [0.01, 0.1, 1.0]    # cold-gas 10 mN .. 1 N class
+  isp_s: {cold_gas: 60, green_monoprop: 220}
+wheels:
+  momentum_classes_Nms: {cubesat_small: 0.015, cubesat_mid: 0.050, cubesat_large: 0.100, smallsat: 1.0}
+  count: 3
+detumble_times_s: [60, 300, 900, 3600]
+limits_of_validity:
+  - torque assumed constant over t_d (no attitude-dependent thrust geometry)
+  - single-axis scalar budget on |H_c| (vector allocation / nutation control = sim_08 v1)
+  - no plume impingement, CoM shift, or slosh effects
+  - target inertia confidence = low (RA-003)

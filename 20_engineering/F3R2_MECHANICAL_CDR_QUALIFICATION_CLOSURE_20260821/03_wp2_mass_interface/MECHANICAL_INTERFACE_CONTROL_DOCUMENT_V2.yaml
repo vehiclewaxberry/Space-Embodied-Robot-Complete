@@ -1,0 +1,110 @@
+schema_version: MECHANICAL_INTERFACE_CONTROL_DOCUMENT_V2
+generated_local: '2026-08-21T01:30:43+08:00'
+scope: CDR_WP2_MASS_INERTIA_AND_FRAME_INTERFACE
+release_status: V2_WORKING_CONTROL_DOCUMENT_NOT_RELEASED_TO_PRODUCTION
+change_authority:
+  production_v1_write_authorized: false
+  accepted_urdf_write_authorized: false
+  cad_write_authorized: false
+  sim13_write_authorized: false
+production_v1_read_only_baseline:
+  path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MECH_RL_INTERFACE_V1.yaml
+  sha256_at_wp2_start: 26E5A55570BE9E1DAF6683F76FB2A68D0265872EB5FB7C876E3324914DA36BB0
+  schema_version: MECH_RL_INTERFACE_V1
+  modification_status: READ_ONLY_UNCHANGED
+mass_interface:
+  b601:
+    active_authority: ACCEPTED_URDF
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    mass_kg: 4.695555949342986
+    inertia_delivery: B601_EQUIVALENT_INERTIA_RECOMPUTED.yaml
+    equivalent_inertia_scope: URDF_ZERO_JOINT_CONFIGURATION_ONLY
+  m3r:
+    active_authority: OWNER_FROZEN_DIGITAL_BUDGET
+    classification: BUDGETED
+    source_field: owner_frozen_nominal_mass_g
+    source_value_g: 761.9
+    mass_kg: 0.7619
+    center_of_mass_m: null
+    inertia_kg_m2: null
+    component_allocation: null
+    status: MASS_BUDGET_SELECTED_COM_INERTIA_AND_COMPONENT_ALLOCATION_HOLD
+    value_register_summary:
+      total_value_count: 4
+      active_value_count: 1
+      inactive_candidate_count: 3
+  system_configuration_properties:
+    delivery: CONFIGURATION_MASS_INERTIA.csv
+    row_count: 9
+    status: NOT_EVALUABLE_INPUT_AUTHORITY_MISSING
+required_tensor_contract:
+  representation:
+    order: [Ixx, Iyy, Izz, Ixy, Ixz, Iyz]
+    full_matrix: '[[Ixx,Ixy,Ixz],[Ixy,Iyy,Iyz],[Ixz,Iyz,Izz]]'
+    products_of_inertia_sign: URDF_TENSOR_CONVENTION
+  reference_requirements:
+    - MASS_VALUE_AND_UNIT
+    - CENTER_OF_MASS_AND_REFERENCE_FRAME
+    - INERTIA_ABOUT_DECLARED_POINT_AND_AXES
+    - CONFIGURATION_OR_JOINT_VECTOR
+    - SOURCE_CLASSIFICATION
+    - SOURCE_HASH
+    - UNCERTAINTY_OR_EXPLICIT_HOLD
+  validation_requirements:
+    - SYMMETRY
+    - POSITIVE_DEFINITENESS
+    - PRINCIPAL_MOMENTS
+    - RIGID_BODY_TRIANGLE_INEQUALITIES
+    - FRAME_AND_REFERENCE_POINT_DECLARATION
+  missing_value_policy: NULL_PLUS_HOLD_NEVER_ZERO_FILL
+frame_interface_read_only_comparison:
+  frozen_spacecraft_axis_stack:
+    source: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/F3R2_TSM_INTERFACE_STACK.yaml
+    source_sha256: F051405C68D2B3B6A411B7FD25402A8C8104669E3E3A76682918FDA163CB5CEC
+    axis: spacecraft +X
+    M_FRAME_origin_x_mm: 185.25
+    adapter_plate_outer_face_x_mm: 198.0
+    central_boss_physical_mount_face_x_mm: 208.0
+    semantic_status: DISTINCT_FRAME_AND_FACE_STATIONS_DO_NOT_CONFLATE
+  measured_competition_pattern_transform:
+    source: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_FRAME_TO_FLANGE_TRANSFORM.json
+    source_sha256: 29303BA65DFD7473F2E0DBB7BFD16CF269C87EF1A336575AE054594B57BBD6CA
+    from: M_FRAME
+    to: B601_AS_BUILT_PATTERN_DATUM
+    translation_xyz_mm: [25.155, 0.015994151, -0.08636607]
+    rotation_about_x_deg: 25.000014
+    rotation_matrix:
+      - [1.0, 0.0, 0.0]
+      - [0.0, 0.9063076848, -0.4226184837]
+      - [0.0, 0.4226184837, 0.9063076848]
+  production_interface_comparison:
+    production_frame_tree_path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/SYSTEM_FRAME_TREE.yaml
+    production_frame_tree_sha256: 71A9FFFAA30A59BB5964949371FB0F9E5E1D61F94E99F38CEAD211AE89AF51CF
+    translation_residual_mm: [0.0, 0.0, 0.0]
+    maximum_rotation_matrix_abs_residual: 0.0
+    comparison_status: PASS_EXACT_NUMERIC_MATCH_READ_ONLY
+    spacecraft_assembly_frame_to_M_FRAME: null
+    root_relation_status: HOLD_ROOT_TO_M_FRAME_NOT_REASSERTED_BY_NEUTRAL_PACKAGE
+    composition_disposition: DO_NOT_COMPOSE_SYSTEM_MASS_PROPERTIES_UNTIL_ROOT_RELATION_CLOSES
+  semantic_ruling:
+    T_SM_185P25: SPACECRAFT_TO_B601_DYNAMICS_FRAME_STATION
+    T_M_TO_AS_BUILT_PATTERN_DATUM: MEASURED_COMPETITION_PATTERN_TRANSFORM
+    relation: SEMANTICALLY_DISTINCT_TRANSFORMS
+    automatic_equivalence_claimed: false
+version_control:
+  v2_change_class: MASS_AUTHORITY_AND_INTERFACE_CLARIFICATION
+  v2_release_status: NOT_RELEASED
+  production_v1_update_required_now: false
+  production_v1_hash_must_remain: 26E5A55570BE9E1DAF6683F76FB2A68D0265872EB5FB7C876E3324914DA36BB0
+  sim13_regression_required_now: false
+  sim13_regression_reason: V2_NOT_RELEASED_AND_PRODUCTION_V1_UNCHANGED
+open_q2_blockers:
+  - Q2-MASS-001_M3R_TRACEABLE_MEASURED_INSTALLED_TOTAL_AND_COMPONENT_MASS
+  - Q2-MASS-002_M3R_STAGE_A_STAGE_B_FASTENER_LOCATOR_CABLE_COM_AND_INERTIA
+  - Q2-MASS-003_BUS_AND_SOLAR_CONFIGURATION_MASS_PROPERTIES
+  - Q2-MASS-004_ACCEPTED_B601_JOINT_VECTORS_FOR_NAMED_CONFIGURATIONS
+  - Q2-MASS-005_TARGET_CDR_INERTIA_AND_POST_CAPTURE_TRANSFORMS
+  - Q2-FRAME-001_SPACECRAFT_ASSEMBLY_FRAME_TO_M_FRAME_ROOT_RELATION
+  - Q2-MGA-001_OWNER_APPROVED_MASS_GROWTH_ALLOWANCE_POLICY
+overall_status: PARTIAL_CLOSURE_V2_NOT_RELEASED

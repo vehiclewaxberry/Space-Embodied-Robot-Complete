@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="860" viewBox="0 0 1280 860"
+     font-family="'Microsoft YaHei','PingFang SC','Noto Sans CJK SC',sans-serif">
+  <title>Space Embodied Robot 项目系统架构图（入驻导航）</title>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+    <marker id="arrG" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#9e9e9e"/>
+    </marker>
+  </defs>
+
+  <!-- 背景与图框（工程图样式） -->
+  <rect x="0" y="0" width="1280" height="860" fill="#ffffff"/>
+  <rect x="10" y="10" width="1260" height="840" fill="none" stroke="#1f4e79" stroke-width="2"/>
+  <rect x="17" y="17" width="1246" height="826" fill="none" stroke="#1f4e79" stroke-width="0.75"/>
+
+  <!-- 标题栏 -->
+  <text x="40" y="52" font-size="22" font-weight="bold" fill="#123a5c">Space Embodied Robot · 项目系统架构图</text>
+  <text x="40" y="80" font-size="12.5" fill="#333333">12U CubeSat 服务星 + reBot B601 六自由度机械臂 — 自主捕获翻滚非合作目标（150 kg 碎片 / 22 kg 目标星）</text>
+  <text x="40" y="102" font-size="11" fill="#666666">中国研究生未来飞行器创新大赛（第十二届） · 提交硬截止 2026-09-01 · 架构冻结 PAF-20260722 · 入驻导航图（不升级任何 Gate 裁决）</text>
+  <line x1="40" y1="116" x2="1240" y2="116" stroke="#1f4e79" stroke-width="1"/>
+
+  <!-- ========== L1 平台 ========== -->
+  <rect x="190" y="132" width="560" height="96" rx="6" fill="#ffffff" stroke="#ef6c00" stroke-width="2"/>
+  <text x="206" y="156" font-size="14" font-weight="bold" fill="#123a5c">12U CubeSat 服务航天器平台</text>
+  <text x="206" y="178" font-size="11" fill="#333333">双侧太阳翼（FFR/ANCF 柔性 · 参数为 SSOT 占位） · B601 安装区</text>
+  <text x="206" y="199" font-size="10.5" fill="#b71c1c">B5.1 裁决：B51_REVISE_INTERFACE_COLLISION · G2 FAIL（H10 ×28 全开 / 碰撞 ×8）</text>
+  <text x="206" y="218" font-size="10.5" fill="#e65100">B5.1R1 返工中：Phase 0 完成（带测量 HOLD） · Phase 1 已启动</text>
+  <rect x="652" y="140" width="76" height="17" rx="3" fill="#c62828"/>
+  <text x="690" y="152" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">B5.1 REVISE</text>
+  <rect x="636" y="162" width="92" height="17" rx="3" fill="#ef6c00"/>
+  <text x="682" y="174" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">B5.1R1 返工中</text>
+
+  <line x1="470" y1="228" x2="470" y2="252" stroke="#1f4e79" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="482" y="247" font-size="9.5" fill="#666666">机械搭载（接口返工中）</text>
+
+  <!-- ========== L2 B601 机械臂 ========== -->
+  <rect x="190" y="256" width="560" height="92" rx="6" fill="#ffffff" stroke="#2e7d32" stroke-width="2"/>
+  <text x="206" y="280" font-size="14" font-weight="bold" fill="#123a5c">reBot B601 六自由度机械臂</text>
+  <text x="206" y="302" font-size="11" fill="#333333">拓扑 6R + 1 fixed + 2P · 质量 4.696 kg（唯一动力学质量权威）</text>
+  <text x="206" y="322" font-size="9.5" fill="#555555">accepted URDF：20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf</text>
+  <text x="206" y="340" font-size="10.5" fill="#1b5e20">状态：accepted — 质量 / 几何以 URDF 为准（非制造放行）</text>
+  <rect x="654" y="264" width="72" height="17" rx="3" fill="#2e7d32"/>
+  <text x="690" y="276" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">accepted</text>
+
+  <line x1="470" y1="348" x2="470" y2="374" stroke="#1f4e79" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="482" y="367" font-size="9.5" fill="#666666">URDF → 动力学参数注入</text>
+
+  <!-- ========== L3 视觉系统 ========== -->
+  <rect x="60" y="380" width="320" height="158" rx="6" fill="#ffffff" stroke="#757575" stroke-width="2"/>
+  <text x="76" y="404" font-size="13" font-weight="bold" fill="#123a5c">视觉系统（感知 / 位姿估计）</text>
+  <text x="76" y="426" font-size="10.5" fill="#333333">翻滚非合作目标相对位姿输入</text>
+  <text x="76" y="447" font-size="10.5" fill="#333333">SPEED / SPEED+ 数据登记（PLANNED）</text>
+  <text x="76" y="468" font-size="10" fill="#616161">NOT_DOWNLOADED_BY_POLICY · 未集成</text>
+  <text x="76" y="489" font-size="10" fill="#616161">不进入当前竞赛科学主链</text>
+  <text x="76" y="510" font-size="10" fill="#616161">未来接入须经 SAFE 证据核</text>
+  <rect x="296" y="388" width="72" height="17" rx="3" fill="#757575"/>
+  <text x="332" y="400" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">PLANNED</text>
+
+  <!-- ========== L3 动力学工具链 ========== -->
+  <rect x="410" y="380" width="520" height="158" rx="6" fill="#ffffff" stroke="#2e7d32" stroke-width="2"/>
+  <text x="426" y="404" font-size="13" font-weight="bold" fill="#123a5c">动力学工具链（L0 任务 / L3 世界模型）</text>
+  <!-- chips 第一行 -->
+  <rect x="426" y="416" width="112" height="50" rx="4" fill="#ffffff" stroke="#999999" stroke-width="1"/>
+  <text x="482" y="436" font-size="11" font-weight="bold" fill="#123a5c" text-anchor="middle">sim_05</text>
+  <text x="482" y="454" font-size="8.5" fill="#1b5e20" text-anchor="middle">PASS · 姿态锚点</text>
+  <rect x="548" y="416" width="112" height="50" rx="4" fill="#ffffff" stroke="#999999" stroke-width="1"/>
+  <text x="604" y="436" font-size="11" font-weight="bold" fill="#123a5c" text-anchor="middle">sim_06</text>
+  <text x="604" y="454" font-size="8.5" fill="#1b5e20" text-anchor="middle">PASS · 冲量锚点</text>
+  <rect x="670" y="416" width="112" height="50" rx="4" fill="#ffffff" stroke="#999999" stroke-width="1"/>
+  <text x="726" y="436" font-size="11" font-weight="bold" fill="#123a5c" text-anchor="middle">sim_07</text>
+  <text x="726" y="454" font-size="8.5" fill="#e65100" text-anchor="middle">PROVISIONAL</text>
+  <rect x="792" y="416" width="112" height="50" rx="4" fill="#ffffff" stroke="#999999" stroke-width="1"/>
+  <text x="848" y="436" font-size="11" font-weight="bold" fill="#123a5c" text-anchor="middle">sim_08</text>
+  <text x="848" y="454" font-size="8.5" fill="#e65100" text-anchor="middle">PROVISIONAL</text>
+  <!-- chips 第二行 -->
+  <rect x="426" y="478" width="112" height="50" rx="4" fill="#ffffff" stroke="#999999" stroke-width="1"/>
+  <text x="482" y="498" font-size="11" font-weight="bold" fill="#123a5c" text-anchor="middle">sim_10</text>
+  <text x="482" y="516" font-size="8.5" fill="#1b5e20" text-anchor="middle">PASS · 可行域</text>
+  <rect x="548" y="478" width="112" height="50" rx="4" fill="#ffffff" stroke="#999999" stroke-width="1"/>
+  <text x="604" y="498" font-size="11" font-weight="bold" fill="#123a5c" text-anchor="middle">sim_11</text>
+  <text x="604" y="516" font-size="8.5" fill="#e65100" text-anchor="middle">PROVISIONAL</text>
+  <rect x="670" y="478" width="112" height="50" rx="4" fill="#ffffff" stroke="#999999" stroke-width="1"/>
+  <text x="726" y="498" font-size="11" font-weight="bold" fill="#123a5c" text-anchor="middle">sim_12</text>
+  <text x="726" y="516" font-size="8.5" fill="#1b5e20" text-anchor="middle">PASS · Phase 1</text>
+  <text x="800" y="492" font-size="8.5" fill="#666666">主链 sim_10→sim_12→SAFE</text>
+  <text x="800" y="507" font-size="8.5" fill="#666666">sim_11 为 L3 侧证据</text>
+  <text x="800" y="522" font-size="8.5" fill="#666666">FLEX 未入判据</text>
+
+  <!-- row3 → row4 箭头 -->
+  <line x1="220" y1="538" x2="220" y2="560" stroke="#9e9e9e" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrG)"/>
+  <text x="232" y="554" font-size="9" fill="#616161">感知输入（PLANNED）</text>
+  <line x1="670" y1="538" x2="670" y2="560" stroke="#1f4e79" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="682" y="554" font-size="9" fill="#666666">证据：可行域 / 策略 / 耦合守恒</text>
+
+  <!-- ========== L4 具身智能 Agent ========== -->
+  <rect x="60" y="564" width="320" height="100" rx="6" fill="#ffffff" stroke="#757575" stroke-width="2"/>
+  <text x="76" y="588" font-size="13" font-weight="bold" fill="#123a5c">具身智能 Agent（L4 候选生成）</text>
+  <text x="76" y="610" font-size="10.5" fill="#333333">规划冻结已完成 · 无实现 / 无执行权</text>
+  <text x="76" y="631" font-size="10" fill="#616161">仅可提交候选任务 · 禁止直输力矩命令</text>
+  <text x="76" y="652" font-size="10" fill="#616161">执行须经 SAFE-00 授权目标</text>
+  <rect x="296" y="572" width="72" height="17" rx="3" fill="#757575"/>
+  <text x="332" y="584" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">PLANNED</text>
+
+  <!-- ========== SAFE-00 ========== -->
+  <rect x="410" y="564" width="520" height="100" rx="6" fill="#ffffff" stroke="#2e7d32" stroke-width="2"/>
+  <text x="426" y="588" font-size="13" font-weight="bold" fill="#123a5c">SAFE-00 运行时安全门（L1 证据核）</text>
+  <text x="426" y="610" font-size="10.5" fill="#333333">47/47 PASS · UNKNOWN 永不 ALLOW · 七个绕过面全封</text>
+  <text x="426" y="631" font-size="10.5" fill="#e65100">review_status = PENDING_REVIEW · next_stage_authorized = false</text>
+  <text x="426" y="652" font-size="10" fill="#555555">决策核 PASS ≠ 执行授权 · 不授权下游阶段</text>
+  <rect x="832" y="572" width="86" height="17" rx="3" fill="#2e7d32"/>
+  <text x="875" y="584" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">47/47 PASS</text>
+  <rect x="820" y="594" width="98" height="17" rx="3" fill="#ef6c00"/>
+  <text x="869" y="606" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">PENDING_REVIEW</text>
+
+  <!-- SAFE → Agent 授权门控箭头 -->
+  <line x1="408" y1="614" x2="384" y2="614" stroke="#1f4e79" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="396" y="632" font-size="8" fill="#666666" text-anchor="middle">授权</text>
+
+  <!-- 主列底部补充说明 -->
+  <text x="60" y="690" font-size="9.5" fill="#666666">L2 确定性控制：CTRL-01 = REPEAT（真实负结果） · CTRL-02 = PASS_WITH_PROVISIONAL_SCOPE（PENDING_REVIEW） · 无飞行级控制资格</text>
+  <text x="60" y="710" font-size="9.5" fill="#666666">L5 验证平面：当前最高 = 受限 DT2 离线证据回放 · 实时孪生 / H0–H3 硬件链未启动（BLOCKED）</text>
+  <text x="60" y="730" font-size="9.5" fill="#666666">竞赛证据主链：sim_10 可行域 → sim_12 策略选择 → SAFE 证据核 → 离线回放（EXECUTE 仅为解释标签）</text>
+
+  <!-- ========== 右列：数字线程 ========== -->
+  <text x="960" y="150" font-size="13" font-weight="bold" fill="#123a5c">数字线程（Digital Thread）</text>
+  <text x="960" y="168" font-size="9.5" fill="#666666">几何 / 模型格式贯通链（G7 裁决）</text>
+
+  <rect x="985" y="178" width="230" height="42" rx="5" fill="#ffffff" stroke="#ef6c00" stroke-width="1.5"/>
+  <text x="997" y="196" font-size="11" font-weight="bold" fill="#123a5c">CAD 装配模型（源）</text>
+  <text x="997" y="212" font-size="8.5" fill="#e65100">B5.1R1 几何返工中（HOLD）</text>
+  <line x1="1100" y1="220" x2="1100" y2="240" stroke="#1f4e79" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <rect x="985" y="244" width="230" height="42" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="997" y="262" font-size="11" font-weight="bold" fill="#123a5c">STEP 中性格式</text>
+  <text x="997" y="278" font-size="8.5" fill="#666666">结构中转 · 无状态含义</text>
+  <line x1="1100" y1="286" x2="1100" y2="306" stroke="#1f4e79" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <rect x="985" y="310" width="230" height="42" rx="5" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="997" y="328" font-size="11" font-weight="bold" fill="#1b5e20">URDF（动力学权威）</text>
+  <text x="997" y="344" font-size="8.5" fill="#1b5e20">accepted · arm_b601_v1.urdf · 4.696 kg</text>
+  <line x1="1100" y1="352" x2="1100" y2="372" stroke="#1f4e79" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <rect x="985" y="376" width="230" height="42" rx="5" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.5"/>
+  <text x="997" y="394" font-size="11" font-weight="bold" fill="#123a5c">MJCF</text>
+  <text x="997" y="410" font-size="8.5" fill="#e65100">HOLD · 未转正（仿真格式待定）</text>
+  <line x1="1100" y1="418" x2="1100" y2="438" stroke="#1f4e79" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <rect x="985" y="442" width="230" height="42" rx="5" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.5"/>
+  <text x="997" y="460" font-size="11" font-weight="bold" fill="#123a5c">USD</text>
+  <text x="997" y="476" font-size="8.5" fill="#e65100">HOLD · 未转正（场景描述待定）</text>
+
+  <text x="960" y="510" font-size="10" fill="#e65100">G7 裁决：HOLD_PARTIAL_DIGITAL_THREAD</text>
+  <text x="960" y="528" font-size="9.5" fill="#666666">线程未闭合 · 不得声称实时数字孪生</text>
+  <text x="960" y="544" font-size="9.5" fill="#666666">格式转换须以 URDF 质量为基准核对</text>
+
+  <!-- ========== 状态色图例 ========== -->
+  <rect x="960" y="580" width="280" height="192" rx="4" fill="#fdfdfd" stroke="#1f4e79" stroke-width="1"/>
+  <text x="976" y="602" font-size="12" font-weight="bold" fill="#123a5c">状态色图例</text>
+  <rect x="976" y="612" width="13" height="13" fill="#2e7d32"/>
+  <text x="997" y="623" font-size="10" fill="#333333">PASS / accepted（冻结范围内已验证）</text>
+  <rect x="976" y="636" width="13" height="13" fill="#ef6c00"/>
+  <text x="997" y="647" font-size="10" fill="#333333">HOLD / PROVISIONAL / 待评审</text>
+  <rect x="976" y="660" width="13" height="13" fill="#c62828"/>
+  <text x="997" y="671" font-size="10" fill="#333333">FAIL / REPEAT（负结果保留）</text>
+  <rect x="976" y="684" width="13" height="13" fill="#757575"/>
+  <text x="997" y="695" font-size="10" fill="#333333">PLANNED（仅计划 · 未实现）</text>
+  <rect x="976" y="708" width="13" height="13" fill="#1f4e79"/>
+  <text x="997" y="719" font-size="10" fill="#333333">中性结构色（无状态含义）</text>
+  <line x1="976" y1="732" x2="1224" y2="732" stroke="#cccccc" stroke-width="0.75"/>
+  <text x="976" y="750" font-size="9.5" font-weight="bold" fill="#b71c1c">未授权 COMPLETE / FLIGHT_READY /</text>
+  <text x="976" y="764" font-size="9.5" font-weight="bold" fill="#b71c1c">MANUFACTURING_READY 任何声明</text>
+
+  <!-- 脚注 -->
+  <text x="40" y="800" font-size="10" fill="#666666">注：本图仅为入驻导航；一切科学结论以机器 Gate JSON（*gate*.json / *_gate_check.json）为唯一准绳；测试 PASS ≠ Gate PASS。</text>
+  <text x="40" y="820" font-size="10" fill="#666666">候选设计 ≠ 已完成设计 · 仿真结果 ≠ 飞行验证 · FAIL / HOLD 记录保留并明示 · 架构冻结 PAF-20260722</text>
+</svg>

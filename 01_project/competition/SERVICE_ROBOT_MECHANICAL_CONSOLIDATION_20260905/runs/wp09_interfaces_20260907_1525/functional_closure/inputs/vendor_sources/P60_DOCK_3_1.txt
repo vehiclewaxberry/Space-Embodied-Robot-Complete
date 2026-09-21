@@ -1,0 +1,1496 @@
+PDF PAGE 1
+4 
+ 
+  
+© 2026 GomSpace A/S    
+ 
+  
+NanoPower 
+P60 Dock 
+ 
+Datasheet 
+Electric Power System for nano satellites 
+
+PDF PAGE 2
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+2 
+ 
+ 
+  
+Product name: NanoPower P60 Dock 
+ 
+Document No.: 1013119 
+ 
+Revision: 3.1 
+ 
+Author: JILI 
+ 
+Approved by: PNN 
+ 
+Approval date: 29 Apr 2026 
+ 
+ 
+ 
+Confidentiality Notice 
+ 
+This document is submitted for a specific purpose as agreed in writing and contains information , 
+which is confidential and proprietary. The recipient agrees by accepting this document, that this 
+material will not be used, transferred, reproduced, modified, copied or disclosed in whole or in 
+part, in any manner or to any third party, except own staff to meet the purpose for which it was 
+submitted without prior written consent. 
+ 
+GomSpace © 2026 
+PDF PAGE 3
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+3 
+ 
+1 Table of Contents 
+2 SYSTEM OVERVIEW ............................................................................................................................... 5 
+2.1 Highlighted Features .................................................................................................................... 6 
+2.2 Module Slots ................................................................................................................................ 6 
+2.4 Block Diagram ............................................................................................................................. 7 
+2.5 CAN Stack Termination Recommendation .................................................................................. 8 
+3 CONNECTOR PINOUT ............................................................................................................................. 9 
+3.1 Description of the FSI Connectors ............................................................................................... 9 
+3.2 P60 Dock Top Side ...................................................................................................................... 9 
+3.2.1 H1/H2 - Stack Connector ........................................................................................................... 10 
+3.2.2 X1A – FSI................................................................................................................................... 11 
+3.2.3 X1B - FSI ................................................................................................................................... 11 
+3.2.4 X2A – FSI................................................................................................................................... 11 
+3.2.5 X2B – FSI................................................................................................................................... 12 
+3.2.6 P1 - Hard Reset Input ................................................................................................................ 12 
+3.2.7 P2 - GOSH ................................................................................................................................. 12 
+3.2.8 P3 - V_BAT Circuit Breaker ....................................................................................................... 12 
+3.2.9 P4 - BPX Interface Part I ........................................................................................................... 13 
+3.2.10 P5 - BPX Interface Part II .......................................................................................................... 13 
+3.2.11 P6 – Release GSSB .................................................................................................................. 13 
+3.2.12 PJ – JTAG.................................................................................................................................. 14 
+3.3 P60 Dock Bottom ....................................................................................................................... 15 
+3.3.1 X3A - FSI ................................................................................................................................... 16 
+3.3.2 X3B - FSI ................................................................................................................................... 16 
+3.3.3 X4A - FSI ................................................................................................................................... 16 
+3.3.4 X4B - FSI ................................................................................................................................... 17 
+3.3.5 P10 - Kill-switch Connector (primary) ........................................................................................ 17 
+3.3.6 P11 - Kill-switch Connector (alternative) ................................................................................... 17 
+3.3.7 P12 – BP4 Connector ................................................................................................................ 17 
+3.3.8 P13 - FPP Connector Part I ....................................................................................................... 18 
+3.3.9 P14 - FPP Connector Part II ...................................................................................................... 18 
+3.3.10 P15 - RS-422 TX ....................................................................................................................... 18 
+3.3.11 P16 - RS-422 RX ....................................................................................................................... 18 
+4 KILL SWITCHES..................................................................................................................................... 19 
+4.1 P10 – Kill Switches in Parallel ................................................................................................... 19 
+4.2 P11 – Kill Switches in Series ..................................................................................................... 20 
+5 FLIGHT PREPARATION PANEL (FPP) ................................................................................................ 20 
+5.1 Remove Before Flight (RBF) ..................................................................................................... 20 
+5.2 DE-ARM ..................................................................................................................................... 20 
+5.3 Killswitch_1 ................................................................................................................................ 21 
+5.4 Charging the Batteries ............................................................................................................... 21 
+5.5 Powering up the Spacecraft....................................................................................................... 21 
+6 HARDWARE RESET .............................................................................................................................. 21 
+7 BATTERY PROTECTION ....................................................................................................................... 22 
+7.1 Over Current (OC) Protection .................................................................................................... 22 
+7.2 Over Voltage (OV) Protection .................................................................................................... 22 
+7.3 Under Voltage (UV) Protection .................................................................................................. 22 
+PDF PAGE 4
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+4 
+8 CURRENT LIMIT CONSIDERATIONS ................................................................................................... 23 
+9 INRUSH CURRENT CONSIDERATIONS .............................................................................................. 23 
+10 POWER CONVERTERS ......................................................................................................................... 24 
+11 SAFE MODES AND FALLBACK OPERATION ..................................................................................... 24 
+12 BPX INTERFACE.................................................................................................................................... 24 
+13 DATA INTERFACE ................................................................................................................................. 25 
+13.1 CAN-BUS / CFP Protocol .......................................................................................................... 25 
+13.2 I2C Communication Protocol ...................................................................................................... 25 
+13.3 KISS Protocol ............................................................................................................................ 25 
+14 DEBUG INTERFACE .............................................................................................................................. 25 
+15 ABSOLUTE MAXIMUM RATINGS ......................................................................................................... 26 
+16 ELECTRICAL CHARACTERISTICS ...................................................................................................... 26 
+17 PHYSICAL CHARACTERISTICS ........................................................................................................... 26 
+18 ENVIRONMENT TESTING ..................................................................................................................... 27 
+19 MECHANICAL DRAWING ...................................................................................................................... 28 
+20 EXAMPLES OF STANDARD CONFIGURATION .................................................................................. 29 
+20.1 Two ACU Modules and Two PDU Modules ............................................................................... 30 
+20.2 One ACU Module and One PDU Module .................................................................................. 30 
+20.3 Custom Configuration ................................................................................................................ 30 
+21 DISCLAIMER .......................................................................................................................................... 30 
+ 
+ 
+  
+PDF PAGE 5
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+5 
+2 System Overview 
+The complete P60 system is designed to be a modular, high capacity power supply for small satellites. It is built 
+around GomSpace modular technology, allowing numerous configurations of modules to be implemented on a 
+P60 Dock, saving significant volume and giving customers a high level of customization.  
+ 
+- Advanced modular high-power EPS for small satellites 
+- GomSpace modular technology enables EPS customization 
+ 
+Standard configuration includes: 
+- 1 P60 Dock 
+- 1 Array Conditioning Unit (ACU) module (6 channels) 
+- 1 Power Distribution Unit (PDU) module (9 channels) 
+- 2 free slots for daughterboards 
+- Easy integration using CAN/I2C enabled CSP and GOSH. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Figure 1 CAD drawing of a motherboard with four shielded daughter boards  
+
+PDF PAGE 6
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+6 
+2.1 Highlighted Features 
+ 
+P60 Dock 
+• Up to four modules  
+o Input (ACU) 
+o Output (PDU) 
+o NanoMind A3200 
+• Regulated 3.3 V and 5 V outputs to PC104 stack 
+• Kill switch interface 
+• Synchronized out-of-phase converters for low EMI operation   
+• Integration with standard GomSpace battery packs, BP4 and BPX 
+• Recommended battery voltage of 16 V or 32 V 
+• ISS launch compliant version available 
+• Supports external reset capability 
+• Orbit Insertion detection via connection to GomSpace GSSB bus (Coarse Sun Sensors).  
+• Fits standard PC104 
+• PCB material: Glass/Polyimide IPC 6012C cl. 3/A 
+• IPC-A-610 Class 3 assembly 
+ 
+Note that the total power conversion is limited by thermal considerations. Hence installation hardware and 
+operating voltages is indirectly a limiting factor – in general the higher voltage the higher power. That is; the 
+higher the voltage less current needs to flow to attain higher power. 
+ 
+ 
+2.2 Module Slots 
+Both ACU and PDU modules can be mounted on all four slots, a NanoMind A3200 can only be mounted on X3. 
+ 
+ 
+  
+
+PDF PAGE 7
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+7 
+2.4 Block Diagram 
+The P60 Dock allows up to four  daughterboards to be installed. Each daughterboard connects to a protected 
+(unregulated) battery voltage bus through a Power Interface Protection Switch (PIPS). Another PIPS connects 
+to the battery voltage bus to the battery pack, via the optional full current circuit breaker switch (typically rail or 
+deployment switch).  
+ 
+The P60 Dock offers the necessary connections to the stack connector, mainly output power channels and 
+communication interfaces. It contains two buck converters to power the MCU and the daughterboards. These 
+regulated voltages are also available in the stack, though u sing P60 -PDU output power channels is highly 
+recommended.  
+ 
+Two kill switches allow low current enable signals to the system, typically used to inhibit power -on.  
+ 
+The MCU on the P60 Dock controls the system, monitors current, voltage and temperature.   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+
+PDF PAGE 8
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+8 
+2.5 CAN Stack Termination Recommendation 
+GomSpace recommends having a 120 Ω termination resistor in the top and bottom of the CAN bus, to mitigate 
+reflections. The total bus resistance should be 60 Ω. On the NanoPower P60 Dock there is mounted a 120 Ω 
+termination resistor. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+
+PDF PAGE 9
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+9 
+3 Connector Pinout 
+FSI connector pinouts (X1 to X4) are for reference only. The signals are only used by GomSpace daughterboard 
+(ACU and PDU).  
+ 
+3.1 Description of the FSI Connectors  
+All FSI connectors are 3 mm tall to allow simple integration with the daughterboards.  
+ 
+Each slot has one or two FSI connectors depending on choice of module. Denoted A and B  
+ 
+The ‘A’ is used for all modules. On slot X3 a GomSpace NanoMind A3200 can be used. Note that the V_BAT 
+pins are not directly compatible with NanoMind products, hence a correct option sheet configuration is required 
+to avoid V_BAT in the FSI connector A.  
+ 
+The ‘B’ denoted FSI connector is only used if a PDU module is mounted.  
+ 
+3.2 P60 Dock Top Side 
+ 
+
+PDF PAGE 10
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+10 
+3.2.1 H1/H2 - Stack Connector 
+Prior to purchase an option sheet is filled out with pin configuration. Option choices are hard soldered into the 
+PCB. 
+ 
+H1 
+ 
+Pin Description 
+1 CANL * 
+2 Reserved for GPS heartbeat  
+3 CANH * 
+4 X3 output no. 2 * 
+5 X3 output no. 0 * 
+6 X3 output no. 1 * 
+7 GND * 
+8 GND * 
+10 X1 output no. 0 * 
+12 X1 output no. 3 * 
+14 X1 output no. 6 * 
+33 GND * 
+34 GND * 
+35 X4 output no. 2 * 
+36 X4 output no. 5 * 
+37 X4 output no. 1 * 
+38 X4 output no. 4 * 
+39 X4 output no. 0 * 
+40 X4 output no. 3 * 
+41 I2C Bus Data 2k4 pull-up * 
+43 I2C Bus Clock 2k4 pull-up * 
+45 GND * 
+46 GND * 
+47 X2 output no. 0 * 
+48 X2 output no. 1 * 
+49 X2 output no. 3 * 
+50 X2 output no. 4 * 
+51 X2 output no. 6 * 
+52 X2 output no. 7 * 
+* Depending on option sheet configuration. 
+ 
+ 
+H2 
+ 
+Pin Description 
+1 X3 Output no. 5  * 
+2 X3 Output no. 8  * 
+3 X3 Output no. 4  * 
+4 X3 Output no. 7  * 
+5 X3 Output no. 3  * 
+6 X3 Output no. 6  * 
+7 GND * 
+8 GND * 
+9 X1 Output no. 1  * 
+10 X1 Output no. 2  * 
+11 X1 Output no. 4  * 
+12 X1 Output no. 5  * 
+13 X1 Output no. 7  * 
+14 X1 Output no. 8  * 
+16 GND * 
+25 Output 5 V * 
+26 Output 5 V * 
+27 Output 3.3 V * 
+28 Output 3.3 V * 
+29 GND * 
+30 GND * 
+31 GND (Analog) * 
+32 GND * 
+35 X4 output no. 8 * 
+37 X4 output no. 7 * 
+39 X4 output no. 6 * 
+45 Output V_BAT * 
+46 Output V_BAT * 
+47 X2 Output no. 2  * 
+48 GND * 
+49 X2 Output no. 5 * 
+51 X2 Output no. 8  * 
+52 GND * 
+* Depending on option sheet configuration 
+ 
+ 
+  
+PDF PAGE 11
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+11 
+3.2.2 X1A – FSI 
+FSI 1.0 mm pitch. Connects the P60 Dock to a mounted GomSpace daughterboard. Se chapter 3.1. 
+ 
+Pin Description Pin Description 
+1 GND 20 GND 
+2 GND 19 GND 
+3 VCC 18 5 V 
+4 VCC 17 Boost converter enable 
+5 SCL 16 V_BAT 
+6 SCA 15 V_BAT 
+7 CANH 14 V_BAT 
+8 CANL 13 V_BAT 
+9 V_BAT 12 Not connected 
+10 V_BAT 11 Not connected 
+ 
+3.2.3 X1B - FSI  
+FSI 1.0 mm pitch. Connects the P60 Dock to a mounted GomSpace Nanopower P60 -PDU daughterboard. Se 
+chapter 3.1. 
+ 
+Pin Description Pin Description 
+1 Output 0 20 Output 0 
+2 Output 1 19 Output 1 
+3 Output 2 18 Output 2 
+4 Output 3 17 Output 3 
+5 Output 4 16 Output 4 
+6 Output 5 15 Output 5 
+7 Output 6 14 Output 6 
+8 Output 7 13 Output 7 
+9 Output 8 12 Output 8 
+10 GND 11 GND 
+ 
+3.2.4 X2A – FSI 
+FSI 1.0 mm pitch. Connects the P60 Dock to a mounted GomSpace daughterboard. Se chapter 3.1. 
+ 
+Pin Description Pin Description 
+1 GND 20 GND 
+2 GND 19 GND 
+3 VCC 18 5 V 
+4 VCC 17 Boost converter enable 
+5 SCL 16 V_BAT 
+6 SCA 15 V_BAT 
+7 CANH 14 V_BAT 
+8 CANL 13 V_BAT 
+9 V_BAT 12 Not connected 
+10 V_BAT 11 Not connected 
+ 
+ 
+ 
+PDF PAGE 12
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+12 
+3.2.5 X2B – FSI 
+FSI 1.0 mm pitch. Connects the P60 Dock to a mounted GomSpace NanoPower P60 PDU daughterboard. Se 
+chapter 3.1. 
+ 
+Pin Description Pin Description 
+1 Output 0 20 Output 0 
+2 Output 1 19 Output 1 
+3 Output 2 18 Output 2 
+4 Output 3 17 Output 3 
+5 Output 4 16 Output 4 
+6 Output 5 15 Output 5 
+7 Output 6 14 Output 6 
+8 Output 7 13 Output 7 
+9 Output 8 12 Output 8 
+10 GND 11 GND 
+  
+3.2.6 P1 - Hard Reset Input 
+Molex Pico-lock 1.0 mm pitch. 503763-0291. Internally pulled up. Open drain input. 
+ 
+Pin Description 
+1 GND 
+2 Hard reset input (active low) 
+ 
+3.2.7 P2 - GOSH  
+Molex Pico-lock 1.0 mm pitch. 503763-0491. TX is e.g. from MB to PC. RX is from PC to MB. 
+ 
+Pin Description 
+1 GND 
+2 UART TX 
+3 UART RX 
+4 Not connected 
+ 
+3.2.8 P3 - V_BAT Circuit Breaker 
+Molex Pico-lock 1.5 mm pitch. 504050-0691. 
+ 
+Allows high-current rail switches to comply with NanoRacks launches from the International Space Station (ISS). 
+Requires NC switches with high current carrying capacity. 
+ 
+Pin Description 
+1 V_BAT_DIRECT 
+2 V_BAT_DIRECT 
+3 V_BAT_DIRECT 
+4 V_BAT 
+5 V_BAT 
+6 V_BAT 
+ 
+ 
+  
+PDF PAGE 13
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+13 
+3.2.9 P4 - BPX Interface Part I 
+Molex Pico-lock 1.5 mm pitch. 504050-0891 
+ 
+Connect to GomSpace NanoPower BPX. View chapter 12.  
+ 
+Pin Description 
+1 V_BAT_DIRECT 
+2 V_BAT_DIRECT 
+3 V_BAT_DIRECT 
+4 V_BAT_DIRECT 
+5 GND_DIRECT 
+6 GND_DIRECT 
+7 GND_DIRECT 
+8 GND_DIRECT 
+ 
+3.2.10 P5 - BPX Interface Part II 
+Molex Pico-lock 1.5 mm pitch. 504050-0791 
+ 
+Connect to GomSpace NanoPower BPX. View chapter 12. 
+ 
+Pin Description 
+1 GND 
+2 SCL 
+3 SDA 
+4 EN_BPX (active high) 
+5 CANH 
+6 CANL 
+7 EN_BPX (active low) 
+ 
+3.2.11 P6 – Release GSSB 
+Molex Pico-lock 1.5 mm pitch. 504050-0891. 
+ 
+P6 is used for GomSpace Sensor/Release Bus. The I 2C interface can be used to communicate with sun 
+sensors, pin 3 and 4 for supplying the sun sensors and pins 5 through 8 is for an antenna release mechanism.  
+ 
+Pin Description 
+1 I2C Data 
+2 I2C CLK 
+3 3.3 V 
+4 GND 
+5 5 V 
+6 5 V 
+7 GND 
+8 GND 
+PDF PAGE 14
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+14 
+3.2.12 PJ – JTAG 
+FPC-51281-1894 
+ 
+Programming and test connector. Only for ground testing, and should not be used in flight. Only use on 
+GomSpace’s instruction. 
+ 
+The UART is the same as in P2. Only connect one of P2 or PJ at any given time.  
+ 
+Pin out table supplied for reference only. 
+ 
+Pin Description 
+1 GND 
+2 VCC 
+3 RESET_N 
+4 JTAG_TDI 
+5 JTAG_TMS 
+6 JTAG_TCK 
+7 JTAG_TDO 
+8 GND 
+9 VCC 
+10 UART_RX 
+11 UART_TX 
+12 Not connected 
+13 Not connected 
+14 Not connected 
+15 Not connected 
+16 Not connected 
+17 Not connected 
+18 GND 
+PDF PAGE 15
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+15 
+3.3 P60 Dock Bottom 
+ 
+ 
+ 
+
+PDF PAGE 16
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+16 
+3.3.1 X3A - FSI  
+FSI 1.0 mm pitch. Connects the P60 Dock to a mounted GomSpace daughterboard. Se chapter 3.1. 
+ 
+Pin Description Pin Description 
+1 GND 20 GND 
+2 GND 19 GND 
+3 VCC 18 5 V 
+4 VCC 17 Boost converter enable 
+5 SCL 16 V_BAT 
+6 SCA 15 V_BAT 
+7 CANH 14 V_BAT 
+8 CANL 13 V_BAT 
+9 V_BAT 12 Not connected 
+10 V_BAT 11 Not connected 
+ 
+3.3.2 X3B - FSI  
+FSI 1.0 mm pitch. Connects the P60 Dock to a mounted GomSpace NanoPower P60 PDU daughterboard. Se 
+chapter 3.1. 
+ 
+Pin Description Pin Description 
+1 Output 0 20 Output 0 
+2 Output 1 19 Output 1 
+3 Output 2 18 Output 2 
+4 Output 3 17 Output 3 
+5 Output 4 16 Output 4 
+6 Output 5 15 Output 5 
+7 Output 6 14 Output 6 
+8 Output 7 13 Output 7 
+9 Output 8 12 Output 8 
+10 GND 11 GND 
+ 
+3.3.3 X4A - FSI  
+FSI 1.0 mm pitch. Connects the P60 Dock to a mounted GomSpace daughterboard. Se chapter 3.1. 
+ 
+Pin Description Pin Description 
+1 GND 20 GND 
+2 GND 19 GND 
+3 VCC 18 5 V 
+4 VCC 17 Boost converter enable 
+5 SCL 16 V_BAT 
+6 SCA 15 V_BAT 
+7 CANH 14 V_BAT 
+8 CANL 13 V_BAT 
+9 V_BAT 12 Not connected 
+10 V_BAT 11 Not connected 
+ 
+PDF PAGE 17
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+17 
+3.3.4 X4B - FSI 
+FSI 1.0 mm pitch. Connects the P60 Dock to a mounted GomSpace NanoPower P60 -PDU daughterboard. Se 
+chapter 3.1. 
+ 
+Pin Description Pin Description 
+1 Output 0 20 Output 0 
+2 Output 1 19 Output 1 
+3 Output 2 18 Output 2 
+4 Output 3 17 Output 3 
+5 Output 4 16 Output 4 
+6 Output 5 15 Output 5 
+7 Output 6 14 Output 6 
+8 Output 7 13 Output 7 
+9 Output 8 12 Output 8 
+10 GND 11 GND 
+ 
+3.3.5 P10 - Kill-switch Connector (primary) 
+Molex Pico-lock 1.5 mm pitch. 504050-0491 
+ 
+See chapter 4 for more detail. 
+ 
+Pin Description 
+1 GND 
+2 Kill-switch ch_2 
+3 GND 
+4 Kill-switch ch_1 
+ 
+3.3.6 P11 - Kill-switch Connector (alternative) 
+Molex Pico-lock 1.5 mm pitch. 504050-0491 
+ 
+See chapter 4 for more detail. 
+ 
+Pin Description 
+1 GND 
+2 Kill-switch ch_Intermediate 
+3 Kill-switch ch_Intermediate 
+4 Kill-switch ch_1 
+ 
+3.3.7 P12 – BP4 Connector 
+Samtec SQW-108-01-L-D 
+ 
+Connector to a GomSpace NanoPower BP4. See the BP4 datasheet. 
+ 
+ 
+
+PDF PAGE 18
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+18 
+3.3.8 P13 - FPP Connector Part I 
+Molex Pico-lock 1.5 mm pitch. 504050-0691 
+ 
+P13 and P14 are used together for Flight Preparation Panel (FPP). See chapter 5 for more detail. 
+ 
+Pin Description 
+1 GND 
+2 GND 
+3 V_BAT_Sense 
+4 V_BAT_Charge 
+5 V_BAT_DIRECT 
+6 V_BAT 
+ 
+3.3.9 P14 - FPP Connector Part II 
+Molex Pico-lock 1.5 mm pitch. 504050-0791 
+ 
+P13 and P14 are used together for Flight Preparation Panel (FPP). See chapter 5 for more detail. 
+Pin Description 
+1 CAN_L 
+2 CAN_H 
+3 GND 
+4 Kill-switch_1 
+5 GND 
+6 RBF 
+7 DE-ARM 
+ 
+3.3.10 P15 - RS-422 TX 
+Molex Pico-lock 1.0 mm pitch. 503763-0491 
+ 
+Use P15 and P16 together for RS-422 connection to the MB. 
+ 
+Pin Description 
+1 GND 
+2 Not connected 
+3 TX_N 
+4 TX_P 
+ 
+3.3.11 P16 - RS-422 RX 
+Molex Pico-lock 1.0 mm pitch. 503763-0491 
+ 
+See P15. 
+ 
+Pin Description 
+1 GND 
+2 Not connected 
+3 RX_N 
+4 RX_P 
+PDF PAGE 19
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+19 
+4 Kill switches 
+At the top or bottom of a nano-satellite are sets of switches, which are pressed down while the satellite is placed 
+in its orbital deployer. These switches are referred to as kill switches. While the buttons are pressed the satellite 
+cannot power up. As soon as the satellite is released, the satellite can power up. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+While the buttons are presses the kill switch circuits are open and no current can run through; satellite is 
+powered down. And vice-versa.  
+ 
+Depending on how the switches are connected to the hardware they can be set in either a parallel (P10) or 
+serial (P11) setup e.g. how many buttons to release before power up. 
+ 
+4.1 P10 – Kill Switches in Parallel 
+P10 connects kill-switches in parallel (used by default). 
+ 
+The parallel connection of the two switches is handled on the P60 Dock PCB. By connecting the two kill switches 
+in parallel; only one of the switches has to be release for the satellite to power up. This works as redundancy 
+system therefore the P10 connector is highly recommended for connecting the kill switches. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+Figure 2 An example of a 3U nano -satellite in an orbital deployer. Kill 
+switches indicated with red 
+Figure 3 Principle electrical kill switches parallel electric circuit 
+
+PDF PAGE 20
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+20 
+4.2 P11 – Kill Switches in Series 
+P11 connects kill switches in series (optional).  
+ 
+The series connection of the two kill switches is handled on the P60 Dock PCB. By connecting the two kill 
+switches in series both switches has to be released before the satellite can power up.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+5 Flight Preparation Panel (FPP) 
+A Flight Preparation Panel (FPP) is a panel placed on the spacecraft such that it is accessible from outside and 
+preferably accessible when the spacecraft is placed in the orbital deployer. The reason for having an FPP is to 
+be able to charge the batteries and communicate with the subsystems of the spacecraft and also in to be able 
+to insert a Remove Before Flight (RBF) jumper, ensuring that the spacecraft is powered down when e.g. 
+transporting or handling the spacecraft. A kill switch override is also acce ssible on the FPP. 
+ 
+The use of the FPP listed in (see chapter 3.3.8 and 3.3.9) are described in the chapters below. A set of examples 
+are given and explained as to give the user an idea of a use. 
+ 
+ 
+5.1 Remove Before Flight (RBF) 
+The RBF pin is an active low shutdown input located on pin 6 of P14. As long as the RBF pin is pulled to ground 
+the spacecraft cannot power up, however it is possible to charge the batteries with it inserted.  
+ 
+The RBF pin is a high-impedance input and should not be left exposed or unterminated external to the satellite. 
+To ensure robust and reliable operation, the following practices are recommended for satellite missions:  
+a) Cover the FPP panel with a metal plate, for example anodized aluminum with a minimum thickness of 
+1 mm. The cover plate should be electrically bonded to the satellite structure.  
+b) Install a 2 MΩ pull-up resistor between VBAT and the RBF pin on the FPP panel. The resistor should 
+be placed as close as possible to the RBF pin. 
+c) Insert a 220  Ω series resistor in the RBF signal harness between the FPP panel and the P60 FPP 
+connector. The series resistor should be located close to the P60 FPP connector.  
+ 
+ 
+5.2 DE-ARM 
+Pin 7 in P14 is a De -Arm pin. The De-Arm is an active low input. When active; the antenna release system is 
+deactivated. This prevents unintentional antenna releases and it is recommended that this input is connected 
+to the FPP such that a jumper can be inserted shorting this input to ground. 
+ 
+ 
+  
+Figure 4 Principle electrical kill switch serial electric circuit 
+PDF PAGE 21
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+21 
+5.3 Killswitch_1 
+Pin 4 in P14 is an active low input. The killswitch_1 input is able to override the kill switch signals from those 
+mounted on the outside of the spacecraft. This allows powering up the spacecraft even when the kill switches 
+are pressed. It overrides only the kill switches and not the RBF input. 
+ 
+ 
+5.4 Charging the Batteries 
+The battery charging interface is located in connector P13 where the pins one through four is used for charging. 
+Pin one and two is ground connection to the battery; pin three is a battery voltage sense output which should 
+be used with the battery charger and pin four is the charge input for the battery. Pins five and six are used if a 
+high current VBAT circuit breaker functionality is used with the P60 Dock. If the high current VBAT circuit breaker 
+is used then these pins needs to be connected to the FPP panel. On the GomSpace NanoPower BPX and BP4 
+battery packs there is a connector for a high current GND circuit breaker - if this is used then you also need to 
+connect this to the FPP. 
+ 
+View Electrical Characteristics chapter 16 for maximum charge current. 
+ 
+With these connections in the FPP then a procedure for charging the batteries in a spacecraft is:  
+1) Connect the battery charger to GND, V_BAT_Sense and V_BAT_Charge.  
+2) Connect GND to GND_DIRECT. 
+3) Connect V_BAT to V_BAT_DIRECT 
+4) Start the charger 
+Steps two and three only needs to be performed if the high current circuit breakers are used.  
+ 
+To charge the batteries while the spacecraft is powered down, use P13 Pin 1 -4 only. Do NOT connect to 
+V_BAT_DIRECT. Always use a charger with UV, OV and OC protection and separate sense connection.  
+ 
+5.5 Powering up the Spacecraft 
+When powering up the spacecraft connections from both P13 and P14 are needed. The spacecraft could for 
+instance be located in the orbital deployer ready for the launch vehicle or be in the lab.  
+ 
+A procedure for this is described below. 
+1) Connect GND to GND_DIRECT. 
+2) Connect V_BAT to V_BAT_DIRECT. 
+3) Connect Kill-switch_1 to GND. 
+4) Remove the RBF jumper. 
+ 
+6 Hardware Reset 
+The Hardware Reset input located in connector P1 is an input, which allows for a subsystem being able to 
+perform a power cycle of the spacecraft. This could for instance be from a reliable radio where a user an operator 
+could send a firecode and thereby triggering a power cycle of the spacecraft. 
+ 
+The hardware reset input is an open drain input that needs to be exposed to a falling edge and a rising edge in 
+order to be triggered. That is, the hardware reset needs to be exposed to  an active low pulse with a length of 
+10 to 15 ms. This design ensures that noise on the input cannot trigger a power cycle inadvertently. 
+  
+PDF PAGE 22
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+22 
+7 Battery Protection 
+The battery protecti on built into the P60 power supply consists of three parts; over  voltage protection, under  
+voltage protection and over current protection. Each of the three serves to protect the batteries from strain that 
+might damage or shorten the lifetime of the batteries. In the following sections, each of the three will be 
+described.  
+ 
+7.1 Over Current (OC) Protection 
+To ensure that the spacecraft subsystems are not allowed to draw more current from the batteries than the 
+batteries are rated to, an OC protection function is built into the P60.  
+ 
+The OC protection is located in the PIPS directly connected to the batteries. The OC protection is triggered by 
+the total current draw from the five PIPS outputs in the P60 Dock; the four FSI connectors and the VBAT located 
+in the stack connector. The five individual PIPS are Latch-Up protected.  
+ 
+7.2 Over Voltage (OV) Protection 
+The OV protection feature of the P60 protects the batteries from an over charge condition. The OV is located in 
+the P60 Dock. If the voltage across the batteries reaches the maximum safe, then the OV protection stops the 
+charging. When the batteries are discharged to the OV threshold minus a hysteresis band then the charging is 
+allowed again.  
+ 
+The OV protection thresholds levels for the two voltage versions of the P60, are listed below:  
+• 16 V: 16.8 V  
+• 32 V: 33.6 V  
+ 
+7.3 Under Voltage (UV) Protection 
+The UV protection feature protects the batteries from an under charge condition. The UV is located in the P60 
+Dock. When the discharge level of the batteries reaches the minimum safe level the UV protection turn of the 
+power supply until the batteries are charged to a safe level plus a hysteresis band. 
+ 
+The UV protection threshold levels for the two voltage versions of the P60, are listed below: 
+• 16 V: 12 V 
+• 32 V: 24 V 
+ 
+  
+PDF PAGE 23
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+23 
+8 Current Limit Considerations 
+The block diagram below illustrates the different Vbat current limits and current ratings, across the P60 Dock 
+and P60 PDU-200. On the Dock the overcurrent limit is shown along a Vbat switch supplying the PDU-200 with 
+battery voltage. On the PDU -200 a single buck converter is shown next to a few load switches. The different 
+current limits and ratings can be found in their own datasheets and the block diagram illustrates how they affect 
+each other and the overall system design. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+At the PDU -200, there are 9 output channels, each rated to 2 A, where each of the three Buck converters is 
+rated to 4.5 A. This means that if only two channels are connected to one converter the full 2 A can be realized 
+from each channel at the same time; however, if three or more  channels are connected to the same regulator 
+it is left to the system designer to make sure that the buck converter is not loaded with more than 4.5 A.  
+ 
+The Dock allows for up to four PDU -200s. Each PDU -200 is protected by an overcurrent limit of 3.75 A.  
+However, the 4A battery overcurrent limit sets the maximum intake of current from the battery hence the power 
+able to be delivered to the PDU-200’s in total. In general – a higher battery voltage allows for a higher power. If 
+more than one PDU-200 is utilized on a single Dock, then it is likewise left to the system designer to ensure that 
+no more than 4 A is drawn at the same time from the battery. 
+9 Inrush Current Considerations 
+When driving high capacitive load from one of the PDU-200’s high-voltage channels, the power on inrush current 
+might exceed the overcurrent protection limit of 3.75A and causes interruption of the PDU power supply or reset 
+of the Dock. For P60 Dock with serial number 300 and forward , this situation can be avoided by implementing 
+a specific sequence to turn on the  high-voltage channel in question. The power on sequence is descri bed as 
+follows: 
+1. Turn on the VCC supply to the PDU. 
+2. Configure the PDU channel output so that the high-voltage channel, which is driving the capacitive load, 
+remains turned  on under Battery mode SAFE and NORMAL.  This can be done by setting the 
+appropriate configuration parameters init_out_safe[ ]  and init_out_norm[ ]  to 1. The 
+corresponding init_on_dly[ ]  parameter must be 0, which means there is no delay. Refer to the 
+PDU-200 Manual for more details. 
+3. Turn on the PDU high-voltage channel. 
+4. Turn on the V _BAT supply  to the PDU.  The V_BAT voltage  ramps up at a  slew rate of 3.75V/ms 
+typically. The PDU high-voltage channel output will follow the V_BAT ramp rate.   
+5. When the PDU high-voltage channel output reaches the desired voltage, the configuration parameters 
+init_out_safe[ ]  and init_out_norm[ ]  may be resumed to 0,  depending on the system 
+application requirements. 
+ 
+
+PDF PAGE 24
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+24 
+10 Power Converters 
+There are two power converters located on the P60 Dock, a 3.3 V and a 5 V converter. These two converters 
+are used to supply the daughterboards, internal logic, 5 V and 3.3 V in the stack and for antenna release.  
+ 
+11 Safe Modes and Fallback Operation 
+The P60 design is limited in size and complexity, to allow a fair number of high power channels in a small 
+spacecraft. Hence there is no room for redundancy. The GomSpace recommended way of achieving 
+redundancy is by using two power systems. However, the P 60 includes a number of hardware fallback modes 
+that allow basic operation in case parts of the circuit is defect. The main strategies are:  
+ 
+• Hardware fallback on ACU200 module - OV 
+• Error detection on the P60 Dock 
+• Multiple output modules 
+ 
+The hardware fallback on the ACU serves two functions. One is to power on the spacecraft from low battery 
+voltage and the other is to allow input power conversion even in case of MCU failure. The hardware fallback 
+uses a fixed power point on the converter of 4.5 V (maximum power point tracking not enabled). It should be 
+mentioned that the 6 input converters on an ACU is paired two and two. All 6 inputs are individual converters 
+with individual power point tracking, but they share control components in pairs  of two. The pairs are PV0 and 
+PV1, PV2 and PV3, PV4 and PV5. This means that the available strings should be divided equally, e.g. if only 
+two inputs are used connect to PV0 and PV5. If three inputs are used connect to PV0, PV3 and PV4.  
+ 
+Error detection on the P60 Dock allows fault isolation on a module level. This means that a failed ACU or output 
+module can be disconnected from the system. 
+ 
+When using multiple PDU modules and communication systems it is recommended to connect one radio to the 
+one output module and the other radio to another output module. 
+ 
+12 BPX Interface 
+Below is a table to help with a split harness between the P60 Dock (P4 and P5) and a BPX (PBAT2)  
+ 
+ BPX P60 
+ 
+ PBAT2 P4 
+ 
+P5 
+GND 1 5  
+GND 2 6  
+GND 3 7  
+GND 4 8  
+VBAT_RAW Battery Voltage 5 1  
+VBAT_RAW Battery Voltage 6 2  
+VBAT_RAW Battery Voltage 7 3  
+VBAT_RAW Battery Voltage 8 4  
+I2C SCK 9  2 
+Enable BPX 10  4 
+I2C Data 11  3 
+GND 12  1 
+Not connected 13   
+Kill switch 14  7 
+PDF PAGE 25
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+25 
+ 
+13 Data Interface 
+The P60 uses the CubeS at Space Protocol (CSP) to transfer data to and from CSP nodes on -board the main 
+system bus. CSP is a routed network protocol that can be used to transmit data packets between individual 
+subsystems on the satellite bus and between the satellite and ground station. For more information about CSP 
+please read the documentation on libcsp.org and on Wikipedia: 
+http://en.wikipedia.org/wiki/Cubesat_Space_Protocol 
+ 
+The CSP network layer protocol spans multiple data-link layer protocols, such as CAN-bus, I2C and KISS. 
+ 
+13.1  CAN-BUS / CFP Protocol 
+The standard method to communicate with the P60 is the CAN -bus. The CAN interface on the P60 uses the 
+CSP CAN Fragmentation Protocol (CFP) . CFP is a simple method to make CSP packets of up to 256 bytes, 
+span multiple CAN messages of up to 8 bytes each. The easiest way to implement CSP/CFP over CAN is to 
+download the CSP source code from http://libcsp.org and compile the CFP code directly into your own 
+embedded system. 
+ 
+The CAN-bus is connected to each individual module. 
+ 
+13.2 I2C Communication Protocol 
+It is possible to communicate with the P60 modules over multi-master I2C. Please note that since the CSP router 
+sends out an I2C message automatically when data is ready for a subsystem residing on the I 2C bus. The bus 
+needs to be operated in I2C multi-master mode. 
+ 
+The P60 uses the same I2C address as the CSP network address per default. This means that if a message is 
+sent from the radio link, to a network node called 1, the P60 will route this message to the I2C interface with the 
+I2C destination address 1. 
+ 
+The I2C bus is connected to each individual module in the P60 system. 
+13.3 KISS Protocol 
+The KISS protocol uses special framing characters to identify a data-packet on a serial connection. It is designed 
+to be easy to implement in simple embedded devices, which are capable of asynchronous serial 
+communications. http://en.wikipedia.org/wiki/KISS_(TNC) 
+ 
+The KISS protocol is available on the P60 Dock RS-422 and UART connector (TTL level). This is not a bus but 
+a point to point connection. Hence the CSP routing service is used to allow communication with daughterboards 
+in the P60 system. 
+ 
+14 Debug Interface 
+The debug interface is a USART that uses the GomSpace Shell (GOSH) to present a console -like interface to 
+the user. GOSH is a general feature present on all GomSpace products.  
+ 
+The console can be used during checkout of the P60 to send commands and set parameters. During integration 
+into the satellite, the debug interface can be used to monitor incoming and outgoing traffic through the P60. 
+  
+PDF PAGE 26
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+26 
+15 Absolute Maximum Ratings 
+Stresses above those listed under Absolute Maximum Ratings may cause permanent damage to the  P60. 
+Exposure to absolute maximum rating conditions for extended periods may affect the reliability.  
+ 
+Symbol Description Min. Max. Unit 
+Tamb Operating Temperature -35 +85 °C 
+Vio Voltage on I2C/USART pins -0.1 3.4 V 
+ 
+16 Electrical Characteristics 
+Parameter Condition Min. Typ. Max. Unit 
+Battery 
+- Voltage 
+ 
+ 
+ 
+- Current,   
+charge 
+ 
+- Current, 
+discharge 
+ 
+ 
+Battery connection                
+                                           16 volt 
+                                           32 volt 
+ 
+Combined charge current to ACU 
+ 
+ 
+(Depends on battery configuration) 
+Overcurrent protection threshold 
+ 
+ 
+12.0 
+24.0 
+ 
+ 
+14.8 
+29.6 
+ 
+ 
+ 
+ 
+4 
+ 
+ 
+16.80 
+33.6 
+ 
+4 
+ 
+ 
+V 
+V 
+ 
+A 
+ 
+ 
+A 
+FPP_charge View chapter 5.4   1 A 
++ 5 V Stack 
+connector 
+- Voltage 
+- Current, 
+cont. 
+ 
+5 V regulated output 
+ 
+Total current H2-25 and H2-26 
+ 
+4.89 
+0  
+ 
+5.20 
+ 
+5.35 
+1.00 
+ 
+V 
+A 
++ 3.3 V Stack 
+connector 
+- Voltage 
+- Current, 
+cont. 
+ 
+3.3 V regulated output 
+From -35 °C to +85 °C 
+Total current H2-27 and H2-29 
+ 
+3.20 
+0.00 
+ 
+3.29 
+ 
+3.39 
+0.50 
+ 
+V 
+A 
+V_BAT Stack 
+connector 
+- Voltage 
+- Current, 
+cont. 
+ 
+Raw battery voltage 
+(Depends on battery configuration) 
+H2-45 and H2-46 
+  
+ 
+1.0 
+  
+V 
+A 
+FSI – VCC 
+ 
+Typical value per daughter board  0.2 0.5 A 
+17 Physical Characteristics 
+Description Value Unit 
+Mass 80 g 
+Size Standard PC104 fit 
+90 x 96 
+mm 
+PDF PAGE 27
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+27 
+18 Environment Testing 
+To simulate the harsh conditions in launch and space, the NanoDock P60 has been exposed to several 
+environment tests. For detailed information about the tests please contact GomSpace.  
+  
+PDF PAGE 28
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+28 
+19 Mechanical Drawing 
+All dimensions in mm. The height of the stack connector depends on the choice in the option sheet.  
+Here shown with four and two modules installed. 
+ 
+ 
+ 
+
+PDF PAGE 29
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+29 
+20 Examples of Standard Configuration 
+The P60 Dock can fit up to four GomSpace NanoDock compatible daughterboards. Below are two CAD drawn 
+examples of typical setups.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 6 Dock with ACU and one PDU module 
+Figure 5 Dock with one ACU and three PDU modules 
+
+PDF PAGE 30
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+ 
+Datasheet NanoPower P60 Dock 
+29 April 2026 
+DS 1013119 3.1 
+30 
+20.1 Two ACU Modules and Two PDU Modules 
+In the default mode, this configuration includes ACU modules on the X1 and X3 location, and PDU modules on 
+the X2 and X4 position.  
+20.2 One ACU Module and One PDU Module 
+An ACU module is placed in the X1 location and Output module in the X2 location (both on the top side).  
+ 
+20.3 Custom Configuration 
+In the custom configuration option the spacecraft designer can mix and match modules as needed. This allows 
+a high level of flexibility. In cases where less than four modules are used from the NanoPower product line, a 
+NanoMind A3200 can be fitted. 
+ 
+Each configuration can be used with a GomSpace battery pack, either the BPX or the BP4 in 16 or 32 V 
+configurations. However, it must be considered that the PV inputs are boost converters, and therefore the 
+battery voltage must be higher than the highest PV input voltage. 
+ 
+21 Disclaimer 
+The information in this document is subject to change without notice and should not be construed as a 
+commitment by GomSpace. GomSpace assumes no responsibility for any errors that may appear in this 
+document. 
+ 
+In no event shall GomSpace be liable for incidental or consequential damages arising from use of this document 
+or the software and hardware described in this document. 

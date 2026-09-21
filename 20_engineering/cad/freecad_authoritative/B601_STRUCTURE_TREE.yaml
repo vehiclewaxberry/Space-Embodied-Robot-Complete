@@ -1,0 +1,64 @@
+schema: B601_STRUCTURE_TREE_V1
+generated: "2026-08-04"
+basis: F0_F2_PASS (skeleton+carriers+kinematic assembly+base adapter)
+classification_legend:
+  BUY: purchased, no internal redesign (vendor truth)
+  MAKE: in-house manufacturing design (FreeCAD native, gated)
+  ENVELOPE: geometry-envelope model only (no manufacturing claim)
+
+tree:
+  B601_SPACE_MANIPULATOR_SYSTEM:
+    S00_VENDOR_ARM_CORE:
+      class: BUY
+      scope: "Seeed reBot B601-DM: 6x joint motor+reducer units, encoders, internal bearings, gripper drive"
+      truth: "accepted URDF (kinematics/mass); vendor STEP (geometry envelope, 252MB, interactive import only)"
+      freeze_note: "D1 DECISION POINT: keep vendor core as-is vs rehouse -> human ruling required before F3-P1"
+      modules:
+        J1_BASE_SLEW:     {class: BUY, axis: "0 0 1", limits_deg: [-160.4, 160.4], effort_Nm: 27}
+        J2_SHOULDER:      {class: BUY, axis: "0 0 -1 (rotated frame)", limits_deg: [-180.0, 0.0], effort_Nm: 27}
+        J3_ELBOW:         {class: BUY, axis: "0 0 1", limits_deg: [-180.0, 0.0], effort_Nm: 27}
+        J4_WRIST_PITCH:   {class: BUY, axis: "0 0 1", limits_deg: [-107.2, 90.0], effort_Nm: 7}
+        J5_WRIST_ROLL_A:  {class: BUY, axis: "0 0 1", limits_deg: [-90.0, 90.0], effort_Nm: 7}
+        J6_WRIST_ROLL_B:  {class: BUY, axis: "0 0 1", limits_deg: [-180.0, 180.0], effort_Nm: 7}
+        GRIPPER_DRIVE:    {class: BUY, note: "2x independent prismatic fingers, travel 71.5 mm each, no mimic"}
+    S01_BASE_ADAPTER:
+      class: MAKE
+      status: F2_PASS (pilot complete)
+      model: 03_manufacturing_parts/base_adapter/B601_BASE_ADAPTER.FCStd
+    S02_STOWAGE_RESTRAINT:
+      class: MAKE
+      modules:
+        G07_MAIN_SADDLE:
+          status: F3 candidate (O13 station AFT/MID/FWD registered, CANDIDATE_HOLD)
+          required_features: [guide_cone, contact_pad, lateral_limit, axial_stop, preload_structure]
+        G08_WRIST_GRIP_SADDLE:
+          status: F3 candidate
+          required_features: [primary_stop, secondary_stop, preload, damping_element, six_dof_load_path]
+        ARM_STOW_SUPPORT_FRAME:
+          status: F3 candidate
+          note: "ties saddles into load spreading frame; Z envelope STOW_Z_LIMIT=UNKNOWN must NOT be defaulted compliant"
+    S03_HDRM_ASSEMBLY:
+      class: MAKE
+      status: F3 candidate (ENVELOPE-level; engineering candidate, NOT flight)
+      required_features: [latch, release_actuator_envelope, preload_spring, status_sensor, mechanical_stop]
+    S04_END_EFFECTOR:
+      class: MAKE
+      stages:
+        EE_V1_INTERFACE: {status: F3 candidate, scope: [wrist_flange, camera_mount, ft_sensor_mount, capture_center]}
+        EE_V2_COMPLIANT: {status: F3 candidate, scope: [compliant_joint, passive_damping, guide_cone]}
+        EE_V3_GRASP:     {status: DEFERRED, scope: [grasp_fingers, locking_mechanism]}
+      priority: EE_V1 + EE_V2
+    S05_HARNESS_SYSTEM:
+      class: MAKE (routing provisions; cables themselves BUY)
+      scope: "per-joint: connector, cable routing, strain relief, rotation envelope qmin..qmax"
+      rule: "harness must not be tensioned, kinked, or routed through rotation axis at any legal joint angle"
+    S06_LINK_COVERS:
+      class: MAKE (optional lightweight covers)
+      note: "vendor link shells are BUY; covers only if thermal/MMOD rationale is accepted (H-series decision)"
+    S07_LOAD_SPREADING_INTERFACE:
+      class: MAKE
+      note: "adapter -> longerons load path; ties to Master Skeleton LONGERON_AXIS_Y=±101.65, LOAD_LAYER_Y=110.15"
+validation_rules:
+  - "no MAKE module may reference donor STEP faces as design datums"
+  - "mass: CAD estimates register into FREECAD_MASS_REGISTER.yaml; URDF stays dynamics truth"
+  - "every MAKE module needs: model + drawing + BOM row + mass register row + (where structural) FEM note"

@@ -1,0 +1,106 @@
+schema: FEA2_B601_MODEL_PLAN_V1
+generated_local: '2026-08-21T20:32:00+08:00'
+phase: M6_CANDIDATE_AUTHORITY_CLOSURE
+work_package: WP5_STRUCTURAL_ENTRY
+model_id: FEA2_B601_ARM_ADAPTER
+model_level: LEVEL_2_ARM_ADAPTER
+status: DRAFT_PRE_AUTHORITY
+formal_fea_authorized: false
+formal_fea_run_count: 0
+
+scope: >-
+  B601 arm plus M3R interface under the four operational load case families
+  enumerated in the CDR Phase-1 load matrix: maximum reach (nominal slew),
+  emergency stop, capture impulse anchors, and eccentric grasp. Preparation
+  plan only; no FEA executed.
+
+model_content:
+  arm_authority: accepted L0 URDF (mass 4.695555949 kg, dynamics mass and kinematics only; never overridden by CAD)
+  interface_model_link: FEA1_M3R_INTERFACE (Stage A + Stage B + adapter segment)
+  bus_side_boundary: null (BC-BUS-001 HOLD)
+  joint_stiffness: null
+  joint_damping: null
+  gear_backlash: null
+  actuator_torque_time_history: null
+
+load_case_mapping:
+  - case: MAXIMUM_REACH_NOMINAL_SLEW
+    cdr_case_id: LC-010
+    cdr_combination: COMB-A01
+    source_class: DERIVED
+    status: DERIVED_SIMULATION_TRAJECTORY_NOT_MECHANICAL_DESIGN_LOAD
+    known_inputs: quintic trajectory, 8 s maneuver, q2 +60 deg, q3 -40 deg, B601 mass 4.695555949 kg
+    missing_inputs: [approved mission trajectory, actuator torque curves, joint friction, gear stiffness, payload, thermal state]
+    claim_limit: NO_MECHANICAL_STRENGTH_CONCLUSION
+  - case: EMERGENCY_STOP
+    cdr_case_id: LC-011
+    cdr_combination: COMB-A02
+    source_class: UNKNOWN
+    status: HOLD_NO_STOP_TIME_DECELERATION_LAW_OR_ACTUATOR_TORQUE_AUTHORITY
+    known_inputs: accepted URDF topology and mass
+    missing_inputs: [initial joint rates, stop time, deceleration profile, actuator/gear torque, backlash, brake behavior, controller latency]
+    claim_limit: NO_EMERGENCY_STOP_STRENGTH_CONCLUSION
+  - case: CAPTURE_IMPUSE_ANCHORS
+    cdr_case_ids: [LC-013, LC-014]
+    cdr_combinations: [COMB-C01, COMB-C02, COMB-P01, COMB-P02]
+    source_class: DERIVED
+    status: DERIVED_SIMULATION_EVIDENCE_NOT_STRUCTURAL_DESIGN_AUTHORITY
+    known_inputs: 22 kg/0.5 dps impulse 0.0601233-0.360622 N*s, couple 0.00151536-0.00152744 N*m*s; 150 kg/3 dps impulse 0.274973-0.677633 N*s, couple 0.111944-0.130197 N*m*s
+    missing_inputs: [contact compliance, force-time history, friction, contact normal authority, target inertia uncertainty, load path distribution]
+    claim_limit: NO_GRIPPER_M3R_OR_BUS_STRENGTH_CONCLUSION
+  - case: ECCENTRIC_GRASP
+    cdr_case_id: LC-015
+    source_class: UNKNOWN
+    status: HOLD_NO_CAPTURE_DISPERSION_AUTHORITY
+    known_inputs: two provisional contact frames
+    missing_inputs: [grasp point distribution, normal error, lever arm tolerance, friction, compliance, target shape uncertainty]
+    claim_limit: NO_CAPTURE_ROBUSTNESS_CONCLUSION
+
+boundary_conditions:
+  arm_base_interface: BC-M3R-001 (geometry mapped, joint mechanics HOLD)
+  gripper_contacts: BC-GRIPPER-001 (IMPULSE_RESULT_MAPPING_ONLY_NO_FORCE_TIME_HISTORY)
+  arm_hdrm: BC-HDRM-ARM-001 (TRADE_STUDY_ONLY, functional envelope only)
+  status: HOLD
+
+mesh_convergence_plan:
+  status: DRAFT_PRE_AUTHORITY
+  element_type_candidates:
+    arm_links: [C3D10_CLASS_TET10]
+    joints: [BEAM_PLUS_COUPLING idealization until joint stiffness authority]
+  size_sequence_mm:
+    global: [8.0, 4.0, 2.0]
+    local_at_interface_and_joint_roots: [2.0, 1.0, 0.5]
+  convergence_criteria_draft:
+    reaction_balance_error_pct_lt: 1.0
+    interface_resultant_change_pct_lt: 2.0
+    energy_check_required_for_dynamic_or_nonlinear_models: true
+  note: placeholders for project tailoring; none approved
+
+acceptance_criteria_draft:
+  status: DRAFT_PRE_AUTHORITY
+  all_criteria: null
+  tailoring_and_owner_approval: REQUIRED_NOT_PRESENT
+
+required_authorities_before_execution:
+  - accepted joint vectors (HOLD)
+  - actuator and stop loads (HOLD)
+  - target contact authority (HOLD)
+  - complete assembly transforms (partial; M-frame replacement transform null)
+
+source_register:
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/07_structural_model/STRUCTURAL_MODEL_PLAN_V1.yaml
+    sha256: 340a16ddcede63bab98914d36f59c0dcee29e6727bc3c7a74c6547223eae9ebb
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/AUTHORIZED_MECHANICAL_LOADS_V1.yaml
+    sha256: 82e331239d6eb86ee4b617145022e62133f5d837403119cdad2add83bcb78797
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_CASE_MATRIX.csv
+    sha256: cc37f1dfab7bb5be219c7df78f2276ce605475f8990e50101502fcc4f521eee5
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_COMBINATION_MATRIX.csv
+    sha256: a2f60430fb7b6223e67c71234fa66637613dc31857c72d1cf45df1f82289cb6c
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/DERIVED_CAPTURE_LOAD_ENVELOPE_V1.csv
+    sha256: e852de89bca633c126b0547257649c69b7a62e658e19dbe726eca4c38cb900a6
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/BOUNDARY_CONDITION_AUTHORITY.json
+    sha256: 4d936f4278c728243a088703e84bd421149a95780658755d05ed7cea13121de4
+  - path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+
+disposition: HOLD_DO_NOT_RUN_FORMAL_FEA

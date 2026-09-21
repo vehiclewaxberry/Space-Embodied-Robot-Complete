@@ -1,0 +1,376 @@
+{
+  "schema": "UNIFIED_R2_URDF_SOURCE_STATIC_VALIDATION_V1",
+  "generated_date_local": "2026-08-24",
+  "mode": "source-only",
+  "checks": [
+    {
+      "id": "USV-01",
+      "name": "all seven input artifacts exist and hashes match",
+      "pass": true,
+      "evidence": [
+        {
+          "id": "accepted_b601_urdf",
+          "pass": true,
+          "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+          "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164"
+        },
+        {
+          "id": "m7_r2_mass_properties",
+          "pass": true,
+          "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml",
+          "sha256": "3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB"
+        },
+        {
+          "id": "solar_root_frames",
+          "pass": true,
+          "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/internal_geometry_authority_closure/SOLAR_R2_ROOT_FRAME_REGISTRATION_V1.yaml",
+          "sha256": "95011198263005A4CDA60FE24C1FB04583384889479C0B8E9AC20C2B411D93DC"
+        },
+        {
+          "id": "m4_frame_tree",
+          "pass": true,
+          "path": "20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml",
+          "sha256": "67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA"
+        },
+        {
+          "id": "b601_linklocal_bounds",
+          "pass": true,
+          "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/B601_CAD_MESH_FRAME_DECISION_V1.json",
+          "sha256": "2A99484C6CE55B402CB06380F5DCB71D5A8B4BA622A371EEF72F4EC69EF124FF"
+        },
+        {
+          "id": "base_prebind_gate",
+          "pass": true,
+          "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/UNIFIED_R2_PREBIND_GATE_V1.json",
+          "sha256": "DA1F2661C3CCF641C9379CE50406A14510FABA9DC04B4E02F616768194F8CEAA"
+        },
+        {
+          "id": "existing_urdf_design_ledger",
+          "pass": true,
+          "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/UNIFIED_R2_URDF_DESIGN_LEDGER_V1.yaml",
+          "sha256": "CF5803D1E0A4CDC37635009DD28F62D25E367270A45F54C02E66BF539382D294"
+        }
+      ]
+    },
+    {
+      "id": "USV-02",
+      "name": "accepted B601 subtree is 10 links and 9 joints",
+      "pass": true,
+      "evidence": {
+        "links": 10,
+        "joints": 9
+      }
+    },
+    {
+      "id": "USV-03",
+      "name": "accepted B601 joint types are 6R+1F+2P",
+      "pass": true,
+      "evidence": {
+        "revolute": 6,
+        "fixed": 1,
+        "prismatic": 2
+      }
+    },
+    {
+      "id": "USV-04",
+      "name": "accepted B601 inertials origins axes and limits are structurally present",
+      "pass": true,
+      "evidence": {
+        "all_inertials": true,
+        "all_joint_fields": true,
+        "deep_copy_source": true
+      }
+    },
+    {
+      "id": "USV-05",
+      "name": "accepted B601 mass is exact",
+      "pass": true,
+      "evidence": 4.695555949342986
+    },
+    {
+      "id": "USV-06",
+      "name": "C01 component mass sum is exact and target-free",
+      "pass": true,
+      "evidence": {
+        "components": [
+          23.3032134,
+          0.702195458,
+          0.7619,
+          4.695555949342986,
+          0.78,
+          0.78
+        ],
+        "total": 31.022864807342987
+      }
+    },
+    {
+      "id": "USV-07",
+      "name": "declared future topology is 15 links 14 joints 8 actuated DOF",
+      "pass": true,
+      "evidence": {
+        "physical_links": 15,
+        "joints": 14,
+        "actuated_dof": 8,
+        "joint_type_counts": {
+          "revolute": 6,
+          "prismatic": 2,
+          "fixed": 6
+        },
+        "arm_subtree": {
+          "links": 10,
+          "joints": 9,
+          "revolute": 6,
+          "prismatic": 2,
+          "fixed": 1
+        },
+        "added_links": [
+          "spacecraft_bus",
+          "load_bridge_candidate",
+          "m3r_lumped_link",
+          "solar_r2_left_c01_snapshot",
+          "solar_r2_right_c01_snapshot"
+        ],
+        "solar_snapshot_joints": "fixed",
+        "future_root_joint_contract_sidecar_only": {
+          "axis_in_joint_frame": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "limits_rad": [
+            0.0,
+            1.5707963267948966
+          ],
+          "continuous_deployment_urdf_authorized": false
+        }
+      }
+    },
+    {
+      "id": "USV-08",
+      "name": "all registered rotations are right-handed orthogonal",
+      "pass": true,
+      "evidence": [
+        {
+          "frame": "T_S_M3R_LOCAL",
+          "orthogonality_residual": 5.195843755245733e-13,
+          "determinant": 1.0000000000005196,
+          "pass": true
+        },
+        {
+          "frame": "T_S_B601_ARM_BASE_PHYSICAL",
+          "orthogonality_residual": 5.195843755245733e-13,
+          "determinant": 1.0000000000005196,
+          "pass": true
+        },
+        {
+          "frame": "T_S_R2_ROOT_L",
+          "orthogonality_residual": 0.0,
+          "determinant": 1.0,
+          "pass": true
+        },
+        {
+          "frame": "T_S_R2_ROOT_R",
+          "orthogonality_residual": 0.0,
+          "determinant": 1.0,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "USV-09",
+      "name": "M3R-to-B601 transform is composed from authorities",
+      "pass": true,
+      "evidence": {
+        "round_trip_residual": 4.709566070459914e-13,
+        "T_M3R_B601": [
+          [
+            1.0000000000005196,
+            0.0,
+            0.0,
+            -8.503365669377021e-05
+          ],
+          [
+            0.0,
+            1.0000000000005196,
+            0.0,
+            2.200427555603084e-05
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "USV-10",
+      "name": "all new component inertias are symmetric positive and physical",
+      "pass": true,
+      "evidence": [
+        {
+          "component": "spacecraft_bus",
+          "symmetry_residual": 0.0,
+          "principal_moments": [
+            0.19358159627033805,
+            0.34707540372966195,
+            0.3485384
+          ],
+          "positive_definite": true,
+          "triangle_inequality": true,
+          "pass": true
+        },
+        {
+          "component": "load_bridge_candidate",
+          "symmetry_residual": 0.0,
+          "principal_moments": [
+            0.001567906972732097,
+            0.001567906972732106,
+            0.0031222893683617043
+          ],
+          "positive_definite": true,
+          "triangle_inequality": true,
+          "pass": true
+        },
+        {
+          "component": "m3r_lumped_link",
+          "symmetry_residual": 0.0,
+          "principal_moments": [
+            0.0018089624667639822,
+            0.0018089624667639822,
+            0.0035940027551963787
+          ],
+          "positive_definite": true,
+          "triangle_inequality": true,
+          "pass": true
+        },
+        {
+          "component": "solar_r2_left_c01_snapshot",
+          "symmetry_residual": 0.0,
+          "principal_moments": [
+            0.0047454226158757705,
+            0.030004785546499838,
+            0.033359362930624074
+          ],
+          "positive_definite": true,
+          "triangle_inequality": true,
+          "pass": true
+        },
+        {
+          "component": "solar_r2_right_c01_snapshot",
+          "symmetry_residual": 0.0,
+          "principal_moments": [
+            0.0047454226158757705,
+            0.030004785546499838,
+            0.033359362930624074
+          ],
+          "positive_definite": true,
+          "triangle_inequality": true,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "USV-11",
+      "name": "gen_urdf is top-level zero-argument and source imports no CAD solver or subprocess",
+      "pass": true,
+      "evidence": {
+        "gen_contract": true,
+        "imports": [
+          "__future__",
+          "copy",
+          "json",
+          "math",
+          "pathlib",
+          "xml",
+          "yaml"
+        ]
+      }
+    },
+    {
+      "id": "USV-12",
+      "name": "unauthorized gen_urdf call fails closed without emitting URDF",
+      "pass": true,
+      "evidence": "GENERATION_NOT_AUTHORIZED_PREBIND: missing separately hash-bound execution authorization"
+    },
+    {
+      "id": "USV-13",
+      "name": "model velocity is not promoted to physical speed timing or contact",
+      "pass": true,
+      "evidence": {
+        "gripper_model_velocity_literal_m_s": 15.0,
+        "physical_gripper_speed_m_s": null,
+        "physical_gripper_timing_s": null,
+        "physical_contact_capability": null,
+        "route_c_geometry": null,
+        "route_c_status": "HOLD_ABSENT",
+        "flight_qualification": "HOLD"
+      }
+    },
+    {
+      "id": "USV-14",
+      "name": "Route-C geometry remains absent and Sim13 rebind remains unauthorized",
+      "pass": true,
+      "evidence": {
+        "current_loader_compatible": false,
+        "reason": "current loader is hard-bound to MECH_RL_INTERFACE_V1 and the 10-link/9-joint 4.695555949 kg B601 subtree",
+        "baseline_mutation_authorized": false,
+        "future_required_change": "versioned system schema and loader separating B601 subtree invariants from C01-C09 system properties",
+        "runtime_harness_gate_required": true,
+        "FAIL_and_UNKNOWN_negative_controls_required": true,
+        "production_contact_backend_required": true
+      }
+    },
+    {
+      "id": "USV-15",
+      "name": "all execution release flight and Owner flags remain false",
+      "pass": true,
+      "evidence": {
+        "inputs": {
+          "execution_authorized": false,
+          "urdf_emitted": false,
+          "sim13_rebind_authorized": false,
+          "physical_contact_ready": false,
+          "flight_qualified": false,
+          "owner_accepted": false,
+          "next_stage_authorized": false,
+          "release_credit": false
+        },
+        "contract": {
+          "execution_authorized": false,
+          "urdf_emitted": false,
+          "sim13_rebind_authorized": false,
+          "physical_contact_ready": false,
+          "flight_qualified": false,
+          "owner_accepted": false,
+          "next_stage_authorized": false,
+          "release_credit": false
+        }
+      }
+    },
+    {
+      "id": "USV-16",
+      "name": "package contains no generated URDF",
+      "pass": true,
+      "evidence": {
+        "urdf_matches": []
+      }
+    }
+  ],
+  "summary": {
+    "pass": 16,
+    "total": 16,
+    "failed": []
+  },
+  "verdict": "PASS_STATIC_SOURCE_ONLY__GENERATION_FAILS_CLOSED__NO_URDF_NO_SIM13_REBIND_NO_RELEASE_AUTHORITY",
+  "owner_accepted": false,
+  "next_stage_authorized": false,
+  "release_credit": false
+}

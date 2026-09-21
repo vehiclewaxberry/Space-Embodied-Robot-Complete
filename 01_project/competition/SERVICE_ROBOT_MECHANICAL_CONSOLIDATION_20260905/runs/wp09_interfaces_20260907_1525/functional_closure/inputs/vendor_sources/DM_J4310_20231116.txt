@@ -1,0 +1,365 @@
+PDF PAGE 1
+1
+DM-J4310-2EC V1.1 Gear Motor Instruction Manual
+V1.0
+DAMIAO | Damiao Technology
+Issue Date:2023.11.16
+Date Version ChangeContent
+2023.11.16 V1.0 Initialversion
+PDF PAGE 2
+2
+Disclaimer
+ThankyouforpurchasingtheDamiaoTechnologyDM-J4310-2ECV1.1gearmotor
+(hereinafterreferredtoasthe"motor").Beforeusingthisproduct,pleasecarefullyreadand
+followthisdocumentandallsafetyguidelinesprovidedbyDamiaoTechnology.Failuretodo
+somaycauseharmtoyouandthosearoundyou,ordamagethisproductorother
+surroundingitems.Byusingthisproduct,youacknowledgethatyouhavecarefullyreadthis
+documentandunderstand,approveof,andacceptalltermsandcontentofthisdocument
+andallrelateddocumentsofthisproduct.Youundertaketousethisproductonlyfor
+legitimatepurposesandtoassumefullresponsibilityfortheuseofthisproductandany
+consequencesthatmayarise.DamiaoTechnologyshallnotbeliableforanydamage,injury,
+orlegalliabilityarisingdirectlyorindirectlyfromtheuseofthisproduct.
+"DAMIAO"isatrademarkofShenzhenDamiaoTechnologyCo.,Ltd.Productnames,brands,
+etc.appearinginthisdocumentaretrademarksoftheirrespectivecompanies.Thisproduct
+andmanualarecopyrightedbyShenzhenDamiaoTechnologyCo.,Ltd.Nopartofthis
+documentmaybereproducedorreprintedinanyformwithoutpermission.Thefinal
+interpretationrightofthisdocumentandallrelateddocumentsofthisproductbelongsto
+ShenzhenDamiaoTechnologyCo.,Ltd.Updatesmaybemadewithoutpriornotice.
+Notes
+1. Pleaseusethemotorstrictlyinaccordancewiththespecifiedworkingenvironmentand
+themaximumallowabletemperaturerangeofthewinding,otherwisepermanentand
+irreversibledamagetotheproductwillbecaused.
+2. Avoidforeignobjectsfromenteringtherotorinterior,otherwisetherotorwillrun
+abnormally.
+3. Checkwhetherallcomponentsareingoodconditionbeforeuse.Ifanycomponentsare
+missing,aged,ordamaged,stopusingimmediately.
+4. Ensurecorrectwiringandproperandstableinstallationofthemotor.
+5. Donottouchtheelectronicrotorpartduringusetoavoidaccidents.Whenthemotor
+outputshightorque,itwillgenerateheat.Pleasepayattentiontoavoidburns.
+6. Usersarenotallowedtodisassemblethemotorprivately,otherwisethecontrolaccuracy
+ofthemotorwillbeaffected,andeventhemotorwillrunabnormally.
+Motor Features
+1. Dualencoders,absolutepositionoftheoutputshaftinasingleturn,nofearoflosingthe
+absolutepositionoftheoutputshaftduetopowerfailure.
+2. Integrateddesignofmotoranddriver,compactstructureandhighintegration.
+3. Supportforuppercomputervisualdebuggingandfirmwareupgrading.
+4. Canfeedbackmotorspeed,position,torque,motortemperatureandotherinformation
+throughCANbus.
+PDF PAGE 3
+3
+5. Withdualtemperatureprotectionfunction.
+6. Supporttrapezoidalaccelerationanddecelerationinpositionmode.
+Item List
+1. Motor(withdriver)×1
+2. Powersupply(withCANcommunicationterminal)connectioncable:XT30(2+2)-Fplug
+connectioncable×1
+3. Debuggingserialportsignalcable:GH1.25connectioncable-3pin×1
+PDF PAGE 4
+4
+Interface and Wiring Sequence Instructions
+SpecificName-Serial
+Number
+InterfaceLabel Description
+PowerInterfacewithCAN
+CommunicationTerminal
+-1
+1.Connectthepower
+supplythroughthe
+XT30(2+2)-Fplugpower
+connectioncable.The
+ratedvoltageis24Vto
+supplypowertothe
+motor.
+2.Connecttoexternal
+controlequipment
+throughCAN
+communicationterminals
+toreceiveCANcontrol
+commandsandfeedback
+motorstatusinformation.
+3.Themotorhastwo
+powerinterfaces,either
+ofwhichcanbeused
+aloneormultiplemotors
+canbeconnectedin
+seriesforconvenient
+cabling.
+PowerInterfacewithCAN
+CommunicationTerminal
+-2
+DebuggingSerialPort-3
+ ConnecttoaPCthrough
+aGH1.25connection
+cable-3pinusingaUSB-
+to-CANdebuggingtool
+(orauniversalUSB-to-
+serialportmodule)toset
+parametersandupgrade
+firmwareforthemotor
+throughtheDamiao
+Technologydebugging
+assistant.
+PDF PAGE 5
+5
+Motor Dimensions and Installation
+Pleaserefertothemotormountingholedimensionsandpositionstoinstallthemotoronthe
+correspondingequipment.
+
+PDF PAGE 6
+6
+Indicator Light Status
+Status Indicator Light Description
+NormalStatus Greenlightalwayson Enablemode,normal
+workingstatus
+Redlightalwayson Disablemode
+AbnormalStatus Redlightflashing Indicatesafault,withthe
+correspondingfaulttypes
+being:
+8--Overvoltage;
+9--Undervoltage;
+A--Overcurrent;
+B--MOS
+overtemperature;
+C--Motorcoil
+overtemperature;
+D--Communicationloss;
+E--Overload;
+Thefaulttypecanbe
+viewedthroughthe
+feedbackframeorthe
+displayinterfaceofthe
+DamiaoTechnology
+debuggingassistant.
+PDF PAGE 7
+7
+Working Modes
+MIT Mode
+TheMITmodeisdesignedtobecompatiblewiththeoriginalMITmode,enablingseamless
+switchingwhileallowingflexiblesettingofthecontrolrange(P_MAX,V_MAX,T_MAX).The
+electronicspeedcontrollerconvertsthereceivedCANdataintocontrolvariablesfor
+calculationtoobtainthetorquevalueasthecurrentreferenceofthecurrentloop,andthe
+currentloopfinallyreachesthegiventorquecurrentaccordingtoitsadjustmentlaw.Its
+controlschematicdiagramisasfollows:
+MultiplecontrolmodescanbederivedfromtheMITmode.Forexample,when kp=0 and
+kd isnot0,giving v_des canrealizeuniformspeedrotation;when kp=0 and Kd=0,
+giving t_ff canrealizegiventorqueoutput.
+Note:Whencontrollingtheposition, kd cannotbesetto0,otherwisethemotorwilloscillate
+orevenlosecontrol.
+Position-Speed Mode
+Thepositioncascademodeisamodeusingthree-loopseriescontrol.Thepositionloopis
+theoutermostloop,whoseoutputisusedasthegivenvalueofthespeedloop,andthe
+outputofthespeedloopisusedasthegivenvalueoftheinnercurrentlooptocontrolthe
+actualcurrentoutput.Itscontrolschematicdiagramisasfollows:
+p_des isthetargetpositionforcontrol,and v_des isusedtolimitthemaximumabsolute
+speedduringmovement.
+PDF PAGE 8
+8
+Ifthecontrolparametersrecommendedbythedebuggingassistantareusedintheposition
+cascademode,goodcontrolaccuracycanbeachieved,andthecontrolprocessisrelatively
+smooth,buttheresponsetimeisrelativelylong.Inadditionto v_des,therelevant
+parametersthatcanbeconfiguredalsoincludeacceleration/deceleration.Ifadditional
+oscillationsoccurduringthecontrolprocess,theacceleration/decelerationcanbeincreased.
+Note:Theunitsof p_des and v_des areradandrad/srespectively,andthedatatypeis
+float.Thedampingfactormustbesettoanon-zeropositivenumber,andthenotesofthe
+speedmodecanbereferredto.
+Speed Mode
+Thespeedmodecanmakethemotorrunstablyatthesetspeed,anditscontrolschematic
+diagramisasfollows:
+Note:Theunitof v_des israd/s,andthedatatypeisfloat.Ifyouneedtousethe
+debuggingassistanttoautomaticallycalculateparameters,youneedtosetthedamping
+factortoanon-zeropositivenumber.Usually,thevalueisbetween2.0and10.0.Toosmall
+adampingfactorwillcausespeedoscillationandlargeovershoot,whiletoolargeadamping
+factorwillresultinalongerrisetime.Therecommendedsettingvalueis4.0.
+PDF PAGE 9
+9
+Usage
+ControlusestheCANstandardframeformatwithafixedbaudrateof1Mbps,andcanbe
+dividedintoreceiveframesandfeedbackframesaccordingtofunctions.Thereceiveframe
+isthereceivedcontroldatausedtorealizecommandcontrolofthemotor;thefeedback
+frameisthemotor'sstatusdatasenttotheuppercontroller.Accordingtodifferentmodes
+selectedbythemotor,theframeformatdefinitionandframeIDofthereceiveframeare
+different,butthefeedbackframesundervariousmodesarethesame.
+Feedback Frame
+ThefeedbackframeIDissetbythedebuggingassistant(MasterID),withadefaultof0,
+mainlyfeedingbackthemotor'sposition,speed,andtorqueinformation.Itsframeformat
+definitionisasfollows:
+Feed
+back
+Mess
+age
+D[0] D[1] D[2] D[3] D[4] D[5] D[6] D[7]
+MST
+_ID
+ID|ER
+R<<4
+POS[
+15:8]
+POS[7:0] VEL[11:4
+]
+VEL[3:0]|
+T[11:8]
+T[7:0] T_MO
+S
+T_Rot
+or
+Where:
+• IDrepresentsthecontrollerID,takingthelower8bitsofCAN_ID.
+• ERRrepresentsthefault,withthecorrespondingfaulttypesbeing:
+◦ 8--Overvoltage;
+◦ 9--Undervoltage;
+◦ A--Overcurrent;
+◦ B--MOSovertemperature;
+◦ C--Motorcoilovertemperature;
+◦ D--Communicationloss;
+◦ E--Overload;
+• POSrepresentsthemotor'spositioninformation.
+• VELrepresentsthemotor'sspeedinformation.
+• Trepresentsthemotor'storqueinformation.
+• T_MOSrepresentstheaveragetemperatureoftheMOSonthedriver,in ℃.
+• T_Rotorrepresentstheaveragetemperatureofthemotor'sinternalcoil,in ℃.
+PDF PAGE 10
+10
+Position,speed,andtorqueusealinearmappingrelationshiptoconvertfloating-pointdata
+intosignedfixed-pointdata,wherepositionuses16-bitdata,andspeedandtorquebothuse
+12-bitdata.
+Control Frame in MIT Mode
+Control
+Message
+D[0] D[1] D[2] D[3] D[4] D[5] D[6] D[7]
+ID p_des
+[15:8]
+p_des
+[7:0]
+v_des
+[11:4]
+v_des[3:0]
+|
+Kp[11:8]
+Kp[7:0] Kd[11:4] Kd[3:0] |
+t_ff[11:8]
+t_ff[7:0]
+FrameIDisequaltothesetCANIDvalue.
+• P_des:Positiongivenvalue.
+• V_des:Speedgivenvalue.
+• Kp:Positionproportionalcoefficient.
+• Kd:Positiondifferentialcoefficient.
+• T_ff:Torquegivenvalue.
+Eachparameterconformstothemappingrelationshipintheprevioussection,wherethe
+rangesofp_des,v_des,andt_ffcanbesetbythedebuggingassistant.TherangeofKpis
+[0,500],andtherangeofKdis[0,5].
+AstandardCANdataframehasonly8bytes.TheMITcontrolcommandformatcombines
+fiveparameters:Position,Velocity,Kp,Kd,andTorqueinto8bytesbybit.Amongthem,
+Positionoccupies2bytes(16bits),andVelocity,Kp,andKdeachoccupy12bits.
+Control Frame in Position-Speed Mode
+Control
+Message
+D[0] D[1] D[2] D[3] D[4] D[5] D[6] D[7]
+0x100+ID p_des v_des
+FrameIDisthesetCANIDvalueplusanoffsetof0x100.
+• P_des:Positiongivenvalue,floating-pointtype,withlowerbitsfirstandhigherbitslater.
+• V_des:Speedgivenvalue,floating-pointtype,withlowerbitsfirstandhigherbitslater.
+PDF PAGE 11
+11
+Here,theCANIDforsendingcommandsis0x100+ID.Thespeedgivenvalueisthe
+highestspeedundertrapezoidalaccelerationanddecelerationoperation,thatis,thespeed
+valueintheuniformspeedsegment.
+Control Frame in Speed Mode
+ControlMessage D[0] D[1] D[2] D[3]
+0x200+ID v_des
+• FrameIDisthesetCANIDvalueplusanoffsetof0x200.
+• V_des:Speedgivenvalue,floating-pointtype,withlowerbitsfirstandhigherbitslater.
+Here,theCANIDforsendingcommandsis0x200+ID.
+Using Damiao Technology Debugging Assistant
+UsetheDamiaoTechnologyUSB-to-CANdebuggingtooltoconnectthecomputerandthe
+motor,andsetparametersandupgradefirmwareforthemotorthroughtheDamiao
+Technologyassistant.
+Connectthemotor'sdebuggingserialporttothePCthroughaGH1.25connectioncable-
+3pin,andconnecttheCANcommunicationterminalinthemotor'spowerinterfacetothe
+USB-to-CANdebuggingtoolthroughanXT30(2+2)-Fplugconnectioncable.Then,set
+parametersandupgradefirmwareforthemotorthroughtheDamiaoTechnologydebugging
+assistant.
+Afterthemotor'sserialport,CANport,andpowerinterfaceareconnected,opentheDamiao
+Technologydebuggingassistantonthecomputer,selectthecorrespondingserialport
+device,andopentheserialport.Then,poweronthemotor,andtheserialportwillprint
+information,with"ControlMode"indicatingthecurrentdrivingmode.
+Fordetaileddebuggingprocedures,refertothe Debugging Assistant Instruction Manual
+(Damiao Drive Control Protocol) V1.3.pdf.Downloadlink:
+http://www.dmbot.cn/forum.php?mod=viewthread&tid=364&extra=page%3D1
+PDF PAGE 12
+12
+Motor Parameters
+Performancecurvemeasuredataconstantspeedof120rpmandroomtemperatureof25℃:
+
+PDF PAGE 13
+13
+Characteristic Parameters
+Category Parameter Value
+Motor
+Parameters
+Rated Voltage 24V
+Rated Current 2.5A
+Peak Current 7.5A
+Rated Torque 3NM
+Peak Torque 7NM
+Rated Speed 120rpm
+No-Load Maximum Speed 200rpm
+Motor
+Characteristics
+Gear Ratio 10:1
+Number of Pole Pairs 14
+Phase Inductance 340uH
+Phase Resistance 650mΩ
+Mechanical
+Dimensions &
+Weight
+Outer Diameter 56mm
+Height 46mm
+Motor Weight Approximately 300g
+Encoders
+Encoder Resolution 14 bits
+Number of Encoders 2
+Encoder Type Magnetic (Single-turn)
+Communication
+Control Interface CAN@1Mbps
+Parameter Adjustment
+Interface UART@921600bps
+Control &
+Protection
+Control Modes MIT Mode, Speed Mode, Position
+Mode
+Driver Overtemperature
+Protection
+Protection Temperature: 120°C,
+the motor will exit "Enable Mode"
+PDF PAGE 14
+14
+Category Parameter Value
+when overheated
+Motor Overtemperature
+Protection
+Set according to usage
+requirements, recommended not
+to exceed 100°C; the motor will
+exit "Enable Mode" when
+overheated
+Motor Overvoltage Protection
+Set according to usage
+requirements, recommended not
+to exceed 32V; the motor will exit
+"Enable Mode" under overvoltage
+Communication Loss
+Protection
+Automatically exit "Enable Mode"
+if no CAN commands are received
+within the set period
+Motor Overcurrent Protection
+Set according to usage
+requirements, recommended not
+to exceed 9.8A; the motor will exit
+"Enable Mode" under overcurrent
+Motor Undervoltage
+Protection
+Exit "Enable Mode" if the power
+voltage is lower than the set value;
+recommended power voltage not
+lower than 15V

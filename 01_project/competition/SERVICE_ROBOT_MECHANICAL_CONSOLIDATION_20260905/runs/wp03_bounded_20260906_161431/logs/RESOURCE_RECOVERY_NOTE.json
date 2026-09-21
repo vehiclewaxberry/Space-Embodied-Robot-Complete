@@ -1,0 +1,16 @@
+{
+  "run_id": "wp03_bounded_20260906_161431",
+  "event": "First independent full-context review exhausted Windows allocation resources while recursively copying imported assembly trees",
+  "monitor_failure": "OSError WinError1455 in psutil root.children(recursive=True); monitor exited before final run receipt",
+  "affected_command": "../review/review_r01.py --contract results/r01_connections.json --execute-geometry --output ../review/R01_REVIEW_CANDIDATE1_RUNTIME.json",
+  "identified_own_child_pid": 45844,
+  "identified_parent_pid": 39168,
+  "cleanup_observation": "Independent agent identified exact command/executable, then confirmed OWN_REVIEW_PID_45844_ALREADY_EXITED before any Stop-Process call",
+  "user_processes_terminated": false,
+  "observed_peak_allocation_bytes": null,
+  "root_cause": "build123d Shape.located deepcopies the anytree parent/sibling graph; independent reviewer now detaches wrapped leaf before applying original global location",
+  "runtime_remediation": "Windows Job Object process/job commit limit 1400 MiB, child-tree kill on monitor exit, PID recorded before monitoring, monitor exceptions fail closed",
+  "bound_increased": false,
+  "subsequent_review": "review/R01_REVIEW_CANDIDATE2.json",
+  "source_or_system_font_modified": false
+}

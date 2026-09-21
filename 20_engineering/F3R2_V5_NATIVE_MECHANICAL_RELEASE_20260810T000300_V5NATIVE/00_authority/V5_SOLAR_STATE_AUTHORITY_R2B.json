@@ -1,0 +1,132 @@
+{
+  "schema": "F3R2_V5_SOLAR_STATE_AUTHORITY_R2B",
+  "status": "LOGICAL_STATE_INTERFACE_FROZEN__PHYSICAL_90_DEG_SERIAL_FOLD_CANDIDATE",
+  "supersedes_for_physical_fk_only": "00_authority/V5_SOLAR_STATE_AUTHORITY_R2.json",
+  "scope": "V5_NATIVE_FINALIZATION/MULTI_PANEL_SOLAR_ARRAY_CANDIDATE",
+  "authority_sources": {
+    "requirements": {
+      "path": "00_authority/SOLAR_ARRAY_INTERFACE_REQUIREMENTS.md",
+      "sha256": "62DDF827056D5199CCA68FD1714874E52FFB06398D4B856175435DD576504014"
+    },
+    "requirements_freeze_receipt": {
+      "path": "13_validation/V5_SOLAR_ARRAY_INTERFACE_REQUIREMENTS_FREEZE_R2.json",
+      "sha256": "B60D8C635A030B0DB49DF7129D6B7F50ACB0F5B9FC912C2E5DED4405FF6542C8"
+    }
+  },
+  "coordinate_contract": {
+    "units": "mm_deg",
+    "bus_frame": "B601_TOP_LEVEL_ASSEMBLY_FRAME",
+    "root_axis": "X",
+    "left_root_axis_point_mm": [-61.0, 143.15, 0.0],
+    "right_root_axis_point_mm": [-61.0, -143.15, 0.0],
+    "right_from_left": "T_R = S_XZ * T_L * S_XZ; S_XZ=diag(1,-1,1,1)",
+    "logical_angle_semantics": "0=STOWED_ENDPOINT; 90=DEPLOYED_ENDPOINT",
+    "logical_vector_order": ["ROOT", "H12", "H23"]
+  },
+  "candidate_geometry": {
+    "panel_pitch_mm": 56.666666666666664,
+    "panel_structure_edge_contract": {
+      "L1_main_plate_v_min_max_mm": [-18.833333333333332, 24.833333333333332],
+      "L2_v_min_max_mm": [-24.833333333333332, 24.833333333333332],
+      "L3_v_min_max_mm": [-24.833333333333332, 28.333333333333332],
+      "R1_R2_R3": "WORLD_XZ_MIRROR_OF_L1_L2_L3",
+      "interpanel_edge_relief_mm": 3.5
+    },
+    "p1_root_structure_relief": {
+      "main_plate_min_radius_from_root_axis_mm": 9.5,
+      "main_plate_inboard_edge_world_abs_y_mm": 152.65,
+      "accepted_u_lug_outer_radius_mm": 8.0,
+      "bridge_tabs_world_x_spans_mm": [[-75.0, -65.0], [-57.0, -47.0]],
+      "bridge_tabs_world_y_span_left_mm": [151.15, 152.7],
+      "bridge_tabs_world_y_span_right_mm": [-152.7, -151.15],
+      "rule": "P1 structure must not cross the root axis or occupy clevis-web material. Its two bridge tabs may occupy only the accepted clevis gaps and must be proven by native B-rep sweep clearance."
+    },
+    "panel_x_span_mm": [-174.5, 52.5],
+    "panel_thickness_mm": 6.0,
+    "interpanel_pin_diameter_mm": 4.0,
+    "interpanel_bore_diameter_mm": 4.4,
+    "interpanel_collar_outer_diameter_max_mm": 5.5,
+    "deployed_hinge_axis_abs_y_mm": [143.15, 199.81666666666666, 256.48333333333335],
+    "deployed_panel_centroid_abs_y_mm": [171.48333333333332, 228.15, 284.81666666666666],
+    "root_moving_interface": {
+      "left_part": "01_native_parts/wing_root/loop1b/LEFT_PANEL_SIDE_U_LUG_NATIVE.SLDPRT",
+      "left_sha256": "5E8BDB76637B7F394560A95A938C3FF363DDAE88950E93266CFE66837ABCD749",
+      "right_part": "01_native_parts/wing_root/loop1b/RIGHT_PANEL_SIDE_U_LUG_NATIVE.SLDPRT",
+      "right_sha256": "A5A86890E07990706D106170B99DA0E68A31103EA73BF7161497669BCA4C557B",
+      "classification": "REUSE_VALIDATED_SPLIT_EAR_U_LUG; CONTINUOUS_ROOT_COLLAR_PROHIBITED"
+    },
+    "serial_fk_candidate": {
+      "variant": "R2B_A_90_DEG_ORTHOGONAL_ZIGZAG",
+      "left_absolute_panel_rotation_deg": "phi1=a1-90; phi2=phi1+(90-a2); phi3=phi2-(90-a3)",
+      "left_local_hinge_points_mm": "q1in=(0,-S/2,0); q1out=(0,+S/2,0); q2in=(0,-S/2,0); q2out=(0,+S/2,0); q3in=(0,-S/2,0)",
+      "left_center_recursion": "c1=H0-R1*q1in; c2=c1+R1*q1out-R2*q2in; c3=c2+R2*q2out-R3*q3in",
+      "right_generation": "M=diag(1,-1,1); each RIGHT module is authored as the world-frame XZ mirror of LEFT at deployed nominal; side-state occurrence transform is T_R=M4*T_L*M4, so tR=M*tL and RR=M*RL*M",
+      "mirror_invariant": "RIGHT transform, hinge points, panel B-rep and every interface transform are XZ mirrors of LEFT for side-symmetric states",
+      "endpoint_fold": "Each physical hinge and normalized logical hinge travels exactly 0..90 deg; STOWED is an orthogonal zig-zag, not a parallel stack.",
+      "panel_edge_relief": "At each interpanel reference edge the structural plate is relieved 3.5 mm across full X width. The 7 mm deployed gap contains OD<=5.5 mm hinge hardware without exceeding the frozen panel thickness envelope.",
+      "module_baseline": "All six panel modules are authored in SPACECRAFT_WORLD deployed geometry and are inserted into their side assembly at identity in SOLAR_DEPLOYED_NOMINAL.",
+      "configuration_driver": "NATIVE_ADVANCED_LIMIT_ANGLE_MATES_PLUS_CONFIG_SPECIFIC_EXACT_RIGID_MODULE_POSE",
+      "classification": "CANDIDATE_FOLD_DIRECTION_SUBJECT_TO_LOOP3_CLEARANCE",
+      "not_authority_for": [
+        "DEPLOYMENT_TIME",
+        "DEPLOYMENT_SPEED",
+        "TORQUE",
+        "SPRING_PRELOAD",
+        "RELIABILITY"
+      ]
+    }
+  },
+  "states": {
+    "SOLAR_STOWED": {
+      "LEFT": [0, 0, 0],
+      "RIGHT": [0, 0, 0],
+      "hinge_state_LEFT": ["STOWED_STOP", "STOWED_STOP", "STOWED_STOP"],
+      "hinge_state_RIGHT": ["STOWED_STOP", "STOWED_STOP", "STOWED_STOP"]
+    },
+    "SOLAR_DEPLOY_STAGE1": {
+      "LEFT": [90, 0, 0],
+      "RIGHT": [90, 0, 0],
+      "hinge_state_LEFT": ["DEPLOYED_STOP", "STOWED_STOP", "STOWED_STOP"],
+      "hinge_state_RIGHT": ["DEPLOYED_STOP", "STOWED_STOP", "STOWED_STOP"]
+    },
+    "SOLAR_DEPLOY_STAGE2": {
+      "LEFT": [90, 90, 0],
+      "RIGHT": [90, 90, 0],
+      "hinge_state_LEFT": ["DEPLOYED_STOP", "DEPLOYED_STOP", "STOWED_STOP"],
+      "hinge_state_RIGHT": ["DEPLOYED_STOP", "DEPLOYED_STOP", "STOWED_STOP"]
+    },
+    "SOLAR_DEPLOYED_NOMINAL": {
+      "LEFT": [90, 90, 90],
+      "RIGHT": [90, 90, 90],
+      "hinge_state_LEFT": ["DEPLOYED_STOP", "DEPLOYED_STOP", "DEPLOYED_STOP"],
+      "hinge_state_RIGHT": ["DEPLOYED_STOP", "DEPLOYED_STOP", "DEPLOYED_STOP"]
+    },
+    "SOLAR_LEFT_FAIL": {
+      "LEFT": [0, 0, 0],
+      "RIGHT": [90, 90, 90],
+      "hinge_state_LEFT": ["ROOT_RELEASE_FAIL", "BLOCKED_UPSTREAM", "BLOCKED_UPSTREAM"],
+      "hinge_state_RIGHT": ["DEPLOYED_STOP", "DEPLOYED_STOP", "DEPLOYED_STOP"]
+    },
+    "SOLAR_RIGHT_FAIL": {
+      "LEFT": [90, 90, 90],
+      "RIGHT": [0, 0, 0],
+      "hinge_state_LEFT": ["DEPLOYED_STOP", "DEPLOYED_STOP", "DEPLOYED_STOP"],
+      "hinge_state_RIGHT": ["ROOT_RELEASE_FAIL", "BLOCKED_UPSTREAM", "BLOCKED_UPSTREAM"]
+    },
+    "SOLAR_BOTH_FAIL": {
+      "LEFT": [0, 0, 0],
+      "RIGHT": [0, 0, 0],
+      "hinge_state_LEFT": ["ROOT_RELEASE_FAIL", "BLOCKED_UPSTREAM", "BLOCKED_UPSTREAM"],
+      "hinge_state_RIGHT": ["ROOT_RELEASE_FAIL", "BLOCKED_UPSTREAM", "BLOCKED_UPSTREAM"]
+    }
+  },
+  "state_record_defaults": {
+    "collision_state": "PENDING_LOOP3_NATIVE_BREP",
+    "camera_visibility": "PENDING_CAMERA_LOS_SELECTION_HOLD",
+    "arm_clearance_mm": null,
+    "bus_clearance_mm": null,
+    "harness_clearance_mm": null
+  },
+  "allowed_claim": "MULTI_PANEL_SOLAR_ARRAY_CANDIDATE",
+  "forbidden_claims": ["FLIGHT_READY", "LAUNCH_QUALIFIED", "L0_MASS_TRUTH_UPDATED"]
+}

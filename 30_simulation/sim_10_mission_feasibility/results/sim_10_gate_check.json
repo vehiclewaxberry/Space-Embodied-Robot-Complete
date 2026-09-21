@@ -1,0 +1,156 @@
+{
+  "schema_version": "sim10-gate-v1",
+  "module": "sim_10 任务可行域（四门 fail-closed；刚体边界，FLEX=UNKNOWN 不入判据）",
+  "scan_summary": {
+    "n_physics_points": 9002,
+    "region_counts_default_tier": {
+      "WHEELS_ONLY_FEASIBLE": 6323,
+      "INFEASIBLE_RATE": 1858,
+      "THRUSTER_REQUIRED_FEASIBLE": 730,
+      "INFEASIBLE_RESOURCE": 91
+    },
+    "worst_eps_P": 2.0936934749049702e-16,
+    "worst_eps_H": 6.029778634096775e-16,
+    "delta_analytic_median": 0.4129495040146919
+  },
+  "gates": {
+    "X1_anchors_vs_sim06": {
+      "pass": true,
+      "thresholds": {
+        "solver_identity": 1e-12,
+        "csv_crosscheck": "half-ULP of 6-sig-digit storage"
+      },
+      "checks": [
+        {
+          "anchor": "debris_sim06",
+          "w_plus_dps": 3.0633304945807067,
+          "solver_identity_diff_dps": 0.0,
+          "sim06_csv_ref_dps": 3.06333,
+          "csv_diff_dps": 4.945807066114583e-07,
+          "csv_tol_half_ulp": 5e-06,
+          "region": "INFEASIBLE_RATE",
+          "region_expected": "INFEASIBLE_RATE",
+          "ok": true
+        },
+        {
+          "anchor": "satellite_sim06",
+          "w_plus_dps": 1.3872061825379134,
+          "solver_identity_diff_dps": 0.0,
+          "sim06_csv_ref_dps": 1.38721,
+          "csv_diff_dps": 3.817462086663781e-06,
+          "csv_tol_half_ulp": 5e-06,
+          "region": "WHEELS_ONLY_FEASIBLE",
+          "region_expected": "WHEELS_ONLY_FEASIBLE",
+          "ok": true
+        }
+      ],
+      "repro": "python src/run_gates.py"
+    },
+    "X2_lambda_boundary_monotonic": {
+      "pass": true,
+      "n_checked": 75,
+      "n_nonmonotone": 1,
+      "worst_dip_rel": 0.010790032932416973,
+      "nonmonotone_cases": [
+        {
+          "class": "G1_slender",
+          "mu": 0.5141427971489447,
+          "dip_rel": 0.010790032932416973,
+          "w_crit_by_lambda": [
+            2.571425661925388,
+            2.56094069056336,
+            2.588573324952505
+          ]
+        }
+      ],
+      "nonmonotone_fraction": 0.013333333333333334,
+      "thresholds": {
+        "dip_rel": 0.13713749285156684,
+        "fraction": 0.1
+      },
+      "design_expectation_status": "REFUTED_IN_TRANSITIONAL_BAND",
+      "note": "设计书预期'边界随 λ 单调'：精确二分解显示在追踪星-目标惯量相当的过渡质量比窄带内存在 ~1% 浅坑非单调（杠杆的动量耦合增长与 Steiner 惯量增长交叉竞争）——设计预期在该带内被精确求解器证伪，如实记录。Gate 判据=浅坑幅度须为亚分辨率（< ω 网格半格，判据由参数卡网格推导，见代码注释）且占比<=10%：亚分辨率起伏不可能改变 F1 图任何区域标签，而杠杆符号错误会产生 O(100%) 反转。全 inf 行=扫描域内永不触门1（边界在域外），不计入。",
+      "repro": "python src/run_gates.py"
+    },
+    "X3_sim08_crosscheck": {
+      "pass": true,
+      "checks": {
+        "H_Nms": {
+          "ours": 3.650992635553959,
+          "sim08": 3.65099,
+          "rel": 7.218737818043323e-07
+        },
+        "total_impulse_Ns": {
+          "ours": 73.01985271107917,
+          "sim08": 73.0199,
+          "rel": 6.476168940193762e-07
+        },
+        "propellant_g": {
+          "ours": 124.09921279791291,
+          "sim08": 124.0992,
+          "rel": 1.0312647395055647e-07
+        }
+      },
+      "ref_row": {
+        "target": "target_debris_v0",
+        "tumble_dps": "3.0",
+        "lever_m": "0.05",
+        "isp_class": "cold_gas_60s"
+      },
+      "repro": "python src/run_gates.py"
+    },
+    "X4_analytic_vs_exact": {
+      "pass": true,
+      "delta_coaxial": 4.732306007116346e-16,
+      "threshold_coaxial": 1e-06,
+      "delta_field_max": 0.9296924601635,
+      "delta_field_max_at": {
+        "class": "G1_slender",
+        "mu": 0.05,
+        "omega_dps": 0.1,
+        "lambda": 1.0,
+        "alpha": 0.0
+      },
+      "note": "共轴+零杠杆 δ→0 验证解析骨架；全场最大偏差按预期落在最大 λ 档",
+      "repro": "python src/run_gates.py"
+    },
+    "R_frozen_hashes": {
+      "pass": true,
+      "hashes": {
+        "threshold_registry": {
+          "path": "30_simulation/e15_core_coverage/config/threshold_registry_core_v1.yaml",
+          "expected": "400bcedce5af6ad5c4135e67f87bb524ee2fdafb1c26aeae07e495ff387b2873",
+          "actual": "400bcedce5af6ad5c4135e67f87bb524ee2fdafb1c26aeae07e495ff387b2873",
+          "match": true
+        },
+        "sim08_assumptions": {
+          "path": "30_simulation/sim_08_detumble_actuator_budget/assumptions.yaml",
+          "expected": "850f49da90d50c55984bde20e4f93193725f798eea9e4f3346836e76511ec890",
+          "actual": "850f49da90d50c55984bde20e4f93193725f798eea9e4f3346836e76511ec890",
+          "match": true
+        },
+        "sim06_anchor_csv": {
+          "path": "30_simulation/sim_06_capture_impulse/results/capture_impulse_matrix_v0.csv",
+          "expected": "8cbad84b8ff69ffca6992ce29e95520bae3c309260ec8c55083cbe62dfed5151",
+          "actual": "8cbad84b8ff69ffca6992ce29e95520bae3c309260ec8c55083cbe62dfed5151",
+          "match": true
+        },
+        "sim08_sweep_csv": {
+          "path": "30_simulation/sim_08_detumble_actuator_budget/results/actuator_budget_sweep.csv",
+          "expected": "1f0d4534956555c7bc5e309d53e9a92eb25d281c9e036987fb7eab2b17b3d7ad",
+          "actual": "1f0d4534956555c7bc5e309d53e9a92eb25d281c9e036987fb7eab2b17b3d7ad",
+          "match": true
+        }
+      },
+      "thresholds_widened": false
+    }
+  },
+  "verdict": "SIM10_GATES_PASS",
+  "flex_status": "UNKNOWN_NOT_IN_CRITERIA",
+  "provisional_notes": [
+    "执行机构档为 sim_08 placeholder CLASS 值（COTS 选型后替换）",
+    "t_detumble_max=3600 s 为任务假设（PROVISIONAL）",
+    "G3 致密球类无 CAD 锚点（设计空间外推）",
+    "λ 定义为相对各类 CAD 名义杠杆的比例（与设计书 r_g/L_t 的偏差见报告）"
+  ]
+}

@@ -1,0 +1,275 @@
+{
+ "schema": "THERMAL_ARCHITECTURE_B_SCREEN",
+ "date": "2026-09-17",
+ "author_tool": "implementation/tools/thermal_architecture_b_screen_20260917.py",
+ "method": "稳态 1-D 热阻链筛；evidence 值只读引用并标 CALCULATED_FROM_EVIDENCE；材料 k / TIM / 界面 / 边界温度全部用声明区间 ESTIMATE_DECLARED_MIN/MAX；结果给区间。不重跑父本 sheet 求解器，不改动任何既有证据/gate 文件。",
+ "sources_readonly": [
+  "implementation/cf1_layout_thermal/results/thermal/THERMAL_ACCEPTANCE_CF1.json",
+  "implementation/cf1_layout_thermal/mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+  "implementation/cf1_layout_thermal/results/mechanical/WEB_FACE_PROBE_CF1.json",
+  "implementation/results/stop_v36/thermal_scope_20260917/THERMAL_BUDGET_20260917.json"
+ ],
+ "heat_loads": {
+  "Q_module_W": {
+   "value": 27.591989608311465,
+   "class": "CALCULATED_FROM_EVIDENCE",
+   "source": "implementation/cf1_layout_thermal/results/thermal/THERMAL_ACCEPTANCE_CF1.json"
+  },
+  "STOP_board_W": {
+   "value": 1.483,
+   "class": "CALCULATED_FROM_EVIDENCE",
+   "source": "implementation/results/stop_v36/thermal_scope_20260917/THERMAL_BUDGET_20260917.json",
+   "note": "板级 1.483 W（不含 Q101，T1 未闭）。T3 已登记：在轨对流=0，仅安装孔传导+辐射；本筛把它作为辐射系统边界温度的 +0.5..1.5 K 声明增量接入，不进载板节点。"
+  }
+ },
+ "architecture_A_root_cause": {
+  "verdict_evidence": {
+   "carrier_worst_C": 137.1627412150085,
+   "limit_C": 95.0,
+   "margin_C": -42.16274121500851,
+   "Q201_Tj_worst_C": 177.89526599455004,
+   "class": "CALCULATED_FROM_EVIDENCE",
+   "source": "implementation/cf1_layout_thermal/results/thermal/THERMAL_ACCEPTANCE_CF1.json"
+  },
+  "chain": [
+   {
+    "seg": "载板节点->±Y 链路（拱形梁立柱/板展宽/TIM/导热带/接耳贯穿）",
+    "R_minus_Y_K_W": 3.1356862612230088,
+    "R_plus_Y_K_W": 1.6718299903895912,
+    "terms_minus_Y": {
+     "arch_riser": 1.111,
+     "plate_spreading_1D": 0.703,
+     "TIM_source": 0.181,
+     "strap_bar": 0.913,
+     "TIM_sink": 0.181,
+     "lug_through": 0.048
+    },
+    "terms_plus_Y": {
+     "arch_riser": 0.392,
+     "TIM_source": 0.223,
+     "strap_bar": 0.845,
+     "TIM_sink": 0.167,
+     "lug_through": 0.044
+    },
+    "class": "CALCULATED_FROM_EVIDENCE",
+    "source": "implementation/cf1_layout_thermal/mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+    "note": "链路终点在 2 mm 不辐射内腹板上的接耳补丁，不在辐射板。"
+   },
+   {
+    "seg": "+Y 内腹板横向到唯一桥块（CHB 冷指座，110.635 mm）",
+    "R_K_W": {
+     "min": 8.281062874251498,
+     "max": 17.020769230769233
+    },
+    "class": "ESTIMATE_DECLARED",
+    "basis": "R=L/(k*t*W)，L=110.635 mm(evidence 探测)，t=2 mm(evidence)，W=25..40 mm(声明)，k=130..167(声明)",
+    "note": "该桥块同时承担 ~14 W CHB 冷指热；+Y 腹板峰值 119.5 C vs +Y 辐射板 mean 52.9 C = 热在腹板内堵死。"
+   },
+   {
+    "seg": "-Y 内腹板横向到最近桥块（设备座，15 mm）",
+    "R_K_W": {
+     "min": 1.122754491017964,
+     "max": 2.307692307692308
+    },
+    "class": "ESTIMATE_DECLARED",
+    "basis": "同上，L=15 mm(evidence 探测)"
+   },
+   {
+    "seg": "桥块贯穿 2 mm 间隙层",
+    "R_plus_Y_K_W": {
+     "min": 0.008717207174191768,
+     "max": 0.011198258446846347
+    },
+    "R_minus_Y_K_W": {
+     "min": 0.0060485090425210185,
+     "max": 0.007770007770007772
+    },
+    "class": "ESTIMATE_DECLARED",
+    "basis": "R=gap/(k*A_bridge)，几何与面积均为 evidence 探测值；此项本身可忽略"
+   },
+   {
+    "seg": "8 mm 辐射板->空间（ε 0.89/α 0.17，四环境）",
+    "class": "CALCULATED_FROM_EVIDENCE",
+    "source": "implementation/cf1_layout_thermal/results/thermal/THERMAL_ACCEPTANCE_CF1.json",
+    "note": "板温锚点 panel_mean_C/panel_max_C；辐射环节不是瓶颈。"
+   }
+  ],
+  "breakpoint": "几何断点：两接耳脚下间隙层材料 = 0 mm3（WEB_FACE_PROBE_CF1.json），接耳只能贴在 2 mm 不辐射内腹板上；+Y 腹板唯一出口在 110.6 mm 外的 CHB 座。27.59 W 模块热中约一半被迫在 2 mm 腹板内横向走 110.6 mm（等效 10.6..15.8 K/W，ESTIMATE_DECLARED），与链路 1.67..3.14 K/W（CALCULATED）串联后载板节点 137.2 C，超 95 C 限 42.2 K。",
+  "one_liner": "架构 A 把 27.6 W 载板热送进只连 2 mm 不辐射内腹板的接耳，而接耳脚下无桥块，热须在 2 mm 腹板内横向走 110.6 mm(+Y)/15 mm(-Y) 才能到辐射板，腹板横向热阻主导导致载板 137.2 C vs 95 C 限。"
+ },
+ "candidates": {
+  "B1a_bridge_under_lugs_only": {
+   "change": "宿主改动：在两接耳脚下间隙层各加一块 6061 桥块（同设备座做法，面积=接耳 footprint 1000..1080 mm2），打通 web->8 mm 辐射板的贯穿路径；导热带/链路不变。模块位姿问题不在本筛范围。",
+   "R_bridge_K_W": [
+    0.011,
+    0.031
+   ],
+   "R_bridge_class": "ESTIMATE_DECLARED",
+   "evidence_anchor": {
+    "carrier_by_env_C": {
+     "HOT_A_SUN_PLUS_Y": 100.59549185279207,
+     "HOT_B_SUN_MINUS_Z": 96.69064522248402,
+     "HOT_C_SUN_MINUS_Y": 98.26378986130351,
+     "DARK_330K_OCCLUDER": 88.29591542972156
+    },
+    "class": "CALCULATED_FROM_EVIDENCE",
+    "source": "implementation/cf1_layout_thermal/results/thermal/THERMAL_ACCEPTANCE_CF1.json fallback.HOST_CHANGE_bridge_under_lugs",
+    "note": "父本 sheet 求解器名义热（未分配热=0）、10 mm 网格名义值"
+   },
+   "carrier_C_interval": {
+    "min": 85.3,
+    "max": 103.6,
+    "band_basis": "ESTIMATE_DECLARED ±3 K 包 k/TIM/展宽简化不确定性"
+   },
+   "margin_to_95_C": {
+    "nominal_worst_env": -5.6
+   },
+   "verdict": "FAIL",
+   "verdict_basis": "evidence 名义值最坏环境 100.60 C > 95 C（超 5.60 K）；声明带 [85.30, 103.60] 上界同样超限。几何改动消除了腹板横向瓶颈，但链路 1.67..3.14 K/W 与 HOT 环境边界温度主导，27.59 W 下裕度为负。"
+  },
+  "B1b_bridge_plus_doubled_straps": {
+   "change": "B1a 基础上把两条导热带导电截面加倍（-Y 带 25x15->25x30，+Y 带 27x15->27x30，同 6061-T6，不改封装/不改辐射板）：-Y 链 3.136->~2.70（立柱 1.111 与板展宽 0.703 不变，带 0.913->0.457），+Y 链 1.672->~1.26（带 0.845->0.423）。",
+   "R_chain": {
+    "R_link_minus_Y_K_W": {
+     "interval": [
+      2.55,
+      2.9
+     ],
+     "class": "ESTIMATE_DECLARED",
+     "nominal": 2.696
+    },
+    "R_link_plus_Y_K_W": {
+     "interval": [
+      1.16,
+      1.38
+     ],
+     "class": "ESTIMATE_DECLARED",
+     "nominal": 1.264
+    },
+    "R_bridge_K_W": {
+     "interval": [
+      0.011,
+      0.031
+     ],
+     "class": "ESTIMATE_DECLARED"
+    },
+    "R_eff_parallel_K_W": {
+     "interval": {
+      "min": 0.8036,
+      "max": 0.9525
+     },
+     "nominal": 0.869
+    }
+   },
+   "boundary": {
+    "T_b_eff_C_interval": [
+     57.73,
+     78.45
+    ],
+    "class": "ESTIMATE_DECLARED",
+    "anchor": "evidence 标定点 T_b_eff(HOT_A)= 70.28 C（桥块案名义反推）；+Y/-Y 板温锚见 architecture_A_root_cause",
+    "STOP_1p483W_increment_C": [
+     0.5,
+     1.5
+    ]
+   },
+   "carrier_C_interval": {
+    "min": 79.9,
+    "max": 104.73
+   },
+   "carrier_C_nominal_calibrated": 94.03,
+   "Q201_Tj_C_interval": {
+    "min": 120.63,
+    "max": 145.47,
+    "note": "Tj = 载板 + 22.504 W x 1.81 K/W（IF_CF1_01，CALCULATED_FROM_EVIDENCE）；载板 95 限先于 Tj 150 限约束"
+   },
+   "margin_to_95_C": {
+    "at_interval_max": -9.73,
+    "at_nominal": 0.97
+   },
+   "verdict": "UNKNOWN",
+   "verdict_basis": "标定名义点 94.0 C（+1.0 K 边际），但声明区间 [79.90, 104.73] 跨越 95 C 限；fail-closed 规则下 UNKNOWN 不得计 PASS。立柱(1.111)与载板展宽(0.703)成为新瓶颈。"
+  },
+  "B2_longeron_deck_direct_to_panels": {
+   "change": "新路径：载板下方加两根 x 向 6061 导热纵梁（设计点 30x30 mm，截面声明 700..900 mm2，有效长度声明 150..200 mm），纵梁两端经角件+TIM 直接压接到 ±Y 8 mm 辐射板内表面（y=±105.15，穿过间隙层，等效桥面积声明 600..1200 mm2/侧），完全旁路 2 mm 内腹板与远端桥块；原 ±Y 导热带保守不计（可作冗余）。热量近似对半分（Q/2=13.80 W/侧）。",
+   "R_chain_per_side": {
+    "carrier_to_rail_TIM_K_W": {
+     "interval": [
+      0.1,
+      0.3
+     ],
+     "class": "ESTIMATE_DECLARED"
+    },
+    "rail_lateral_K_W": {
+     "interval": {
+      "min": 0.998,
+      "max": 2.198
+     },
+     "class": "ESTIMATE_DECLARED",
+     "basis": "R=L/(kA)，L=150..200 mm，A=700..900 mm2，k=130..167"
+    },
+    "rail_end_bracket_TIM_K_W": {
+     "interval": [
+      0.15,
+      0.35
+     ],
+     "class": "ESTIMATE_DECLARED"
+    },
+    "panel_through_spread_K_W": {
+     "interval": [
+      0.05,
+      0.3
+     ],
+     "class": "ESTIMATE_DECLARED"
+    },
+    "total_per_side_K_W": {
+     "min": 1.298,
+     "max": 3.148
+    },
+    "nominal_per_side_K_W": 2.058
+   },
+   "boundary": {
+    "T_b_eff_C_interval": [
+     59.0,
+     79.0
+    ],
+    "class": "ESTIMATE_DECLARED",
+    "anchor": "+Y/-Y 板 mean（A-run 四环境）+STOP 增量"
+   },
+   "carrier_C_interval": {
+    "min": 76.91,
+    "max": 122.43
+   },
+   "carrier_C_nominal": 97.65,
+   "margin_to_95_C": {
+    "at_interval_max": -27.43,
+    "at_nominal": -2.65
+   },
+   "verdict": "UNKNOWN",
+   "verdict_basis": "名义点 ~97.7 C（约 +-2.7 K），但声明区间 [76.91, 122.43] 跨限；主要不确定性=纵梁有效截面/界面 TIM 压力未实现/辐射板局部注入温度。CHB 壳温判据不受 B2 影响（独立冷指）。质量代价：两根纵梁约 2 x 0.175 m x 800 mm2 x 2700 kg/m3 ≈ 0.76 kg，未计入裁决。"
+  }
+ },
+ "unknowns": [
+  "B1b/B2 的界面 TIM 压力（25 psi clamp 未设计）与接触热导实际值 — 需要 WP 级界面数据或试验",
+  "辐射板局部注入点温度（本筛用板 mean/max + 声明扩散带）— 需要 FE 模型或父本 sheet 求解器对 B 几何重跑",
+  "STOP 板 Q101 发热（T1 OPEN：K1 线圈电流/占空比缺输入）— 1.483 W 为不含 Q101 的板级值",
+  "B2 纵梁与宿主结构的机械接口、振动/热循环下 TIM 退化 — 未评估",
+  "模块位姿仍被精确窄相位 REJECTED（MODULE_POSE_NARROWPHASE_CF1.json）；任何 B 架构的实体布置需重过窄相位",
+  "未分配热 33.27 W 的归宿（CF1 r3：含 22 W 未分配热时任何组合都不通过）— 本筛按名义热，未分配热另列"
+ ],
+ "followup": {
+  "to_promote_candidate": [
+   "FE 模型：把 B1b/B2 几何接入 tools/spatial_radiator_network.py 同类 sheet 求解（或等效 FE），复用 CF1 r3 的 verify_* 独立复算链；判据=四环境载板 ≤95 C",
+   "WP 级界面数据：每个螺栓压接面的 TIM 压力-热导曲线（T3 登记 required_inputs_for_T3_verdict 同款清单）",
+   "试验：TIM 压接热导实测 + 纵梁/桥块组件级热稳态试验（地面自然对流仅作组件级，在轨口径=传导+辐射）",
+   "机械闭环：B 实体窄相位 + 模块位姿重解（当前无任何精确无干涉位姿）",
+   "Q201 焊盘入口颈 62.9 A/mm2 与四项规格偏离仍为开放项，不随热架构改变"
+  ],
+  "STOP_board_T3_integration": "THERMAL_BUDGET_20260917.json 的 1.483 W 已作为边界温度 +0.5..1.5 K 声明增量接入本筛；T3 转正需 WP 级：安装孔热导（扭矩/垫圈/TIM）、安装点结构汇温度、板表面发射率与角系数；这些输入到位后应把 STOP 板作为显式节点并入 B 架构 FE 模型，而非边界增量。",
+  "do_not_touch": "架构 A 负结果文件（THERMAL_ACCEPTANCE_CF1.json 等）不改动；本筛只新增 results/thermal_architecture_20260917/。"
+ },
+ "verdict": "ARCHITECTURE_B_SCREEN_UNKNOWN__B1A_FAIL_B1B_B2_STRADDLE_95C__FE_OR_TEST_REQUIRED",
+ "verdict_rule": "候选逐项：区间上界 ≤95 -> PASS；evidence 名义值或区间下界 >95 -> FAIL；区间跨限 -> UNKNOWN（fail-closed，不计 PASS）。总裁决要求至少一个候选 PASS 才给 PASS。",
+ "review_status": "PENDING_REVIEW",
+ "next_stage_authorized": false
+}

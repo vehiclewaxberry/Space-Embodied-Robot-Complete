@@ -1,0 +1,62 @@
+generated_utc: "2026-07-27T17:16:00.323495+00:00"
+functions:
+  - id: B601_STOWED_HIFI
+      status: NOT_CREATED
+      evidence: V2_2/35_B601_HiFi_Visual/ 为空目录；B601-SWAP-01 判 HOLD_NO_MULTIBODY_PART（headless LoadFile4 无返回）
+      blocks:
+        - 收拢外观
+        - 鞍座接触面资格
+        - 静态包络
+        - 比赛渲染
+  - id: B601_KINEMATIC_PROXY_NATIVE
+      status: PARTIAL
+      evidence: V2_0/06_B601_Visual_Arm 为逐连杆 q0 bbox 原生件（10 件），非 URDF 关节驱动装配；离散姿态库未建
+      blocks:
+        - 离散姿态库
+        - 臂-翼避让
+        - 连续部署运动学
+  - id: B601_MASS_SURROGATE
+      status: NOT_CREATED
+      evidence: 全树无该件；质量权威仅存于 accepted URDF
+      blocks:
+        - 整星质量/CoM/惯量闭环
+  - id: SOLAR_ROOT_MECHANISM_QUALIFICATION
+      status: GEOMETRY_ONLY
+      evidence: V2_2_NATIVE/05|06 各 14 原生实体已建（非零实体），但销径/簧刚度/预紧/材料全 TBD
+      blocks:
+        - 释放可靠性
+        - 展开动力学
+        - 结构释放
+  - id: HDRM_RELEASE
+      status: ENVELOPE_ONLY
+      evidence: HDRM_Base/Rod 为原生实体但型号/预紧 TBD
+      blocks:
+        - 发射锁紧资格
+  - id: STOW_Z_ENVELOPE
+      status: UNDEFINED
+      evidence: 冻结输入无收拢态 Z 上限；STOW_Z_LIMIT_REFERENCE=UNKNOWN
+      blocks:
+        - 发射包络合规判定
+        - 收拢位形最终裁决
+  - id: C5_STOWED_PACKAGE_WIDTH
+      status: NEGATIVE_PRESERVED
+      evidence: 238.3 > 226.3，超 12.0mm；翼根机构下限宽 302.3
+      blocks:
+        - 整星发射包络闭合
+  - id: PHYSICAL_TCP_AND_CONTACT
+      status: BLOCKED
+      evidence: 按任务书禁止定义 physical TCP
+      blocks:
+        - 接触力学
+        - 抓取验证
+  - id: FEA_MODAL_STRENGTH
+      status: NOT_STARTED
+      evidence: 全线无 FEA；不得宣称结构释放
+      blocks:
+        - 结构释放
+        - 发射鉴定
+  - id: EXPLODED_VIEW
+      status: API_UNAVAILABLE
+      evidence: IConfiguration 无 GetExplodedViewCount；IAssemblyDoc 无创建接口
+      blocks:
+        - 装配层次可视化（已用 MAINTENANCE 抑制态+A-A 剖视替代）

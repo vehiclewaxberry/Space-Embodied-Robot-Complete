@@ -1,0 +1,239 @@
+{
+  "schema": "F3R2_V5_SOLAR_STATE_AUTHORITY_R2",
+  "status": "LOGICAL_STATE_INTERFACE_FROZEN__PHYSICAL_FOLD_GEOMETRY_CANDIDATE",
+  "scope": "V5_NATIVE_FINALIZATION/MULTI_PANEL_SOLAR_ARRAY_CANDIDATE",
+  "authority_sources": {
+    "requirements": {
+      "path": "00_authority/SOLAR_ARRAY_INTERFACE_REQUIREMENTS.md",
+      "sha256": "62DDF827056D5199CCA68FD1714874E52FFB06398D4B856175435DD576504014"
+    },
+    "requirements_freeze_receipt": {
+      "path": "13_validation/V5_SOLAR_ARRAY_INTERFACE_REQUIREMENTS_FREEZE_R2.json",
+      "sha256": "B60D8C635A030B0DB49DF7129D6B7F50ACB0F5B9FC912C2E5DED4405FF6542C8"
+    }
+  },
+  "coordinate_contract": {
+    "units": "mm_deg",
+    "bus_frame": "B601_TOP_LEVEL_ASSEMBLY_FRAME",
+    "root_axis": "+/-X",
+    "left_root_axis_point_mm": [
+      -40.0,
+      143.15,
+      0.0
+    ],
+    "right_root_axis_point_mm": [
+      -40.0,
+      -143.15,
+      0.0
+    ],
+    "right_from_left": "T_R = S_XZ * T_L * S_XZ; S_XZ=diag(1,-1,1)",
+    "logical_angle_semantics": "0=STOWED_ENDPOINT; 90=DEPLOYED_ENDPOINT",
+    "logical_vector_order": [
+      "ROOT",
+      "H12",
+      "H23"
+    ]
+  },
+  "candidate_geometry": {
+    "panel_pitch_mm": 56.666666666666664,
+    "panel_x_span_mm": [
+      -174.5,
+      52.5
+    ],
+    "panel_thickness_mm": 6.0,
+    "deployed_hinge_axis_abs_y_mm": [
+      143.15,
+      199.81666666666666,
+      256.48333333333335
+    ],
+    "deployed_panel_centroid_abs_y_mm": [
+      171.48333333333332,
+      228.15,
+      284.81666666666666
+    ],
+    "serial_fk_candidate": {
+      "deployed_baseline_component_transforms": "IDENTITY",
+      "native_relative_rotation_deg": "side_sign * (logical_angle_deg - 90)",
+      "left_side_sign": 1,
+      "right_side_sign": -1,
+      "composition": "T_P1=R(root_axis,d1); T_P2=T_P1*R(H12_deployed_axis,d2); T_P3=T_P2*R(H23_deployed_axis,d3)",
+      "classification": "CANDIDATE_FOLD_DIRECTION_SUBJECT_TO_LOOP3_CLEARANCE",
+      "not_authority_for": [
+        "DEPLOYMENT_TIME",
+        "DEPLOYMENT_SPEED",
+        "TORQUE",
+        "SPRING_PRELOAD",
+        "RELIABILITY"
+      ]
+    }
+  },
+  "states": {
+    "SOLAR_STOWED": {
+      "LEFT": [
+        0,
+        0,
+        0
+      ],
+      "RIGHT": [
+        0,
+        0,
+        0
+      ],
+      "hinge_state_LEFT": [
+        "STOWED_STOP",
+        "STOWED_STOP",
+        "STOWED_STOP"
+      ],
+      "hinge_state_RIGHT": [
+        "STOWED_STOP",
+        "STOWED_STOP",
+        "STOWED_STOP"
+      ]
+    },
+    "SOLAR_DEPLOY_STAGE1": {
+      "LEFT": [
+        90,
+        0,
+        0
+      ],
+      "RIGHT": [
+        90,
+        0,
+        0
+      ],
+      "hinge_state_LEFT": [
+        "DEPLOYED_STOP",
+        "STOWED_STOP",
+        "STOWED_STOP"
+      ],
+      "hinge_state_RIGHT": [
+        "DEPLOYED_STOP",
+        "STOWED_STOP",
+        "STOWED_STOP"
+      ]
+    },
+    "SOLAR_DEPLOY_STAGE2": {
+      "LEFT": [
+        90,
+        90,
+        0
+      ],
+      "RIGHT": [
+        90,
+        90,
+        0
+      ],
+      "hinge_state_LEFT": [
+        "DEPLOYED_STOP",
+        "DEPLOYED_STOP",
+        "STOWED_STOP"
+      ],
+      "hinge_state_RIGHT": [
+        "DEPLOYED_STOP",
+        "DEPLOYED_STOP",
+        "STOWED_STOP"
+      ]
+    },
+    "SOLAR_DEPLOYED_NOMINAL": {
+      "LEFT": [
+        90,
+        90,
+        90
+      ],
+      "RIGHT": [
+        90,
+        90,
+        90
+      ],
+      "hinge_state_LEFT": [
+        "DEPLOYED_STOP",
+        "DEPLOYED_STOP",
+        "DEPLOYED_STOP"
+      ],
+      "hinge_state_RIGHT": [
+        "DEPLOYED_STOP",
+        "DEPLOYED_STOP",
+        "DEPLOYED_STOP"
+      ]
+    },
+    "SOLAR_LEFT_FAIL": {
+      "LEFT": [
+        0,
+        0,
+        0
+      ],
+      "RIGHT": [
+        90,
+        90,
+        90
+      ],
+      "hinge_state_LEFT": [
+        "ROOT_RELEASE_FAIL",
+        "BLOCKED_UPSTREAM",
+        "BLOCKED_UPSTREAM"
+      ],
+      "hinge_state_RIGHT": [
+        "DEPLOYED_STOP",
+        "DEPLOYED_STOP",
+        "DEPLOYED_STOP"
+      ]
+    },
+    "SOLAR_RIGHT_FAIL": {
+      "LEFT": [
+        90,
+        90,
+        90
+      ],
+      "RIGHT": [
+        0,
+        0,
+        0
+      ],
+      "hinge_state_LEFT": [
+        "DEPLOYED_STOP",
+        "DEPLOYED_STOP",
+        "DEPLOYED_STOP"
+      ],
+      "hinge_state_RIGHT": [
+        "ROOT_RELEASE_FAIL",
+        "BLOCKED_UPSTREAM",
+        "BLOCKED_UPSTREAM"
+      ]
+    },
+    "SOLAR_BOTH_FAIL": {
+      "LEFT": [
+        0,
+        0,
+        0
+      ],
+      "RIGHT": [
+        0,
+        0,
+        0
+      ],
+      "hinge_state_LEFT": [
+        "ROOT_RELEASE_FAIL",
+        "BLOCKED_UPSTREAM",
+        "BLOCKED_UPSTREAM"
+      ],
+      "hinge_state_RIGHT": [
+        "ROOT_RELEASE_FAIL",
+        "BLOCKED_UPSTREAM",
+        "BLOCKED_UPSTREAM"
+      ]
+    }
+  },
+  "state_record_defaults": {
+    "collision_state": "PENDING_LOOP3_NATIVE_BREP",
+    "camera_visibility": "PENDING_CAMERA_LOS_SELECTION_HOLD",
+    "arm_clearance_mm": null,
+    "bus_clearance_mm": null,
+    "harness_clearance_mm": null
+  },
+  "allowed_claim": "MULTI_PANEL_SOLAR_ARRAY_CANDIDATE",
+  "forbidden_claims": [
+    "FLIGHT_READY",
+    "LAUNCH_QUALIFIED",
+    "L0_MASS_TRUTH_UPDATED"
+  ]
+}

@@ -1,0 +1,39 @@
+schema: SOLAR_R2_STRUCTURAL_IMPACT_SCREEN_V1
+generated_local: '2026-08-22T22:50:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: SCREENING_ASSESSMENT
+authority: ODR-33 (operational FEA NOT reopened unless this screen fails)
+
+question: do R2 solar-array loads exceed the accepted operational
+  structural envelope (M3R / Stage-A/B / bus main load path)?
+
+r2_load_candidates:
+  wing_root_quasi_static_5g:
+    shear_N: 38.3      # 0.78 kg x 49.05 m/s2
+    root_moment_Nm: 3.83   # shear x ~0.1 m stowed stack CG offset
+    basis: WP5 quasi-static family heritage, R2 wing mass candidate
+  deployment_stop_transient:
+    controlling_stop_force_N: 480    # hinge-2, 0.24 J @ 1 mm stroke
+    duration_class: milliseconds transient, local to hinge bracket
+    root_bracket_reaction_Nm: 48.0
+  comparison_anchor: >-
+    accepted operational FEA families cover capture impulses
+    0.275-0.678 N s (150 kg @ 3 dps), arm maneuver/estop cases and gripper
+    contact; the R2 solar loads above are 1-2 orders of magnitude below
+    the primary load path demands and are LOCAL to the solar root bracket
+    (not on the M3R / Stage-A/B path).
+
+mass_distribution_effect: >-
+  system CG shifts <= ~6 mm per axis between V2 and V3_R2 ledgers across
+  C01..C07; arm/M3R/bridge members unchanged; primary load path geometry
+  unchanged.
+
+screen_verdict:
+  result: WITHIN_ACCEPTED_ENVELOPE
+  operational_fea: NOT_REOPENED
+  ecr_m1_triggered: false
+  caveats:
+    - wing root bracket / hinge-2 stop local stress check remains a WP5/WP7
+      R2 detail-design task (not a system-level FEA reopen)
+    - launch quasi-static qualification of the R2 stack stays inside
+      FLIGHT_QUALIFICATION_HOLD (unchanged)

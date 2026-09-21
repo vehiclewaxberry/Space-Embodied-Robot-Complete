@@ -1,0 +1,164 @@
+{
+ "schema": "SIM13R_MOMENTUM_CLOSURE_GATE_V1",
+ "generated_date_local": "2026-08-30",
+ "review_status": "PENDING_OWNER_REVIEW",
+ "independence_declaration": {
+  "imports_sim05_or_sim11_solver_code": false,
+  "reads_their_intermediate_quantities": false,
+  "system_composition_source": "sim_05 documented definition (declared, see DYN-006)",
+  "parameters_retuned_to_match_anchors": false
+ },
+ "sources": {
+  "accepted_urdf": {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+   "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164"
+  },
+  "mass_inertia_budget": {
+   "path": "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv",
+   "bytes": 1116,
+   "sha256": "073C802527E35C9495188EEFD5D8BA51F524D326142CF2AB31E436BAD0899392"
+  }
+ },
+ "system": {
+  "total_mass_kg": 29.895555949342985,
+  "base_bodies": [
+   "servicer_12U_v0",
+   "robot_mount_adapter_v0"
+  ],
+  "arm_mass_kg": 4.695555949342986,
+  "moving_dof": [
+   "joint1",
+   "joint2",
+   "joint3",
+   "joint4",
+   "joint5",
+   "joint6"
+  ],
+  "prismatic_locked": true,
+  "T_SM_t": [
+   0.18525,
+   0.0,
+   0.0
+  ],
+  "T_SM_R": [
+   [
+    0.0,
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.0,
+    0.0
+   ],
+   [
+    -1.0,
+    0.0,
+    0.0
+   ]
+  ]
+ },
+ "anchor_reproduction": [
+  {
+   "anchor": "sim05_direct_solver_peak_deg",
+   "frozen_value": 19.199851620693828,
+   "reference_model_value": 19.199851621918622,
+   "abs_diff": 1.2247944880527939e-09,
+   "rel_diff": 6.379187257534302e-11,
+   "within_tolerance": true,
+   "tolerance_rel": 1e-06,
+   "comparison_class": "RIGID_TO_RIGID"
+  },
+  {
+   "anchor": "sim05_frozen_csv_peak_deg",
+   "frozen_value": 19.199852,
+   "reference_model_value": 19.199851621918622,
+   "abs_diff": 3.7808137776096373e-07,
+   "rel_diff": 1.969189021670395e-08,
+   "within_tolerance": true,
+   "tolerance_rel": 1e-06,
+   "comparison_class": "RIGID_TO_RIGID"
+  },
+  {
+   "anchor": "sim11_A1_flexible_peak_deg",
+   "frozen_value": 19.199885629572467,
+   "reference_model_value": 19.199851621918622,
+   "abs_diff": 3.400765384498072e-05,
+   "rel_diff": 1.7712425220179808e-06,
+   "within_tolerance": false,
+   "tolerance_rel": 1e-06,
+   "comparison_class": "RIGID_TO_FLEXIBLE_NOT_EXPECTED_TO_MATCH_EXACTLY"
+  }
+ ],
+ "consistency_checks": {
+  "C1_total_system_mass_kg": {
+   "value": 29.895555949342985,
+   "expected": 29.895555949342985,
+   "pass": true
+  },
+  "C2_linear_momentum_residual_Ns": {
+   "value": 3.1031677655443737e-17,
+   "tol": 1e-12,
+   "pass": true
+  },
+  "C3_angular_momentum_residual_Nms": {
+   "value": 3.4694470181280623e-17,
+   "tol": 1e-12,
+   "pass": true
+  },
+  "C4_generalized_jacobian_vs_finite_difference": {
+   "value": 3.6472984736579672e-09,
+   "tol": 1e-05,
+   "pass": true
+  },
+  "C5_zero_joint_rate_gives_zero_base_motion": {
+   "value": 0.0,
+   "tol": 1e-14,
+   "pass": true
+  },
+  "C6_system_com_stationary_under_zero_momentum": {
+   "value": 3.644680582789418e-12,
+   "tol": 1e-09,
+   "pass": true
+  },
+  "C7_orthonormality_drift": {
+   "value": 2.4961144262647394e-11,
+   "tol": 1e-08,
+   "pass": true
+  },
+  "C8_joint2_antiparallel_to_joint3": {
+   "value": -1.0,
+   "expected": -1.0,
+   "pass": true
+  },
+  "C9_dual_prismatic_opposed_in_palm_frame": {
+   "left_axis": [
+    -3.673e-06,
+    -1.0,
+    0.0
+   ],
+   "right_axis": [
+    -3.673e-06,
+    1.0,
+    0.0
+   ],
+   "pass": true
+  }
+ },
+ "tolerances": {
+  "anchor_relative": 1e-06,
+  "momentum_absolute": 1e-12
+ },
+ "all_consistency_checks_pass": true,
+ "rigid_anchors_reproduced": true,
+ "technical_verdict": "D2_REFERENCE_DYNAMICS_PASS__NEW_REFERENCE_MODEL_REPRODUCES_FROZEN_SIM05_PHYSICS__CAPTURE_AND_FLEX_ANCHORS_PENDING",
+ "scope": "RIGID_FREE_FLOATING_PRE_CONTACT_MOMENTUM_LEVEL_ONLY",
+ "does_not_cover": [
+  "contact / capture transition",
+  "flexible dynamics",
+  "actuator dynamics",
+  "collision"
+ ],
+ "next_stage_authorized": false,
+ "release_credit": false
+}

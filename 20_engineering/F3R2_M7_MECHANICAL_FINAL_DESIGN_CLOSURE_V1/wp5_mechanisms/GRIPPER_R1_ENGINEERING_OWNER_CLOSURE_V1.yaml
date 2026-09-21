@@ -1,0 +1,162 @@
+schema: GRIPPER_R1_ENGINEERING_OWNER_CLOSURE_V1
+generated_local: '2026-08-22T16:36:10.657133+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+authority_basis:
+- ODR-04
+- ODR-14
+- ODR-15
+- M7 execution plan WP5 contract
+ownership_adjudication:
+  finding: 'the terminal-closure review recorded the gripper as lacking a claiming owner (''beyond this
+    WP''s scope'').  That is a governance defect, not an engineering one: the engineering object already
+    exists and is closed at analytic design level.'
+  ruling:
+    engineering_owner: A3_mechanisms (WP5) per agent_responsibility_separation in the terminal closure
+      contract
+    owner_of_record_for_release: A0_mechanical_chief (12_release)
+    downstream_interface_owner: WP13 contract grasp section (ODR-15)
+    no_redesign_authorized: true
+    basis: GRIPPER_ENGINEERING_PACK_V1.yaml exists, is frozen-input driven, and carries overall_status
+      DESIGN_CANDIDATE_ANALYTIC_CLOSED_PROTOTYPE_AND_FLIGHT_RELEASE_HOLD
+mechanical_state_machine:
+  source_of_truth: EMBODIED_MECHANICAL_CONTRACT_V1 grasp.states
+  states:
+  - OPEN
+  - PARTIAL
+  - PREGRASP
+  - CONTACT
+  - LOCK
+  - RELEASE
+  - FAIL
+  transition_matrix:
+    OPEN:
+    - PARTIAL
+    PARTIAL:
+    - OPEN
+    - PREGRASP
+    PREGRASP:
+    - PARTIAL
+    - CONTACT
+    CONTACT:
+    - LOCK
+    - FAIL
+    - RELEASE
+    LOCK:
+    - RELEASE
+    - FAIL
+    RELEASE:
+    - PARTIAL
+    - FAIL
+    FAIL:
+    - RELEASE
+  unknown_is_fail_closed: true
+mechanics_parameters:
+  stroke_mm:
+    value:
+    - 0.0
+    - 71.5
+    authority: DERIVED_NEUTRAL_R1_GEOMETRY
+    validation:
+      continuous_samples: 144
+      step_mm: 0.5
+      positive_rail_palm_overlap_count: 0
+  closing_force_per_finger_min_N:
+    value: 25.0
+    authority: DESIGN_TARGET_CANDIDATE
+    measurement_status: NOT_MEASURED_MVR_002_BENCH_TEST_REQUIRED
+  friction_coefficient:
+    value: null
+    candidate_used_in_analysis: 0.3
+    authority: HOLD (GRP-SMS-08) - candidate is not data
+  stiffness:
+    value: null
+    authority: HOLD_NO_JOINT_STIFFNESS_AUTHORITY (contract dynamics.mounting)
+  max_payload:
+    value: null
+    authority: HOLD - 22/150 kg are scenario mass anchors, not a gripper rating
+verification_summary:
+  static:
+    retention_analysis:
+      required_normal_per_finger_N: 22.59
+      worst_lateral_eq_N: 13.553
+      governing_case: CAPTURE_CONTACT_EVENT (centripetal demands are two orders below contact-event demands)
+    drive_margin_vs_model_limit: 3.85
+    caveat: all force numbers scale as 1/dt with dt a declared candidate; envelope estimates, not loads
+  dynamic:
+    closing_speed_limit_mm_s: 5.0
+    jam_prevention: symmetric drive with compliance per finger; rail-palm clearance guarded by V5R-validated
+      neutral geometry (0 overlaps in 144 samples)
+    open_close_time:
+      value: null
+      status: HOLD_NO_ACTUATOR_DYNAMICS_AUTHORITY
+  interference: 0 positive-volume rail/palm overlaps over the continuous stroke (144 samples, 0.5 mm step)
+rl_interface_grasp_quality:
+  force_margin:
+    definition: drive_margin_vs_urdf_model_limit (MAV-03)
+    value: 3.85
+    authority: ANALYTIC_DESIGN_LEVEL_WITH_CANDIDATE_MU
+  collision_margin:
+    definition: continuous-stroke overlap count
+    value: 0
+    authority: MEASURED_FROM_BREP_AT_144_STATES
+  kinematic_margin:
+    definition: usable stroke minus pregrasp travel
+    value_mm: 16.5
+    authority: DERIVED_NEUTRAL_R1_GEOMETRY
+  stability_margin:
+    definition: retention demand vs available normal (MAV-02)
+    required_normal_per_finger_N: 22.59
+    authority: ANALYTIC_WITH_CANDIDATE_DT_AND_MU
+  consumer_rule: RL must consume these through EMBODIED_MECHANICAL_CONTRACT_V1 grasp.* with their uncertainty
+    envelopes; these margins are analytic design level, not measured.
+gate_07_linkage:
+  state: PASS_WITH_DECLARED_OPEN_ITEM
+  open_items:
+  - id: ACTUATOR_FORCE_SPEED_DUTY_FAULT_DATA_HOLD
+    class: external-equipment
+    future_trigger: 'gripper actuator procurement and instrumented bench test (standing todo: B601 gripper
+      closing-time measurement)'
+    note: actuator force/speed/duty/fault data are vendor/hardware inputs; URDF 100 N / 15 mm/s limits
+      are MODEL_LIMIT, not design authority.
+  - id: CONTACT_FRICTION_PRESSURE_DAMAGE_CRITERIA_HOLD
+    class: qualification
+    future_trigger: contact/grasp qualification test campaign (ECR-M7-class)
+    note: contact friction, pressure and damage criteria need a qualification test; grasp.contact_window_ms=20
+      ms stays PROVISIONAL per ODR-15 worked example.
+  - id: PHYSICAL_MASS_PROPERTIES_HOLD
+    class: as-built
+    future_trigger: as-built gripper weighing and inertia measurement (ECR-M5-class)
+    note: 'MVR-020: URDF mass values are not physically reconciled; L0 URDF masses never overridden.'
+  - id: TARGET_GEOMETRY_SURFACE_AUTHORITY_HOLD
+    class: external-equipment
+    future_trigger: target interface ICD / captured-object geometry authority (ECR-M6-class)
+    note: no target surface authority exists; capture anchors are research-bound DERIVED, not structural
+      design authority.
+  rationale: 0/144 positive rail/palm overlaps over the continuous 0-71.5 mm stroke (0.5 mm samples) on
+    the hash-bound neutral R1 authority geometry; native V5 36 findings SUPERSEDED per ODR-04. Contact/functional
+    parameters defined at candidate authority (SMS/MDD/MAV/MUM sections populated, MVR-001..006/019/020
+    cross-referenced). Remaining holds are measurement/qualification/external class with named triggers
+    -> PASS_WITH_DECLARED_OPEN_ITEM per ODR-14.
+retained_holds:
+- ACTUATOR_FORCE_SPEED_DUTY_FAULT_DATA_HOLD
+- CONTACT_FRICTION_PRESSURE_DAMAGE_CRITERIA_HOLD
+- TARGET_GEOMETRY_SURFACE_AUTHORITY_HOLD
+- WEAR_LIFE_AND_DEBRIS_TEST_HOLD
+- PHYSICAL_MASS_PROPERTIES_HOLD
+- PROTOTYPE_AND_FLIGHT_RELEASE_HOLD
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+source_register:
+- role: contract
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp13_embodied_contract/EMBODIED_MECHANICAL_CONTRACT_V1.yaml
+  sha256_16: 600f2a488699ce8c
+  bytes: 108430
+- role: gate
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/MECHANICAL_ENGINEERING_RELEASE_GATE_V1.json
+  sha256_16: 74006eff52e83e9f
+  bytes: 48184
+- role: gripper
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+  sha256_16: 8fb36efc856e5539
+  bytes: 12293

@@ -1,0 +1,126 @@
+schema: spacecraft_review_loop_proposal_v1
+product_candidate: WP03_SERVICER_ONBOARD_R1
+status: PROPOSED_NOT_EXECUTED_ON_LOCAL_PROJECT
+default_mode: REVIEW_AND_PLAN
+modes:
+  REVIEW_AND_PLAN:
+    source_read_only: true
+    isolated_report_writes: true
+    isolated_software_negative_controls: true
+    production_cad_write: false
+    file_move_or_delete: false
+    current_pointer_promotion: false
+  BOUNDED_CANDIDATE_REPAIR:
+    requires_explicit_owner_scope: true
+    candidate_only_write: true
+    canonical_sources_read_only: true
+    per_fastener_reapproval: false
+    physical_actions_allowed: false
+roles:
+  - id: A0
+    role: ORCHESTRATOR
+    output: shared_issue_ledger_and_next_ticket
+    cad_write: false
+  - id: A1
+    role: CONFIG_AND_FILES
+    output: source_identity_dependency_and_cleanup_risk
+    cad_write: false
+  - id: A2
+    role: STRUCTURE_REVIEWER
+    output: mating_load_path_and_deck_findings
+    cad_write: false
+  - id: A3
+    role: MECHANISM_REVIEWER
+    output: actuation_contact_motion_and_harness_findings
+    cad_write: false
+  - id: A4
+    role: VNV_CODE_REVIEWER
+    output: independent_acceptance_and_negative_controls
+    cad_write: false
+  - id: A5
+    role: SYSTEM_DYNAMICS_REVIEWER
+    output: mass_inertia_mission_and_model_applicability
+    cad_write: false
+  - id: A6
+    role: CAD_BUILDER
+    output: smallest_authorized_candidate_change
+    cad_write: candidate_mode_only
+scheduler:
+  logical_roles: 7
+  max_parallel_light_tasks: 2
+  max_concurrent_heavy_geometry_jobs: 1
+  max_cad_writers: 1
+  input_snapshot_lock: required
+  heavy_job_read_write_lease: required
+  independent_verifier_must_not_author_same_patch: true
+  inherited_memory_ram_values_are_not_current_measurements: true
+  current_available_memory_gib: null
+  memory_budget_source: LOCAL_PREFLIGHT_AND_OBSERVED_PEAK_REQUIRED
+  max_attempts_per_issue: 3
+  stop_after_consecutive_no_progress_attempts: 2
+  max_transient_retries: 1
+  quota_or_402_failure: STOP_AFFECTED_LANE_NO_RETRY_STORM
+  unsupported_agent_backend: RECORD_NOT_EXECUTED_DO_NOT_SIMULATE_INDEPENDENCE
+acceptance_contract:
+  same_input_and_output_configuration: true
+  expected_unique_pair_set_required: true
+  no_duplicate_missing_or_unexpected_pair_ids: true
+  completed_run_and_error_state_required: true
+  frozen_thresholds_before_patch: true
+  unknown_is_not_pass_or_failure: true
+  absence_of_counterexample_is_not_global_proof: true
+  positive_obb_overlap_is_not_material_penetration: true
+  independent_negative_controls_must_remain_failing: true
+  preserve_failed_counterexamples: true
+  no_vote_based_physical_truth: true
+states:
+  - OPEN
+  - EVIDENCE_BOUND
+  - REPRODUCED
+  - INPUT_BLOCKED
+  - PATCH_PROPOSED
+  - CANDIDATE_BUILT
+  - INDEPENDENT_CHECK
+  - MERGED_IN_CANDIDATE
+  - REOPENED
+  - ESCALATED
+loops:
+  - id: L0
+    target: evidence_binding_validator_negative_controls_and_dependency_navigation
+    may_modify_candidate_geometry: false
+  - id: L1
+    target: deck_hole_notch_bracket_and_root_attachment_minimum_fix
+    may_modify_candidate_geometry: requires_candidate_mode
+  - id: L2
+    target: onboard_retention_actuation_and_unresolved_pairs
+    may_modify_candidate_geometry: requires_candidate_mode
+  - id: L3
+    target: full_arm_retention_wing_harness_path_scope
+    may_modify_candidate_geometry: requires_candidate_mode
+  - id: L4
+    target: same_configuration_mass_inertia_and_system_contract
+    historical_simulation_gate_transfer: forbidden
+  - id: L5
+    target: cold_replay_logical_archive_and_cleanup_dry_run
+    physical_cleanup: separately_authorized_only
+cleanup:
+  existing_business_roots:
+    - 01_project
+    - 10_research
+    - 20_engineering
+    - 30_simulation
+    - 40_evidence
+    - 50_literature
+    - 70_tools
+    - 80_third_party
+  first_action: LOGICAL_CURRENT_VIEW_NO_SOURCE_MOVE
+  same_hash_does_not_authorize_deletion: true
+  unresolved_dynamic_import: HOLD_DEPENDENCY
+  wp01_wp02_source_dependencies: PROTECT_UNTIL_DECOUPLED_AND_REPLAYED
+  evidence_and_counterexamples: PROTECT
+  quarantine_or_delete: false
+  allowed_initial_shared_records:
+    - CURRENT_candidate.md
+    - issues.json
+    - dependency_manifest.json
+    - run_manifest.json

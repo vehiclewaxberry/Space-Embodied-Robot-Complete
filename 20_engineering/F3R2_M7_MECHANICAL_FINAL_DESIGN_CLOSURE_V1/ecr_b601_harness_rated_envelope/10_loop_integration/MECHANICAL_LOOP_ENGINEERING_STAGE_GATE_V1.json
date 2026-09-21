@@ -1,0 +1,184 @@
+{
+  "schema": "MECHANICAL_LOOP_ENGINEERING_STAGE_GATE_V1",
+  "generated_local": "2026-08-23T11:40:00+08:00",
+  "generated_clock_source": "LATEST_BOUND_ROUTE_C_VALIDATION_TIMESTAMP",
+  "authority_scope": "CURRENT_STAGE_INTEGRATION__NO_NEW_DESIGN_AUTHORITY",
+  "decision_rule": "Authority > later evidence > independent reproduction > opinion",
+  "fail_closed_invariants": [
+    "UNKNOWN is never PASS",
+    "package integrity PASS is not a physical release",
+    "a historical PASS cannot override newer contradictory machine evidence",
+    "user intent is not silently converted into an Owner decision record"
+  ],
+  "input_bindings": [
+    {
+      "name": "m4_release_gate",
+      "path": "20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/12_release/MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_GATE_V1.json",
+      "sha256": "0C0994E3E59EDBB5FD43B1D75FC048C8414A735D28CA4FC36E8FC23E03692577",
+      "bytes": 5440
+    },
+    {
+      "name": "m7_release_gate",
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/MECHANICAL_ENGINEERING_RELEASE_GATE_V1.json",
+      "sha256": "2D9C8580701BD087A2DB52F57AE9ED23A919DEBC7476727467214411F952859E",
+      "bytes": 48538
+    },
+    {
+      "name": "route_b_terminal_gate",
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/07_release/B601_HARNESS_TERMINAL_GATE_V1.json",
+      "sha256": "D65BD945B3F0C93041BFD10CFABCD9E423596B3FC19400C45FA58CB08DE96AF4",
+      "bytes": 2486
+    },
+    {
+      "name": "handoff_v2_gate",
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/07_release/MECHANICAL_TO_EMBODIED_HANDOFF_GATE_V2.json",
+      "sha256": "13722965D5C558D3439A7CB1E77ABBF3C2094B88E9D62F80D664D0C4C90D4E21",
+      "bytes": 54345
+    },
+    {
+      "name": "route_c_cad_entry_gate",
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/ROUTE_C_CAD_ENTRY_GATE_V1.json",
+      "sha256": "5524EFB209C792DCFECA022C613030E35EAB86ADFFDB8F3CA4D244D6C73E98AE",
+      "bytes": 2624
+    },
+    {
+      "name": "route_c_validation",
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/ROUTE_C_PRELIMINARY_VALIDATION_V1.json",
+      "sha256": "CD2F8BF04DC04ED23149B2279F407023AB11B69FAABEA717BFA602DDB101D186",
+      "bytes": 10630
+    },
+    {
+      "name": "sim13_binding_audit_gate",
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/09_downstream_rebind/SIM13_CURRENT_MECHANICAL_BINDING_AUDIT_GATE_V1.json",
+      "sha256": "7FD3C63AF46BE4BA3055CCF87EFD1A71C13517EC872B1F3EDC52304B070D9153",
+      "bytes": 6345
+    },
+    {
+      "name": "sim13_binding_validation",
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/09_downstream_rebind/SIM13_CURRENT_BINDING_AUDIT_VALIDATION_REPORT_V1.json",
+      "sha256": "087137CBC84E6C9A3B1A87F63FB3CEF0D7F2B6648FBE0C9ACCE9A5EB648488AE",
+      "bytes": 6952
+    },
+    {
+      "name": "accepted_urdf",
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+      "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+      "bytes": 11321
+    }
+  ],
+  "facts": [
+    {
+      "id": "LG-01",
+      "name": "M4_IS_SCOPED_WORKING_RELEASE_ONLY",
+      "observed": true,
+      "evidence": {
+        "overall_status": "PASS_SCOPED_M4_DIGITAL_PROTOTYPE_AND_SIM14_DIAGNOSTIC_WITH_MANDATORY_PHYSICAL_HOLDS",
+        "digital_prototype_status": "PASS_SCOPED_WORKING_RELEASE",
+        "structural_entry": "HOLD",
+        "production_contact_rl": "HOLD"
+      }
+    },
+    {
+      "id": "LG-02",
+      "name": "M7_MAIN_GATE_REMAINS_UNRELEASED",
+      "observed": true,
+      "evidence": {
+        "overall_gate_a_shape": "5 PASS + 12 PASS_WITH_DECLARED_OPEN_ITEM + 1 HOLD",
+        "criterion_09": "HOLD",
+        "next_stage_authorized": false
+      }
+    },
+    {
+      "id": "LG-03",
+      "name": "ROUTE_B_REJECTED_AND_MECHANICAL_NOT_RELEASED",
+      "observed": true,
+      "evidence": {
+        "route_b": "REJECTED",
+        "route_c": "TRIGGERED",
+        "internal_mechanical_hold_count": 3
+      }
+    },
+    {
+      "id": "LG-04",
+      "name": "CURRENT_HANDOFF_FAILS_G12",
+      "observed": true,
+      "evidence": {
+        "passed": 11,
+        "total": 12,
+        "failing_checks": [
+          "G12"
+        ]
+      }
+    },
+    {
+      "id": "LG-05",
+      "name": "ROUTE_C_AUTHORIZATION_FRONT_PACKAGE_VALID_BUT_CAD_ENTRY_HOLD",
+      "observed": true,
+      "evidence": {
+        "validation": "PASS_PACKAGE_INTEGRITY__CAD_ENTRY_REMAINS_HOLD",
+        "checks": "55/55",
+        "detailed_design_start_blockers": [
+          "RC-CEG-01",
+          "RC-CEG-03"
+        ]
+      }
+    },
+    {
+      "id": "LG-06",
+      "name": "SIM13_CURRENT_PRODUCTION_BINDING_INVALIDATED",
+      "observed": true,
+      "evidence": {
+        "verdict": "CURRENT_SIM13_PRODUCTION_MECHANICAL_BINDING_INVALIDATED_BY_NEWER_M7_EVIDENCE",
+        "checks": "29/29",
+        "negative_controls": "7/7"
+      }
+    },
+    {
+      "id": "LG-07",
+      "name": "ACCEPTED_URDF_UNCHANGED",
+      "observed": true,
+      "evidence": {
+        "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164"
+      }
+    }
+  ],
+  "facts_total": 7,
+  "facts_confirmed": 7,
+  "current_release": {
+    "route_c_parametric_cad_entry_ready": false,
+    "mechanical_design_released": false,
+    "production_dynamics_ready": false,
+    "physical_contact_ready": false,
+    "physics_gated_rl_ready": false,
+    "hardware_motion_ready": false,
+    "diagnostic_kinematic_research_only": true,
+    "abort_always_available": true,
+    "flight_qualification_ready": false
+  },
+  "verdict": "MECHANICAL_LOOP_ENGINEERING_PRE_CAD_HOLD_WITH_ACTIONABLE_ROUTE_C_PACKAGE_AND_SIM13_FAIL_CLOSED_SUPERSESSION",
+  "authorization_front_package_complete": true,
+  "next_executable_actions_without_new_authority": [
+    "Owner disposition of the hash-bound ODR-42 request",
+    "acquire and configuration-control minimum cable, connector, interface and life inputs",
+    "preserve diagnostic-only Sim13/Sim14 research and ABORT semantics"
+  ],
+  "one_pass_sequence_after_required_authority_and_inputs": [
+    "C2 separately versioned STEP-first Route-C parametric design",
+    "C3 release all eight continuous mission trajectories",
+    "C4 exact coupled mission-first predicate; full hardware range only if explicitly required",
+    "C5 recompute Route-C and nine-configuration mass/CG/inertia plus restoring loads",
+    "C6 close abrasion, TVAC, flex-life and post-install electrical verification plan/evidence",
+    "C7 issue a new hash-bound interface and runtime harness gate with negative controls",
+    "independently pass mechanical handoff, physical-contact and production-dynamics gates"
+  ],
+  "explicit_noninheritance": [
+    "Route-B 0.68406762184 kg diagnostic mass",
+    "Route-B 10 mm bundle OD seed",
+    "Route-B 30 mm bend-radius seed",
+    "Route-B 4001.158 mm cut-length seed",
+    "historical Sim13 V1 production-binding label beyond its kinematic bootstrap scope"
+  ],
+  "next_stage_authorized": false,
+  "required_owner_action": "Issue an independent ODR-42 disposition referencing the current request hash; APPROVE_BOUNDED_DETAILED_DESIGN is required before geometry creation.",
+  "prohibition": "No Route-C CAD/STEP generation, production dynamics, physical-contact RL, hardware motion, manufacturing release or flight claim from this gate."
+}

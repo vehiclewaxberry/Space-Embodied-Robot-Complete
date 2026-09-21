@@ -1,0 +1,98 @@
+schema: MECH_RL_SYSTEM_INTERFACE_V2_SCHEMA_DEFINITION
+generated_date_local: '2026-08-24'
+artifact_class: SCHEMA_DEFINITION_ONLY__NOT_AN_INTERFACE_INSTANCE
+instance_schema_name: MECH_RL_SYSTEM_INTERFACE_V2
+future_instance_filename: MECH_RL_SYSTEM_INTERFACE_V2.yaml
+future_instance_path: 30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/interfaces/MECH_RL_SYSTEM_INTERFACE_V2.yaml
+future_runtime_namespace: 30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind
+future_generated_urdf_path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/generated_v2/unified_r2_c01_no_route_c_sim_candidate_v2.urdf
+definition_only: true
+instantiated: false
+instance_creation_authorized_now: false
+consumer_loaded: false
+sim13_rebind_authorized: false
+
+required_top_level_fields:
+  - schema
+  - configuration_id
+  - selected_bus_mass_mode
+  - artifacts
+  - whole_system_contract
+  - accepted_b601_subtree
+  - actuation_contract
+  - runtime_gate_contract
+  - authority
+
+field_schema:
+  schema:
+    exact_value: MECH_RL_SYSTEM_INTERFACE_V2
+  configuration_id:
+    exact_value: C01_DEPLOYED_NOMINAL_FIXED_SOLAR_SNAPSHOT
+  selected_bus_mass_mode:
+    allowed_values: [EXPLICIT_STRUCTURE_PLUS_RESIDUAL]
+  artifacts:
+    required_entries: [system_urdf, system_frame_tree, accepted_b601_urdf, urdf_generation_receipt, unified_r2_source_gate, sim_candidate_contract]
+    every_entry_required_fields: [path, bytes, sha256]
+    gate_stage_required_entries:
+      SIM13_SYSTEM_BINDING_GATE_V2: [v2_loader_source, v2_loader_validation_receipt]
+      SIM13_RUNTIME_FAIL_CLOSED_GATE_V2: [runtime_gate_adapter_source, runtime_evaluator_source, runtime_evaluator_receipt]
+      SIM13_DYNAMICS_BACKEND_GATE_V2: [dynamics_backend_source, dynamics_backend_validation_receipt]
+      SIM13_CONTACT_GRASP_GATE_V2: [contact_backend_source, contact_backend_validation_receipt]
+    every_gate_stage_entry_required_fields: [path, bytes, sha256]
+    sha256_pattern: '^[0-9A-F]{64}$'
+  whole_system_contract:
+    exact_fields:
+      root_link: spacecraft_bus
+      links: 19
+      physical_links: 16
+      frame_only_links: 3
+      joints: 18
+      fixed: 10
+      revolute: 6
+      prismatic: 2
+      actuated_dof: 8
+      total_mass_kg: 31.022864807342987
+  accepted_b601_subtree:
+    exact_fields:
+      root_link: base_link
+      links: 10
+      joints: 9
+      fixed: 1
+      revolute: 6
+      prismatic: 2
+      mass_kg: 4.695555949342986
+    exact_semantic_fields: [link_names, joint_names, parent_child, joint_origin, joint_axis, joint_limits, per_link_mass_com_inertia]
+  actuation_contract:
+    actuated_joint_names: [joint1, joint2, joint3, joint4, joint5, joint6, gripper_joint1, gripper_joint2]
+    fixed_joint_excluded_from_state: [gripper_joint]
+  runtime_gate_contract:
+    inherited_v1_required_fields: [ik_reachable, external_collision_clear, keep_out_clear, sim10_gate, safe00_state, post_grasp_stability_gate, gripper_configuration_accepted, target_surface_normal_valid]
+    new_v2_required_fields: [mechanical_system_binding, harness_rated_envelope, contact_physics_ready, route_c_scope_disposition]
+    combined_required_fields: [ik_reachable, external_collision_clear, keep_out_clear, sim10_gate, safe00_state, post_grasp_stability_gate, gripper_configuration_accepted, target_surface_normal_valid, mechanical_system_binding, harness_rated_envelope, contact_physics_ready, route_c_scope_disposition]
+    combined_required_gate_count: 12
+    allowed_states: [PASS, FAIL, UNKNOWN]
+    fail_closed_rule: FAIL or UNKNOWN permits ABORT only
+  authority:
+    evaluation: ALL_OF_EXACT_TRUE_FROM_HASH_BOUND_RECEIPTS
+    caller_supplied_gate_state_is_authority: false
+    required_exact_true_before_consumer_load: [owner_accepted, route_c_exclusion_accepted_for_this_sim_candidate, route_c_scope_disposition_pass, system_urdf_generated_and_validated, urdf_generation_receipt_hash_valid, sim13_system_binding_gate_passed, v2_loader_validation_receipt_hash_valid, runtime_fail_closed_gate_passed, runtime_evaluator_receipt_hash_valid, dynamics_backend_gate_passed, dynamics_backend_validation_receipt_hash_valid]
+    required_exact_true_before_contact_grasp: [consumer_load_all_of_passed, contact_grasp_gate_passed, contact_backend_validation_receipt_hash_valid]
+    pass_evidence_source: hash-bound evaluator receipt only
+    current_values_are_not_defined_by_this_schema: true
+
+cross_field_invariants:
+  - system and accepted B601 mass authorities are separate
+  - whole-system joint count is 18 while actuated joint count is 8
+  - frame-only links have no inertial visual or collision
+  - D_BUS_MATE_PHYSICAL and M_DYNAMICS_NONPHYSICAL remain distinct even when numerically coincident
+  - the physical load path never traverses M_DYNAMICS_NONPHYSICAL
+  - EXPLICIT_STRUCTURE_PLUS_RESIDUAL and AGGREGATE_BUS are mutually exclusive
+  - primitive broadphase geometry never grants contact authority
+
+current_boundary:
+  interface_instance_path: null
+  interface_instance_sha256: null
+  system_urdf_path: null
+  system_urdf_sha256: null
+  current_consumer: none
+  next_stage_authorized: false

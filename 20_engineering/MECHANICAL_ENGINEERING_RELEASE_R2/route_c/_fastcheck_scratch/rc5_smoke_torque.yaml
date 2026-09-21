@@ -1,0 +1,100 @@
+schema: B601_ROUTE_C_JOINT_TORQUE_ENVELOPE_V1
+generated_utc: DETERMINISTIC_REPLAY_NO_WALLCLOCK
+stage: RC-5
+model:
+  tau_bend: EI_bundle / R_loop (bending recovery transmitted at the loop)
+  tau_friction: mu * N * R_loop with N = EI_bundle / R_loop^2 * stored_wrap_rad (capstan-style
+    recovery normal load candidate)
+  EI_bundle_N_m2:
+  - 0.00017
+  - 0.021
+  EI_derivation: 'upper: E_copper 110 GPa x pi/64 x sum(OD^4) of candidate sub-bundle
+    (Axon P551259 6.5 mm + 8x TE 0.72 mm) treated as solid - grossly conservative;
+    lower: strand-level copper only'
+  mu: 0.20 (P10 BOUNDED_DATASHEET_RANGE upper, iglidur J260 vs steel dry)
+  authority: PROVISIONAL_DERIVED, confidence LOW
+actuator_budget_source: accepted URDF joint effort limits (read-only)
+unknown_components:
+- component: torsion restoring moment of installed bundle (registry P08)
+  status: UNKNOWN_REGISTERED_HOLD_C5
+  policy: not zero-filled, not gated here
+- component: space-environment (TVAC) behavior of igus/iglidur elements
+  status: UNKNOWN_REGISTERED_HOLD_C6
+  policy: not zero-filled
+per_joint:
+- actuator_effort_budget_Nm: 27.0
+  authority: PROVISIONAL_DERIVED (EI bundle [1.7e-4, 2.1e-2] N m^2 candidate; mu 0.20
+    P10 upper; torsion restoring moment UNKNOWN - registered hold)
+  joint: joint1
+  loop_radius_m: 0.06
+  margin_Nm: 26.122212434196914
+  pass: true
+  stored_wrap_rad: 7.5398223686155035
+  tau_max_Nm: 0.8777875658030854
+  tau_min_Nm: 0.007105899342215453
+  worst_fraction_of_budget: 0.03251065058529946
+- actuator_effort_budget_Nm: 27.0
+  authority: PROVISIONAL_DERIVED (EI bundle [1.7e-4, 2.1e-2] N m^2 candidate; mu 0.20
+    P10 upper; torsion restoring moment UNKNOWN - registered hold)
+  joint: joint2
+  loop_radius_m: 0.05
+  margin_Nm: 26.21348085708119
+  pass: true
+  stored_wrap_rad: 4.363323129985824
+  tau_max_Nm: 0.7865191429188092
+  tau_min_Nm: 0.006367059728390361
+  worst_fraction_of_budget: 0.02913033862662256
+- actuator_effort_budget_Nm: 27.0
+  authority: PROVISIONAL_DERIVED (EI bundle [1.7e-4, 2.1e-2] N m^2 candidate; mu 0.20
+    P10 upper; torsion restoring moment UNKNOWN - registered hold)
+  joint: joint3
+  loop_radius_m: 0.063
+  margin_Nm: 26.43395609973409
+  pass: true
+  stored_wrap_rad: 3.490658503988659
+  tau_max_Nm: 0.5660439002659107
+  tau_min_Nm: 0.004582260145009753
+  worst_fraction_of_budget: 0.02096458889873743
+- actuator_effort_budget_Nm: 7.0
+  authority: PROVISIONAL_DERIVED (EI bundle [1.7e-4, 2.1e-2] N m^2 candidate; mu 0.20
+    P10 upper; torsion restoring moment UNKNOWN - registered hold)
+  joint: joint4
+  loop_radius_m: 0.05
+  margin_Nm: 6.118185879922301
+  pass: true
+  stored_wrap_rad: 5.497787143782138
+  tau_max_Nm: 0.8818141200776995
+  tau_min_Nm: 0.007138495257771854
+  worst_fraction_of_budget: 0.12597344572538566
+- actuator_effort_budget_Nm: 7.0
+  authority: PROVISIONAL_DERIVED (EI bundle [1.7e-4, 2.1e-2] N m^2 candidate; mu 0.20
+    P10 upper; torsion restoring moment UNKNOWN - registered hold)
+  joint: joint5
+  loop_radius_m: 0.05
+  margin_Nm: 6.308775834240081
+  pass: true
+  stored_wrap_rad: 3.2288591161895095
+  tau_max_Nm: 0.6912241657599187
+  tau_min_Nm: 0.005595624199008867
+  worst_fraction_of_budget: 0.0987463093942741
+- actuator_effort_budget_Nm: 7.0
+  authority: PROVISIONAL_DERIVED (EI bundle [1.7e-4, 2.1e-2] N m^2 candidate; mu 0.20
+    P10 upper; torsion restoring moment UNKNOWN - registered hold)
+  joint: joint6
+  loop_radius_m: 0.05
+  margin_Nm: 5.656371759844601
+  pass: true
+  stored_wrap_rad: 10.995574287564276
+  tau_max_Nm: 1.3436282401553992
+  tau_min_Nm: 0.010876990515543708
+  worst_fraction_of_budget: 0.19194689145077132
+worst_fraction_of_budget: 0.19194689145077132
+odr50_reopen_guard:
+  trigger: harness resistance torque exceeds actuator/control budget
+  evaluation: derived bound far below budget at every joint (worst fraction 0.1919
+    of effort limit); torsion component UNKNOWN registered as C5 hold - guard NOT
+    triggered on derived evidence
+  verdict: REOPEN_NOT_TRIGGERED_ON_DERIVED_EVIDENCE__UNKNOWN_TORSION_HOLD_REGISTERED
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+release_credit: false

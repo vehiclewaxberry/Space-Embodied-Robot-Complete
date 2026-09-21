@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EPISODE_SCHEMA_V1",
+  "description": "每个 episode 的 RUN_MANIFEST.json 合同。缺失权威一律显式 null+status；EXECUTE 与缺失接触权威的组合非法。",
+  "type": "object",
+  "required": [
+    "episode_id", "base_state_id", "scenario_id", "strategy_id", "seed",
+    "authority_snapshot_sha256", "accepted_urdf_sha256", "step_state_sha256",
+    "collision_manifest_sha256", "frame_contract_sha256", "unit_contract_sha256",
+    "controller_config_sha256", "safe_config_sha256", "plant_sha256",
+    "geometry_authority", "dynamics_authority", "contact_authority",
+    "T_E_T_status", "evidence_level", "claim_ceiling", "binding_gate",
+    "terminal_decision", "label"
+  ],
+  "properties": {
+    "episode_id": {"type": "string"},
+    "base_state_id": {"type": "string"},
+    "scenario_id": {"type": "string"},
+    "strategy_id": {"type": "string"},
+    "seed": {"type": "integer"},
+    "authority_snapshot_sha256": {"type": "string"},
+    "accepted_urdf_sha256": {"type": "string"},
+    "step_state_sha256": {"type": ["string", "null"]},
+    "collision_manifest_sha256": {"type": ["string", "null"]},
+    "frame_contract_sha256": {"type": "string"},
+    "unit_contract_sha256": {"type": "string"},
+    "controller_config_sha256": {"type": ["string", "null"]},
+    "safe_config_sha256": {"type": "string"},
+    "plant_sha256": {"type": "string"},
+    "geometry_authority": {"type": "string"},
+    "dynamics_authority": {"type": "string"},
+    "contact_authority": {"type": "string"},
+    "T_E_T_status": {"enum": ["VERIFIED", "MISSING", "UNKNOWN", "NOT_EVALUATED"]},
+    "evidence_level": {"enum": ["CONTRACT", "PREBIND", "HISTORY_REPLAY", "AUTHORITY_BOUND"]},
+    "claim_ceiling": {"type": "string"},
+    "binding_gate": {"type": "string"},
+    "terminal_decision": {"enum": ["EXECUTE", "MODIFY", "ABORT", "WAIT", "NONE"]},
+    "label": {"enum": ["EXECUTE", "MODIFY", "ABORT", "UNKNOWN", "NOT_EVALUATED"]},
+    "not_evaluated_reason": {"type": ["string", "null"]},
+    "failure_reason": {"type": ["string", "null"]}
+  },
+  "x_files_per_episode": [
+    "RUN_MANIFEST.json", "AUTHORITY_SNAPSHOT.json", "RESOLVED_CONFIG.yaml", "INPUT_HASHES.csv",
+    "TIMESERIES.parquet", "EVENTS.jsonl", "METRICS.json", "SAFETY_DECISION.json",
+    "GATE_RESULT.json", "FAILURE_CONTEXT.json", "STDOUT.log", "HASH_MANIFEST.csv"
+  ],
+  "x_timeseries_channels_minimum": [
+    "t", "servicer_pose(p_xyz+quat_wxyz)", "servicer_rate(v6_body)", "joint q/dq(/ddq或扭矩运行)",
+    "joint_torque(受控运行)", "h_O_[nf]xyz", "h_C_nxyz", "E_kin_J", "p_com_xyz", "quat_renorm_audit"
+  ],
+  "x_full_capture_channels_deferred": [
+    "target_pose_velocity", "target_mass_cg_inertia", "camera_measurement", "estimator_covariance",
+    "minimum_clearance", "minimum_bend_radius", "contact_force", "contact_impulse",
+    "base_attitude_change", "combined_angular_momentum", "wheel_momentum_requirement",
+    "flexible_response", "post_capture_rate"
+  ],
+  "x_forbidden": [
+    "label=EXECUTE 且 T_E_T_status∈{MISSING,UNKNOWN}",
+    "terminal_decision=EXECUTE 且 contact_authority∈{MISSING,UNKNOWN,NOT_EVALUATED}",
+    "删除失败 episode", "覆盖既有 episode 目录"
+  ]
+}

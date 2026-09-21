@@ -1,0 +1,282 @@
+{
+ "schema": "THERMAL_ARCHITECTURE_B_DESIGN_TARGETS",
+ "date": "2026-09-17",
+ "author_tool": "implementation/tools/thermal_architecture_b_design_targets_20260917.py",
+ "prior_screen_readonly": "implementation/results/thermal_architecture_20260917/THERMAL_ARCHITECTURE_B_SCREEN_20260917.json",
+ "method": "需求反解：目标 M = 载板不确定区间上限 <= 85 C（95 C 限留 >=10 K）；目标 Z = <= 95 C 零裕度临界。对每个关键设计参数：(a) 单杠杆反解（其余保持当前最坏）；(b) 联合物理下限组合（全部杠杆同时打到 ESTIMATE_DECLARED 下限）。所有物理可达范围为 ESTIMATE_DECLARED；证据锚点 CALCULATED_FROM_EVIDENCE。不修改 THERMAL_ARCHITECTURE_B_SCREEN_20260917.json；不改动任何既有证据/gate 文件。",
+ "targets": {
+  "limit_C": 95.0,
+  "margin_target_C": 85.0,
+  "margin_K": 10.0
+ },
+ "heat_loads_W": {
+  "Q_module": 27.591989608311465,
+  "Q_per_side_B2": 13.795994804155733,
+  "STOP_board_boundary_increment": "同 screen（+0.5..1.5 K）"
+ },
+ "B1b_bridge_plus_doubled_straps": {
+  "model": "T_carrier_max = T_b_eff_max + Q x R_eff；R_eff = (R_-Y+R_bridge) || (R_+Y+R_bridge)",
+  "T_b_eff_C": {
+   "min": 57.725,
+   "max": 78.454,
+   "class": "ESTIMATE_DECLARED"
+  },
+  "R_eff_current_worst_K_W": 0.95247,
+  "R_eff_required_K_W": {
+   "target_85C": 0.23725,
+   "target_95C_zero_margin": 0.59968
+  },
+  "uniform_scale_factor_required": {
+   "target_85C": 0.2491,
+   "target_95C_zero_margin": 0.6296
+  },
+  "joint_physical_floor": {
+   "R_eff_K_W_best": 0.44542,
+   "R_eff_K_W_conservative": 0.57973,
+   "T_carrier_max_at_floor_C": 90.74,
+   "T_carrier_max_at_floor_conservative_C": 94.45,
+   "class": "ESTIMATE_DECLARED"
+  },
+  "target_85C_achievable_conduction_only": false,
+  "REQUIRED_vs_CURRENT": [
+   {
+    "parameter": "strap_bar_R（两侧导热带，等效截面）",
+    "current_K_W": {
+     "minus_Y": 0.5,
+     "plus_Y": 0.46,
+     "note": "已加倍截面 750 mm2 后：57.15 mm/(167 x 750e-6)"
+    },
+    "required_sole_lever": {
+     "target_85C": "不可行（需要 bar_R <= -2.146，即负值；即使双带 R=0，R_eff=0.684 > 0.237）",
+     "target_95C_zero_margin": "不可行（双带 R=0 时 R_eff=0.684 > 0.600）"
+    },
+    "required_joint_floor_K_W": [
+     0.2279,
+     0.2848
+    ],
+    "equivalent_section_mm2_at_floor": [
+     1200,
+     1500
+    ],
+    "physical_range": "ESTIMATE_DECLARED A<=1500 mm2（25x60，几何/质量约束）",
+    "reachability_85C": "NOT_ACHIEVABLE_SOLE_LEVER",
+    "reachability_95C": "NOT_ACHIEVABLE_SOLE_LEVER"
+   },
+   {
+    "parameter": "TIM_R（4 个压接界面合计）",
+    "current_K_W": {
+     "minus_Y": 0.35,
+     "plus_Y": 0.42
+    },
+    "required_sole_lever": {
+     "target_85C": "不可行（TIM 全归零 R_eff=0.716 > 0.237）",
+     "target_95C_zero_margin": "不可行（TIM 全归零 R_eff=0.716 > 0.600）"
+    },
+    "required_joint_floor_K_W_per_iface": [
+     0.09,
+     0.14
+    ],
+    "physical_range": "ESTIMATE_DECLARED 0.28 C in2/W @25psi 实现 + 面积 x2；25 psi clamp 未设计",
+    "reachability_85C": "NOT_ACHIEVABLE_SOLE_LEVER",
+    "reachability_95C": "NOT_ACHIEVABLE_SOLE_LEVER"
+   },
+   {
+    "parameter": "arch_riser + plate_spread（结构件，主导热阻）",
+    "current_K_W": {
+     "minus_Y_riser_plate": 2.0,
+     "plus_Y_riser": 0.45
+    },
+    "required_sole_lever_scale": {
+     "target_85C": 0.0,
+     "target_95C_zero_margin": 0.2236,
+     "note": "s=结构件 R 缩放因子；其余件保持当前最坏"
+    },
+    "required_joint_floor_K_W": {
+     "riser_minus_Y": [
+      0.55,
+      0.65
+     ],
+     "riser_plus_Y": [
+      0.2,
+      0.25
+     ],
+     "plate_spread": [
+      0.35,
+      0.42
+     ]
+    },
+    "physical_range": "ESTIMATE_DECLARED：立柱截面 x2 勉强可达；板展宽 x4.5（95C 临界 s=0.22）需 4 mm 板 -> ~18 mm，物理不可达",
+    "reachability_85C": "NOT_ACHIEVABLE_SOLE_LEVER（s=0.000 << 物理下限 ~0.5）",
+    "reachability_95C": "NOT_ACHIEVABLE_SOLE_LEVER（s=0.224 要求板展宽超物理范围）"
+   },
+   {
+    "parameter": "boundary_T_b_eff（辐射板局部温度，伪参数）",
+    "current_C": 78.45,
+    "required_C": {
+     "target_85C_at_current_links": 58.72,
+     "target_95C_at_current_links": 68.72,
+     "target_85C_at_joint_floor_links": 72.71
+    },
+    "physical_range": "ESTIMATE_DECLARED：仅靠链路改造不动边界；降边界需 +X 蒙皮/辐射面扩展（evidence：桥块+全面积蒙皮名义 86.4 C）",
+    "reachability_85C": "REQUIRES_ENVELOPE_CHANGE（当前链路需边界 <=58.7 C，降 19.7 K）",
+    "reachability_95C": "BORDERLINE"
+   },
+   {
+    "parameter": "JOINT（全部传导杠杆同时打到声明物理下限）",
+    "current_K_W": 0.9525,
+    "required_K_W": {
+     "target_85C": 0.2373,
+     "target_95C_zero_margin": 0.5997
+    },
+    "joint_floor_K_W": [
+     0.4454,
+     0.5797
+    ],
+    "T_at_floor_C": [
+     90.74,
+     94.45
+    ],
+    "reachability_85C": "MARGIN_NOT_ACHIEVABLE_WITHIN_PHYSICAL_RANGE（最好下限组合 T=90.7 C > 85）",
+    "reachability_95C": "ACHIEVABLE_AT_JOINT_PHYSICAL_FLOOR（保守下限 T=94.4 C <= 95，零裕度）"
+   }
+  ],
+  "verdict_85C": "MARGIN_NOT_ACHIEVABLE_WITHIN_PHYSICAL_RANGE",
+  "verdict_85C_basis": "全部传导杠杆同时打到声明物理下限，载板区间上限 90.7..94.4 C 仍 > 85 C；达成 85 C 还需边界温度再降 >= 5.7 K（辐射面/蒙皮扩展，超出 B1b 声明范围）。95 C 零裕度在联合物理下限可达。"
+ },
+ "B2_longeron_deck_direct_to_panels": {
+  "model": "T_carrier_max = T_b_eff_max + (Q/2) x R_side；对称双路径，每侧 Q/2 = 13.7960 W",
+  "T_b_eff_C": {
+   "min": 59.0,
+   "max": 79.0,
+   "class": "ESTIMATE_DECLARED"
+  },
+  "R_side_current_worst_K_W": 3.1478,
+  "R_side_required_K_W": {
+   "target_85C": 0.43491,
+   "target_95C_zero_margin": 1.15976
+  },
+  "uniform_scale_factor_required": {
+   "target_85C": 0.1382,
+   "target_95C_zero_margin": 0.3684
+  },
+  "joint_physical_floor": {
+   "R_path_K_W_best": 0.6091,
+   "R_path_K_W_conservative": 1.1484,
+   "T_1rail_C": [
+    87.4,
+    94.84
+   ],
+   "T_2rail_per_side_C": [
+    83.2,
+    86.92
+   ],
+   "class": "ESTIMATE_DECLARED"
+  },
+  "REQUIRED_vs_CURRENT": [
+   {
+    "parameter": "rail_section（纵梁等效导热截面，主导热阻）",
+    "current": {
+     "A_mm2": [
+      700,
+      900
+     ],
+     "R_rail_K_W": [
+      0.998,
+      2.198
+     ]
+    },
+    "required_sole_lever": {
+     "target_85C": "不可行（需要 R_rail <= -0.515 K/W，即负值）",
+     "target_95C_zero_margin": {
+      "R_rail_K_W": 0.2098,
+      "A_mm2": [
+       4282.0,
+       7334.0
+      ]
+     }
+    },
+    "physical_range": "ESTIMATE_DECLARED A<=2000 mm2（45x45，质量/包络约束）",
+    "reachability_85C": "NOT_ACHIEVABLE_SOLE_LEVER",
+    "reachability_95C": "MARGIN_NOT_ACHIEVABLE_WITHIN_PHYSICAL_RANGE（需 4282..7334 mm2 > 2000 mm2 物理上限）"
+   },
+   {
+    "parameter": "TIM_R（载板-纵梁 + 纵梁端角件两界面）",
+    "current_K_W": 0.6499999999999999,
+    "required_sole_lever": {
+     "target_85C": "不可行（TIM 全归零 R_side=2.498 > 0.435）",
+     "target_95C_zero_margin": "不可行（TIM 全归零 R_side=2.498 > 1.160）"
+    },
+    "required_joint_floor_K_W": {
+     "carrier_to_rail": [
+      0.05,
+      0.1
+     ],
+     "rail_end": [
+      0.08,
+      0.15
+     ]
+    },
+    "physical_range": "ESTIMATE_DECLARED 0.28 C in2/W @25psi 实现 + 面积增大",
+    "reachability_85C": "NOT_ACHIEVABLE_SOLE_LEVER",
+    "reachability_95C": "NOT_ACHIEVABLE_SOLE_LEVER"
+   },
+   {
+    "parameter": "rails_per_side（每侧并联纵梁数）",
+    "current": 1,
+    "required": {
+     "target_85C": {
+      "n_min_continuous": 1.401,
+      "n": 2,
+      "per_rail_R_required_K_W_at_n2": 0.8698,
+      "per_rail_physical_floor_K_W": [
+       0.6091,
+       1.1484
+      ]
+     },
+     "target_95C_zero_margin": {
+      "n": 1,
+      "per_rail_R_required_K_W": 1.1598
+     }
+    },
+    "reachability_85C": "ACHIEVABLE_WITH_COMBINED_LEVERS（n=2 且每梁路径 R <= 0.870 K/W，落在声明物理下限带 [0.609, 1.148] 内；质量代价 4 梁 ~1.5 kg 未计入裁决）",
+    "reachability_95C": "ACHIEVABLE_AT_JOINT_PHYSICAL_FLOOR（单梁保守下限 T=94.8 C <= 95，零裕度）"
+   },
+   {
+    "parameter": "boundary_T_b_eff（辐射板局部温度，伪参数）",
+    "current_C": 79.0,
+    "required_C": {
+     "target_85C_at_current_chain": 41.57,
+     "target_95C_at_current_chain": 51.57,
+     "target_85C_at_1rail_floor": 76.6
+    },
+    "physical_range": "ESTIMATE_DECLARED：当前链路下 85 C 需边界 <= 41.6 C（降 37.4 K），不现实；双梁下限组合下边界 79 C 可接受",
+    "reachability_85C": "NOT_REQUIRED_IF_DUAL_RAIL",
+    "reachability_95C": "NOT_REQUIRED_IF_JOINT_FLOOR"
+   }
+  ],
+  "verdict_85C": "ACHIEVABLE_WITH_COMBINED_LEVERS__DUAL_RAIL_PER_SIDE_REQUIRED",
+  "verdict_85C_basis": "单梁路径即使打到声明物理下限，T=87.4..94.8 C > 85 C；每侧双梁并联 + 全界面下限时 T=83.2..86.9 C，最好点 83.2 C <= 85 C 达成 10 K 裕度，保守点 86.9 C 仍跨限 -> 需 FE/试验压缩界面与梁截面不确定性后才可判 PASS。"
+ },
+ "dominant_R_summary": {
+  "B1b": {
+   "dominant": "arch_riser+plate_spread（结构件，-Y 侧 2.00/2.93 K/W）",
+   "required_vs_current": "联合下限组合 R_eff 0.952->需 0.237（85C）/0.600（95C）K/W"
+  },
+  "B2": {
+   "dominant": "rail lateral（当前最坏 2.198/3.148 K/W per side）",
+   "required_vs_current": "R_side 3.148->需 0.435（85C）/1.160（95C）K/W"
+  }
+ },
+ "Q201_Tj_note": "载板 85 C 目标达成时 Tj = 85 + 40.73 = 125.7 C <= 150 C，载板限仍为先约束。",
+ "caveats": [
+  "全部物理下限为 ESTIMATE_DECLARED，无供应商数据/试验支撑；TIM 25 psi clamp 未设计",
+  "边界温度带（含 STOP 1.483 W 增量）为声明区间；未分配热 33.27 W 未计入（计入将进一步压缩可达性）",
+  "B2 双梁方案质量 ~1.5 kg、机械接口与窄相位未评估；模块位姿 REJECTED 状态不变",
+  "本文件是需求反解，不是设计放行；PASS/FAIL 仍须 FE 或试验裁决"
+ ],
+ "verdict": "ARCHITECTURE_B_DESIGN_TARGETS_EMITTED__FE_OR_TEST_REQUIRED",
+ "review_status": "PENDING_REVIEW",
+ "next_stage_authorized": false,
+ "whole_design_complete": false,
+ "manufacturing_release": false
+}

@@ -1,0 +1,157 @@
+schema: SIM12_FACTORIAL_GATE_VECTOR_V2
+program: RESEARCH_COUPLED_CLOSURE_R1 / RC1-R2
+generated_date_local: '2026-08-29'
+review_status: PENDING_OWNER_REVIEW
+principle: one strategy-invariant Gate set for all 24 cells; a mode may drive a demand to zero but must
+  never delete a Gate
+normalization:
+  upper_bound_margin: m_k = (L_k - y_k) / s_k
+  lower_bound_margin: m_k = (y_k - L_k) / s_k
+  scale_choice: s_k = L_k (frozen); margins are dimensionless fractions of the limit
+  aggregate: M_phys = min_k m_k over EVALUABLE components only (M_phys_restricted); absent components
+    are never zero-filled
+  monotonicity_argument: adding a component can only lower the min, therefore M_phys_restricted < 0 is
+    decisive for UNSAFE while M_phys_restricted >= 0 is necessary but not sufficient for SAFE
+layer_separation:
+  layer_1_validity_gates:
+  - evidence_valid
+  - parameter_binding_valid
+  - solver_valid
+  - domain_valid_within_declared_scope
+  layer_2_physical_margins:
+  - m_omega
+  - m_Hw
+  - m_tauw
+  - m_dv
+  - m_fuel
+  - m_time
+  - m_clearance
+  - m_flex
+  rule: validity booleans are never folded into the continuous physical margin
+gate_vector:
+- id: m_omega
+  quantity: post-capture angular rate
+  unit: deg/s
+  sense: upper
+  limit: 2.0
+  scale: 2.0
+  limit_source: scan_v0.gates + registry.post_capture_rate_max_dps
+  limit_status: FROZEN
+- id: m_Hw
+  quantity: reaction-wheel momentum demand
+  unit: N*m*s
+  sense: upper
+  limit: 0.3
+  scale: 0.3
+  limit_source: scan_v0.actuator_tiers.wheel_capacity_Nms.wheels_large (default tier)
+  limit_status: FROZEN
+- id: m_tauw
+  quantity: reaction-wheel torque demand
+  unit: N*m
+  sense: upper
+  limit: null
+  scale: null
+  limit_source: NONE_IN_REPOSITORY
+  limit_status: ABSENT
+- id: m_dv
+  quantity: thruster impulse
+  unit: N*s
+  sense: upper
+  limit: 32.205882352941174
+  scale: 32.205882352941174
+  limit_source: registry.thruster_impulse_max_Ns (DERIVED)
+  limit_status: FROZEN
+- id: m_fuel
+  quantity: total propellant
+  unit: g
+  sense: upper
+  limit: 54.73476731425644
+  scale: 54.73476731425644
+  limit_source: scan_v0.gates + registry.propellant_budget_max_g
+  limit_status: FROZEN
+- id: m_time
+  quantity: stabilization time
+  unit: s
+  sense: upper
+  limit: 3600.0
+  scale: 3600.0
+  limit_source: scan_v0.gates.t_detumble_max_s
+  limit_status: FROZEN_LIMIT__VALUE_ABSENT_FOR_WHEEL_MODES
+- id: m_clearance
+  quantity: minimum collision clearance
+  unit: m
+  sense: lower
+  limit: 0.02
+  scale: 0.02
+  limit_source: registry.collision_margin_min_m (PROVISIONAL)
+  limit_status: FROZEN_LIMIT__VALUE_ABSENT_NO_L2_MODEL
+- id: m_flex
+  quantity: flexible modal energy
+  unit: J
+  sense: upper
+  limit: 0.001
+  scale: 0.001
+  limit_source: registry.flexible_energy_max_J (PROVISIONAL)
+  limit_status: FROZEN_LIMIT__VALUE_ABSENT_DISC_001_UNRESOLVED
+- id: m_domain
+  quantity: model-domain validity
+  unit: boolean
+  sense: validity
+  limit: null
+  scale: null
+  limit_source: LAYER_1
+  limit_status: VALIDITY_GATE_NOT_A_MARGIN
+- id: m_evidence
+  quantity: evidence validity
+  unit: boolean
+  sense: validity
+  limit: null
+  scale: null
+  limit_source: LAYER_1
+  limit_status: VALIDITY_GATE_NOT_A_MARGIN
+frozen_constants:
+  wheel_capacity_Nms: 0.3
+  thruster_isp_s: 60.0
+  lever_arm_m: 0.17
+  thruster_force_N: 0.1
+  g0_mps2: 9.80665
+  servicer_bus_kg: 24.0
+  wheel_bias_fuel_g: 2.999165332288024
+  thruster_impulse_max_Ns: 32.205882352941174
+allocation_equations:
+  WHEEL_DIRECT: h_rw0 = 0; Hw_demand = |H|; J_thr = 0; fuel_alloc = 0
+  WHEEL_BIAS: h_rw0 = -h_hat * h_max (theta_pred = 0); Hw_demand = ||H| - h_max|; fuel_alloc = h_max/(lever*isp*g0)*1e3
+  THRUSTER: Hw_demand = 0 (actual allocation demand, Gate still evaluated); J_thr = |H|/lever; fuel_alloc
+    = 1e3*J_thr/(isp*g0); t_stab = |H|/(F*lever)
+  source: frozen local allocation equations from sim_12 strategy_eval.py
+sources:
+  strategy_results_csv:
+    path: 30_simulation/sim_12_strategy_feasibility/results/strategy_results.csv
+    presence: PRESENT
+    bytes: 4431
+    sha256: F538676005CE8CE899BEB8956B33EE75458B18A207AD06FCACAA8B59AEC42DE6
+  sim12_gate:
+    path: 30_simulation/sim_12_strategy_feasibility/results/sim_12_gate_check.json
+    presence: PRESENT
+    bytes: 1307
+    sha256: A416C13481119BBDC61764D518A1ABEBC159A78BBD78FAC132803069713DACD8
+  strategy_eval_src:
+    path: 30_simulation/sim_12_strategy_feasibility/src/strategy_eval.py
+    presence: PRESENT
+    bytes: 10202
+    sha256: 188C9D26CBC54F83070E99124D8C502B0B50131D3FD2F53CDAB52CAA32967837
+  scan_cfg:
+    path: 20_engineering/config/mission_feasibility/scan_v0.yaml
+    presence: PRESENT
+    bytes: 3806
+    sha256: 856F1E30DE47CA5B3F505F9FE5BD5CD22A75E448EC916B42D9C330F7A62E28EA
+  strategy_cfg:
+    path: 20_engineering/config/strategy_feasibility/strategies_v0.yaml
+    presence: PRESENT
+    bytes: 1301
+    sha256: D29FB152CFDDBF22BF991BB2595E837F2BEB4C4982E023D04E94DE9A27E01AA8
+  threshold_registry:
+    path: 30_simulation/e15_core_coverage/config/threshold_registry_core_v1.yaml
+    presence: PRESENT
+    bytes: 3848
+    sha256: 75AF082AB45A4029C753978686A41CF1DC49B72EE9418CF2E0F1127126D71C82

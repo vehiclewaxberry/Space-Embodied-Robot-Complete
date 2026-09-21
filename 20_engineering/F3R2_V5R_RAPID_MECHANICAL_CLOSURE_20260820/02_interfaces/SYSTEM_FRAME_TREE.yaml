@@ -1,0 +1,322 @@
+schema: SYSTEM_FRAME_TREE_V1
+baseline_id: F3R2_V5R_NEUTRAL_OPERATIONAL_MECHANICAL_BASELINE_20260820
+units:
+  system_translation: mm
+  urdf_translation: m
+  rotation: radians unless explicitly degrees
+root_frame: spacecraft_assembly_frame
+frames:
+  spacecraft_assembly_frame:
+    parent: null
+    transform: identity
+    status: NEUTRAL_ROOT_FRAME
+  M_FRAME:
+    parent: spacecraft_assembly_frame
+    transform: TBD — MANUFACTURING OR FLIGHT AUTHORITY REQUIRED
+    status: HOLD_ROOT_TO_M_FRAME_NOT_REASSERTED_BY_NEUTRAL_PACKAGE
+  B601_AS_BUILT_PATTERN_DATUM:
+    parent: M_FRAME
+    translation_xyz_mm:
+    - 25.155
+    - 0.015994151
+    - -0.08636607
+    rotation_about_x_deg: 25.000014
+    rotation_matrix:
+    - - 1.0
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.9063076848
+      - -0.4226184837
+    - - 0.0
+      - 0.4226184837
+      - 0.9063076848
+    status: MEASURED_COMPETITION_DATUM_NOT_OEM_FLANGE
+    source: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_FRAME_TO_FLANGE_TRANSFORM.json
+  M3R_STAGE_A_RING:
+    parent: B601_AS_BUILT_PATTERN_DATUM
+    transform: identity_at_competition_pattern_datum
+    status: COMPETITION_INTERFACE_FRAME
+  M3R_STAGE_B_LOAD_DIFFUSION_PLATE:
+    parent: M3R_STAGE_A_RING
+    transform: TBD — MANUFACTURING OR FLIGHT AUTHORITY REQUIRED
+    status: GEOMETRY_PRESENT_FASTENER_AND_LOCATING_FIT_HOLD
+  arm_base_frame:
+    parent: spacecraft_assembly_frame
+    transform_mm_rows:
+    - - 0.0
+      - 0.0
+      - 1.0
+      - 208.0
+    - - 0.422618
+      - 0.906308
+      - 0.0
+      - 0.0
+    - - -0.906308
+      - 0.422618
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0
+      - 1.0
+    equals: accepted URDF base_link nominal frame
+    status: FROZEN_F3R2_MAPPING
+  left_wing_hinge_axis:
+    parent: spacecraft_assembly_frame
+    point_xyz_mm:
+    - -61.0
+    - 143.15
+    - 0.0
+    axis_xyz:
+    - 1.0
+    - 0.0
+    - 0.0
+    status: B_REP_PROBE_MAPPING
+  right_wing_hinge_axis:
+    parent: spacecraft_assembly_frame
+    point_xyz_mm:
+    - -61.0
+    - -143.15
+    - 0.0
+    axis_xyz:
+    - 1.0
+    - 0.0
+    - 0.0
+    status: B_REP_PROBE_MAPPING
+  camera_optical_frame:
+    parent: link6_frame
+    transform: TBD — MANUFACTURING OR FLIGHT AUTHORITY REQUIRED
+    status: HOLD_CAMERA_SELECTION_AND_CALIBRATION
+  gripper_contact_left:
+    parent: gripper_left_frame
+    transform: SEMANTIC_CONTACT_FRAME; NORMAL_AUTHORITY_PENDING
+    status: PROVISIONAL_FOR_SIM13_STATE_INTERFACE
+  gripper_contact_right:
+    parent: gripper_right_frame
+    transform: SEMANTIC_CONTACT_FRAME; NORMAL_AUTHORITY_PENDING
+    status: PROVISIONAL_FOR_SIM13_STATE_INTERFACE
+  CAMERA_KEEP_OUT:
+    parent: camera_optical_frame
+    transform: V4_V5_STATIC_ENVELOPE_SEMANTICS
+    status: KEEP_OUT_ONLY_CAMERA_SELECTION_HOLD
+  CABLE_KEEP_OUT:
+    parent: arm_base_frame
+    transform: V4_V5_OD9_STATIC_ENVELOPE_SEMANTICS
+    status: STATIC_KEEP_OUT_MOVING_SWEEP_HOLD
+  ARM_HDRM_RELEASE_SWEEP_KEEP_OUT:
+    parent: spacecraft_assembly_frame
+    transform: V4_V5_RELEASE_SWEEP_ENVELOPE_SEMANTICS
+    status: KEEP_OUT_ONLY_HDRM_RELIABILITY_HOLD
+  link1_frame:
+    parent: arm_base_frame
+    translation_xyz_m:
+    - -8.416e-05
+    - 0.0
+    - 0.08465
+    rpy_rad:
+    - 0.0
+    - 0.0
+    - 0.0
+    axis_xyz:
+    - 0.0
+    - 0.0
+    - 1.0
+    joint: joint1
+    joint_type: revolute
+    status: ACCEPTED_URDF_FRAME_AUTHORITY
+  link2_frame:
+    parent: link1_frame
+    translation_xyz_m:
+    - 0.020084
+    - 0.031625
+    - 0.05555
+    rpy_rad:
+    - -1.5708
+    - 0.0
+    - 0.0
+    axis_xyz:
+    - 0.0
+    - 0.0
+    - -1.0
+    joint: joint2
+    joint_type: revolute
+    status: ACCEPTED_URDF_FRAME_AUTHORITY
+  link3_frame:
+    parent: link2_frame
+    translation_xyz_m:
+    - -0.264
+    - 0.0
+    - 0.0
+    rpy_rad:
+    - 0.0
+    - 0.0
+    - 0.0
+    axis_xyz:
+    - 0.0
+    - 0.0
+    - 1.0
+    joint: joint3
+    joint_type: revolute
+    status: ACCEPTED_URDF_FRAME_AUTHORITY
+  link4_frame:
+    parent: link3_frame
+    translation_xyz_m:
+    - 0.2426
+    - -0.054
+    - -0.001625
+    rpy_rad:
+    - 0.0
+    - 0.0
+    - 0.0
+    axis_xyz:
+    - 0.0
+    - 0.0
+    - 1.0
+    joint: joint4
+    joint_type: revolute
+    status: ACCEPTED_URDF_FRAME_AUTHORITY
+  link5_frame:
+    parent: link4_frame
+    translation_xyz_m:
+    - 0.078308
+    - -0.0375
+    - -0.03
+    rpy_rad:
+    - -1.5708
+    - 0.0
+    - 0.0
+    axis_xyz:
+    - 0.0
+    - 0.0
+    - 1.0
+    joint: joint5
+    joint_type: revolute
+    status: ACCEPTED_URDF_FRAME_AUTHORITY
+  link6_frame:
+    parent: link5_frame
+    translation_xyz_m:
+    - 0.023692
+    - 0.0
+    - 0.04
+    rpy_rad:
+    - 0.0
+    - 1.5708
+    - 0.0
+    axis_xyz:
+    - 0.0
+    - 0.0
+    - 1.0
+    joint: joint6
+    joint_type: revolute
+    status: ACCEPTED_URDF_FRAME_AUTHORITY
+  gripper_link_frame:
+    parent: link6_frame
+    translation_xyz_m:
+    - 0.0
+    - 0.0
+    - 0.15971
+    rpy_rad:
+    - 0.0
+    - -1.5708
+    - 0.0
+    axis_xyz:
+    - 0.0
+    - 0.0
+    - 0.0
+    joint: gripper_joint
+    joint_type: fixed
+    status: ACCEPTED_URDF_FRAME_AUTHORITY
+  gripper_left_frame:
+    parent: gripper_link_frame
+    translation_xyz_m:
+    - -0.042091
+    - 2.7531e-05
+    - -1.3031e-05
+    rpy_rad:
+    - 0.0
+    - 0.0
+    - -1.5708
+    axis_xyz:
+    - 1.0
+    - 0.0
+    - 0.0
+    joint: gripper_joint1
+    joint_type: prismatic
+    status: ACCEPTED_URDF_FRAME_AUTHORITY
+  gripper_right_frame:
+    parent: gripper_link_frame
+    translation_xyz_m:
+    - -0.042091
+    - -2.7531e-05
+    - 1.3031e-05
+    rpy_rad:
+    - 0.0
+    - 0.0
+    - 1.5708
+    axis_xyz:
+    - 1.0
+    - 0.0
+    - 0.0
+    joint: gripper_joint2
+    joint_type: prismatic
+    status: ACCEPTED_URDF_FRAME_AUTHORITY
+urdf_chain:
+- joint: joint1
+  parent: base_link
+  child: link1
+  xyz_m: -8.416E-05 0 0.08465
+  rpy_rad: 0 0 0
+  axis: 0 0 1
+- joint: joint2
+  parent: link1
+  child: link2
+  xyz_m: 0.020084 0.031625 0.05555
+  rpy_rad: -1.5708 0 0
+  axis: 0 0 -1
+- joint: joint3
+  parent: link2
+  child: link3
+  xyz_m: -0.264 0 0
+  rpy_rad: 0 0 0
+  axis: 0 0 1
+- joint: joint4
+  parent: link3
+  child: link4
+  xyz_m: 0.2426 -0.054 -0.001625
+  rpy_rad: 0 0 0
+  axis: 0 0 1
+- joint: joint5
+  parent: link4
+  child: link5
+  xyz_m: 0.078308 -0.0375 -0.03
+  rpy_rad: -1.5708 0 0
+  axis: 0 0 1
+- joint: joint6
+  parent: link5
+  child: link6
+  xyz_m: 0.023692 0 0.04
+  rpy_rad: 0 1.5708 0
+  axis: 0 0 1
+- joint: gripper_joint
+  parent: link6
+  child: gripper_link
+  xyz_m: 0 0 0.15971
+  rpy_rad: 0 -1.5708 0
+  axis: 0 0 0
+- joint: gripper_joint1
+  parent: gripper_link
+  child: gripper_left
+  xyz_m: -0.042091 2.7531E-05 -1.3031E-05
+  rpy_rad: 0 0 -1.5708
+  axis: 1 0 0
+- joint: gripper_joint2
+  parent: gripper_link
+  child: gripper_right
+  xyz_m: -0.042091 -2.7531E-05 1.3031E-05
+  rpy_rad: 0 0 1.5708
+  axis: 1 0 0
+integrity:
+  accepted_urdf_modified: false
+  native_top_assembly_status: HOLD
+  neutral_only: true

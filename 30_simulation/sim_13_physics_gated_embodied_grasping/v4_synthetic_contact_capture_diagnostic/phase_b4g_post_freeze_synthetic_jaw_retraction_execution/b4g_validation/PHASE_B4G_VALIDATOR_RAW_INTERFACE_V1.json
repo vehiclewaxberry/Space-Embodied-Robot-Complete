@@ -1,0 +1,39 @@
+{
+  "schema": "SIM13_V4B4G_VALIDATOR_RAW_INTERFACE_V1",
+  "purpose": "fail-closed interchange required for independent raw evidence recomputation",
+  "case_responses_required": {
+    "clearance_certificate_payload": "the exact clearance object hashed with lane_id and case_id; must expose algorithm, endpoint_only, finite_event, removal_time_s and certified_good_intervals_s",
+    "post_signed_W_act_carried_constant_J": "required for every finite event and exactly equal active terminal signed_W_act_J",
+    "post_actuator_work_reset_on_removal": false,
+    "post_release_generalized_force_14": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  },
+  "acquisition_provenance": {
+    "executed_case_payload": "event_provenance.acquisition_certificate_payload is exactly {lane_id,case_id,event,acquisition}; its canonical SHA-256 equals acquisition_certificate_sha256 and top-level acquisition equals payload.acquisition",
+    "independent_parent_event_binding": "fresh event is compared to the matching hash-bound template with only /event/run_id, /event/source and /event/b3_dissipation_J allowed to differ; fresh source is INDEPENDENT_B3_RERUN_FIRST_QUALIFYING_SAMPLE, fixed source may already be that value or HASH_BOUND_B3_REFERENCE_RECORD_205, and dissipation is within 2 binary64 ULP",
+    "independent_parent_acquisition_binding": "compact fresh acquisition is compared to the matching hash-bound no-matrices template with only /acquisition/run_id and /acquisition/energy_audit/D_B3_minus_J allowed to differ; dissipation is within 2 binary64 ULP and bit-exactly equals the fresh event value; every other pointer remains type-sensitive canonical exact",
+    "a2_not_evaluated_payload": null
+  },
+  "stage_contract": {
+    "accepted_rk4_pattern": "[0] then [1,2,3,4,0] per accepted stored interval",
+    "accepted_midpoint_pattern": "[0] then [1,5,0] per accepted stored interval",
+    "exact_event_rule": "remove counterfactual right-bracket stage rows; retain only the fractional exact-event step and exact event stored row",
+    "domain_exit_rule": "NPZ retains only all accepted=true raw pre-failure rows, including a possible nonstored prefix of the next method cycle; do not synthesize a false full-state stage row. geometry_domain retains the original variably shaped frozen-solver DomainExit record and failure_probe_source=FROZEN_SOLVER_DOMAINEXIT_RECORD",
+    "stored_rule": "each accepted stage_code=0 time/state/Q (and post target) is byte-identical to its stored sample",
+    "stage_command_rule": "recompute the frozen sin-squared command from stage_time_s, not from stored command interpolation"
+  },
+  "a0_parent_manifest": "SIM13_V4B4G_A0_PARENT_REFERENCE_TRACES_V1 as defined by PHASE_B4G_A0_PARENT_TRACE_INTERCHANGE_V1",
+  "a0_metadata": {
+    "manifest_extra_binding": "top-level b4e_active_traces_binding with exact keys path,bytes,sha256 resolving to the immutable parent oracle",
+    "fresh_certificate_trace_fields": "each of six parent trace records carries actual acquisition_certificate_payload and independently reproducible fixed_template_comparison_audit under PHASE_B4G_A0_PARENT_TRACE_INTERCHANGE_V1",
+    "immutable_parent_oracle": "SIM13_V4B4E_ACTIVE_TRACES_V1.json, 1341400 bytes, SHA256 956BB62D1BED86738158A416B2EE6FDB6963F6D6B2E78F1ECA9D347430BC2CAD; every one of the 13 fresh parent NPZ arrays must be exactly equal to its matching frozen B4E lane trace before any A0 comparison",
+    "channel_set": ["service_position_m", "service_quaternion_geodesic_rad", "R_joint_coordinates_rad", "P_joint_coordinates_m", "base_linear_m_s", "base_angular_rad_s", "R_joint_rad_s", "P_joint_m_s", "left_right_gap_m", "left_right_gap_rate_m_s"],
+    "absolute_tolerance_each": 1e-12,
+    "summary_lane_pair_extra_field": "parent_trace_sha256"
+  },
+  "a2_mirror_detail_required": ["scientific_predicate", "common_relative_sample_count", "left_relative_sample_count", "right_relative_sample_count", "full_relative_grid_equal", "missing_exact_common_grid", "direct_left_right_swapped_gap_residual_m", "direct_left_right_swapped_gap_rate_residual_m_s", "signed_work_terminal_common_interval_residual_J", "outcome_parity", "baseline_correction_or_fitted_transform_used"],
+  "selector_rule": "derive eligibility only from raw independent G03-G11/G16, event, work, domain and post checks; selector_case_integrity_pass is exact-compared but never consumed as an oracle",
+  "mutation_artifact_interchange": "PHASE_B4G_MUTATION_ARTIFACT_INTERCHANGE_V1; every nominal and preregistered mutant payload is independently reconstructed from exact-role byte-bound artifacts, the finite harness precondition is recomputed from the shared raw executed trace, and NC08/NC17-fallback/NC21 additionally require authoritative MUTANT_DWELL_FORCE_TRACE, A2_DETECTOR_SIX_LANE_TRACE, or GEOMETRY_CLIP_EXTRAPOLATE_TRACE artifacts inside both replay bundles",
+  "nc08_independent_propagation_replay": "MUTANT_DWELL_FORCE_TRACE is accepted only after the validator independently rebuilds the frozen branched 6R+parallel-2P rigid-body mass and bias, attached-target reduction, patched P-only force, Cholesky RHS, RK4 or explicit-midpoint tableau, every accepted and internal-stage state, target, momentum, kinetic energy, signed work, and all 16 full/reduced ledgers; diagonal gap derivatives are independently recomputed and stage contact force/torque must be exact zero",
+  "nc21_mutation_only_no_domain_guard": "SV05 and SV06 must publish the actually executed mutation-only B601 6R+2P pad/attached-target FK, nominal gap/rate, every centered plus/minus P and gap probe, and the 2x2 Jacobian after clip or extrapolate transformation; the independent validator replays every value without the P-domain guard, then G16 remains false solely because clipping/extrapolation policy is forbidden; no selector or scientific credit is possible",
+  "claim_boundary": "validator interchange only; no campaign PASS, physical, current-system, formal, Owner, production or next-stage credit"
+}

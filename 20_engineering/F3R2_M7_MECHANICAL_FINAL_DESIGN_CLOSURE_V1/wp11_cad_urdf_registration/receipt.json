@@ -1,0 +1,533 @@
+{
+ "schema": "M7_WP11_RECEIPT_V1",
+ "generated_local": "2026-08-22T05:34:59+08:00",
+ "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+ "host": "Waxberry",
+ "phase": "M7_MECHANICAL_FINAL_DESIGN_CLOSURE",
+ "work_package": "WP11_CAD_URDF_REGISTRATION",
+ "owner_role": "A6_RED_TEAM_READ_ONLY_ADJUDICATION_PLUS_ODR09_METHOD_EXECUTION",
+ "authority_basis": [
+  "ODR-09",
+  "ODR-10",
+  "ODR-01",
+  "ODR-03",
+  "ODR-04",
+  "ODR-14"
+ ],
+ "lifecycle_status": "ENGINEERING_ADJUDICATION_DESIGN_LEVEL_NOT_MANUFACTURING_NOT_FLIGHT",
+ "review_status": "PENDING_OWNER_REVIEW",
+ "next_stage_authorized": false,
+ "tooling": {
+  "python": "3.13.9",
+  "numpy": "2.3.5",
+  "freecad_launched": false,
+  "solidworks_launched": false,
+  "trimesh_available": false,
+  "geometry_stack": "self-contained binary-STL / PLY readers, own URDF parser and FK, Kabsch + ICP, exact point-to-triangle distance with a proved radius-bucketed broad phase (numpy + scipy only)",
+  "step_handling": "TEXT_PARSE_ONLY_NO_CAD_KERNEL"
+ },
+ "memory_gate": {
+  "threshold_gib": 6.0,
+  "memory_gate_passed": false,
+  "status": "REMAINS_DECLARED_FAILED_ON_THIS_HOST",
+  "note": "no CAD kernel was loaded, so the gate was never exercised"
+ },
+ "engine_self_validation": [
+  "point-to-triangle distance: analytic cases (3.0 / 1.0 / 0.0 / sqrt(2)) exact; vectorised batch identical to the scalar reference to 0.0; radius-bucketed broad phase identical to brute force over ALL 4020 triangles of a deliberately mixed-scale soup, 0 unverified",
+  "translation-only ICP recovers a planted (3.8, -1.2, 0.7) mm translation to 4.13e-04 mm",
+  "binary STL reader verifies declared triangle count against real file size for all 26 meshes (no silent truncation)",
+  "own URDF FK reproduces the M5 published inv(T_link(q0)) matrices to 5.53e-07 in rotation and 1.3e-10 mm in translation",
+  "STEP entity counts re-derived by text parse match WP1's kernel report exactly (41 solids / 647 faces)",
+  "0 unverified distance-bound query points anywhere in the analysis"
+ ],
+ "coverage": {
+  "links_measured": [
+   "base_link",
+   "link1",
+   "link2",
+   "link3",
+   "link4",
+   "link5",
+   "link6"
+  ],
+  "urdf_links_total": 10,
+  "urdf_links_not_individually_registered": [
+   "gripper_link",
+   "gripper_left",
+   "gripper_right"
+  ],
+  "reason_gripper_not_registered": "ODR-04: the flight gripper is the neutral R1 design, which supersedes the vendor gripper.  The vendor gripper_detail was used only as the wrist link-content-partition witness (union test).  No gripper shape agreement is claimed and none is needed for this adjudication.",
+  "cad_configurations_with_real_geometry": 2,
+  "configurations_covered_analytically": 5,
+  "surface_sample_points_evaluated": ">1.0e6 exact point-to-surface distances"
+ },
+ "findings_summary": {
+  "total": 6,
+  "high": 0,
+  "medium": 2,
+  "low": 2,
+  "informational": 2,
+  "ids": [
+   "WP11-F-01",
+   "WP11-F-02",
+   "WP11-F-03",
+   "WP11-F-04",
+   "WP11-F-05",
+   "WP11-F-06"
+  ]
+ },
+ "disposition": "O2-A",
+ "verdict": "COORDINATE_REGISTRATION_DIFFERENCE_NOT_VERSION_MISMATCH",
+ "outputs": [
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/CAD_URDF_REGISTRATION_ANALYSIS_V1.json",
+   "bytes": 173105,
+   "sha256": "8D8B433D5D855321AFCD2876C944F7E40B929789CE50B151C5F257790B5021B9"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/B601_CAD_URDF_GEOMETRY_CALIBRATION_V1.yaml",
+   "bytes": 36293,
+   "sha256": "7463C1309C3530A42BB32CB4A661FFA56575691DFB7A4BE801AAE9094BEB51E1"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/O2_DISPOSITION_RULING_V1.yaml",
+   "bytes": 9563,
+   "sha256": "AD7AAD0E84789CE523710DF4E9F6E516A082AF24BA4CD1ABD7806930A3B1F315"
+  }
+ ],
+ "intermediates": [
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/INPUTS.json",
+   "bytes": 21561,
+   "sha256": "680F7D47A5AFE33045650408537235A17016E26052B0BC826CB4A5D12D5447AD"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/TESTA.json",
+   "bytes": 43524,
+   "sha256": "8387DCF9F0270A79D33EFDF3024F5A0EBDA809466FDBD1175ABE1049168BC452"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/TESTB.json",
+   "bytes": 38648,
+   "sha256": "168F0392B5352DA1EE50F298F527F9646F8006935A818DA92593BC6CB73D840E"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/ATTRIBUTION.json",
+   "bytes": 5728,
+   "sha256": "0760E1DF95AC3C00504A78E340D41593EA492CB5A34FAC13E9DE63EBB76700FE"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/REFINE.json",
+   "bytes": 14630,
+   "sha256": "88E3EFA2B857809692ABE666A99E69810B7EED504F398455EE2304050002EFFB"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/CLOSEOUT.json",
+   "bytes": 27467,
+   "sha256": "E32872AA73D27DDD813FF064BF455A3F3E433D6D5DA4B77A058D11DD24672BDF"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/FINAL.json",
+   "bytes": 7963,
+   "sha256": "E1E2C979D80A67720DEAAB0170247F11FEB2B063521DEC73ED048B74A79F52A6"
+  }
+ ],
+ "tools": [
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_lib.py",
+   "bytes": 17930,
+   "sha256": "E6466C028A2F28C2BBF0675216A93126CC262446A60D1E8CD31EB360EECD5693"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_analysis.py",
+   "bytes": 28460,
+   "sha256": "02473E3FEB489AA1948878D28B1371DF3FCE8C253F9E1A17309F8A35FCBD2B50"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_attribution.py",
+   "bytes": 8472,
+   "sha256": "7B8F21CB05D395BDE72A44F1B6B0016A8DBFEE5D975171348BEC4DDD77454B00"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_refine.py",
+   "bytes": 5203,
+   "sha256": "771EC382BEDC529E1B1C7FA90C4271AA1138B668BC8ECDAEBD426F1F07784942"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_closeout.py",
+   "bytes": 7854,
+   "sha256": "ADED05343C757F58EA5FF738F0BB1F6BC507B8EB31BEC33584C26228D1B1A088"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_emit.py",
+   "bytes": 38915,
+   "sha256": "E97EA36CF13F21D70C292FDBFCF715218D17D0768F2E9256C5E6BA287F07657E"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_final.py",
+   "bytes": 5850,
+   "sha256": "A5257B2DC1480186903EFEFAC8CDDB054FF8D63F922684BF7F0B0AAD2F91EEC3"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_emit2.py",
+   "bytes": 30768,
+   "sha256": "0FEF85A8E853BFBD1418F62890F77D14951B1514DAE4C75E6C34B65F1A044D3E"
+  }
+ ],
+ "source_register": [
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+   "bytes": 11321,
+   "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_1R1_B601_interface_native_rework_candidate/00_BASELINE/AUTHORITIES/accepted_urdf/arm_b601_v1.urdf",
+   "bytes": 11321,
+   "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_1R1_B601_interface_native_rework_candidate/00_BASELINE/PARENT_LOCKED_INPUTS/ACCEPTED_URDF/arm_b601_v1.urdf",
+   "bytes": 11321,
+   "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/06_pack_and_go/V5R_NEUTRAL_OPERATIONAL_PACKAGE/urdf/arm_b601_v1.urdf",
+   "bytes": 11321,
+   "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL",
+   "bytes": 3898684,
+   "sha256": "22641C079014FE968702393F61E7F7F1A8F80C6C1DF45A61E31545F6EAFF3B65",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link1.STL",
+   "bytes": 499084,
+   "sha256": "9DB637A63D37BC2C6398EA5B8BA32FB54122C637D5D77DC134C8782839B654CD",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link2.STL",
+   "bytes": 5992184,
+   "sha256": "DEF0D9D82343DCCC1EFF0D9D5572ECA49B3C134DB9807CA12302B99D153DF65E",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link3.STL",
+   "bytes": 4209984,
+   "sha256": "CA14D73B5D63F352051F440F4CABC3989567F25EE9D19E7DD749F2D6F0D0561D",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link4.STL",
+   "bytes": 2579684,
+   "sha256": "061909364F20BB387F9FF82CB80E506AF959142F9FBB4A39DC86FC8244EE768A",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link5.STL",
+   "bytes": 2119384,
+   "sha256": "3A32006227C1F9DBC70E77E07055C61E3F195F1054D4D2EB480262F0873BF001",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link6.STL",
+   "bytes": 1248184,
+   "sha256": "C586A7D0B8345D2CD32EAB7DFD2E334ABA56E83F582A6298D41BBF718F2EBEF1",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_link.STL",
+   "bytes": 2676384,
+   "sha256": "A826E164D420A6922E8AD5EE27813F39FA809F6E4FDF39B42FD8A59E7D12E847",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_left.STL",
+   "bytes": 2119684,
+   "sha256": "C4E0DE70F776B3573D975A6EAAA746CCCBE57C2D5BB12501DA8889979D3AF268",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_right.STL",
+   "bytes": 2119684,
+   "sha256": "615B119C0BB97A032BADD5882144E4A2A50C905A3E071AF1FA28B83BFE9B1B65",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_base_link_LINKLOCAL.stl",
+   "bytes": 13251484,
+   "sha256": "F02A5046B2A3E3520BCA3F026C0AE90300A3737E032BE2C41E0EE95448CDA8AB",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link1_LINKLOCAL.stl",
+   "bytes": 4068484,
+   "sha256": "D2EC90BEE44A2774903D8036AB9559A88D00AE4261BC415E0953F244D62E8849",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link2_LINKLOCAL.stl",
+   "bytes": 20956684,
+   "sha256": "CA093A2B2419E860C80B90EF7967E2C434E5799F6B8229832D7A0D0F233A5961",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link3_LINKLOCAL.stl",
+   "bytes": 16569684,
+   "sha256": "E6E443AF2D244403B27F4B4D0305A79B3DE1CF5952C404072C0015DC46666D5B",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link4_LINKLOCAL.stl",
+   "bytes": 10079684,
+   "sha256": "C985586463B96F6C49951BD6BF7C183CDC1875292A4EF4702C840B093526B708",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link5_LINKLOCAL.stl",
+   "bytes": 8841684,
+   "sha256": "3E3FD21D2CB85CE5C6689D1249E74483CBF41196027C279B4B05C54F4E7E04CA",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link6_LINKLOCAL.stl",
+   "bytes": 10828284,
+   "sha256": "3333564A559280FE18C3B1583C7184C0194E6429C8DC08DC559E9BF60AA4B799",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL.stl",
+   "bytes": 7457884,
+   "sha256": "8E76E93B7F86069A93CD4B3247A20D4F491ACAE93A231BF3B2A8EE3725C72467",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_base_link_LINKLOCAL.stl",
+   "bytes": 13251484,
+   "sha256": "F02A5046B2A3E3520BCA3F026C0AE90300A3737E032BE2C41E0EE95448CDA8AB",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link1_LINKLOCAL.stl",
+   "bytes": 4068484,
+   "sha256": "020264984DBE0FCD6ADA24819AE4A0D40000D6CBBC3BFCD684844678BB1EBADD",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link2_LINKLOCAL.stl",
+   "bytes": 20956684,
+   "sha256": "E1195D81A0E3807935350565C6F8E22C60C453152A22D9ED8BF557F8F15063B4",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link3_LINKLOCAL.stl",
+   "bytes": 16569884,
+   "sha256": "C8A91FFE48F1CA1A8C0AC0B339B9F55996D616EE8DE94A6E84B7DBB237A91EED",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link4_LINKLOCAL.stl",
+   "bytes": 10080084,
+   "sha256": "815F345CB885D498828964C4B1E68EE742D50285CE84B2BC8D477E997D43B202",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link5_LINKLOCAL.stl",
+   "bytes": 8841484,
+   "sha256": "BBD9F228C2E63C8592396B651000713C20CD25436CD8716D582163F7CE995C57",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link6_LINKLOCAL.stl",
+   "bytes": 10828284,
+   "sha256": "EEDDF5DC4BB236BD75789552F6C951C800060B5187870277912284BBFF085C27",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_gripper_detail_LINKLOCAL.stl",
+   "bytes": 7457884,
+   "sha256": "352269BDF114DC24645FD5A9B60196F00D28C1DF9D86C0799B7AE150C2BE2ABA",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/B601_CAD_MESH_FRAME_DECISION_V1.json",
+   "bytes": 32652,
+   "sha256": "2A99484C6CE55B402CB06380F5DCB71D5A8B4BA622A371EEF72F4EC69EF124FF",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json",
+   "bytes": 29415,
+   "sha256": "105BCB020FAF9F535C3A18F9A37831679F89070A8CA69C5960F959A686F332C1",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step",
+   "bytes": 1373004,
+   "sha256": "8C85585E9C051AEBB849E48F56354B48BF4204F61103B550BD92FC77BA99EA9E",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R1_MECHANICAL_INTEGRATION_RECOVERY_20260806/03_native_cad/F3R1_TOP_INTEGRATION_REPORT.json",
+   "bytes": 4277,
+   "sha256": "132BC09F285ECE81E69A9AADB43EC078E73A18597DE3A6025A40E23E694A9D26",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R1_MECHANICAL_INTEGRATION_RECOVERY_20260806/99_tools/p4_stow_pose.py",
+   "bytes": 20703,
+   "sha256": "AF1D2741D2BC6300F2E46A2240550B18DC10B482CC07046828FEFC23D872EE0C",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/99_tools/r2_kin.py",
+   "bytes": 7077,
+   "sha256": "C6A4450BF962834311BE11FD3571FAF7537DCBB92B6DE55EEF57EE3F374196FE",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G01_receipt.json",
+   "bytes": 2661,
+   "sha256": "9C3D4180B0C47D21FD64027DD83C5D4C95B7B5B03385929DAEBC30E38E36C99C",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G02_receipt.json",
+   "bytes": 2672,
+   "sha256": "67AEC34C45A92D81AAE8C0D96539A00BD152EABF38EAC667F7C4030CB88DF21E",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G03_receipt.json",
+   "bytes": 2668,
+   "sha256": "5FA7ECCD579A0743830A02982437E0A532B41251AC987572D56ACF729C4D9FB5",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G04_receipt.json",
+   "bytes": 2671,
+   "sha256": "976EB0EA149469EF108046CF8BD7AB3BF357AE38DFBE53F32E6A0F7751EF2CB1",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G05_receipt.json",
+   "bytes": 2809,
+   "sha256": "1F0762C11D44A14F0F66417581CACF37327A69568B6736146CFB479B8FDB0DB3",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G06_receipt.json",
+   "bytes": 2675,
+   "sha256": "2B85E58A261DEAFAB86A28C794CDB8DF17337A2CFDFE526F56A4CD7C866CC3C6",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G07_receipt.json",
+   "bytes": 2670,
+   "sha256": "CC72142CDC05E55C334DF541AA74CB226DDA8EF60C0328E2BBD75F6E7F359A2E",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G08_receipt.json",
+   "bytes": 2799,
+   "sha256": "4F3C37760A67A3673A5A2B1761B8970703E70490AFE52C0930318D8D874E695D",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/130_B601_Vendor_CAD_Direct_Integration_03/design/base_classification.json",
+   "bytes": 1036,
+   "sha256": "FE669FE95514B923398D582BF1FC2B215DB20F203A5882F459E3598751FD96E0",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/130_B601_Vendor_CAD_Direct_Integration_03/design/group_link_transforms.json",
+   "bytes": 5483,
+   "sha256": "856BFEFEEABF27A74BD07D3E513C70812DEDA0841E88FEB91DA3B27B93CCC2F0",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/130_B601_Vendor_CAD_Direct_Integration_03/design/group_link_registration.json",
+   "bytes": 6095,
+   "sha256": "587B1EE76CBACAD03AC0EEDA8E67960983BD2B2BC670B2945451580E86B71486",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/130_B601_Vendor_CAD_Direct_Integration_03/design/vendor_group_census.json",
+   "bytes": 4578,
+   "sha256": "D6385ED834196B1F648C40D8BE4C4C924EAAB79369529A2D4BED6704C2B1222E",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/M5_CONFIGURATION_GEOMETRY_CONTRACT_V1.yaml",
+   "bytes": 16454,
+   "sha256": "DA18F5A6E2F553FC709E90BA1035CDD7770A6FCEECA13EDC1FDB448CAF75838D",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+   "bytes": 19133,
+   "sha256": "5602CB6FC3DC983681F60D8FA94B432FBA4D432830F5B2362049DB4C1B849BF7",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml",
+   "bytes": 3531,
+   "sha256": "F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md",
+   "bytes": 4931,
+   "sha256": "AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_base_link_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 2517650,
+   "sha256": "A9EEBAB69868656265D5032B8A1DDADBD74E3821AC2775A2AD9A44575D9CDCD5",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link1_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 896992,
+   "sha256": "868C9AC82975DE4457821D58DEB1A16561E2C0414AE046ED8E4E215F67E770E1",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link2_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 4947023,
+   "sha256": "2E9B2B86002B72D9AC9160FDAFA18944407AD4FE8CD8B5D2BE9CA864A1EE665D",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link3_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 3618945,
+   "sha256": "03EE314B83BA31CA0D355971A193B4F118039F09A7F046AB3D14FDCC9FD29D90",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link4_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 2187231,
+   "sha256": "06AD6D5AB356A721442FFCA2CC4AF14780768DA7FD51AAA82AB371C9E18C1CD2",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link5_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 1760094,
+   "sha256": "39B3D55AEEB3FC64EEE7CC94E77C49DA10CED53E378FA963EF84488BCFF7BA97",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link6_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 2879173,
+   "sha256": "247D835B27ED024B33475AF7927EBCDC464AACB193CE25040CDA8CF18011A441",
+   "role": "CONSUMED_READ_ONLY"
+  }
+ ]
+}

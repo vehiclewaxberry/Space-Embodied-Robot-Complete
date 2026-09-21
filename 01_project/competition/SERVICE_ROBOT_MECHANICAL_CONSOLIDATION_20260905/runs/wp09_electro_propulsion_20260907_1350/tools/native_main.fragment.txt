@@ -1,0 +1,79 @@
+def main():
+    ap=argparse.ArgumentParser();ap.add_argument('module',choices=['battery_mount','a3200','mips']);args=ap.parse_args();kind=args.module
+    ep=R/'results'/kind/'EMISSION.json';em=json.loads(ep.read_text())
+    cp=R/'results'/kind/'CHECK.json';ch=json.loads(cp.read_text())
+    require(str(ch.get('status','')).startswith('PASS'),'Independent local check has not passed')
+    out=R/'results'/(kind+'_NATIVE.json');require(not out.exists(),'Native receipt protected')
+    folder=R/'native'/kind;target=folder/('WP09_'+kind.upper()+'.SLDASM');neutral=folder/'native_roundtrip.step'
+    rows=[dict(id=k,step_path=v['path'],source_sha256=v['sha256'],native_path=str(folder/'parts'/(k+'.SLDPRT')),
+      expected_solids=1,expected_local_bbox_mm=v['bbox_mm'],representation_role=v['representation_role'],
+      context_only=k.startswith('CONTEXT_') or v['representation_role']=='FUNCTIONAL_ENVELOPE')
+      for k,v in em['parts'].items()]
+    require(len(rows)==em['instances'],'Incomplete emission membership')
+    for path in [target,neutral,*[Path(x['native_path']) for x in rows]]:
+        require(path.resolve().is_relative_to((R/'native').resolve()) and not path.exists(),'Existing/outside native target')
+    pins={str(p):sha(p) for p in [ep,cp,FROZEN,Path(__file__),R/'tools/prepare_native_builder.py',ADAPTER]}
+    c=json.loads(Path(em['contract_path']).read_text())
+    pins.update(c['source_inputs']);pins[em['contract_path']]=em['contract_sha256'];pins[em['producer_path']]=em['producer_sha256']
+    pins.update({r['step_path']:r['source_sha256'] for r in rows})
+    require(all(sha(p)==v for p,v in pins.items()),'Input hash mismatch')
+    frame=em.get('frame','S_WORLD_MM')+'_IDENTITY'
+    report=dict(schema='WP09_NATIVE_LOCAL',status='BUILDING',module=kind,coordinate_frame=frame,
+      progress=[],parts=[],save_attempts=[],input_sha256_before=pins,integrated_into_wp08=False,
+      actual_equipment_selected=False,pressure_system_designed=False,electrical_complete=False,
+      physical_assembly_completed=False,manufacturing_release=False,mate_based_motion_model=False,
+      geometry_roundtrip_equivalence_verified=False)
+    b=None;prefs=None;command=None
+    try:
+        import psutil
+        ancestors=[dict(pid=p.pid,command=p.cmdline()) for p in psutil.Process().parents() if any(Path(x).name.lower()=='run_guard.py' for x in p.cmdline())]
+        require(ancestors,'Guard required');report['outer_guard_processes']=ancestors
+        report['guard_scope']='CHILD_PYTHON_JOB_CAPPED;_EXISTING_SOLIDWORKS_SEPARATE_RAM_FLOOR'
+        b=ModuleBuilder(out,report)
+        allowed={}
+        for rp in (R/'results').glob('*_NATIVE.json'):
+            if rp==out:continue
+            d=json.loads(rp.read_text())
+            if d.get('status')!='PASS_NATIVE_FIXED_LOCAL_ASSEMBLY_COLD_REOPEN_ONLY':continue
+            a=d['assembly_save'];allowed[normalized(a['path'])]=a['sha256']
+            for row in d['parts']:
+                a=row['native_save'];allowed[normalized(a['path'])]=a['sha256']
+        docs=b.documents();report['documents_before']=[d for _,d in docs]
+        for doc,d in docs:
+            key=normalized(d['path']) if d['path'] else ''
+            require(key in allowed and not d['dirty'] and sha(d['path'])==allowed[key],'Unknown or dirty open document; left untouched')
+        for doc,d in docs:b.close_own_saved(doc,Path(d['path']),allowed[normalized(d['path'])])
+        require(not b.documents(),'Open docs remain')
+        sw=b.sw;sw.Visible=True;sw.UserControl=True;command=sw.CommandInProgress
+        prefs=dict(toggles={k:sw.GetUserPreferenceToggle(k) for k in (111,291,691)},
+          strings={k:sw.GetUserPreferenceStringValue(k) for k in (8,9,10)},
+          integers={k:sw.GetUserPreferenceIntegerValue(k) for k in (577,578,579,580)})
+        for k in prefs['toggles']:sw.SetUserPreferenceToggle(k,k==111)
+        for k,name in ((8,'gb_part.prtdot'),(9,'gb_assembly.asmdot'),(10,'gb_a4.drwdot')):sw.SetUserPreferenceStringValue(k,str(TEMPLATES/name))
+        for k,v in {577:0,578:1,579:2,580:0}.items():sw.SetUserPreferenceIntegerValue(k,v)
+        sw.CommandInProgress=False
+        for row in rows:b.import_part(row)
+        b.assemble(rows,target,neutral)
+        require(all(sha(p)==v for p,v in pins.items()),'Input changed')
+        report.update(status='PASS_NATIVE_FIXED_LOCAL_ASSEMBLY_COLD_REOPEN_ONLY',input_sha256_after=pins,
+          input_files_unchanged=True,component_count=len(rows))
+        b.checkpoint('completed')
+    except Exception as exc:
+        report.update(status='FAILED',error=str(exc),traceback=traceback.format_exc())
+        if b:b.checkpoint('failed')
+        else:out.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+        raise
+    finally:
+        if b:
+            try:
+                if prefs:
+                    for k,v in prefs['toggles'].items():b.sw.SetUserPreferenceToggle(k,v)
+                    for k,v in prefs['strings'].items():b.sw.SetUserPreferenceStringValue(k,v)
+                    for k,v in prefs['integers'].items():b.sw.SetUserPreferenceIntegerValue(k,v)
+                if command is not None:b.sw.CommandInProgress=command
+                report['session_preferences_restored']=True
+            except Exception as exc:report.update(status='FAILED',session_preferences_restored=False,restore_error=repr(exc))
+            b.checkpoint('detached_without_exiting_owned_visible_session')
+            if b.initialized:b.pythoncom.CoUninitialize()
+if __name__=='__main__':main()
+

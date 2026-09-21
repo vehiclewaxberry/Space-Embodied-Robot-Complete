@@ -1,0 +1,42 @@
+schema: M4_LOOP_ENGINEERING_CONTROL_V1
+loop_name: M4_CLOSED_LOOP_DIGITAL_PROTOTYPE_ENGINEERING
+baseline_in: V6_ENGINEERING_DETAILED_MECHANICAL_BASELINE_WORKING
+baseline_out_candidate: V7_SPACECRAFT_MECHANICAL_DIGITAL_PROTOTYPE_WORKING
+current_loop_id: M4-L01
+state_machine:
+  - state: L0_AUTHORITY_AND_INPUT_FREEZE
+    outputs: [M4_PHASE_AUTHORITY_AND_BOUNDARY, M4_FROZEN_INPUT_MANIFEST]
+    exit_rule: all consumed sources exist and are SHA-256 bound; memory override is explicit when the 6 GiB gate fails
+    fail_transition: HOLD_NO_EXECUTION
+  - state: L1_MASTER_DIGITAL_ASSEMBLY
+    outputs: [SEI_DIGITAL_PROTOTYPE_V1_FCSTD, NEUTRAL_STEP, ASSEMBLY_AND_FRAME_RECEIPTS]
+    exit_rule: document reopens, expected component slots exist, resolved shapes are valid, placements trace to frozen frames, unresolved slots are explicit HOLD
+    fail_transition: RETURN_L0_OR_REBUILD_L1
+  - state: L2_NINE_CONFIGURATION_LIBRARY
+    outputs: [CONFIGURATION_LIBRARY_V1, SYSTEM_MASS_PROPERTIES_V3]
+    exit_rule: nine unique configurations exist; every mass/cg/inertia/bbox/frame/collision/confidence field is numeric with source or null with HOLD
+    fail_transition: HOLD_CONFIGURATION_DEPENDENT_CAPABILITIES
+  - state: L3_MATERIAL_TOLERANCE_MECHANISM_PACKAGE
+    outputs: [PROTOTYPE_MATERIAL_DATABASE, TOLERANCE_CLOSURE_REGISTER, MECHANISM_STATUS]
+    exit_rule: candidates are not mislabeled approved; priority chains name closure measurements and acceptance authority; HDRM unknowns remain HOLD
+    fail_transition: HOLD_STRUCTURAL_AND_CONTACT_RELEASE
+  - state: L4_SIMULATION_EXCHANGE
+    outputs: [MECH_RL_INTERFACE_V2, SIM14_TESTED_DIAGNOSTIC_KERNEL]
+    exit_rule: interface hashes resolve; unknown physical inputs mask production actions; diagnostic fixtures are visibly non-authoritative
+    fail_transition: HOLD_DYNAMICS_BRIDGE
+  - state: L5_STRUCTURAL_ANALYSIS_ENTRY
+    outputs: [STRUCTURAL_ANALYSIS_ENTRY_GATE]
+    exit_rule: load, boundary, contact, fastener, material allowable, mass, mesh, and acceptance authorities all PASS
+    expected_current_transition: HOLD_DO_NOT_RUN_FORMAL_FEA
+  - state: L6_DIGITAL_PROTOTYPE_RELEASE_GATE
+    outputs: [MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_GATE, NEXT_LOOP_ACTION_REGISTER]
+    exit_rule: independently evaluate artifact integrity, digital prototype scope, structural entry, dynamics bridge, and production contact/RL scope
+
+change_control:
+  source_baselines_are_immutable: true
+  each_accepted_artifact_requires_sha256: true
+  unresolved_input_policy: NULL_PLUS_HOLD
+  silent_unknown_tolerance: 0
+  zero_filled_unknown_tolerance: 0
+  formal_fea_run_count_until_structural_entry_pass: 0
+

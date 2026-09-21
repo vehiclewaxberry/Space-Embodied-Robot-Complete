@@ -1,0 +1,124 @@
+{
+  "schema": "SYSTEM_SCENE_STATE_INTAKE_V1",
+  "generated_utc": "DETERMINISTIC_INTAKE_NO_WALLCLOCK",
+  "authority": "SCENE_STATE_INTAKE_SCHEMA_ONLY__NO_EXECUTABLE_SCENE_BINDING_CREATED",
+  "registry_scene": {
+    "id": "M01_STOW_TO_RELEASE_CLEAR",
+    "registry_sha256": "AC975D11CC4715277E34FCFF7ABF049BC57334FD8F03AAB223BBED0877B1694F",
+    "upstream_binding_status": "INCOMPLETE"
+  },
+  "canonicalization_contract": {
+    "q_binding": "q_rad_binary64 plus q_bytes_sha256; stored separately from discrete scene state",
+    "discrete_binding": "canonical UTF-8 JSON over ordered discrete fields plus scene_state_sha256",
+    "q_must_not_be_reencoded_inside_discrete_scene_state": true,
+    "scene_state_must_be_constant_on_each_certified_edge": true
+  },
+  "required_bindings": {
+    "q6": {
+      "value": null,
+      "unit": "rad",
+      "order": ["joint1", "joint2", "joint3", "joint4", "joint5", "joint6"],
+      "source_sha256": "C06A40DE171F0517ACB34CCC14C918A9A4252F7B55A425B2CBAC95229B44A98A",
+      "source_scope": "STOW_AND_RELEASE_CLEAR_ENDPOINTS_LOADABLE__M01_TRAJECTORY_AUTHORITY_MISSING",
+      "status": "UNKNOWN"
+    },
+    "gripper_joint1_m": {
+      "value": null,
+      "allowed_domain_m": [0.0, 0.0715],
+      "source_sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+      "coordinate": "gripper_link_to_gripper_left_joint_frame_positive_x",
+      "independent_two_prismatic_coordinate": true,
+      "status": "UNKNOWN"
+    },
+    "gripper_joint2_m": {
+      "value": null,
+      "allowed_domain_m": [0.0, 0.0715],
+      "source_sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+      "coordinate": "gripper_link_to_gripper_right_joint_frame_positive_x",
+      "independent_two_prismatic_coordinate": true,
+      "status": "UNKNOWN"
+    },
+    "solar_state": {
+      "value": null,
+      "allowed_domain": ["SOLAR_STOWED", "DEPLOY_STAGE1", "DEPLOY_STAGE2", "DEPLOYED_NOMINAL", "LEFT_FAIL", "RIGHT_FAIL", "BOTH_FAIL"],
+      "source_sha256": "BA639C6BF4F0875B6FD9AFFF2E6CA7A5AA3BA1AF77C6BD5FEC07A8EB62D8E6D8",
+      "source_scope": "LOGICAL_INTERFACE_ONLY__COLLISION_AND_HARDWARE_STATE_NOT_AUTHORIZED",
+      "status": "UNKNOWN"
+    },
+    "solar_latch_state": {
+      "value": null,
+      "allowed_domain": null,
+      "source_sha256": "BF8F76E654C56D31E2B9539B8239ED68CA0D8F513F5ECD1410AA7530ADDC06A5",
+      "schema_gap": "ONE_SCALAR_CANNOT_REPRESENT_TWO_WINGS_AND_SIX_LATCH_HARDPOINTS",
+      "status": "UNKNOWN"
+    },
+    "arm_hdrm_state_t0_minus": {
+      "value": null,
+      "reference_vocabulary": ["LOCKED", "RELEASE_START", "RELEASED", "RELEASE_FAILED"],
+      "source_sha256": "90E227F582A4155DD8BAC11B8EC0838EC2195F8D5A36C67475243060911435FD",
+      "source_scope": "COMPETITION_DEMONSTRATOR_ONLY_REFERENCE_VOLUME",
+      "status": "UNKNOWN"
+    },
+    "arm_hdrm_state_t0_plus": {
+      "value": null,
+      "reference_vocabulary": ["LOCKED", "RELEASE_START", "RELEASED", "RELEASE_FAILED"],
+      "source_sha256": "90E227F582A4155DD8BAC11B8EC0838EC2195F8D5A36C67475243060911435FD",
+      "source_scope": "COMPETITION_DEMONSTRATOR_ONLY_REFERENCE_VOLUME",
+      "status": "UNKNOWN"
+    },
+    "target_present": {
+      "value": null,
+      "allowed_domain": [false, true],
+      "constraint": "TRUE_REQUIRES_NEW_OBJECT_REGISTRY_AND_PAIR_UNIVERSE",
+      "status": "UNKNOWN"
+    },
+    "target_attached": {
+      "value": null,
+      "allowed_domain": [false, true],
+      "constraint": "ATTACHED_IMPLIES_PRESENT_AND_REQUIRES_ATTACHMENT_INTERFACE_POSE_GEOMETRY_AND_MOTION_TREE",
+      "status": "UNKNOWN"
+    }
+  },
+  "required_schema_extension": {
+    "solar_hdrm_state": {
+      "value": null,
+      "reason": "SOLAR_CONDITIONAL_KEEPOUT_REQUIRES_HDRM_STATE_BUT_M01_REQUIRED_BINDINGS_OMIT_IT",
+      "status": "UNKNOWN"
+    }
+  },
+  "fixed_structure_binding": {
+    "bus_pose_S": "IDENTITY_PROXY_ONLY",
+    "bus_geometry_scope": "SCREENING_CANDIDATE_NOT_FLIGHT_AUTHORITY__NO_NARROWPHASE_COMPLETE_PROTRUSIONS",
+    "load_bridge_pose_S": null,
+    "m3r_stage_a_pose_S": null,
+    "m3r_stage_b_pose_S": null,
+    "arm_mount_execution_binding_sha256": null
+  },
+  "event_partition_required": [
+    "M01_PRE_RELEASE_CONSTANT_SCENE_EDGE",
+    "M01_RELEASE_EVENT_CONTRACT",
+    "M01_POST_RELEASE_CONSTANT_SCENE_EDGE"
+  ],
+  "universe_gaps": [
+    "ARM_HDRM_NOT_IN_150_OBJECT_UNIVERSE",
+    "G07_G08_MID_STOW_SUPPORTS_NOT_IN_150_OBJECT_UNIVERSE",
+    "TARGET_NOT_IN_150_OBJECT_UNIVERSE"
+  ],
+  "display_or_candidate_sources_not_promoted": {
+    "gripper_interface_candidate_sha256": "364D7F2C54B6A77CC80B105EC24F3B7DDEA5FD5648FD7F01E7A2F96BE21A5F51",
+    "target_models_candidate_sha256": "45666D9D37460FD825F0ED7301BF69113016689FDF00A13DFF8046358A76AE45",
+    "configuration_transform_candidates_sha256": "F43D871FAA6831652441C75916B1E890D760EAE3D5781DDF3650CFB65159DE51",
+    "m5_configuration_geometry_contract_sha256": "DA18F5A6E2F553FC709E90BA1035CDD7770A6FCEECA13EDC1FDB448CAF75838D"
+  },
+  "bound_required_binding_count": 0,
+  "required_binding_count": 9,
+  "scene_state_sha256": null,
+  "scene_binding_complete": false,
+  "pair_evaluation_authorized": false,
+  "edge_evaluation_authorized": false,
+  "path_search_authorized": false,
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false,
+  "verdict": "INTAKE_SCHEMA_CANDIDATE_COMPLETE__M01_SCENE_BINDING_INCOMPLETE__ZERO_OF_NINE_BOUND__NO_PAIR_EDGE_PATH_OR_RELEASE_AUTHORITY"
+}

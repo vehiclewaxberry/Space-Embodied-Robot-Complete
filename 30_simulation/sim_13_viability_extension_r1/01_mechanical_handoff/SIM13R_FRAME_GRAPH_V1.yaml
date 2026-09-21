@@ -1,0 +1,296 @@
+schema: SIM13R_FRAME_GRAPH_V1
+program: RESEARCH_COUPLED_CLOSURE_R1 / RC1-MR1
+generated_date_local: '2026-08-29'
+artifact_class: RESEARCH_FRAME_LEDGER__DERIVED_READ_ONLY__NO_L0_MUTATION
+review_status: PENDING_OWNER_REVIEW
+matrix_semantics: p_parent = R_parent_child * p_child + t_parent_child
+urdf_origin_semantics: joint origin is expressed in the parent-link frame; the child-link frame coincides
+  with the joint frame
+units:
+  length: m
+  angle: rad
+  mass: kg
+  inertia: kg*m^2
+sources:
+  accepted_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    presence: PRESENT
+    bytes: 11321
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  system_frame_tree:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/source_only_v2/UNIFIED_R2_SYSTEM_FRAME_TREE_V2.yaml
+    presence: PRESENT
+    bytes: 11828
+    sha256: 5F8B19DC5BF14EFBB3C6A781C6816D52FE80804DAB328821623E165239999756
+  gripper_cad_validation:
+    path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+    presence: PRESENT
+    bytes: 117402
+    sha256: 7BC0DF784B36159624A8A89B67207C54C5C9C780B103CB38658DE2D6BA845F47
+spacecraft_to_base_chain_T_SB:
+  from: S_SPACECRAFT_BUS
+  to: base_link (B601 root)
+  steps:
+  - joint: bus_to_D_BUS_MATE_PHYSICAL
+    parent: spacecraft_bus
+    child: D_BUS_MATE_PHYSICAL
+    origin_xyz_m:
+    - 0.18525
+    - 0.0
+    - 0.0
+    origin_rpy_rad:
+    - 0.0
+    - 1.570796326795
+    - 0.0
+  - joint: D_BUS_MATE_PHYSICAL_to_D_BUS_M6_PATTERN
+    parent: D_BUS_MATE_PHYSICAL
+    child: D_BUS_M6_PATTERN
+    origin_xyz_m:
+    - 8.636607e-05
+    - 1.5994151e-05
+    - 0.0
+    origin_rpy_rad:
+    - 0.0
+    - 0.0
+    - 0.436332557344
+  - joint: D_BUS_M6_PATTERN_to_load_bridge_candidate
+    parent: D_BUS_M6_PATTERN
+    child: load_bridge_candidate
+    origin_xyz_m:
+    - 0.0
+    - 0.0
+    - 0.0
+    origin_rpy_rad:
+    - 0.0
+    - 0.0
+    - 0.0
+  - joint: load_bridge_candidate_to_m3r_lumped_link
+    parent: load_bridge_candidate
+    child: m3r_lumped_link
+    origin_xyz_m:
+    - 0.0
+    - 0.0
+    - 0.02275
+    origin_rpy_rad:
+    - 0.0
+    - 0.0
+    - 0.0
+  - joint: m3r_lumped_link_to_base_link
+    parent: m3r_lumped_link
+    child: base_link
+    origin_xyz_m:
+    - -8.5033657e-05
+    - 2.2004276e-05
+    - 0.0
+    origin_rpy_rad:
+    - 0.0
+    - 0.0
+    - 0.0
+  T_SB:
+  - - 0.0
+    - -0.0
+    - 1.0
+    - 0.208
+  - - 0.422618483193
+    - 0.906307683772
+    - 0.0
+    - -0.0
+  - - -0.906307683772
+    - 0.422618483193
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  load_path_excludes_nonphysical_dynamics_frame: true
+  D_and_M_numeric_transform_equal: true
+  D_and_M_semantic_alias_permitted: false
+  D_M_identity_rule: DISTINCT_IMMUTABLE_IDENTITIES__NEVER_ALIASES
+  clocking_about_spacecraft_x_deg: 25.0000141
+  clocking_source: M3R_INTERFACE_AUTHORITY_GATE_V2 / frame tree Rz(0.4363325573440537)
+  status: VERIFIED_FROM_FROZEN_SOURCE_ONLY_FRAME_TREE
+  authority_caveat: the frame tree artifact_class is SOURCE_ONLY and its status is PREBIND_STATIC_CANDIDATE_WITH_EXPLICIT_HOLDS;
+    T_SB is therefore PROVISIONAL at system level even though it is exactly reproduced here
+arm_frames:
+- frame: link1
+  parent: base_link
+  via_joint: joint1
+  joint_type: revolute
+  origin_xyz_m:
+  - -8.416e-05
+  - 0.0
+  - 0.08465
+  origin_rpy_rad:
+  - 0.0
+  - 0.0
+  - 0.0
+  status: VERIFIED
+- frame: link2
+  parent: link1
+  via_joint: joint2
+  joint_type: revolute
+  origin_xyz_m:
+  - 0.020084
+  - 0.031625
+  - 0.05555
+  origin_rpy_rad:
+  - -1.5708
+  - 0.0
+  - 0.0
+  status: VERIFIED
+- frame: link3
+  parent: link2
+  via_joint: joint3
+  joint_type: revolute
+  origin_xyz_m:
+  - -0.264
+  - 0.0
+  - 0.0
+  origin_rpy_rad:
+  - 0.0
+  - 0.0
+  - 0.0
+  status: VERIFIED
+- frame: link4
+  parent: link3
+  via_joint: joint4
+  joint_type: revolute
+  origin_xyz_m:
+  - 0.2426
+  - -0.054
+  - -0.001625
+  origin_rpy_rad:
+  - 0.0
+  - 0.0
+  - 0.0
+  status: VERIFIED
+- frame: link5
+  parent: link4
+  via_joint: joint5
+  joint_type: revolute
+  origin_xyz_m:
+  - 0.078308
+  - -0.0375
+  - -0.03
+  origin_rpy_rad:
+  - -1.5708
+  - 0.0
+  - 0.0
+  status: VERIFIED
+- frame: link6
+  parent: link5
+  via_joint: joint6
+  joint_type: revolute
+  origin_xyz_m:
+  - 0.023692
+  - 0.0
+  - 0.04
+  origin_rpy_rad:
+  - 0.0
+  - 1.5708
+  - 0.0
+  status: VERIFIED
+- frame: gripper_link
+  parent: link6
+  via_joint: gripper_joint
+  joint_type: fixed
+  origin_xyz_m:
+  - 0.0
+  - 0.0
+  - 0.15971
+  origin_rpy_rad:
+  - 0.0
+  - -1.5708
+  - 0.0
+  status: VERIFIED
+- frame: gripper_left
+  parent: gripper_link
+  via_joint: gripper_joint1
+  joint_type: prismatic
+  origin_xyz_m:
+  - -0.042091
+  - 2.7531e-05
+  - -1.3031e-05
+  origin_rpy_rad:
+  - 0.0
+  - 0.0
+  - -1.5708
+  status: VERIFIED
+- frame: gripper_right
+  parent: gripper_link
+  via_joint: gripper_joint2
+  joint_type: prismatic
+  origin_xyz_m:
+  - -0.042091
+  - -2.7531e-05
+  - 1.3031e-05
+  origin_rpy_rad:
+  - 0.0
+  - 0.0
+  - 1.5708
+  status: VERIFIED
+derived_frames:
+  TOOL_FLANGE:
+    definition: gripper_link frame (fixed gripper_joint child)
+    T_link6_toolflange_xyz_m:
+    - 0.0
+    - 0.0
+    - 0.15971
+    T_link6_toolflange_rpy_rad:
+    - 0.0
+    - -1.5708
+    - 0.0
+    approach_axis_in_tool_flange: +X (distal); link6 lies at -X
+    status: VERIFIED
+  ACTIVE_GRASP_FRAME:
+    definition: runtime-computed from (q_p1, q_p2), target geometry, selected contact points and normals
+    origin: midpoint of left/right jaw contact points
+    reference_witness_only: W1_CLOSED..W7_ASYM_MIXED in SIM13R_FORWARD_KINEMATICS_WITNESS_V1.csv
+    fixed_cad_frame_prohibited: true
+    status: VERIFIED_AS_RUNTIME_MODEL
+  GRIPPER_CONTACT_LEFT:
+    contact_point_palm_q0_m:
+    - -0.04094601802
+    - -0.010773456001
+    - 0.001531282032
+    inward_normal_palm:
+    - 0.0
+    - 1.0
+    - 0.0
+    derivation: centroid of left jaw inner face, palm-frame x in [-0.05, -0.015], face band 0.0003 m
+    source: accepted URDF collision mesh gripper_left.STL
+    status: PROVISIONAL_MESH_DERIVED
+  GRIPPER_CONTACT_RIGHT:
+    contact_point_palm_q0_m:
+    - -0.04094601802
+    - 0.010773456001
+    - -0.001531282032
+    inward_normal_palm:
+    - 0.0
+    - -1.0
+    - 0.0
+    derivation: centroid of right jaw inner face (mirrored)
+    source: accepted URDF collision mesh gripper_right.STL
+    status: PROVISIONAL_MESH_DERIVED
+unresolved_frames:
+  FORCE_TORQUE_SENSOR_FRAME:
+    status: UNKNOWN
+    reason: no force/torque sensor is declared in the accepted URDF, the frame tree, or MECH_RL_INTERFACE_V1;
+      no mounting datum exists
+    blocks:
+    - CTRL03-B contact-force feedback
+    fail_closed: true
+  WRIST_CAMERA_FRAME:
+    status: HOLD
+    reason: MECH_RL_INTERFACE_V1 frames.camera.status = HOLD_CAMERA_SELECTION_AND_CALIBRATION
+    blocks:
+    - CTRL03-A camera visibility constraint
+    fail_closed: true
+  TARGET_CONTACT_FRAME:
+    status: UNKNOWN
+    reason: MECH_RL_INTERFACE_V1 external_object_gripper_status = HOLD_NO_AUTHORITY_OBJECT_GEOMETRY_OR_CONTACT_DATUM_PROVIDED
+    blocks:
+    - CaptureMap grasp-point selection
+    - m_clearance target near-field
+    fail_closed: true

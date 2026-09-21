@@ -1,0 +1,250 @@
+schema: ROUTE_C_C2_01_REGISTRY_SKELETON_V1
+generated_local: "2026-08-23T17:22:11+08:00"
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+agent: AGENT-2
+work_package: "Wave-2a Route-C text preparation; C2-01 registry skeleton built from the round0 physical-input inventory only; awaiting MPI Gate; no selection, no CAD, no release credit"
+
+sole_input_binding:
+  path: "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round0_handover/02_route_c_inputs/ROUTE_C_PHYSICAL_INPUT_INVENTORY_V1.json"
+  sha256: "b91611f9837641a0bf1bbf555534b2d87eb2a5005fde06ef04b3cdd3374353b7"
+  rule: "This skeleton is derived from that inventory alone; no quantity was re-measured, re-derived, selected, averaged, zero-filled or promoted to authority in this round."
+
+authority_context:
+  odr_43: "DUAL_FRAME_EXPLICIT_BRIDGE; mass/CG/inertia/interface loads/CAD geometry/collision geometry enter the dynamics frame only via the single explicit T_PHYSICAL_TO_DYNAMIC bridge (not yet built); no frame averaging, no silent substitution, the 0.36889 deg delta is frame-consumption ambiguity, not uncertainty"
+  odr_44: "APPROVE_BOUNDED_DETAILED_DESIGN; accepted URDF / Solar R2 / M3R / Gripper R1 / existing M7 FEA evidence frozen; Route-C independent versioned CAD candidate forbidden until MPI-01..MPI-08 all closed"
+  mechanical_loop_v5_gate: "HOLD; next_stage_authorized=false; released_segments=0"
+  route_c_mpi_evidence_gate: "HOLD; criteria_controlled 0/8 (ROUTE_C_MPI_EVIDENCE_GATE_V1.json)"
+  this_skeleton_is: "READ_ONLY_DERIVED_PREPARATION; every value is null, every status is HOLD; this file closes nothing"
+
+id_interpretation:
+  c2_01_registry: "interpreted as ROUTE_C_MINIMUM_PRODUCT_INTERFACE_INPUT_REGISTER_V1.json rows MPI-01..MPI-08 (literal string 'C2-01' does not exist in the repository); carried over from the round0 inventory without change"
+  c2_02_topology_candidates: "controller labels C-A/C-B/C-C vs repository branches RC-A..RC-D; mapping is interpretive, not authoritative; NAMING COLLISION: repository RC-C = dual-dress-pack-hybrid is NOT controller C-C = mini cable-carrier hybrid; see TOPOLOGY_ID_MAPPING_PROPOSAL_V1.md (same directory)"
+
+status_enum_rule: "AVAILABLE = a controlled project-usable value with unit, tolerance/uncertainty and provenance exists; HOLD = not controlled (null, catalog-candidate-only without project selection, or quarantined Route-B seed). Null is never coerced to zero."
+
+source_class_enum:
+  vendor_catalog: "official manufacturer page/datasheet value, source-controlled at retrieval, supplier confirmation still required at procurement; never closes an MPI row by itself"
+  engineering_derivation: "value computed from already-controlled inputs under an explicit, recorded derivation (e.g., route geometry from controlled datums); the derivation record is part of the evidence"
+  measurement: "supplier-controlled or bench measurement on the exact selected construction, with unit, tolerance/uncertainty and stated test regime"
+  forbidden_inference: "value obtained by prohibited means: Route-B seed inheritance, scan-axis-as-value, null-to-zero, file-exists-to-PASS, PROVISIONAL-as-authority, frame averaging, majority vote"
+
+non_equivalence_declarations:
+  - id: DECL_C2_01_01
+    statement: "catalog bend radius is NOT dynamic-life evidence"
+    detail: "A catalog minimum bend radius whose static/dynamic class is unstated, or that is explicitly static-only, does not establish six-joint dynamic flex life. Bindings: ROUTE_C_VENDOR_RFI_SHORTLIST_V1.json decision_invariants[1] ('catalog bend radius is not dynamic-life evidence unless the source explicitly states the applicable regime'); ROUTE_C_PRODUCT_SOURCE_REGISTER_V1.json source_policy.dynamic_flex_policy ('Mating-cycle ratings and static/unspecified bend radii do not prove six-joint dynamic flex life'). Applies to P02 and P06."
+  - id: DECL_C2_01_02
+    statement: "component-level OD and mass are NOT installed-bundle OD and mass"
+    detail: "Single-wire or protocol-cable outer diameter and linear mass do not include shielding, sleeve, ties, branching, ovalization or clamps of an installed dress-pack. Bindings: ROUTE_C_VENDOR_RFI_SHORTLIST_V1.json decision_invariants[3] ('component cable OD and mass are not installed dress-pack OD and mass'); ROUTE_C_MINIMUM_PRODUCT_INTERFACE_INPUT_REGISTER_V1.json MPI-05 candidate_evidence ('single-wire and protocol-cable diameters are not an assembled dress-pack OD'). Applies to P01 and P09."
+  - id: DECL_C2_01_03
+    statement: "connector mating cycles are NOT harness flex cycles"
+    detail: "Binding: ROUTE_C_VENDOR_RFI_SHORTLIST_V1.json decision_invariants[2]; MPI-08 candidate_evidence ('connector mating-cycle data is not harness flex life'). Applies to MPI-08 linkage of P06/P08."
+  - id: DECL_C2_01_04
+    statement: "scan-axis diagnostic ranges are NOT measured, selected or released values"
+    detail: "Binding: ROUTE_C_PARAMETER_SPACE_V1.yaml global_scan_axes authority fields (SCAN_AXIS_ONLY / SENSITIVITY_AXIS_ONLY); search_output_rules.scan_axis_as_measured_value=FORBIDDEN. Applies to P01/P02/P04."
+  - id: DECL_C2_01_05
+    statement: "quarantined Route-B seeds are NOT priors"
+    detail: "OD 10.0 mm, legacy R25, terminal-requirement R30, cut length 4001.158 mm, diagnostic mass 0.68406762184 kg and Route-B derived clamp/waypoint candidates are REJECTED-candidate seeds, not inheritable. Bindings: ROUTE_C_PRELIMINARY_DESIGN_CONTRACT_V1.json route_b_seed_quarantine; ROUTE_C_MPI_EVIDENCE_AUDIT route_b_values_not_inherited (per round0 inventory); ROUTE_C_MPI_EVIDENCE_GATE_V1.json route_b_seed_inheritance_allowed=false. Applies to P01/P02/P03/P07/P13."
+  - id: DECL_C2_01_06
+    statement: "synthetic predicate-qualification geometry is NOT physical evidence"
+    detail: "P08 predicate synthetic arc R_path_min 49.99999999999991 mm is SYNTHETIC SEMANTICS ONLY and grants no design authority (round0 inventory P11 candidate_sources.missing). Applies to P11."
+
+registry_entries:
+  - id: P01
+    quantity: D_max_geometry_mm
+    meaning: "maximum bundle outer diameter the Route-C geometry can accommodate (geometric capacity frontier output)"
+    unit: mm
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-05, MPI-07]
+    required_evidence: "supplier-controlled or measured installed finished-bundle OD and tolerance for each routed sub-bundle (MPI-05 controlled_exit), plus named finite guide/clamp/connector volumes and a physical CAD branch so the geometric capacity frontier can be evaluated (frontier currently UNKNOWN; V5 gate fact LC5-09)"
+    candidate_source_or_null: "component-cable OD maxima only: Gore SpaceWire variant 01 finished_outer_diameter_max 7.5 mm (GORE_2025_CATALOG Table 21 p.30); Axon P551259 6.5 mm max; Glenair 963-080-24 7.24 mm max; Glenair 963-080-26 6.05 mm max; TE 55/9960-26 single wire 0.72 mm nominal; all uncertainty null"
+    source_class: vendor_catalog
+    candidate_limitation: "DECL_C2_01_02: component-level OD is not installed-bundle OD; none of these candidates closes P01"
+    acceptable_source_classes: [measurement, engineering_derivation]
+    forbidden_inference_examples: "Route-B seed OD 10.0 mm (quarantined); scan axis D_bundle 4..20 mm used as a value"
+  - id: P02
+    quantity: R_path_min_mm
+    meaning: "minimum path bend radius of a physical Route-C candidate centerline"
+    unit: mm
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-06, MPI-07]
+    required_evidence: "a physical Route-C route with controlled datums (P05) evaluated against the applicable bend limit of the selected construction (P06); catalog radii bound the route but do not define it"
+    candidate_source_or_null: "catalog minimum bend radii with unstated or static class: Glenair 963-080-24 = 31.75 mm, Glenair 963-080-26 = 28.575 mm (STATIC_OR_DYNAMIC_CLASS_NOT_STATED); Gore SpaceWire variant 01 = 45.0 mm (DYNAMIC_CLASS_NOT_STATED); Axon P551259 = 25.0 mm (FULLY_STATIC_ONLY)"
+    source_class: vendor_catalog
+    candidate_limitation: "DECL_C2_01_01: none of these is a dynamic-class value; they constrain vendor selection, not the route radius"
+    acceptable_source_classes: [engineering_derivation, measurement]
+    forbidden_inference_examples: "Route-B legacy R25 and terminal-requirement R30 (quarantined in route_b_values_not_inherited); scan axis R_vendor_min 5..100 mm used as a value"
+  - id: P03
+    quantity: deltaL_mm
+    meaning: "available-length / take-up margin of a physical Route-C candidate"
+    unit: mm
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-05, MPI-07]
+    contract_links: ["C4 coupled predicate 'available-length and take-up margin' (ROUTE_C_PRELIMINARY_DESIGN_CONTRACT_V1.json analysis_contract)"]
+    required_evidence: "controlled route geometry and interface datums, then a take-up/cassette sizing derivation with stated margin; no RFI item can supply a route-dependent margin"
+    candidate_source_or_null: null
+    source_class: null
+    acceptable_source_classes: [engineering_derivation]
+    forbidden_inference_examples: "Route-B cut_length 4001.158 mm and V2 internal take-up arithmetic supply 403.5 mm vs requirement 347.493596 mm (rejected candidate, quarantined)"
+  - id: P04
+    quantity: carrier_travel_mm
+    meaning: "moving-carrier stroke for carrier-based topologies"
+    unit: mm
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-07]
+    topology_links: "handover C-B / C-C only (interpretive mapping; see TOPOLOGY_ID_MAPPING_PROPOSAL_V1.md)"
+    required_evidence: "carrier product family with controlled travel and hard-stop positions, plus carrier kinematic closure per C4 predicate 'guide/carrier kinematic closure and hard-stop margin'"
+    candidate_source_or_null: null
+    source_class: null
+    candidate_limitation: "the existing RFI shortlist covers cables and connectors only; no guide, carrier, liner or clamp hardware RFI exists (see ROUTE_C_RFI_GAP_MEMO_V1.md)"
+    acceptable_source_classes: [vendor_catalog, measurement, engineering_derivation]
+    forbidden_inference_examples: "scan axes carrier_travel 0..300 mm (J1..J3) / 0..200 mm (J5/J6) used as physical values"
+  - id: P05
+    quantity: manufacturing_coordinates_mm
+    meaning: "controlled manufacturing/installation coordinates of HN-00..HN-03, connector faces, guide/clamp seats and fastener interfaces"
+    unit: mm
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-07]
+    required_evidence: "controlled HN-00..HN-03 locations/orientations, connector face, passage/guide/clamp datums and fastener interfaces (MPI-07 controlled_exit); owner template INSTALLATION_ICD_OWNER_INPUT_TEMPLATE_V1.yaml is unfilled (clamp_and_guide_station_schedule open)"
+    candidate_source_or_null: null
+    source_class: null
+    candidate_limitation: "declared coordinates exist but are not manufacturing coordinates: HN-00 null (bus origin undefined); HN-01 [171.0, 0.0, -70.0] TOPOLOGY_REFERENCE_ONLY (passage is not a physical void); HN-02 [192.0, null, null] x-station only; HN-03 [215.0, 0.0, 0.0] DECLARED_BUT_GEOMETRICALLY_UNSUPPORTED; treating them as manufacturing coordinates is forbidden_inference"
+    acceptable_source_classes: [measurement, engineering_derivation]
+    forbidden_inference_examples: "promoting HARNESS_ROUTING_V1.yaml declared topology references to manufacturing datums"
+  - id: P06
+    quantity: minimum_dynamic_bend_radius_mm
+    meaning: "minimum bend radius under the dynamic (six-joint flexing) regime for the selected construction"
+    unit: mm
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-06]
+    required_evidence: "selected-construction static/dynamic bend and torsion limits with temperature and installation conditions (MPI-06 controlled_exit); supplier RFI response stating the dynamic class for the exact construction, or a bend-torsion test record"
+    candidate_source_or_null: null
+    source_class: null
+    candidate_limitation: "DECL_C2_01_01: only static/unclassified catalog radii exist (see P02); RFI-D engineering-model route quantified_dynamic_life = null; MPI-06 state = HOLD_UNKNOWN_DYNAMIC_CLASS"
+    acceptable_source_classes: [measurement, vendor_catalog]
+    forbidden_inference_examples: "reclassifying a static-only or unstated-class catalog radius as dynamic"
+  - id: P07
+    quantity: max_axial_extension_mm
+    meaning: "maximum axial extension / length compensation the harness must supply across the joint envelope"
+    unit: mm
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-05, MPI-07, MPI-08]
+    required_evidence: "physical route plus controlled interface datums (P03/P05), then a motion-derived length/take-up spectrum feeding the MPI-08 mission life allocation; no reviewed Route-C artifact carries this quantity"
+    candidate_source_or_null: null
+    source_class: null
+    acceptable_source_classes: [engineering_derivation]
+    forbidden_inference_examples: "Route-B cut length 4001.158 mm (quarantined)"
+  - id: P08
+    quantity: torsional_compliance
+    meaning: "torsional compliance / allowable cyclic torsion per unit length of the installed bundle"
+    unit: "deg/m or N*m/rad per construction definition (unit itself not yet controlled)"
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-06]
+    contract_links: ["C5 restoring-torque budget (ROUTE_C_PRELIMINARY_DESIGN_CONTRACT_V1.json)"]
+    required_evidence: "selected-construction torsion limit per length and torsional restoring-moment curve versus angle/rate/temperature, plus a combined bend-torsion test spectrum; owner template fields torsion_limit_per_length and torsional_restoring_moment_curve are unfilled; explicit_non_findings: no reviewed public source establishes B601 six-joint combined bending/torsion flex life"
+    candidate_source_or_null: null
+    source_class: null
+    acceptable_source_classes: [measurement]
+    forbidden_inference_examples: "deriving torsion capacity from bend catalog values; null unit coerced to any unit system"
+  - id: P09
+    quantity: linear_density_g_per_m
+    meaning: "installed bundle linear mass (shield, sleeve, ties included)"
+    unit: g/m
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-05]
+    contract_links: ["C5 mass/CG/inertia budget (downstream register)"]
+    required_evidence: "installed sub-bundle linear mass with tolerance and provenance (supplier-controlled or measured on the exact installed construction); owner template linear_mass field unfilled; MPI-05 state HOLD_UNKNOWN"
+    candidate_source_or_null: "component-level catalog linear masses only (all uncertainty null, none is installed dress-pack linear density): TE 55/9952-22 = 4.27 g/m nominal; TE 55/9952-24 = 2.78 g/m; Glenair 963-080-24 = 62.335958 g/m (derived from 19.0 g/ft); Glenair 963-080-26 = 51.83727 g/m (derived from 15.8 g/ft); Gore SpaceWire variant 01 = 85.0 g/m max; Axon P551259 = 42.0 g/m max; TE 55/9960-26 = 1.81 g/m; Axon RE2633 = 2.3 g/m approx and RET2633 = 11.5 g/m approx (engineering-model route only, excluded from flight shortlist)"
+    source_class: vendor_catalog
+    candidate_limitation: "DECL_C2_01_02: component cable mass is not installed dress-pack mass"
+    acceptable_source_classes: [measurement, engineering_derivation]
+    forbidden_inference_examples: "summing component catalog masses as installed linear density; Route-B diagnostic mass 0.68406762184 kg (quarantined); silent reuse of the old 24 kg mass model (round discipline)"
+  - id: P10
+    quantity: guide_friction_candidate
+    meaning: "guide/liner material pair and friction candidate for semi-captive guides"
+    unit: "dimensionless coefficient or material-pair record (not yet controlled)"
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-07]
+    contract_links: ["C6 abrasion/particulate plan (ROUTE_C_PRELIMINARY_DESIGN_CONTRACT_V1.json)"]
+    required_evidence: "candidate guide/liner material pair with friction regime data versus temperature/vacuum and wear/abrasion evidence; parameter space unknown_physical_inputs.guide_material_and_wear_pair = null; preliminary contract lists guide/clamp/liner/fastener material-process selections as open; no guide-material front closed in V5 gate"
+    candidate_source_or_null: null
+    source_class: null
+    candidate_limitation: "no guide/liner material RFI or catalog candidate exists anywhere in the Route-C package (see ROUTE_C_RFI_GAP_MEMO_V1.md)"
+    acceptable_source_classes: [vendor_catalog, measurement]
+    forbidden_inference_examples: "assuming a friction coefficient from generic handbook values without a named material pair and test regime"
+  - id: P11
+    quantity: guide_curvature
+    meaning: "physical guide path curvature / groove radius of named finite guide volumes"
+    unit: mm
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-06, MPI-07]
+    required_evidence: "named finite guide volumes in a controlled physical CAD branch (guide_volumes_present currently false; physical_guide_volumes_evaluated = 0), each with curvature respecting the P06 bend limit"
+    candidate_source_or_null: null
+    source_class: null
+    candidate_limitation: "DECL_C2_01_06: the P08 predicate synthetic arc (R_path_min 49.99999999999991 mm) is SYNTHETIC SEMANTICS ONLY and grants no design authority"
+    acceptable_source_classes: [engineering_derivation, measurement]
+    forbidden_inference_examples: "treating synthetic predicate-qualification geometry as a physical guide volume"
+  - id: P12
+    quantity: carrier_size_mm
+    meaning: "mini cable-carrier cross-section / link size for carrier-hybrid topology"
+    unit: mm
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-07]
+    topology_links: "handover C-C only (interpretive; see TOPOLOGY_ID_MAPPING_PROPOSAL_V1.md)"
+    required_evidence: "carrier product family, size series, bend-radius series and mass per unit length from a controlled source; no field in any reviewed Route-C artifact carries carrier size; unknown_physical_inputs lists carrier_hard_stop_positions_mm = null and no carrier-geometry field exists"
+    candidate_source_or_null: null
+    source_class: null
+    candidate_limitation: "no carrier hardware RFI exists (see ROUTE_C_RFI_GAP_MEMO_V1.md)"
+    acceptable_source_classes: [vendor_catalog, measurement, engineering_derivation]
+    forbidden_inference_examples: "sizing a carrier from the quarantined Route-B OD 10.0 mm seed"
+  - id: P13
+    quantity: clamp_spacing_mm
+    meaning: "clamp-to-clamp station spacing schedule along the route"
+    unit: mm
+    value: null
+    value_uncertainty: null
+    status: HOLD
+    mpi_links: [MPI-07]
+    required_evidence: "controlled clamp station schedule: all clamp/guide datums, host links and fastener interfaces (INSTALLATION_ICD_OWNER_INPUT_TEMPLATE_V1.yaml requirement open); HN-02 clamp y/z undefined; HARNESS_B601_FULL_FK_SWEEP_V2.json scope_notes state Route-B clamp/waypoint positions were derived candidates, not released hardware stations, and are not inheritable"
+    candidate_source_or_null: null
+    source_class: null
+    acceptable_source_classes: [engineering_derivation, measurement]
+    forbidden_inference_examples: "Route-B derived clamp candidates (quarantined with the rejected route)"
+
+summary:
+  entries_total: 13
+  value_non_null: 0
+  status_AVAILABLE: 0
+  status_HOLD: 13
+  entries_with_candidate_source: 3
+  entries_with_candidate_source_ids: [P01, P02, P09]
+  entries_without_any_candidate_source: 10
+  fabricated_values: 0
+  null_coercions: 0
+  selections_made: 0
+
+gate_state: HOLD__AWAITING_MPI_GATE
+next_stage_authorized: false

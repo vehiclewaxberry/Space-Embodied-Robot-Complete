@@ -1,0 +1,76 @@
+schema: E17_B601_TRAJECTORY_SEED_CONFIG_V1
+generated_local: '2026-08-23T16:05:00+08:00'
+authority_class: NON_RELEASE_DIAGNOSTIC_CANDIDATE
+sample_period:
+  value: 0.01
+  unit: s
+  classification: NUMERICAL_GRID_SETTING
+  standard_uncertainty: null
+  distribution: null
+  reason: DETERMINISTIC_COMPUTATION_SETTING_NOT_A_PHYSICAL_ESTIMATE
+interpolator:
+  name: QUINTIC_MINIMUM_JERK_10_15_6
+  boundary_conditions: q0_q1_with_zero_endpoint_velocity_and_acceleration
+  mathematical_authority: deterministic candidate generator only
+duration_policy:
+  source: provisional speed/acceleration class values in control_01_v0.yaml
+  rule: T >= max_i(1.875*abs(delta_q_i)/vmax_i, sqrt(5.7735026919*abs(delta_q_i)/amax_i)); rounded upward for candidate generation
+  authority: PROVISIONAL_CLASS_LIMIT_DERIVED__NOT_HARDWARE_TIMING
+segments:
+  M02:
+    from: RELEASE_CLEAR
+    to: HOME
+    duration: {value: 3.0, unit: s, classification: PROVISIONAL_CLASS_LIMIT_DERIVED, standard_uncertainty: null, distribution: null, reason: NOT_A_RELEASED_PHYSICAL_TIMING}
+    generation: NUMERIC_ARM_ONLY
+    gripper_state: UNBOUND
+  M03:
+    from: HOME
+    to: TASK_READY
+    duration: {value: 3.0, unit: s, classification: PROVISIONAL_CLASS_LIMIT_DERIVED, standard_uncertainty: null, distribution: null, reason: NOT_A_RELEASED_PHYSICAL_TIMING}
+    generation: NUMERIC_ARM_ONLY
+    gripper_state: UNBOUND
+  M04:
+    from: TASK_READY
+    to: PREGRASP
+    duration: {value: 4.5, unit: s, classification: PROVISIONAL_CLASS_LIMIT_DERIVED, standard_uncertainty: null, distribution: null, reason: NOT_A_RELEASED_PHYSICAL_TIMING}
+    generation: NUMERIC_ARM_ONLY
+    gripper_state: SYMBOLIC_PREGRASP_SEED_ONLY
+    limitation: PREGRASP source is a provisional 150kg geometry selection, not 22kg capture validation
+  M05_150:
+    from: PREGRASP
+    to: HOME
+    duration: {value: 4.5, unit: s, classification: PROVISIONAL_CLASS_LIMIT_DERIVED, standard_uncertainty: null, distribution: null, reason: NOT_A_RELEASED_PHYSICAL_TIMING}
+    generation: NUMERIC_ARM_ONLY
+    gripper_state: SYMBOLIC_ABORT_OPEN_INTENT__TIMING_UNBOUND
+    semantic_guard: PHYSICS_VETO_ABORT_RECOVERY_150KG_3DPS
+  M07_22:
+    from: PREGRASP
+    to: HOME
+    duration: {value: 4.5, unit: s, classification: PROVISIONAL_CLASS_LIMIT_DERIVED, standard_uncertainty: null, distribution: null, reason: NOT_A_RELEASED_PHYSICAL_TIMING}
+    generation: NUMERIC_ARM_ONLY
+    gripper_state: SYMBOLIC_LOCK_REQUIRED_BUT_UNCONFIRMED
+    limitation: complete attached-target recovery remains HOLD
+  M06_22:
+    from: PREGRASP
+    to: PREGRASP
+    physical_duration: {value: null, unit: s, classification: HOLD, standard_uncertainty: null, distribution: null, reason: CONTACT_DURATION_AUTHORITY_ABSENT}
+    generation: SYMBOLIC_ARM_HOLD_ONLY
+    symbolic_gripper_sequence: [PREGRASP, CONTACT, LOCK]
+    contact_force_N: null
+    contact_normal: null
+    lock_confirmation: null
+blocked_segments:
+  M01:
+    reason: STOW source FK residual and HDRM/release sweep authority absent
+    numeric_candidate_created: false
+  M05_22:
+    reason: 22kg target relative pose, grasp point, rotation axis, phase, twist and nonzero tracking boundary conditions absent
+    numeric_candidate_created: false
+validation_tolerances:
+  analytic_sample_abs: 1.0e-11
+  endpoint_q_abs_rad: 1.0e-10
+  endpoint_dq_abs_rad_s: 1.0e-10
+  endpoint_ddq_abs_rad_s2: 1.0e-10
+  finite_difference_dq_abs_rad_s: 2.0e-4
+  finite_difference_ddq_abs_rad_s2: 2.0e-3
+

@@ -1,0 +1,203 @@
+{
+  "reader": "R6:loadpath+acceptance",
+  "files_read": [
+    "20_engineering/design_review/V2_PDR_package/02_structure/primary_load_path_contract.yaml",
+    "20_engineering/design_review/V2_PDR_package/02_structure/structure_design_report.md",
+    "20_engineering/design_review/V2_PDR_package/05_robot_mount/robot_mount_load_interface.yaml",
+    "20_engineering/design_review/V2_PDR_package/05_robot_mount/robot_mount_preliminary_design.md",
+    "10_research/space_embodied_robotics/comp_prot_03_a4_b2_v2_mechanical_architecture/v2_review_and_acceptance_matrix.md",
+    "20_engineering/design_review/V2_PDR_package/12_review/PDR_exit_gate.yaml"
+  ],
+  "key_parameters": [
+    {
+      "name": "FRM_REAR_BOUNDARY station x_S",
+      "value": "-170.25",
+      "unit": "mm",
+      "source": "02_structure/structure_design_report.md + primary_load_path_contract.yaml (LP_REAR_FRAME)"
+    },
+    {
+      "name": "FRM_REAR_MID station x_S",
+      "value": "-56.75",
+      "unit": "mm",
+      "source": "structure_design_report.md + primary_load_path_contract.yaml (LP_REAR_MID_FRAME)"
+    },
+    {
+      "name": "FRM_MID_FRONT station x_S",
+      "value": "+56.75",
+      "unit": "mm",
+      "source": "structure_design_report.md + primary_load_path_contract.yaml (LP_MID_FRONT_FRAME)"
+    },
+    {
+      "name": "FRM_FRONT_TASK station x_S",
+      "value": "+170.25",
+      "unit": "mm",
+      "source": "structure_design_report.md + primary_load_path_contract.yaml (LP_FRONT_FRAME)"
+    },
+    {
+      "name": "Longeron count (four_longitudinal_primary_members)",
+      "value": "4, driven by Master Skeleton ±BODY_HALF_Y / ±BODY_HALF_Z corner references; centerline offset/section/material = null",
+      "unit": "-",
+      "source": "structure_design_report.md §2.2 + primary_load_path_contract.yaml (LP_LONGERON_SET)"
+    },
+    {
+      "name": "MOUNT_ORIGIN_S",
+      "value": "[185.25, 0, 0] (EVIDENCE_BOUND)",
+      "unit": "mm",
+      "source": "05_robot_mount/robot_mount_preliminary_design.md §2"
+    },
+    {
+      "name": "MOUNT_RY",
+      "value": "+90 (EVIDENCE_BOUND)",
+      "unit": "deg",
+      "source": "robot_mount_preliminary_design.md §2"
+    },
+    {
+      "name": "servicer flange envelope",
+      "value": "15 x 160 x 160 (EVIDENCE_BOUND)",
+      "unit": "mm",
+      "source": "robot_mount_preliminary_design.md §2"
+    },
+    {
+      "name": "adapter plate envelope",
+      "value": "12 x 160 x 160 (EVIDENCE_BOUND)",
+      "unit": "mm",
+      "source": "robot_mount_preliminary_design.md §2"
+    },
+    {
+      "name": "adapter boss envelope",
+      "value": "Ø100 x 15 (EVIDENCE_BOUND)",
+      "unit": "mm",
+      "source": "robot_mount_preliminary_design.md §2"
+    },
+    {
+      "name": "T_MA0",
+      "value": "identity (identity_contract; no manual mate offset allowed)",
+      "unit": "-",
+      "source": "robot_mount_preliminary_design.md §2/§6 + PDR_exit_gate.yaml preserved_truths"
+    },
+    {
+      "name": "T_SM role",
+      "value": "S_to_robot_mount_M; load_expression_frame=M, transform_ref=T_SM",
+      "unit": "-",
+      "source": "PDR_exit_gate.yaml preserved_truths + primary_load_path_contract.yaml frames"
+    },
+    {
+      "name": "T_SB",
+      "value": "role=S_to_free_flyer_base_B, value=null; must NOT be used as mount transform",
+      "unit": "-",
+      "source": "PDR_exit_gate.yaml preserved_truths + acceptance matrix V2-CAD-04"
+    },
+    {
+      "name": "B601 topology",
+      "value": "10 links / 9 joints, accepted, READ_ONLY",
+      "unit": "-",
+      "source": "robot_mount_preliminary_design.md §2 + PDR_exit_gate.yaml preserved_truths"
+    },
+    {
+      "name": "project_profile_mm",
+      "value": "[340.5, 226.3, 226.3], claim=NON_FLIGHT_DISPLAY_ONLY",
+      "unit": "mm",
+      "source": "PDR_exit_gate.yaml preserved_truths"
+    },
+    {
+      "name": "IF-RM-001 wrench w_M(t)",
+      "value": "[Fx,Fy,Fz,Mx,My,Mz]^T all null, state=UNKNOWN_BLOCKED; sign_convention=to_be_supplied_by_loads_owner; time_basis/combination_rule/safety_factor_authority=null",
+      "unit": "N / N·m (fields only)",
+      "source": "robot_mount_load_interface.yaml + primary_load_path_contract.yaml load_vector_at_M"
+    },
+    {
+      "name": "load_case set",
+      "value": "LC-RM-OPERATION (Loads_and_Dynamics_Owner), LC-RM-CAPTURE (Loads_and_Dynamics_Owner), LC-RM-LAUNCH (Verification_Owner), LC-RM-GROUND (Integration_and_Maintenance_Owner) — all UNKNOWN_BLOCKED, all sub-fields null",
+      "unit": "-",
+      "source": "robot_mount_load_interface.yaml candidate_load_cases"
+    },
+    {
+      "name": "V1 deployed q0 static interferences",
+      "value": "10, classification=NEGATIVE_RESULT, global_collision_safety=BLOCKED; must remain visible in V2",
+      "unit": "count",
+      "source": "PDR_exit_gate.yaml preserved_truths + robot_mount_preliminary_design.md §7"
+    },
+    {
+      "name": "open unknowns inherited",
+      "value": "17 (V2-UNK-001..017); load-path contract blocked_by V2-UNK-003/005/006/009; load interface blocked_by V2-UNK-005/009",
+      "unit": "count",
+      "source": "PDR_exit_gate.yaml + both 02/05 yaml contracts"
+    },
+    {
+      "name": "PDR criteria counts",
+      "value": "PDR-C01 system requirements=27; PDR-C04 interfaces=10; PDR-C05 subsystem volumes=12",
+      "unit": "count",
+      "source": "PDR_exit_gate.yaml criteria"
+    },
+    {
+      "name": "Mount-plane vs front-frame geometry check",
+      "value": "185.25 - 170.25 = 15.00 = servicer flange thickness (self-consistent)",
+      "unit": "mm",
+      "source": "derived from robot_mount_preliminary_design.md + structure_design_report.md"
+    }
+  ],
+  "rules": [
+    "载荷路径链固定拓扑（robot-operation path）：B601 A0 -> IF-RM-002 -> robot_mount_adapter -> IF-RM-001/M -> front_task_face_frame(FRM_FRONT_TASK) -> 4 longerons -> bay frames(FRM_MID_FRONT/FRM_REAR_MID) -> FRM_REAR_BOUNDARY -> 未来外部边界 owner；边 LPE_001..006，全部 connection_definition=null，CAD 只可表达拓扑连续性，不得补连接细节。",
+    "Solar-root path：solar reference geometry -> IF-SA-L/IF-SA-R at F_L/F_R -> rear-mid frame station -> longerons -> bus 主结构；仅 owner/拓扑，不可计算。",
+    "分类硬规则：可拆外板=SECONDARY_PROPOSAL 且 may_close_primary_path=false（不得作为主反力闭合构件）；subsystem placeholders/harness+keepout=REFERENCE_ONLY 且不闭合主路径；target=EXCLUDED；decks=PRIMARY_OR_SECONDARY_TBD；placeholder 不得 mate 到外板声称结构闭合。",
+    "四个横框只定义位置与拓扑角色：不定义环框截面、材料、局部开口、接头、加工方式；longeron section/material 保持 null。",
+    "任务面局部加强只能作可抑制 proposal：MOUNT_LOAD_SPREADING_RING、MOUNT_TO_FRAME_RIB_SET、ADAPTER_SUPPORT_REGION、HARNESS_PASSAGE_RESERVATION——不代表已选 rib 数量/形状/板厚/连接；harness 通道不得切断 load-path reference。",
+    "载荷消费规则（robot_mount_load_interface.yaml consumption_rules，逐条为 false）：仿真结果不自动升为结构载荷；CAD 不得生成载荷数值；FEA 不得以 null 载荷启动；可视化箭头不是载荷证据。SV2_MNT_WRENCH_OVERLAY 只能是符号 overlay。",
+    "装配定位规则：M=spacecraft-owned datum，A0=accepted B601 insertion datum，T_MA0=identity 不许手工 mate 偏置；locator/fastener 须由 IF-RM owner 派生；禁止用 B601 外壳曲面做定位基准；B601 reference 须可替换/抑制而不改主结构；只有 adapter reference 可消费既有 envelope，其余 SV2_MNT_* 均为 reference/proposal。",
+    "负结果保全：V1 的 10 处 q0 展开静态干涉必须继续显示为 NEGATIVE_RESULT，不得通过 suppress B601 或太阳翼制造通过；每次干涉检查绑定具名配置与姿态，不外推（V2-CAD-16）。",
+    "Mount 的 B3 入口检查清单（§9）：B3 具名授权存在；T_SM/T_MA0/URDF hash 未变；IF-RM-001/002 null 字段仍为空；adapter 源几何/hash 可追溯；物理载荷未被默认值补齐；模型属性含 NO_STRENGTH_CLAIM=true；mount reference 不依赖 V1 活动零件；target/contact 不进 active assembly。",
+    "B3-ENTRY 前置：01 新人工授权允许独立 V2.0 CAD(当前 NOT_AUTHORIZED)；02 V1.0 seal hash 入口复核；03 任务书/装配树/KB/Agent 合同可解析(READY)；04 沿用 COMPETITION_DISPLAY_V0 与 T_SM 或走正式变更(FROZEN_UNTIL_CHANGE_CONTROL)；05 所有未知量保持 null/blocked 不填默认值(REQUIRED)。",
+    "V2-CAD-01：独立 Space_Embodied_Robot_CAD_V2_0/ 创建不覆盖 V1.0（证据：路径+V1 hash+V2 manifest）。",
+    "V2-CAD-02：Master Skeleton 是总体尺寸与基准唯一驱动者（feature/external-reference inventory）。",
+    "V2-CAD-03：S/M/A0/G/E_virtual 与 T_SM 数值一致（frame export + numeric comparison）。",
+    "V2-CAD-04：不得把 T_SB 当 mount transform（property scan + report）。",
+    "V2-CAD-05：主结构/次结构/设备占位/reference 分离（structure-class inventory）。",
+    "V2-CAD-06：front/mid/rear 舱段各有独立 owner、边界、接口（assembly tree + bay register）。",
+    "V2-CAD-07：robot mount 反力链从 B601 base 闭合到 bus 主结构（load-path view + interface inventory）。",
+    "V2-CAD-08：mount 不得声称材料/刚度/强度/模态通过（property/claim audit）。",
+    "V2-CAD-09：OBC/EPS/PMAD/battery/RW/IMU 为独立 volume owner（equipment-volume register）。",
+    "V2-CAD-10：后服务模块分离 propulsion/comm/thermal/service 区域（service-zone register）。",
+    "V2-CAD-11：外板拆卸、托盘抽取、工具访问、线束走廊可审查（serviceability views/matrix）。",
+    "V2-CAD-12：B601 10-link/9-joint、源哈希、q0 身份保持（URDF/STL/CAD comparison）。",
+    "V2-CAD-13：太阳翼状态与接口分离，不宣称飞行收拢/部署（configuration/property audit）。",
+    "V2-CAD-14：sensor/physical TCP/contact/target 按合同隔离（zero-solid / excluded-component checks）。",
+    "V2-CAD-15：V1 十处静态干涉负结果不隐藏不改写（inherited-negative-result record）。",
+    "V2-CAD-16：每次干涉检查绑定具名配置与姿态，不外推（scoped interference reports）。",
+    "V2-CAD-17：无默认材料/质量/CoM/惯量污染（mass/material authority audit）。",
+    "V2-CAD-18：外部参考无直接复制、改名或原创性误导（provenance/license/deviation manifest）。",
+    "V2-CAD-19：原生文件可重开、重建、引用完整（native inspection + hash manifest）。",
+    "V2-CAD-20：冻结 Gate/仿真/配置/URDF/V1.0 均未改（boundary diff/hash audit）。",
+    "必交评审视图 14 项（acceptance matrix §C）：整星等轴测模块着色/主结构单独/主次状态图/三舱剖切/mount 局部剖切/B601→mount→任务面框→纵梁反力链/avionics volume owner/后服务分区/外板拆卸与托盘抽取方向/线束通道 reference/太阳翼与机械臂具名配置 keepout/EVIDENCE_BOUND-DESIGN_PROPOSAL-UNKNOWN_BLOCKED-EXCLUDED 总览/V1→V2 对照/独立 target scene 带 NO_CONTACT / NO_AUTONOMOUS_CAPTURE CLAIM 水印。",
+    "退出裁决四选一：V2_SYSTEM_MECHANICAL_CAD_COMPLETE_WITH_PHYSICAL_LIMITATIONS（V2-CAD-01..20 全满足且未知量隔离）/ V2_SYSTEM_MECHANICAL_CAD_PARTIAL / V2_BLOCKED_BY_INTERFACE_OR_SOURCE / V2_REJECTED_BY_EVIDENCE_POLLUTION；任何裁决均不自动授权 FEA/URDF round-trip/动力学/控制/Isaac/ROS/制造/A5/硬件。",
+    "PDR exit gate authority 全为 false：不得改 V1.0/A3、URDF/几何 SSOT、仿真 Gate/证据；不得赋材料/载荷/板厚/紧固件/物理质量；不得跑 FEA/动力学/控制/Isaac/ROS/VLA/RL——与本次 B3 授权边界一致。",
+    "禁止声明（prohibited_claims 原文）：V2_mechanical_system_is_physically_qualified；V2_is_standard_12U_or_launch_compliant；robot_mount_strength_stiffness_or_modal_performance_is_verified；global_collision_safety_is_verified；digital_twin_VLA_autonomous_capture_or_safe_control_is_implemented。"
+  ],
+  "identifiers": [
+    "合同/Gate ID: SV2_PDR_PRIMARY_LOAD_PATH, SV2_IF_RM_LOAD_HANDOFF, COMP-PROT-03-A4-B2_8-SYSTEM-MECHANICAL-PDR (label COMP-PROT-03-A4-B2.8-PDR-COMPLETE), COMP-PROT-03-A4-B3-V2-SYSTEM-MECHANICAL-CAD",
+    "载荷路径节点: LP_B601_A0, LP_ADAPTER, LP_FRONT_FRAME, LP_LONGERON_SET, LP_MID_FRONT_FRAME, LP_REAR_MID_FRAME, LP_REAR_FRAME",
+    "载荷路径边: LPE_001, LPE_002, LPE_003, LPE_004, LPE_005, LPE_006",
+    "接口: IF-RM-001, IF-RM-002, IF-SA-L, IF-SA-R",
+    "坐标系/变换: S, M, A0, B, G, E_virtual, F_L, F_R, T_SM, T_MA0, T_SB",
+    "CAD 结构对象: FRM_REAR_BOUNDARY, FRM_REAR_MID, FRM_MID_FRONT, FRM_FRONT_TASK, LNG_PY_PZ, LNG_PY_NZ, LNG_NY_PZ, LNG_NY_NZ, DECK_REAR_MID, DECK_MID_FRONT, BODY_HALF_Y, BODY_HALF_Z",
+    "加强提案: MOUNT_LOAD_SPREADING_RING, MOUNT_TO_FRAME_RIB_SET, ADAPTER_SUPPORT_REGION, HARNESS_PASSAGE_RESERVATION",
+    "Mount 模块树: SV2_MNT_ROBOT, SV2_MNT_INTERFACE_PLANE_M, SV2_MNT_ADAPTER_REFERENCE, SV2_MNT_LOAD_SPREADING_REGION, SV2_MNT_PRIMARY_FRAME_TIE_REFERENCES, SV2_MNT_TOOL_ACCESS_KEEPOUT, SV2_MNT_HARNESS_PASSAGE_OWNER, SV2_MNT_WRENCH_OVERLAY",
+    "载荷工况: LC-RM-OPERATION, LC-RM-CAPTURE, LC-RM-LAUNCH, LC-RM-GROUND",
+    "Owner 角色: Loads_and_Dynamics_Owner, Verification_Owner, Integration_and_Maintenance_Owner",
+    "配置名: COMPETITION_DISPLAY_V0",
+    "未知量: V2-UNK-001..V2-UNK-017（本组文件引用 003/005/006/009）",
+    "检查项: B3-ENTRY-01..05, V2-CAD-01..V2-CAD-20, PDR-C01..PDR-C14",
+    "状态词汇表: EVIDENCE_BOUND, EVIDENCE_BOUND_REFERENCE, EVIDENCE_BOUND_ENVELOPE_PHYSICS_OPEN, EVIDENCE_BOUND_INTERFACE_PHYSICS_OPEN, DESIGN_PROPOSAL, DESIGN_PROPOSAL_WITH_UNKNOWN_EXTERNAL_BOUNDARY, UNKNOWN_BLOCKED, PRIMARY_PROPOSAL, SECONDARY_PROPOSAL, PRIMARY_OR_SECONDARY_TBD, SECONDARY_OR_UNCLASSIFIED_PENDING, REFERENCE_ONLY, EXCLUDED, NEGATIVE_RESULT, NO_STRENGTH_CLAIM"
+  ],
+  "gate_status": "PDR_exit_gate.yaml: verdict=`COMP_PROT_03_A4_B2_8_PDR_COMPLETE`; `PDR_design_logic_complete: true`; `open_physical_blockers_preserved: true`; `B3_CAD_ready_to_request_human_approval: true`; `B3_CAD_authoring_authorized: false`; `physical_qualification_started: false`; `V1_0_unmodified: true`; next_human_gate `COMP-PROT-03-A4-B3-V2-SYSTEM-MECHANICAL-CAD` status=`NOT_GRANTED`, `request_ready: true`, `maximum_scope_if_granted: PARAMETRIC_SYSTEM_MECHANICAL_CAD_WITHOUT_PHYSICAL_QUALIFICATION`。PDR-C01..C14 全部 PASS_* 限定语（如 PASS_AT_PDR_SCOPE / PASS_CONCEPT_ONLY / PASS_WITH_NULL_LOADS / PASS_TOPOLOGY_LOAD_VALUES_NULL / PASS_NO_CAD_NO_FEA_NO_DYNAMICS）。其余文件状态原文: primary_load_path_contract=`CONCEPTUAL_TOPOLOGY_ONLY`; structure_design_report=`STATUS: CONCEPTUAL_LOAD_PATH_AND_TOPOLOGY_DEFINED` + `MATERIAL_SECTION_JOINTS: UNKNOWN_BLOCKED` + `STRENGTH_STIFFNESS_MODAL: NOT_EVALUATED`; robot_mount_load_interface=`FIELD_CONTRACT_READY_VALUES_UNKNOWN`; robot_mount_preliminary_design=`STATUS: TOPOLOGY_AND_INTERFACE_CONTRACT_DEFINED` + `LOADS_CONNECTIONS_MATERIALS: UNKNOWN_BLOCKED`，退出状态 `ROBOT_MOUNT_PDR_TOPOLOGY_COMPLETE / PHYSICAL_DESIGN_BLOCKED_BY_LOADS_CONNECTIONS_AND_MATERIALS`; acceptance matrix=`STATUS: FUTURE_B3_ACCEPTANCE_CONTRACT`（未来检查，无条目现在已通过）。",
+  "conflicts_or_gaps": [
+    "授权边界冲突（最重要）：文档截至 2026-07-24 记录 B3-ENTRY-01=NOT_AUTHORIZED、PDR gate `B3_CAD_authoring_authorized: false`、next_human_gate=NOT_GRANTED，而本任务声明授权=V2 系统机械 CAD。构建方必须持有晚于 2026-07-24 的具名人工授权（满足 mount §9 检查清单第一条），否则任何 V2 CAD 创建都直接触发 V2_BLOCKED 裁决。同时须在入口复核 V1 seal hash（B3-ENTRY-02=RECHECK_AT_ENTRY）。",
+    "V2-UNK-001..017 的定义正文不在本组六文件内（仅引用 ID 003/005/006/009 作为 blocked_by）；构建前需从 PDR 包其他章节（unknown register）拉取，否则无法逐项验证 B3-ENTRY-05。",
+    "LP_REAR_FRAME 的 external_boundary=null（DESIGN_PROPOSAL_WITH_UNKNOWN_EXTERNAL_BOUNDARY）：后边界外部支撑/deployer 无 owner，CAD 只能建 rear boundary frame 占位，不得虚构 rail/deployer 接口。",
+    "六维载荷全 null 且 consumption_rules 禁止 CAD 生成载荷数值：SV2_MNT_WRENCH_OVERLAY 只能做符号标注；与授权边界中禁止 FEA/动力学一致，无冲突。",
+    "IF-RM-001 sign_convention/time_basis/combination_rule/safety_factor_authority 均未定义：CAD 中任何箭头方向都不能被当作符号约定的定义来源（visual_arrow_is_load_evidence=false）。",
+    "命名差异需 CAD 侧对齐：yaml 用 LP_*/LPE_* 节点边 ID，报告用 FRM_*/LNG_* CAD reference 名——两套 ID 指同一对象（如 LP_FRONT_FRAME=FRM_FRONT_TASK @ +170.25mm），B3 建模应采用 FRM_*/LNG_* 作特征名并在属性/证据中回链 LP_* 合同 ID。",
+    "任务授权清单包含'太阳翼接口'：本组文件只给出 IF-SA-L/IF-SA-R 在 F_L/F_R 与 rear-mid frame station 的拓扑归属，hinge/部署载荷/连接均未知，太阳翼接口只能建为 owner reference，且 V2-CAD-13 禁止宣称飞行收拢/部署。",
+    "几何自洽确认（非冲突）：MOUNT_ORIGIN_S x=185.25mm = FRM_FRONT_TASK 170.25mm + 法兰 15mm；全部 EVIDENCE_BOUND 数值与 T_MA0=identity 互相一致。"
+  ],
+  "notes": "六文件绝对路径均位于 F:/China Graduate Future Flight Vehicle Innovation Competition/ 下对应相对路径。核心可执行事实：反力链对象与顺序已冻结为 7 节点 6 边的单链拓扑（B601 A0 侧唯二 EVIDENCE_BOUND 节点），全部 connection_definition=null；B3 建模只允许消费 4 个横框站位、4 根纵梁角点驱动、mount 的 6 项 EVIDENCE_BOUND 包络数值，其余一切物理量必须保持 null/UNKNOWN_BLOCKED。验收按 V2-CAD-01..20 + 14 视图 + 四选一退出裁决执行；PDR 已 COMPLETE 但 B3 授权在文档内为 NOT_GRANTED，需确认新授权链条后再动模型。"
+}

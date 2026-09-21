@@ -1,0 +1,40 @@
+# V2.2(donor) → V2.3 迁移矩阵（人工裁决：donor 仅 REFERENCE_DONOR_ONLY）
+generated_utc: 2026-07-27T17:34:01.075839+00:00
+policy: 禁止整体合并 donor 顶装；只允许逐子系统迁入并标注权威
+decisions:
+  - module: 00_Master_Skeleton
+    decision: REBUILD
+    reason: "V2.3 已有自己的骨架（18 基准面 + C5 负结果参数）；donor 骨架不迁入以免双骨架"
+  - module: 10_Primary_Structure
+    decision: EXCLUDE
+    reason: "V2.3 主结构为框-纵梁-甲板-可拆板骨架化实现且零互穿；迁入 donor 会带回结构冲突"
+  - module: 20_B601_Interface
+    decision: EXCLUDE
+    reason: "V2.3 已有 02_B601_Mount_and_Load_Path（8 件，接触面纪律，零互穿）"
+  - module: 30_B601_Controlled_Subassembly
+    decision: REBUILD
+    reason: "donor 为 q0 bbox 代理；阶段 1 按三表示重建（HIFI/KINEMATIC_PROXY/MASS_SURROGATE）"
+  - module: 40_End_Effector_Module
+    decision: MIGRATE
+    reason: "捕获头壳体/视觉窗——阶段 3 增量迁入，标 REFERENCE_OR_VISUAL_ONLY"
+  - module: 50_Solar_Array_Left
+    decision: MIGRATE_PANEL_ONLY
+    reason: "只迁翼板本体（substrate/边框/电池区）；根部机构用 V2.3 已对齐 Codex 站位的 14 件/侧"
+  - module: 50_Solar_Array_Right
+    decision: MIGRATE_PANEL_ONLY
+    reason: "同左"
+  - module: 60_GNC_Sensor_Module
+    decision: MIGRATE
+    reason: "GNC 设备体积——阶段 3 迁入，MASS_AUTHORITY=NONE"
+  - module: 70_Propulsion_Module
+    decision: MIGRATE
+    reason: "推进器安装座与喷管视觉模块——阶段 3 迁入"
+  - module: 80_Communication_Module
+    decision: MIGRATE
+    reason: "通信 reference——阶段 3 迁入"
+  - module: 90_Thermal_Exterior
+    decision: MIGRATE
+    reason: "热控 reference——阶段 3 迁入"
+  - module: Assembly
+    decision: EXCLUDE
+    reason: "**禁止整体合并顶装**（人工裁决）；V2.3 以自身顶装为唯一母体"

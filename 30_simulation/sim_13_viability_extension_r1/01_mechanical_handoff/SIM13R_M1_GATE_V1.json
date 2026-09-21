@@ -1,0 +1,119 @@
+{
+ "schema": "SIM13R_M1_GATE_V1",
+ "program": "RESEARCH_COUPLED_CLOSURE_R1 / RC1-MR1",
+ "generated_date_local": "2026-08-29",
+ "review_status": "PENDING_OWNER_REVIEW",
+ "tolerances": {
+  "position_axial_m": 1e-09,
+  "position_exact90_m": 1e-09,
+  "position_quantization_aware_m": 2.8889758138302397e-07,
+  "axis_direction_cosine": 1e-06,
+  "scale_relative": 1e-12,
+  "urdf_rpy_quantum_rad": 3.673205103416066e-06,
+  "quantization_transverse_bound_m": 2.626341648936581e-07
+ },
+ "exit_criteria": {
+  "C1_accepted_urdf_hash_unchanged": true,
+  "C2_all_nine_joint_conventions_explicit": true,
+  "C3_urdf_cad_agree_at_five_or_more_witnesses": true,
+  "C4_tool_camera_grasp_target_frames_computable": false,
+  "C5_no_prismatic_direction_from_human_guessing": true,
+  "C6_mm_to_m_scale_explicitly_verified": true,
+  "C7_D_and_M_identities_remain_distinct": true,
+  "C8_no_nonphysical_frame_in_load_path": true
+ },
+ "C3_witness_detail": {
+  "hypothesis_axial_travel_only": {
+   "tolerance_m": 1e-09,
+   "witnesses_pass": 7,
+   "max_residual_m": 4.823502708362071e-13,
+   "verdict": "PASS",
+   "meaning": "axis, sign and travel magnitude agree exactly"
+  },
+  "hypothesis_exact_90_degree_rpy": {
+   "tolerance_m": 1e-09,
+   "witnesses_pass": 1,
+   "max_residual_m": 2.6263416488858545e-07,
+   "verdict": "FAIL",
+   "meaning": "FAILS by construction: the URDF writes 1.5708, not pi/2. Retained as an honest negative result, not relaxed away. See DISC-009."
+  },
+  "hypothesis_urdf_rpy_quantization_aware": {
+   "tolerance_m": 2.8889758138302397e-07,
+   "witnesses_pass": 7,
+   "max_residual_m": 2.6263416488858545e-07,
+   "verdict": "PASS",
+   "analytic_bound_m": 2.626341648936581e-07,
+   "meaning": "residual is purely transverse and equals the analytic quantization bound"
+  },
+  "residual_is_purely_transverse": true
+ },
+ "C4_frame_detail": {
+  "TOOL_FLANGE": "COMPUTABLE",
+  "ACTIVE_GRASP_FRAME": "COMPUTABLE",
+  "GRIPPER_CONTACT_LEFT_RIGHT": "COMPUTABLE_PROVISIONAL_MESH_DERIVED",
+  "WRIST_CAMERA_FRAME": "HOLD",
+  "TARGET_CONTACT_FRAME": "HOLD",
+  "FORCE_TORQUE_SENSOR_FRAME": "UNKNOWN",
+  "ruling": "C4 CANNOT PASS from any local evidence. camera / target / F-T frames carry upstream HOLD or have no source at all. This is an honest BLOCKED, not a modelling gap that this work package could close."
+ },
+ "witness_count": 7,
+ "witness_pass_count": 7,
+ "max_witness_position_residual_m": 2.6263416488858545e-07,
+ "max_witness_axial_residual_m": 4.823502708362071e-13,
+ "aperture_closed_m": 0.02142812,
+ "aperture_open_m": 0.164546912,
+ "aperture_monotonic_over_symmetric_stroke": true,
+ "joint2_finding": {
+  "urdf_axis_in_child_frame": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "urdf_axis_in_parent_link1_frame": [
+   0.0,
+   -0.999999999993,
+   3.673205e-06
+  ],
+  "joint3_axis_in_link2_frame": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "dot_product_joint2_joint3_axes_in_link2": -1.0,
+  "geometric_relation": "ANTIPARALLEL_ABOUT_THE_SAME_PHYSICAL_LINE",
+  "ruling": "NOT_A_TYPO__DELIBERATE_OPPOSED_POSITIVE_SENSE",
+  "rationale": "joint2 and joint3 are the shoulder-pitch / elbow-pitch pair and share the link2 Z line. joint2 declares -Z, joint3 declares +Z, and both carry the one-sided limit interval [-3.14, 0]. Opposed positive sense with matching one-sided limits is the vendor convention that folds the arm inward; a uniform +Z assumption would drive joint2 out of its admissible interval.",
+  "control_hazard": "A controller that assumes a uniform +Z sense for joints 2 and 3 will command joint2 in the wrong direction and immediately violate [-3.14, 0].",
+  "mitigation": "sign_multiplier recorded per joint; no re-signing applied to L0",
+  "status": "VERIFIED"
+ },
+ "p_joint_verdict": {
+  "prior_reported_conflict": "URDF declares both prismatic joints axis (1,0,0) over [0, 0.0715] m with no left/right sign asymmetry, while CAD declares axis [0,1,0] in LINK6_LOCAL with left 0..-71.5 mm and right 0..+71.5 mm.",
+  "root_cause": "The URDF encodes the left/right asymmetry in the JOINT ORIGIN rpy, not in the axis vector: gripper_joint1 rpy = (0,0,-1.5708) and gripper_joint2 rpy = (0,0,+1.5708). Rotating the common child-frame axis (1,0,0) by Rz(-90) and Rz(+90) yields (0,-1,0) and (0,+1,0) in the gripper_link frame. The fixed gripper_joint (rpy 0,-1.5708,0) preserves the Y direction between link6 and gripper_link, so LINK6_LOCAL Y and gripper_link Y are the same physical line.",
+  "R_link6_to_gripper_link_preserves_Y": 1.0,
+  "verdict": "NO_PHYSICAL_CONFLICT__APPARENT_ONLY__FULLY_EXPLAINED_BY_LOCAL_FRAME_ROTATION",
+  "resolved_convention": {
+   "gripper_joint1": "LEFT finger travels along -Y of gripper_link (= -Y of LINK6_LOCAL)",
+   "gripper_joint2": "RIGHT finger travels along +Y of gripper_link (= +Y of LINK6_LOCAL)",
+   "opening_sense": "both q increase => fingers SEPARATE (aperture increases)",
+   "q_CAD_mm": "q_CAD = A_q * q_URDF + b_q, with A_q = -1000 (left) / +1000 (right), b_q = 0"
+  },
+  "millimetre_to_metre_scale_verified": true,
+  "status": "VERIFIED"
+ },
+ "m1_core_reconciliation_pass": true,
+ "m1_full_pass": false,
+ "r1_status": "BLOCKED",
+ "technical_verdict": "M1_CORE_JOINT_FRAME_SIGN_RECONCILIATION_PASS__P_JOINT_CONFLICT_RESOLVED_AS_APPARENT_ONLY__JOINT2_SIGN_RESOLVED_AS_DELIBERATE_CONVENTION__C4_BLOCKED_BY_UPSTREAM_SENSOR_AND_TARGET_HOLDS__R1_REMAINS_BLOCKED__NO_FREE_FLOATING_CONTROL_AUTHORIZATION",
+ "blocking_criteria": [
+  "C4_tool_camera_grasp_target_frames_computable"
+ ],
+ "does_not_authorize": [
+  "free-floating control execution",
+  "contact or grasp authority",
+  "Sim13 parent PASS",
+  "any mechanical release or qualification claim"
+ ],
+ "next_stage_authorized": false,
+ "release_credit": false
+}

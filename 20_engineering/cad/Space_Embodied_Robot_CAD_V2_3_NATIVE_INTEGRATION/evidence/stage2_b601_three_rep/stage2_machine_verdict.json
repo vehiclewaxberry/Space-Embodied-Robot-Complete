@@ -1,0 +1,128 @@
+{
+  "id": "NATIVE_MECH_REAL_01_STAGE2_MACHINE_VERDICT",
+  "generated_utc": "2026-07-27T18:56:35.222744+00:00",
+  "verdict": "STAGE2_PARTIAL_HOLD",
+  "gates": {
+    "S2_G1_SOURCE_BASELINE_PREFLIGHT": {
+      "status": "PASS",
+      "evidence": "preflight_and_source_hashes.json",
+      "detail": "108/108 files match frozen manifest"
+    },
+    "S2_G2_URDF_AUTHORITY_CONTRACT": {
+      "status": "PASS",
+      "evidence": "b601_authority_contract.json",
+      "detail": "URDF SHA match, 10 links, 9 joints, total mass 4.695555949342986 kg (zero error)"
+    },
+    "S2_G3_KINEMATIC_PROXY_BUILT": {
+      "status": "PASS",
+      "evidence": "kinematic_proxy_assembly.json",
+      "detail": "10/10 proxy parts + assembly, all readback OK, 9 joint chains in properties"
+    },
+    "S2_G4_MASS_SURROGATE_BUILT": {
+      "status": "PASS",
+      "evidence": "mass_surrogate_readback.json",
+      "detail": "10/10 mass parts + assembly, total mass 4.695555949342987 kg, error 8.88e-16 kg (<<1e-9 tolerance)",
+      "mass_method": "VOLUME_SIZED_CUBE_AT_DEFAULT_DENSITY_500_KG_M3",
+      "com_inertia_note": "COM and inertia stored in custom properties only; cube geometry cannot represent arbitrary COM/MOI"
+    },
+    "S2_G5_HIFI_STOWED": {
+      "status": "HOLD",
+      "evidence": "hifi_import_and_reopen.json",
+      "detail": "252MB vendor STEP import failed on all COM paths (OpenDoc6 part: None 0.9s, OpenDoc6 asm: hung, LoadFile4: not reached). Consistent with prior B601_SWAP01 failure.",
+      "hold_reason": "VENDOR_STEP_IMPORT_EXCEEDS_COM_CAPACITY",
+      "recommended_resolution": "Interactive SolidWorks GUI import with user monitoring",
+      "source_verified": true,
+      "source_sha256": "cc8cfdd20865d25832a077ec54d4057386d2dcdf69db4d66917d91e6b1e928ab"
+    },
+    "S2_G6_THREE_REP_ASSEMBLY": {
+      "status": "HOLD",
+      "detail": "Three-representation mutual-exclusion assembly NOT completed. Component insertion failed due to SolidWorks COM degradation (ActivateDoc3 non-functional after forced restart). Individual sub-assemblies (KINEMATIC_PROXY, MASS_SURROGATE) are complete and self-contained.",
+      "hold_reason": "COM_DEGRADATION_ACTIVATEDOC3_BROKEN",
+      "recommended_resolution": "Interactive assembly of B601_THREE_REPRESENTATIONS.SLDASM with existing sub-assemblies"
+    },
+    "S2_G7_TOP_ASSEMBLY_INTEGRATION": {
+      "status": "HOLD",
+      "detail": "Not attempted due to G6 HOLD",
+      "hold_reason": "BLOCKED_BY_G6"
+    },
+    "S2_G8_CLOSE_REOPEN_VERIFY": {
+      "status": "HOLD",
+      "detail": "Not attempted due to G6/G7 HOLD. Individual sub-assemblies verified during build.",
+      "hold_reason": "BLOCKED_BY_G6_G7"
+    },
+    "S2_G9_SOURCE_BASELINE_POST_HASH": {
+      "status": "PASS",
+      "evidence": "source_baseline_post_hash.json",
+      "detail": "108/108 files unchanged after all operations"
+    }
+  },
+  "summary": {
+    "gates_pass": 4,
+    "gates_hold": 4,
+    "gates_fail": 0,
+    "pass_gates": [
+      "S2_G1",
+      "S2_G2",
+      "S2_G3",
+      "S2_G4",
+      "S2_G9"
+    ],
+    "hold_gates": [
+      "S2_G5",
+      "S2_G6",
+      "S2_G7",
+      "S2_G8"
+    ]
+  },
+  "objects_built": {
+    "B601_KINEMATIC_PROXY": {
+      "status": "BUILT",
+      "parts": 10,
+      "assembly": "B601_KINEMATIC_PROXY.SLDASM",
+      "authority": "ACCEPTED_URDF",
+      "geometry": "CONSERVATIVE_PROXY_NOT_VENDOR_SHELL"
+    },
+    "B601_MASS_SURROGATE": {
+      "status": "BUILT",
+      "parts": 10,
+      "assembly": "B601_MASS_SURROGATE.SLDASM",
+      "total_mass_kg": 4.695555949342987,
+      "mass_error_kg": 8.881784197001252e-16,
+      "authority": "ACCEPTED_URDF"
+    },
+    "B601_STOWED_HIFI": {
+      "status": "HOLD",
+      "reason": "VENDOR_STEP_IMPORT_FAILED"
+    },
+    "B601_THREE_REPRESENTATIONS": {
+      "status": "HOLD",
+      "reason": "COM_DEGRADATION_BLOCKED_ASSEMBLY"
+    }
+  },
+  "engineering_holds": [
+    "STOW_VECTOR_STATUS=CANDIDATE_HOLD",
+    "STOW_Z_LIMIT=UNKNOWN",
+    "STOW_CONTACT_QUALIFICATION=HOLD",
+    "MATERIAL/LOAD/FASTENER/PRELOAD=UNKNOWN_OR_TBD",
+    "NO_FEA_NO_DYNAMICS_NO_FLIGHT_RELEASE",
+    "C5_STOW_WING_PACK_238.3>226.3mm",
+    "DUAL_SOLAR_ROOT_MECHANISM_302.3>226.3mm",
+    "HIFI_IMPORT_REQUIRES_INTERACTIVE_GUI",
+    "THREE_REP_ASSEMBLY_REQUIRES_INTERACTIVE_BUILD",
+    "COM_INERTIA_PROPERTIES_ONLY_NOT_GEOMETRIC"
+  ],
+  "source_baseline_integrity": {
+    "pre_hash": "PASS (108/108)",
+    "post_hash": "PASS (108/108)",
+    "no_files_modified_in_source": true
+  },
+  "review_status": "PENDING_HUMAN_REVIEW",
+  "next_stage_authorized": false,
+  "prohibitions": [
+    "Do not commit to Git without human authorization",
+    "Do not claim FEA, dynamics, manufacturing, launch, or flight completion",
+    "Do not rerun O13 or any pose search",
+    "Do not treat proxy geometry as vendor shell",
+    "Do not use SolidWorks mass readback in place of URDF authority for COM/inertia"
+  ]
+}

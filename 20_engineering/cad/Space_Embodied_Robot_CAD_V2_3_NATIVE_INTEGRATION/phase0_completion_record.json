@@ -1,0 +1,52 @@
+{
+  "task": "V2_3_NATIVE_SYSTEM_INTEGRATION",
+  "stage": "0_BASELINE_FREEZE",
+  "generated_utc": "2026-07-27T17:47:46.072928+00:00",
+  "human_rulings_2026_07_28": {
+    "CANONICAL_NATIVE_BASELINE": "Space_Embodied_Robot_CAD_V2_2_NATIVE/Assembly/Space_Embodied_Service_Spacecraft_V2_2.SLDASM",
+    "CANONICAL_TOP_SHA256": "30c09b50a0d2967ec1f48050caac34d12a43565c44978d54e3785595202def7a",
+    "V2_2_NATIVE_ROLE": "READ_ONLY_ACCEPTED_BASELINE",
+    "V2_2_ROLE": "REFERENCE_DONOR_ONLY（禁止整体合并顶装）",
+    "V2_0_V2_1_ROLE": "FROZEN_HISTORICAL_BASELINES",
+    "SOLIDWORKS_SOLE_WRITER": "CLAUDE_CODE",
+    "B601_STOWED_HIFI": "CONFIRMED_NOT_CREATED"
+  },
+  "deliverables": {
+    "baseline_freeze_manifest.yaml": "108 文件逐个 sha256",
+    "migration_matrix.yaml": "12 个 donor 模块 KEEP/MIGRATE/REBUILD/EXCLUDE",
+    "phase0_record.json": "基线绑定+复制+零变化证明",
+    "phase0_leak_repair.json": "引用泄漏整改记录",
+    "evidence/phase1_verify.json": "V2.3 冷启动验证"
+  },
+  "baseline_bind_by_hash": true,
+  "isolation": {
+    "components_total": 56,
+    "resolved_outside_v23": [],
+    "verdict": "ISOLATED"
+  },
+  "leak_caught_and_repaired": {
+    "leak": "Removable_Panels.SLDASM 在 V2.3 顶装中按烘死绝对路径解析回冻结基线",
+    "not_a_session_cache": "冷启动复核后仍泄漏，确认为文件内绝对路径",
+    "repair": "IAssemblyDoc.ReplaceComponents 重指到 V2.3 内部副本",
+    "significance": "若未做引用归属核验，后续所有'V2.3 改动'会实际写入冻结基线"
+  },
+  "source_baseline_unchanged": {
+    "checked": 108,
+    "violations": [],
+    "proof": "PASS"
+  },
+  "v23_cold_verify": {
+    "native_parts": 55,
+    "native_assemblies": 8,
+    "broken_links": 0,
+    "config_persistence": "PASS",
+    "interference_count": 0
+  },
+  "incidental_cleanup": {
+    "stale_lock_files_removed_from_baseline": 56,
+    "justification": "~$ 锁文件为崩溃残渣，不在冻结清单内（冻结时已排除）；清理后 108 个冻结文件哈希逐个复算零变化，故不构成基线修改"
+  },
+  "phase0_verdict": "PHASE0_COMPLETE_BASELINE_FROZEN_AND_ISOLATED",
+  "next": "阶段 1 B601 三表示（HIFI/KINEMATIC_PROXY/MASS_SURROGATE）——HIFI 需导入已登记 35MB 厂商 STEP，该操作有失败史（headless LoadFile4 无返回，215s），属本阶段最大风险项",
+  "review_status": "PENDING_HUMAN_REVIEW"
+}

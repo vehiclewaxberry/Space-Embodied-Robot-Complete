@@ -1,0 +1,29 @@
+schema: F3R2_EXTERNAL_MASS_INERTIA_V1
+frame: "spacecraft assembly frame (mm, g)"
+accepted_arm_urdf:
+  sha256: 408147DDC9CC0BBA0FACBF864C559A54D1712262703BA41251514A4303B5A3A4
+  modified_by_f3r2: false
+budget:
+  total_g: 507.22
+  by_group_g:
+    WING_ROOT_INTERFACE: 89.292
+    STOW_SUPPORT: 94.808
+    ARM_HDRM_CAMERA_HARNESS: 302.856
+    FASTENERS: 20.26
+  tier3_cad_volume_g: 423.16
+  tier4_estimate_g: 84.06
+  min_estimate_g: 452.43
+  max_estimate_g: 637.94
+  uncertainty_note: "tier-3 lines are CAD volume x handbook density with a ribbing factor, so +/-15%; tier-4 lines are class estimates with no part selected, so -40% / +80%.  No line is measured or vendor-confirmed."
+  explicitly_excluded:
+    - "accepted B601 arm mass and inertia (protected asset, unchanged)"
+    - "spacecraft V2_2 structure (unchanged)"
+    - "solar panel mass (SSOT placeholder issue, out of scope here)"
+inertia:
+  status: NOT_COMPUTED
+  why: "inertia requires the parts to exist as solids; all F3R2 external hardware is DEFINED_NOT_MODELLED, so an inertia tensor here would be fabricated"
+  what_is_available: "per-part mass and mounting station, sufficient for a point-mass perturbation study"
+how_dynamics_should_use_this:
+  - "add these masses at their mounting stations as point masses on the spacecraft body, NOT on the arm links"
+  - "do not modify the accepted arm URDF inertia"
+  - "treat the totals as provisional until parts are modelled"

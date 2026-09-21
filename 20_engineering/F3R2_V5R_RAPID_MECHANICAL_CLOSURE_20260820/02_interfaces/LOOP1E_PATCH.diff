@@ -1,0 +1,45 @@
+--- E:/V5R_RAPID_COLD_BACKUP/20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py	2026-08-13 22:28:52.891080900 +0800
++++ 20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py	2026-08-20 16:32:21.905821200 +0800
+@@ -2608,15 +2608,38 @@
+ 
+ 
+ def relative_transform(first: Any, second: Any, base: Any, types: Any, pythoncom: Any) -> List[float]:
++    """Relative transform A^-1 B, i.e. the pose of `second` in `first`'s frame.
++
++    SW2024 SP5 makepy quirk (same dual-name class as selection_manager above):
++    the I-prefixed IMathTransform members are present in the typelib but are not
++    invocable through IDispatch on this build - both raise 61836 "cannot read
++    write-only property". Their non-prefixed siblings work:
++
++        IInverse  (dispid 10) FAIL 61836   ->  Inverse  (dispid 9) OK
++        IMultiply (dispid  2) FAIL 61836   ->  Multiply (dispid 1) OK
++
++    NOTE the operands are deliberately swapped relative to the IMultiply form.
++    Dispid-1 Multiply composes in the opposite order: X.Multiply(Y) == M_Y x M_X.
++    So preserving A^-1 B requires second.Multiply(inverse); a name-only swap
++    would compute B A^-1 instead. That error would NOT surface as a failure -
++    this function is called both to record the expected transform and to
++    re-measure it after cold reopen, and the two are compared at 1e-7, so a
++    consistently-wrong order cancels out and passes while writing a meaningless
++    link6->gripper transform into the motion contract.
++
++    Verified on this install over three independent transform pairs, residual
++    <= 1.11e-16 against an independent 4x4 computation:
++    04_validation/LOOP1E_CORRECTED_ORDER_RECEIPT.json
++    """
+     first_transform = total_transform_object(first, base, types, pythoncom)
+     second_transform = total_transform_object(second, base, types, pythoncom)
+-    inverse_raw = first_transform.IInverse()
++    inverse_raw = first_transform.Inverse()
+     if inverse_raw is None:
+-        raise GateError("RELATIVE_TRANSFORM_INVERSE_FAIL", "IInverse returned null", {"first": component_name2(first, base)})
++        raise GateError("RELATIVE_TRANSFORM_INVERSE_FAIL", "Inverse returned null", {"first": component_name2(first, base)})
+     inverse = base.wrap(inverse_raw, "IMathTransform", types, pythoncom)
+-    relative_raw = inverse.IMultiply(second_transform)
++    relative_raw = second_transform.Multiply(inverse)
+     if relative_raw is None:
+-        raise GateError("RELATIVE_TRANSFORM_MULTIPLY_FAIL", "IMultiply returned null")
++        raise GateError("RELATIVE_TRANSFORM_MULTIPLY_FAIL", "Multiply returned null")
+     values = [float(value) for value in base.as_list(base.value(base.wrap(relative_raw, "IMathTransform", types, pythoncom), "ArrayData"))]
+     if len(values) != 16 or not all(math.isfinite(value) for value in values) or abs(values[12] - 1.0) > 1.0e-8 or any(abs(values[index]) > 1.0e-8 for index in (13, 14, 15)):
+         raise GateError("RELATIVE_TRANSFORM_SHAPE_FAIL", "relative transform is not a finite rigid 16-value ArrayData", {"values": values})

@@ -1,0 +1,17 @@
+claim_id,claim,value_on_disk,status,evidence_script,evidence_data,reproduced_20260711,notes
+C01,1620例安全走廊,1620 rows,VERIFIED,30_simulation/sim_04_capture_corridor/sim_04_capture_corridor.py,results/capture_corridor_summary.csv,yes(row count),deterministic sweep
+C02,SAFE 19.3%,312/1620=19.26%,VERIFIED,same,same,yes,naive-mode SAFE=0 co-verified
+C03,24例假安全,SAFE->FAIL=24; FAIL->SAFE=0,VERIFIED,sim_04_v2_exact_impulse.py,results/corridor_migration_v2.csv,yes,all debris@2.0deg/s
+C04,捕获后3.0->3.06 deg/s,3.06333,VERIFIED,sim_06_capture_impulse.py,results/capture_impulse_matrix_v0.csv,yes,debris/3.0/0.01 row
+C05,标量式低估2.9-12.3%,-12.335..-2.864%,VERIFIED,same,same,yes,report should print -2.9%..-12.3%
+C06,3.65 N·m·s,3.65099,VERIFIED,sim_08.../actuator_budget.py,results/actuator_budget_sweep.csv,yes,debris@3.0 v_app=0.01
+C07,12倍轮组容量,12.17x vs 3x100mNms,VERIFIED,same,same,yes,wheel classes are placeholder tiers (assumptions.yaml)
+C08,36.5 g冷气,36.4998 g,VERIFIED,same,same,yes,lever=0.17m Isp=60s
+C09,19.20°基座反作用,19.20 (base_dev_angle peak),VERIFIED*,sim_05_headline.py,results/sim_05_base_attitude.csv,yes,*computed on hybrid arm_b601_v1; constraint-3 re-baseline pending (P0-1); maneuver exceeds joint2 limit (benchmark only)
+C10,2.617°几何相位,2.6168,VERIFIED,sim_05 tests/test_dynamics.py,rerun stdout,yes(rerun),closed q2/q3 cycle
+C11,ANCF基准5/5,5/5 PASS,VERIFIED,ancf_beam_benchmark.py,results/benchmark_results_v1.md,yes(rerun),static 1.03e-4; f1 err 2.1e-6; zero-strain ~1e-14
+C12,刚性锁定激振约100倍,92.1-92.4x,PARTIAL,sim_07a_task_response.py,results/task_response_summary.csv,yes,fix wording to ~92x / near two orders; 3dof value is indicative lower bound (assumption A3)
+C13,振铃37-75 s,37.03-75.17 s,VERIFIED*,same,same,yes,*fit-extrapolated beyond 15s window (flagged in CSV); matches ln20/(zeta*w1) within 4%
+C14,自动化测试52项全绿,25+22+5=52 (plus 3 sim_07a regressions),VERIFIED,three run_all/benchmark scripts,rerun stdout 2026-07-11,yes(all rerun),actual total incl. regressions = 55
+C15,|Hbm qdot|峰值0.089,0.0891 kg m2/s,VERIFIED,sim_05_headline.py,sim_05_base_attitude.csv,yes,Case B baseline
+C16,质量拆分闭合,23.3032134+2x0.3483933=24.000 err=0.0,VERIFIED,20_engineering/config/geometry/mass_split_check.py,rerun stdout,yes(rerun),auto-check in repo

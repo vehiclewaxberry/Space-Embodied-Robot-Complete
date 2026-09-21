@@ -1,0 +1,209 @@
+{
+  "schema": "SIM13_V4B4G_R1_FAILURE_CLOSURE_CONTRACT_V1",
+  "scope": "REGISTERED_FAILURE_CLOSURE_ONLY_NO_NEW_PHYSICS_CAMPAIGN",
+  "original_b4g_ruling": {
+    "execution_invalidation_active": true,
+    "raw_diagnostic_evidence_preserved": true,
+    "original_b4g_final_credit": false,
+    "scientific_gate_pass": false,
+    "replacement_campaign_summary": null,
+    "failure_is_not_waived": true
+  },
+  "g06_failure_closure": {
+    "gate_id": "B4F-G06-ENERGY-MINUS-WORK-IDENTITY",
+    "threshold_J": 1e-07,
+    "independent_recompute_formula": "max_t(abs((T_total(t)-T_total(t0))-(W_act(t)-W_act(t0))))",
+    "failed_case_stored_array_crosscheck_abs_tolerance_J": 1e-18,
+    "all_executed_case_stored_array_crosscheck_abs_tolerance_J": 2e-12,
+    "expected_failed_slots": [
+      82,
+      84,
+      88
+    ],
+    "expected_failed_lane": "MIDPOINT_COARSE",
+    "expected_failed_alpha": 16.0,
+    "failures": [
+      {
+        "slot_index": 82,
+        "command_duration_s": 0.01,
+        "published_active_max_residual_J": 2.416992812108443e-07,
+        "independent_recomputed_max_residual_J": 2.416992812104411e-07
+      },
+      {
+        "slot_index": 84,
+        "command_duration_s": 0.005,
+        "published_active_max_residual_J": 2.5554233711207186e-07,
+        "independent_recomputed_max_residual_J": 2.555423371124221e-07
+      },
+      {
+        "slot_index": 88,
+        "command_duration_s": 0.02,
+        "published_active_max_residual_J": 2.3470228460893694e-07,
+        "independent_recomputed_max_residual_J": 2.3470228460890983e-07
+      }
+    ],
+    "midpoint_alpha16_empirical_orders": {
+      "definition": "p=log2(residual(h)/residual(h/2))",
+      "per_duration_s": [
+        {
+          "command_duration_s": 0.005,
+          "coarse_to_fine": 2.0803490936013893,
+          "fine_to_reference": 2.0423811159186687
+        },
+        {
+          "command_duration_s": 0.01,
+          "coarse_to_fine": 2.042381211310384,
+          "fine_to_reference": 2.0217258775427074
+        },
+        {
+          "command_duration_s": 0.02,
+          "coarse_to_fine": 2.021725964221229,
+          "fine_to_reference": 2.010994295233041
+        }
+      ],
+      "exact_min": 2.010994295233041,
+      "exact_max": 2.0803490936013893,
+      "reported_two_decimal_range": [
+        2.01,
+        2.08
+      ]
+    },
+    "mechanism_ruling": {
+      "classification": "EXPLICIT_MIDPOINT_SECOND_ORDER_TRUNCATION_DEFECT_IN_THE_FROZEN_DISCRETE_FIRST_LAW",
+      "physical_missing_term_supported": false,
+      "intermittent_or_nondeterministic_code_fault_supported": false,
+      "basis": "only MIDPOINT_COARSE alpha=16 fails, three durations reproduce the failure, and two successive midpoint refinements exhibit approximately second-order convergence",
+      "claim_limit": "diagnosis is restricted to the frozen synthetic discrete model and does not validate physical jaw hardware or a future campaign"
+    }
+  },
+  "g04_runner_validator_divergence": {
+    "status": "OPEN_CONTRACT_DIVERGENCE_MUST_BE_VERSIONED_BEFORE_ANY_NEW_CAMPAIGN",
+    "runner_run_spec_acceptance": "terminal native and every-second composite-trapezoid errors only",
+    "validator_additional_acceptance": "max_t(abs(cumulative_trapezoid_work(t)-augmented_W_act(t)))<=1e-7_J",
+    "additional_validator_check_present_in_run_spec": false,
+    "silent_deletion_of_validator_check_authorized": false,
+    "required_resolution": "a versioned next-run contract shall explicitly retain, revise, or replace the cumulative criterion and shall make runner and validator implement the same named rule"
+  },
+  "g12_and_a2_ruling": {
+    "paired_finite_reference_levels": 9,
+    "paired_finite_scientific_predicate_false": 9,
+    "unpaired_levels_not_applicable": 9,
+    "signed_work_exceedance_factor_min": 10.936523079593806,
+    "signed_work_exceedance_factor_max": 1001.8579196103545,
+    "removal_time_substantive_exceedance_count": 2,
+    "removal_time_binary_boundary_case_count": 1,
+    "eligible_level_count": 0,
+    "selected_parent_level": null,
+    "a2_not_evaluated_metadata_count": 24,
+    "interpretation": "G12 PASS evaluation_status records mean that a negative predicate was validly evaluated; 9/9 paired finite scientific predicates are false, so no A1 parent is eligible and A2 is not evaluated",
+    "g06_refinement_alone_resolves_g12": false
+  },
+  "prospective_remediation": {
+    "classification": "PLANNED_NOT_AUTHORIZED",
+    "new_campaign_authorized": false,
+    "candidate_midpoint_steps": {
+      "step_s": [
+        0.00025,
+        0.000125,
+        0.0000625
+      ],
+      "step_ms": [
+        0.25,
+        0.125,
+        0.0625
+      ],
+      "retrospective_g06_support": [
+        {
+          "step_s": 0.00025,
+          "worst_observed_alpha16_residual_J": 6.042482256229565e-08,
+          "threshold_headroom_J": 3.9575177437704344e-08,
+          "threshold_to_residual_factor": 1.6549490053843992
+        },
+        {
+          "step_s": 0.000125,
+          "worst_observed_alpha16_residual_J": 1.4668895182401425e-08,
+          "threshold_headroom_J": 8.533110481759857e-08,
+          "threshold_to_residual_factor": 6.817145992015271
+        },
+        {
+          "step_s": 0.0000625,
+          "worst_observed_alpha16_residual_J": null,
+          "threshold_headroom_J": null,
+          "second_order_projection_residual_J_not_acceptance_evidence": 3.6672237956003562e-09
+        }
+      ],
+      "retrospective_g04_cumulative_warning_at_step_0p00025_s": {
+        "worst_observed_cumulative_discrepancy_J": 9.124409739671069e-08,
+        "threshold_headroom_J": 8.755902603289308e-09,
+        "threshold_to_discrepancy_factor": 1.095961304381372,
+        "classification": "THIN_MARGIN_REQUIRES_PREFLIGHT"
+      },
+      "unit_rule": "time steps are reported in s and ms; energy residuals and headroom are reported in J; no J/s power margin is inferred from an energy gate"
+    },
+    "required_preflight_before_campaign_decision": {
+      "acquisition_convergence": "preregister lane-specific fresh B3 acquisition time, state and certificate convergence; retain each lane's provenance and never force a shared scientific event",
+      "propagation_convergence": "separately preregister a common-initial-state propagation diagnostic to isolate integrator error; it must not overwrite lane-specific acquisition provenance or earn shared-event credit",
+      "g04_contract_reconciliation": "version and unify runner and validator semantics before execution",
+      "g12_resolution": "evaluate reference-lane event and signed-work convergence independently of G06 refinement",
+      "decision_rule": "only a passing frozen preflight may support a later authorization decision; it does not itself authorize the full campaign"
+    },
+    "forbidden_shortcuts": [
+      "raise_or_relax_the_1e-7_J_G06_threshold_in_place",
+      "delete_alpha_16_from_the_registered_domain",
+      "run_RK4_and_label_it_midpoint",
+      "define_W_act_equal_to_delta_T_or_otherwise_make_G06_an_identity",
+      "silently_delete_the_validator_cumulative_G04_check",
+      "force_lane_specific_acquisition_events_to_share_one_scientific_event",
+      "overwrite_the_failed_B4G_raw_evidence_or_invalidation",
+      "reuse_or_claim_original_B4G_final_credit",
+      "start_a_new_full_campaign_before_versioned_preflight_and_authorization"
+    ]
+  },
+  "required_false": {
+    "original_b4g_final_credit": false,
+    "b4g_scientific_gate_pass": false,
+    "b4g_r1_new_physics_campaign_executed": false,
+    "b4g_r1_full_campaign_authorized": false,
+    "minimum_required_synthetic_force_identified": false,
+    "physical_force_or_timing_identified": false,
+    "physical_gripper_validated": false,
+    "current_system_bound": false,
+    "formal_nc19_credit": false,
+    "owner_authorized": false,
+    "production_ready": false,
+    "next_stage_authorized": false
+  },
+  "formal_sim13_v2_state_unchanged": {
+    "passed": 15,
+    "declared": 20,
+    "hold_ids": [
+      "NC15",
+      "NC16",
+      "NC18",
+      "NC19",
+      "NC20"
+    ]
+  },
+  "memory_record": {
+    "memory_gate_applicable": false,
+    "memory_gate_passed": false,
+    "owner_override_used": false,
+    "classification": "BOUNDED_DIAGNOSTIC_CONTRACT_ONLY"
+  },
+  "test_contract": {
+    "expected_collected": 14,
+    "expected_nodeid_sha256": "1B67FCB7489F70EB91AFEDFD7558CDF589BBFF9CAFEDB82D42A87F17C9949327",
+    "required_outcome": {
+      "passed": 14,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "gate_semantics": {
+    "allowed_pass_status": "PASS_PHASE_B4G_R1_REGISTERED_FAILURE_CLOSURE_CONTRACT_ONLY",
+    "scientific_pass_implied": false,
+    "new_campaign_credit_implied": false,
+    "physical_or_authority_credit_implied": false
+  }
+}

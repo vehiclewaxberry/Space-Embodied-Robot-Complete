@@ -1,0 +1,266 @@
+schema: MPI_BRIDGE_OWNER_CONFIRMATION_ADDENDUM_V1
+generated_local: '2026-08-23T20:42:34+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+generator:
+  wave: "KIMI M7 机械终局接管 swarm Wave-4a (ODR-45..49 owner decisions + R2 full-flex closure)"
+  role: "A2 — MPI bridge owner-confirmation operational addendum agent (pure python 3.13.9 hashlib/numpy; read-only on all upstream/frozen files; writes only this addendum pair inside round1_bridge/00_authority/; git read-only)"
+class: ADDENDUM_ONLY__ORIGINAL_FILES_UNTOUCHED
+addendum_scope: >-
+  运行级 addendum：登记 ODR-45（载于 ODR-45..49 决定记录）对 MPI 物理→动力学桥车道的
+  Owner 确认状态迁移。全部迁移只发生在登记/运行层；任何原始/冻结文件不改一字。
+  本文件不授予任何下一阶段授权或 release credit。
+
+authority_record:
+  odr_record_path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+  odr_record_sha256: 69473BC19E020C6422B23C1758CFC343874F641781C9782E982036614C0849B5
+  odr_record_bytes: 26885
+  decisions_consumed: [ODR-45]
+  decisions_context_only: [ODR-46, ODR-47, ODR-48, ODR-49]
+
+bridge_status_transition:
+  from: FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION
+  from_frozen_file_status_field_literal: FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION_AND_MPI_FB08_GATE
+  to: CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE
+  per_decision: ODR-45 (MPI_BRIDGE_OWNER_CONFIRMATION)
+  odr_record_pin:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+    sha256: 69473BC19E020C6422B23C1758CFC343874F641781C9782E982036614C0849B5
+  bridge_file_pin:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml
+    sha256: 0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C
+    recomputed_by_this_agent: true
+  mechanics: >-
+    升级发生在登记层：冻结桥文件 B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml 自身不改一字；
+    MPI_FB08 门肢体已落地（MPI_BRIDGE_GATE_V1.json：mpi_gate=PASS，9/9 判据 PASS，
+    review_status=PENDING_OWNER_REVIEW）；ODR-45 解除 Owner 确认肢体。自此有效权威
+    状态 = CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE。冻结文件内的历史 status 字段逐字保留，
+    由本 addendum 与 ODR-45..49 记录承载迁移。
+  authority_map_restated:
+    physical_installation_authority: WP11 physical installation context（208.0 mm + 25.000014 deg clocking about +X_S）
+    dynamics_reference_authority: ODR-01 T_SM（M frame；登记链根 M7_OWNER_DECISION_REGISTER_V1.yaml）
+    unique_explicit_bridge: B = T_PHYSICAL_TO_DYNAMICS
+    closed_form: B = Trans(z_A0, +0.02275 m) . Rot(z_A0, +25.000014 deg)
+    flow: Physical CAD →(B)→ Dynamics frame
+    consumers_bridged_registration: [mass, CG, inertia, wrench, collision-geometry]
+    channel_rule: >-
+      mass/CG/inertia/wrench/collision-geometry 从物理安装系进入动力学系只能经此唯一显式桥 B；
+      任何消费者必须引用桥文件及其 sha256。
+    five_prohibitions:
+      - no_arbitrary_selection_between_WP11_and_ODR01（禁止二选一/选择性消费）
+      - no_averaging（禁止取平均——两 frame 或其输出永不平均）
+      - no_implicit_conversion（禁止静默坐标替换；转换只能经 B 且必须显式引用）
+      - no_per_module_mixing（禁止按模块混用两个 frame）
+      - no_delta_as_uncertainty_relabel（0.3688895107529362 deg 分支差是 frame 消费差异，不是随机不确定度；standard_uncertainty 保持 null）
+    analytic_generation_rule: >-
+      桥永远由冻结 frame 定义（e21 authority contract 的 ODR01_DYNAMICS_T_SM 与
+      WP11_PHYSICAL_GEOMETRY_CONTEXT 放置假设，hash-pinned 矩阵）解析生成；
+      Trans(z,+0.02275 m)·Rot(z,+25.000014°) 是解析结果闭式；任何数值拼写
+      永不成为第二权威来源。
+
+odr43_odr44_incorporation:
+  statement: >-
+    ODR-43（B601_ARM_PLACEMENT_RULE: DUAL_FRAME_EXPLICIT_BRIDGE）与
+    ODR-44（ODR-42: APPROVE_BOUNDED_DETAILED_DESIGN）经 ODR-45..49 决定记录之 ODR-45
+    正式并入 Owner 决定登记链；原候选记录文件不改一字。
+  review_status_transition:
+    from: RECORDED_AS_DIRECTED__ADDENDUM_CANDIDATE_PENDING_OWNER_CM_FORMAL_INCORPORATION
+    to: INCORPORATED_BY_ODR45_CHAIN_RECORD
+    note: 迁移登记于本 addendum 与 ODR-45..49 记录；原文件内 review_status 字段逐字保留，不被改写。
+  pins:
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/00_authority/ODR43_ODR44_OWNER_AUTHORIZATION_RECORD_V1.yaml
+      sha256: B695311B2885AEC601C336FFA4E1695BCAB063F725AD12133BA771F8BD25D06D
+      role: 被并入的 ODR-43/44 候选记录（原文件不动）
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+      sha256: 69473BC19E020C6422B23C1758CFC343874F641781C9782E982036614C0849B5
+      role: 执行并入的 ODR-45..49 决定记录
+
+mc_a_owner_confirmation:
+  ruling_id: ENG-RULING-DYN-MASS-ALLOC-MC-A-V1
+  status_transition:
+    from: ISSUED_AND_EFFECTIVE_AT_ENGINEERING_LEVEL__PENDING_OWNER_CONFIRMATION__REVERSIBLE_VIA_ECR
+    to: OWNER_CONFIRMED_BY_ODR45
+    note: 迁移登记于本 addendum 与 ODR-45..49 记录；裁决原文件不改一字。
+  engineering_content_unchanged: >-
+    R2 太阳翼 ROM/自由漂浮动力学的唯一权威质量阵 = 已发布 leaf-only Mqq；每翼 2 个 0.03 kg
+    移动板间铰点质量作为刚性、非随动界面质量集中记账在铰线处，不进入 ROM 动能；
+    dynamic_mass_allocation_frozen 保持；已发布五工况频率带原样继续权威。
+  reversibility_carried:
+    mechanism: ECR（ECR_ONLY 框架）或 Owner 显式动作；逆转/修改须引用裁决文件 sha256 与 ruling_id。
+    reversal_conditions_verbatim:
+      RC-1: WP5 实物称重表明铰点质量显著偏离 0.03 kg/个（对应 ECR-M5 as-built mass correlation 触发族）。
+      RC-2: 铰链实测表明随动惯性不可忽略（第三阶模态敏感，记账差异约 13% 量级不可接受时）。
+      RC-3: 全柔性 HF 模型闭合（GAP-01..08 补齐）后重估 ROM 质量阵，证明 leaf-only 分配不再适用。
+      RC-4: Owner 或 CM 经显式动作否决、修改或升格本裁决。
+  open_item: OI-R1-06 → OWNER_CONFIRMED（Owner 级确认肢体由 ODR-45 closes 登记 OI-R1-06_OWNER_CONFIRMATION 解除；工程肢体此前已由 MC-A 裁决 discharge；登记册转录属 CM agent 工作道，本 addendum 不写任何 OPEN_ITEMS 寄存器；severity 是否自 HIGH 降级属 CM/Owner 口径）
+  ruling_file_pin:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/decisions/ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.yaml
+    sha256: 9CCE829E1581B190C6FC50BAE56C47659C61319052268E7C9DFD25FAC8B8C9E4
+    recomputed_by_this_agent: true
+
+e21_forward_consumption_rule:
+  single_arm_placement_consumption_semantics:
+    forward_state: RESOLVED_BY_ODR45_SINGLE_BRIDGED_CONSUMPTION
+    historical_frozen_state_verbatim: UNRESOLVED
+    historical_state_note: >-
+      e21 authority contract（hash-pinned）mandatory_holds.single_arm_placement_consumption_semantics: UNRESOLVED
+      为权威合同的历史冻结状态，逐字保持、永不改写；V6/R3 候选继续逐字携带该字段。
+      前向消费状态的解除由 ODR-45 在登记层完成。
+  historical_diagnostics_retained:
+    odr01_dynamics_t_sm_peak_base_attitude_deviation_deg: 29.041965867604112
+    wp11_physical_geometry_context_peak_base_attitude_deviation_deg: 29.41085537835705
+    disposition: 保留为历史诊断（historical diagnostics），不作当前消费值。
+  forward_consumption:
+    single_bridged_result_deg: 29.41085537835705
+    standard_uncertainty: null
+    source: round1_bridge/05_e21_bridged/E21_BRIDGED_ARM_PLACEMENT_GATE_V2.json single_authoritative_result
+  acceptance_rule_verbatim: >-
+    acceptance NEVER uses proximity to 29.041965867604112 or 29.41085537835705;
+    those are the pre-bridge dual-lane outputs, not truth anchors.
+  prohibition: 禁止对该历史数值对做任何 proximity-accept；禁止平均（29.226410622980581 deg 为黑名单值）。
+
+rt2_f01_annotation_addendum:
+  basis: MPI_BRIDGE_GATE_V1.json redteam_round2_finding_dispositions.RT2-F01（severity LOW）；action_required_by = Owner/CM annotation pass before owner signature — 本块即该 annotation pass 的登记。
+  target_entry: 02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml known_deviation_register[WP11-F-03_ROUNDED_CLOCK_SPELLING]
+  annotation: >-
+    该登记项的 matrix_max_abs_vs_bridge = 5.180141831595542e-07 属于角度合成重建：
+    θ = atan2(0.422618, 0.906308) = 24.999981251686034 deg（冻结登记项中显示拼写为
+    24.999981252 deg），随后取全精度三角（等价于 6 位拼写对的单位范数重建）。
+    字面 6 位三角拼写本身（sin/cos = 0.422618/0.906308，未归一化）给出
+    4.83193000000437e-07（rt2 复算值）。两个数值均登记于此。
+  recomputation_by_this_agent:
+    angle_synthesis_full_precision_trig_max_abs_vs_bridge: 5.180141831595542e-07
+    angle_synthesis_result: MATCH（与冻结登记值逐位一致）
+    literal_6digit_trig_max_abs_vs_bridge: 4.83193000000437e-07
+    literal_6digit_result: MATCH（与 rt2 复算值逐位一致）
+    method: max-abs element difference vs the stored bridge rotation (12dp contract spelling 0.906307683772/0.422618483193)
+  original_file_disposition: 冻结桥文件 NOT modified（字节不变；sha256 0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C 复算吻合）。
+  engineering_impact: >-
+    无工程影响：C01 arm-CG witness 在两种拼写下均复现（mutual 1.9e-14 m，引自 RT2-F01
+    disposition 原文）；偏差量级 ~1.1e-4 mm 不变；FB04-11/FB06-06 容差带不受影响。
+
+rt2_f02_carry:
+  basis: MPI_BRIDGE_GATE_V1.json redteam_round2_finding_dispositions.RT2-F02（severity LOW）
+  relabel: 03_validation/MPI03_BRIDGE_NUMERICAL_VALIDATION.json checks FB03-14/15/16（'stored vs independent re-derivation'，1e-16 limits）为同一路径重算（同一 numpy/LAPACK 操作序列），恒满足；重新标记为 SAME-PATH REPRODUCTION CHECKS。
+  genuinely_independent_evidence:
+    dense_vs_rigid_inverse_max_abs: 4.709566070459914e-13
+    dense_vs_rigid_inverse_source: bridge numerical_health.independent_dense_inverse_max_abs_vs_rigid_inverse
+    stored_B_times_stored_invB_roundtrip_max_abs: 5.195843755245733e-13
+    rt2_rebuild_stored_B_vs_rebuilt: 0.0
+    fb08_v01_03_rigid_inverse_rebuild: 0.0
+  carry_forward: 折叠进未来验证轮（future validation round may fold the relabel into the JSON）；不阻断 MPI_BRIDGE_GATE_V1 的 PASS 范围；21/21 PASS 结论不变。
+
+rebind_candidates_status:
+  candidates:
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/07_rebind/MECH_DYNAMICS_INTERFACE_V6_CANDIDATE.yaml
+      sha256: 4C52A68AA6E0749A2425D9E8CDB6C9F4477F5D4047C9D6C0BA6F0D95E97D184D
+      status_verbatim: CANDIDATE_ONLY__NOT_RELEASE_NOT_PRODUCTION_NOT_FLIGHT__PENDING_OWNER_REVIEW
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/07_rebind/EMBODIED_MECHANICAL_CONTRACT_R3_CANDIDATE.yaml
+      sha256: F3D6EC1D370FB26215A259391D5026CA4C261C7C4880AE6FD70AE2C0F0DDFC56
+      status_verbatim: CANDIDATE_ONLY__NOT_RELEASE_NOT_PRODUCTION_NOT_FLIGHT__PENDING_OWNER_REVIEW
+  owner_directive: ODR-45..49 记录 autonomous_next_actions 第 7 项（prepare MECH_DYNAMICS_INTERFACE_V6 + EMBODIED_MECHANICAL_CONTRACT_R3 for candidate rebinding）授权准备其 rebinding review。
+  discipline: candidate ≠ promotion；review ≠ promotion；两候选保持 CANDIDATE，base 文件（MECH_DYNAMICS_INTERFACE_V5_R2.yaml / EMBODIED_MECHANICAL_CONTRACT_R2.yaml）字节不变。
+  embedded_field_note: 两候选文件内嵌的桥 classification 字段（FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION_AND_MPI_FB08_GATE）为 ODR-45 之前的发射时拼写；按 addendum-only 纪律不予改写，待 rebinding review 处理；当前有效权威桥状态以 ODR-45..49 记录与本 addendum 为准。
+
+carried_holds_verbatim:
+  e15_ancf_certification: REPEAT_ANCF_CERTIFICATION（逐字；ODR-45 不授权重认证运行；源 30_simulation/e15_ancf_certification/results/gate_summary.json 复算吻合）
+  r2_harness_R2_HRN_04: FAIL_REDESIGN_REQUIRED（逐字；ODR-48 不重开 Route-B，本项不闭合）
+  r2_full_flexible_coupling:
+    status_now: IN_PROGRESS_PER_OWNER_DIRECTIVE
+    status_was: NOT_EVALUATED
+    meaning: >-
+      本 addendum 标记的是 Owner 授权的全柔性闭合工作包启动（ODR-45..49 记录
+      autonomous_next_actions：continue R2 Full-Flex closure / build HF three-leaf/wing model /
+      derive 3-5 mode/wing ROM / regress 6.9726/39.3586/98.0042 Hz witnesses / run 22kg@0.5dps
+      与 150kg@3dps anchors / propagate bounded uncertainties），不是闭合、不是评估结论；
+      评估判定本身在全柔性 Gate 实际评估前保持 NOT_EVALUATED。
+  mechanical_loop_v5_gate: HOLD（gate=HOLD、next_stage_authorized=false 今日复读核实；待消费 FB-08 输入包的 V5 重评估；single_consumption_rule_resolved 在 V5 门侧保持 false）
+  collision: HOLD_NOT_EVALUATED
+  contact: HOLD_NOT_EVALUATED
+  target_attachment: HOLD_NOT_EVALUATED
+  mission_capture: HOLD_NOT_EVALUATED
+  production: HOLD
+  flight: HOLD
+  OI-R1-05: HIGH unchanged（STILL_HIGH__RFI_MEMO_RECORDED_GAP_OPEN；ODR-46 发出 RFI-E/F/G 但不闭合本项，待响应）
+
+verification_record:
+  recomputation_method: sha256 over raw bytes, full 64-hex, recomputed by this agent at emission (2026-08-23T20:42+08:00 host local)
+  pins:
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+      sha256: 69473BC19E020C6422B23C1758CFC343874F641781C9782E982036614C0849B5
+      bytes: 26885
+      result: PASS（本 agent 首算 pin；该文件于本轮写入期间落地，落地后复算稳定）
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml
+      sha256: 0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C
+      bytes: 12145
+      result: PASS（与 MPI_BRIDGE_GATE_V1.json FB08-C01 及 ODR-45..49 记录 verification_record 一致）
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/00_authority/ODR43_ODR44_OWNER_AUTHORIZATION_RECORD_V1.yaml
+      sha256: B695311B2885AEC601C336FFA4E1695BCAB063F725AD12133BA771F8BD25D06D
+      bytes: 9942
+      result: PASS（与 ODR-45..49 记录 incorporated_record_sha256 一致）
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/decisions/ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.yaml
+      sha256: 9CCE829E1581B190C6FC50BAE56C47659C61319052268E7C9DFD25FAC8B8C9E4
+      bytes: 16110
+      result: PASS（与 ODR-45..49 记录 ruling_file_sha256 一致）
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/decisions/ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.md
+      sha256: E162C26B8BB7A733CBAA7357069644D06B5149A00EB0E31482E631DFB5EBF866
+      bytes: 6567
+      result: PASS（裁决人读版伴侣，一并登记）
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/07_rebind/MECH_DYNAMICS_INTERFACE_V6_CANDIDATE.yaml
+      sha256: 4C52A68AA6E0749A2425D9E8CDB6C9F4477F5D4047C9D6C0BA6F0D95E97D184D
+      bytes: 10208
+      result: PASS（与 MPI_BRIDGE_GATE_V1.json input_package 一致）
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/07_rebind/EMBODIED_MECHANICAL_CONTRACT_R3_CANDIDATE.yaml
+      sha256: F3D6EC1D370FB26215A259391D5026CA4C261C7C4880AE6FD70AE2C0F0DDFC56
+      bytes: 11352
+      result: PASS（与 MPI_BRIDGE_GATE_V1.json input_package 一致）
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/MPI_BRIDGE_GATE_V1.json
+      sha256: 60911E3C88387E2ED53601F2B541649BF90D689C57C4E74225226AE6FD10C721
+      bytes: 23153
+      result: PASS（与 ODR-45..49 记录 verification_record 一致）
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/05_e21_bridged/E21_BRIDGED_ARM_PLACEMENT_GATE_V2.json
+      sha256: 7F670C69C6EDCF6CBF783DC22843C9EF53FD82FA88313E913C855FEB0A47E707
+      bytes: 11939
+      result: PASS（与 MPI_BRIDGE_GATE_V1.json input_package 一致；single_authoritative_result / acceptance_rule 字段复读核实）
+    - path: 30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/00_authority/E21_AUTHORITY_CONTRACT_V1.yaml
+      sha256: 7D2E0792B3FF6BAB9BD9AE11A605341B20BAAB821961A7BA8E119996D1515D81
+      bytes: 3053
+      result: 'PASS（与桥 source_register 一致；mandatory_holds.single_arm_placement_consumption_semantics: UNRESOLVED 逐字复读核实）'
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/15_loop_continuation_v5/MECHANICAL_LOOP_ENGINEERING_CONTINUATION_GATE_V5.json
+      sha256: EB7F9AA14E5F455831711089D3ED3A2C5014783E5D103E144E164AFE9CC8379B
+      bytes: 19378
+      result: PASS（本 agent 首算 pin；gate=HOLD、next_stage_authorized=false、single_consumption_rule_resolved 非 true 复读核实）
+    - path: 30_simulation/e15_ancf_certification/results/gate_summary.json
+      sha256: AAB4D609E219279C2563C8A38743AC1784BBF16DE399D5B8798439B0AC2DCA80
+      bytes: 1585
+      result: PASS（与 MC-A 裁决 evidence_links 一致；overall=REPEAT_ANCF_CERTIFICATION 逐字）
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+      sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+      bytes: 3531
+      result: PASS（与 ODR-45..49 记录 verification_record 一致；ODR-01 T_SM 动力学参考权威源）
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/00_authority/OPEN_ITEMS_UPDATE_V1.csv
+      sha256: F492B337F2F74C924C9D05E7FD57C375363B567AE301E42D5A44FAEDD3A84A8B
+      bytes: 4530
+      result: PASS（OI-R1-06 迁移前登记状态来源；本 addendum 不修改该寄存器）
+  numeric_recomputations:
+    - item: RT2-F01 literal 6-digit trig spelling (sin/cos = 0.422618/0.906308) vs stored bridge rotation
+      recomputed_value: 4.83193000000437e-07
+      reference_value: 4.83193000000437e-07 (rt2 recomputed, quoted in MPI_BRIDGE_GATE_V1.json RT2-F01)
+      result: PASS（逐位一致）
+    - item: RT2-F01 angle-synthesis reconstruction θ = atan2(0.422618, 0.906308) = 24.999981251686034 deg（登记显示拼写 24.999981252 deg）, full-precision trig, vs stored bridge rotation
+      recomputed_value: 5.180141831595542e-07
+      reference_value: 5.180141831595542e-07 (frozen bridge known_deviation_register[WP11-F-03_ROUNDED_CLOCK_SPELLING].matrix_max_abs_vs_bridge)
+      result: PASS（逐位一致）
+
+next_stage_authorized: false
+release_credit: false
+nonclaims:
+  - 本 addendum 不授予任何 release、production、manufacturing、qualification、launcher 或 flight 权威
+  - 本 addendum 不修改任何原始/冻结/上游文件（桥、ODR43/44 记录、MC-A 裁决、e21 合同、V5 门、V6/R3 候选、寄存器均字节不变）
+  - 本 addendum 不关闭 V5 门 HOLD、e15 REPEAT_ANCF_CERTIFICATION、R2-HRN-04 FAIL_REDESIGN_REQUIRED、r2_full_flexible_coupling 评估、collision/contact/target/mission/production/flight 各 HOLD
+  - 本 addendum 不升格 V6/R3 候选（candidate ≠ promotion；rebinding review 仅为被授权的准备动作）
+  - 本 addendum 不写任何 OPEN_ITEMS/ECR 寄存器（属后续 CM agent 工作道）；OI-R1-06 的寄存器转录待 CM 执行
+  - 本 addendum 不授权 Route-C CAD（ROUTE_C 保持 FROZEN_PENDING_PHYSICAL_AUTHORITY；OI-R1-05 保持 HIGH OPEN）
+  - r2_full_flexible_coupling 的 IN_PROGRESS_PER_OWNER_DIRECTIVE 仅标记 Owner 授权启动，不是评估结论，更不是闭合
+  - test PASS ≠ gate PASS；PROVISIONAL 不静默升格；unknown 保持显式 null 不压 0
+self_hash_policy: SELF_REFERENCE_EXCLUDED - this file carries no hash of itself; downstream consumers pin its sha256 after emission (same policy as e21/V5 manifests and 02_bridge)
+companion_human_readable: MPI_BRIDGE_OWNER_CONFIRMATION_ADDENDUM_V1.md（同目录，人读版；与本文本冲突时以 YAML 结构化字段为准）

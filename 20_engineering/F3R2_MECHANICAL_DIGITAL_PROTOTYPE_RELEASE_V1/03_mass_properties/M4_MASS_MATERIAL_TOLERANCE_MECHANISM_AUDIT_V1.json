@@ -1,0 +1,242 @@
+{
+  "schema": "M4_MASS_MATERIAL_TOLERANCE_MECHANISM_AUDIT_V1",
+  "generated_local": "2026-08-21T14:59:59+08:00",
+  "clock_source": "host_local_time_with_utc_offset",
+  "scope": [
+    "01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml",
+    "03_mass_properties",
+    "04_material_database",
+    "05_tolerance",
+    "06_mechanism"
+  ],
+  "method": {
+    "parser": "Python 3 plus PyYAML safe_load and csv.DictReader",
+    "checks": [
+      "all YAML and CSV artifacts parse",
+      "spacecraft_assembly_frame is a frozen identity alias of S in the M4 frame tree",
+      "the exact nine configuration identifiers are present in the required order",
+      "mass cg inertia bbox frames collision confidence and status exist for every configuration",
+      "every configuration inertia declares reference_point configuration_system_CG",
+      "all released system mass cg inertia and bbox values remain null",
+      "every system CG and inertia uncertainty subrecord declares null distribution null degrees of freedom and source resolution through the enclosing component source_ref",
+      "every diagnostic branch member resolves to a declared component or declared diagnostic derived component",
+      "diagnostic readiness is limited to numeric mass wiring and range checks and does not claim full mass-property loader readiness",
+      "the named-pose status equals the bound revalidation receipt status and detailed pose summaries are explicitly mapped",
+      "whole-assembly collision is not claimed",
+      "the physical-stack frame semantics reject the prior frame interpretation and preserve the legacy-flange ownership allocation hold",
+      "tagged legacy-flange proxy geometry is separated from Branch-B diagnostic mass and prohibited from structural continuity load-bridge and released-mass claims",
+      "the Stage-B spacecraft M6 tolerance chain uses the physical spacecraft-load-bridge mating datum while its transform to M_DYNAMICS remains null and HOLD",
+      "unknown standard uncertainties remain null",
+      "no numerical result is assigned the MEASURED classification",
+      "no formal FEA authorization is true",
+      "no bare plus-minus symbol is used",
+      "all mechanism verification acceptance values remain blank and HOLD"
+    ],
+    "audit_report_excluded_from_its_own_input_manifest": true
+  },
+  "authority_binding": {
+    "decision_id": "M4-ADR-001",
+    "decision_revision": 2,
+    "path": "00_authority/M4_COMPOSITION_AND_MASS_BOUNDARY_DECISION.yaml",
+    "sha256": "61363950041E1352F3D9A65E081D84F1C50ACD1D70B7CB8ACBAA355D945BCFF7",
+    "legacy_flange_geometry_disposition": "RETAINED_AS_VISIBLE_TAGGED_REFERENCE_IN_ANALYTIC_BUS_PROXY",
+    "legacy_flange_Branch_B_mass_disposition": "EXCLUDED_BY_NONAUTHORITATIVE_MATERIAL_DERIVED_ALLOCATION",
+    "prohibited_uses": [
+      "STRUCTURAL_CONTINUITY",
+      "LOAD_BRIDGE_AUTHORITY",
+      "RELEASED_MASS_INFERENCE",
+      "REPLACEMENT_SEMANTICS"
+    ]
+  },
+  "cross_scope_consistency": {
+    "digital_prototype_frame_tree_path": "01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml",
+    "digital_prototype_frame_tree_sha256": "67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA",
+    "spacecraft_assembly_frame_alias": {
+      "canonical_frame": "S",
+      "relation": "IDENTITY_EQUIVALENCE",
+      "status": "PASS_FROZEN_EXACT_ALIAS"
+    },
+    "structural_model_plan_path": "07_structural_model/STRUCTURAL_MODEL_PLAN_V1.yaml",
+    "structural_model_plan_sha256": "340A16DDCEDE63BAB98914D36F59C0DCEE29E6727BC3C7A74C6547223EAE9EBB",
+    "structural_load_path": [
+      "B601",
+      "STAGE_A_INTERFACE_RING",
+      "STAGE_B_LOAD_DIFFUSION_PLATE",
+      "SPACECRAFT_LOAD_BRIDGE",
+      "SPACECRAFT_BUS_PRIMARY_STRUCTURE"
+    ],
+    "M6_tolerance_datum": "SPACECRAFT_LOAD_BRIDGE_MATING_DATUM",
+    "M6_physical_datum_to_M_DYNAMICS_transform": null,
+    "status": "PASS_CONSISTENT_WITH_PHYSICAL_LOAD_PATH_TRANSFORM_REMAINS_HOLD"
+  },
+  "parse_and_schema_results": {
+    "audited_yaml_file_count": 12,
+    "yaml_parse_pass_count": 12,
+    "audited_csv_file_count": 1,
+    "csv_parse_pass_count": 1,
+    "configuration_count": 9,
+    "required_configuration_field_complete_count": 9,
+    "status": "PASS"
+  },
+  "release_field_results": {
+    "released_mass_nonnull_count": 0,
+    "released_cg_nonnull_count": 0,
+    "released_inertia_nonnull_count": 0,
+    "released_bbox_complete_count": 0,
+    "whole_assembly_collision_evaluated_count": 0,
+    "legacy_branch_A_numeric_count": 9,
+    "legacy_branch_A_scope": "PROVISIONAL_LEGACY_BUS_AS_IS_PLUS_B601_WITH_M3R_EXCLUDED",
+    "m3r_branch_B_numeric_count": 9,
+    "m3r_branch_B_uncaptured_mass_kg": 29.081436764691,
+    "m3r_branch_B_status": "PROVISIONAL_ADR_REV2_BUS_CORE_DIAGNOSTIC_UNCERTAINTY_NULL_RELEASE_HOLD",
+    "tagged_legacy_flange_geometry_status": "REFERENCE_ONLY_NOT_STRUCTURAL_OR_MASS_AUTHORITY",
+    "spacecraft_M6_tolerance_datum": "SPACECRAFT_LOAD_BRIDGE_MATING_DATUM",
+    "physical_mating_datum_to_M_DYNAMICS_transform": null,
+    "physical_mating_datum_transform_status": "HOLD",
+    "unadjusted_bus_plus_M3R_sum_status": "NOT_SELECTED_LEGACY_FLANGE_OWNERSHIP_ALLOCATION_AMBIGUOUS",
+    "obsolete_mass_boundary_claim_count": 0,
+    "status": "PASS_FAIL_CLOSED"
+  },
+  "mass_property_quality_closure": {
+    "spacecraft_assembly_frame_identity_alias_to_S": "PASS",
+    "configuration_inertia_reference_point_configuration_system_CG_count": 9,
+    "system_CG_and_inertia_uncertainty_subrecord_count": 14,
+    "null_distribution_count": 14,
+    "null_degrees_of_freedom_count": 14,
+    "component_source_ref_resolution_count": 14,
+    "diagnostic_branch_unresolved_member_count": 0,
+    "numeric_mass_diagnostic_available_count": 9,
+    "full_mass_properties_diagnostic_loader_ready_count": 0,
+    "named_pose_receipt_status": "PASS_RUNTIME_DIGITAL_KINEMATICS_WITH_HELD_CANDIDATE_FAILURES",
+    "future_generated_timestamp_count": 0,
+    "status": "PASS_FAIL_CLOSED_NO_RELEASE_AUTHORITY_CREATED"
+  },
+  "units_and_uncertainty_results": {
+    "unit_contracts": {
+      "mass": "kg",
+      "center_of_mass": "m",
+      "inertia": "kg*m^2",
+      "drawing_and_tolerance_length": "mm",
+      "angle": "rad unless a source field explicitly states deg",
+      "force": "N",
+      "torque": "N*m",
+      "material_density": "kg/m^3",
+      "young_modulus": "GPa",
+      "strength": "MPa",
+      "coefficient_of_thermal_expansion": "1/K",
+      "temperature": "degC"
+    },
+    "numeric_field_unit_policy": "core ledgers declare top-level units and physical leaf keys carry unit suffixes; the verification CSV has an explicit unit column",
+    "standard_uncertainty_nonnull_count": 0,
+    "CG_and_inertia_distribution_nonnull_count": 0,
+    "CG_and_inertia_degrees_of_freedom_nonnull_count": 0,
+    "CG_and_inertia_source_resolution": "component_source_ref resolves to the enclosing component source_ref and then source_register",
+    "unknown_uncertainty_policy": "null plus HOLD",
+    "measured_classification_assignment_count": 0,
+    "bare_plus_minus_symbol_count": 0,
+    "coverage_factor_claim_count": 0,
+    "expanded_uncertainty_claim_count": 0,
+    "status": "PASS_FAIL_CLOSED"
+  },
+  "materials_and_mechanisms_results": {
+    "prototype_material_candidate_count": 4,
+    "flight_approved_material_count": 0,
+    "formal_fea_authorized_material_count": 0,
+    "mechanism_verification_requirement_count": 20,
+    "mechanism_verification_acceptance_numeric_count": 0,
+    "formal_fea_authorized_true_count": 0,
+    "status": "PASS_CANDIDATE_SCOPE_ONLY"
+  },
+  "pose_and_configuration_integrity": {
+    "raw_CRLF_URDF_sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+    "LF_normalized_URDF_sha256": "408147DDC9CC0BBA0FACBF864C559A54D1712262703BA41251514A4303B5A3A4",
+    "line_ending_equivalence": "PASS",
+    "bound_receipt_status": "PASS_RUNTIME_DIGITAL_KINEMATICS_WITH_HELD_CANDIDATE_FAILURES",
+    "status_binding": "EXACT_MATCH",
+    "runtime_digital_pose_revalidation": [
+      "Q_DEPLOYED_HOME_PASS",
+      "Q_RELEASE_CLEAR_PASS_WITH_SOURCE_RELEASE_SEQUENCE_HOLD",
+      "Q_SERVICE_READY_PASS_WITH_CONFIGURATION_RATIFICATION_HOLD"
+    ],
+    "stow_pose": "HOLD_SOURCE_END_EFFECTOR_INCONSISTENT_WITH_Q_BY_567P734_MM",
+    "pregrasp_pose": "DIAGNOSTIC_CANDIDATE_HOLD_FOR_CAPTURE_DYNAMICS",
+    "system_mass_property_effect": "NO_RELEASED_SYSTEM_CG_OR_INERTIA_CREATED"
+  },
+  "audited_artifacts": [
+    {
+      "path": "01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml",
+      "bytes": 6236,
+      "sha256": "67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA"
+    },
+    {
+      "path": "03_mass_properties/CONFIGURATION_LIBRARY_V1.yaml",
+      "bytes": 26528,
+      "sha256": "DCE40C1DB8A318A077F0DD92A47F236BE55EAF2FD32B4E514D2BB67C9B19B4A2"
+    },
+    {
+      "path": "03_mass_properties/SYSTEM_MASS_PROPERTIES_V3.yaml",
+      "bytes": 20705,
+      "sha256": "3F88318666C8A7DA57A74D65F94E8B27A7D84E32741039A893C21FC247A9FE9F"
+    },
+    {
+      "path": "04_material_database/MATERIAL_PROCESS_CLOSURE_STATUS_V2.yaml",
+      "bytes": 3744,
+      "sha256": "FEA6090B6648EA98482E3E83CF39544850F90871C1F81CE34169FBDB851424AC"
+    },
+    {
+      "path": "04_material_database/PROTOTYPE_MATERIAL_LIBRARY_V1.yaml",
+      "bytes": 9856,
+      "sha256": "C9B20A50C3F3F71B7C119D9405D9743577E1383F853C01E54B085C95EBF4A306"
+    },
+    {
+      "path": "05_tolerance/GRIPPER_FUNCTIONAL_TOLERANCE_MAP_V1.yaml",
+      "bytes": 4232,
+      "sha256": "8CD92F90346EE4481172939DF1BA182383411748D1E586DF0035EF9013A06A23"
+    },
+    {
+      "path": "05_tolerance/HINGE_DEPLOYMENT_TOLERANCE_CHAIN_V1.yaml",
+      "bytes": 3326,
+      "sha256": "6E17090392887ACFB8C3C31DF828E67252B27DF3092DB13E7E7892EA8BEE3858"
+    },
+    {
+      "path": "05_tolerance/INTERFACE_STACKUP_B601_M3R_V1.yaml",
+      "bytes": 9509,
+      "sha256": "A5F95A9B11ACBF04E6ABEB2E850F5E18AD7CF8CAF18D70619DF7D04A1B09DA41"
+    },
+    {
+      "path": "05_tolerance/TOLERANCE_CLOSURE_EXECUTION_PLAN_V1.yaml",
+      "bytes": 3535,
+      "sha256": "42253B264E16BD14F9366D5B2EE6C4E5BD4F44AD64F1BE480EC027D2A2AAD5EC"
+    },
+    {
+      "path": "06_mechanism/GRIPPER_R1_MECHANISM_RELEASE_STATUS_V2.yaml",
+      "bytes": 3204,
+      "sha256": "F8BC4551F0308B94F709139980184DA4C5EEBBCEFDAA92A1747BC49541D6F14F"
+    },
+    {
+      "path": "06_mechanism/HDRM_PROTOTYPE_CLOSURE_PLAN_V1.yaml",
+      "bytes": 4756,
+      "sha256": "C6E812BAF9617C7E74112DF831562864E735344BCA3D3EE021E57618E121204A"
+    },
+    {
+      "path": "06_mechanism/MECHANISM_STATUS_REGISTER_V1.yaml",
+      "bytes": 4409,
+      "sha256": "307A205460D746AD8B4FA3561157CA63FBAAD2EC6153D63A6FA733E695236FC9"
+    },
+    {
+      "path": "06_mechanism/MECHANISM_VERIFICATION_REQUIREMENTS_V1.csv",
+      "bytes": 6864,
+      "sha256": "4FE81083E47E8AED89717B1737CB45C6EF60928C9625CCBB9D38DAB290ADB18A"
+    }
+  ],
+  "limitations": [
+    "PASS_FAIL_CLOSED is a data-integrity result, not the M4 release gate",
+    "all nine released system mass center-of-mass inertia and whole-assembly bounding boxes remain HOLD",
+    "both numeric configuration mass branches are explicitly non-authoritative diagnostic layers with null uncertainty",
+    "numeric diagnostic availability is limited to mass-value wiring and range checks; full CG inertia bbox and collision loader readiness remains zero",
+    "the ADR revision 2 M3R branch uses a material-derived legacy-flange allocation and cannot become authoritative until legacy ownership allocation and the controlled spacecraft load bridge close",
+    "public material properties are prototype candidates and not design allowables",
+    "no formal FEA or qualification activity is authorized by this package"
+  ],
+  "status": "PASS_FAIL_CLOSED_PACKAGE_INTEGRITY_M4_RELEASE_STILL_HOLD"
+}

@@ -1,0 +1,27 @@
+# Assembly Phase Gate 注册表 v0 — 2026-07-20（设计态；实施前 PI 批准阈值出处）
+version: v0
+inherited_frozen:
+  threshold_registry: {sha256: 400bcedce5af6ad5c4135e67f87bb524ee2fdafb1c26aeae07e495ff387b2873}
+  verdicts: [SIM10_GATES_PASS, SIM11_GATES_PASS_WITH_PROVISIONAL_PARAMS,
+             SIM12_PHASE1_GATES_PASS, SAFE00_PASS, CTRL02_PASS,
+             CTRL01_REPEAT_CLOSED_CP6, WAVE1_REPEAT_ARCHIVED]
+assembly_gates:
+  AG0_interface_frames: {owner: ASM-00, hard: [单位一致, 右手正交系, 公差有出处,
+    碰撞几何与CAD一致, MEASURED/LITERATURE/PROVISIONAL 状态齐全]}
+  AG1_kinematic_phase_semantics: {owner: ASM-02, hard: [相位任务维度机器校验(5D段
+    nullity=1/LOCK段6D合法条件), 切换点可达性, 限位/奇异裕度]}
+  AG2_momentum_energy_contact: {owner: ASM-01, hard: [动量能量记账闭合(约简精度),
+    接触冲量账本, 未收敛接触禁判成功, 未建模接触态返回UNKNOWN]}
+  AG3_assembly_control_performance: {owner: ASM-02, hard: [AC1/AC2失败率<=AC0,
+    6D段禁调不存在零空间, 成功=几何AND力学AND资源, 负结果原样保留]}
+  AG4_flexible_fidelity: {owner: ASM-01, hard: [L1/L2关键量一致(e15 5%口径),
+    帆板响应在认证包络内, 域外UNKNOWN]}
+  AG5_runtime_safety: {owner: SAFE-00扩展, hard: [UNKNOWN永不ALLOW/成功,
+    相位切换=重新裁决, 过期感知->WAIT, provenance三元组100%, 扩展不改已PASS裁决核]}
+  AG6_agent_value_ablation: {owner: ASM-05, hard: [V2.5对照在场, V3差异归因,
+    AprilTag只称合作替身, 泛化按组留出]}
+assembly_success_definition: 接口SSOT assembly_success_criteria 八项全满足；
+  任一 UNKNOWN → 不得判 success（fail-closed）。
+iron_rules_inherited: [禁改阈值制造PASS, 禁删FAIL/UNKNOWN, 禁改冻结模块,
+  禁重做已PASS功能, 测试PASS≠科学PASS, VLA禁力矩, 禁RL替代动力学,
+  固定基座不称微重力验证, AprilTag不称非合作泛化, PROVISIONAL不删]

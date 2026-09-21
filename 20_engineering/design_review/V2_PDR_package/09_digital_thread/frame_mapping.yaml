@@ -1,0 +1,105 @@
+schema_version: v2-mechanical-frame-mapping-v0.1
+mapping_id: SV2_PDR_FRAME_MAPPING
+created_on: "2026-07-24"
+status: FRAME_IDENTITY_PLAN_VALUES_PRESERVED
+
+frames:
+  - frame_id: S
+    parent: null
+    role: spacecraft_geometry_frame
+    origin: body_envelope_center
+    state: EVIDENCE_BOUND
+    future_CAD_CS: CS_S
+    dynamics_use: separate_authorization_required
+
+  - frame_id: M
+    parent: S
+    role: robot_mounting_face
+    transform: T_SM
+    translation_mm_parent: [185.25, 0.0, 0.0]
+    rotation: Ry_plus_90_deg
+    state: EVIDENCE_BOUND
+    future_CAD_CS: CS_M
+    interface: IF-RM-001
+
+  - frame_id: A0
+    parent: M
+    role: accepted_B601_root
+    transform: T_MA0_identity
+    state: EVIDENCE_BOUND
+    future_CAD_CS: CS_A0
+    interface: IF-RM-002
+
+  - frame_id: B
+    parent: S
+    role: free_flyer_dynamics_base
+    transform: T_SB
+    value: null
+    state: UNKNOWN_BLOCKED
+    future_CAD_CS: CS_B_SUPPRESSED
+    enabled: false
+
+  - frame_id: F_L
+    parent: S
+    role: left_solar_root
+    origin_mm_parent: [-56.75, 113.15, 0.0]
+    orientation: inherited_source_not_redefined
+    state: EVIDENCE_BOUND
+    future_CAD_CS: CS_SOLAR_L
+    interface: IF-SA-L
+
+  - frame_id: F_R
+    parent: S
+    role: right_solar_root
+    origin_mm_parent: [-56.75, -113.15, 0.0]
+    orientation: inherited_source_not_redefined
+    state: EVIDENCE_BOUND
+    future_CAD_CS: CS_SOLAR_R
+    interface: IF-SA-R
+
+  - frame_id: G
+    parent: accepted_B601_chain
+    role: existing_gripper_semantic_frame
+    transform: inherited_from_accepted_URDF
+    state: EVIDENCE_BOUND_REFERENCE
+    future_CAD_CS: CS_G_REFERENCE
+
+  - frame_id: E_virtual
+    parent: B601_link6
+    role: task_semantic_end_frame
+    global_pose_without_joint_state: null
+    state: EVIDENCE_BOUND_REFERENCE
+    future_CAD_CS: CS_E_VIRTUAL
+
+  - frame_id: TCP_contact
+    parent: E_virtual
+    role: physical_contact_frame
+    transform: T_E_TCP
+    value: null
+    state: UNKNOWN_BLOCKED
+    future_CAD_CS: CS_TCP_CONTACT_SUPPRESSED
+    enabled: false
+
+  - frame_id: C
+    parent: S
+    role: perception_frame
+    transform: T_SC
+    value: null
+    state: UNKNOWN_BLOCKED
+    future_CAD_CS: CS_SENSOR_SUPPRESSED
+    enabled: false
+
+  - frame_id: T_or_D
+    parent: S
+    role: independent_target_or_debris_frame
+    transform: T_ST_or_T_SD
+    value: null
+    state: EXCLUDED
+    future_CAD_CS: null
+    active_assembly: false
+
+rules:
+  T_SB_may_be_used_for_robot_mount: false
+  unknown_transform_zero_fill_allowed: false
+  CAD_manual_visual_alignment_allowed: false
+  target_contact_mate_allowed: false

@@ -1,0 +1,74 @@
+schema_version: v2-mechanical-mass-owner-mapping-v0.1
+mapping_id: SV2_PDR_MASS_OWNER
+created_on: "2026-07-24"
+status: OWNERSHIP_PRESERVED_CAD_MASS_AUTHORITY_FALSE
+source_ledger: 20_engineering/design_inputs/v2_system_mechanical/05_mass_budget/V2_mass_ownership_table.csv
+
+selected_source_values:
+  - item_id: servicer_12U_bus_v1
+    owner_id: servicer_split_owner
+    source_value_kg: "23.3032134"
+    state: PROVISIONAL_SOURCE_BOUND
+    physical_status: NOT_WEIGHED
+  - item_id: solar_panel_left_v1
+    owner_id: servicer_split_owner
+    source_value_kg: "0.3483933"
+    state: PROVISIONAL_SOURCE_BOUND
+    physical_status: NOT_WEIGHED
+  - item_id: solar_panel_right_v1
+    owner_id: servicer_split_owner
+    source_value_kg: "0.3483933"
+    state: PROVISIONAL_SOURCE_BOUND
+    physical_status: NOT_WEIGHED
+  - item_id: robot_mount_adapter_v0
+    owner_id: adapter_owner
+    source_value_kg: "1.2"
+    state: PROVISIONAL_SOURCE_BOUND
+    physical_status: NOT_WEIGHED
+  - item_id: B601_accepted_full_10link
+    owner_id: b601_urdf_owner
+    source_value_kg: "4.6955559493429862"
+    state: PROVISIONAL_SOURCE_BOUND
+    physical_status: DIGITAL_SOURCE_NOT_WEIGHED
+
+provisional_ledger_total_kg: "29.8955559493429862"
+total_claim_limit: NOT_A_COMPLETE_OR_MEASURED_SYSTEM_MASS
+
+future_CAD_mapping:
+  SV2-ASM-010:
+    owner_id: servicer_split_owner
+    decomposition_to_native_parts_allowed_now: false
+    CAD_mass_authority: false
+  SV2-MNT-051:
+    owner_id: adapter_owner
+    plate_and_boss_double_count_allowed: false
+    CAD_mass_authority: false
+  SV2-ASM-060:
+    owner_id: b601_urdf_owner
+    CAD_mass_authority: false
+  SV2-ASM-070:
+    owner_id: servicer_split_owner
+    left_right_panel_source_values_preserved: true
+    CAD_mass_authority: false
+
+unknown_mass_owners:
+  C_AND_DH_OWNER: null
+  EPS_PMAD_OWNER: null
+  BATTERY_OWNER: null
+  ADCS_OWNER: null
+  PERCEPTION_HARDWARE_OWNER: null
+  PROPULSION_OWNER: null
+  COMMUNICATIONS_OWNER: null
+  THERMAL_OWNER: null
+  ELECTRICAL_INTEGRATION_OWNER: null
+
+excluded_from_servicer_total:
+  target_satellite_v0_kg: 22.0
+  target_debris_v0_kg: 150.0
+  whole_satellite_24kg_alternative: excluded_to_avoid_double_count
+
+rules:
+  default_density_allowed: false
+  CAD_recalculation_overrides_ledger: false
+  unknown_owner_enters_total: false
+  aggregate_CoM_or_inertia_authorized: false

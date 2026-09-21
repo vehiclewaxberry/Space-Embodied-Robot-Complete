@@ -1,0 +1,57 @@
+{
+ "schema": "REORG04_RUNTIME_PATH_REPAIR_RECEIPT_V1",
+ "generated_date_local": "2026-08-30",
+ "review_status": "PENDING_OWNER_REVIEW",
+ "authorization": "AUTHORIZE_REORG04_PATH_AND_HASH_REBIND_WITH_SCIENTIFIC_FIELDS_FROZEN",
+ "isolated_worktree": "F:\\_SEI_RESEARCH_WORKTREES\\reorg04_current_tree_repro_r1",
+ "isolated_branch": "research/reorg04-current-tree-repro-r1",
+ "base_commit": "75143b1d3ba05d9916f016637f37b5abf6004087",
+ "active_worktree_modified_by_this_program": false,
+ "patch": {
+  "file": "REORG04_RUNTIME_PATH_REPAIR_PATCH_V1.diff",
+  "sha256": "0f2f0001cea05a5b0ec0d93dba15803bdcc95a1aa536a9c069af3195e6907925",
+  "bytes": 1348,
+  "applies_cleanly_to_base_commit": true
+ },
+ "repairs": [
+  {
+   "source_file": "30_simulation/sim_05_free_floating_arm/b601_model.py",
+   "old_path_fragment": "\"..\", \"..\", \"cad\", \"spacecraft_layout\", \"arm_b601_v1\"",
+   "new_path_fragment": "\"..\", \"..\", \"20_engineering\", \"cad\", \"spacecraft_layout\", \"arm_b601_v1\"",
+   "old_resolves_to": "<repo>/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf (does not exist post-REORG04)",
+   "new_resolves_to": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+   "justification": "REORG04 (commit 284c882) collapsed the repository into eight business roots; cad/ moved under 20_engineering/. The runtime constant was not updated, so sim_05 could not locate the accepted URDF.",
+   "head_blob_sha256": "3e2b451476f437e482661e275073249ad101705251b78c042851c32ae741052f",
+   "repaired_file_sha256_isolated": "354f1502ddd1c45fb6ed97b55b440e016d2c5e67a5e52d0465d6edf10f932b50",
+   "repaired_file_bytes": 13440,
+   "applied_in": "ISOLATED_WORKTREE_ONLY",
+   "numerical_fields_changed": false,
+   "scientific_verdict_changed": false,
+   "changed_line_count": 245
+  },
+  {
+   "source_file": "30_simulation/common/rigid_body.py",
+   "old_path_fragment": "\"..\", \"..\", \"docs\", \"stage1_spacecraft_layout\"",
+   "new_path_fragment": "\"..\", \"..\", \"20_engineering\", \"stage1_spacecraft_layout\"",
+   "old_resolves_to": "<repo>/docs/stage1_spacecraft_layout/... (does not exist post-REORG04)",
+   "new_resolves_to": "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv",
+   "justification": "REORG04 moved docs/stage1_spacecraft_layout/ under 20_engineering/. The mass/inertia SSOT constant was not updated.",
+   "head_blob_sha256": "6ce88e6d0fa45b29694c43fdb6e2fae6e8e61f309c9c1dc89a6a33fd5f32bc99",
+   "repaired_file_sha256_isolated": "3441b67dee5d393ead8f063b8805d9317845bbd8aae8e1984a0a941e63a219f9",
+   "repaired_file_bytes": 3115,
+   "applied_in": "ISOLATED_WORKTREE_ONLY",
+   "numerical_fields_changed": false,
+   "scientific_verdict_changed": false,
+   "changed_line_count": 1
+  }
+ ],
+ "evidence_that_repair_is_correct": {
+  "sim_05_tests": "22/22",
+  "sim_11_tests": "27/27",
+  "both_match_frozen_baseline_counts": true,
+  "interpretation": "restoring file location restored the frozen test counts exactly; no dynamics number was altered by the repair"
+ },
+ "verdict": "REORG04_RUNTIME_PATH_REPAIR_PASS",
+ "next_stage_authorized": false,
+ "release_credit": false
+}

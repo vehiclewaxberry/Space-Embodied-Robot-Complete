@@ -1,0 +1,306 @@
+schema_version: comp-prot-03-a2-db-blocker-ledger-v0
+ledger_id: candidate_12u_b601_db_blocker_disposition_v0
+phase: COMP-PROT-03-A2
+created_on: "2026-07-23"
+status: DESIGN_DISPOSITION_COMPLETE_EVIDENCE_CLOSURE_INCOMPLETE
+
+state_vocabulary:
+  CLOSED_BY_DESIGN: ambiguity_removed_in_candidate_contract_but_physical_truth_not_proved
+  CLOSED_BY_EVIDENCE: source_hash_measurement_or_review_record_supports_scope_limited_closure
+  ISOLATED_FROM_SCOPE: issue_remains_open_but_current_consumer_is_forbidden_to_read_it
+  OPEN_BLOCKING: neither_closed_nor_safely_isolated_for_requested_downstream_scope
+
+closure_policy:
+  design_closure_is_not_evidence_closure: true
+  unknown_is_not_closed: true
+  majority_vote_may_close_blocker: false
+  historical_gate_may_be_inherited: false
+  a3_starts_automatically: false
+
+blockers:
+  - blocker_id: DB-BLK-001
+    title: mass_ownership_not_closed
+    prior_status: BLOCKED_BY_COMPONENT_OWNERSHIP
+    design_state: CLOSED_BY_DESIGN
+    project_evidence_state: OPEN_NEEDS_MASS_OWNER_SIGNOFF
+    a2_action:
+      - selected_split_bus_panels_v1_over_whole_sat_reference
+      - selected_full_urdf_10link_over_locked_gripper_collapsed
+      - adapter_and_arm_assigned_separate_owners
+      - exact_one_rules_recorded
+    evidence_refs:
+      - candidate_configuration_v0.yaml#mass_ownership_proposal
+      - digital_skeleton_model_v0.yaml#mass_ledger
+      - 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+    unresolved:
+      - original_24kg_scope_does_not_prove_adapter_and_arm_exclusion
+      - no_physical_weighing
+      - aggregate_com_and_inertia_unknown
+    cad_entry_class: MANDATORY_CLOSED_WITH_EVIDENCE_PRE_A3
+    owner: Mass_Dynamics_Owner
+
+  - blocker_id: DB-BLK-002
+    title: end_effector_frame_parent_absent
+    prior_status: BLOCKED_BY_FRAME_BINDING
+    design_state: OPEN_BLOCKING
+    project_evidence_state: OPEN_NEEDS_GEOMETRY_AND_ROBOTICS_SIGNOFF
+    a2_action:
+      - preserved_G_as_existing_gripper_link_frame
+      - proposed_distinct_E_parented_to_link6_at_fixed_joint_origin_aligned_with_link6
+      - prohibited_silent_E_equals_gripper_link_rename
+    evidence_refs:
+      - digital_skeleton_model_v0.yaml#T_link6_G
+      - digital_skeleton_model_v0.yaml#T_link6_E_candidate
+      - 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    unresolved:
+      - E_candidate_not_in_canonical_frame_registry
+      - physical_TCP_and_contact_datum_not_defined
+    cad_entry_class: MANDATORY_CLOSED_WITH_EVIDENCE_PRE_A3
+    owner: Frame_and_Robotics_URDF_Owners
+
+  - blocker_id: DB-BLK-003
+    title: vendor_step_locator_stale
+    prior_status: BLOCKED_BY_STALE_SOURCE_PATH
+    design_state: CLOSED_BY_DESIGN
+    project_evidence_state: SOURCE_CANDIDATE_IDENTIFIED_NOT_CANONICAL
+    a2_action:
+      - pinned_observed_existing_path_hash_and_upstream_commit
+      - prohibited_copy_or_consumption_without_license_and_locator_closure
+    evidence_refs:
+      - candidate_configuration_v0.yaml#external_source_binding
+    observed_sha256: 87a0537d1afd50c04fc441fde11dd4f2ebbb368fe27f6c10fda8567be696d968
+    unresolved:
+      - canonical_ssot_locator_still_stale
+      - asset_not_portable_with_current_project_package
+    cad_entry_class: CONDITIONAL_CLOSE_IF_VENDOR_STEP_CONSUMED_ELSE_PROVE_DEPENDENCY_EXCLUSION
+    owner: Geometry_Provenance_Owner
+
+  - blocker_id: DB-BLK-004
+    title: capture_geometry_tbd
+    prior_status: BLOCKED_BY_CAPTURE_GEOMETRY
+    design_state: OPEN_BLOCKING
+    project_evidence_state: INTERFACE_LEVELS_CLASSIFIED_GEOMETRY_OPEN
+    a2_action:
+      - split_interface_into_visual_contact_and_rigid_lock_levels
+      - kept_interface_2_out_of_A2
+    evidence_refs:
+      - mechanical_configuration_design_standard.md#捕获接口分级
+      - candidate_configuration_v0.yaml#target_interface_contract
+    unresolved:
+      - contact_patch_boundary
+      - surface_normal_and_full_orientation
+      - tool_envelope_and_opening
+      - material_compliance_and_collision_geometry
+    cad_entry_class: CONDITIONAL_MANDATORY_IF_TARGET_OR_CONTACT_GEOMETRY_ENTERS_A3
+    owner: Capture_Interface_Owner
+
+  - blocker_id: DB-BLK-005
+    title: cds_appendix_b_manual_review_missing
+    prior_status: LIMITED_STANDARD_CONFORMANCE
+    design_state: CLOSED_BY_EVIDENCE
+    project_evidence_state: CLOSED_FOR_12U_A2_INPUT_ONLY
+    a2_action:
+      - visually_reviewed_page_34_drawing_CDS_14_008
+      - cross_checked_pages_10_to_12_text
+      - separated_reference_input_from_compliance_claim
+    evidence_refs:
+      - cds_appendix_b_12u_review_record.md
+      - 20_engineering/stage1_spacecraft_layout/01_standards/CubeSat_Design_Specification_Rev14_1_2022-02-09.pdf
+    source_sha256: 221fbbbd4f632b16f3e219d1a5e2c2b04e1998c12025b793e6dfc6181af66b5d
+    unresolved:
+      - deployer_specific_CIFP
+      - whole_vehicle_fit_check
+      - launch_compliance_signoff
+    cad_entry_class: CARRIED_LIMITATION_NO_LAUNCH_OR_DEPLOYER_CONFORMANCE_CLAIM
+    owner: Geometry_Standards_Owner
+
+  - blocker_id: DB-BLK-006
+    title: e16_current_checkout_source_bundle_mismatch
+    prior_status: BLOCKED_BY_CURRENT_SOURCE_BUNDLE_MISMATCH
+    design_state: ISOLATED_FROM_SCOPE
+    project_evidence_state: OPEN_HISTORICAL_EVIDENCE_DEBT
+    a2_action:
+      - candidate_id_does_not_bind_to_e16_protected_bundle
+      - inherited_gate_count_set_to_zero
+    evidence_refs:
+      - candidate_configuration_v0.yaml#historical_evidence_isolation
+    unresolved:
+      - historical_2_of_8_raw_hash_match_remains
+    cad_entry_class: CARRIED_LIMITATION_E16_HISTORICAL_REFERENCE_ONLY
+    owner: E16_Evidence_Owner
+
+  - blocker_id: DB-BLK-007
+    title: sim05_loader_path_stale
+    prior_status: BLOCKED_BY_STALE_CONSUMER_PATH
+    design_state: ISOLATED_FROM_SCOPE
+    project_evidence_state: OPEN_REPOSITORY_TECHNICAL_DEBT
+    a2_action:
+      - skeleton_reads_accepted_urdf_directly
+      - sim05_loader_prohibited_as_candidate_consumer
+    evidence_refs:
+      - digital_skeleton_model_v0.yaml#consumer_boundaries
+    unresolved:
+      - sim05_code_path_not_repaired_in_A2
+    cad_entry_class: CARRIED_LIMITATION_NO_CURRENT_SIM05_OR_RUNTIME_MODEL_CLAIM
+    owner: Sim05_Owner
+
+  - blocker_id: DB-BLK-008
+    title: b601_yaml_and_accepted_urdf_mass_subtotal_conflict
+    prior_status: BLOCKED_BY_MASS_SUBTOTAL_CONFLICT
+    design_state: CLOSED_BY_DESIGN
+    project_evidence_state: OPEN_NEEDS_MASS_SOURCE_OWNER_SIGNOFF
+    a2_action:
+      - selected_accepted_urdf_exact_link_sum_for_candidate_representation
+      - retained_yaml_rounded_subtotals_as_conflicting_source_not_overwritten
+      - prohibited_full_and_collapsed_double_counting
+    evidence_refs:
+      - digital_skeleton_model_v0.yaml#mass_ledger
+      - 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    candidate_source_decimal_total_kg: "4.6955559493429862"
+    unresolved:
+      - canonical_yaml_subtotals_not_harmonized
+      - physical_weighing_pending
+    cad_entry_class: MANDATORY_CLOSED_WITH_EVIDENCE_PRE_A3
+    owner: B601_Mass_Owner
+
+  - blocker_id: DB-BLK-009
+    title: free_flyer_B_and_T_SB_unbound
+    prior_status: BLOCKED_BY_FREE_FLYER_FRAME_BINDING
+    design_state: OPEN_BLOCKING
+    project_evidence_state: OPEN_NO_UNIQUE_T_SB
+    a2_action:
+      - retained_B_as_distinct_frame
+      - retained_T_SB_as_UNKNOWN
+      - prohibited_default_B_equals_S_or_low_confidence_com_inference
+      - prohibited_dynamics_consumption
+    evidence_refs:
+      - digital_skeleton_model_v0.yaml#T_SB
+      - 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/coordinate_frame_definition_v0.md
+    unresolved:
+      - free_flyer_base_origin_and_orientation_not_signed
+    cad_entry_class: MANDATORY_CLOSED_WITH_EVIDENCE_PRE_A3
+    owner: Dynamics_Frame_Owner
+
+  - blocker_id: DB-BLK-010
+    title: flange_profile_and_interference_conflict
+    prior_status: BLOCKED_BY_FLANGE_GEOMETRY_CONFLICT
+    design_state: OPEN_BLOCKING
+    project_evidence_state: OPEN_GEOMETRY_PROFILE_AND_CLEARANCE
+    a2_action:
+      - selected_160x160x12_plate_and_d100x15_boss_as_only_candidate_interface
+      - excluded_140x140x15_deprecated_consumer
+      - separated_pre_A3_authority_choice_from_A3_physical_clearance_test
+    evidence_refs:
+      - mechanical_configuration_design_standard.md#安装接口规则
+      - candidate_configuration_v0.yaml#mechanical_stack
+    unresolved:
+      - selected_geometry_profile
+      - 6_5mm_protrusion_rule
+      - 8_5mm_rail_clearance
+      - adapter_flange_interpenetration
+    cad_entry_class: PRE_A3_CLOSE_AUTHORITY_AND_PROFILE_A3_EXIT_PROVES_CLEARANCE
+    owner: Geometry_CAD_Owner
+
+  - blocker_id: DB-BLK-011
+    title: target_and_capture_frame_tree_incomplete
+    prior_status: BLOCKED_BY_FRAME_TREE_COMPLETENESS
+    design_state: ISOLATED_FROM_SCOPE
+    project_evidence_state: OPEN_FOR_TARGET_INTEGRATION_AND_6DOF_LOCK
+    a2_action:
+      - kept_targets_as_inactive_independent_runtime_branches
+      - kept_C_sat_and_C_deb_as_point_plus_normal_only
+      - prohibited_rigid_lock_and_global_scene_pose
+    evidence_refs:
+      - digital_skeleton_model_v0.yaml#target_frames
+    unresolved:
+      - T_ST
+      - T_SD
+      - complete_C_sat_rotation
+      - complete_C_deb_rotation
+    cad_entry_class: CONDITIONAL_MANDATORY_IF_TARGET_ENTERS_A3
+    owner: Mission_and_Frame_Owners
+
+  - blocker_id: DB-BLK-012
+    title: debris_grasp_semantic_conflict
+    prior_status: BLOCKED_BY_GRASP_SEMANTIC_CONFLICT
+    design_state: CLOSED_BY_DESIGN
+    project_evidence_state: OPEN_NEEDS_CANONICAL_SOURCE_HARMONIZATION
+    a2_action:
+      - renamed_positive_Z_feature_to_forward_end_ring_candidate_patch
+      - marked_aft_engine_region_z_below_minus_1000mm_as_keepout
+      - prohibited_nozzle_rim_grasp_wording
+    evidence_refs:
+      - candidate_configuration_v0.yaml#target_interface_contract
+      - 20_engineering/cad/spacecraft_layout/target_debris_v0/target_debris_v0.json
+    unresolved:
+      - geometry_and_capture_yaml_still_use_nozzle_rim
+    cad_entry_class: MANDATORY_CLOSED_WITH_EVIDENCE_PRE_A3
+    owner: Target_Geometry_Owner
+
+  - blocker_id: DB-BLK-013
+    title: T_SM_authority_and_geometry_profile_conflict
+    prior_status: BLOCKED_BY_TRANSFORM_AUTHORITY_CONFLICT
+    design_state: OPEN_BLOCKING
+    project_evidence_state: OPEN_PROFILE_DEPENDENT_T_SM
+    a2_action:
+      - identified_frame_tree_as_current_display_profile_authority
+      - prohibited_reuse_of_185_25mm_with_366mm_profile_without_reconciliation
+      - prohibited_adapter_json_TBD_from_overriding_frame_tree_silently
+    evidence_refs:
+      - candidate_configuration_v0.yaml#geometry_profiles
+      - digital_skeleton_model_v0.yaml#transforms
+    unresolved:
+      - exactly_one_geometry_profile_not_selected
+      - T_SM_for_CDS_12U_REFERENCE_unknown
+    cad_entry_class: MANDATORY_CLOSED_WITH_EVIDENCE_PRE_A3
+    owner: Geometry_Frame_Owner
+
+  - blocker_id: DB-BLK-014
+    title: b601_license_not_portable
+    prior_status: BLOCKED_BY_LICENSE_PORTABILITY
+    design_state: OPEN_BLOCKING
+    project_evidence_state: LICENSE_IDENTIFIED_NOT_PORTABLE
+    a2_action:
+      - recorded_external_license_path_hash_and_upstream_commit
+      - prohibited_copy_derivation_or_distribution_before_portable_package
+    evidence_refs:
+      - candidate_configuration_v0.yaml#external_source_binding
+    license_id: CERN-OHL-W-2.0
+    external_license_sha256: 54cf85b09c46e5ba8229aec1ca631a1e4c522e1459f73c10114cf82ce40481f9
+    unresolved:
+      - full_license_text_not_in_project_asset_package
+      - NOTICE_and_modification_record_not_packaged
+    cad_entry_class: MANDATORY_CLOSED_WITH_EVIDENCE_PRE_A3_IF_B601_ASSET_USED
+    owner: License_Provenance_Owner
+
+  - blocker_id: DB-BLK-015
+    title: integrated_12u_b601_target_model_absent
+    prior_status: BLOCKED_BY_INTEGRATED_MODEL_ABSENCE
+    design_state: ISOLATED_FROM_SCOPE
+    project_evidence_state: OPEN_EXPECTED_A3_OUTPUT
+    a2_action:
+      - created_one_logical_profile_aware_digital_skeleton_without_claiming_integrated_CAD_or_URDF
+      - kept_target_as_independent_pre_capture_branch
+      - defined_A3_integrated_model_acceptance_fields
+    evidence_refs:
+      - digital_skeleton_model_v0.yaml
+      - candidate_configuration_v0.yaml
+    unresolved:
+      - no_integrated_CAD
+      - no_integrated_URDF
+      - no_profile_bound_collision_model
+    cad_entry_class: EXPECTED_A3_OUTPUT_NOT_PRE_A3_CIRCULAR_PREREQUISITE
+    owner: Future_A3_Model_Builder
+
+summary:
+  blocker_denominator: 15
+  design_state_counts:
+    CLOSED_BY_DESIGN: 4
+    CLOSED_BY_EVIDENCE: 1
+    ISOLATED_FROM_SCOPE: 4
+    OPEN_BLOCKING: 6
+  project_evidence_closed_count: 1
+  project_evidence_open_or_limited_count: 14
+  all_blockers_addressed_in_ledger: true
+  all_blockers_closed_with_evidence: false
+  cad_entry_verdict: CAD_ENTRY_BLOCKED_BY_EVIDENCE

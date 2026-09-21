@@ -1,0 +1,21 @@
+{
+  "gate_id": "F1_KINEMATICS",
+  "generated_local": "2026-08-04",
+  "criteria": {
+    "master_skeleton_pass": {"status": "PASS", "evidence": "08_verification/MASTER_SKELETON_VALIDATION.json (9/9 checks, zero solids, datum placements <=1e-6 mm)"},
+    "ten_carriers": {"status": "PASS", "evidence": "08_verification/build_carriers_result.json; 10 datum-only carriers, URDF hash + mass bound, zero CAD mass role"},
+    "joints_J00_J09": {"status": "PASS", "evidence": "JOINT_REGISTER embedded in B601_KINEMATIC_ASSEMBLY; J00=baseline fixed (world->base_link), J01-J06 revolute, J07 fixed, J08/J09 prismatic"},
+    "urdf_cad_kinematic_consistency": {"status": "PASS", "evidence": "08_verification/URDF_CAD_KINEMATIC_CONSISTENCY.json (11/11; independent stdlib FK vs FreeCAD FK < 1e-6 mm over 10 links x 5 states)"},
+    "q0_tcp": {"status": "PASS", "evidence": "gripper_left (218.2188, -0.0275, 191.7137) mm; gripper_right (218.1915, -42.1185, 191.7010) mm; identical after cold reopen"},
+    "two_prismatic_independent": {"status": "PASS", "evidence": "j08_j09_no_mimic check: J08->0 returns left finger to Q0 within 0.000 mm while right stays"},
+    "cold_reopen": {"status": "PASS", "evidence": "cold_reopen_state_recovery check PASS"},
+    "state_exports": {"status": "PASS", "evidence": "07_exports/B601_KINEMATIC_ASSEMBLY_<STATE>_WITNESS.step x5 (NON-DESIGN witness frame markers, 18 solids each); apply/export JSON records"}
+  },
+  "notes": [
+    "Kinematic assembly is datum-only by design (zero solids); witness STEP carries frame markers only and is not design geometry.",
+    "State screenshots (PNG) require a GUI session; deferred to release stage, not an F1 blocker.",
+    "Joint values authority = 09_scripts/joint_states.yaml (+ generated twin joint_states.json); GUI dragging forbidden."
+  ],
+  "overall": "F1_PASS",
+  "f2_authorized": true
+}

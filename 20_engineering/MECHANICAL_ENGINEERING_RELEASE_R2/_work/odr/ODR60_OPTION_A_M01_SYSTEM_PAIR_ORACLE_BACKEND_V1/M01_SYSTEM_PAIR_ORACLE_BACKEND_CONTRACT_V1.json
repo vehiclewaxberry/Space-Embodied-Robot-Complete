@@ -1,0 +1,146 @@
+{
+  "schema": "M01_SYSTEM_PAIR_ORACLE_BACKEND_CONTRACT_V1",
+  "generated_utc": "DETERMINISTIC_CONTRACT_NO_WALLCLOCK",
+  "authority": "PAIR_ORACLE_SOFTWARE_BACKEND_AND_SYNTHETIC_FIXTURE_VALIDATION_ONLY__NO_CURRENT_SYSTEM_GEOMETRY_LOAD_NO_SYSTEM_PAIR_QUERY_NO_EDGE_QUERY_NO_PATH_SEARCH",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "upstream_contract": {
+    "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_SYSTEM_BINDING_CONTRACT_V1/SYSTEM_PAIR_ORACLE_CONTRACT_V1.json",
+    "sha256": "D8B9CEE66BBD1793732F08F8E52C070B91CC5A6FCAAE56820E09E3C13BC81417",
+    "relationship": "IMPLEMENTATION_SUBORDINATE_TO_FROZEN_CURRENT_CONTRACT__NO_SEMANTIC_RELAXATION"
+  },
+  "backend": {
+    "backend_id": "OCP_BREP_DISTANCE_PAIR_ORACLE_V1",
+    "geometry_class": "HASH_BOUND_CLOSED_BREP_SOLIDS",
+    "algorithm": "OpenCascade_BRepExtrema_DistShapeShape",
+    "current_system_asset_support_claimed": false,
+    "current_system_backend_bound": false,
+    "fixture_only": true,
+    "caller_supplied_authority_boolean_accepted": false,
+    "wildcard_exception_supported": false
+  },
+  "unit_and_frame_contract": {
+    "brep_native_length_unit": "mm",
+    "pose_frame": "S",
+    "pose_shape": "ROW_MAJOR_4X4_IEEE754_BINARY64",
+    "pose_translation_input_unit": "m",
+    "pose_rotation_unit": "DIMENSIONLESS_DIRECTION_COSINE",
+    "joint_unit": "rad",
+    "distance_output_unit": "mm",
+    "witness_output_unit": "mm",
+    "clearance_unit": "mm",
+    "derate_unit": "mm",
+    "margin_unit": "mm",
+    "only_length_boundary_conversion": "translation_mm = 1000.0 * translation_m",
+    "unit_inference": "FORBIDDEN",
+    "mixed_unit_fallback": "FAIL_ABORT",
+    "frame_inference_or_swap": "FAIL_ABORT"
+  },
+  "binding_contract": {
+    "pair_identity": "pair_id = min_lex(object_id_a,object_id_b) + '||' + max_lex(object_id_a,object_id_b)",
+    "request_reuse": "FORBIDDEN_ACROSS_ANY_Q_BYTES_SCENE_REGISTRY_ASSET_MOUNT_MOTION_BACKEND_ACM_OR_CLEARANCE_POLICY_HASH_CHANGE",
+    "geometry_hash": "SHA256_OF_EXACT_BREP_BYTES_MUST_MATCH_REQUEST_AND_ASSET_BINDING",
+    "q_hash": "SHA256_OF_EXACT_LITTLE_ENDIAN_IEEE754_BINARY64_Q_BYTES",
+    "required_hash_spelling": "64_UPPERCASE_HEX",
+    "unexpected_fields": "FAIL_ABORT",
+    "missing_authority_binding": "UNKNOWN_ABORT",
+    "source_or_asset_hash_mismatch": "UNKNOWN_ABORT"
+  },
+  "numeric_contract": {
+    "raw_backend_separation_mm": "FINITE_UNSIGNED_OCP_DISTANCE",
+    "backend_numeric_derate_mm": "OpenCascade_Precision_Approximation_IN_NATIVE_MM__FIXED_BY_BACKEND_CONFIGURATION",
+    "lower_bound_formula": "(((raw_backend_separation_mm - object_a_hausdorff_derate_mm) - object_b_hausdorff_derate_mm) - backend_numeric_derate_mm)",
+    "arithmetic": "IEEE754_BINARY64_LEFT_TO_RIGHT_RN_TIES_TO_EVEN_NO_FUSED_OPERATION",
+    "upper_bound": "RAW_WITNESSED_DISTANCE_WITH_HASH_BOUND_WITNESS_EVIDENCE_OR_CANONICAL_ZERO_FOR_CERTIFIED_CONTACT",
+    "margin_formula": "certified_bound_mm - required_clearance_mm",
+    "strict_safe_comparison": "certified_margin_lower_bound_mm > 0.0",
+    "unsafe_comparison": "certified_margin_upper_bound_mm <= 0.0",
+    "nonpositive_lower_only": "UNKNOWN_NOT_UNSAFE",
+    "nonfinite_backend_result": "UNKNOWN_ABORT",
+    "empty_solution_set": "UNKNOWN_ABORT"
+  },
+  "status_contract": {
+    "SAFE": "All bindings complete, result finite and complete, and certified lower margin is strictly positive",
+    "UNSAFE": "Certified upper margin is non-positive or a complete intersection/contact witness is bound",
+    "UNKNOWN": "Missing authority/input, hash drift, geometry/backend failure, empty comparison set, nonfinite backend result, incomplete result, uncertified derate or threshold ambiguity",
+    "FAIL": "Malformed request, invalid unit/frame/policy arithmetic, illegal exception, forbidden field, duplicate/missing row or deterministic replay mismatch; abort execution",
+    "EXEMPT_ADJACENT": "Exact member of the hash-bound exception set only; never counts as SAFE"
+  },
+  "row_kind_contract": {
+    "GEOMETRIC_RESULT": "Allowed only for a query-required pair and contains the current upstream geometric fields",
+    "EXCEPTION_RESULT": "Allowed only for an exact exception-set member and contains no backend, pose, distance, derate, margin or witness field",
+    "cross_kind_mismatch": "FAIL_ABORT"
+  },
+  "synthetic_validation_scope": {
+    "fixture_geometry": "TWO_HASH_BOUND_10_MM_CLOSED_BREP_BOX_SOLIDS_IN_SYNTHETIC_S_FRAME",
+    "required_nominal_cases": [
+      "SAFE_STRICT_POSITIVE_LOWER_MARGIN",
+      "UNSAFE_CERTIFIED_UPPER_MARGIN",
+      "UNKNOWN_THRESHOLD_INTERVAL",
+      "UNSAFE_CONTACT_WITNESS",
+      "EXEMPT_EXACT_ADJACENT"
+    ],
+    "production_q_or_scene_used": false,
+    "production_geometry_loaded": false,
+    "production_pair_id_used": false,
+    "current_system_pair_query_credit": 0
+  },
+  "negative_control_contract": {
+    "applicable_controls_must_be_caught": [
+      "SOURCE_SHA_DRIFT",
+      "M_MM_UNIT_TAG_SWAP",
+      "FRAME_SWAP",
+      "STALE_Q_HASH",
+      "STALE_SCENE_HASH",
+      "GEOMETRY_HASH_DRIFT",
+      "NONFINITE_CLEARANCE",
+      "NEGATIVE_DERATE",
+      "BACKEND_READ_FAILURE",
+      "EMPTY_SOLUTION_SET",
+      "THRESHOLD_EQUALITY_NOT_SAFE",
+      "LOWER_ONLY_NOT_UNSAFE",
+      "ILLEGAL_EXCEPTION",
+      "WILDCARD_EXCEPTION",
+      "UNKNOWN_AUTO_ALLOW",
+      "AUTHORITY_FIELD_UPGRADE",
+      "THRESHOLD_WIDENING_OR_CALLER_OVERRIDE",
+      "HISTORICAL_GATE_HASH_DRIFT"
+    ],
+    "out_of_scope_controls_must_be_declared_not_applicable_not_passed": [
+      "JOINT_AXIS_REVERSAL",
+      "MASS_OR_INERTIA_MODIFICATION",
+      "FREEJOINT_DELETION",
+      "EQUALITY_DELETION",
+      "COLLISION_ENABLEMENT_IN_DYNAMICS_PLANT",
+      "CONTACT_PREMATURE_ENABLEMENT",
+      "TARGET_PREMATURE_WELD",
+      "STALE_M01_PATH"
+    ],
+    "threshold_relaxation": "FORBIDDEN"
+  },
+  "independent_validation_contract": {
+    "candidate_core_import": "FORBIDDEN",
+    "distance_recompute": "DIRECT_OCP_CALL_FROM_HASH_BOUND_FIXTURE_BREP",
+    "status_recompute": "INDEPENDENT_FORMULA_AND_CURRENT_CONTRACT_CHECK",
+    "source_pin_recompute": "REQUIRED",
+    "deterministic_replay": "REQUIRED"
+  },
+  "current_system_authority_invariants": {
+    "known_active_object_count": 150,
+    "raw_unordered_pair_count": 11175,
+    "exact_adjacent_exception_count": 9,
+    "required_pair_query_count": 11166,
+    "clearance_policy_rows_bound": 0,
+    "system_operational_geometry_authority_rows": 1,
+    "system_pair_oracle_bound": false,
+    "system_pair_queries_executed": 0,
+    "system_safe_pairs_certified": 0,
+    "system_edges_certified": 0,
+    "stage_instances_bound": 0,
+    "path_search_authorized": false,
+    "path_search_executed": false,
+    "parent_mechanical_gate_reissued": false,
+    "next_stage_authorized": false,
+    "release_credit": false
+  },
+  "maximum_legal_claim": "PAIR_ORACLE_SCHEMA_AND_FAIL_CLOSED_BACKEND_IMPLEMENTED_AND_SYNTHETICALLY_VALIDATED__ZERO_CURRENT_SYSTEM_PAIR_QUERIES__ZERO_SAFE_PAIRS__NO_EDGE_PATH_PARENT_OR_RELEASE_CREDIT"
+}

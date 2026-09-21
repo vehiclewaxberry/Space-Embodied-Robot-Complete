@@ -1,0 +1,12 @@
+id,domain,gap,category,evidence_path,impact,next_minimum_action,external_input_required
+"B-CD01","compdeliv","2026 正式参赛要求(指南/模板/提交字段/视频格式)仓内缺失,决策问题17/18均 UNKNOWN","P0_SUBMISSION_BLOCKER","NONE_FOUND_IN_REPO(搜索记录见 findings.md §A)","不解决则 9-01 无法合规提交:交付物清单与格式无权威依据","Owner 提供官方参赛指南/报名系统字段并登记入 01_project/inbox/source_manifest.csv","true"
+"B-CD02","compdeliv","比赛技术报告书母稿不存在","P0_SUBMISSION_BLOCKER","Glob **/*.tex 零命中; 01_project 无报告书 docx/pdf","初赛网评报告书(按归档描述)无母稿,5 天内需从零编写","Owner 定母题与模板,启动母稿并逐 claim 绑定 gate JSON","false"
+"B-CD03","compdeliv","无 submission package/ZIP manifest/restore rehearsal/提交回执流程","P0_SUBMISSION_BLOCKER","Grep 无比赛提交包命中","提交动作本身无工程化保障与凭证留存","建立打包清单+sha256 manifest+恢复演练+回执登记(需 Owner 授权写流程)","false"
+"B-CD04","compdeliv","GitHub 镜像或公开且含 forks 的继承包风险声明,本地无 remote,离线不可验证","P0_SUBMISSION_BLOCKER","git remote -v 空; .git/config 无 [remote]","若涉密研究内容已被 fork 则属合规事故,须 Owner 人工处置","Owner 人工登录 GitHub 核对仓库可见性与 fork 列表并书面裁决","true"
+"B-CD05","compdeliv","08-08 后全部终局/当前导航证据未提交 git(130 untracked 目录级条目)","P0_SUBMISSION_BLOCKER","git status --short=141(11 M+130 ??); HEAD=5c5adde@2026-08-08","提交包无法锚定 commit;机器可复现性依赖工作树状态","Owner 决定是否提交(审计只读);至少为提交包建立独立 sha256 清单","false"
+"B-CD06","compdeliv","展架图与作品照片资产缺失(且硬件 B601_MOTION=PROHIBITED)","P1_FINAL_DEMO_BLOCKER","文件名搜索零命中; competition_gate_check.json hardware_component_status","若决赛要求展架/实物照片(要求本身 UNKNOWN)则答辩展示缺件","B-CD01 确认后决定是否制作/是否申请硬件流程","true"
+"B-CD07","compdeliv","指定名称文档发布门裁决原文不在仓","P1_FINAL_DEMO_BLOCKER","grep PUBLICATION_HOLD 零命中; 仅技能 token 定义","文档发布合规状态不可证明,报告引用完整性无机器背书","Owner 提供裁决原文或登记缺失并指定替代核对口径","false"
+"B-CD08","compdeliv","演示包口径冻结 07-20 与 08-25 后系统 HOLD 增多的时代差","P1_FINAL_DEMO_BLOCKER","competition_execution_report.md §1/§8 对照 HOLD_AND_NEGATIVE_RESULTS_V1.csv H-01..H-15","答辩若把 07-20 口径说成当前能力即越界 claim","报告/答辩稿每处 demo 引用附日期+scope 限定语","false"
+"B-CD09","compdeliv","论文级 claim-evidence 账本 0 行","P1_FINAL_DEMO_BLOCKER","claim_evidence_ledger.csv 185B header only","报告书 claim 追溯链不完整(比赛 claim matrix 9 行可部分替代)","填充账本或在报告说明采用 competition_claim_evidence_matrix.csv","false"
+"B-CD10","compdeliv","根级 08_REVIEWS/ 独立对抗审查档案为空","P2_FORMAL_RELEASE_BLOCKER","08_REVIEWS/ ls 空","仅影响正式工程 Release 审查完备性;比赛链已有 gate 内红队 15/15","Owner 决定是否需要独立人工对抗审查归档","false"
+"B-CD11","compdeliv","根目录杂项($out 空目录,__pycache__,F3R2_* 脚本)未治理","P3_POST_COMPETITION_RESEARCH","RETIREMENT_CANDIDATES_V1.csv R-04/R-07; 根 ls","不影响提交合规,影响仓库整洁与 REORG04 一致性","赛后 Owner 裁决保留/归档/删除","false"

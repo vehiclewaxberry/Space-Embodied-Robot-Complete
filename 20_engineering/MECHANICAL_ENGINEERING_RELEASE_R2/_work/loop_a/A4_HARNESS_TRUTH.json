@@ -1,0 +1,92 @@
+{
+ "E_HW": {
+  "source": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+  "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+  "joint_limits_rad": [
+   [
+    -2.8,
+    2.8
+   ],
+   [
+    -3.14,
+    0.0
+   ],
+   [
+    -3.14,
+    0.0
+   ],
+   [
+    -1.87,
+    1.57
+   ],
+   [
+    -1.57,
+    1.57
+   ],
+   [
+    -3.14,
+    3.14
+   ]
+  ],
+  "status": "UNCHANGED_HARDWARE_TRUTH"
+ },
+ "E_HRN_current": {
+  "architecture": "FIXED_EXTERNAL_DRESS_R2_HRN_05",
+  "map": "ecr_b601_harness_rated_envelope/03_envelope/B601_HARNESS_ENVELOPE_MAP_V1.{csv,npz}",
+  "samples_total": 75,
+  "SAFE": 0,
+  "UNSAFE": 75,
+  "UNKNOWN": 0,
+  "conservative_box": "EMPTY_NO_OBSERVED_SAFE_SAMPLE",
+  "mandatory_key_states_probe": {
+   "path": "02_exact_predicate/CURRENT_ROUTE_KEY_STATE_PROBE_V1.json",
+   "states_safe": 0,
+   "states_unsafe": 11,
+   "states_unknown": 0
+  },
+  "release_status": "NOT_RELEASED"
+ },
+ "mission_coverage_gate": {
+  "path": "04_mission/B601_HARNESS_MISSION_COVERAGE_GATE.json",
+  "mission_coverage": "FAIL",
+  "required_trajectory_segments": 8,
+  "released_authority": 0,
+  "unknown": 8,
+  "route_b": "REJECTED",
+  "route_c_escalation": "TRIGGERED"
+ },
+ "terminal_gate": {
+  "path": "07_release/B601_HARNESS_TERMINAL_GATE_V1.json",
+  "mechanical_design": "NOT_RELEASED",
+  "operational_envelope": "NO_HARNESS_RATED_ENVELOPE_RELEASED",
+  "internal_mechanical_hold_count": 3
+ },
+ "handoff_gate_v2": {
+  "path": "07_release/MECHANICAL_TO_EMBODIED_HANDOFF_GATE_V2.json",
+  "checks": "11/12",
+  "failed_check": "G12 HARNESS_RATED_OPERATIONAL_ENVELOPE",
+  "terms": {
+   "mission_coverage_pass": false,
+   "map_contains_safe_sample": false,
+   "exact_validator_exists": true,
+   "runtime_frozen_input_integrity": true,
+   "unknown_fail_closed": true,
+   "rl_action_mask_binds_harness": true
+  }
+ },
+ "route_c": {
+  "odr42": "08_route_c/ROUTE_C_OWNER_DECISION_REQUEST_ODR42_V1.yaml",
+  "owner_decision": "PENDING",
+  "scope": "bounded mission-first Route-C guided dress-pack detailed design; prove 8 mission trajectory segments before any full-range claim",
+  "checkpoint_b": "HOLD_13_OF_13_PHYSICAL_FIELDS_NULL__CAD_PROHIBITED",
+  "falsifier": "ODR_GPT_04_DEFERMENT_NOT_EARNED_FOR_FROZEN_ROUTE_B__ROUTE_C_REQUIRED_UNLESS_SEPARATELY_AUTHORIZED_NEW_VERSIONED_ROUTE",
+  "loop_v5_required_owner_statement": "批准 ODR-42：APPROVE_BOUNDED_DETAILED_DESIGN；冻结 accepted URDF 与 Solar R2；完成 MPI-01..MPI-08 后方可生成独立版本 Route-C CAD"
+ },
+ "work_orders_for_loop_b": [
+  "WO-H1: verify registered 11 mandatory key states + 8 trajectory segments are the minimal mandatory mission set (contract: 04_mission/B601_MANDATORY_MISSION_TRAJECTORY_CONTRACT_V1.yaml + B601_MISSION_POSE_AUTHORITY_REBIND_V1.yaml)",
+  "WO-H2: execute bounded mission-first harness/Route-C geometric design so exactly those states/segments become SAFE under the hash-guarded exact predicate (02_exact_predicate/harness_exact_check.py); no full-range claim",
+  "WO-H3: resolve MPI-01..MPI-08 physical inputs as BOUNDED_PROVISIONAL with declared authority (nominal/lower/upper/source/confidence, MEASUREMENT_PENDING where unmeasured) to admit Route-C candidate geometry",
+  "WO-H4: re-issue mission coverage as PASS_HARNESS_RATED_MISSION_ENVELOPE only if all mandatory states/segments SAFE; full-range remains DEFERRED_HOLD; Route-B reopening prohibited",
+  "WO-H5: record owner decision on route_c_disposition (INCLUDED vs EXCLUDED_RESEARCH_CANDIDATE) in sim13 intake"
+ ]
+}

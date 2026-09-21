@@ -1,0 +1,161 @@
+registry_id: V22_MECHANICAL_CONTINUATION_INTERFACE_REGISTRY_01
+decision_id: V22_B601_CONTINUE_01
+artifact_scope: ISOLATED_STEP_STAGING_ONLY
+canonical_top_write: false
+
+authority:
+  visual_mechanical_continuation:
+    geometry_authority: DESIGN_PROPOSAL_WITH_FROZEN_INTERFACE_SUBSET
+    kinematic_authority: NONE
+    mass_authority: EXCLUDED
+    bom_authority: NONE
+    solidworks_configuration_semantics: NONE
+  b601_visual_hifi:
+    geometry_authority: REGISTERED_VENDOR_STEP
+    kinematic_authority: NONE
+    mass_authority: EXCLUDED
+    license_class: E3_INTERNAL_RESEARCH_ONLY
+    do_not_redistribute: true
+    lod_class: SPACECRAFT_INTEGRATION_VISUAL
+    current_status: HOLD_NOT_PRESENT_IN_THIS_STEP
+  b601_mass_kinematic_proxy:
+    geometry_consumer: ACCEPTED_URDF
+    kinematic_authority: ACCEPTED_URDF
+    mass_authority: ACCEPTED_URDF
+    authoritative_mass_kg: 4.6955559493429862
+    current_status: AUTHORITY_REFERENCE_NOT_DUPLICATED_IN_THIS_STEP
+
+coordinate_frames:
+  CS_S:
+    status: FROZEN
+    origin: spacecraft_bus_center
+    axes:
+      +X: rear_to_task
+      +Y: left_solar_array
+      +Z: spacecraft_top
+  CS_M_V22:
+    status: FROZEN
+    nominal_origin_mm_in_CS_S: [198.0, 0.0, 0.0]
+    tool_approach_direction: +X
+    note: Rotational convention and detailed datum-feature scheme remain to be signed.
+
+interfaces:
+  B601-ICD-01:
+    items:
+      - parameter: mount_plate_overall_mm
+        value: [160.0, 160.0, 12.0]
+        status: FROZEN
+        source: V22_B601_CONTINUE_01
+      - parameter: central_interface_diameter_mm
+        value: 100.0
+        status: FROZEN
+        source: V22_B601_CONTINUE_01
+      - parameter: load_spreader_x_bounds_mm
+        value: [171.0, 183.0]
+        status: FROZEN
+        source: V22_B601_CONTINUE_01 plus current B5 source
+      - parameter: adapter_ring_envelope
+        value: {x_bounds_mm: [183.0, 198.0], od_mm: 180.0, id_mm: 100.0}
+        status: DESIGN_PROPOSAL
+        source: current b5_build_spec.yaml
+      - parameter: connector_reserved_opening
+        value: {diameter_mm: 18.0, center_yz_mm: [70.0, 0.0]}
+        status: DESIGN_PROPOSAL
+        source: current b5_build_spec.yaml
+        qualification: reserved_zone_only
+      - parameter: harness_passage
+        value: {diameter_mm: 30.0, center_yz_mm: [55.0, 0.0]}
+        status: DESIGN_PROPOSAL
+        source: current b5_build_spec.yaml
+        qualification: passage_only
+      - parameter: continuous_connector_to_harness_route
+        status: UNKNOWN
+        note: The offset openings do not prove a continuous cable route.
+      - parameter: bolt_count_spec_and_circle
+        status: TBD_HOLD
+      - parameter: locating_pin_diameter_and_tolerance
+        status: TBD_HOLD
+      - parameter: launch_loads
+        status: UNKNOWN
+      - parameter: interface_stiffness
+        status: UNKNOWN
+      - parameter: grounding_and_thermal_interface
+        status: UNKNOWN
+      - parameter: connector_model
+        status: UNKNOWN
+
+  B601-MOUNT-01:
+    status: DESIGN_PROPOSAL
+    claim: LOAD_PATH_INTENT_ONLY
+    load_path:
+      - B601 base
+      - base adapter
+      - frozen 160x160x12 mount plate
+      - front task-frame local spreader
+      - four staging-only radial webs and diagonal ribs
+      - four longerons at abs(Y)=abs(Z)=105.65 mm
+      - MID1 frame at X=61 mm
+      - MID2 frame at X=-61 mm
+    hardware_joints_fasteners: TBD_HOLD
+    strength_stiffness_release: UNKNOWN
+
+  ARM-STOW-01:
+    status: DESIGN_PROPOSAL
+    base_interface_support:
+      status: FROZEN_SUBSET
+      note: Only the B601 base interface is mechanically frozen.
+    main_saddle_envelope_mm:
+      value: {x: [40.0, 90.0], y: [-30.0, 30.0], z: [88.0, 110.15]}
+      status: DESIGN_PROPOSAL
+      source: current b5_build_spec.yaml
+    wrist_soft_support_envelope_mm:
+      value: {x: [-150.0, -110.0], y: [-30.0, 30.0], z: [88.0, 110.15]}
+      status: DESIGN_PROPOSAL
+      source: current b5_build_spec.yaml
+    contact_faces: TBD_HOLD
+    pad_material_local_pressure: UNKNOWN
+    hdrm_release_direction_shock_path: UNKNOWN
+    harness_slack: UNKNOWN
+
+  SOLAR-ROOT-01:
+    status: DESIGN_PROPOSAL
+    source: current b5_build_spec.yaml
+    base_x_mm: [-79.0, -43.0]
+    base_y_abs_mm: [113.15, 121.15]
+    base_z_mm: [-40.0, 40.0]
+    ears_x_mm: [[-75.0, -65.0], [-57.0, -47.0]]
+    hinge_centers:
+      x_mm: [-70.0, -52.0]
+      y_abs_mm: 143.15
+      z_mm: 0.0
+    pin_envelope: {diameter_mm: 8.0, length_mm: 24.0, status: DESIGN_PROPOSAL}
+    spring_envelope: {diameter_mm: 16.0, length_mm: 18.0, status: DESIGN_PROPOSAL}
+    hdrm_envelope:
+      stations_x_mm: [-160.0, 40.0]
+      base_mm: [24.0, 24.0, 8.0]
+      rod: {diameter_mm: 10.0, length_mm: 20.0}
+      status: DESIGN_PROPOSAL
+    hard_stop_envelope: {square_mm: 14.0, thickness_mm: 8.0, status: DESIGN_PROPOSAL}
+    root_node_spines:
+      left: {x_mm: [-67.0, -55.0], y_mm: [110.15, 121.15], z_mm: [-75.0, 75.0]}
+      right: {x_mm: [-67.0, -55.0], y_mm: [-121.15, -110.15], z_mm: [-75.0, 75.0]}
+      status: DESIGN_PROPOSAL
+      qualification: embedded_staging_only_fasteners_and_joints_TBD_HOLD
+    deployment_motion_clearance_reliability: UNKNOWN
+
+  C5-PACKAGE-01:
+    status: TBD_HOLD
+    bus_available_width_mm: 226.3
+    stowed_wing_package_width_mm: 238.3
+    preserved_negative_relation: 238.3 mm > 226.3 mm
+    overage_mm: 12.0
+    solar_root_mechanism_lower_bound_width_mm: 302.3
+    closure_claim: false
+
+staging_limitations:
+  - STEP contains static labeled solids only.
+  - STEP has no SolidWorks configuration, suppression, BOM, or mass-exclusion semantics.
+  - Reference and keep-out solids are labeled NON_PHYSICAL but remain selectable geometry.
+  - No vendor B601 LOD1 geometry is embedded.
+  - No interface hole or fastener pattern is authoritative beyond the frozen central diameter.
+  - Saving or reopening this STEP does not validate a SolidWorks-native staging assembly.

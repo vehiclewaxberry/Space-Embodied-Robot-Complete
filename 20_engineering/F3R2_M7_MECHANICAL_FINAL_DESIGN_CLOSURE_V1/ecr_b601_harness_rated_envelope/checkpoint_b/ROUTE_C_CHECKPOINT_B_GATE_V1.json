@@ -1,0 +1,420 @@
+{
+  "schema": "ROUTE_C_CHECKPOINT_B_GATE_V1",
+  "checkpoint": "CHECKPOINT-B__ROUTE_C_C2_ADMISSION_GATE",
+  "generated_local": "2026-08-24T00:35:51+08:00",
+  "generator": "GPT mechanical chief and multi-agent Loop Engineering integrator",
+  "checkpoint_reached": true,
+  "checkpoint_outcome": "HOLD",
+  "technical_verdict": "CHECKPOINT_B_REACHED__ROUTE_C_C2_ADMISSION_HOLD_13_OF_13_PHYSICAL_FIELDS_NULL__CAD_PROHIBITED__NO_RELEASE_CREDIT",
+  "scope": "Route-C C2 physical-input admission only; no CAD, product selection, procurement release, mission release, or flight qualification",
+  "evaluation_integrity": {
+    "criteria": [
+      {
+        "id": "B-I01",
+        "name": "all checkpoint inputs exist and are hash-pinned",
+        "pass": true
+      },
+      {
+        "id": "B-I02",
+        "name": "ODR-GPT-03/04 direct authority rebound",
+        "pass": true
+      },
+      {
+        "id": "B-I03",
+        "name": "MPI bridge remains 9/9 with five zero bottom-line metrics",
+        "pass": true
+      },
+      {
+        "id": "B-I04",
+        "name": "C2 registry independently parsed as 13 null/HOLD entries",
+        "pass": true
+      },
+      {
+        "id": "B-I05",
+        "name": "RFI-E/F/G issuance and zero-response state verified",
+        "pass": true
+      },
+      {
+        "id": "B-I06",
+        "name": "eight-condition C2 admission evaluated fail-closed",
+        "pass": true
+      },
+      {
+        "id": "B-I07",
+        "name": "no Route-C CAD asset exists in controlled Route-C package",
+        "pass": true
+      },
+      {
+        "id": "B-I08",
+        "name": "candidate, scan-axis and synthetic evidence remain non-authoritative",
+        "pass": true
+      }
+    ],
+    "summary": {
+      "passed": 8,
+      "total": 8,
+      "failed": []
+    }
+  },
+  "admission": {
+    "rule": "ALL C2-ADM-01..08 must PASS; any FAIL or UNKNOWN keeps ROUTE_C_CAD_AUTHORIZED=false",
+    "conditions": [
+      {
+        "id": "C2-ADM-01",
+        "result": "PASS",
+        "evidence": "ODR-45（ODR record sha256 69473bc1...）：桥状态升级为 CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE；工程基础 MPI_BRIDGE_GATE_V1.json（sha256 60911e3c...）mpi_gate=PASS、9/9 判据 PASS"
+      },
+      {
+        "id": "C2-ADM-02",
+        "result": "FAIL",
+        "evidence": "RFI-E 已按 ODR-46 发放（ROUTE_C_RFI_EFG_ISSUANCE_V1 status=ISSUED_PER_ODR46）；响应数 = 0，无可溯源来源落账"
+      },
+      {
+        "id": "C2-ADM-03",
+        "result": "FAIL",
+        "evidence": "RFI-F 已发放；响应数 = 0"
+      },
+      {
+        "id": "C2-ADM-04",
+        "result": "FAIL",
+        "evidence": "RFI-G 已发放；响应数 = 0"
+      },
+      {
+        "id": "C2-ADM-05",
+        "result": "FAIL",
+        "evidence": "对 ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml（sha256 6264a0a4...）复解析：13 entries，13 HOLD，0 AVAILABLE，0 non-null values（与骨架 summary 块一致）"
+      },
+      {
+        "id": "C2-ADM-06",
+        "result": "FAIL",
+        "evidence": "13 字段无任何可溯源来源注册（候选源仅存在于 P01/P02/P09 的 vendor_catalog 级，且受 DECL_C2_01_01/02 限制，不构成受控值）"
+      },
+      {
+        "id": "C2-ADM-07",
+        "result": "PASS",
+        "scope_note": "限域：MPI-FB-01..08 安装语义桥链（MPI_BRIDGE_GATE_V1 PASS + ODR-45 确认）。事实记录：Route-C 物理输入车道 MPI 证据门 ROUTE_C_MPI_EVIDENCE_GATE_V1.json（sha256 348c9d60...）仍为 HOLD（0/8 controlled），该 HOLD 与 C2-ADM-05/08 同一事实源，不重复计数也不掩盖"
+      },
+      {
+        "id": "C2-ADM-08",
+        "result": "FAIL",
+        "evidence": "C2-01 注册表 13/13 HOLD、0 AVAILABLE（同 C2-ADM-05 复解析）"
+      }
+    ],
+    "summary": {
+      "conditions_total": 8,
+      "pass": 2,
+      "fail": 6,
+      "pass_ids": [
+        "C2-ADM-01",
+        "C2-ADM-07"
+      ],
+      "fail_ids": [
+        "C2-ADM-02",
+        "C2-ADM-03",
+        "C2-ADM-04",
+        "C2-ADM-05",
+        "C2-ADM-06",
+        "C2-ADM-08"
+      ]
+    },
+    "pass_ids": [
+      "C2-ADM-01",
+      "C2-ADM-07"
+    ],
+    "fail_ids": [
+      "C2-ADM-02",
+      "C2-ADM-03",
+      "C2-ADM-04",
+      "C2-ADM-05",
+      "C2-ADM-06",
+      "C2-ADM-08"
+    ],
+    "ROUTE_C_CAD_AUTHORIZED": false,
+    "next_stage_authorized": false
+  },
+  "physical_registry": {
+    "entries_total": 13,
+    "value_non_null": 0,
+    "status_AVAILABLE": 0,
+    "status_HOLD": 13,
+    "candidate_sources_present": 3,
+    "candidate_source_ids": [
+      "P01",
+      "P02",
+      "P09"
+    ],
+    "candidate_sources_are_authority": false,
+    "fields": [
+      {
+        "id": "P01",
+        "quantity": "D_max_geometry_mm",
+        "unit": "mm",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": null
+      },
+      {
+        "id": "P02",
+        "quantity": "R_path_min_mm",
+        "unit": "mm",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": null
+      },
+      {
+        "id": "P03",
+        "quantity": "deltaL_mm",
+        "unit": "mm",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": null
+      },
+      {
+        "id": "P04",
+        "quantity": "carrier_travel_mm",
+        "unit": "mm",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": "RFI-E"
+      },
+      {
+        "id": "P05",
+        "quantity": "manufacturing_coordinates_mm",
+        "unit": "mm",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": "RFI-G"
+      },
+      {
+        "id": "P06",
+        "quantity": "minimum_dynamic_bend_radius_mm",
+        "unit": "mm",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": null
+      },
+      {
+        "id": "P07",
+        "quantity": "max_axial_extension_mm",
+        "unit": "mm",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": null
+      },
+      {
+        "id": "P08",
+        "quantity": "torsional_compliance",
+        "unit": "deg/m or N*m/rad per construction definition (unit itself not yet controlled)",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": null
+      },
+      {
+        "id": "P09",
+        "quantity": "linear_density_g_per_m",
+        "unit": "g/m",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": null
+      },
+      {
+        "id": "P10",
+        "quantity": "guide_friction_candidate",
+        "unit": "dimensionless coefficient or material-pair record (not yet controlled)",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": "RFI-F"
+      },
+      {
+        "id": "P11",
+        "quantity": "guide_curvature",
+        "unit": "mm",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": null
+      },
+      {
+        "id": "P12",
+        "quantity": "carrier_size_mm",
+        "unit": "mm",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": "RFI-E"
+      },
+      {
+        "id": "P13",
+        "quantity": "clamp_spacing_mm",
+        "unit": "mm",
+        "value": null,
+        "value_uncertainty": null,
+        "status": "HOLD",
+        "assigned_rfi": "RFI-G"
+      }
+    ]
+  },
+  "rfi_state": {
+    "issuance_status": "ISSUED_PER_ODR46",
+    "rfi_ids": [
+      "RFI-E",
+      "RFI-F",
+      "RFI-G"
+    ],
+    "responses_received": 0,
+    "values_filled_into_registry": 0,
+    "fields_upgraded_to_candidate_range": 0,
+    "rfi_response_alone_closes_mpi": false,
+    "registered_field_targets": {
+      "P12": "RFI-E",
+      "P04": "RFI-E",
+      "P10": "RFI-F",
+      "P13": "RFI-G",
+      "P05": "RFI-G"
+    }
+  },
+  "precad_state": {
+    "predicate_tests": "47/47 PASS_SYNTHETIC_SEMANTICS_ONLY",
+    "predicate_grants_design_authority": false,
+    "physical_candidates_evaluated": 0,
+    "candidate_found": false,
+    "physical_capacity_frontier": {
+      "D_max_geometry_mm": null,
+      "R_path_min_mm": null,
+      "candidate_found": false,
+      "carrier_travel_mm": null,
+      "deltaL_mm": null,
+      "manufacturing_coordinates_mm": null,
+      "physical_candidates_evaluated": 0,
+      "state": "UNKNOWN_NOT_COMPUTABLE"
+    },
+    "route_c_cad_assets_found": []
+  },
+  "mission_release_effect": {
+    "ODR_GPT_04_defer_condition_met": false,
+    "mission_coverage": "FAIL",
+    "harness_gate": "FAIL_AT_MANDATORY_KEY_STATES",
+    "key_states_safe": 0,
+    "key_states_total": 10,
+    "trajectory_segments_released": 0,
+    "trajectory_segments_total": 8,
+    "full_range_harness_may_be_deferred_now": false
+  },
+  "authority_guards": {
+    "owner_accepted": false,
+    "review_status": "PENDING_OWNER_REVIEW",
+    "next_stage_authorized": false,
+    "release_credit": false,
+    "route_b_reopen_allowed": false,
+    "null_to_zero_allowed": false,
+    "llm_estimate_as_authority_allowed": false,
+    "scan_axis_as_measurement_allowed": false,
+    "route_b_seed_inheritance_allowed": false,
+    "route_c_cad_authorized": false
+  },
+  "allowed_now": [
+    "receive and source-control RFI-E/F/G responses",
+    "complete electrical, pinout, installed-construction, installation-ICD, and mission-life owner inputs",
+    "perform exact-construction bend-torsion, friction/wear, mass-per-length, and installed-OD measurements",
+    "update P01-P13 only with units, tolerance/uncertainty, provenance, and authority class",
+    "rerun this admission Gate after traceable CM registration"
+  ],
+  "prohibited_now": [
+    "Route-C CAD/STEP/FCStd/STL/GLB generation",
+    "catalog candidate to selected product promotion without authority",
+    "null to guessed value or zero",
+    "LLM engineering estimate as authority",
+    "Route-B seed inheritance",
+    "production dynamics, physical-contact RL, hardware motion, or release claim"
+  ],
+  "next_automatic_action": [
+    "freeze this Checkpoint-B HOLD evidence",
+    "await traceable physical responses and controlled owner-input completion; no heavy solver is authorized",
+    "on new registered evidence, rerun C2-ADM-01..08 without weakening any condition",
+    "start Route-C CAD only after 8/8 admission PASS and a separately recorded authorization state"
+  ],
+  "evidence_pins": [
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR_GPT_01_TO_06_TERMINAL_CLOSURE_V1.yaml",
+      "bytes": 10251,
+      "sha256": "B7EE60281935DD7417027D5428B9291BEE7D3F6528022509ACA168FB39B68689",
+      "role": "CURRENT_DIRECT_OWNER_DIRECTIVES"
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/MPI_BRIDGE_GATE_V1.json",
+      "bytes": 23153,
+      "sha256": "60911E3C88387E2ED53601F2B541649BF90D689C57C4E74225226AE6FD10C721",
+      "role": "CONFIRMED_MPI_BRIDGE_GATE"
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V2.json",
+      "bytes": 20197,
+      "sha256": "DB86348B8276FB2DCEB48DA30D1969948B37AAC4DF6D67D7588D928CF8281FAE",
+      "role": "FROZEN_ROUTE_B_NEGATIVE_RESULT"
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml",
+      "bytes": 19773,
+      "sha256": "6264A0A45F6A497787F3D96205CEF7799A19A225CD23CEA66D5AD31E335A3E8E",
+      "role": "C2_PHYSICAL_REGISTRY"
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_C2_ADMISSION_GATE_V1.yaml",
+      "bytes": 16376,
+      "sha256": "0AE3888EDBE9A2DCD85792AA0E8800432911E4ED1C11D48C2206B60BED2521B8",
+      "role": "C2_ADMISSION_SOURCE_GATE"
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_RFI_EFG_ISSUANCE_V1.yaml",
+      "bytes": 19395,
+      "sha256": "77187CF362A9AA41B287A269D4AA827BA8B8A8385576DB0FD003E4BBE63EC1A2",
+      "role": "RFI_EFG_ISSUANCE_RECORD"
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/01_minimum_product_inputs/ROUTE_C_PRODUCT_INPUT_GATE_V1.json",
+      "bytes": 4334,
+      "sha256": "5D0908E4881AF5A87300778CD6C4E7C541512428B6237E1CF5E916BA61C8F38E",
+      "role": "MINIMUM_PRODUCT_INPUT_GATE"
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/01_minimum_product_inputs/ROUTE_C_VENDOR_RFI_DECISION_GATE_V1.json",
+      "bytes": 4876,
+      "sha256": "74079091B35C47588096F1FDB0FF276E63036E656A4568A4C8A18868B1A79AC6",
+      "role": "VENDOR_RFI_DECISION_GATE"
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/01_minimum_product_inputs/02_mpi_evidence_audit/ROUTE_C_MPI_EVIDENCE_GATE_V1.json",
+      "bytes": 2981,
+      "sha256": "348C9D603F7249E938E5F398CDA53B28A2B1155AFF2330F147BD93372F236D50",
+      "role": "ROUTE_C_MPI_EVIDENCE_GATE"
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/02_pre_cad_parametric_guided_route_search/03_gate/ROUTE_C_PRECAD_PARAMETRIC_SEARCH_GATE_V1.json",
+      "bytes": 17306,
+      "sha256": "B43745081B4D0F2250993EBDB89074054B4A755C8A21555F9A42F0C392BCADCF",
+      "role": "PRECAD_DIAGNOSTIC_GATE"
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/04_mission/B601_HARNESS_MISSION_COVERAGE_GATE.json",
+      "bytes": 7324,
+      "sha256": "F3B444222E87509B66F712E623A4903748C7309C6396708EC02A0C1A54CDAA5C",
+      "role": "MISSION_DEFER_CONDITION_GATE"
+    }
+  ],
+  "terminal_release_candidate_generated": false,
+  "owner_accepted": false,
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false,
+  "self_hash_policy": "SELF_REFERENCE_EXCLUDED; CHECKPOINT_B_SHA256.csv pins this Gate after emission"
+}

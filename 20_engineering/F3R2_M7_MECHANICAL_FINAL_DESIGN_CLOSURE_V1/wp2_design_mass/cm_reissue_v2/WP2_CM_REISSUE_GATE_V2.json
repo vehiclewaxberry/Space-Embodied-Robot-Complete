@@ -1,0 +1,128 @@
+{
+  "schema": "WP2_CM_REISSUE_GATE_V2",
+  "artifact_id": "WP2_CM_REISSUE_GATE_V2",
+  "generated_local": "2026-08-24T07:05:50+08:00",
+  "gate_scope": "CONFIGURATION_MANAGEMENT_INTEGRITY_ONLY",
+  "gate_verdict": "PASS_CM_INTEGRITY_REISSUE_ONLY",
+  "cm_defect_disposition": "CLOSED_AT_THIS_PACKAGE_SCOPE_SUBJECT_TO_OWNER_CM_ACCEPTANCE",
+  "input_artifacts": {
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/cm_reissue_v2/WP2_CM_ONLY_RECEIPT_V2.json": {
+      "sha256": "53E1C31ACDF0927A11C998FE4C8245046958E355A1C1F015D72C562BA4B91031",
+      "bytes": 8287,
+      "role": "CM_ONLY_RECEIPT"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/cm_reissue_v2/validate_cm_reissue_v2.py": {
+      "sha256": "4A088B8F4702F621FDE0D0B79E0B135AD97D1CBADD81E5518F56803182871288",
+      "bytes": 12650,
+      "role": "INDEPENDENT_READ_ONLY_VALIDATOR"
+    }
+  },
+  "criteria": [
+    {
+      "id": "CMR2-01",
+      "criterion": "Legacy receipt actual raw-byte hash and recorded self-hash are both fixed and unequal",
+      "status": "PASS",
+      "evidence": "actual 5CD4EAF4...D368 != recorded 9C858FD5...E6491"
+    },
+    {
+      "id": "CMR2-02",
+      "criterion": "Recorded self-hash is exactly reproduced from the builder's first CRLF emission with an empty hashes object",
+      "status": "PASS",
+      "evidence": "reconstructed first emission: 4536 bytes, SHA-256 9C858FD55A0F9792C12AD7E4CA8E4799480FB36AD44BA3AB73725357D91E6491"
+    },
+    {
+      "id": "CMR2-03",
+      "criterion": "Root cause is the deterministic two-write self-reference sequence, not scientific payload drift",
+      "status": "PASS",
+      "evidence": "aggregate_m7_design_mass_v3_r2.py lines 312-315: write empty hashes, hash receipt, insert self digest, write changed receipt"
+    },
+    {
+      "id": "CMR2-04",
+      "criterion": "All seven declared non-self-reference upstream sources are raw-byte SHA-256 and byte-count pinned",
+      "status": "PASS",
+      "evidence": "WP2_CM_ONLY_RECEIPT_V2.json source_register; independent validator recomputes every entry"
+    },
+    {
+      "id": "CMR2-05",
+      "criterion": "Legacy non-self-reference payload is preserved by canonical projection",
+      "status": "PASS",
+      "evidence": "old projection digest == CM reissue reference digest == 0AC55D21BAC232E155A15A52096104EF15CC3A4B4971886F3DB45A8763C20F7E"
+    },
+    {
+      "id": "CMR2-06",
+      "criterion": "CM receipt explicitly uses SELF_REFERENCE_EXCLUDED and enumerates every excluded self/downstream/package member",
+      "status": "PASS",
+      "evidence": "receipt hash_policy includes seven upstream sources and five explicitly reasoned exclusions; no top-level hashes field exists"
+    },
+    {
+      "id": "CMR2-07",
+      "criterion": "Package manifest pins every other package member and excludes only itself",
+      "status": "PASS",
+      "evidence": "WP2_CM_REISSUE_MANIFEST_V2.json package_member_register plus single explicit manifest-self exclusion"
+    },
+    {
+      "id": "CMR2-08",
+      "criterion": "No mass, CG, inertia, uncertainty, geometry, harness, flex, legacy receipt, or aggregator source was modified",
+      "status": "PASS",
+      "evidence": "unchanged source hashes fixed in the receipt; CM package contains no re-emitted configuration payload"
+    },
+    {
+      "id": "CMR2-09",
+      "criterion": "Independent validator does not import or execute the legacy aggregator and writes no files",
+      "status": "PASS",
+      "evidence": "stdlib-only raw-byte/hash/JSON recomputation contract"
+    },
+    {
+      "id": "CMR2-10",
+      "criterion": "Validation serialization and package bytes are deterministic across unchanged-input reruns",
+      "status": "PASS",
+      "evidence": "validator emits no clock or host-variant field; in-run snapshot equality and two-process stdout equality are required verification steps"
+    },
+    {
+      "id": "CMR2-11",
+      "criterion": "CM repair does not inherit or upgrade any scientific Gate",
+      "status": "PASS",
+      "evidence": "scientific_gate_inheritance=false; source PASS is cited only as the unchanged legacy declaration"
+    },
+    {
+      "id": "CMR2-12",
+      "criterion": "Owner, next-stage, release, manufacturing, qualification, launcher, and flight authority remain ungranted",
+      "status": "PASS",
+      "evidence": "owner_accepted=false; next_stage_authorized=false; release_credit=false; all terminal holds retained"
+    }
+  ],
+  "validator_contract": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/cm_reissue_v2/validate_cm_reissue_v2.py",
+    "imports_aggregator": false,
+    "executes_aggregator": false,
+    "writes_files": false,
+    "hashes_raw_bytes": true,
+    "reconstructs_legacy_first_emission": true,
+    "validates_non_self_payload_projection": true,
+    "validates_all_source_and_package_members": true,
+    "deterministic_stdout": true
+  },
+  "source_scientific_state": {
+    "legacy_receipt_declared_verdict": "PASS",
+    "reissued_as_scientific_verdict": false,
+    "mass_cg_inertia_changed": false,
+    "scientific_gate_inheritance": false
+  },
+  "scientific_gate_inheritance": false,
+  "review_status": "PENDING_OWNER_REVIEW",
+  "owner_accepted": false,
+  "next_stage_authorized": false,
+  "release_credit": false,
+  "released_segments": 0,
+  "retained_holds": [
+    "PENDING_OWNER_REVIEW",
+    "AS_BUILT_MASS_CORRELATION_HOLD",
+    "PENDING_CALIBRATION",
+    "R2_FULL_FLEX_HOLD",
+    "E15_REPEAT_ANCF_CERTIFICATION",
+    "MISSION_HARNESS_ENVELOPE_HOLD",
+    "MECHANICAL_TO_EMBODIED_HANDOFF_HOLD",
+    "NO_MANUFACTURING_QUALIFICATION_LAUNCHER_OR_FLIGHT_AUTHORITY"
+  ],
+  "self_hash_policy": "SELF_REFERENCE_EXCLUDED; package manifest pins this Gate after emission"
+}

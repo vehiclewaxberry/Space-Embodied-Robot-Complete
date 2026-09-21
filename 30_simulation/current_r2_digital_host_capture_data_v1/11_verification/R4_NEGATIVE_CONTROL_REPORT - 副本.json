@@ -1,0 +1,24 @@
+{
+  "schema": "R4_NEGATIVE_CONTROL_REPORT_V1",
+  "generated_at_local": "2026-08-27T16:40:25.5228064+09:00",
+  "production_source_sha256": "263369437FB05E3AD54B98C9A8F0D3717D77D836B0D767E32768437075D2C36E",
+  "test_source_sha256": "94C1F993F09B173595E486220BBFB07BB20C239EFAE4D09A3F0788A65EABA982",
+  "targeted_test_result": "11/11 PASS",
+  "full_test_result": "24/24 PASS",
+  "controls": [
+    {"id": "T1", "case": "all values already below roundoff floor", "expected": "PASS_AT_ROUNDOFF_FLOOR", "result": "PASS"},
+    {"id": "T2", "case": "consistent coarse-to-fine descent into floor", "expected": "PASS_ENTERED_ROUNDOFF_FLOOR", "result": "PASS"},
+    {"id": "T3", "case": "valid fourth-order informative pairs", "expected": "ORDER_FIT", "result": "PASS"},
+    {"id": "T4", "case": "floor semantic candidate with real momentum drift over threshold", "expected": "overall FAIL", "result": "PASS"},
+    {"id": "T5", "case": "h/E/xcheck hard gates independently override semantic PASS", "expected": "overall FAIL for each", "result": "PASS"},
+    {"id": "T6", "case": "persistent torque saturation across refinement", "expected": "no complete scenario PASS or control release", "result": "PASS"},
+    {"id": "T7", "case": "reversed/repeated/non-halving dt schedule", "expected": "FAIL without sorting", "result": "PASS"},
+    {"id": "R4-NC08", "case": "one or two refinement points only", "expected": "FAIL_INSUFFICIENT_REFINEMENT_POINTS", "result": "PASS"},
+    {"id": "R4-NC09", "case": "informative early pair followed by cross-floor rebound", "expected": "FAIL_NONMONOTONE_REFINEMENT", "result": "PASS"},
+    {"id": "R4-NC10", "case": "S02/S03 mixed angular/linear momentum scalarization", "expected": "PREEXEC hard HOLD", "result": "PASS_DETECTED_DEFECT"}
+  ],
+  "baseline_tests_deleted_or_relaxed": 0,
+  "interrupted_snapshot_test_only_duplicate_replaced": 1,
+  "xfail_to_pass_changes": 0,
+  "conclusion": "Convergence semantics are locally fail-closed; scientific execution remains blocked by the unit-invalid legacy S02/S03 momentum scalarization and output isolation defect."
+}

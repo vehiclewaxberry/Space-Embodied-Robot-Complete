@@ -1,0 +1,336 @@
+schema: M6_CONFIGURATION_TRANSFORM_CANDIDATES_V1
+generated_local: '2026-08-21T20:48:20+08:00'
+phase: M6_CANDIDATE_AUTHORITY_CLOSURE
+work_package: WP2_MASS9
+scope: NINE_CONFIGURATION_CANDIDATE_TRANSFORMS_FOR_DIAGNOSTIC_MASS_AGGREGATION
+release_aggregation_active: false
+release_status: CANDIDATE_ONLY_NOT_WRITTEN_BACK_TO_ANY_BASELINE
+
+units:
+  length: m
+  angle: rad
+  mass: kg
+
+conventions:
+  target_frame: spacecraft_assembly_frame
+  target_frame_resolution: >-
+    spacecraft_assembly_frame is the frozen identity alias of S in
+    20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+  matrix_convention: homogeneous_transform_child_coordinates_into_parent_coordinates
+  rotation_convention: columns_are_child_axes_expressed_in_parent
+  transform_rows_semantics: T_S_child_rows = [[R3x3 | t_xyz_m]; [0 0 0 1]], strict SI
+  panel_logical_angle_semantics:
+    rule: 0_DEG_EQUALS_STOWED_ENDPOINT__90_DEG_EQUALS_DEPLOYED_ENDPOINT
+    hinge_axis: ROOT_PANEL_EDGE_PARALLEL_TO_X_S_THROUGH_F_L_OR_F_R_ORIGIN
+    source: V5_SOLAR_STATE_AUTHORITY_R2B.json coordinate_contract (logical angle semantics only)
+    adoption_limit: >-
+      Only the logical angle semantics (0=stowed endpoint, 90=deployed endpoint,
+      root hinge axis parallel to X) are adopted. The R2B physical 3-panel serial-fold
+      geometry (root at y=+/-143.15 mm in the V5 native assembly frame) is NOT mixed
+      into the M4 single-plate mass model (root at F_L/F_R y=+/-113.15 mm in S),
+      consistent with the M5 branch_rule against mixing variants.
+  panel_mass_model_geometry:
+    plate_dims_m: {chord_along_X_F: 0.227, span_along_Y_F: 0.200, thickness_along_Z_F: 0.006}
+    com_offset_from_hinge_origin_m: 0.1 along local +Y_F (span midpoint)
+    source: 20_engineering/config/geometry/flexible_appendage_v1.yaml + mass_split_check.py frozen panel spec
+  unknown_transform_policy: null_transform_and_action_mask (per M4 frame tree)
+  zero_fill_forbidden: true
+
+source_register:
+  m4_system_mass_properties_v3:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/SYSTEM_MASS_PROPERTIES_V3.yaml
+    sha256: 3F88318666C8A7DA57A74D65F94E8B27A7D84E32741039A893C21FC247A9FE9F
+    role: component mass ledger, branch semantics, legacy flange boundary ruling
+  m4_configuration_library_v1:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/CONFIGURATION_LIBRARY_V1.yaml
+    sha256: DCE40C1DB8A318A077F0DD92A47F236BE55EAF2FD32B4E514D2BB67C9B19B4A2
+    role: nine-configuration field contract and pose source mapping
+  m4_frame_tree:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+    sha256: 67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA
+    role: frozen F_L/F_R origins and partial axes; spacecraft_assembly_frame identity alias; matrix conventions
+  b601_named_pose_revalidation:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/11_validation/B601_NAMED_POSE_REVALIDATION_V1.json
+    sha256: 68D0356F889E5888399631E6C735D404140AC5933B7FA172AB1F9E26BA26B844
+    role: named-pose joint vectors, per-pose S-frame arm COM and inertia, pose hold statuses
+  m5_configuration_geometry_contract:
+    path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/M5_CONFIGURATION_GEOMETRY_CONTRACT_V1.yaml
+    sha256: DA18F5A6E2F553FC709E90BA1035CDD7770A6FCEECA13EDC1FDB448CAF75838D
+    role: per-configuration solar_state bindings, q_source strings, display-only target transforms, diagnostic bboxes
+  geometry_ssot_service_spacecraft:
+    path: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+    sha256: 8DD8F22FF1F893273DE2215EA12819E4D41CC0E20B853ADC0774052237881432
+    role: rigid bus bays box, bus/panel split values, deployed envelope reference
+  geometry_ssot_flexible_appendage:
+    path: 20_engineering/config/geometry/flexible_appendage_v1.yaml
+    sha256: 52FA88084C628CE8845E05DE0C0A892BCA5347B7146C8D1C6B99093927153786
+    role: panel plate dimensions and own-COM inertia derivation basis
+  geometry_ssot_frame_tree:
+    path: 20_engineering/config/geometry/frame_tree_v1.yaml
+    sha256: 958BFF23BF83434C773854FD0E78DA3B09BE4A3A213EB81A0741514750B3E55B
+    role: F_L/F_R axis rulings (Y_F deploy direction, Z_F panel normal), rank-1 frame authority
+  stage1_mass_budget:
+    path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+    sha256: 073C802527E35C9495188EEFD5D8BA51F524D326142CF2AB31E436BAD0899392
+    role: panel and target mass/inertia rows; whole-sat closure regression reference
+  v5n_solar_state_authority_r2b:
+    path: 20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/00_authority/V5_SOLAR_STATE_AUTHORITY_R2B.json
+    sha256: BA639C6BF4F0875B6FD9AFFF2E6CA7A5AA3BA1AF77C6BD5FEC07A8EB62D8E6D8
+    role: logical angle semantics 0=stowed/90=deployed and root-axis-X hinge contract (semantics adoption only)
+  v5n_solar_r2b_kinematic_oracle:
+    path: 20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/13_validation/V5_SOLAR_R2B_STATIC_KINEMATIC_ORACLE_20260812T181333.205056Z.json
+    sha256: F4E5E0CD5A8559991B60826C6221294948CD07889836500D81527AE0982196F6
+    role: fail-state angle vectors (failed side retained at [0,0,0] = stowed endpoint); stowed rotation direction witness
+  target_models_ssot:
+    path: 20_engineering/config/geometry/target_models_v1.yaml
+    sha256: 45666D9D37460FD825F0ED7301BF69113016689FDF00A13DFF8046358A76AE45
+    role: target mass/inertia confidence notes (low, never measured, RA-003)
+  accepted_b601_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    role: L0 accepted arm mass truth (4.695555949342986 kg); never overridden by CAD-derived values
+
+transform_library:
+  panel_transforms:
+    panel_left_deployed:
+      applies_to_component: solar_array_left
+      child_frame: F_LEFT_LOCAL_COM
+      logical_deploy_angle_deg: 90.0
+      hinge_axis: {point_S_m: [-0.05675, 0.11315, 0.0], direction_S: [1.0, 0.0, 0.0]}
+      T_S_child_rows:
+        - [1.0, 0.0, 0.0, -0.05675]
+        - [0.0, 1.0, 0.0, 0.21315]
+        - [0.0, 0.0, 1.0, 0.0]
+        - [0.0, 0.0, 0.0, 1.0]
+      basis: >-
+        F_L origin [-56.75, +113.15, 0] mm and axes Y_F=+Y_S, Z_F=+Z_S frozen in the M4 frame tree
+        (full orientation matrix officially HOLD there; this candidate resolves it to identity);
+        COM offset +span/2 along +Y_F per the frozen mass_split_check panel spec
+        (P_CENTERS = [-0.05675, +0.21315, 0] m).
+      classification: CANDIDATE_TRANSFORM
+      source_refs: [m4_frame_tree, geometry_ssot_frame_tree, geometry_ssot_flexible_appendage, stage1_mass_budget]
+    panel_left_stowed:
+      applies_to_component: solar_array_left
+      child_frame: F_LEFT_LOCAL_COM
+      logical_deploy_angle_deg: 0.0
+      hinge_axis: {point_S_m: [-0.05675, 0.11315, 0.0], direction_S: [1.0, 0.0, 0.0]}
+      rotation_from_deployed: -90 deg about hinge axis (span sweeps +Y_S -> -Z_S, matching the R2B oracle stowed endpoint direction)
+      T_S_child_rows:
+        - [1.0, 0.0, 0.0, -0.05675]
+        - [0.0, 0.0, 1.0, 0.11315]
+        - [0.0, -1.0, 0.0, -0.1]
+        - [0.0, 0.0, 0.0, 1.0]
+      basis: >-
+        Same hinge as panel_left_deployed; plate rotates -90 deg about the hinge axis so the span
+        extends -Z_S from the root (R2B oracle SOLAR_STOWED left L1 native rotation -90 deg witness).
+        Plate straddles the hinge plane (3 mm half-thickness each side); physical standoff relief
+        is unresolved and collision remains HOLD.
+      classification: CANDIDATE_TRANSFORM
+      source_refs: [m4_frame_tree, geometry_ssot_frame_tree, v5n_solar_state_authority_r2b, v5n_solar_r2b_kinematic_oracle]
+    panel_right_deployed:
+      applies_to_component: solar_array_right
+      child_frame: F_RIGHT_LOCAL_COM
+      logical_deploy_angle_deg: 90.0
+      hinge_axis: {point_S_m: [-0.05675, -0.11315, 0.0], direction_S: [1.0, 0.0, 0.0]}
+      T_S_child_rows:
+        - [-1.0, 0.0, 0.0, -0.05675]
+        - [0.0, -1.0, 0.0, -0.21315]
+        - [0.0, 0.0, 1.0, 0.0]
+        - [0.0, 0.0, 0.0, 1.0]
+      basis: >-
+        F_R origin [-56.75, -113.15, 0] mm and axes Y_F=-Y_S, Z_F=+Z_S frozen in the M4 frame tree;
+        right-handed completion gives X_F=-X_S; COM offset +span/2 along local +Y_F lands at
+        [-0.05675, -0.21315, 0] m per the frozen mass_split_check panel spec.
+      classification: CANDIDATE_TRANSFORM
+      source_refs: [m4_frame_tree, geometry_ssot_frame_tree, geometry_ssot_flexible_appendage, stage1_mass_budget]
+    panel_right_stowed:
+      applies_to_component: solar_array_right
+      child_frame: F_RIGHT_LOCAL_COM
+      logical_deploy_angle_deg: 0.0
+      hinge_axis: {point_S_m: [-0.05675, -0.11315, 0.0], direction_S: [1.0, 0.0, 0.0]}
+      rotation_from_deployed: +90 deg about hinge axis (span sweeps -Y_S -> -Z_S, mirrored R2B stowed endpoint direction)
+      T_S_child_rows:
+        - [-1.0, 0.0, 0.0, -0.05675]
+        - [0.0, 0.0, -1.0, -0.11315]
+        - [0.0, -1.0, 0.0, -0.1]
+        - [0.0, 0.0, 0.0, 1.0]
+      basis: >-
+        Deployed right-plate orientation rotated +90 deg about the hinge axis (hinge rotation leaves
+        X_F=-X_S invariant); span extends -Z_S from the root, mirroring the left stowed candidate
+        (R2B oracle SOLAR_STOWED right R1 native rotation -90 deg in its mirrored frame convention).
+      classification: CANDIDATE_TRANSFORM
+      source_refs: [m4_frame_tree, geometry_ssot_frame_tree, v5n_solar_state_authority_r2b, v5n_solar_r2b_kinematic_oracle]
+
+  retained_or_jettisoned_rule_candidates:
+    PANEL_RETAINED_AT_STOWED_ENDPOINT_ON_FAIL:
+      rule: failed panel remains attached at logical angle 0 (stowed endpoint); mass invariant
+      oracle_witness: V5_SOLAR_R2B_STATIC_KINEMATIC_ORACLE SOLAR_LEFT_FAIL/SOLAR_RIGHT_FAIL/SOLAR_BOTH_FAIL angle vectors [0,0,0] on the failed side
+      classification: CANDIDATE_RULE
+      selection: SELECTED_FOR_C02_C03_C04_DIAGNOSTIC_BINDING
+      status: CANDIDATE_ONLY_FAILURE_SEMANTICS_NOT_APPROVED
+    PANEL_JETTISONED_ON_FAIL:
+      rule: failed panel separated; system mass decreases by 0.3483933 kg per jettisoned panel
+      classification: CANDIDATE_RULE
+      selection: NOT_SELECTED_NO_JETTISON_AUTHORITY_EXISTS
+      status: CANDIDATE_ONLY_FAILURE_SEMANTICS_NOT_APPROVED
+
+  arm_named_pose_bindings:
+    Q_DEPLOYED_HOME:
+      q_rad: [-1.570796, -2.094395, -1.047198, 0.0, -0.523599, 0.0]
+      revalidation_gate_role: MANDATORY_RUNTIME_POSE
+      revalidation_status: PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD
+      mass_properties_source: b601_named_pose_revalidation pose_results.Q_DEPLOYED_HOME (S frame, SI)
+      classification: CANDIDATE_BINDING_OF_ACCEPTED_RUNTIME_DIGITAL_POSE
+      source_refs: [b601_named_pose_revalidation, m4_configuration_library_v1]
+    Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH:
+      q_rad: [-1.570796, -2.094395, -1.047198, 0.0, -0.523599, 0.0]
+      revalidation_gate_role: MANDATORY_RUNTIME_POSE
+      revalidation_status: PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD
+      binding_scope: DISPLAY_ONLY arm pose for failure-branch configurations; failure semantics themselves unapproved
+      mass_properties_source: b601_named_pose_revalidation pose_results.Q_DEPLOYED_HOME (S frame, SI)
+      classification: CANDIDATE_BINDING_OF_ACCEPTED_RUNTIME_DIGITAL_POSE
+      source_refs: [b601_named_pose_revalidation, m5_configuration_geometry_contract]
+    Q_STOW_ENGINEERING_CANDIDATE:
+      q_rad: [2.540711, -2.932153, -0.994838, -0.718081, -0.365716, -0.05236]
+      revalidation_gate_role: HELD_CANDIDATE
+      revalidation_status: HELD_CANDIDATE_FK_REGRESSION_FAIL_MAX_RESIDUAL_567P734_MM
+      mass_properties_source: b601_named_pose_revalidation pose_results.Q_STOW_ENGINEERING_CANDIDATE (S frame, SI)
+      classification: CANDIDATE_BINDING_OF_HELD_STOW_POSE
+      source_refs: [b601_named_pose_revalidation, m4_configuration_library_v1]
+    Q_SERVICE_READY:
+      q_rad: [-1.570796, -1.047198, -2.094395, -0.523599, 0.0, 0.0]
+      revalidation_gate_role: MANDATORY_RUNTIME_POSE
+      revalidation_status: PASS_RUNTIME_FK_AND_INERTIA_WITH_SOURCE_CONFIGURATION_RATIFICATION_HOLD
+      mass_properties_source: b601_named_pose_revalidation pose_results.Q_SERVICE_READY (S frame, SI)
+      classification: CANDIDATE_BINDING_OF_RATIFICATION_HELD_POSE
+      source_refs: [b601_named_pose_revalidation, m4_configuration_library_v1]
+    PREGRASP_SCENE_CANDIDATE:
+      q_rad: [-0.000014722592995215, -1.0482002296028672, -1.3989828152470143, -1.220010067943876, 0.000003673218594813444, 0.000018395811591278994]
+      revalidation_gate_role: PREGRASP_SCENE_CANDIDATE
+      revalidation_status: DIAGNOSTIC_CANDIDATE_HOLD_FOR_CAPTURE_DYNAMICS
+      mass_properties_source: b601_named_pose_revalidation pregrasp_scene_candidate (S frame, SI)
+      classification: CANDIDATE_BINDING_OF_PROVISIONAL_SCENE_POSE
+      source_refs: [b601_named_pose_revalidation, m4_configuration_library_v1]
+
+  target_capture_pose_candidates:
+    capture_22kg_satellite:
+      target_frame: T
+      T_S_target_rows:
+        - [-1.0, 0.0, 0.0, 1.24]
+        - [0.0, -1.0, 0.0, 0.0]
+        - [0.0, 0.0, 1.0, -0.1]
+        - [0.0, 0.0, 0.0, 1.0]
+      membership_rule: RIGIDLY_RETAINED_AFTER_CAPTURE_CANDIDATE (system member in C08 only)
+      origin_basis: M5 contract C08 target_transform_S_rows (DISPLAY_ONLY_NOT_WRITTEN_BACK_TO_M4)
+      grasp_point_witness: launch_adapter_ring at [290, 0, 0] mm in T; lever_to_com 0.2517 m (target_models_v1, low confidence)
+      classification: CANDIDATE_TRANSFORM
+      source_refs: [m5_configuration_geometry_contract, target_models_ssot, stage1_mass_budget]
+    capture_150kg_debris:
+      target_frame: D
+      T_S_target_rows:
+        - [-1.0, 0.0, 0.0, 1.61]
+        - [0.0, -1.0, 0.0, 0.0]
+        - [0.0, 0.0, 1.0, -1.05]
+        - [0.0, 0.0, 0.0, 1.0]
+      membership_rule: RIGIDLY_RETAINED_AFTER_CAPTURE_CANDIDATE (system member in C09 only)
+      origin_basis: M5 contract C07/C09 target_transform_S_rows (DISPLAY_ONLY_NOT_WRITTEN_BACK_TO_M4)
+      grasp_point_witness: nozzle_rim at [660, 0, 950] mm in D; lateral_lever 1.02 m (target_models_v1, low confidence)
+      classification: CANDIDATE_TRANSFORM
+      source_refs: [m5_configuration_geometry_contract, target_models_ssot, stage1_mass_budget]
+    pregrasp_150kg_debris_present_not_captured:
+      target_frame: D
+      T_S_target_rows:
+        - [-1.0, 0.0, 0.0, 1.61]
+        - [0.0, -1.0, 0.0, 0.0]
+        - [0.0, 0.0, 1.0, -1.05]
+        - [0.0, 0.0, 0.0, 1.0]
+      membership_rule: PRESENT_IN_SCENE_NOT_A_SYSTEM_MASS_MEMBER (C07 only; target remains separate before capture)
+      origin_basis: M5 contract C07 target_transform_S_rows (DISPLAY_ONLY_NOT_WRITTEN_BACK_TO_M4)
+      classification: CANDIDATE_TRANSFORM
+      source_refs: [m5_configuration_geometry_contract, m4_configuration_library_v1]
+
+configuration_bindings:
+  - configuration_id: C01
+    name: DEPLOYED_NOMINAL
+    solar_panel_transforms:
+      left: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_left_deployed}
+      right: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_right_deployed}
+    arm_named_pose_binding: {pose_ref: Q_DEPLOYED_HOME, m4_accepted_named_joint_vector: Q_DEPLOYED_HOME}
+    target: null
+    classification: CANDIDATE_TRANSFORM_SET
+  - configuration_id: C02
+    name: LEFT_PANEL_FAIL
+    solar_panel_transforms:
+      left: {state: SOLAR_LEFT_FAIL, transform_ref: panel_left_stowed, rule_ref: PANEL_RETAINED_AT_STOWED_ENDPOINT_ON_FAIL}
+      right: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_right_deployed}
+    arm_named_pose_binding: {pose_ref: Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH, m4_accepted_named_joint_vector: Q_DEPLOYED_HOME}
+    target: null
+    classification: CANDIDATE_TRANSFORM_SET
+  - configuration_id: C03
+    name: RIGHT_PANEL_FAIL
+    solar_panel_transforms:
+      left: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_left_deployed}
+      right: {state: SOLAR_RIGHT_FAIL, transform_ref: panel_right_stowed, rule_ref: PANEL_RETAINED_AT_STOWED_ENDPOINT_ON_FAIL}
+    arm_named_pose_binding: {pose_ref: Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH, m4_accepted_named_joint_vector: Q_DEPLOYED_HOME}
+    target: null
+    classification: CANDIDATE_TRANSFORM_SET
+  - configuration_id: C04
+    name: BOTH_PANEL_FAIL
+    solar_panel_transforms:
+      left: {state: SOLAR_BOTH_FAIL, transform_ref: panel_left_stowed, rule_ref: PANEL_RETAINED_AT_STOWED_ENDPOINT_ON_FAIL}
+      right: {state: SOLAR_BOTH_FAIL, transform_ref: panel_right_stowed, rule_ref: PANEL_RETAINED_AT_STOWED_ENDPOINT_ON_FAIL}
+    arm_named_pose_binding: {pose_ref: Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH, m4_accepted_named_joint_vector: Q_DEPLOYED_HOME}
+    target: null
+    classification: CANDIDATE_TRANSFORM_SET
+  - configuration_id: C05
+    name: ARM_STOWED_ONORBIT
+    solar_panel_transforms:
+      left: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_left_deployed, binding_note: PANELS_RETAINED_DEPLOYED_CANDIDATE_BINDING_M4_LISTS_PANEL_STATE_TRANSFORMS_UNRESOLVED}
+      right: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_right_deployed, binding_note: PANELS_RETAINED_DEPLOYED_CANDIDATE_BINDING_M4_LISTS_PANEL_STATE_TRANSFORMS_UNRESOLVED}
+    arm_named_pose_binding: {pose_ref: Q_STOW_ENGINEERING_CANDIDATE, m4_accepted_named_joint_vector: null}
+    target: null
+    classification: CANDIDATE_TRANSFORM_SET
+  - configuration_id: C06
+    name: ARM_TASK_READY
+    solar_panel_transforms:
+      left: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_left_deployed}
+      right: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_right_deployed}
+    arm_named_pose_binding: {pose_ref: Q_SERVICE_READY, m4_accepted_named_joint_vector: null}
+    target: null
+    classification: CANDIDATE_TRANSFORM_SET
+  - configuration_id: C07
+    name: PREGRASP
+    solar_panel_transforms:
+      left: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_left_deployed}
+      right: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_right_deployed}
+    arm_named_pose_binding: {pose_ref: PREGRASP_SCENE_CANDIDATE, m4_accepted_named_joint_vector: null}
+    target: {pose_ref: pregrasp_150kg_debris_present_not_captured, system_mass_member: false}
+    classification: CANDIDATE_TRANSFORM_SET
+  - configuration_id: C08
+    name: TARGET_CAPTURE_22KG
+    solar_panel_transforms:
+      left: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_left_deployed}
+      right: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_right_deployed}
+    arm_named_pose_binding: {pose_ref: PREGRASP_SCENE_CANDIDATE, m4_accepted_named_joint_vector: null}
+    target: {pose_ref: capture_22kg_satellite, system_mass_member: true, scenario_mass_kg: 22.0}
+    classification: CANDIDATE_TRANSFORM_SET
+  - configuration_id: C09
+    name: TARGET_CAPTURE_150KG
+    solar_panel_transforms:
+      left: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_left_deployed}
+      right: {state: SOLAR_DEPLOYED_NOMINAL, transform_ref: panel_right_deployed}
+    arm_named_pose_binding: {pose_ref: PREGRASP_SCENE_CANDIDATE, m4_accepted_named_joint_vector: null}
+    target: {pose_ref: capture_150kg_debris, system_mass_member: true, scenario_mass_kg: 150.0}
+    classification: CANDIDATE_TRANSFORM_SET
+
+preserved_holds:
+  - M4 frame tree F_L/F_R full hinge kinematics remain HOLD; this file's panel orientations are candidates, not ratification
+  - panel failure retained-or-jettisoned semantics remain unapproved; the retained-at-stowed-endpoint rule is the selected candidate
+  - Q_STOW_ENGINEERING_CANDIDATE FK regression failure (567.734 mm) and support-contact hold remain in force
+  - Q_SERVICE_READY service-configuration ratification hold remains in force
+  - PREGRASP scene candidate is not dynamics-validated for 22 kg or 150 kg capture
+  - target capture transforms are display-only in M5 and are not written back to any baseline
+  - M_FRAME / ROOT_TO_M_FRAME and spacecraft load bridge transforms remain unresolved and unused here
+  - gripper finger travel (M5 display 0.055 m for C07-C09) is not mass-modeled; accepted URDF link set is fixed
+
+status: CANDIDATE_TRANSFORM_LIBRARY_COMPLETE_ALL_BINDINGS_CANDIDATE_CLASS_ONLY

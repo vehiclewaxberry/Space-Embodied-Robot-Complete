@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "POSEMAP02_STATE_POLICY",
+  "generated_utc": "2026-07-26T16:51:37.078789+00:00",
+  "inherits": "110/design/state_policy.json（太阳翼角与 claim_limit 原样）",
+  "representation_invariant": "LOD2 臂与 AABB q0 代理不得同时出现；每态只允许一种 B601 表示",
+  "single_representation_substitutions": [
+    "110 prior B601 mount → B601_MOUNT_MODULE（本任务）",
+    "110 arm_stow 种子布局(z=145) → B601_STOW_SUPPORT（FK 实测鞍高）",
+    "110 AABB q0 proxy → LOD2 臂",
+    "110 旧捕获末端显示栈 FIDELITY_CAPTURE_*(X480-580) → 剔除（EE 表示 = LOD2 夹爪唯一；捕获头候选为独立模块不入态）"
+  ],
+  "states": {
+    "STOWED": {
+      "solar_left_deg": 0.0,
+      "solar_right_deg": 0.0,
+      "b601_representation": "LOD2_STOW",
+      "geometry_binding": "staging/state_STOWED_LOD2.step",
+      "status": "CANDIDATE_HOLD_STOW_VECTOR",
+      "claim_limit": "收拢向量 CANDIDATE_HOLD，走廊违规 F2 已登记；无强度/资格权威",
+      "bbox_mm": {
+        "min": [
+          -213.0,
+          -113.15,
+          -115.0
+        ],
+        "max": [
+          382.69,
+          118.62,
+          330.42
+        ]
+      }
+    },
+    "DEPLOYED_NOMINAL": {
+      "solar_left_deg": 90.0,
+      "solar_right_deg": 90.0,
+      "b601_representation": "LOD2_Q0",
+      "geometry_binding": "staging/state_DEPLOYED_NOMINAL_LOD2.step",
+      "status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "静态命名位姿，无工作空间/连续净空/故障概率权威",
+      "bbox_mm": {
+        "min": [
+          -213.0,
+          -310.0,
+          -269.2
+        ],
+        "max": [
+          461.98,
+          310.0,
+          284.7
+        ]
+      }
+    },
+    "DEPLOY_FAILED_BOTH": {
+      "solar_left_deg": 0.0,
+      "solar_right_deg": 0.0,
+      "b601_representation": "LOD2_Q0",
+      "geometry_binding": "staging/state_DEPLOY_FAILED_BOTH_LOD2.step",
+      "status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "静态命名位姿，无工作空间/连续净空/故障概率权威",
+      "bbox_mm": {
+        "min": [
+          -213.0,
+          -113.15,
+          -269.2
+        ],
+        "max": [
+          461.98,
+          113.15,
+          284.7
+        ]
+      }
+    },
+    "L_FAIL": {
+      "solar_left_deg": 0.0,
+      "solar_right_deg": 90.0,
+      "b601_representation": "LOD2_Q0",
+      "geometry_binding": "staging/state_L_FAIL_LOD2.step",
+      "status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "静态命名位姿，无工作空间/连续净空/故障概率权威",
+      "bbox_mm": {
+        "min": [
+          -213.0,
+          -310.0,
+          -269.2
+        ],
+        "max": [
+          461.98,
+          113.15,
+          284.7
+        ]
+      }
+    },
+    "R_FAIL": {
+      "solar_left_deg": 90.0,
+      "solar_right_deg": 0.0,
+      "b601_representation": "LOD2_Q0",
+      "geometry_binding": "staging/state_R_FAIL_LOD2.step",
+      "status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "静态命名位姿，无工作空间/连续净空/故障概率权威",
+      "bbox_mm": {
+        "min": [
+          -213.0,
+          -113.15,
+          -269.2
+        ],
+        "max": [
+          461.98,
+          310.0,
+          284.7
+        ]
+      }
+    },
+    "PARTIAL": {
+      "solar_left_deg": null,
+      "solar_right_deg": null,
+      "b601_representation": null,
+      "geometry_binding": null,
+      "status": "UNKNOWN_HOLD",
+      "claim_limit": "fail-closed：无几何绑定（继承 110 语义）"
+    },
+    "SERVICE": {
+      "solar_left_deg": null,
+      "solar_right_deg": null,
+      "b601_representation": null,
+      "geometry_binding": null,
+      "status": "PENDING_RATIFICATION_HOLD",
+      "claim_limit": "fail-closed：无几何绑定（继承 110 语义）"
+    }
+  }
+}

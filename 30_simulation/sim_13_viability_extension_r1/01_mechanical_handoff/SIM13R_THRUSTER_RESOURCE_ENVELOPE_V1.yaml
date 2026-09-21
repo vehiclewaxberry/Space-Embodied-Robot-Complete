@@ -1,0 +1,61 @@
+schema: SIM13R_THRUSTER_RESOURCE_ENVELOPE_V1
+generated_date_local: '2026-08-30'
+review_status: PENDING_OWNER_REVIEW
+thrust_N:
+  NOMINAL: 0.1
+  class_range:
+  - 0.01
+  - 0.1
+  - 1.0
+  status: FROZEN_PROVISIONAL_CLASS
+  source:
+  - 20_engineering/config/attitude_stab/attitude_stab_v0.yaml
+  - 30_simulation/sim_08_detumble_actuator_budget/assumptions.yaml
+lever_arm_m:
+  NOMINAL: 0.17
+  class_range:
+  - 0.05
+  - 0.1
+  - 0.17
+  status: FROZEN_PROVISIONAL_CLASS
+  note: 0.17 m is the 12U max half-dimension
+isp_s:
+  NOMINAL: 60.0
+  alternatives:
+    cold_gas: 60
+    green_monoprop: 220
+  status: FROZEN_PROVISIONAL_CLASS
+g0_mps2: 9.80665
+impulse_max_Ns:
+  value: 32.205882352941174
+  status: DERIVED_FROZEN
+  formula: propellant_budget_g*1e-3*isp*g0
+propellant_budget_g:
+  value: 54.73476731425644
+  status: FROZEN
+minimum_impulse_bit:
+  min_pulse_s: 0.02
+  linear_impulse_Ns: 0.002
+  angular_impulse_quantum_Nms: 0.00034
+  status: PROVISIONAL
+  source: 20_engineering/config/attitude_stab/attitude_stab_v0.yaml stage_b.actuator_dynamics
+  basis: PROVISIONAL placeholder pending thruster hardware freeze. Cold-gas minimum electrical pulse widths
+    are typically in the milliseconds-to-tens-of-milliseconds class; 20 ms is taken, deliberately matching
+    the sim_11 PROVISIONAL contact-window discipline. With the frozen 0.1 N force and 0.17 m lever arm
+    this sets the angular impulse quantum F*t_min*L = 3.4e-4 Nms, which bounds the achievable terminal
+    momentum residual per pulse train.
+  consequence: bounds achievable terminal momentum residual per pulse train
+duty_cycle_assumptions:
+  status: UNKNOWN
+  interval: NOT_ESTABLISHED
+total_manoeuvre_time_limit_s:
+  value: 3600.0
+  status: FROZEN
+stabilization_time_model:
+  formula: t_stab = |H| / (F * lever_m)
+  status: FROZEN_SIM12_ALLOCATION_EQUATION
+prohibited_use:
+- hardware thrust qualification
+- plume impingement claim
+- slosh or CoM-shift claim
+- promotion of class values to hardware truth

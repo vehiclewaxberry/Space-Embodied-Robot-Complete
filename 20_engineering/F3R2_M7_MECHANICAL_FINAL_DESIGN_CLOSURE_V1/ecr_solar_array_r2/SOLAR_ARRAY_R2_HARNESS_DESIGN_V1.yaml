@@ -1,0 +1,65 @@
+schema: SOLAR_ARRAY_R2_HARNESS_DESIGN_V1
+generated_local: '2026-08-22T20:40:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: ENGINEERING_CANDIDATE
+authority: ODR-18 item 9 + ODR-19 (ECR-SOLAR-ARRAY-R2), R2-WI-03
+scope: >-
+  Two SEPARATE harness systems. The B601 arm harness and the solar-wing
+  harness do not share service-loop length budgets.
+
+b601_arm_harness:
+  requirement: >-
+    functional service loop >= 347.49 mm (HR-OPEN-02 redesign, ODR-18
+    item 9; replaces the defective 120 mm loop - internal design defect,
+    no further discussion)
+  architecture: protected Omega/S-loop, defined clamp points, joint-side
+    moving segment, bus-side fixed segment
+  length_derivation_rule: >-
+    ~380 mm is a candidate starting point ONLY. Final length must be derived
+    from: cable minimum bend radius, q1 full range, connector positions,
+    mounting tolerances, thermal contraction, strain relief.
+  verification: HR-OPEN-04 continuous centreline clearance over full q1
+  status: OPEN (WP1 HARNESS_ROUTING_V2 regeneration owns the final numbers)
+
+solar_wing_harness:
+  routing: >-
+    bus -> root hinge service loop -> leaf1 -> flex jumper across
+    inter-panel hinge 1 -> leaf2 -> flex jumper across inter-panel
+    hinge 2 -> leaf3 tip connector.
+  inter_panel_jumpers:
+    type: flex PCB / flat-flex jumper, neutral-axis routing through the
+      hinge knuckle, strain relief both ends
+    length_derivation:
+      formula: L_jumper = wrap_arc + 2 * strain_relief + tolerance
+      wrap_arc: pi * r_knuckle (180 deg fold) = pi * 4.0 = 12.57 mm
+      strain_relief: 10.0 mm each end
+      tolerance: 5.0 mm
+      candidate_mm: 37.6 -> round to 40 mm candidate
+    status: ENGINEERING_CANDIDATE (knuckle radius 4.0 mm from R2 keepout
+      geometry; final from selected hinge hardware)
+  root_service_loop:
+    requirement: accommodates the 90 deg root rotation plus stowed-stack
+      tolerance without tautness at any sweep state
+    length_derivation:
+      formula: L_loop = quarter_wrap + clamp_run + tolerance
+      quarter_wrap: (pi/2) * r_loop, r_loop = 25 mm candidate service radius
+        = 39.27 mm
+      clamp_run: 2 x 30 mm bus-side/leaf-side straight runs
+      tolerance: 10 mm
+      candidate_mm: 109.3 -> round to 110 mm candidate per wing root
+    status: ENGINEERING_CANDIDATE
+  continuous_verification: >-
+    solar harness centreline must be swept with the SAME 55-state sequence
+    as SOLAR_ARRAY_R2_CONTINUOUS_CLEARANCE_V1 (th1 -> ph2 -> ph3) against
+    leaf solids, hinge keepouts, arm witness and bus; empty comparison sets
+    are automatic FAIL. This extension of the sweep is OPEN and owned by
+    the R2-WI-04 addendum after centreline geometry is frozen.
+
+open_items:
+  - id: R2-HRN-01
+    text: B601 harness final loop length derivation + WP1 HARNESS_ROUTING_V2
+  - id: R2-HRN-02
+    text: solar harness centreline geometry (clamps, connector stations)
+  - id: R2-HRN-03
+    text: harness sweep addendum (solar-harness, harness-arm,
+      harness-structure pairs) once R2-HRN-02 lands

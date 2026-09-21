@@ -1,0 +1,41 @@
+{
+  "schema": "R4_NEXT_LAYOUT_WORK_ORDER_V1",
+  "scope": "User-authorized digital candidate engineering; nothing purchased or powered",
+  "items": [
+    {
+      "priority": 1,
+      "id": "CF1_COMPACT_MAIN_LAYOUT",
+      "status": "OPEN_DIGITAL_REDESIGN",
+      "problem": "Full V30 module with local leads remains in collision in all 18 tested Rz90 poses; current V36 PCBA not yet bound to this geometry",
+      "action": "Bind current V36 MAIN board, terminals, Q201, shunt, copper keepouts and mounting holes; keep their electrically important relative positions. Treat long local pigtails and guides as separate routing items, then redesign carrier supports and thermal interfaces around actual host obstacles.",
+      "retained_obstacles": ["P60 tray/posts", "RB301", "RB302", "RRC battery D-max", "legacy battery envelope", "trunk supports", "shear webs"],
+      "acceptance": "Source-bound updated PCBA envelope, zero unapproved static intersections in three poses, insertion and termination access, explicit heat path and grounding/insulation, updated native and BOM deltas",
+      "do_not_inherit": ["V30 geometry as V36 electrical qualification", "old B2 temperature result", "old 1.5kg candidate mass", "zero-volume boolean of invalid shapes", "flight credit"]
+    },
+    {
+      "priority": 2,
+      "id": "INTERFACE_BOARD_THERMAL_AND_GROUND_PATH",
+      "status": "OPEN",
+      "problem": "PCB bottom at z=-1.5mm and TIM top at z=-6.0mm leave a 4.5mm gap",
+      "action": "Define real board power and temperature limits, grounding/isolation requirement, and a supported conductive path through posts, heat straps or a dedicated part. Re-evaluate thermal contact area removed by the four support clearances.",
+      "acceptance": "Actual contact interfaces in CAD, thermal/material parameters with sources or UNKNOWN, heat analysis and electrical isolation checks; no replacement of missing inputs by zero"
+    },
+    {
+      "priority": 3,
+      "id": "PHYSICAL_HARNESS_DEFINITION",
+      "status": "OPEN_FUNCTIONAL_CORRIDOR_ONLY",
+      "action": "Bind actual cable construction, pinout, mating connectors, bend limits, service loops, shielding/ground termination, clamps and separate physical power/data routes to existing functional topology.",
+      "acceptance": "Manufacturing lengths, termination BOM, access and full-motion sweep verified against tolerances; existing power/AUX/STOP domains preserved"
+    },
+    {
+      "priority": 4,
+      "id": "MATERIAL_AND_ASSEMBLY_QUALIFICATION",
+      "status": "OPEN",
+      "action": "Select material grades and fastener MPNs, define preload and thread engagement, apply traceable native materials, remove double counting of proxies when replacing them with selected hardware, then recompute whole mass/COM/inertia.",
+      "acceptance": "Material/BOM/native identity reconciliation plus tolerance, insertion, vibration and thermal deformation checks; separate ground and flight readiness decisions"
+    }
+  ],
+  "whole_design_complete": false,
+  "ready_to_power": false,
+  "flight_ready": false
+}

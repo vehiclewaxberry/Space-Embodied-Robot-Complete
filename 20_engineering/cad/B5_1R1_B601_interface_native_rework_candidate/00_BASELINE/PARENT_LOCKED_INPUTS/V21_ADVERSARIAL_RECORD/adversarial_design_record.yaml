@@ -1,0 +1,760 @@
+record_id: V2_1_ADVERSARIAL_DESIGN_ROUND_1
+date: '2026-07-25'
+chair_rule: 保留冲突，不以多数票覆盖结构或来源硬阻塞
+chair:
+  frozen_candidates:
+  - id: PS-01
+    decision: FREEZE_PARTIAL
+    basis: 既有构件语义分层（骨架=LOAD_PATH_INTENT、甲板=SHEAR_WEB 子标、6面板=NON_STRUCTURAL_PANEL）无人异议，冻结；但『不新增构件/六板拓扑不动』条款被 MNT-P1（根部桥带+侧板分段）实质挑战，该条款豁出至保全冲突
+      C2/C3，冻结不含对 ±Y 翼根区拓扑的终局锁定。
+  - id: PS-02
+    decision: FREEZE
+    basis: 四角纵梁=唯一轴向集中载荷通道、集中载荷只经机加节点入梁——无角色反对；SAM-A2 的『纵梁禁作翼根螺栓背衬』与本条兼容（节点交换≠穿栓背衬）。按 RT 阻塞措辞约束落地：全部表述为 LOAD_PATH_INTENT
+      意图，LONGERON_OFFSET_Y/Z=105.65 保持 DESIGN_PROPOSAL 状态、只以『四角区』语义引用。
+  - id: PS-03
+    decision: CONDITIONAL_FREEZE
+    basis: 链拓扑 boss→160适配板→前框整周环支承+四角节点栓接→角撑→四纵梁→MID1 收口、适配板唯一牺牲件、B601 零重构——内容无人反对，且 MID1 显式命名收口了 skeleton delta
+      第56行 'mid transverse frame' 单数歧义（SAM-A1、EMA 攻击同时解除）。但 MNT 阻塞异议成立：正式 load_path 冻结必须与逐构件开口拓扑分配同包发布（见硬阻塞 H6 与冲突
+      C1），冲突 C1 解决前本链不得单独定稿为最终冻结文本。
+  - id: PS-04
+    decision: FREEZE_PARTIAL
+    basis: 冻结无争议内核：SA_ROOT_BRACKET 为独立机加模块、左右各一、基准只绑横框站位、禁与可拆面板任何配合、纵梁禁作螺栓背衬（与 SAM-P9 该两条逐字一致）、翼根链证据归宿=MID2（X=-56.75
+      与冻结坐标逐位重合）。安装宿主足印（MID2 预设节点垫 vs SAM-P9 的 MID2–REAR ±Y 面框区 vs MNT-P1 桥带）存在三方分歧，豁出至冲突 C2。
+  - id: PS-05
+    decision: FREEZE_PARTIAL
+    basis: 三层落地机制（命名前缀+STRUCT_CLASS 属性随方程同源、v2_1_structure_semantic_register.yaml、gate 校验）与规则1（每件唯一 class）、规则3（CABLE_PASSAGE
+      穿 LOAD_PATH_INTENT 须 doubler-intent+对抗复审）冻结；规则2（SERVICE_OPENING 宿主仅限 NON_STRUCTURAL_PANEL/VISUAL_COVER）与 MNT-P2/MR-2
+      的甲板连接器开口需求正面冲突，豁出至冲突 C1，暂不入 gate。
+  - id: PS-06
+    decision: FREEZE
+    basis: 节点唯一交换原则（链对链载荷交换只发生在机加节点件，薄壁共享区无合法定义）是既有 skeleton 冻结规则的可执行化推广，无角色反对，且为各保全冲突提供裁决基准。
+  - id: PS-07
+    decision: FREEZE_PARTIAL
+    basis: 冻结：面板统一安装特征合同、任一面板拆除后载荷路径与刚度声明不变、『拆整块非结构面板=默认最大开口』。六块整板拓扑本身被 MNT-P1（翼-板互锁实测发现：单块侧板与翼面 X 向重叠 215mm，两态均无法法向抽出）挑战，±Y
+      两板是否分段豁出至冲突 C3。
+  - id: SAM-P1
+    decision: FREEZE_PARTIAL
+    basis: 模块构成（支座+铰链块A/B+扭簧ref+HDRM ref+止挡+应变释放，全参数 UNKNOWN、自包含子装配）无人反对，冻结；本体侧安装宿主问题并入冲突 C2。
+  - id: SAM-P2
+    decision: FREEZE
+    basis: 翼板内部语义分层（基板 NON_STRUCTURAL_PANEL / 电池区 VISUAL_COVER / 根部接口带 / 梢部系留带，只建命名参考不建无证据实体）无异议，与 PS 五类语义一致。
+  - id: SAM-P3
+    decision: FREEZE
+    basis: 有源释放件全留固定侧、活动翼零有源件、跨铰仅柔性线束——与 MNT-P2、EMA-P6 三方收敛，Hyperion 原则级继承合规（无数值）。
+  - id: SAM-P4
+    decision: FREEZE_PARTIAL
+    basis: 组织方案（服务环+双侧应变释放+线束入口一等资产化、宽度/弯曲半径 UNKNOWN）冻结；CABLE_PASSAGE 开口的宿主构件归属（面板/桥带/框）随冲突 C1/C2/C3 一并裁决，本轮不定宿主。
+  - id: SAM-P5
+    decision: FREEZE
+    basis: 展开扫掠 keepout 一等 CAD 资产（含『扫掠 X 向范围恒限于弦带 X∈[-170.25,+56.75]、与铰链轴 Z 位无关』的机器可查性质）无异议；与 EMA-P1、MNT-P4 合并为统一
+      keepout 资产家族。
+  - id: SAM-P6
+    decision: FREEZE
+    basis: 六配置语义冻结，并与 EMA-P3 并集为统一任务状态轴 {STOWED, DEPLOYED_NOMINAL, DEPLOY_FAILED_BOTH, L_FAIL, R_FAIL, PARTIAL,
+      SERVICE}（两提案枚举互不排斥，机械并集非裁决）；STOWED 超宽只作展示口径注记登记入包络语义具名条目（冲突 C5），明确不构成 V2-UNK-001 任何闭环。
+  - id: SAM-P7
+    decision: FREEZE
+    basis: 单套标准翼模块零件、L/R 装配层镜像实例、禁复制第二套零件文件——无异议，直接压缩 57+ 文件体系漂移面。
+  - id: SAM-P8
+    decision: FREEZE
+    basis: HDRM ref 按物理抑制链角色分立命名（保持件/释放件/抑制点，计时器不算抑制），只冻结命名与拓扑、零数值零合规声称——CDS 原则级继承合规，无异议。
+  - id: SAM-P9
+    decision: FREEZE_PARTIAL
+    basis: 冻结两条与 PS-04 逐字一致的规则：纵梁禁作翼根背衬、SA 接口基准只绑横框站位（防纵梁偏置重估时 ICD 被动漂移）；『MID2–REAR 区间 ±Y 面框区』的宿主范围主张与 PS-04 节点垫方案分歧，并入冲突
+      C2。
+  - id: SAM-P10
+    decision: FREEZE
+    basis: 翼模块零件号-图纸 1:1 同号追溯、紧固件独立清单、机构 ref 件标 EVIDENCE_STATE=PLACEHOLDER_UNKNOWN——与 RT-P4/P5、MNT-P6 兼容，无异议。
+  - id: MNT-P2
+    decision: FREEZE_PARTIAL
+    basis: 冻结：根部电气/释放全固定侧、连接器 demate 方向必须显式指派给一个可开启面、禁盲缝连接器（12mm 盲缝实测为反例证据）；『连接器站位与全截面甲板重合处甲板须声明 SERVICE_OPENING』条款与
+      PS-05 规则2 冲突，豁出至冲突 C1。
+  - id: MNT-P3
+    decision: FREEZE
+    basis: -X 整板为主服务面（全星唯一无臂无翼遮挡整面，几何论证无人反驳）、每个 VOL-* 声明 extraction axis+开口面、TRAY_EXTRACTION_TBD 于 B4-1 收敛——与 PS
+      对维护角色的宿主约束兼容（-X 板即可拆面板）。
+  - id: MNT-P4
+    decision: FREEZE
+    basis: Maintenance_Keepout 资产组（工具轴体/抽出扫掠体/B601 位姿包络只读登记/翼两态包络/burnwire 重布空间）+ 维护干涉检查只跑全解析配置、keepout 体不得被 SpeedPak
+      抑制——与 EMA-P1、SAM-P5 合并，无异议且不触碰 B601 冻结。
+  - id: MNT-P5
+    decision: FREEZE
+    basis: 消耗性收拢约束免拆重布（锚点/绕线点/熔断电阻全在体侧外表面固定侧，重布不拆板不动臂），丝材/电阻参数 UNKNOWN——与 SAM-P3/P8、EMA-P6 收敛；展示彩排高频操作场景的必要合同。
+  - id: MNT-P6
+    decision: FREEZE
+    basis: 外部紧固件组三级 access class（FORBIDDEN_BLIND 驳回）+ 每板『规格-图纸-程序卡-验收清单』四件套 + shall/should 用语纪律——CDS 原则级继承合规，与 RT-P1
+      四件套思想同构，无异议。
+  - id: MNT-P7
+    decision: FREEZE
+    basis: 冻结：适配板-法兰连接面=唯一维护性边界、其紧固件 access class ≤ OFFSET_TOOL、『臂+适配板+boss』整体兜底拆卸单元、+X 边条紧固件轴须经臂安装态工具体检查（B4-1 验收项
+      A11）。检查 FAIL 后的边条改型属条件性设计变更，交后续 Gate 裁决，本轮不预置变更。
+  - id: MNT-P8
+    decision: FREEZE_PARTIAL
+    basis: MR-1/MR-4/MR-6/MR-7/MR-8/MR-9/MR-10 冻结为 B4-1 验收候选（MR-8 的 CABLE_PASSAGE 穿甲板走 PS-05 规则3 的 doubler-intent+复审通道，与已冻结语义兼容）；MR-2（甲板
+      SERVICE_OPENING）入冲突 C1、MR-3（侧板分段）入冲突 C3、MR-5（HDRM 三框带含 +56.75）入冲突 C4，冻结不含此三条。
+  - id: EMA-P1
+    decision: FREEZE
+    basis: keepout 家族升格一等语义类（ARM_SWEEP_KEEPOUT/PANEL_DEPLOY_SWEEP_KEEPOUT/TARGET_APPROACH_CORRIDOR/VISION_KEEPOUT_CONE，四字段随体）+
+      新建 named-only UNKNOWN 变量 VISION_BORESIGHT_REF/VISION_FOV_CONE——无异议，与 SAM-P5/MNT-P4 合并。
+  - id: EMA-P2
+    decision: FREEZE
+    basis: keepout 裁决三值词汇表（CLEAR_BY_FROZEN_PARAMS/NOT_EVALUATED_UNKNOWN_PARAM/VIOLATION）、UNKNOWN 永不 CLEAR、CLEAR
+      必附依赖冻结变量清单——与项目 SAFE-00 fail-closed 文化同构，全员无异议。
+  - id: EMA-P3
+    decision: FREEZE
+    basis: 任务状态轴与 SpeedPak 性能轴正交分离、场景必须引用 (状态×SpeedPak) 二元组、DEPLOY_FAILED_BOTH 强制入功率/姿态预算评估；B601 q0
+      静态近似盒不能代表机械臂工作空间或运动扫掠，因此机械臂辅助释放能力保持 NOT_EVALUATED_UNKNOWN_PARAM，故障恢复仍须先按设计侧自洽基线评估；状态集取与 SAM-P6 并集。
+  - id: EMA-P4
+    decision: FREEZE_PARTIAL
+    basis: 冻结两条纯冻结值演绎：PANEL_W 227.0 > BUS_H 226.3 排除『弦沿 Z』收拢（trade study 准入前提：弦向全状态锁定沿 X）；收拢叠厚 238.3 > BUS_W 226.3
+      与展开翼尖 |Y|≈313 必须登记为包络语义具名条目、禁静默吸收。bus-only vs STOWED_ENVELOPE 的实际裁决豁出至冲突 C5，本轮不裁。
+  - id: EMA-P5
+    decision: FREEZE
+    basis: CAPTURE_OPERATION_HALFSPACE（x≥185.25 附件禁入、当前裕量 128.5mm 只许被 ICD 项显式记账消耗）——任务主线第一资源的合同化，无异议，与 SAM 几何论证互证。
+  - id: EMA-P6
+    decision: FREEZE_PARTIAL
+    basis: 冻结：HDRM 与释放电气固定侧布置、展开物自约束、HDRM_ENVELOPE 保持 UNKNOWN 且拓扑上须在 ARM_SWEEP_KEEPOUT 与捕获半空间之外、STOWED_ENVELOPE
+      资产之内；HDRM 具体站位带归属入冲突 C4。
+  - id: EMA-P7
+    decision: FREEZE
+    basis: 六 SpeedPak 场景入口映射 + 两条禁令（缺关键几何配置禁出干涉结论；质量/惯量禁从任何 SpeedPak/显示模型提取，SSOT=04_mass_inertia_budget）+ MNT 修正案（SERVICE_ACCESS
+      必须含全解析 Maintenance_Keepout 资产组）+ SERVICE 配置禁『在轨自维护』表述、COMPETITION_RENDER 禁作几何证据——无异议。
+  - id: RT-P1
+    decision: FREEZE
+    basis: parameter_provenance_ledger.yaml + fail-closed lint（方程文件任何未入账数值即 FAIL）——无异议，B4-1 出口 Gate 组件。
+  - id: RT-P2
+    decision: FREEZE
+    basis: blacklist_numbers.yaml 五源禁继承数值对撞检测（含单位换算变体与 ±0.5% 容差窗、黑名单禁反向作设计参考）——无异议，NO_DIRECT_SCALE 铁律的机器执行。
+  - id: RT-P3
+    decision: FREEZE
+    basis: 外部几何零血缘三层断言（目录白名单+哈希；COM 遍历 Imported 特征数==0；外源几何签名相似度报警）——无异议，B4-1 出口 Gate 强制组件（见硬阻塞 H4）。
+  - id: RT-P4
+    decision: FREEZE
+    basis: license_attribution_register 五源冻结表（Hyperion 署名 AlbertaSat/arXiv:2407.19356、OreSat/LibreCube 标 FILE_DERIVATION_FORBIDDEN、CDS
+      归档留痕、matrix 外键非空校验）——无异议。
+  - id: RT-P5
+    decision: FREEZE
+    basis: 能力/资质声明防火墙（中英禁用词 lint 扫描全部交付文本与图纸标题块，与既有 claim_limits 合并为同一机器检查）——无异议，封死措辞级能力升级通道。
+  - id: MNT-P1
+    decision: DEFER_TO_CONFLICT
+    basis: 侧板分段+根部固定桥带的动因（翼-板互锁、12mm 盲缝）证据成立，但方案本身与 PS-01 拓扑不动条款、PS-04 节点垫方案三方冲突，且其分缝定位依赖 SAM 尚未声明的收拢拓扑（硬阻塞 H7）——整案入冲突
+      C2/C3，本轮不冻结不否决。
+  preserved_conflicts:
+  - conflict: C1 · SERVICE_OPENING 宿主规则冲突：PS-05 gate 规则2 限定 SERVICE_OPENING 只许落在 NON_STRUCTURAL_PANEL/VISUAL_COVER（PS
+      对维护角色的攻击为 blocking），而 MNT-P2/MR-2 要求连接器站位与全截面甲板重合处（DECK_REAR_MID x=-56.75，实测 12mm 盲缝不可达）甲板必须声明 SERVICE_OPENING——甲板在
+      PS-01 中已定为 LOAD_PATH_INTENT/SHEAR_WEB，两规则互斥。同时 MNT 以 blocking 立场要求开口拓扑分配与载荷路径同轮共冻，否则不放行 PS-03 冻结候选。
+    parties: Primary Structure Agent（PS-05/攻击-Service）vs Maintainability Agent（MNT-P2/MR-2/攻击-Structure），双方均 blocking
+    resolution_owner: human（治理层裁决 gate 规则修正案：是否为 LOAD_PATH_INTENT 甲板增设带 doubler-intent+对抗复审的 SERVICE_OPENING 例外通道，或改移连接器站位）
+    blocking_for_b4_1: true
+  - conflict: C2 · 翼根支座本体侧安装宿主三方分歧：PS-04 主张仅 MID2 ±Y 预设节点垫（与框-纵梁角接头同站共节点）；SAM-P9 主张 MID2–REAR 区间 ±Y 面框区（不含 MID1）；MNT-P1
+      主张新设根部固定桥带（新增 LOAD_PATH_INTENT 构件，触碰 PS-01『V2.1 不新增主构件』条款）。已冻结共识（纵梁禁背衬、基准绑横框站位、禁面板配合）不受影响，分歧仅在宿主足印与是否新增构件。
+    parties: Primary Structure Agent vs Solar Array Mechanism Agent vs Maintainability Agent
+    resolution_owner: human（B4-1 结构-机构-维护联合 trade study 后人工冻结；前置条件=硬阻塞 H7 的收拢拓扑声明先到位）
+    blocking_for_b4_1: true
+  - conflict: C3 · ±Y 侧板拓扑：PS-01/PS-07 六块整板统一合同 vs MNT-P1/MR-3 上下分段+缘开槽（依据=实测翼-板互锁：翼面 z∈[-3,3] 与整板 X 向重叠 215mm，收拢/展开两态均无法法向抽出侧板）。分缝带定位依赖收拢拓扑声明（折叠方向决定遮蔽区与
+      ~87mm 外悬走向）。
+    parties: Primary Structure Agent vs Maintainability Agent（Solar Array Mechanism Agent 的收拢拓扑声明为前置输入）
+    resolution_owner: human（收拢拓扑声明后随 C2 同一 trade study 裁决）
+    blocking_for_b4_1: true
+  - conflict: C4 · HDRM 站位带归属：MR-5 允许 x≈-164.25/-56.75/+56.75 三框带（含 MID1，即臂链收口框）vs PS-04/PS-06 翼链硬件限 MID2 节点垫 vs
+      SAM-P9 限 MID2–REAR 区间（排除 MID1）。EMA-P6 拓扑约束（禁入捕获半空间与 ARM_SWEEP_KEEPOUT）三方均接受，不在冲突内。
+    parties: Maintainability Agent（MR-5）vs Primary Structure Agent（PS-04/PS-06）vs Solar Array Mechanism Agent（SAM-P9）
+    resolution_owner: human（HDRM_ENVELOPE 保持 named-only UNKNOWN，站位带随 C2/C3 的同一 trade study 定；B4-1 期间按 EMA-P2 记 NOT_EVALUATED_UNKNOWN_PARAM）
+    blocking_for_b4_1: false
+  - conflict: C5 · COMPETITION_DISPLAY_V0 包络语义未裁决：bus-only（翼与 HDRM 除外）vs 含收拢附件（收拢叠厚 238.3 > 226.3、展开翼尖 |Y|≈313 均超包络）。全员一致要求登记为具名条目、且
+      RT 硬阻塞禁止借 CDS 准入变相闭环；分歧仅在最终语义选择，本轮任何角色均无裁决权。与 V2-UNK-001（340.5 vs 366）同类但独立，两者均保持开放。
+    parties: Embodied Mission Agent / Solar Array Mechanism Agent（要求登记）vs 包络 owner（未出场）；Evidence Red Team 持源头禁令
+    resolution_owner: human（治理/包络 owner 具名裁决；B4-1 以 named-only STOWED_ENVELOPE=UNKNOWN + fail-closed 继续推进，不受阻）
+    blocking_for_b4_1: false
+  hard_blocks:
+  - H1 · V2-UNK-001（340.5 vs CDS 12U 366）保持开放：CDS_REV_14_1 准入不构成任何闭环授权；出现 366 参考包络、CDS 导轨/突出物/质心表数值、或『满足 CDS / CDS-compliant』表述一律驳回；一切继承
+    CDS 原则的 V2.1 文本必须显式携带 V2-UNK-001 引用；2026-09-01 提交前复查 cubesat.org 是否出 Rev 15，引用锁定 CP-CDS-R14.1 文档号。
+  - H2 · B4-0 无 FEA 授权：全部载荷路径/结构表述只许为 LOAD_PATH_INTENT（意图），禁止任何『结构效率成立/已验证』类结论；OreSat 组织原则（deprecated、最大3U、无臂反力工况）不得升格为
+    12U+B601 力学结论；一切截面/板厚/孔径/裕度数值不填。
+  - H3 · 五源数值与资质防火墙：BIRDSX/HYPERION/ORESAT/CDS/LIBRECUBE 全部 inadmissible 数值（含 Hyperion 5V/10Ω/~200°C/Dyneema/弹簧/铰链几何）禁入任何
+    V2.1 字段；flown/qualified/飞行验证等状态措辞禁迁移；trade study 出现任一违规即整条方案退回（RT 对 SAM 的 blocking 攻击原样执行）。
+  - H4 · 外部几何零血缘：禁导入/描摹外源 STEP/FreeCAD（LC2102 文件级血缘同时触发 CERN-OHL-W 义务）；OreSat Onshape 现行文档未准入、B4-1 期间禁止打开『参考造型』；B601_Visual_Arm_V2_0
+    原样继承禁任何『顺手优化』；RT-P3 三层断言为 B4-1 出口 Gate 强制组件，缺失不放行。
+  - H5 · must_stay_unknown 硬清单执法：八个 named-only UNKNOWN 变量（PANEL_HINGE_AXIS_Z/PANEL_DEPLOY_ANGLE/SERVICE_PANEL_GAP/HARNESS_CORRIDOR_W/MAINTENANCE_CLEARANCE/SA_ROOT_BRACKET_ENVELOPE/HINGE_BLOCK_ENVELOPE/HDRM_ENVELOPE）与六类机构参数保持
+    UNKNOWN；任何填值须原子性附带指向 40_evidence/ 或签发 ICD 的 evidence_ref，缺失即 FAIL；含 UNKNOWN 输入的 keepout 裁决只许记 NOT_EVALUATED_UNKNOWN_PARAM，永不写『无干涉/PASS』。
+  - H6 · 载荷路径冻结包扣留：PS-03 链在冲突 C1 解决前不得单独定稿——正式冻结文本必须与逐构件开口拓扑分配（SERVICE_OPENING/CABLE_PASSAGE 归属表）同包发布（MNT blocking
+    异议成立，不以多数票覆盖）。
+  - H7 · 收拢拓扑声明前置：Solar Array Mechanism 侧须在 B4-0 收口/B4-1 入口交付收拢拓扑声明（折叠方向 ±Z 走向 + 遮蔽分区枚举 + ~87mm 外悬归属，仍不含任何 mm/度数值）；未声明前
+    C2/C3/C4 不得裁决、±Y/±Z 面维护判词与面板分缝方案不得定稿（MNT blocking 异议成立）。
+  - H8 · 质量/惯量 SSOT 保护：禁止从任何 SpeedPak/显示 CAD 模型提取质量属性；惯量 SSOT=20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget；帆板
+    0.348kg 为占位（项目待办3 最高优先级硬伤），显示模型不得反哺质量 SSOT。
+  - H9 · 干涉裁决纪律：缺关键几何的 SpeedPak 配置禁出干涉结论；干涉检查配置清单须逐配置列出缺失几何域；SERVICE_ACCESS 配置必须含全解析 Maintenance_Keepout 资产组；L_FAIL/R_FAIL
+    不得在 B601_SPEEDPAK 下出干涉结论；COMPETITION_RENDER 永不作几何证据。
+  b4_1_acceptance_candidates:
+  - A1 · v2_1_structure_semantic_register.yaml 建立且逐件登记：每件有且仅有一个 STRUCT_CLASS（PS-05 规则1）；CABLE_PASSAGE 穿 LOAD_PATH_INTENT
+    构件均带 doubler-intent 标志与对抗复审记录（规则3）；规则2 按冲突 C1 裁决结果补入后方可启用完整 gate。
+  - A2 · parameter_provenance_ledger.yaml：System_Equations_V2_1.txt 每个数值变量一行 {param, value_state, owner, source,
+    evidence_ref}；lint 断言无未入账数值、无指向外部公开源的数值（RT-P1）。
+  - A3 · blacklist_numbers.yaml 对撞 lint 通过：扫描全部方程/YAML/图纸尺寸导出表，五源禁继承数值（含单位换算变体、±0.5% 容差窗）零命中或命中均附独立推导 evidence_ref（RT-P2）。
+  - A4 · 零血缘三层断言通过：建模目录白名单+哈希清单无未登记文件；COM 遍历全零件 Imported/ImportedBody 特征计数==0；外源几何签名相似度比对无未复核报警（RT-P3）。
+  - A5 · license_attribution_register 五源行完整，feature-adoption matrix 每行外键非空、SHA ∈ pinned 白名单（36bceeac/8860d493/4c02299f/af8f6f3d/5b1afaaa/20a9e04c
+    + CDS 文档号）、CERN-OHL 源 adoption_mode==PRINCIPLE_ONLY，出口前 git ls-remote 漂移比对完成（RT-P4/S5）。
+  - A6 · claim firewall lint 通过：中英禁用词（flown/已飞行验证/qualified/CDS-compliant/space-proven 等）在全部交付 md/yaml 与图纸标题块零命中（或主语为外部源自身且带状态不迁移限定）；与
+    claim_limits 水印条款合并为同一机器检查（RT-P5）。
+  - A7 · UNKNOWN 完整性检查：八个 named-only 变量与 must_stay_unknown 六类在全部方程/YAML 中值 ∈ {UNKNOWN, TBD}，任何填值提交原子性附带 evidence_ref（fail-closed，RT-S3）。
+  - A8 · keepout 资产家族入树：ARM_SWEEP_KEEPOUT（裕量 UNKNOWN）、PANEL_DEPLOY_SWEEP_KEEPOUT×2（X 范围恒 ∈[-170.25,+56.75] 机器可查）、TARGET_APPROACH_CORRIDOR、VISION_KEEPOUT_CONE（named-only）、翼两态包络、工具轴圆柱、抽出扫掠体、B601
+    位姿包络只读登记——每体带 owner/generating_rule/evidence_state/绑定配置四字段；裁决词汇表三值 fail-closed（EMA-P1/P2、SAM-P5、MNT-P4）。
+  - A9 · (任务状态×SpeedPak) 合法组合表发布：状态轴={STOWED, DEPLOYED_NOMINAL, DEPLOY_FAILED_BOTH, L_FAIL, R_FAIL, PARTIAL, SERVICE}；每个干涉/预算/渲染场景引用二元组；DEPLOY_FAILED_BOTH
+    强制入功率与姿态预算评估条目（EMA-P3、SAM-P6、SAM 攻击-CADPrep）。
+  - A10 · MR-1：整翼可在 B601 保持安装状态下更换（拆装界面=根部支座外侧紧固面），验收=含工具轴体的全解析干涉检查。
+  - A11 · MR-4 + MNT-P7：全部外部紧固件组登记 access class（DIRECT_AXIAL/OFFSET_TOOL/FORBIDDEN_BLIND），FORBIDDEN_BLIND 零存在；+X
+    四边条紧固件轴线 vs 臂安装态实体与 200×200×100 keepout 的干涉检查完成并出裁决（FAIL 则边条改型议题移交后续 Gate）。
+  - A12 · MR-6：消耗性收拢约束重新布设路径验证——不拆任何面板、不动 B601（锚点/绕线点/熔断电阻全在体侧外表面固定侧）。
+  - A13 · MR-7：每个 VOL-* volume 声明 extraction axis + 对应开口面；TRAY_EXTRACTION_TBD 收敛（候选 ±Z 经 PNL_TOP/PNL_BOTTOM）。
+  - A14 · MR-8：跨甲板 CABLE_PASSAGE 孔拓扑归甲板 owner 声明（直径 UNKNOWN）、根部线束 service loop 存在性登记；跨模块穿透界面（如支座穿板切口）逐一指派单一 owner。
+  - A15 · MR-9/MR-10：B601_Visual_Arm_V2_0 现位姿包络导出为只读参考体入 Maintenance_Keepout 资产组；全部维护干涉检查仅在完整解析配置运行，记录禁用 SpeedPak
+    清单。
+  - A16 · v2_1_drawing_register.yaml 扩展：零件号-图纸 1:1 同号配对；紧固件独立登记表（规格数值不得来自外源采购表）；每块可拆板四件套槽位（规格/图纸/拆装程序卡/验收清单）齐备；机构
+    ref 件 EVIDENCE_STATE=PLACEHOLDER_UNKNOWN（SAM-P10、MNT-P6、RT 对 Drawing 角色整改项）。
+  - A17 · 包络语义具名条目登记完成：收拢叠厚 238.3>226.3 与展开翼尖 |Y|≈313 两项发现入具名 blocker（与 V2-UNK-001 交叉引用、不闭环）；STOWED 超宽仅为展示口径注记（EMA-P4、SAM-P6）。
+  - A18 · 捕获半空间记账：x≥185.25 附件禁入；128.5mm 裕量的每一次消耗在 feature-adoption matrix 逐项登记（EMA-P5）。
+  - A19 · 收拢取向准入前提入 trade study 模板：翼板弦向全状态锁定沿 X；『弦沿 Z』候选自动驳回（227.0>226.3 机器断言）（EMA-P4/攻击-SAM）。
+  - A20 · 质量属性隔离断言：交付链中不存在从 CAD/SpeedPak 提取的质量/惯量数值；04_mass_inertia_budget SSOT 未被显示模型改写（EMA-P7、H8）。
+designs:
+- role: Evidence Red Team（B4-0 对抗设计轮·证据红队，只读）
+  proposals:
+  - id: RT-P1
+    title: 参数溯源账本 + fail-closed 机器 lint（每个数值必须有 owner/source/state）
+    scheme: '在 04_cad_preparation/ 下建立 parameter_provenance_ledger.yaml：System_Equations_V2_1.txt 中出现的每一个数值变量必须在账本中有一行，字段为
+      {param, value_state: EVIDENCE_BOUND|DESIGN_PROPOSAL|UNKNOWN, owner(项目 SSOT 文件路径), source(PROJECT_ORIGINAL
+      或 FEATURE_ID@SOURCE), evidence_ref}。B4-1 出口 Gate 增加 lint 脚本：方程文件里任何未入账数值、或账本中 source 指向外部公开源的数值，一律 FAIL。这是把
+      CDS ''规格-图纸-程序-清单'' 分层验证四件套原则移植为 ''方程-账本-lint-Gate'' 四件套。'
+    borrowed_from: LAYERED_VERIFICATION_ARTIFACTS@CDS_REV_14_1（规格文本+图纸+检查程序+验收清单配套验证链原则）
+    rationale: 准入清单五源的全部数值均为 inadmissible，只有组织原则可继承；因此 V2.1 中任何数值若能追溯到公开源即为污染。唯一可机器判定的防线是让'每个数值有项目侧 owner'成为 Gate
+      断言，而非审查者的眼力。
+  - id: RT-P2
+    title: 禁继承数值黑名单对撞检测（blacklist collision lint）
+    scheme: 把五源 inadmissible 中已点名的具体数值（BIRDS-X 2U 包络/1.758kg、CDS 导轨 8.5/突出物 6.5/75%-25%/弹簧 6.7N-2.5mm/质量质心表/366
+      包络、Hyperion 5V-10Ω-200°C burnwire、LibreCube 95.89×90.17×1.57/16mm 板距/8.76-4.83 高度限等）编译为 blacklist_numbers.yaml（含单位换算变体与
+      ±0.5% 容差窗口）。lint 扫描 B4-1 全部方程文件、YAML、图纸尺寸导出表，命中黑名单且无独立推导 evidence_ref 即 Gate FAIL。黑名单文件本身标注 '仅作污染检测用，禁止反向用作设计参考'。
+    borrowed_from: PROJECT_ORIGINAL（NO_DIRECT_SCALE 铁律的机器执行机制）
+    rationale: '''不抄数值''的口头承诺在 57+ 文件的 CAD 深化中不可审计；数值走私最可能以''巧合的相同数''形式发生，只有对撞检测能把它变成机器可证伪事件。'
+  - id: RT-P3
+    title: 外部几何零血缘 Gate（NO_IMPORT / NO_TRACE 双断言）
+    scheme: B4-1 建模目录设文件白名单 manifest + 哈希清单：目录内出现任何未登记文件（尤其 .step/.stp/.FCStd/外源 zip）即 FAIL。第二层用 SolidWorks COM
+      遍历全部零件特征树，断言 Imported/ImportedBody 特征计数 == 0。第三层防'重建描摹'：对五源已知 STEP（BIRDS-X 零件、LC2102 build/）预计算体积/包络/惯量主轴签名，与
+      V2.1 零件的质量属性做相似度比对，超阈值相似即人工复核标记。
+    borrowed_from: PROJECT_ORIGINAL（铁律'外部 CAD 不得当 canonical 模型'的执行机制；签名比对思想为本项目自有）
+    rationale: 许可证层面 MIT/Apache 允许导入，但项目铁律禁止，且 CERN-OHL-S/W 源一旦文件级派生即触发互惠义务；血缘必须为零且零值可机器证明。
+  - id: RT-P4
+    title: 许可证与署名登记冻结表（license_attribution_register）
+    scheme: 五源各建一行冻结记录：{source_id, SPDX, 版权行/署名对象, pinned SHA 或文档号, 互惠等级, adoption_mode=PRINCIPLE_ONLY}。特殊标注：Hyperion
+      LICENSE 为未填版权人的 Apache-2.0 模板→署名强制写 'AlbertaSat / arXiv:2407.19356'；OreSat 两仓无独立 LICENSE 文件且 CERN OHL 变体不明→标
+      FILE_DERIVATION_FORBIDDEN；LibreCube CERN-OHL-W→同标；CDS 为公有领域但 PDF 带 owner-password 抽取限制→本地归档留痕。feature-adoption
+      matrix 每行必须外键引用本表行 ID，schema 校验非空。
+    borrowed_from: OPEN_ENGINEERING_PACKAGE_TRACEABILITY@BIRDSX_CAD（机器可读许可证+四线追溯集中单仓的交付包组织原则）
+    rationale: 许可证遗漏是红队职责中的显式攻击面：两个源根本没有独立 LICENSE 文件、一个源版权人为空模板，不做冻结登记则 B4-1 引用时必然出现无署名或变体误标。
+  - id: RT-P5
+    title: 能力/资质声明防火墙（claim firewall 禁用词 lint）
+    scheme: 建立中英禁用词正则表（flown/已飞行验证/qualified/鉴定通过/CDS-compliant/满足 CDS/发射合规/space-proven 等），grep 扫描 B4-1 全部交付 md/yaml
+      与图纸标题块导出文本，命中即 Gate FAIL，除非该句主语是外部源自身且带'状态不迁移'限定。与 v2_1_drawing_register.yaml 既有 claim_limits（NON_FLIGHT_DISPLAY_ONLY
+      水印、SA-STOW/SWEEP 不构成部署验证）合并为同一机器检查。EVD-001 状态与证据图作为该防火墙的人读镜像。
+    borrowed_from: TEST_BEFORE_STATUS_CLAIM@HYPERION_SOLAR（'鉴定试验先于状态声明'原则的逆向执法：无试验则无声明）
+    rationale: 能力升级最常见的形态不是抄数，而是措辞：借 Hyperion/OreSat GaAs 的 flown 履历或 CDS 名义暗示本显示模型具备飞行/合规资质。准入清单三处明文禁止状态迁移，必须词法级封死。
+  adversarial_answer: '【指派问题：哪些特征来自公开项目、哪些是项目自有设计？每个数值的 owner 和 source 是什么？】
+
+
+    一、核心裁定：V2.1 骨架增量中【零个数值】来自公开项目。五个准入源对 V2.1 的合法贡献全部是组织方式与机构原理（原则级）；因此审计规则可以写成一条硬断言——凡在 V2.1 中出现、且能追溯到 BIRDSX_CAD
+    / HYPERION_SOLAR / ORESAT / CDS_REV_14_1 / LIBRECUBE 任一源的数值，一律是证据污染，无例外。
+
+
+    二、冻结数值逐项 owner/source（均为 PROJECT 所有）：
+
+    - BUS_L/W/H = 340.5/226.3/226.3：owner = COMPETITION_DISPLAY_V0 几何 SSOT（20_engineering/config/geometry/），source
+    = V2.0 b3_build_spec.yaml 基线继承。特别声明：该包络【不是】CDS 12U 的 366×226.3×226.3，差异是开放 blocker V2-UNK-001，本轮明确不裁决。
+
+    - FRAME_FRONT_X/REAR_X = ±170.25：BUS_L/2 派生，owner 同上。
+
+    - FRAME_MID1/MID2_X = ±56.75：项目三舱划分自有设计（与翼根 x=-56.75 对齐），owner = V2.0 build spec。
+
+    - ARM_MOUNT_X = 185.25：owner = T_SM 冻结变换（12U 几何 JSON），source = 项目 B601 接口证据链，EVIDENCE_BOUND。
+
+    - ARM_MOUNT_PLATE_SIZE = 160.0、ARM_BOSS_D = 100.0：owner = B601 实物接口证据，EVIDENCE_BOUND，与任何公开源无关。
+
+    - PANEL_L/W/T = 200/227/6、PANEL_ROOT_Y = 113.15：owner = 项目太阳翼几何 SSOT（frozen）。注意 Hyperion 翼远小于此尺度，任何''类比 Hyperion''的刚度/模态推断都是污染（帆板真实质量/铺层仍是项目待办
+    3 的最大硬伤，显示模型不得反哺质量 SSOT）。
+
+    - LONGERON_OFFSET_Y/Z = 105.65：状态是 DESIGN_PROPOSAL（V2.0 显示提案值，B4-1 可重估），owner = V2.0 build spec。红队警告：任何角色把它当
+    EVIDENCE_BOUND 引用即伪精度。
+
+    - parameters_new_named_only 八项（PANEL_HINGE_AXIS_Z、PANEL_DEPLOY_ANGLE、SERVICE_PANEL_GAP、HARNESS_CORRIDOR_W、MAINTENANCE_CLEARANCE、SA_ROOT_BRACKET_ENVELOPE、HINGE_BLOCK_ENVELOPE、HDRM_ENVELOPE）：值
+    = UNKNOWN，owner = 未来项目 ICD/trade study，source 现阶段为空——这是合法且必须保持的状态。
+
+
+    三、来自公开项目的特征（全部 PRINCIPLE_ONLY，逐一挂 source）：
+
+    - BIRDSX_CAD：零件号-图纸同号 1:1 配对、零件级/总装级交付分层、紧固件独立登记表、应力核算随包同行 → 已体现在 v2_1_drawing_register.yaml 的 part_numbering
+    与 fastener_register。
+
+    - ORESAT：端框-纵梁-卡笼式目录级分解、VolumeKeepout 一等资产、夹具同仓、顶层配置装配体管变体 → 装配树与 SpeedPak 配置的组织参照。注意：V2.0 的 4框+4纵梁+2甲板+6板本身是项目自有设计，OreSat
+    只授权''组织方式''，不授权''12U+机械臂载荷下该架构成立''的力学结论（该仓 2022-05 已 deprecated）。
+
+    - HYPERION_SOLAR：本体板/展开翼职能分离、根部铰链块+弹簧被动展开【原理】、burnwire 低冲击收拢约束【原理】、跨铰链走线留固定侧、名义/失效双配置评估思想 → 太阳翼根部模块与 SA-ICD/SA-STOW/SA-SWEEP
+    图的方案语汇来源。其 5V/10Ω/~200°C/Dyneema 双绕全部是原理佐证数值，禁入任何 V2.1 字段。
+
+    - CDS_REV_14_1：外边界唯一约束、几何中心坐标系+分轴质心【预算组织方式】、展开物自约束、多重独立物理抑制链【组织方式】、shall/should 用语纪律、四件套验证链 → 治理与文档层参照；其一切 mm/kg/N
+    值与 12U 366 包络禁用。
+
+    - LIBRECUBE：包络合同式互换、板替换免全拆、各面统一安装、src/build/docs+分支即版本 → 内部模块化与仓库组织参照；板卡/堆距一切数值禁用。
+
+
+    四、项目自有设计（PROJECT_ORIGINAL）：全部冻结数值与站位；三舱划分；载荷路径候选链 B601 base→boss→adapter→前承载框→四纵梁→中横框→本体，及''臂装框不与太阳翼铰链共用局部薄壁载荷区、翼根独立支座''规则；B601
+    臂（原样继承禁重构）；structure_semantic_classes 五类语义；SpeedPak 六配置；System_Equations_V2_1.txt 单一方程入口机制。
+
+
+    五、B4-1 建模时最可能的五种证据污染场景及机器检查方法：
+
+    S1 数值走私——外源数值（黑名单项）以''巧合相同数''进入方程/草图标注。机检：RT-P2 黑名单对撞 lint，扫描方程 txt/YAML/图纸尺寸导出表，含单位换算变体与 ±0.5% 容差窗口，命中且无独立推导
+    evidence_ref 即 FAIL。
+
+    S2 几何血缘走私——外源 STEP/FreeCAD 被导入或被''照着重建''。机检：RT-P3 三层断言（目录白名单+哈希清单；COM 遍历特征树 Imported 特征数==0；外源几何体积/包络/惯量主轴签名相似度比对报警）。
+
+    S3 UNKNOWN 回填走私（伪精度）——must_stay_unknown 六类与八个 UNKNOWN 变量被填''看起来合理''的值。机检：解析 skeleton delta 与 B4-1 方程文件，断言映射变量
+    value ∈ {UNKNOWN, TBD}；任何填值提交必须原子性附带指向 40_evidence/ 或签发 ICD 的 evidence_ref 字段，缺失即 FAIL（fail-closed）。
+
+    S4 资质/能力声明走私——借 Hyperion flown、OreSat GaAs flown、CDS 名义做''已飞行验证方案/CDS-compliant''表述。机检：RT-P5 中英禁用词正则 grep 全部交付文本与图纸标题块；feature-adoption
+    matrix 每行 CLAIM_LIMIT 非空 + EVIDENCE_STATE 枚举 schema 校验。
+
+    S5 许可证/引用漂移走私——借鉴条目缺 SPDX/署名，或引用滑向未准入对象（OreSat Onshape 现行文档、LC-2102a 第三方分叉、BIRDS-X CAD 分支而非 main HEAD、LC2102
+    v1 而非 v2）。机检：matrix schema 强制 SOURCE+COMMIT SHA+LICENSE 三字段非空且 SHA ∈ manifest pinned_ref 白名单集合（36bceeac/8860d493/4c02299f/af8f6f3d/5b1afaaa/20a9e04c
+    + CDS 文档号三方交叉）；出口前重跑 git ls-remote 漂移比对；CERN-OHL 源断言 adoption_mode==PRINCIPLE_ONLY。
+
+
+    六、准入清单 inadmissible 逐源侵犯风险巡检结论：BIRDSX（螺钉规格抄入 fastener_register、''爆炸图组织''把未验证 PDF 内容当已验证继承点）；HYPERION（burnwire/弹簧数值流入
+    HDRM/HINGE 包络字段、flown 状态迁移）；ORESAT（deprecated 几何当现行依据、Onshape 未准入几何被''参考''、组织原则被升格为 12U 力学结论）；CDS（借准入变相闭环 V2-UNK-001、guideline
+    当 shall 引用、合规声称）；LIBRECUBE（2U×6 式缩放、FreeCAD 源文件级血缘触发 CERN-OHL-W 传染、外结构越界引用）。具体攻击见 attacks_on_others。'
+  attacks_on_others:
+  - target_role: 太阳翼机构设计角色（Solar Array Mechanism Designer）
+    attack: 其铰链+burnwire 方案借鉴 HYPERION_SOLAR 时，最可能把 5V/10Ω/~200°C/Dyneema 双绕、弹簧铰链几何与'aluminum hinges'材料印象带进 HINGE_BLOCK_ENVELOPE
+      / HDRM_ENVELOPE / must_stay_unknown 六类字段——准入清单明写这些数值'仅作原理佐证，禁直接继承'，且铰链合金牌号/弹簧参数上游根本未公开（capstone 设计），任何具体化都必须是项目原创并自证。同时禁止以
+      Hyperion 三星飞行履历为该机构方案背书（状态不迁移条款）。若 trade study 中出现上述任一数值或 'flown-heritage mechanism' 措辞，我方要求整条方案退回。
+    blocking: true
+  - target_role: 主结构架构角色（Primary Structure Architect）
+    attack: 两点：(1) 端框-纵梁-卡笼分解借鉴 OreSat 只能作组织起点——oresat-structure 已于 2022-05 deprecated、最大 3U、无机械臂反力工况，任何'该架构在 12U+B601
+      载荷下结构效率成立'的表述都是把组织原则升格为力学结论，属能力升级，B4-0 无 FEA 授权，此类结论必须写为 LOAD_PATH_INTENT（意图）而非验证结果；(2) LONGERON_OFFSET_Y/Z=105.65
+      是 DESIGN_PROPOSAL 而非 EVIDENCE_BOUND，载荷路径候选链若把它当冻结锚点引用即伪精度，trade study 中必须显式携带其可重估状态。第 (1) 点为阻塞项，第 (2) 点为措辞整改项。
+    blocking: true
+  - target_role: CAD 准备/装配树角色（CAD Preparation / Skeleton Owner）
+    attack: 三条红线：(1) OreSat 现行 Onshape 文档几何未经本轮准入（无 SHA 可固定），B4-1 期间任何人打开 Onshape 链接'参考造型'即越权引用；(2) LibreCube LC2102
+      的 FreeCAD src 若被下载/转换/描摹进 SolidWorks 主模型，同时违反铁律并触发 CERN-OHL-W 弱互惠源公开义务——V2.1 交付链必须与其保持零文件级血缘；(3) 装配树中 B601_Visual_Arm_V2_0
+      必须原样继承，任何'顺手优化'法兰/boss 特征都违反 B601 不重构铁律。要求出口 Gate 纳入 RT-P3 的零血缘断言后方可放行。
+    blocking: true
+  - target_role: 工程图/交付包角色（Drawing & Deliverables，v2_1_drawing_register.yaml 所有者）
+    attack: (1) 借鉴 BIRDS-X '交付包组织'时注意：其 PDF 图纸内部是否含爆炸图/剖视从未被打开验证（manifest 明记为未验证假设），STR-001 爆炸图等条目不得写成'按 BIRDS-X
+      已验证图纸模式'，只能写'零件号/图纸配对组织方式借鉴'；(2) SV21_fastener_register.csv 建表时若从 Screw_Procurement list 抄任何 M 规格/数量即违反 BIRDSX
+      inadmissible 第 4 条——只可继承'独立采购表'这一组织方式，且其含空格文件名/双重版本号的执行细节明确不继承；(3) EVD-001 与水印条款是好设计，要求把 claim_limits 升级为
+      RT-P5 机器 lint 而非仅靠人工出图纪律。属整改项，未见其现有登记直接违规。
+    blocking: false
+  - target_role: 全体角色（包络与合规声明公共攻击面）
+    attack: CDS_REV_14_1 准入绝不构成对 V2-UNK-001（COMPETITION_DISPLAY_V0 340.5 vs CDS 12U 366 包络差异）的裁决授权——inadmissible
+      明文'不得以继承 CDS 名义变相闭环'。任何角色的方案若 (a) 引入 366 参考包络或 CDS 导轨/突出物/质心表数值，(b) 出现'满足 CDS/CDS-compliant'表述，(c) 借 CDS 导轨原则给
+      340.5 包络做合规性暗示，一律阻塞。所有继承 CDS 导轨/包络组织原则的设计文本必须显式携带 V2-UNK-001 blocker 引用。另提请注意：2026-09-01 提交前须复查 cubesat.org
+      是否出 Rev 15，引用锁定 CP-CDS-R14.1 文档号。
+    blocking: true
+  unknowns_defended:
+  - 铰链轴径/轴承类型 —— 必须 UNKNOWN：Hyperion 未公开任何铰链规格，无合法证据源
+  - 弹簧刚度与预紧角 —— 必须 UNKNOWN：外源弹簧参数（含 CDS 分离弹簧 6.7N/2.5mm、Hyperion 铰链弹簧）全部在禁继承清单
+  - 释放丝材料与直径/锁定机构 —— 必须 UNKNOWN：Dyneema/双绕圈数是 Hyperion 实现参数，须按本项目释放载荷与热约束重新推导并实测
+  - 展开冲击/铰链寿命 —— 必须 UNKNOWN：B4-0 无动力学授权，且尺度失配使 Hyperion 类比无效
+  - 线缆弯曲半径 —— 必须 UNKNOWN：仅可继承'跨铰链走线留固定侧'的组织原则
+  - 面板材料与铺层/太阳电池厚度 —— 必须 UNKNOWN：帆板质量 0.348kg 为 SSOT 占位（真实差 5-10 倍，项目待办 3 最高优先级硬伤），显示模型不得反哺质量 SSOT
+  - PANEL_HINGE_AXIS_Z / PANEL_DEPLOY_ANGLE —— 待太阳翼 ICD 与部署运动学授权，B4-1 不得臆填
+  - SA_ROOT_BRACKET_ENVELOPE / HINGE_BLOCK_ENVELOPE / HDRM_ENVELOPE —— 待 trade study 冻结方案后由项目 ICD 签发，禁用 Hyperion/CDS
+    数值预填
+  - SERVICE_PANEL_GAP / HARNESS_CORRIDOR_W / MAINTENANCE_CLEARANCE —— 禁用 LibreCube 板距/包络数值预填，包络合同思想可用、mm 值不可用
+  - V2-UNK-001（340.5 vs 366 包络差异）—— 保持开放 blocker，本轮不裁决，CDS 准入不构成闭环授权
+- role: Primary Structure Agent
+  proposals:
+  - id: PS-01
+    title: V2.1 主结构语义分层：冻结拓扑不动，只做承载语义重申明
+    scheme: 继承 V2.0 混合框架冻结拓扑（4框+4纵梁+2甲板+6板），V2.1 不新增/不删除主构件，只对既有对象做语义分层：LOAD_PATH_INTENT 骨架 = 前端框(X=170.25)+MID1横框(X=56.75)+MID2横框(X=-56.75)+后端框(X=-170.25)+四纵梁(提案位
+      ±105.65)+框-纵梁机加角接头；两甲板登记为 LOAD_PATH_INTENT 子标 SHEAR_WEB（受剪辅助，非主通道）；6 块可拆面板一律 NON_STRUCTURAL_PANEL，永不进入任何载荷链声明。对应
+      OreSat『端框-纵梁-卡笼』三层分解的组织原则：端框承接口、纵梁承轴向贯穿、舱内甲板承设备。
+    borrowed_from: ENDFRAME_LONGERON_CAGE_DECOMPOSITION@ORESAT_STRUCTURE_AND_SOLAR
+    rationale: B4-0 禁 FEA、V2.0 冻结，任何拓扑变更都无法自证优于现状；把工作量放在『谁承载、谁不承载』的可校验声明上，是唯一既合规又能给 B4-1 直接消费的产出。
+  - id: PS-02
+    title: 四角纵梁 = 唯一轴向集中载荷通道（导轨承载原则移植）
+    scheme: 借 CDS『四角导轨即对外载荷路径、蒙皮不承接触载荷』的组织原则（仅原则，8.5mm/75% 等数值全不继承）：四纵梁布于四角区并声明为唯一贯穿 X 向的集中载荷构件；一切集中载荷（臂反力、翼根、地面支持工装、未来吊装点）只允许经机加节点件汇入纵梁，禁止经可拆面板或框腹板薄壁区中转。地面展示构型下这同时给出天然的支撑/搬运硬点定义。
+    borrowed_from: RAIL_AS_LOAD_PATH_PRINCIPLE@CDS_REV_14_1
+    rationale: 把『集中载荷只走节点入梁』写成 trade study 冻结规则后，后续任何角色的开口/机构/走线请求都有了机器可判的越界标准，对抗轮冲突可以收敛为对该规则的显式豁免申请。
+  - id: PS-03
+    title: B601 载荷扩散结构：boss→适配板→前框环支承→角撑→四纵梁→MID1 收口
+    scheme: 细化 load_path_freeze_candidate：B601 底座(Ø100 boss)→160 适配板（独立可换件，B601 本体零重构）→前端框（X=170.25）带整周环形支承台阶（backup
+      ring land）→四角角撑/撑板→四纵梁→MID1 横框（X=56.75）收口扩散段。双路径原则：适配板对前框既有整周环支承（承弯矩面压）又有四角节点栓接（承剪/拉），禁止单点悬挑或仅靠面板局部承载。适配板作为唯一牺牲件/更换件，臂拆装不触动框架。
+    borrowed_from: PROJECT_ORIGINAL
+    rationale: 臂是全星最大集中激励源（捕获冲量事件语境 sim_06/sim_11），扩散段必须在最短程内把点载荷化为框环分布载荷再入梁；适配板可换性同时守住『B601 不重构』铁律。
+  - id: PS-04
+    title: 太阳翼根独立支座模块：只栓 MID2 框预设节点垫，铰链载荷绕开一切面板
+    scheme: SA_ROOT_BRACKET（包络 UNKNOWN）作为独立机加模块，左右各一，仅栓接 MID2 横框 ±Y 侧的预设节点垫——节点垫与框-纵梁角接头同站位共节点，铰链载荷入框环即刻分流入纵梁。借
+      Hyperion『根部铰链块置于固定侧承载结构、展开件只做功能面』的机构组织原理（弹簧/burnwire 等一切参数不继承）。Solar_Array_Root_Module_L/R 子装配对 master skeleton
+      的 MID2 节点基准定位，禁止与可拆面板发生任何配合关系。
+    borrowed_from: HINGE_ROOT_BLOCK_ON_FIXED_SIDE@HYPERION_SOLAR
+    rationale: 翼根冻结坐标 X=-56.75 与 MID2 框站位逐位重合，是盘面上唯一的证据绑定归宿；独立支座使翼机构可整模块拆换而不扰动臂适配板，公差链各自封闭。
+  - id: PS-05
+    title: 五类语义分类的三层落地机制（属性+register+gate 校验）
+    scheme: 结构语义五类（LOAD_PATH_INTENT/VISUAL_COVER/SERVICE_OPENING/CABLE_PASSAGE/NON_STRUCTURAL_PANEL）按三层落地：(a) 零件命名前缀
+      + SolidWorks 自定义属性 STRUCT_CLASS，随 System_Equations_V2_1.txt 同源管理；(b) B4-1 新建机器可读 v2_1_structure_semantic_register.yaml，逐件登记
+      class/所属载荷链/开口许可状态；(c) gate 校验规则三条：每件有且仅有一个 class；SERVICE_OPENING 特征只许落在 NON_STRUCTURAL_PANEL 或 VISUAL_COVER
+      宿主上；CABLE_PASSAGE 穿越 LOAD_PATH_INTENT 构件必须登记 doubler-intent 标志并触发对抗复审，否则 gate FAIL。借 OreSat 把 VolumeKeepout
+      当一等版本化设计资产的原则——语义禁区显式入库，不藏在装配体里。
+    borrowed_from: VOLUME_KEEPOUT_AS_FIRST_CLASS_ASSET@ORESAT_STRUCTURE_AND_SOLAR
+    rationale: 『好看的加强筋』问题的根因是承载意图只存在于建模者脑中；三层机制使意图可机读、可 diff、可 gate，与本项目 fail-closed 治理同构。
+  - id: PS-06
+    title: 节点唯一交换原则：臂链与翼链只许在机加节点件交汇
+    scheme: 写入 primary_structure_trade_study.md 冻结文本的硬规则：任意两条载荷链（臂链、翼根链、地面支持链）之间的载荷交换只允许发生在机加节点件（框-纵梁角接头、预设节点垫）上，禁止经共享薄壁面板、框腹板局部区或甲板边缘互传。纵梁作为两链唯一公共构件，其交汇界面就是节点件本身——薄壁共享区在语义上不存在合法定义。
+    borrowed_from: PROJECT_ORIGINAL
+    rationale: 这是 v2_1_master_skeleton_delta.yaml 中『臂框不与翼铰共用局部薄壁载荷区』冻结规则的可执行化推广：从一条禁令升级为一切链对链交互的封闭规则，堵住经甲板/面板迂回共享的旁路。
+  - id: PS-07
+    title: 可拆面板统一安装合同：拆装零扰动载荷路径
+    scheme: 六块可拆面板对框缘统一安装特征模式（孔型/垫面组织方式统一，具体孔径孔距 UNKNOWN 留 B4-1），任一面板拆除后主骨架载荷路径与刚度声明不变；面板只受 VISUAL_COVER/NON_STRUCTURAL_PANEL
+      语义，SERVICE_OPENING 开在面板上等价于『拆面板即最大开口』。借 LibreCube『各面统一安装特征实现模块化对称安装』与『不全拆即可换单件』的组织原则（一切 mm 数值与 2U 几何不继承）。
+    borrowed_from: UNIFORM_SIDE_MOUNTING_AND_MODULE_REPLACEABILITY@LIBRECUBE
+    rationale: 把『维护开口』问题的默认解定义为『拆非结构面板』，从源头压缩维护角色对结构本体开洞的需求空间，也给竞赛展示的可拆演示留了干净接口。
+  adversarial_answer: 太阳翼根载荷最终进入 MID2 横框（X=-56.75 框环）——不是任何纵梁直接承接，更不是侧面板。完整传力链：翼板(200×227×6) → 铰链线（轴位/轴径/轴承一律 UNKNOWN）→
+    SA 根部独立支座（SA_ROOT_BRACKET_ENVELOPE=UNKNOWN）→ MID2 框 ±Y 侧预设节点垫（与框-纵梁角接头同站共节点）→ MID2 框环周向分配 → 四角纵梁轴向+剪切分流 → 前/后端框收口。证据绑定：翼根冻结坐标
+    (-56.75, ±113.15, 0) 的 X 站位与 FRAME_MID1_X 的镜像冻结值 FRAME_MID2_X=-56.75 逐位重合，MID2 是骨架上唯一无需新增构件即可承接翼根的既有框，这是几何 SSOT
+    给出的归宿，不是偏好。可拆面板与甲板全程不在链上。不与臂载荷共用薄壁区的论证五条：(1) 站位分离——臂扩散区占据 X∈[+56.75,+185.25]（前框+MID1 舱段），翼根区在 X=-56.75，两区被 MID1–MID2
+    整个中舱隔开，唯一公共构件是四纵梁，且按 PS-06 交汇只发生在机加节点件；(2) 载荷性质冲突——臂侧是操作反力与捕获冲量事件型多轴弯矩（sim_06/sim_11 语境），翼根侧是收拢压紧+展开冲击(UNKNOWN)+柔性板振铃（sim_07
+    点激励 92×、振铃 37–75s 语境），两种谱在同一薄壁局部叠加的应力状态在 B4-0 禁 FEA 条件下不可证，不可证即不可共用（fail-closed）；(3) 动力学边界完整性——项目已决策中心体按刚体（sim_05
+    19.2° 依据）、帆板走 ANCF 线，若臂座柔度与铰根柔度经共享薄壁耦合，两个接口刚度都无法单独辨识，将污染数字身体模型边界条件与未来太阳翼 ICD；(4) 装配与维护解耦——独立支座使翼机构整模块拆换不触动臂适配板，两条公差链各自封闭，失效互不牵连；(5)
+    治理约束——该分离已是 v2_1_master_skeleton_delta.yaml load_path_freeze_candidate 的冻结规则，对抗轮只能强化其可执行性（PS-06），无权弱化。
+  attacks_on_others:
+  - target_role: Solar Array Mechanism Agent
+    attack: 你的铰链轴位（PANEL_HINGE_AXIS_Z=UNKNOWN）与 HDRM 包络（UNKNOWN）如果最终要求在 MID2 框缘或腹板开槽让位、或把压紧释放点落在可拆面板上，前者切断框环连续性、后者把机构载荷引入
+      NON_STRUCTURAL_PANEL——两者都直接违反冻结规则。要求：机构全部紧固与承载点只许落在我方 MID2 预设节点垫上，作为你方案的先决约束进入 trade study；任何『框体开槽/面板承载』请求按硬冲突原样保留入
+      adversarial_design_record，不接受多数票覆盖。另外 Hyperion 的 burnwire/弹簧原理准入不等于其固定侧板承载布置可照搬——该星是体装板承载，本项目固定侧是框架不是板，你必须重新声明反力归宿。
+    blocking: true
+  - target_role: Service / Maintenance Opening Agent
+    attack: SERVICE_PANEL_GAP 与 MAINTENANCE_CLEARANCE 均为 UNKNOWN，但你若以维护可达性为由提出跨越纵梁或框缘的大开口（例如整侧连通开口），将切断 MID1–MID2
+      间唯一的轴向载荷路径，等价于把四梁骨架退化为三梁。要求：一切 SERVICE_OPENING 按框舱格 bay-bounded，宿主只许是 NON_STRUCTURAL_PANEL 或 VISUAL_COVER（PS-05
+      gate 规则三条之二），且优先采用 PS-07 的『拆整块非结构面板即最大开口』默认解；越界开口无 doubler-intent 登记与对抗复审即 gate FAIL。
+    blocking: true
+  - target_role: Harness / Cable Passage Agent
+    attack: Hyperion『用切口简化跨铰链走线』的原理若被平移到 MID2 框腹板近支座区开过线孔，恰好在翼根节点垫旁制造出被冻结规则明令禁止的薄壁弱区——借鉴原则不许推翻宿主结构语义。要求：HARNESS_CORRIDOR_W（UNKNOWN）的跨铰走线走甲板开孔或非结构面板侧进出，CABLE_PASSAGE
+      穿越任何 LOAD_PATH_INTENT 构件必须登记 doubler-intent 并触发对抗复审，且禁止落在距节点垫一个未定义安全带内（安全带宽度 B4-1 定义，本轮不填数）。
+    blocking: false
+  - target_role: Assembly Tree / CAD Configuration Agent
+    attack: Solar_Array_Root_Module_L/R 若在装配树中以可拆面板为配合基准，则面板一拆模块悬空、位姿失定义，且干涉检查若在缺支座几何的 STRUCTURE_ONLY SpeedPak 配置下运行会系统性漏检支座-框-面板三方碰撞。要求：根模块与臂适配板一律只对
+      master skeleton（System_Equations_V2_1.txt 驱动）的框节点基准定位；干涉检查配置清单须显式列出各 SpeedPak 缺失几何域，缺关键几何的配置禁用于干涉裁决（delta
+      文件 performance_management.rule 的逐配置落实）。
+    blocking: false
+  unknowns_defended:
+  - PANEL_HINGE_AXIS_Z / PANEL_DEPLOY_ANGLE：待太阳翼 ICD 与部署运动学授权，本轮传力链表述刻意不依赖铰链轴具体位置
+  - SA_ROOT_BRACKET_ENVELOPE / HINGE_BLOCK_ENVELOPE / HDRM_ENVELOPE：trade study 冻结方案后由项目 ICD 定，PS-04 只声明栓接对象与节点语义，不给包络数
+  - 铰链轴径/轴承类型、弹簧刚度与预紧角、释放丝材料与直径/锁定机构、展开冲击/铰链寿命：must_stay_unknown 硬清单，Hyperion 的 5V/10Ω/200°C/Dyneema 等数值明确拒绝继承
+  - SERVICE_PANEL_GAP / HARNESS_CORRIDOR_W / MAINTENANCE_CLEARANCE：保持 UNKNOWN，对相关角色的攻击均以语义规则而非数值边界表述
+  - 面板材料与铺层/太阳电池厚度、线缆弯曲半径：UNKNOWN；且帆板质量 0.348kg 为 SSOT 占位（待办 3），一切涉振铃/耦合论述只引用 sim_07 已验证语境不做外推
+  - LONGERON_OFFSET_Y/Z=105.65 仅为 V2.0 DESIGN_PROPOSAL，B4-1 可重估——本代理所有提案均以『四角区纵梁』语义表述，不把该值当证据冻结位引用
+  - 一切截面尺寸、板厚、孔径孔距、紧固件规格、应力/刚度/裕度数值：B4-0 无 FEA 授权，全部不填；PS-03 双路径与 PS-06 节点原则均为拓扑/语义级声明
+  - 包络 340.5 vs 366（V2-UNK-001）：本轮不裁决，全部站位引用锚定 COMPETITION_DISPLAY_V0 340.5×226.3×226.3
+- role: Solar Array Mechanism Agent（B4-0 对抗设计轮，只读）
+  proposals:
+  - id: SAM-P1
+    title: 每侧翼独立根部模块 Solar_Array_Root_Module_L/R（支座+铰链块A/B+扭簧ref+HDRM ref+止挡+应变释放）
+    scheme: 每侧翼建一个自包含子装配：根部支座（只挂本体横框站位，独立于机械臂安装框载荷区，落实 skeleton 的 load_path_freeze_candidate 独立支座规则）→ 铰链块A+铰链块B
+      构成双点铰线（铰线沿 X 向布于翼根弦带内，轴 Z 位=PANEL_HINGE_AXIS_Z 保持 UNKNOWN）→ 扭簧参考件（仅占位几何名，刚度/预紧角 UNKNOWN）→ HDRM 参考件（burnwire
+      型收拢保持的包络占位，HDRM_ENVELOPE UNKNOWN）→ 展开终点止挡（限定名义展开角的机械参考，角度值联动 PANEL_DEPLOY_ANGLE=UNKNOWN）→ 固定侧线束应变释放件。模块自带图纸与证据入口，L/R
+      各一实例。
+    rationale: Hyperion 的可继承原则=根部铝铰链块+预压弹簧被动展开、释放机构布置在固定侧；OreSat 的模块自治思想使根部机构成为可独立评审/替换的资产。全部机构参数按 must_stay_unknown
+      清单保持 UNKNOWN，不填任何 Hyperion 实现值。
+    borrowed_from: HYP-ROOT-HINGE-SPRING@HYPERION_SOLAR
+  - id: SAM-P2
+    title: 翼板子装配语义分层：基板/电池区/根部接口带/梢部系留带
+    scheme: 翼板（200×227×6 冻结外形）内部按项目语义类分层：基板本体=NON_STRUCTURAL_PANEL；电池区=VISUAL_COVER 语义分区（仅显示语义边界，材料/铺层/电池厚度全 UNKNOWN）；根部边带预留铰链块A/B
+      命名接口特征（无孔径数值）；梢部/自由边带预留 HDRM 系留 ref 点（收拢态保持点）。各分区只建命名参考面/草图，不建无证据实体细节。
+    rationale: 把'好看的加强筋'替换为语义化对象是 skeleton delta 的 structure_semantic_classes 既定治理要求；分区命名让 B4-1 深化时每个特征有明确的证据责任人。
+    borrowed_from: PROJECT_ORIGINAL
+  - id: SAM-P3
+    title: 固定侧机构集中原则：有源释放件全部留在本体侧
+    scheme: burnwire 加热电路 ref、展开检测开关 ref、释放冗余点 ref 全部布置于根部模块（本体固定侧）；活动翼上零有源件、零跨铰链刚性连接，跨铰链只允许柔性线束。释放丝材料/直径/锁定机构 UNKNOWN。
+    rationale: Hyperion 准入原则原文：部署开关与 burnwire 机构设计进本体板一侧以规避活动件布线（'designed into the body-mounted panels'）；该组织原则与尺寸无关，可安全继承。
+    borrowed_from: HYP-FIXED-SIDE-RELEASE@HYPERION_SOLAR
+  - id: SAM-P4
+    title: 跨铰链柔性线束：服务环+双侧应变释放+根部 CABLE_PASSAGE 开口
+    scheme: ±Y 体面翼根弦带内设 CABLE_PASSAGE 语义开口（宽度 HARNESS_CORRIDOR_W=UNKNOWN），线束以服务环跨铰链，两端各一应变释放点（固定侧在根部模块上、活动侧在翼根部边带上）；线束入口按一等设计资产独立命名，不作为装配残余。线缆弯曲半径
+      UNKNOWN。
+    rationale: Hyperion 准入原则=用本体侧切口/过孔简化跨铰链电气走线；OreSat solar 把 cable-adapter/breakout 独立成资产的组织方式作为线束入口一等资产化的佐证。
+    borrowed_from: HYP-HARNESS-CUTOUT@HYPERION_SOLAR
+  - id: SAM-P5
+    title: 展开扫掠 keepout 一等 CAD 资产
+    scheme: 为每侧翼建独立 keepout 工件：STOWED→DEPLOYED 的旋转扫掠体（绕 X 向铰线、半径至翼展 200 级、轴 Z 位参数化联动 PANEL_HINGE_AXIS_Z=UNKNOWN）+
+      收拢态包络体，二者作为独立零件入装配并与配置联动，任何后续布置（天线/维护口/臂托）与之做干涉检查。几何上该扫掠体沿 X 恒限于翼根弦带 X∈[-170.25,+56.75]，为对抗问题的证明提供机器可查资产。
+    rationale: OreSat structure 的 VolumeKeepout 目录证明'包络禁区独立 CAD 工件化'是经实践的组织范式；CDS 展开物自约束原则（deployables constrained
+      by the CubeSat）要求收拢/展开包络由本星自己管理。
+    borrowed_from: ORESAT-VOLUMEKEEPOUT@ORESAT_STRUCTURE_AND_SOLAR
+  - id: SAM-P6
+    title: 六配置语义定义（DEPLOYED/STOWED/L_FAIL/R_FAIL/PARTIAL/SERVICE）
+    scheme: DEPLOYED=双翼在 PANEL_DEPLOY_ANGLE（UNKNOWN，方程变量联动）展开、HDRM=released ref、扫掠 keepout 抑制；STOWED=双翼贴 ±Y 体面收拢、HDRM=engaged、并显式登记'收拢态板厚使
+      ±Y 向有效宽度超出 226.3 体宽'为展示口径注记（不触碰 V2-UNK-001，不声称部署器兼容）；L_FAIL=左翼收拢/右翼展开、R_FAIL=镜像——非对称失效影响评估语义，仅构型级、无动力学结论；PARTIAL=中间角配置，专用于与
+      P5 扫掠 keepout 资产做干涉校核；SERVICE=翼模块抑制/拆除+MAINTENANCE_CLEARANCE ref（UNKNOWN），映射到 SERVICE_ACCESS SpeedPak。六配置全部只改抑制/角度变量，不改任何冻结尺寸。
+    rationale: Hyperion 设专节评估名义全展开与双翼失效两种构型（'Impact of Deployment Failure'），失效构型自洽是准入原则；OreSat 顶层配置装配体管理变体的方式提供实现载体。
+    borrowed_from: HYP-FAILURE-CONFIG@HYPERION_SOLAR
+  - id: SAM-P7
+    title: 标准翼模块单套零件、L/R 镜像实例
+    scheme: 只建一套 Solar_Wing 标准模块零件库（翼板+根部模块件族），L/R 翼为装配层镜像/派生实例，差异（安装手性、线束出口方向）集中在装配与配置层表达，禁止复制出第二套零件文件。
+    rationale: OreSat solar 用同一 1U 标准模块按数量平铺适配 OreSat0（4块）/OreSat1（8块），'单一标准单元+装配层适配'原则迁移为 L/R 镜像复用，降低 57+ 文件体系的漂移面。
+    borrowed_from: ORESAT-STD-MODULE-TILING@ORESAT_STRUCTURE_AND_SOLAR
+  - id: SAM-P8
+    title: 收拢保持/释放链按'物理抑制链'语义组织
+    scheme: HDRM ref 内部按抑制链角色分立命名：保持件（收拢约束）/释放件（熔断点）/抑制点 ref（多重独立物理抑制占位，计时器不算抑制）；展开物一律由本星自约束。所有电气值、力值、材料 UNKNOWN；本轮只冻结命名与拓扑，不做任何合规声称。
+    rationale: CDS 准入原则：多重独立物理抑制链组织方式（inhibit=电源与危险源之间的物理器件、timer 不算独立抑制）与展开物自约束原则明确可继承到臂/翼释放链；数值与合规声称属禁继承项，均不出现。
+    borrowed_from: CDS-INHIBIT-CHAIN@CDS_REV_14_1
+  - id: SAM-P9
+    title: 根部模块↔本体接口 ICD 化：只挂横框站位、禁借纵梁与臂安装框
+    scheme: SA 根部支座的本体侧接口定义为文档化 ICD 面+命名孔系 ref（数值 UNKNOWN），基准显式绑定横框站位 FRAME_MID2_X=-56.75 与 FRAME_REAR_X=-170.25
+      区间的 ±Y 面框区；显式禁止：借用纵梁（LONGERON_OFFSET_Y=105.65 属 DESIGN_PROPOSAL 可重估）作螺栓背衬、借用机械臂安装框局部薄壁区任何背衬。SA_ROOT_BRACKET_ENVELOPE/HINGE_BLOCK_ENVELOPE
+      保持 UNKNOWN 至 trade study 冻结。
+    rationale: 直接落实 skeleton delta 的 load_path_freeze_candidate 规则（臂安装框不与太阳翼铰链共用局部薄壁载荷区；太阳翼根部独立支座），并把'不共用'从口号变为
+      ICD 基准绑定，防止纵梁偏置重估时翼根接口被动漂移。
+    borrowed_from: PROJECT_ORIGINAL
+  - id: SAM-P10
+    title: 翼模块图纸/紧固件独立追溯入 v2_1_drawing_register
+    scheme: 翼模块每个零件登记零件号并与图纸条目 1:1 同号配对写入 v2_1_drawing_register.yaml；翼模块紧固件（数量/规格 TBD）独立成清单条目，不埋在图纸注记里；机构 ref 件（扭簧/HDRM/止挡）在登记表中标注
+      EVIDENCE_STATE=PLACEHOLDER_UNKNOWN。
+    rationale: BIRDS-X 准入原则：CAD-图纸同号 1:1 追溯 + 紧固件采购信息与几何解耦独立成表；只继承组织方式，不继承其非正式版本命名实践。
+    borrowed_from: BIRDSX-PARTNO-TRACE@BIRDSX_CAD
+  adversarial_answer: 结论：机械臂安装框不侵占铰链与释放机构空间——两者位于正交面且轴向最小净距 113.5 mm；真正的残余风险不在空间侵占，而在载荷路径汇聚，已由 SAM-P9 与攻击 A1/A2
+    处置。几何论证（全部用冻结参数）：(1) 臂侧占位：M 面在 X=+185.25，法兰板 160×160 → 占 +X 面 Y∈[-80,+80]、Z∈[-80,+80]；boss Ø100 → |r|≤50；安装框/转接区厚度方向占
+    X∈[+170.25,+185.25]（前端框外缘到 M 面共 15.0 mm）。(2) 翼根侧占位：翼根中心 (-56.75, ±113.15, 0)，根部平面为 ±Y 体面（Y=±113.15），翼弦 227.0
+    沿 X → 根部弦带 X∈[-170.25,+56.75]（=-56.75±113.5，恰由后端框贴到 MID1 站位）；铰链块A/B、扭簧、HDRM、止挡全部布于该弦带内的 ±Y 面上。(3) 轴向分隔：铰链/释放硬件最前可能位置
+    X=+56.75 与臂安装框最后边界 X=+170.25 之间净距 113.5 mm，到 M 面本体 128.5 mm。(4) 横向分隔：法兰板 |Y|max=80 < 113.15，距 ±Y 根部平面尚有 33.15
+    mm，boss |Y|≤50 距 63.15 mm——这些数值只约束已冻结的安装硬件，不约束 B601 全工作空间。(5) 面归属正交：臂安装硬件独占 +X 面，铰链/HDRM 意图独占 ±Y 面，无共享安装表面。(6)
+    翼板自身绕 X 向铰线的参考扫掠在 X 向不越过弦带 X∈[-170.25,+56.75]；这只能形成捕获半空间的静态几何约束，不能证明机械臂动态扫掠、根部操作可达性或视觉无遮挡。相关裁决统一为
+    NOT_EVALUATED_UNKNOWN_PARAM，直至签发臂任务姿态扫掠和相机 frame/FOV。残余耦合风险三项（均非已验证的空间净距）：a)
+    站位重合——翼根弦带覆盖 FRAME_MID2_X=-56.75，而臂载荷链'front frame→四纵梁→mid transverse frame'若终止于 MID2，则与'不共用局部薄壁载荷区'规则冲突，须由主结构代理显式命名站位（攻击
+    A1，blocking）；b) 纵梁贴近——LONGERON_OFFSET_Y=105.65 距翼根平面仅 7.5 mm，翼根支座若穿螺栓借纵梁背衬会把铰链载荷注入臂主载荷路径（攻击 A2）；c) ±Y 面前段 X∈[+56.75,+170.25]
+    是翼收拢弦带外唯一侧面净区，臂侧不得未经协调占用（攻击 A3）。
+  unknowns_defended:
+  - PANEL_HINGE_AXIS_Z：铰链轴 Z 位置待太阳翼 ICD；Hyperion 铰链几何属明令禁继承，任何轴位取值现在都是无证据值。P5 只约束翼板参考扫掠的 X 向投影，不能证明臂/翼动态安全，故无需也不得提前填值。
+  - PANEL_DEPLOY_ANGLE：部署运动学未授权，展开角只能作为配置联动变量名存在；止挡件只是角度的机械参考占位。
+  - 铰链轴径/轴承类型：Hyperion 论文仅述 'aluminum hinges with springs'（capstone 设计，合金牌号与轴径未公开），无任何可继承规范，填值即臆造。
+  - 弹簧刚度与预紧角：须按本项目翼惯量与展开冲击重新推导，而展开冲击本身 UNKNOWN；且帆板质量 SSOT 0.348 kg 为占位（项目待办 3，真实差 5–10 倍），质量占位未修正前任何弹簧参数都无意义。
+  - 释放丝材料/直径/锁定机构：Hyperion 的 5V/10Ω/~200°C/Dyneema 双绕是准入清单明令禁继承的实现参数，只可继承'阻性熔断+低冲击消耗性约束'原理。
+  - HDRM_ENVELOPE / HINGE_BLOCK_ENVELOPE / SA_ROOT_BRACKET_ENVELOPE：trade study 冻结方案后由项目 ICD 给定，B4-0/B4-1 均不得臆填。
+  - HARNESS_CORRIDOR_W 与线缆弯曲半径：线束选型未定，走廊宽度与弯曲半径无证据来源。
+  - 面板材料/铺层/太阳电池厚度：材料域未授权，电池区仅为 VISUAL_COVER 语义分区。
+  - 展开冲击/铰链寿命：B4-0 明令禁止 FEA/动力学/寿命声明，相关参数不建值。
+  - MAINTENANCE_CLEARANCE / SERVICE_PANEL_GAP：维护通道研究未做，SERVICE 配置只引用变量名。
+  attacks_on_others:
+  - target_role: Primary Structure Agent（主结构/载荷路径）
+    attack: load_path_freeze_candidate 链写 'mid transverse frame' 单数，未指明 MID1(+56.75) 还是 MID2(-56.75)。翼根弦带 X∈[-170.25,+56.75]
+      必然占用 MID2 与后端框站位的 ±Y 面框区；若臂载荷路径终止于 MID2，同一冻结候选内的'臂安装框不与太阳翼铰链共用局部薄壁载荷区'规则自相冲突。要求：在 trade study 冻结前显式命名载荷链终止站位，并把
+      MID2/REAR 区间 ±Y 面框区预留给 SA 根部支座（对应 SAM-P9）。
+    blocking: true
+  - target_role: Primary Structure Agent（主结构/载荷路径）
+    attack: LONGERON_OFFSET_Y=105.65 标注 DESIGN_PROPOSAL 且 B4-1 可重估，但它距翼根平面 113.15 仅 7.5 mm。若允许 SA 根部支座穿螺栓借纵梁作背衬，铰链载荷会直接注入臂主载荷路径成员（四纵梁），违反不共用规则；且纵梁偏置一旦重估，翼根
+      ICD 会被动漂移。要求：声明纵梁禁作翼根背衬，SA 根部接口基准只绑横框站位。
+    blocking: false
+  - target_role: B601 Arm Integration Agent（臂继承/集成）
+    attack: ±Y 体面前段 X∈[+56.75,+170.25] 是翼收拢弦带之外唯一的侧面净区；臂侧若要放臂托/维护固定件不得未经翼模块 keepout 协调占用。另外臂操作扫掠对 DEPLOYED 翼（Y>±113.15、X∈[-170.25,+56.75]
+      外伸 200）未登记在任何配置中——要求把臂扫掠 keepout 登记为与 SAM-P5 对偶的一等资产，或显式声明展示模型不评估臂-翼动态干涉，不得留空白默认。
+    blocking: false
+  - target_role: CAD Preparation / Performance Agent（配置与性能管理）
+    attack: speedpak_configs 六项 × 本代理六个翼配置构成 36 格组合矩阵，而 skeleton 规则只有一句'干涉检查禁用缺关键几何的 SpeedPak'。要求发布合法组合表：SOLAR_MECHANISM_REVIEW
+      必须携带完整解析的铰链/HDRM/止挡 ref 几何；L_FAIL/R_FAIL 非对称配置不得在 B601_SPEEDPAK（臂几何缺失）下出干涉结论；COMPETITION_RENDER 不得被引用为任何几何证据。
+    blocking: false
+  - target_role: Governance / Feature-Adoption-Matrix Agent（治理与借鉴矩阵）
+    attack: 两处措辞红线：(1) Hyperion flown/tested 状态属准入清单明令禁继承，feature matrix 中弹簧铰链+burnwire 相关条目的 CLAIM_LIMIT 必须写'机构原理借鉴、无资质继承'，trade
+      study 里出现'飞行验证机构'类表述即违规；(2) STOWED 配置的 ±Y 向超宽只能登记为展示口径注记，不得被表述为对 V2-UNK-001（340.5 vs 366 包络差异）的任何形式闭环或缓解——该
+      blocker 本轮明确不裁决。
+    blocking: false
+- role: Embodied Mission Agent
+  proposals:
+  - id: EMA-P1
+    title: SWEEP/keepout 语义类升格为一等 CAD 资产
+    scheme: 在 structure_semantic_classes 中新增 keepout 家族：ARM_SWEEP_KEEPOUT（q0 近似盒 + 裕量，裕量 UNKNOWN）、PANEL_DEPLOY_SWEEP_KEEPOUT（绕铰链轴的参数化扫掠壳，铰链
+      Z/展开角引用既有 UNKNOWN 变量）、TARGET_APPROACH_CORRIDOR（+X 目标接近走廊）、VISION_KEEPOUT_CONE（named-only，参数 UNKNOWN）。每个 keepout
+      是独立版本化 CAD 体，携带 owner / generating_rule / evidence_state / 绑定配置四字段，不允许隐含在装配体中。同时在 parameters_new_named_only
+      增补 VISION_BORESIGHT_REF、VISION_FOV_CONE 两个 UNKNOWN 变量。
+    rationale: OreSat 把 VolumeKeepout 作为顶层目录级一等资产维护，证明包络禁区可版本控制、可审计；本项目对抗问题（翼 vs 臂 vs 视觉）恰好需要三类 keepout 同框裁决，隐含式装配检查无法留下证据链。
+    borrowed_from: VOLUME_KEEPOUT_FIRST_CLASS@ORESAT_STRUCTURE_AND_SOLAR
+  - id: EMA-P2
+    title: keepout 裁决 fail-closed 语义（UNKNOWN 永不 CLEAR）
+    scheme: keepout 干涉裁决词汇表固定为三值：CLEAR_BY_FROZEN_PARAMS / NOT_EVALUATED_UNKNOWN_PARAM / VIOLATION。生成参数含任一 UNKNOWN（铰链轴
+      Z、展开角、HDRM 包络、视觉帧）的 keepout 一律记 NOT_EVALUATED_UNKNOWN_PARAM，禁止在任何交付文本中写成'无干涉/PASS'；只有全冻结参数支撑的才可写 CLEAR_BY_FROZEN_PARAMS
+      且必须列出所依赖的冻结变量名清单。
+    rationale: 与项目 SAFE-00 'UNKNOWN 永不 ALLOW' 的运行时安全门文化同构；防止 B4-1 深化时把名义几何间隙误升格为已验证结论。
+    borrowed_from: PROJECT_ORIGINAL
+  - id: EMA-P3
+    title: 翼状态轴与 SpeedPak 轴正交分离 + 双配置故障基线
+    scheme: 在装配层显式定义任务状态轴 {STOWED, DEPLOYED_NOMINAL, DEPLOY_FAILED_BOTH}，与六个 SpeedPak 性能配置正交组合；任何场景（渲染/预算/避让检查）必须引用
+      (任务状态 × SpeedPak) 二元组。DEPLOY_FAILED_BOTH 为功率预算与姿态动力学预算的强制评估配置；机械臂辅助释放能力因缺少任务姿态工作空间、轨迹扫掠和末端执行器接口证据而保持
+      NOT_EVALUATED_UNKNOWN_PARAM，不能由 q0 静态盒排除或确认。
+    rationale: Hyperion 论文支持同时按名义全展开与双翼展开失败两配置评估任务影响；本项目在辅助释放能力未验证前，失败态必须具备设计侧自洽评估基线。
+    borrowed_from: DEPLOY_FAILURE_DUAL_CONFIG@HYPERION_SOLAR
+  - id: EMA-P4
+    title: 收拢/展开取向排除规则：弦向 227 全状态锁定沿 X
+    scheme: 由冻结值推导的取向排除：PANEL_W 227.0 > BUS_H 226.3，'弦沿 Z'收拢方案几何不可行，直接从 trade study 候选集剔除；'弦沿 X'展开态覆盖 X∈[-170.25,+56.75]，两缘与
+      FRAME_REAR_X/FRAME_MID1_X 逐位对齐，且绕沿 X 铰链轴的展开扫掠天然保持 X≤+56.75。据此冻结方案级规则：翼板弦向在收拢、展开、扫掠全过程保持沿 X。同时显式裁定包络归属：收拢叠厚
+      226.3+2×PANEL_T=238.3 > BUS_W，COMPETITION_DISPLAY_V0 包络必须声明为 bus-only（翼与 HDRM 除外），或另建 named-only 的 STOWED_ENVELOPE
+      资产（值 UNKNOWN 待 HDRM ICD）。
+    rationale: 两条纯粹由冻结参数演绎的一致性事实，不发明任何新尺寸；若不显式裁定，238.3>226.3 会像 V2-UNK-001 一样成为被静默吸收的包络歧义。
+    borrowed_from: PROJECT_ORIGINAL
+  - id: EMA-P5
+    title: 捕获半空间附件禁入规则（CAPTURE_OPERATION_HALFSPACE）
+    scheme: 定义 x ≥ ARM_MOUNT_X(185.25) 的半空间为捕获作业域：任何任务状态下，翼板、HDRM、线束、根部支座不得进入。按冻结参数当前裕量为 128.5mm（56.75→185.25），该裕量只允许被未来
+      ICD 项（HDRM/支座包络）显式消耗并逐项登记进 feature-adoption matrix，不允许被'顺手布置'吃掉。目标接近走廊 TARGET_APPROACH_CORRIDOR 同置于该半空间并向
+      +X 延伸至臂 q0 盒外缘 x≈467。
+    rationale: 任务主线是捕获翻滚非合作目标，任务面前方净空是具身抓取的第一资源；把它写成半空间合同而非事后检查，才能让 B4-1 的每一次布置决策都对该裕量记账。
+    borrowed_from: PROJECT_ORIGINAL
+  - id: EMA-P6
+    title: HDRM 与释放电气固定侧布置 + 展开物自约束链
+    scheme: 压紧释放装置（HDRM）与释放电路全部布置在星体固定侧而非翼板活动侧；跨铰链线缆经本体侧预留切口/过孔走线（对应既有 CABLE_PASSAGE 语义类）；HDRM_ENVELOPE 保持 UNKNOWN
+      named-only 体，但施加两条拓扑约束：必须位于 ARM_SWEEP_KEEPOUT 与 CAPTURE_OPERATION_HALFSPACE 之外、必须包含于 STOWED_ENVELOPE 资产之内。展开约束由航天器自身提供，不依赖任何外部件。
+    rationale: Hyperion 将部署开关与 burnwire 机构设计进固定侧并用切口简化跨铰链布线是已飞行验证的组织原则（仅继承原理，5V/10Ω/Dyneema 等实现值按准入清单禁继承）；CDS §2.2.4
+      展开物自约束原则同向加强。
+    borrowed_from: FIXED_SIDE_RELEASE_AND_HARNESS@HYPERION_SOLAR
+  - id: EMA-P7
+    title: 六 SpeedPak 配置的场景入口映射与两条使用禁令
+    scheme: 场景入口映射：FULL_REVIEW=keepout 干涉终裁唯一合法入口（重申既有规则）；STRUCTURE_ONLY=载荷路径评审与姿态动力学几何参考入口；SOLAR_MECHANISM_REVIEW=功率预算与展开场景入口，必须按
+      EMA-P3 状态轴逐态实例化；B601_SPEEDPAK=臂 q0 包络快查入口（仅初筛，不得出终裁）；COMPETITION_RENDER=比赛叙事媒体入口，每镜头声明翼状态；SERVICE_ACCESS=地面
+      AIT 维护入口；因机械臂辅助释放/维修能力未评估，明确禁止任何“在轨自维护”表述。两条禁令：(1) 缺关键几何的 SpeedPak 配置禁出干涉结论（既有规则）；(2) 质量/惯量禁止从任何 SpeedPak 配置提取，惯量
+      SSOT 仍是 04_mass_inertia_budget（帆板 0.348kg 占位问题即待办 3，CAD 显示模型质量属性无科学地位）。
+    rationale: OreSat 用顶层配置装配体管理任务变体、差异集中在装配层的组织方式，正好支撑'性能配置 × 任务状态'二维矩阵；不加禁令则六配置会从性能工具漂移成伪证据源。
+    borrowed_from: MISSION_VARIANT_TOP_ASSEMBLY@ORESAT_STRUCTURE_AND_SOLAR
+  adversarial_answer: 按冻结参数逐项裁决（全部为方案级演绎，未发明尺寸）：(1) 双翼参考弦带在 X 向均限于 [-170.25,+56.75]，距 M 面 X=185.25 的静态轴向分隔为 128.5mm；
+    这只证明参考翼自身不进入 `CAPTURE_OPERATION_HALFSPACE`，不能证明 B601 工作空间、运动扫掠、根部可达性或视觉无遮挡。q0 盒
+    `x[185,467] y±100 z[-260,70]` 仅可作静态初筛，不是机械臂可达集合。(2) PANEL_HINGE_AXIS_Z、PANEL_DEPLOY_ANGLE、HDRM_ENVELOPE
+    均 UNKNOWN，且没有任务姿态轨迹扫掠，故臂/翼干涉与展开扫掠终裁按 fail-closed 记 NOT_EVALUATED_UNKNOWN_PARAM，禁止写成“无干涉 PASS”。(3) 视觉 reference：冻结参数集内不存在任何相机/传感器帧变量，遮挡问题不可评估——必须新建
+    named-only UNKNOWN 变量（VISION_BORESIGHT_REF/VISION_FOV_CONE）后由 ICD 闭环，不得默认'不遮挡'。(4) 随附两项一致性发现须显式裁定：收拢叠厚 226.3+2×6=238.3
+    > BUS_W 226.3（包络语义 bus-only vs 含收拢翼必须二选一登记，勿重蹈 V2-UNK-001 式静默歧义）；PANEL_W 227.0 > BUS_H 226.3 直接排除'弦沿 Z'收拢取向。(5)
+    具身故障恢复：机械臂辅助释放卡滞翼的能力为 NOT_EVALUATED_UNKNOWN_PARAM；在证据闭环前不得作为基线能力，故障恢复仍需保留双配置 fail-safe 设计评估（DEPLOY_FAILED_BOTH
+    必入功率与姿态预算）。
+  attacks_on_others:
+  - target_role: Solar Array Mechanism Agent
+    attack: 机构 trade study 若含'弦沿 Z 收拢'候选，则被冻结值直接排除：PANEL_W 227.0 > BUS_H 226.3，收拢弦向越出 ±Z 体面各 0.35mm。要求 trade study
+      每个候选显式声明收拢取向与铰链轴方向，并将'弦沿 X 全状态锁定'作为准入前提；同时任何'展开态无干涉'结论在 PANEL_HINGE_AXIS_Z / PANEL_DEPLOY_ANGLE 仍为 UNKNOWN
+      时只能记 NOT_EVALUATED，不得进 PASS 栏。
+    blocking: true
+  - target_role: Structure Load-Path Agent
+    attack: load_path_freeze_candidate 链末端写'mid transverse frame'但未指明是 MID1(+56.75) 还是 MID2(-56.75)：翼根支座在 MID2，而弦沿
+      X 的铰链支承线可能沿 [-170.25,+56.75] 跨越 MID2 甚至触及 MID1——若臂载荷链终点与铰链支承共用同一横框，将与你方自己的'臂安装框不与太阳翼铰链共用局部薄壁载荷区'规则自相矛盾。要求：(1)
+      链中横框显式编号；(2) SA_ROOT_BRACKET_ENVELOPE/HINGE_BLOCK_ENVELOPE 虽值 UNKNOWN，其沿 X 的支承跨度归属必须先声明；冲突在裁定前按对抗轮规则保留。
+    blocking: false
+  - target_role: CAD Preparation / Performance Agent
+    attack: 六个 speedpak_configs 把性能抑制轴与任务状态轴混为一谈：SOLAR_MECHANISM_REVIEW 与 COMPETITION_RENDER 未声明翼处于收拢还是展开，同名配置在功率预算与媒体渲染中会指向不同几何。要求增加正交的任务状态轴
+      {STOWED, DEPLOYED_NOMINAL, DEPLOY_FAILED_BOTH}，并在既有'干涉检查禁用缺几何 SpeedPak'规则旁增补第二条禁令：质量/惯量属性禁止从任何 SpeedPak 配置提取（惯量
+      SSOT = 04_mass_inertia_budget；帆板质量 0.348kg 为占位，CAD 显示模型质量无科学地位）。
+    blocking: false
+  - target_role: Governance / Envelope Owner
+    attack: COMPETITION_DISPLAY_V0 340.5×226.3×226.3 与冻结值存在未裁定的包络语义冲突：收拢态叠厚 238.3 > 226.3，展开态翼尖 |Y|≈313 更远超包络。当前文本未声明包络是
+      bus-only 还是含附件，这与 V2-UNK-001（340.5 vs 366）同类但独立，必须作为具名条目登记而非默认吸收；任何继承 CDS 外边界原则的 V2.1 文本引用包络时须同时携带该条目引用。
+    blocking: false
+  unknowns_defended:
+  - PANEL_HINGE_AXIS_Z：保持 UNKNOWN；收拢态 Z 向覆盖范围与展开扫掠体位置不可裁决，相关 keepout 记 NOT_EVALUATED_UNKNOWN_PARAM
+  - PANEL_DEPLOY_ANGLE：保持 UNKNOWN；展开态精确位形仅名义假设（垂直全展开），任何'展开态无干涉 PASS'表述被拒绝
+  - HDRM_ENVELOPE：保持 UNKNOWN；收拢外包络 238.3 与 q0 盒 Y 向净距 13.15mm 均为未计压紧机构的下界，净距结论在 HDRM ICD 前不得升格
+  - 视觉 reference（相机安装帧/视轴/FOV）：冻结集内根本无此参数，遮挡问题整体 NOT_EVALUATED；仅提议新建 named-only UNKNOWN 变量 VISION_BORESIGHT_REF
+    / VISION_FOV_CONE，拒绝填任何'合理'视轴
+  - 臂运动过程扫掠体：q0 包络 x[185,467] y±100 z[-260,70] 为近似静态盒，构型间转移轨迹扫掠不在 B4-0 授权内（禁动力学），ARM_SWEEP_KEEPOUT 裕量字段保持 UNKNOWN
+  - SA_ROOT_BRACKET_ENVELOPE / HINGE_BLOCK_ENVELOPE：值保持 UNKNOWN；仅要求其 X 向支承跨度的归属声明（属拓扑合同，非数值填充）
+- role: Maintainability Agent（B4-0 对抗设计轮·维护性攻击角色，只读）
+  proposals:
+  - id: MNT-P1
+    title: ±Y 侧板沿翼根线上下分段 + 根部固定桥带（root rail）
+    scheme: 把 PNL_LEFT/PNL_RIGHT 各拆成上/下两段可拆服务板，分缝带避开翼両态（收拢/展开）包络的 z=0 邻域（带宽=SERVICE_PANEL_GAP，值保持 UNKNOWN）；分缝带本身实现为体侧固定桥带（语义类
+      LOAD_PATH_INTENT），翼根支座、铰链块、HDRM、根部连接器全部只安装在桥带/框架硬点上；上下半板降级为 NON_STRUCTURAL_PANEL/VISUAL_COVER，不承任何翼载，支座穿板处一律开缘开槽（open
+      slot/keyhole）而非闭合孔，保证半板可在翼与臂均不拆的状态下法向抽出。
+    borrowed_from: REPLACEABLE_WITHOUT_FULL_DISASSEMBLY@LIBRECUBE（LC2102 'board replacement without full disassembly'
+      可替换模块思想，迁移到面板层；根部桥带为 PROJECT_ORIGINAL 适配）
+    rationale: 实测几何：单块侧板 196.3 高、翼面 z∈[-3,3] 与侧板 x 向重叠 215 mm——单块侧板在翼收拢或展开任一构型下都无法法向抽出，翼板/侧板互锁是当前方案第一硬伤。
+  - id: MNT-P2
+    title: 翼根电气/释放全固定侧布置 + 禁盲缝连接器
+    scheme: 根部电连接器、部署行程开关、释放电路（burnwire 驱动端）全部布置在体侧固定支座上，跨铰链线束经声明的 CABLE_PASSAGE 切口过桥；连接器 demate 方向必须指派给一个可开启面（-X
+      整板或 ±Z 板或 MNT-P1 半侧板），并显式禁止落入全截面甲板与侧板之间的盲缝（现状 DECK_REAR_MID 边缘 y=98.15 与侧板内面 y=110.15 之间仅 12 mm，且站位 x=-56.75
+      与根部连接器重合，为反例）；凡连接器站位与全截面甲板重合，甲板须声明 SERVICE_OPENING 类局部开口（拓扑声明，尺寸 UNKNOWN）。
+    borrowed_from: FIXED_SIDE_RELEASE_AND_CROSS_HINGE_HARNESS@HYPERION_SOLAR（准入原则：部署开关与释放电路布置在固定侧 + 线缆跨铰链用本体板切口简化走线）
+    rationale: Hyperion 已飞行验证的组织原则恰好解决'不动翼即可维护根部电气'；盲缝禁令来自本轮实测的 12 mm 缝隙——任何工具方向（+Y 被翼面挡、X 被甲板挡、Z 向 98 mm 深 12 mm
+      宽缝）都够不到。
+  - id: MNT-P3
+    title: -X 主服务面 + LRU 抽取轴显式化
+    scheme: 把 PNL_REAR_SERVICE_ACCESS（-X 整板，唯一无臂无翼遮挡的整面开口）定为主服务面，承担线束主干入口与 REAR_ACCESS_CANDIDATE 三个 volume 的维护通道；每个
+      VOL-* volume 必须声明 extraction axis + 对应开口面（现状 TRAY_EXTRACTION_TBD 在 B4-1 收敛，avionics 舱托盘抽取轴候选定为 ±Z 经 PNL_TOP/PNL_BOTTOM，因
+      X 向被两块全截面甲板封死）；端框（-X 后框）承担'服务接口+闭合'双职能。
+    borrowed_from: ENDCAP_SERVICE_INTERFACE@ORESAT_STRUCTURE_AND_SOLAR（端框-纵梁-卡笼分解中端盖承担服务接口与闭合功能的原则）
+    rationale: 工具方向盘点显示 -X 是全星唯一先天无遮挡整面通道；LRU 无抽取轴声明则'开口够不够'永远不可判。
+  - id: MNT-P4
+    title: 维护 keepout 作为一等 CAD 资产入 V2.1 树
+    scheme: 在 V2.1 装配树建立 Maintenance_Keepout 资产组（零实体/参考体），至少含：各紧固件组工具轴圆柱、各可拆板抽出扫掠体、B601 展示/收拢位姿包络（只读登记，不重构臂）、翼収拢与展开両态包络、burnwire
+      重新布设操作空间；全部维护干涉检查只准在完整解析配置上跑（沿用既有'干涉检查禁用缺关键几何 SpeedPak'规则并显式覆盖 SERVICE_ACCESS 配置），keepout 体不得被 SpeedPak 抑制掉。
+    borrowed_from: VOLUME_KEEPOUT_FIRST_CLASS_ASSET@ORESAT_STRUCTURE_AND_SOLAR（VolumeKeepout 独立 CAD 工件纳入版本控制的原则）
+    rationale: 维护可达性只有变成可检查的几何对象才能进 Gate；否则 B4-1 所有'可维护'声称都是文字。
+  - id: MNT-P5
+    title: 消耗性收拢约束免拆重布（re-rig without disassembly）
+    scheme: 収拢保持采用消耗性约束线+熔断释放的组织原理时，约束线的锚点/绕线点/熔断电阻全部布置在体侧外表面固定侧，重新布设（每次地面展开演示后必然发生）不需拆任何面板、不需移动 B601；约束链同时满足'展开物由航天器自身约束'原则（不依赖外部工装长期承担収拢保持）。所有丝材/电阻具体参数保持
+      UNKNOWN（准入清单明令禁继承 5V/10Ω/Dyneema 值）。
+    borrowed_from: CONSUMABLE_RESTRAINT_BURNWIRE@HYPERION_SOLAR（低冲击消耗性收拢约束+电阻熔断释放原理）+ DEPLOYABLE_SELF_CONSTRAINT@CDS_REV_14_1（§2.2.4
+      展开物自约束原则）
+    rationale: 比赛演示模型的展开机构是全星被操作次数最多的机构；消耗件重布路径若要拆板，每次演示彩排都变成拆星。
+  - id: MNT-P6
+    title: 紧固件访问等级制 + 面板'规格-图纸-程序-清单'四件套
+    scheme: 每个外部紧固件组在 V2.1 登记 access class（DIRECT_AXIAL / OFFSET_TOOL / FORBIDDEN_BLIND 三级）；凡 driver 轴穿越 B601 keepout、翼両态包络或落入盲缝的紧固件按
+      FORBIDDEN_BLIND 驳回；每块可拆板在 v2_1_drawing_register.yaml 增配'拆装程序卡+验收清单'两类工件，与规格文本、图纸构成四件套；程序卡措辞遵循 shall/should/will/note
+      四级用语纪律。
+    borrowed_from: SPEC_DRAWING_PROCEDURE_CHECKLIST@CDS_REV_14_1（规格-图纸-程序-清单分层验证工件组织原则 + §1.6 需求用语纪律）
+    rationale: 现状 v2_1_drawing_register 只有图纸维；'开口够不够'必须由每板一张可执行程序卡来闭环，而不是总装图注释。
+  - id: MNT-P7
+    title: 臂适配板界面 = 维护性边界（B601 不动的兜底拆卸单元）
+    scheme: 沿用 B3-04 既有 owner 分离（法兰=bus_structure；板/boss=robot_adapter），把 SV2_MNT_ADAPTER_PLATE 与法兰的连接面定义为唯一维护性边界：其紧固件必须可在臂保持安装状态下从
+      ±Y/±Z 侧翼方向接近（access class ≤ OFFSET_TOOL），使'臂+适配板+boss'可作为整体单元兜底拆下，而 B601 子装配内部零不触碰；+X 四边条（内缘 82/外缘 98.15）的
+      +X 向紧固件轴线须经 MNT-P4 的臂安装态工具体检查后方可保留，否则边条改为侧向挂钩+少量侧翼紧固。
+    borrowed_from: PROJECT_ORIGINAL（由 B601 冻结铁律与 B3-04 separation_rule 直接推出，无外部来源）
+    rationale: 实测：四边条整体落在 200×200×100 TOOL_ACCESS_KEEPOUT 足印内、距法兰边仅 2 mm——臂装上后 +X 轴向改锥能否进入未经任何检查，是 +X 面唯一可拆通道的未验证假设。
+  - id: MNT-P8
+    title: 维护性硬要求清单 MR-1..MR-10（B4-1 验收候选）
+    scheme: MR-1 整翼可在 B601 保持安装状态下更换，拆装界面=根部支座外侧紧固面，验收=含工具轴体的全解析干涉检查；MR-2 根部连接器不拆翼不拆臂可 demate，禁止位于全截面甲板-侧板盲缝，站位重合处须有声明
+      SERVICE_OPENING；MR-3 ±Y 侧板分上下段，分缝避开翼両态包络，侧板不承翼载；MR-4 全部外部紧固件组登记 access class，禁止 FORBIDDEN_BLIND；MR-5 HDRM
+      本体只装框架硬点站位带（x≈-164.25/-56.75/+56.75 三框带），紧固方向=外侧法向或侧翼向，更换不拆翼板；MR-6 消耗性收拢约束重布不拆板不动臂；MR-7 每个 VOL-* 声明 extraction
+      axis+对应开口，TRAY_EXTRACTION_TBD 在 B4-1 收敛；MR-8 跨甲板 CABLE_PASSAGE 孔拓扑归甲板 owner 声明（直径值 UNKNOWN），根部线束留 service
+      loop（长度 UNKNOWN）；MR-9 B601 收拢/展示位姿包络作为只读输入登记进维护 keepout 资产集；MR-10 维护干涉检查禁用任何缺体 SpeedPak 配置。全部 MR 为拓扑/程序级要求，不含任何新数值。
+    borrowed_from: PROJECT_ORIGINAL（汇总 MNT-P1..P7 的可验收化表述；单条溯源见各提案）
+    rationale: 对抗轮的产出必须落成 B4-1 可判 PASS/FAIL 的验收项，否则维护性攻击不留痕。
+  adversarial_answer: 指派问题「不拆机械臂，能否更换翼板或访问根部连接器？」——结论：臂不是约束主项；现状答案是 NO，但阻塞因子全部在星体侧而非 B601 侧。逐面板/逐工具方向论证如下（引用值均为
+    V2.0 DESIGN_PROPOSAL_DISPLAY_ONLY 既有值，非新值）。【+X 任务面】被 B601 永久占用：法兰 160×160（±80）、boss Ø100、外侧 200×200×100 工具 keepout；V2.0
+    已把该面拆成 4 边条（内缘 82/外缘 98.15，+X 向拆卸），但边条整体落在 keepout 足印内且距法兰边仅 2 mm，臂安装态下 +X 轴向 driver 能否进入未经检查——该面判「围绕臂可维护=未验证假设」，与翼维护无直接耦合。【-X
+    后服务面】整板 196.3×196.3、-X 向抽出，臂与翼（展开态翼根外缘 y=±113.15 在开口 ±98.15 之外）均不遮挡——全星唯一先天畅通整面，判 YES。【±Y 侧面（翼板所在面）】臂在 +X，几何上不遮挡
+    ±Y 法向与 ±Z 侧翼工具方向，所以「不拆臂」本身不构成障碍；真正的三重阻塞：(1) 翼-板互锁——展开态翼面 z∈[-3,3] 与单块侧板（高 196.3，x∈[-158.25,158.25]）x 向重叠 215
+    mm，收拢态则翼体直接覆盖侧板，任一构型下单块侧板都无法法向抽出，故「换侧板必先拆翼」在现方案成立，方向反了；(2) 根部界面零实体（V2-UNK-010）——铰链/释放/锁定全 UNKNOWN，翼的 demate
+    紧固方向根本未定义，「换翼板」当前无可执行界面；(3) 収拢拓扑未声明——翼展 200 大于半高 113.15、弦长 227 大于体高 226.3，任何贴面折叠都会外悬 ±Z 面约 87 mm 量级或压住 ±Z 板分缝，収拢构型不声明则
+    ±Y/±Z 面的维护判词全部不可下。【±Z 上下面】外部无臂无翼根（根线在 z=0），外侧通道畅通，判条件 YES；但内侧被 x=±56.75 两块全截面甲板分舱，作为 avionics 托盘抽取面成立的前提是 TRAY_EXTRACTION_TBD
+    收敛为 ±Z。【根部连接器 (-56.75,±113.15,0)】现状判 NO——三个工具方向全灭：+Y 外侧被翼体（両态）压住 z=0 邻域；X 向内侧被 DECK_REAR_MID 全截面甲板挡死（站位精确重合）；Z
+    向内侧只剩甲板边缘(y=98.15)与侧板内面(y=110.15)之间 12.0 mm 宽、98 mm 深的盲缝，任何连接器操作不可达。【总判决】不拆臂换翼板/访问根部连接器：现状 NO；采纳 MNT-P1（侧板沿根线分段+固定桥带）+
+    MNT-P2（连接器固定侧布置+禁盲缝+甲板 SERVICE_OPENING）+ MNT-P4（工具轴体检查）后为 YES——且全程不需触碰 B601。绑定阻塞项按优先序：甲板-根部站位重合的 12 mm 盲缝 >
+    单块侧板与翼互锁 > 収拢拓扑未声明 > 根部界面零实体；B601 仅贡献一个未验证项（+X 边条紧固件轴 vs 臂安装态包络）。
+  attacks_on_others:
+  - target_role: 主结构/载荷路径代理（Structure & Load-Path Agent）
+    attack: 载荷路径冻结候选（boss→adapter→前扩散框→四纵梁→中横框）连同「太阳翼根部独立支座」规则，完全没有声明任何构件的开口政策：DECK_REAR_MID 全截面 196.3×196.3 恰好压在翼根连接器站位
+      x=-56.75 上，制造了 12 mm 不可达盲缝；两块全截面甲板同时封死所有 X 向线束主干与 X 向托盘抽取。若在无 SERVICE_OPENING/CABLE_PASSAGE 逐构件分配的情况下冻结载荷路径，B4-1
+      必然被迫在已冻结构件上后补开孔，等于冻结即作废。要求：开口拓扑（哪个构件开、什么语义类，尺寸 UNKNOWN）与载荷路径同轮共冻，否则本代理不放行该冻结候选。
+    blocking: true
+  - target_role: 太阳翼机构代理（Solar Array Mechanism Agent）
+    attack: 収拢构型拓扑未声明即提交铰链方案：PANEL_HINGE_AXIS_Z/PANEL_DEPLOY_ANGLE 值保持 UNKNOWN 合规，但「折叠轴取向、収拢后翼体遮蔽哪块面板的哪个区、翼缘是否压住
+      ±Z 板分缝」是拓扑决定而非数值——翼展 200 > 半高 113.15、弦 227 > 体高 226.3，任何贴面収拢必有约 87 mm 量级外悬或压缝，两种走向对面板分缝方案完全不同；拓扑不定则 HDRM 位置不可知、±Y/±Z
+      面维护判词全部悬空、MNT-P1 分缝带无法定位。另：若借鉴 Hyperion 铰链块，其准入原则要求释放电路留固定侧，铰链块紧固必须暴露外侧/侧翼 driver 方向，禁止翼下盲紧固。要求：B4-0 出口前声明収拢拓扑（轴取向+遮蔽分区枚举，一切
+      mm 值仍 UNKNOWN）。
+    blocking: true
+  - target_role: CAD 准备/性能配置代理（CAD Preparation & Performance Agent）
+    attack: speedpak_configs 里列了 SERVICE_ACCESS 配置，但没有任何规则保证维护性检查对象（工具轴体、抽出扫掠体、臂位姿包络、翼両态包络）作为几何存在、且不被 SpeedPak 抑制——现有规则只泛泛写「干涉检查禁用缺关键几何的
+      SpeedPak」。若 SERVICE_ACCESS 配置本身就是缺体配置，它给出的『可达』结论是系统性假阳性。要求：SERVICE_ACCESS 配置显式包含 Maintenance_Keepout 资产组（MNT-P4），维护干涉检查一律全解析。
+    blocking: false
+  - target_role: 装配树/治理代理（Assembly Tree & Governance Agent）
+    attack: assembly_tree_proposal 把 Removable_Panels 与 Solar_Array_Root_Module_L/R 分立成模块，但支座穿板切口这一跨模块界面无 owner：切口开在
+      Removable_Panels 的板上、形状却由 Root_Module 的支座决定，无主界面必然漂移（V2.0 已有先例：CABLE_PASSAGE 只是法兰面上一个 Ø30 参考圆草图，'非开孔权威'，全星再无第二个线缆开口声明）。另
+      v2_1_drawing_register 只有图纸一维，缺拆装程序卡与验收清单两类工件，四件套残缺。要求：为每个跨模块穿透界面指派单一 owner，register 增补程序/清单槽位。
+    blocking: false
+  - target_role: B601 接口代理（Robot Arm Interface Agent）
+    attack: 臂冻结铁律被遵守，但代价是 B601 的展示/收拢位姿包络从未作为维护性只读输入登记：若臂位姿折回覆盖 ±Z 或 ±Y 通道，本代理对这两面的 YES 判词即刻作废；+X 四边条紧固件（r=82..98.15）与臂安装态实体及
+      200×200×100 keepout 的相容性也从未检查。这不要求重构臂——只要求把 B601_Visual_Arm_V2_0 现位姿包络导出为只读参考体登记进 Maintenance_Keepout 资产组（纯文档/参考几何动作，不触碰冻结）。
+    blocking: false
+  unknowns_defended:
+  - MAINTENANCE_CLEARANCE 保持 UNKNOWN——本代理全部硬要求（MR-1..MR-10）均为拓扑/程序级，不需要也不允许臆填间隙数值；B4-1 凭工具实物或标准工具库证据再赋值
+  - SERVICE_PANEL_GAP 保持 UNKNOWN——MNT-P1 分缝带只定义'避开翼両态包络'的拓扑规则，带宽值待翼収拢拓扑声明后由证据给出
+  - HDRM_ENVELOPE 保持 UNKNOWN——MR-5 只锁定'框架硬点站位带+外侧/侧翼紧固方向'的安装拓扑，包络尺寸待机构选型证据
+  - PANEL_HINGE_AXIS_Z / PANEL_DEPLOY_ANGLE 保持 UNKNOWN——本代理向机构代理索要的是収拢拓扑枚举（轴取向/遮蔽分区），明确不索要任何 mm/度数值
+  - HARNESS_CORRIDOR_W 与线缆弯曲半径保持 UNKNOWN——MR-8 只要求孔位拓扑归 owner 声明与 service loop 存在性，宽度/半径按 must_stay_unknown 清单封存
+  - 释放丝材料/直径、弹簧刚度与预紧角、铰链轴径/轴承、锁定机构保持 UNKNOWN——MNT-P5 仅继承 Hyperion 消耗性约束的组织原理，准入清单已明令禁继承其 5V/10Ω/Dyneema/200°C 实现值

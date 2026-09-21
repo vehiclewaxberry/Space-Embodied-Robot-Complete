@@ -1,0 +1,13 @@
+trigger,scenario_scope,immediate_action,recovery_path,recovery_authorized_now,episode_label
+T_E_T_MISSING,CONTACT_*,ABORT(不进入接触),等待 AUTHORITY_BOUND_ATTACHMENT_SE3_RECEIPT_V1,false,ABORT
+FRAME_MISMATCH,ALL,ABORT+冻结场景,重新解析 frame graph+重验 SHA,false,ABORT
+UNIT_MISMATCH,ALL,ABORT,修复摄入链后重跑(新 episode),false,ABORT
+HASH_TAMPER,ALL,ABORT+登记 FAILURE_CONTEXT,溯源被篡改文件；episode 保留,false,ABORT
+SOLVER_NONCONVERGENCE,DYNAMICS,ABORT+保存最后有限状态,减小 dt/检查 IC 后新 episode,true(诊断层),ABORT
+STALE_POSE_SOFT,TRACKING,WAIT(保持位置),2s 内新鲜数据→重新 AUTHORITY_CHECK,true(诊断层),WAIT
+STALE_POSE_HARD,TRACKING,ABORT,重新获取测量链,false,ABORT
+WHEEL_SATURATION,CAPTURE/DETUMBLE,ABORT(prebind)/RECOVERY(未来授权后),sim_08 结论:150kg 消旋需推力器(|H_c|=3.65 N·m·s=12×轮组),false,ABORT
+COLLISION_ASSET_MISSING,PATH_EVAL,ABORT,DH-G3 资产注册完成后重评,false,ABORT
+M01_CERT_MISSING,MOTION,ABORT,DH-G4 三阶段证书链,false,ABORT
+CAP_H_150KG_REQUEST,CAP-H,physics-veto→ABORT,维持 sim_10/sim_12 B_anchor=ABORT 裁决;不得包装成功,false,ABORT
+UNKNOWN_ANY,ALL,ABORT,fail-closed 原则;UNKNOWN≠EXECUTE,false,ABORT_or_NOT_EVALUATED(按是否评估)

@@ -1,0 +1,138 @@
+{
+  "schema": "WP10_HOTSWAP_REDUCED_TRANSIENT_V24",
+  "source_bindings": {
+    "tools/hotswap_transient_model_v23.py": "fa697f5055c8f1b910277b49032858e719a3d6557c397f0eca3319e24b55de87",
+    "tools/verify_hotswap_transient_v24.py": "1bb0ac2c2bd4793ba8889305c9df7c19ac14f9d344dd398249617dd88f88681c",
+    "tools/shared_battery_path.py": "24414c83ee6beefbde5bdda58f65d4219744f8b0a9c9129b8a2afb56d0da1ef4",
+    "power/SHARED_BATTERY_PATH_DEFINITION.json": "bed7ccbc917d1634eea95ebb0763e2cc58f880dceb4f0ff0ff758e8792f40961",
+    "power/POWER_LOOP_CALCULATIONS.json": "33a884344ad2e03299f404ad4956d0c011d420b62603c966d1be454802563f8d",
+    "tools/integrate_power_loop.py": "4b6aab95a91638615825b4ece24a3a2e9a2b1cd034713eb4914e7a80cdff9a98",
+    "power/POWER_LOOP_PARTS.json": "b292c2c8cd9b343e3f803704873305a96c6333934880cf370823e8be2f6c7d21",
+    "power/INPUT_PASSIVE_SELECTION.json": "90f4dde993d38a6dbc215e0bfff72798d56fcffa698d639f2d2b18c47dde1628",
+    "ecad/wp10_system.xml": "00dfd4b357417c941221b77330fd67a1b51994287f934a6eb41c06d9e2759444",
+    "ecad/POWER_LOOP_PIN_NET.csv": "00514e94ce0a122d01042a143ede1632f5df5881a3c8df1a82b1ac47ad123013",
+    "sources/lm5069_rev_g.pdf": "d60d8106a6e8113900ff8b9576dd959942fa7169742baf0beeb30684d4d64681",
+    "results/TIMER_PASSIVES_NATIVE_V24.json": "50d298668868cd1801caecfc4f291af4830ad50a1e0168f21563e537a0198bbe",
+    "power/TIMER_PASSIVE_SELECTION_V24.json": "9812c1acf223141650244e651016e6a7205a1d0b2081e0104d5312c013fa974b",
+    "power/TIMER_PASSIVE_CALCULATIONS_V24.json": "8f241bcdcf88d1be6875f342764312f2881212f6df53c608eba8c66c690a6c2d",
+    "tools/timer_passive_definition_v24.py": "a15b8a64994bf0c17e0865dd48939f332aedf565f0f3818c71dd93325f75cbec",
+    "SYSTEM_CLOSURE_MATRIX.csv": "bb70e5447f908ecc36dd1390a810c494b6be4988c74e3115bb18d83d01cb2a97",
+    "mechanical/CAP_HARNESS_RETAINED_PLAN_V21.json": "6d2832a3dcbac517dbe97ed0e5e8d2a74fafd1f31de66fb4bb472ae6459119b6"
+  },
+  "active_electrical_native_revision": "V24",
+  "active_mechanical_revision": "V21_UNCHANGED",
+  "C201_selected_nominal_F": 1e-06,
+  "C201_effective_tolerance_requirement": 0.1,
+  "C201_initial_tolerance": 0.05,
+  "C201_MPN_bound": true,
+  "C201_environment_verified": false,
+  "regulated_profiles": [
+    {
+      "name": "LOW",
+      "rs": 0.0022485000000000005,
+      "rpwr": 29994.65,
+      "power_scale": 0.76,
+      "vcl": 0.0485
+    },
+    {
+      "name": "HIGH",
+      "rs": 0.0021515,
+      "rpwr": 30205.350000000002,
+      "power_scale": 1.24,
+      "vcl": 0.0615
+    }
+  ],
+  "main_arm_allocation_W": 360,
+  "main_output_including_brake_W": 361,
+  "base_source_cases": {
+    "pack_V": [
+      20,
+      22,
+      25.2,
+      29.4
+    ],
+    "shared_contact_loop_R_ohm": [
+      0,
+      0.01,
+      0.1
+    ],
+    "shared_zero_is_diagnostic_only": true,
+    "shared_0p01_is_unmeasured_sensitivity": true,
+    "main_branch_allocations_ohm": [
+      {
+        "total": 0.04,
+        "before_MAIN_FUSED": 0.005
+      },
+      {
+        "total": 0.06,
+        "before_MAIN_FUSED": 0.02
+      }
+    ],
+    "main_branch_definition": "Explicitly excludes upstream MC35 contacts; includes fuse, Q201, shunts and main wire/PCB resistance as declared allocations. Does not inherit the ambiguous old path as a measured value.",
+    "aux_branch_R_ohm": [
+      0.018,
+      0.04
+    ],
+    "aux_R_is_unmeasured_allocation": true,
+    "main_efficiency": [
+      0.85,
+      0.9
+    ],
+    "aux_efficiency": [
+      0.8,
+      0.9
+    ],
+    "controller_input_A": 0.003,
+    "controller_input_scope": "Declared input-side controller/divider allowance at MAIN_FUSED, distinct from the 0.25W post-precharge startup bias allocation; not a measured bound.",
+    "efficiency_full_environment_guaranteed": false,
+    "main_leak_A": 0.003,
+    "main_leak_scope": "C203 max 3mA at20C after5min applied as operating-voltage scenario; not full-temperature guarantee; distinct from controller3mA and startup0.25W.",
+    "aux_branch_definition": "Total loop allocation includes F202 exactly once. 0.018 ohm is typical cold fuse alone plus ideal zero other path; 0.04 ohm includes 0.022 ohm unmeasured other path. Neither is a guaranteed hot/life resistance or installed circuit value.",
+    "aux_zero_allocation_history": "history/20260909_V14_before_fuse_coordination/power/SHARED_BATTERY_PATH_DEFINITION.json",
+    "aux_fuse_typical_cold_R_ohm": 0.018,
+    "aux_fuse_selection_source": "power/INPUT_PASSIVE_SELECTION.json:F202"
+  },
+  "voltage_step_V": 0.025,
+  "normal_model_end": "First exit from current/power regulation",
+  "precharge_load": "CHB externally held OFF for this screen. C203 3mA leakage plus primary bias 0.25A below1V /0.25W above1V, assumptions only.",
+  "resistor_accounting": "Original main total split into pre-sense R, effective shunts Rs including Kelvin error allocation, controlled block R_on=total-pre-Rs. The block includes Q201 plus unallocated wire/PCB R; this is a declared lumped electrical model, not an extracted Q201 thermal model.",
+  "effective_capacitance_scope": "C203 initial20C120Hz nominal+tolerance. Aging, low-temperature C/ESR and broadband ESR not modeled.",
+  "bias_low_voltage_model_guaranteed": false,
+  "CHB_enable_delay_proved": false,
+  "gate_charge_and_limited_loop_bandwidth_included": false,
+  "source_inductance_or_BMS_dynamics_included": false,
+  "UVLO_interruption": "Stop and classify first UVLO interruption; recovery/chatter not modeled and not credited.",
+  "short_prefix_coverage": "Only source cases meeting the cold-start rising UV threshold; warm-only UV hysteresis hold cases are not included in the short-prefix set.",
+  "parameter_scope": "Two explicitly correlated endpoint profiles and two UVLO endpoint pairs, not an exhaustive independent-corner or full-temperature proof. LM min/max transferred from48V table; Eq9 application model.",
+  "source_evidence": [
+    {
+      "url": "https://www.ti.com/lit/ds/symlink/lm5069.pdf",
+      "revision": "G",
+      "pages": [
+        5,
+        6,
+        12,
+        13,
+        14,
+        15,
+        17,
+        20,
+        21
+      ],
+      "local": "sources/lm5069_rev_g.pdf"
+    },
+    {
+      "url": "https://www.littelfuse.com/assetdocs/littelfuse-discrete-mosfets-ixt-75n10-datasheet?assetguid=ea051e16-aaa9-4983-a975-8d0c07325d72",
+      "revision": "DS100200(9/09) ADVANCE",
+      "pages": [
+        1,
+        2,
+        5
+      ],
+      "local_download": "HTTP403",
+      "SOA_digitized": false
+    }
+  ],
+  "hardware_protection_qualified": false,
+  "SOA_verified": false
+}

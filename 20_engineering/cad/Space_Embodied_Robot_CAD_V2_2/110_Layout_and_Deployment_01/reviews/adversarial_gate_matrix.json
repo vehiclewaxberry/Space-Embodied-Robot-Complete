@@ -1,0 +1,104 @@
+{
+  "decision_id": "V22-LAYOUT-AND-DEPLOYMENT-01",
+  "review_role": "INDEPENDENT_HOSTILE_REVIEWER",
+  "overall": "REVISE_BEFORE_JOINT_STAGING",
+  "canonical_top_write_authorized": false,
+  "check_tally": {
+    "PASS": 11,
+    "HOLD": 9,
+    "FAIL": 5,
+    "TOTAL": 25
+  },
+  "gate_tally": {
+    "ACCEPT": 1,
+    "REVISE": 3,
+    "HOLD": 2,
+    "TOTAL": 6
+  },
+  "gates": [
+    {
+      "id": "SOLAR-LAYOUT-TRADE-01",
+      "decision": "ACCEPT",
+      "qualification": "RECESSED_LOWER_BOOK_FOLD_LAYOUT_BASELINE_ONLY"
+    },
+    {
+      "id": "SOLAR-CASSETTE-01",
+      "decision": "REVISE",
+      "qualification": "LOAD_PATH_REFERENCE_INTENT_ONLY"
+    },
+    {
+      "id": "SOLAR-KINEMATIC-01",
+      "decision": "REVISE",
+      "qualification": "DISCRETE_RIGID_BODY_SAMPLES_ONLY"
+    },
+    {
+      "id": "ARM-STOW-LAYOUT-02",
+      "decision": "REVISE",
+      "qualification": "LOCAL_LAYOUT_ONLY_NOT_REGISTERED_TO_CS_S"
+    },
+    {
+      "id": "ARM-SOLAR-CLEARANCE-01",
+      "decision": "HOLD",
+      "qualification": "COMMON_FRAME_AND_POSE_AUTHORITY_MISSING"
+    },
+    {
+      "id": "LAYOUT-STAGING-ASSEMBLY-01",
+      "decision": "HOLD",
+      "qualification": "INTEGRATION_DEFECTS_AND_STATE_BINDINGS_OPEN"
+    }
+  ],
+  "blocking_failures": [
+    {
+      "id": "F01_DEPLOYED_TIP_INTERFACE",
+      "observed_mm": 310.0,
+      "legacy_mm": 313.15,
+      "delta_mm": -3.15,
+      "resolution": "EXPLICIT_INTERFACE_RATIFICATION_REQUIRED"
+    },
+    {
+      "id": "F02_ARM_LOCAL_TO_CS_S_TRANSFORM",
+      "observed": "LOCAL_LAYOUT_FRAME_ONLY",
+      "resolution": "SIGNED_NUMERIC_TRANSFORM_REQUIRED"
+    },
+    {
+      "id": "F03_ARM_SUPPORT_STATION_SEMANTICS",
+      "observed": "SADDLE_AFT_WRIST_FORWARD",
+      "registered": "SADDLE_FORWARD_WRIST_AFT",
+      "resolution": "RESTORE_OR_APPROVE_DEVIATION"
+    },
+    {
+      "id": "F04_ARM_PHYSICAL_Y_PACKAGING",
+      "observed_abs_y_mm": 115.65,
+      "platform_half_width_mm": 113.15,
+      "overage_mm_per_side": 2.5,
+      "resolution": "REDESIGN_AND_REVALIDATE"
+    },
+    {
+      "id": "F05_ASYMMETRIC_FAILURE_POSES",
+      "observed": "ONE_BILATERAL_ANGLE_PARAMETER",
+      "required": [
+        "L_FAIL_0_90",
+        "R_FAIL_90_0"
+      ],
+      "resolution": "INDEPENDENT_LEFT_RIGHT_ANGLE_PARAMETERS"
+    }
+  ],
+  "state_binding": {
+    "STOWED": "HOLD_FULL_STATE_LAYOUT_CANDIDATE_ONLY",
+    "DEPLOYED_NOMINAL": "ELIGIBLE_AFTER_COMMON_FRAME_Q0_REPAIR",
+    "DEPLOY_FAILED_BOTH": "ELIGIBLE_AFTER_COMMON_FRAME_Q0_REPAIR",
+    "L_FAIL": "ELIGIBLE_AFTER_ASYMMETRIC_GENERATOR_REPAIR",
+    "R_FAIL": "ELIGIBLE_AFTER_ASYMMETRIC_GENERATOR_REPAIR",
+    "PARTIAL": "NO_FIXED_GEOMETRY_BINDING",
+    "SERVICE": "NO_GEOMETRY_BINDING_PENDING_RATIFICATION",
+    "CAPTURE_SAFE": "NO_GEOMETRY_BINDING_UNKNOWN_CANDIDATE"
+  },
+  "authority_limits": [
+    "NO_CLEARANCE_RELEASE",
+    "NO_CONTINUOUS_MOTION_RELEASE",
+    "NO_STRENGTH_OR_STIFFNESS_RELEASE",
+    "NO_MASS_OR_BOM_AUTHORITY",
+    "NO_NATIVE_CONFIGURATION_READBACK",
+    "NO_FLIGHT_QUALIFICATION"
+  ]
+}

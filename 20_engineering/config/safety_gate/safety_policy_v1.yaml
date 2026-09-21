@@ -1,0 +1,151 @@
+policy_version: safety-gate-policy-v1.2
+contract_version: safety-gate-v1
+status: FROZEN_FOR_SAFE_00_WAVE1
+thresholds_widened: false
+
+vocabulary:
+  physical_state: [SAFE, UNSAFE, UNKNOWN]
+  decision: [ALLOW, MODIFY, WAIT, BACKOFF, ABORT]
+  task_action: [APPROACH, CAPTURE, POST_CAPTURE_STABILIZE, DETUMBLE]
+  model_level: [L0, L1, L2]
+
+threshold_registry:
+  path: 30_simulation/e15_core_coverage/config/threshold_registry_core_v1.yaml
+  sha256: 400bcedce5af6ad5c4135e67f87bb524ee2fdafb1c26aeae07e495ff387b2873
+
+gate_artifacts:
+  sim10:
+    path: 30_simulation/sim_10_mission_feasibility/results/sim_10_gate_check.json
+    hash_mode: CANONICAL_JSON_SHA256_V1
+    canonical_json_sha256: 74020b9c450debf5b7aff29896ce619c804ab237538c6f3dfb6ab2c76902cbc0
+    verdict_key: verdict
+    expected_verdict: SIM10_GATES_PASS
+    scenario_scope: GLOBAL_GATE_NON_SCENARIO
+    allowed_non_scenario_refs: [sim10:GS1/GS2/GS3]
+  sim11:
+    path: 30_simulation/sim_11_coupled_dynamics/results/sim_11_gate_check.json
+    hash_mode: CANONICAL_JSON_SHA256_V1
+    canonical_json_sha256: 76c84922ea32f9ebf0278369950e51fe8c5ec1cd88755b3307a309306d97036f
+    verdict_key: verdict
+    expected_verdict: SIM11_GATES_PASS_WITH_PROVISIONAL_PARAMS
+    scenario_scope: GLOBAL_GATE_NON_SCENARIO
+    allowed_non_scenario_refs: [sim11:G1/G4/G5]
+  sim12:
+    path: 30_simulation/sim_12_strategy_feasibility/results/sim_12_gate_check.json
+    hash_mode: CANONICAL_JSON_SHA256_V1
+    canonical_json_sha256: 9f94c1c7b0e17b0da7a1218c867ae66767e90866be78306d7863a1aab07b4f46
+    verdict_key: verdict
+    expected_verdict: SIM12_PHASE1_GATES_PASS
+    scenario_scope: SCENARIO_ROW
+  e15_ancf:
+    path: 30_simulation/e15_ancf_certification/results/gate_summary.json
+    hash_mode: CANONICAL_JSON_SHA256_V1
+    canonical_json_sha256: e28845a4835bab2e81dd2b6c10c9605308f0a79271adf876ff750bf23a1f81ca
+    verdict_key: overall
+    expected_verdict: REPEAT_ANCF_CERTIFICATION
+    scenario_scope: GLOBAL_GATE_NON_SCENARIO
+    allowed_non_scenario_refs: [e15:overall]
+
+candidate_binding:
+  candidate_id: A_low-S1_passive
+  task_action: CAPTURE
+  source_artifact_id: sim12
+  row_ref: A_low|S1_passive
+  row_source:
+    path: 30_simulation/sim_12_strategy_feasibility/results/strategy_results.csv
+    hash_mode: CANONICAL_CSV_TABLE_SHA256_V1
+    canonical_table_sha256: c36f71009f276974dda65dfbe7b91d1379b07733bcd1ed26db5b3ebefed328fa
+    key_fields: [case, strategy]
+    key: {case: A_low, strategy: S1_passive}
+    row_hash_mode: CANONICAL_CSV_ROW_SHA256_V1
+    canonical_row_sha256: ed770acd96a6d4aaaa261352adf1da32b75a43f7a15f1abfd245879deb77df7c
+    required_values:
+      feasibility: FEASIBLE
+      binding_gate: NONE
+      flex_energy: PROVISIONAL_NOT_EVALUATED
+  case_source:
+    path: 20_engineering/config/strategy_feasibility/strategies_v0.yaml
+    hash_mode: CANONICAL_YAML_SHA256_V1
+    canonical_document_sha256: 36fe301b36b30e1d9e06c826457bc46f949be269aad119cbac6735896e1597d4
+    key_path: cases.A_low
+    canonical_case_sha256: e55e530a79c9ad0c649d6e5c7de033c2b23d0d7e3cc23d76c5fec93dd81d0449
+  mu_reference_source:
+    path: 20_engineering/config/mission_feasibility/scan_v0.yaml
+    hash_mode: CANONICAL_YAML_SHA256_V1
+    canonical_document_sha256: ca7be9916fae201566af89b9b9cf80554ddf8b64c0e41b08170e4912265c140e
+    key_path: mass_reference.servicer_bus_kg
+    expected_kg: 24.0
+  derived_request:
+    strategy_alpha: {S1_passive: 0.0}
+    lambda_actual: 1.0
+    lambda_grid: 1.0
+    numeric_abs_tolerance: 1.0e-12
+
+time_policy:
+  ordering: CAPTURED_LE_REQUEST_LE_DECISION_LE_EXPIRY
+  max_clock_skew_s: 0.0
+  max_capture_age_s: 2.0
+  max_request_to_decision_s: 2.0
+  max_deadline_horizon_s: 240.0
+  max_validity_horizon_s: 300.0
+
+authorization:
+  scheme: HMAC-SHA256
+  production_key_required: true
+  minimum_key_bytes: 32
+  test_vector_key_id: TEST_VECTOR_SAFE00_V1
+  test_vector_is_production_secret: false
+
+required_artifacts_by_level:
+  L0: [sim10, sim12]
+  L1: [sim11, sim12]
+  L2: [e15_ancf, sim12]
+
+# 分层域来自只读 model_fidelity_selection_rules.yaml 与 sim_10 参数卡。
+# L0 不使用 T_c/f1，避免把无接触带宽概念的刚体层错误锁死。
+domains:
+  L0:
+    geometry_class: [G1_slender, G2_cubesat, G3_dense]
+    mu: [0.05, 25.0]
+    omega_dps: [0.1, 10.0]
+    lambda_actual: [0.2, 1.0]
+    alpha: [0.0, 1.0]
+  L1:
+    geometry_class: [G1_slender, G2_cubesat, G3_dense]
+    mu: [0.05, 25.0]
+    omega_dps: [0.1, 10.0]
+    lambda_actual: [0.2, 1.0]
+    alpha: [0.0, 1.0]
+    contact_T_c_ms: [5.0, 100.0]
+    panel_f1_hz: [0.6, 2.2]
+  L2:
+    geometry_class: [G1_slender, G2_cubesat, G3_dense]
+    mu: [0.05, 25.0]
+    omega_dps: [0.1, 10.0]
+    lambda_actual: [0.2, 1.0]
+    alpha: [0.0, 1.0]
+    contact_T_c_ms: [5.0, 100.0]
+    panel_f1_hz: [0.6, 2.2]
+
+certification:
+  L0: CERTIFIED
+  L1: PROVISIONAL
+  L2: UNAVAILABLE
+  L2_reason: E15_REPEAT_ANCF_CERTIFICATION
+
+trusted_state_channels: [HARNESS_TRUTH, INDEPENDENT_PHYSICS_GATE]
+machine_condition_language: STRUCTURED_V1
+grid_lambda_values: [0.2, 0.5, 1.0]
+
+modification_policies:
+  USE_EXACT_SOLVER:
+    policy_id: MOD-EXACT-SOLVER-V1
+    owner: SAFE_00_FROZEN_POLICY
+    solver: EXACT_SOLVER
+
+legacy_integration_conflicts:
+  status: PENDING_INTEGRATOR
+  forbidden_in_contract_enum: [HOLD, INSUFFICIENT_EVIDENCE]
+  recommended_mapping:
+    HOLD: WAIT
+    INSUFFICIENT_EVIDENCE: WAIT_OR_ABORT_BY_REASON_CODE

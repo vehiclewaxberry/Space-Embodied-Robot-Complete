@@ -1,0 +1,19 @@
+"""Root records the actual scoped read-only review, preserving its limits."""
+from c203_cam_contract_v20 import A,sha
+import json
+reviewed={
+ 'tools/c203_cam_contract_v20.py':'828782633d1bcc15cdd6e4b6ab4e198bdaf6d53665b5991a7d49c957060860cd',
+ 'tools/check_cap_pth_source_v20.py':'6fc35d0f1ee1a1f2f8251bb2a244059c0780cf6cdf5d382ac9e76f05cfa98262',
+ 'tools/c203_surface_source_contract_v19.py':'fe1a067675238c914e7304b9cff6f7bdecef61db18d9c55c404a008a85013b95',
+ 'tools/configure_cap_pth_surface_v20.py':'383903d79f02db241d9962b0af06901b4dc1b108cc85bb1854294982c42844af',
+ 'mechanical/C203_SURFACE_PROFILE_V19.json':'b416972a5150a7982b71f813952fb8e7b5f92571a950eac29922553bfb1ee2de',
+ 'results/C203_CAM_CHECK_V20.json':'1976af51a53a8dfa3a0b537f6bde0434611e83e8450570cf98d22d6a44f474ca',
+ 'results/CAP_PTH_SOURCE_CHECK_V20.json':'8108331df620d4d9851f9a21ebf088e762aa8a6bbdcac1bce11241cb03018c4c'}
+assert all(sha(p)==h for p,h in reviewed.items())
+out=dict(passed=True,status='PASS_REPAIR_REVIEW_FOR_FIVE_PREVIOUSLY_REPORTED_CHECKER_FINDINGS',reviewer='/root/cap_terminal_review',recorded_by='root from actual reviewer final message',reviewed_files=reviewed,CAM_faults_recorded=16,source_binding_faults_recorded=13,
+ repaired=['Unique file function/polarity and drill roles','Full DRC execution identity, inputs, commands, severities and unchanged rules','XML/native binding, polarity, four physical pads and two logical pins','Complete four-feature set and terminal dimensions','Active board path locked to CAM source'],
+ earlier_repairs_preserved=['Unique final Gerber/Excellon termination','Complete CAM file manifest and actual two-command export'],
+ method='Static read-only code and hash review. Earlier actual board/native/CAM source review confirmed0DRC and preserved rules; final review limited to reported repairs.',
+ actual_CAD_reviewed=False,final_generation_receipts_reviewed=False,manufacturing_qualified=False,whole_design_complete=False)
+(A/'results/CAP_PTH_READONLY_REVIEW_V20.json').write_text(json.dumps(out,indent=2),encoding='utf-8')
+print('Actual bounded independent review recorded')

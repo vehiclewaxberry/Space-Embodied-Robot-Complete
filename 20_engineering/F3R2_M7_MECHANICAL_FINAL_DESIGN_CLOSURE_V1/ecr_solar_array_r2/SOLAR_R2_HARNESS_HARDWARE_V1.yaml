@@ -1,0 +1,51 @@
+schema: SOLAR_R2_HARNESS_HARDWARE_V1
+generated_local: '2026-08-22T22:55:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: ENGINEERING_CANDIDATE
+authority: ODR-30 (centreline accepted; hardware realization only)
+accepted_centreline_evidence: HARNESS_R2_FUNCTIONAL_GATES_V1.json
+  (root loop required max 279.3 mm -> provisioned 293.3 mm; jumpers
+  required max 72.1 mm -> provisioned 75.7 mm; worst clearance +2.5 mm)
+
+root_feedthrough:
+  id: SOLAR_ROOT_FEEDTHROUGH
+  position_S_mm: {x: 155.0, y_abs: 113.15, z: -70.0}  # per wing, mirrored
+  function: harness crossing of the bus side face into the chord-edge
+    routing channel (D-R2-H01)
+  bore_candidate_mm: 8.0   # flat-flex stack + grommet, candidate
+  grommet: edge-protection grommet around the bore; the feedthrough +
+    8 mm perpendicular stub is the explained grommet interface region of
+    the clearance evidence
+  strain_relief: first standoff clamp at stub end (|y| = 121.15), P-clamp
+    candidate, so no cable tension reaches the feedthrough seal
+  exit_direction: perpendicular to side face, then outboard to the Omega
+    loop plane (x = 155)
+  hdrm_clearance: feedthrough x=155 is outboard of the HDRM stations
+    (x <= 140); no shared volume
+
+inter_panel_jumpers:
+  type: flat-flex / flex-PCB jumper candidate (one per inter-panel hinge
+    per wing, routed in the x = 155 channel)
+  neutral_bend_zone: the semicircular/rolled loop region about the hinge
+    line (radius >= 8 mm per the centreline evidence)
+  no_clamp_zone: no clamps within 15 mm of each hinge line (free flex
+    section 30 mm total)
+  min_dynamic_bend_region: the rolled loop; R >= 8 mm at all 55 swept
+    states (flex-PCB class limit 2 mm - large margin)
+  strain_relief: entry/exit clamps at 20 mm from the hinge line on each
+    leaf surface (the g1/g2 points of the centreline model)
+
+per_leaf_fixation:
+  leaf1: {entry_clamp: root-side (40 mm from root edge, 8 mm proud),
+          exit_clamp: 20 mm before hinge-1 line}
+  leaf2: {entry_clamp: 20 mm after hinge-1 line,
+          exit_clamp: 20 mm before hinge-2 line}
+  leaf3: {entry_clamp: 20 mm after hinge-2 line,
+          exit_clamp: tip connector zone}
+  free_flex_sections: only across the two hinge lines; all other runs
+    clamped to leaf surfaces
+
+vendor_holds_carried (unchanged, not blocking Gate A):
+  - HOLD_CONNECTOR_PART_NUMBER_AND_SHELL_ABSENT
+  - HOLD_STRAIN_RELIEF_HARDWARE_NOT_SELECTED
+  - HOLD_VENDOR_MINIMUM_BEND_RADIUS_ABSENT (flex class values used)

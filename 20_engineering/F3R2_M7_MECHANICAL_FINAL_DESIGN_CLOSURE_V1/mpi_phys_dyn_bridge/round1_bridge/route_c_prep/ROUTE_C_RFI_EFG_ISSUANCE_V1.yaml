@@ -1,0 +1,254 @@
+schema: ROUTE_C_RFI_EFG_ISSUANCE_V1
+generated_local: '2026-08-23T20:43:33+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+generator: "KIMI M7 机械终局接管 swarm Wave-4a (ODR-45..49 owner decisions + R2 full-flex closure) — AGENT-A3 (Route-C RFI-E/F/G issuance record + ROUTE_C_C2_ADMISSION_GATE definition/evaluation)"
+status: ISSUED_PER_ODR46
+
+authority_basis:
+  odr_record:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+    sha256: 69473bc19e020c6422b23c1758cfc343874f641781c9782e982036614c0849b5
+    decisions_applied:
+      - "ODR-45 MPI_BRIDGE_OWNER_CONFIRMATION: bridge status upgraded FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION -> CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE (registry-level upgrade; frozen bridge file B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml unchanged; ODR-43/ODR-44 formally incorporated into the decision register chain)"
+      - "ODR-46 ROUTE_C_RFI_AND_FREEZE ruling_verbatim: 'ISSUE RFI-E, RFI-F and RFI-G using the already prepared scoped RFI definitions. Route-C remains FROZEN_PENDING_PHYSICAL_AUTHORITY. No Route-C CAD may be generated while any required physical capability field remains null.'"
+      - "ODR-46 decision-package item resolution: item 1 (issue RFI-E/F/G) = APPROVED; item 3 (P04 attached to RFI-E) = CONFIRMED (RFI-E covers_fields = [P12 carrier_size_mm, P04 carrier_travel_mm]); item 2 (vendor-list pre-search) = not mandated, issuance proceeds with the memo-scoped vendor categories as non-selecting examples"
+  rfi_scope_source:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_RFI_GAP_MEMO_V1.md
+    sha256: 771dc8fcc4e448bfd007951d4d623c6ebaab7440730a94a635dabd06bd2ca74e
+    note: "RFI-E/F/G scoped proposals §3.1-3.3 carried verbatim in scope; memo §3.4 (not RFI-resolvable items) carried under explicitly_not_resolvable_by_rfi"
+  cm_decision_package:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round1/cm/ROUTE_C_RFI_DECISION_PACKAGE_V1.md
+    sha256: 77ba75473aa22bb4ec750f08c6e674014be930693e7772f26899935a39235617
+    note: "Owner one-page decision package presented in Wave-3a; decided by ODR-46"
+  rfi_decision_gate_context:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/01_minimum_product_inputs/ROUTE_C_VENDOR_RFI_DECISION_GATE_V1.json
+    sha256: 74079091b35c47588096f1fdb0ff276e63036e656a4568a4c8a18868b1a79ac6
+    note: "allowed_now already contains 'issue non-binding supplier RFIs for exact data and samples'; expansion of scope to guide/carrier/clamp hardware categories required Owner approval, granted by ODR-46; this gate remains HOLD and is not modified"
+  round0_inventory:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round0_handover/02_route_c_inputs/ROUTE_C_PHYSICAL_INPUT_INVENTORY_V1.json
+    sha256: b91611f9837641a0bf1bbf555534b2d87eb2a5005fde06ef04b3cdd3374353b7
+    note: "sole physical-input inventory; 13/13 HOLD, 0 AVAILABLE; verified byte-exact against the registered pin"
+
+rfi_blocks:
+
+  - rfi_id: RFI-E
+    title: "微型电缆载体（mini cable-carrier / energy chain）"
+    nature: NON_BINDING_SUPPLIER_RFI__SAMPLES_MAY_BE_REQUESTED_WITHIN_AUTHORIZED_SCOPE
+    state: ISSUED__NO_RESPONSE_RECEIVED
+    purpose: "为 P12（carrier_size_mm，载体尺寸）与 P04（carrier_travel_mm，载体行程与硬停）取得候选源；P04 经 ODR-46 确认挂入本 RFI（备忘录 §3.1 建议、决策包事项 3）"
+    targets_fields:
+      - id: P12
+        quantity: carrier_size_mm
+        registry_state_at_issuance: "HOLD, value null, no candidate source (round0 inventory P12; skeleton P12)"
+      - id: P04
+        quantity: carrier_travel_mm
+        registry_state_at_issuance: "HOLD, value null, no candidate source (round0 inventory P04; skeleton P04)"
+    scoped_questions:
+      - "产品族与尺寸系列：内腔截面（高×宽，mm）、链节节距（link pitch）、可选弯曲半径系列（mm）"
+      - "每尺寸对应的行程/吊装能力（travel / suspension capability）与硬停定义方式（hard-stop definition）"
+      - "单位长度质量（g/m）与链节材料（link material）"
+      - "温度范围；真空出气 TML/CVCM 数据或等效低出气筛选声明"
+      - "磨损/颗粒物数据，以及声明测试工况（弯曲半径/速率/循环数）下的动态循环寿命"
+      - "与所选线束护套（ETFE 类，见现有 shortlist 电缆）的相容性声明"
+    suggested_vendor_categories_examples_non_selecting:
+      - "微型工程塑料拖链/能量链制造商"
+      - "已有航天电缆供应商的载体/走线附件线"
+      - "有航天机构应用记录的机构件供应商"
+    acceptable_evidence_classes:
+      - manufacturer datasheet（供应商受控版次数据表，带单位与公差）
+      - vendor application note
+      - traceable catalogue data
+      - peer-reviewed or public engineering source
+      - existing project test evidence（含声明工况下的动态弯折/磨损试验报告、出气试验报告或等效声明；可在 allowed_now 范围内索取样件做台架实测）
+    forbidden_sources:
+      - LLM guessed value
+      - generic web article
+      - unsourced engineering rule-of-thumb
+
+  - rfi_id: RFI-F
+    title: "导向/衬垫材料对（guide/liner material pair）"
+    nature: NON_BINDING_SUPPLIER_RFI__SAMPLES_MAY_BE_REQUESTED_WITHIN_AUTHORIZED_SCOPE
+    state: ISSUED__NO_RESPONSE_RECEIVED
+    purpose: "为 P10（guide_friction_candidate，半捕获导向的导向/衬垫材料对与摩擦候选）取得候选源"
+    targets_fields:
+      - id: P10
+        quantity: guide_friction_candidate
+        registry_state_at_issuance: "HOLD, value null, no candidate source (round0 inventory P10; skeleton P10)"
+    scoped_questions:
+      - "材料对标识：导向/衬垫材料 × 线束护套材料，逐对命名，禁止泛称"
+      - "静/动摩擦系数，附温度与真空工况声明"
+      - "磨损率与颗粒物生成证据（试验工况必须声明）"
+      - "出气数据（TML/CVCM）或等效低出气筛选声明"
+      - "辐照耐受（如适用）与干润滑/无润滑状态声明"
+    suggested_vendor_categories_examples_non_selecting:
+      - "航天电缆护套供应商（现有 shortlist 的 Gore/Axon/TE 线）配套的导向/衬垫方案"
+      - "低摩擦聚合物衬垫/导向件供应商"
+      - "干膜润滑/表面涂层供应商"
+    acceptable_evidence_classes:
+      - manufacturer datasheet
+      - vendor application note
+      - traceable catalogue data
+      - peer-reviewed or public engineering source
+      - existing project test evidence（材料对级别的摩擦/磨损试验记录优先于单材料目录页）
+    forbidden_sources:
+      - LLM guessed value
+      - generic web article
+      - unsourced engineering rule-of-thumb
+
+  - rfi_id: RFI-G
+    title: "夹具/固定硬件（clamp / fastening hardware）"
+    nature: NON_BINDING_SUPPLIER_RFI__SAMPLES_MAY_BE_REQUESTED_WITHIN_AUTHORIZED_SCOPE
+    state: ISSUED__NO_RESPONSE_RECEIVED
+    purpose: "为 P13（clamp_spacing_mm，夹具间距排布）与 P05（manufacturing_coordinates_mm 中的夹具接口）提供产品与设计规则输入"
+    targets_fields:
+      - id: P13
+        quantity: clamp_spacing_mm
+        registry_state_at_issuance: "HOLD, value null, no candidate source (round0 inventory P13; skeleton P13)"
+      - id: P05
+        quantity: manufacturing_coordinates_mm
+        registry_state_at_issuance: "HOLD, value null, no candidate source (round0 inventory P05; skeleton P05); RFI-G 仅提供夹具接口产品与设计规则输入，不提供项目自有坐标"
+    scoped_questions:
+      - "夹具产品族与夹持直径范围（clamping diameter range）、夹具质量、紧固件接口"
+      - "供应商的夹具间距/安装设计规则或安装指南（如有）"
+      - "缓冲/衬垫材料（cushion/liner）、温度范围、出气数据"
+      - "与 NASA-STD-8739.4A 类工艺口径的符合性说明（allowed_use 限于工艺/安装/检验规划，不作项目尺寸权威）"
+    suggested_vendor_categories_examples_non_selecting:
+      - "航天线束夹具/卡箍供应商"
+      - "现有连接器供应商（Glenair/Omnetics/Axon）的尾附件与夹持附件线"
+      - "符合航天工艺标准的通用紧固硬件类别"
+    acceptable_evidence_classes:
+      - manufacturer datasheet（受控数据表）
+      - vendor application note
+      - traceable catalogue data
+      - peer-reviewed or public engineering source
+      - existing project test evidence（含安装指南文档受控版次；不含项目自有几何）
+    forbidden_sources:
+      - LLM guessed value
+      - generic web article
+      - unsourced engineering rule-of-thumb
+    namespace_collision_warning: "RFI-G（本硬件 RFI，夹具/固定硬件）与 ROUTE_C_VENDOR_RFI_DECISION_GATE_V1.json 内的门判据 ID RFI-G01..RFI-G08 无任何关系；后者是该决策门的criteria编号，禁止互相绑定证据、状态或结论"
+
+response_rules:
+  - "catalog values never become project-selected hardware without exact part number + Owner approval（目录值永不在无精确件号与 Owner 批准时成为项目选定硬件）"
+  - "RFI responses never close an MPI row alone（evidence_class_non_equivalence：RFI 响应、vendor BOM/readme 永不单独闭合任何 MPI 行）"
+  - "fields may upgrade null -> CANDIDATE_RANGE only with a traceable source; CANDIDATE_RANGE != AVAILABLE; 无来源保持显式 null，禁止压 0"
+  - "AVAILABLE still requires a controlled value with unit + tolerance/uncertainty + provenance（status enum rule per registry skeleton）"
+  - "RFI-A..D 既有条目与状态不变；RFI-D 工程样件线的飞行排除规则维持不变"
+  - "一切 RFI 响应入账一律 HOLD 级登记、带 sha256，经 CM 刷新注册后方可触发任何重估"
+
+explicitly_not_resolvable_by_rfi:
+  - id: P11
+    quantity: guide_curvature
+    reason: "导向曲率是项目自有物理几何，只能来自受控 CAD 分支中的命名有限导向体积（当前 guide_volumes_present=false）；RFI 至多提供产品几何约束（如载体弯曲半径系列、导向轮廓限制）供工程推导使用"
+  - id: P13
+    quantity: clamp_spacing_mm
+    reason: "夹具间距排布依赖受控路径与接口基准（P05 未闭合）；Route-B 派生夹具候选已随被拒路线隔离（REJECTED candidate seeds），禁止继承"
+  - id: ANY_MPI_CLOSURE
+    reason: "任何 MPI 闭合声明均不得仅凭 RFI 响应、vendor BOM/readme 作出（MPI gate evidence_class_non_equivalence）"
+
+issuance_record:
+  issuance_recorded: true
+  issuance_basis: "ODR-46 (ruling_verbatim quoted above); non-binding supplier RFIs"
+  responses_received: 0
+  values_filled_into_c2_01_registry: 0
+  fields_upgraded_null_to_candidate_range: 0
+  statement: "本文件仅登记发放事实：RFI-E/F/G 已按 ODR-46 发放并记录；截至 generated_local 未收到任何响应，未向 C2-01 注册表填入任何值，未升级任何字段，未选型，未关闭任何 MPI 行或 open item。"
+
+oi_r1_05_disposition:
+  item: OI-R1-05
+  class: PROCUREMENT_RFI_GAP
+  severity: HIGH
+  state: OPEN
+  no_self_downgrade: true
+  prior_status_text: STILL_HIGH__RFI_MEMO_RECORDED_GAP_OPEN
+  status_text_for_cm_refresh: RFI_ISSUED_PER_ODR46__GAP_REMAINS_OPEN_HIGH
+  note: "发放 RFI 不闭合缺口；缺口在有可溯源响应落账并经 CM 注册前保持 HIGH OPEN。本代理不自我降级；OPEN_ITEMS 寄存器的改写保留给后续波次 CM 代理。"
+
+route_c_status:
+  route_c_status: FROZEN_PENDING_PHYSICAL_AUTHORITY
+  coined_by: ODR-46
+  supersedes_for_forward_work: "gate_state HOLD__AWAITING_MPI_GATE（round0 盘点与 route_c_prep 骨架所用旧状态字段）"
+  historical_files_untouched: true
+  cad_prohibition_rule: "C2-01 注册表 13 个物理能力字段任一为 null，即禁止生成任何 Route-C CAD（ODR-46 逐字口径）"
+  admission_gate_id: ROUTE_C_C2_ADMISSION_GATE
+  admission_gate_definition: "ROUTE_C_C2_ADMISSION_GATE_V1.yaml（同目录，本轮同步签发）"
+
+verification_record:
+  recomputation_method: "sha256 over raw bytes, full 64-hex lowercase, recomputed by this agent at emission (host local 2026-08-23T20:43+08:00)"
+  pins:
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+      sha256: 69473bc19e020c6422b23c1758cfc343874f641781c9782e982036614c0849b5
+      bytes: 26885
+      check: "recomputed at emission; ODR-45/ODR-46 ruling fields read in full from the file"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round0_handover/02_route_c_inputs/ROUTE_C_PHYSICAL_INPUT_INVENTORY_V1.json
+      sha256: b91611f9837641a0bf1bbf555534b2d87eb2a5005fde06ef04b3cdd3374353b7
+      bytes: 31983
+      check: "recomputed; MATCHES the registered pin b91611f9837641a0bf1bbf555534b2d87eb2a5005fde06ef04b3cdd3374353b7 carried by the gap memo and this work order"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_RFI_GAP_MEMO_V1.md
+      sha256: 771dc8fcc4e448bfd007951d4d623c6ebaab7440730a94a635dabd06bd2ca74e
+      bytes: 7205
+      check: "recomputed; matches ODR record verification_record pin (case-insensitive)"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml
+      sha256: 6264a0a45f6a497787f3d96205cef7799a19a225cd23cea66d5ad31e335a3e8e
+      bytes: 19773
+      check: "recomputed; matches ODR record pin; registry re-parsed: 13 entries, 13 HOLD, 0 AVAILABLE, 0 non-null values"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/TOPOLOGY_ID_MAPPING_PROPOSAL_V1.md
+      sha256: 42176da851274b9dcd5378a9d8f780c782f6fd5f625462c483cdf8434288fc9d
+      bytes: 5869
+      check: "recomputed; matches ODR record pin (case-insensitive)"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round1/cm/ROUTE_C_RFI_DECISION_PACKAGE_V1.md
+      sha256: 77ba75473aa22bb4ec750f08c6e674014be930693e7772f26899935a39235617
+      bytes: 5144
+      check: "recomputed at emission"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round1/cm/WP5_R2_HARDWARE_WORK_ORDER_DRAFT_V1.md
+      sha256: fc5b33d01b1f11bef4c5911042db83bb9908a16a62b91abb7c31e9f8a9e87e75
+      bytes: 8916
+      check: "recomputed at emission"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/01_minimum_product_inputs/ROUTE_C_VENDOR_RFI_DECISION_GATE_V1.json
+      sha256: 74079091b35c47588096f1fdb0ff276e63036e656a4568a4c8a18868b1a79ac6
+      check: "recomputed at emission; allowed_now / criteria RFI-G01..G08 read from file"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/MPI_BRIDGE_GATE_V1.json
+      sha256: 60911e3c88387e2ed53601f2b541649bf90d689c57c4e74225226ae6fd10c721
+      check: "recomputed at emission; matches ODR record verification_record pin (case-insensitive); mpi_gate=PASS scoped, criteria 9/9 PASS, route_c_cad_entry=DOUBLY_BLOCKED carried verbatim"
+
+evidence_links:
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+    sha256: 69473bc19e020c6422b23c1758cfc343874f641781c9782e982036614c0849b5
+    role: "Owner 权威来源（ODR-46 发放指令；ODR-45 桥确认）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_RFI_GAP_MEMO_V1.md
+    sha256: 771dc8fcc4e448bfd007951d4d623c6ebaab7440730a94a635dabd06bd2ca74e
+    role: "RFI-E/F/G 已定界范围来源（§3.1-3.3；§3.4 不可 RFI 解决项）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml
+    sha256: 6264a0a45f6a497787f3d96205cef7799a19a225cd23cea66d5ad31e335a3e8e
+    role: "C2-01 13 字段注册表骨架（发放时状态来源）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round0_handover/02_route_c_inputs/ROUTE_C_PHYSICAL_INPUT_INVENTORY_V1.json
+    sha256: b91611f9837641a0bf1bbf555534b2d87eb2a5005fde06ef04b3cdd3374353b7
+    role: "round0 物理输入盘点（唯一输入绑定）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round1/cm/ROUTE_C_RFI_DECISION_PACKAGE_V1.md
+    sha256: 77ba75473aa22bb4ec750f08c6e674014be930693e7772f26899935a39235617
+    role: "Wave-3a CM 裁决包（ODR-46 的裁决对象）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round1/cm/WP5_R2_HARDWARE_WORK_ORDER_DRAFT_V1.md
+    sha256: fc5b33d01b1f11bef4c5911042db83bb9908a16a62b91abb7c31e9f8a9e87e75
+    role: "R2 硬件取证工单草案（同波次 CM 上下文）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/01_minimum_product_inputs/ROUTE_C_VENDOR_RFI_DECISION_GATE_V1.json
+    sha256: 74079091b35c47588096f1fdb0ff276e63036e656a4568a4c8a18868b1a79ac6
+    role: "既有 RFI 决策门（allowed_now 依据；RFI-G01..G08 命名冲突警示来源）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/MPI_BRIDGE_GATE_V1.json
+    sha256: 60911e3c88387e2ed53601f2b541649bf90d689c57c4e74225226ae6fd10c721
+    role: "MPI-FB08 门证据（ODR-45 确认的工程基础）"
+
+nonclaims:
+  - "本文件不发送具有约束力的采购动作；RFI 为非约束性供应商询价/索样"
+  - "本文件不选型、不采购、不产生任何受控值；13/13 C2-01 字段保持 null/HOLD"
+  - "RFI 响应（未来若到达）永不单独闭合任何 MPI 行（evidence_class_non_equivalence）"
+  - "目录值/目录弯曲半径永不自动成为项目选定件或动态寿命证据（DECL_C2_01_01/02/05 逐字保持）"
+  - "本文件不解除 Route-C CAD 禁令；route_c_status = FROZEN_PENDING_PHYSICAL_AUTHORITY"
+  - "OI-R1-05 保持 HIGH OPEN，不自我降级"
+  - "三条 Route-B 拒收数字拼写永不合并/取平均；legacy R1 车道值（0.3483933 kg、1.7419665、legacy 24.0 kg 质量模型、measured_mass）不得在本 R2 车道消费"
+  - "candidate != authority；test PASS != gate PASS；PROVISIONAL 不静默升格；unknown 保持显式 null 不压 0"
+  - "OPEN_ITEMS 寄存器、PROJECT_CURRENT_STATUS.md、AGENTS.md 不由本代理触碰"
+
+next_stage_authorized: false
+release_credit: false
+self_hash_policy: SELF_REFERENCE_EXCLUDED - this file carries no hash of itself; downstream consumers pin its sha256 after emission (same policy as e21/V5 manifests and 02_bridge)
+companion_human_readable: ROUTE_C_RFI_EFG_ISSUANCE_V1.md（同目录，人读版；冲突时以本 YAML 结构化字段为准）

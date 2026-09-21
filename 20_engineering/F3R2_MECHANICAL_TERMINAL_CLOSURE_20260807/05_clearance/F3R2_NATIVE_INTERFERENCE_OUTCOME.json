@@ -1,0 +1,79 @@
+{
+  "schema": "F3R2_NATIVE_INTERFERENCE_OUTCOME_V2",
+  "supersedes": "the 'not obtainable' status recorded in G3A_NATIVE_ATTEMPTS.json attempts A1-A4",
+  "what_changed": "Free memory rose from ~0.5-1.5 GB to 4-6 GB after other applications released it, and OpenDoc6 was switched to the SILENT option bit. SolidWorks then completed whole-assembly interference detection.",
+  "runs_that_succeeded": [
+    {
+      "configuration": "DEPLOYED_NOMINAL",
+      "utc": "2026-08-07T03:18Z",
+      "avail_mb_at_start": 3276,
+      "stage": "TOP_LEVEL (TreatSubAssembliesAsComponents = true)",
+      "interference_pairs": 20,
+      "live_top_components": [
+        "Space_Embodied_Service_Spacecraft_V2_2-1",
+        "B51_B601_ARTICULATED_ENGINEERING_ARM-1",
+        "WING_R_DEPLOYED-1",
+        "WING_L_DEPLOYED-1"
+      ],
+      "largest_volumes_mm3": [1806.52, 1806.52, 1728.0, 1728.0, 1091.47, 1091.47, 1091.47, 1091.47, 431.95, 431.95]
+    },
+    {
+      "configuration": "STOWED_ENGINEERING_CANDIDATE",
+      "utc": "2026-08-07T03:23Z and 03:34Z (reproduced)",
+      "avail_mb_at_start": 398,
+      "stage": "TOP_LEVEL (TreatSubAssembliesAsComponents = true)",
+      "interference_pairs": 94,
+      "live_top_components": [
+        "B51_B601_ARTICULATED_ENGINEERING_ARM-1",
+        "WING_L_STOWED-1",
+        "WING_R_STOWED-1",
+        "Space_Embodied_Service_Spacecraft_V2_2-1"
+      ],
+      "largest_volumes_mm3": [92605.90, 41602.79, 22535.25, 22535.25, 10223.29, 10223.29, 9008.52, 8640.0, 8640.0, 8627.79]
+    }
+  ],
+  "hard_limitation": {
+    "problem": "IInterference component naming is unreachable on this SolidWorks 2024 install",
+    "probe_result": {
+      "early_bound_makepy": {
+        "Volume": "float",
+        "GetComponentCount": "callable",
+        "GetComponents": "ABSENT (AttributeError)",
+        "Component1": "ABSENT",
+        "Component2": "ABSENT",
+        "GetBox": "ABSENT",
+        "GetFaces": "ABSENT",
+        "Name": "ABSENT"
+      },
+      "late_bound_idispatch": {
+        "GetComponents": "ABSENT",
+        "note": "plain IDispatch does not recover the members either"
+      },
+      "evidence": "99_tools/logs/r2b3_stowed_engineering_candidate.jsonl event IINTERFERENCE_API_PROBE"
+    },
+    "consequence": "Native pairs have a volume but NO component identity. Every pair is recorded identification = UNIDENTIFIED_BY_API.",
+    "what_this_does_NOT_permit": [
+      "claiming the arm has zero native interference -- 'no pair names the arm' is a statement about the API, not about the geometry",
+      "excluding a pair as a self-pair because both unnamed leaves compare equal (this WAS a bug in the first pass and was fixed: 94 stow pairs had been wrongly excluded as SAME_COMPONENT_SELF_PAIR)",
+      "locating any pair in space (GetBox is also absent, so centroids are NOT_PROVIDED_BY_API)"
+    ]
+  },
+  "attempted_workaround": {
+    "idea": "ARM-DIFFERENCE: measure the same configuration with the arm resolved and with the arm suppressed; pairs that vanish involved the arm. Needs no naming.",
+    "script": "99_tools/r2p_native_armdiff.py",
+    "status": "NOT_COMPLETED",
+    "blocker": "IComponent2.SetSuppression2 did not take effect on the top-level arm component (plain call returns without suppressing; the 3-argument config-scoped form is not exposed by this wrapper: 'takes from 1 to 2 positional arguments but 4 were given'), and the EditSuppress2 route was not reached before memory fell to ~100 MB under concurrent load.",
+    "reproduced": "arm_resolved measured 94 pairs successfully in both attempts, so the measurement half works; only the suppression half is blocked.",
+    "how_to_finish": "Run r2p_native_armdiff.py alone on an idle machine (>= 6 GB free, no other SolidWorks or heavy Python job). If SetSuppression2 still no-ops, select the component and call ModelDoc2.EditSuppress2() -- that route is coded but was never exercised."
+  },
+  "what_can_honestly_be_said": {
+    "native_interference_exists_and_was_measured": true,
+    "deployed_nominal_native_pairs": 20,
+    "stowed_native_pairs": 94,
+    "arm_involvement": "UNDETERMINED_BY_NATIVE_RUN -- component naming unavailable",
+    "cross_check": "The offline CAD-mesh measurement (G3A_NATIVE_INTERFERENCE_RESULTS.json) DOES identify components, and found zero arm-involved interference in DEPLOYED_NOMINAL and SERVICE, and three arm<->saddle-placeholder contacts (0.001-0.319 mm) in the six stow-family configurations. The two methods are consistent in the sense that the stow family carries far more interference than the deployed family (94 vs 20 native pairs; 3 vs 0 offline arm contacts), but the native run cannot confirm WHICH pairs involve the arm.",
+    "the_20_deployed_pairs": "unidentified; they exist among the four live top-level components and, per the offline measurement, none of them is an arm-to-bus or arm-to-wing pair. That inference comes from the offline run, NOT from the native run."
+  },
+  "open_item": "NATIVE_PAIR_IDENTIFICATION_UNAVAILABLE",
+  "blocks": "any statement of the form 'SolidWorks confirms the arm is interference-free'"
+}

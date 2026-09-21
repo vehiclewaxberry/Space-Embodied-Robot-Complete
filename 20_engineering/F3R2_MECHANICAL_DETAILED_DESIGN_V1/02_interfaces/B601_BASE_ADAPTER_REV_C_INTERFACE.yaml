@@ -1,0 +1,250 @@
+schema: B601_BASE_ADAPTER_INTERFACE_CONTROL_V1
+document_id: B601_BASE_ADAPTER_REV_C_INTERFACE
+document_revision: C
+document_status: DRAFT_WORKING_INTERFACE_CONTROL
+geometry_configuration:
+  stage_A_revision: RevB
+  stage_B_revision: RevB2
+  assembly_model: 06_parameterized_parts/m3r/M3R_INTERFACE_ASSEMBLY_V2_WORKING.FCStd
+  release_status: HOLD_NOT_MANUFACTURING_OR_FLIGHT_RELEASE
+units:
+  length: mm
+  angle: deg
+classification_vocabulary: [FROZEN, DERIVED, CANDIDATE, UNKNOWN]
+authority_boundary:
+  OEM_interface_ICD_found: false
+  project_accepted_spacecraft_mating_contract_found: false
+  B601_vendor_geometry_found: true
+  B601_as_built_axis_measurement_found: true
+  claim_scope: AS_BUILT_MEASURED_COMPETITION_INTERFACE_TO_WORKING_ADAPTER
+  forbidden_claims:
+    - OEM_B601_FLIGHT_INTERFACE
+    - SPACECRAFT_MATING_PATTERN_VERIFIED
+    - MANUFACTURING_RELEASE
+    - FLIGHT_OR_LAUNCH_QUALIFICATION
+reference_frames:
+  M_FRAME:
+    station_x_mm: 185.25
+    classification: FROZEN
+    role: ACCEPTED_URDF_DYNAMICS_ORIGIN
+    movement_allowed_in_this_loop: false
+  B601_AS_BUILT_PATTERN_DATUM:
+    transform_from_M_FRAME:
+      translation_xyz_mm: [25.155, 0.015994151, -0.08636607]
+      rotation_about_x_deg: 25.000014
+      rotation_matrix:
+        - [1.0, 0.0, 0.0]
+        - [0.0, 0.9063076848, -0.4226184837]
+        - [0.0, 0.4226184837, 0.9063076848]
+    classification: DERIVED
+    source: M3R_TSM_FRAME_TO_FLANGE_TRANSFORM.json
+    limitation: LOCATES_MEASURED_FOUR_AXIS_COMPETITION_DATUM_NOT_OEM_FLANGE
+physical_stack:
+  - id: PS-01
+    semantic: M_FRAME_DYNAMICS_ORIGIN
+    station_x_mm: 185.25
+    classification: FROZEN
+  - id: PS-02
+    semantic: EXISTING_LOAD_SPREADING_PLATE_EXTERNAL_FACE
+    station_x_mm: 198.0
+    classification: FROZEN
+  - id: PS-03
+    semantic: PHYSICAL_INSTALLATION_FACE
+    station_x_mm: 208.0
+    classification: FROZEN
+  - id: PS-04
+    semantic: FOUR_HM4_75_SCREW_END_FACES_NOT_CONTINUOUS_FLANGE
+    station_x_mm: 210.405
+    classification: DERIVED
+interface_contracts:
+  - id: IF-B601-A
+    from: B601_AS_BUILT_PATTERN_DATUM
+    to: M3R_STAGE_A_INTERFACE_RING_REVB_WORKING
+    status: HOLD_PHYSICAL_FITUP_NOT_PERFORMED
+    authority: A2_VENDOR_GEOMETRY_PLUS_B2_AS_BUILT_AXIS_MEASUREMENT
+    parameters:
+      fastener_class:
+        value: M4_CLASS
+        unit: null
+        classification: FROZEN
+      axis_count:
+        value: 4
+        unit: count
+        classification: FROZEN
+      nominal_vendor_square_pattern:
+        value: [64.0, 64.0]
+        unit: mm
+        classification: FROZEN
+      measured_equivalent_pcd:
+        value: 90.509641772
+        unit: mm
+        classification: DERIVED
+      stage_A_clearance_hole_diameter:
+        value: 4.6
+        unit: mm
+        classification: FROZEN
+      stage_A_counterbore_diameter:
+        value: 7.5
+        unit: mm
+        classification: FROZEN
+      continuous_mount_face_in_active_top:
+        value: false
+        unit: null
+        classification: FROZEN
+      fastener_grade_length_preload:
+        value: null
+        unit: null
+        classification: UNKNOWN
+      pattern_position_tolerance:
+        value: null
+        unit: mm
+        classification: UNKNOWN
+      face_flatness_tolerance:
+        value: null
+        unit: mm
+        classification: UNKNOWN
+    closure_evidence_required:
+      - B601_HARDWARE_AXIS_AND_FACE_CMM_REPORT
+      - FASTENER_STACK_SELECTION_AND_TOOL_ACCESS_WITNESS
+      - PHYSICAL_FITUP_AND_COLD_REOPEN_WITNESS
+  - id: IF-A-B
+    from: M3R_STAGE_A_INTERFACE_RING_REVB_WORKING
+    to: M3R_STAGE_B_LOAD_ADAPTER_REVB2_WORKING
+    status: WORKING_GEOMETRY_CONTACT_PASS_TOLERANCE_HOLD
+    authority: COMPETITION_PROTOTYPE_GEOMETRY_CANDIDATE
+    parameters:
+      central_spigot_diameter:
+        value: 99.6
+        unit: mm
+        classification: FROZEN
+      central_receiving_bore_diameter:
+        value: 100.0
+        unit: mm
+        classification: FROZEN
+      nominal_spigot_radial_clearance:
+        value: 0.2
+        unit: mm
+        classification: DERIVED
+        limitation: NOMINAL_GEOMETRY_NOT_TOLERANCE_STACK
+      annular_skirt_outer_diameter:
+        value: 150.0
+        unit: mm
+        classification: FROZEN
+      annular_receiving_pocket_outer_diameter:
+        value: 150.4
+        unit: mm
+        classification: FROZEN
+      nominal_outer_radial_clearance:
+        value: 0.2
+        unit: mm
+        classification: DERIVED
+        limitation: NOMINAL_GEOMETRY_NOT_TOLERANCE_STACK
+      receiving_pocket_depth:
+        value: 5.595
+        unit: mm
+        classification: FROZEN
+      M5_clearance_hole_diameter:
+        value: 5.5
+        unit: mm
+        classification: FROZEN
+      M5_axis_count:
+        value: 8
+        unit: count
+        classification: FROZEN
+      M5_pattern_radius:
+        value: 62.5
+        unit: mm
+        classification: FROZEN
+      clocking_dowel_stage_A_hole_diameter:
+        value: 4.1
+        unit: mm
+        classification: CANDIDATE
+      clocking_dowel_stage_B_blind_hole_diameter:
+        value: 4.0
+        unit: mm
+        classification: CANDIDATE
+      clocking_dowel_actual_diameter_and_fit:
+        value: null
+        unit: mm
+        classification: UNKNOWN
+      M5_fastener_grade_length_preload:
+        value: null
+        unit: null
+        classification: UNKNOWN
+      manufacturing_tolerance_stack:
+        value: null
+        unit: mm
+        classification: UNKNOWN
+    geometry_evidence:
+      minimum_distance_mm: 0.0
+      common_volume_mm3: 0.0
+      classification: DERIVED
+      verdict: CONTACT_WITHOUT_PENETRATION
+      source: 06_parameterized_parts/m3r/M3R_INTERFACE_ASSEMBLY_V2_BUILD_RECEIPT.json
+    closure_evidence_required:
+      - STAGE_A_STAGE_B_CMM_REPORT
+      - DOWEL_SELECTION_AND_FIT_CALCULATION
+      - M5_STACK_SELECTION_PRELOAD_AND_MOS
+      - TORQUE_ACCESS_AND_ASSEMBLY_SEQUENCE_WITNESS
+  - id: IF-B-LOAD-BRIDGE
+    from: M3R_STAGE_B_LOAD_ADAPTER_REVB2_WORKING
+    to: SPACECRAFT_LOAD_BRIDGE
+    status: HOLD_MATING_GEOMETRY_NOT_VERIFIED
+    authority: C1_LEGACY_PROJECT_INTERPRETATION_WITH_PHYSICAL_BREP
+    parameters:
+      M6_clearance_hole_diameter:
+        value: 6.6
+        unit: mm
+        classification: FROZEN
+      M6_square_pattern:
+        value: [140.0, 140.0]
+        unit: mm
+        classification: FROZEN
+      local_ear_radius:
+        value: 15.0
+        unit: mm
+        classification: FROZEN
+      nominal_net_hole_edge_ligament:
+        value: 11.7
+        unit: mm
+        classification: DERIVED
+        limitation: NOT_TOLERANCE_WORST_CASE_NOT_STRENGTH_MARGIN
+      mating_hole_coordinates:
+        value: null
+        unit: mm
+        classification: UNKNOWN
+      M6_fastener_grade_length_preload:
+        value: null
+        unit: null
+        classification: UNKNOWN
+      allowable_bearing_and_bypass_load:
+        value: null
+        unit: N
+        classification: UNKNOWN
+      authorized_load_cases:
+        value: null
+        unit: null
+        classification: UNKNOWN
+    closure_evidence_required:
+      - LIVE_LOAD_BRIDGE_CMM_OR_RELEASED_DRAWING
+      - WORST_CASE_EDGE_MARGIN_WITH_POSITION_TOLERANCE
+      - M6_STACK_SELECTION_PRELOAD_AND_MOS
+      - AUTHORIZED_LOAD_CASE_SET
+      - PHYSICAL_FITUP_WITNESS
+rejected_interface:
+  legacy_M8_BCD130:
+    status: REJECTED
+    classification: FROZEN
+    reason: ONE_OF_FOUR_HOLES_BREACHED_AND_ROLE_CONFLICTS_WITH_B601_M4_EVIDENCE
+    source: M3R_M8_PATTERN_AUTHORITY.json
+open_holds:
+  - B601_PHYSICAL_FITUP_HOLD
+  - M6_LIVE_MATING_LOAD_BRIDGE_GEOMETRY_HOLD
+  - ALL_MANUFACTURING_TOLERANCES_HOLD
+  - CLOCKING_DOWEL_FIT_TOLERANCE_HOLD
+  - FASTENER_LENGTH_GRADE_PRELOAD_AND_MOS_HOLD
+  - AUTHORIZED_LOADS_HOLD
+  - MATERIAL_AND_PROCESS_APPROVAL_HOLD
+  - MANUFACTURING_RELEASE_HOLD
+overall_verdict: INTERFACE_DEFINITION_ADVANCED_WORKING_GEOMETRY_RELEASE_HOLD
+

@@ -1,0 +1,84 @@
+scenario:
+  scenario_id: S02_FREE_FLOAT_CONSERVATION
+  t_end_s: 5.0
+  dt_grid_s:
+  - 0.004
+  - 0.002
+  - 0.001
+  nominal_dt_s: 0.001
+  external_force_I_N:
+  - 0.0
+  - 0.0
+  - 0.0
+  external_torque_about_O_I_Nm:
+  - 0.0
+  - 0.0
+  - 0.0
+  external_wrench_status: FROZEN_ZERO_BY_MODEL_SCOPE
+  event_monitor_status: VERIFIED
+  cases:
+  - case_id: S02_C01_ARM_REST_BASE
+    plant_id: ARM_ONLY_ACCEPTED
+    initial_condition: base_at_rest_arm_moving
+  - case_id: S02_C02_ARM_TUMBLING_BASE
+    plant_id: ARM_ONLY_ACCEPTED
+    initial_condition: base_tumbling_arm_moving
+  - case_id: S02_C03_SERVICER_ARM_TSM_TUMBLING_BASE
+    plant_id: SERVICER_ARM_TSM_PREBIND
+    initial_condition: base_tumbling_arm_moving
+  sample_period_s: 0.05
+case:
+  case_id: S02_C03_SERVICER_ARM_TSM_TUMBLING_BASE
+  plant_id: SERVICER_ARM_TSM_PREBIND
+  initial_condition: base_tumbling_arm_moving
+dt_s: 0.002
+initial_state:
+- 0.0
+- 0.0
+- 0.0
+- 1.0
+- 0.0
+- 0.0
+- 0.0
+- 0.0
+- -1.0
+- -0.8
+- 0.3
+- 0.4
+- 0.0
+- 0.0
+- 0.0
+- 0.02
+- -0.03
+- 0.05
+- 0.01
+- 0.0
+- -0.005
+- 0.3
+- -0.2
+- 0.25
+- -0.15
+- 0.2
+- -0.1
+- 0.01
+- 0.01
+scales:
+  P_den_kg_m_s: 3.0648371526836176
+  H_den_N_m_s: 0.26211815568933694
+  omega_den_rad_s: 0.2
+  v_den_m_s: 0.10680528922645913
+  total_mass_kg: 28.695555949342985
+  L_ref_m: 0.5340264461322957
+  T_ref_s: 5.0
+  computed_before_integration: true
+  posterior_residual_used: false
+  source_terms:
+    sum_body_initial_linear_momentum_norms_kg_m_s: 0.5676625254303974
+    external_impulse_budget_kg_m_s: 0.0
+    total_mass_times_L_ref_over_T_ref_kg_m_s: 3.0648371526836176
+    sum_body_initial_angular_momentum_about_O_norms_N_m_s: 0.16104529904196627
+    external_angular_impulse_budget_N_m_s: 0.0
+    system_com_inertia_spectral_norm_kg_m2: 1.3105907784466846
+    system_com_inertia_over_T_ref_N_m_s: 0.26211815568933694
+    initial_base_angular_rate_norm_rad_s: 0.061644140029689765
+    initial_base_linear_velocity_norm_m_s: 0.011180339887498949

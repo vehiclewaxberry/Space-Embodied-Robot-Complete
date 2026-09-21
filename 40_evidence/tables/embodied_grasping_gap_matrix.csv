@@ -1,0 +1,21 @@
+item,kind,required_output_or_input,existing_module,coverage,gap,new_module_needed
+E01,output,kinematic_feasibility,b601_model FK/J + URDF limits,PARTIAL,no IK: cannot map grasp_pose->q; limits parsed but no reachability check,evaluator/ik.py (damped-least-squares IK + limit/reach check)
+E02,output,collision_margin,keepout defs (docs+JSON) + legacy sim_03 AABB clearance,PARTIAL(-),no computed margin for B601 chain vs body/panels/target keepout,evaluator/collision.py (capsule-vs-box margins along trajectory)
+E03,output,manipulability,J available,PARTIAL,no function; trivial sqrt(det(J J^T)) + distance-to-singularity,evaluator/kinematics_metrics.py (10 lines)
+E04,output,base_attitude_change,dynamics.py integrate_trajectory,FULL(solver),needs q(t) from IK+planner for arbitrary grasp; currently only scripted joint trajectories,evaluator/approach_planner.py (min-jerk in task space -> qdot via J_g pinv)
+E05,output,capture_impulse,rigidize/rigidize_point_contact,FULL(solver) PARTIAL(parameterization),scenario builder fixed to primary grasp point + fixed +X approach + capture-instant target attitude = identity,evaluator/scenario.py (arbitrary grasp point + approach dir + target attitude at t_c via propagate_torque_free)
+E06,output,post_capture_angular_velocity,same as E05,FULL(solver) PARTIAL(param),same as E05,same
+E07,output,flexible_modal_energy,ancf_beam + sim_07a machinery,PARTIAL,script not API; needs junction_couple->response wrapper + cached surrogate for speed (full ANCF too slow per candidate),evaluator/flex_surrogate.py (linear-modal surrogate calibrated to ANCF; ANCF spot-check)
+E08,output,wheel_momentum_required,sim_08 formulas,FULL(formula),script not API,evaluator/actuator_cost.py (extract formulas)
+E09,output,propellant_required,sim_08 formulas,FULL(formula),same,same
+E10,output,uncertainty_risk,sim_04 fixed 3-deg gate,PARTIAL(-),no covariance propagation; no Monte-Carlo over inertia/pose/contact,evaluator/uncertainty.py (sigma-point or MC propagation through evaluator)
+E11,output,overall_score,NONE,MISSING,weighted aggregation + normalization + weight config,evaluator/score.py + 20_engineering/config/grasp_score_weights_v1.yaml
+E12,input,grasp_pose,JSON grasp points (discrete named),PARTIAL,only discrete candidates; pose (position+orientation) needs frame convention C,covered by evaluator/scenario.py
+E13,input,approach_direction,fixed +X in scenario builder,PARTIAL,parameterize,same
+E14,input,capture_time,not modeled (capture-instant attitude = identity),MISSING,target attitude at t_c via torque-free propagation (A04 exists),same
+E15,input,approach_velocity,v_app parameter,FULL,-,-
+E16,input,initial_joint_configuration,sim_05 accepts q,FULL,-,-
+E17,input,impedance_parameters,NONE (no contact model),MISSING,v1: pass-through + proxy metric (|J_t| impulse & grasp-point couple as contact-severity proxy); real impedance model = P1/thesis,flagged in design doc sec7
+E18,input,target_pose_covariance,NONE,MISSING,v1: inflate via MC on pose perturbation; source = P1-1 AprilTag experiment or literature values (cited),evaluator/uncertainty.py
+E19,cross,peak_contact_force / grasp_probability,NONE,MISSING,requires compliant contact model (Hunt-Crossley) - NOT in v1 scope (directive方向4 = extension),documented exclusion
+E20,cross,safety_shield decision layer,sim_04 gate logic (reusable),PARTIAL,gates exist as corridor classifier; need online form ALLOW/MODIFY/WAIT/BACKOFF/ABORT,agent/safety_shield.py (G3)

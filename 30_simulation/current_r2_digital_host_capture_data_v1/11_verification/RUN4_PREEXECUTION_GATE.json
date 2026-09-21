@@ -1,0 +1,90 @@
+{
+  "schema": "RUN4_PREEXECUTION_GATE_V1",
+  "task": "R4_CONVERGENCE_SEMANTICS_AND_S03_REEXECUTION",
+  "generated_at_local": "2026-08-27T16:40:25.5228064+09:00",
+  "verdict": "HOLD_FAIL_CLOSED",
+  "run4_execution_authorized": false,
+  "run4_executed": false,
+  "highest_legal_state": "R4_REPEAT_REQUIRED",
+  "checks": {
+    "C01_RUN3_ARCHIVE_COMPLETE": {
+      "passed": true,
+      "evidence": "11_verification/_archive_run3/RUN3_ARCHIVE_MANIFEST.json",
+      "detail": "285/285 source-destination SHA-256 identities match; 22/22 episode packages retained"
+    },
+    "C02_RUN3_NEGATIVE_RESULT_PRESERVED": {
+      "passed": true,
+      "detail": "Archived DH-G0 remains FAIL; S02 case1 remains FAIL_ORDER_OUT_OF_RANGE"
+    },
+    "C03_TARGETED_TESTS": {
+      "passed": true,
+      "result": "11 passed in 63.13s",
+      "log_sha256": "EF64518EEB33997F508A5BE9501F9916DA22EB6BBD20C65B4BAD04F9CBC070D6"
+    },
+    "C04_FULL_TESTS": {
+      "passed": true,
+      "result": "24 passed in 77.10s",
+      "log_sha256": "7F828AF472C03AD387CEBD834D86798CC7F8D7FD249988362C344683B66632D2"
+    },
+    "C05_NO_UNRESOLVED_PARTIAL_EDIT": {
+      "passed": true,
+      "detail": "Production helper imports and executes; no conflict markers; complete test suite passes"
+    },
+    "C06_ACCEPTED_INPUT_PINS_UNCHANGED": {
+      "passed": true,
+      "accepted_urdf_sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+      "servicer_urdf_sha256": "2ECB4B1C778CA309632714D13CABF09033E424EE646CA85FDEBC776E1D74E8DA",
+      "frame_contract_sha256": "EF696DDE3BE403C59DCE2C64FB828615C853567A1263195F6E73A00B021944FF",
+      "unit_contract_sha256": "40D02A65C49B60F788352B73CE95EA98422FE9474004CEE72DAA35094B4041D5",
+      "safe_config_sha256": "87B4D6BFC7B3CE67D82A2E99AAC8893A6D6C6C5D093A069F16D7B368952DA340"
+    },
+    "C07_R4_SOURCE_FROZEN": {
+      "passed": true,
+      "scen_dynamics_sha256": "263369437FB05E3AD54B98C9A8F0D3717D77D836B0D767E32768437075D2C36E",
+      "run_increment_sha256": "335CF7D8E0B72382DE0AD9850D9B7F107D87326B443A6E6E85BA27686DF368B0",
+      "scenario_tests_sha256": "94C1F993F09B173595E486220BBFB07BB20C239EFAE4D09A3F0788A65EABA982"
+    },
+    "C08_VERSIONED_RUN4_PATH_AVAILABLE": {
+      "passed": true,
+      "path": "12_results/run4_r4_semantics_s03_dt_refinement",
+      "exists": false
+    },
+    "C09_RUNNER_OUTPUT_ISOLATION": {
+      "passed": false,
+      "hard_failure": true,
+      "detail": "Current runner has no output-root/run-id parameter and active Run3 output slots remain occupied; executing would partially overwrite current files before immutable episode creation fails."
+    },
+    "C10_DISK_SPACE": {
+      "passed": true,
+      "free_bytes": 150087311360
+    },
+    "C11_MOMENTUM_REFERENCE_FRAME_AND_POINT": {
+      "passed": true,
+      "detail": "h_O is expressed about inertial origin in inertial frame"
+    },
+    "C12_MOMENTUM_LEDGER_UNIT_VALIDITY": {
+      "passed": false,
+      "hard_failure": true,
+      "defect": "SPATIAL_MOMENTUM_LEDGER_SCALARIZATION_UNRESOLVED",
+      "detail": "Both S02 rel_h_drift_max and S03 internal_torque_momentum_drift_abs derive from an unscaled Euclidean norm over h_O=[angular;linear]. UNIT_CONTRACT requires angular momentum in N*m*s and linear momentum in kg*m/s; the S03 scalar has no single legal SI unit and the dimensionless-looking S02 ratio is unit-scaling dependent."
+    },
+    "C13_PARENT_AUTHORITY_BOUNDS": {
+      "passed": true,
+      "parent_gate_reissued": false,
+      "next_stage_authorized": false,
+      "release_credit": false
+    },
+    "C14_S02_ALL_CASES_REFINEMENT_SCHEDULE": {
+      "passed": false,
+      "hard_failure": true,
+      "detail": "Run3/unchanged runner supplies three dt points only for case1; case2 and case3 each have one point and therefore cannot support a convergence verdict under the final R4 helper."
+    }
+  },
+  "hard_blockers": [
+    "RUNNER_OUTPUT_NOT_ISOLATED_ACTIVE_RUN3_SLOTS_OCCUPIED",
+    "SPATIAL_MOMENTUM_LEDGER_SCALARIZATION_UNRESOLVED",
+    "S02_CASE2_CASE3_INSUFFICIENT_REFINEMENT_SCHEDULE"
+  ],
+  "allowed_local_result": "R4 convergence implementation and tests are locally verified; time-domain Run4 is not admitted.",
+  "next_single_action": "Open a separately controlled R5 unit-safe ledger/run-isolation increment: split angular and linear momentum metrics, add versioned output-root and full run-level config/source pins, then repeat the unchanged S02/S03 cases."
+}

@@ -1,0 +1,520 @@
+schema: M7_WP12_TC13_TC14_BLOCKING_CLASSIFICATION_V1
+generated_local: '2026-08-22T03:13:25+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP12_SECONDARY_STRUCTURE_ADJUDICATION
+role: A1_PRODUCT_CAD
+governing_authority: ODR-13 (TC13_TC14_CONDITIONAL_NON_BLOCKING), read with ODR-14 (three-level Gate A status)
+scope: >-
+  classification of the two functionally-open tolerance chains M7-TC-13
+  CAMERA_BRACKET_POINTING and M7-TC-14 HDRM_PRELOAD_INTERFACE by FUNCTIONAL EFFECT,
+  with the explicit requirement -> failure effect -> operational consequence chain
+  written out for each.
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+
+method_declaration:
+  forbidden_reasoning_explicitly_not_used:
+    - '"12 of 14 chains closed therefore HOLD" - counting is not a functional argument'
+    - '"external input missing therefore non-blocking" - ODR-13 forbids this and it is not used
+       anywhere below. Every non-blocking conclusion rests on a positive functional finding:
+       which mechanism the chain belongs to, which state consumes it, and what the design does
+       when it fails.'
+  chain_form_required_by_ODR_13: requirement -> failure effect -> operational consequence
+  accepted_operational_baseline: >-
+    the post-release, panels-deployed, on-orbit state. Its concrete assets are WP2's nine
+    configurations C01..C09, WP7's thirteen operational decks, WP10 MECH_DYNAMICS_INTERFACE_V4
+    and the Sim13 / Sim15 environments.
+
+# ===========================================================================
+# M7-TC-13  CAMERA_BRACKET_POINTING
+# ===========================================================================
+TC_13:
+  chain_id: M7-TC-13
+  title: CAMERA_BRACKET_POINTING
+  wp3_declared_state: FUNCTIONALLY_OPEN
+  wp3_assembly_leg: SPACECRAFT_BUS -> CAMERA_BRACKET -> SENSOR_PACKAGE
+  wp3_function: pointing accuracy of the camera/sensor bracket relative to its mission datum
+  wp3_functional_requirements: null
+
+  three_link_chain:
+    link_1_requirement: >-
+      the camera / sensor line of sight shall be aligned to its mission pointing datum within
+      an allocated angular tolerance, built up from bus-datum to bracket-interface to
+      sensor-mount contributions. The allocated value is null: no pointing requirement is
+      authorized and no camera product exists to allocate against.
+    link_2_failure_effect: >-
+      if the bus-to-bracket-to-sensor angular stack exceeds the (unallocated) budget, the
+      sensor boresight is mis-oriented relative to the S frame. The error is purely angular
+      and purely on the sensing path: it biases vision-derived target pose estimates and
+      shrinks the usable field of view margin. It changes no body dimension, no load path and
+      no swept volume.
+    link_3_operational_consequence: >-
+      in the accepted operational baseline the camera does not exist as a component, and Sim13
+      declares camera_selection_and_calibration = HOLD_ACTION_MASKED under
+      safety_contract.unknown_is_masked = true with
+      shield_substitutes_abort_on_masked_action = true. A boresight bias therefore cannot
+      propagate into any executed behaviour: any action that would depend on camera
+      calibration is masked and the shield substitutes an abort. There is no structural, no
+      kinematic and no collision consequence. The consequence becomes real only after a
+      camera is selected, at which point the pointing budget is allocated for the first time.
+
+  odr_13_condition_verification:
+    - condition: camera not yet finally selected
+      verified: true
+      evidence:
+        - 'F3R2_CAMERA_HARNESS_GRIPPER.json: camera.exists_in_assembly = false, maturity =
+           DEFINED_NOT_MODELLED, optical_frame.status = PROPOSED_NOT_CALIBRATED,
+           field_of_view_deg.status = TYPICAL_CLASS_VALUE_NOT_SELECTED'
+        - 'WP1 SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml carries THREE mutually exclusive
+           candidates - CAMERA_BRACKET_CANDIDATE_A (bus riser), _B (deck-flush) and
+           _G4_WRIST (link6-mounted) - with an explicit architectural_conflict note and
+           HOLD_CAMERA_MOUNT_ARCHITECTURE_NOT_SELECTED_BUS_MOUNT_VS_WRIST_MOUNT'
+        - 'WP3 predecessor_refs: BOM V2 DP-010 HARD_HOLD; the M4 sensor-package candidate
+           origin [190.25, 0, 80.0] was REJECTED for positive M3R penetration and no
+           replacement pose is authorized'
+        - 'WP1 open item, verbatim: "no camera product to size it to"'
+    - condition: affects only future vision alignment
+      verified: true
+      evidence:
+        - the chain function is angular pointing only; functional_requirements is null so no
+          other quantity is derived from it
+        - 'WP2 design mass model, retained limitation: "bus coverage of camera/HDRM/sensor/
+           harness placeholders is not configuration-controlled (carried as limitation, not
+           numeric allowance)" - so no configuration mass, CoM or inertia value depends on the
+           camera pose'
+        - 'WP7 has no camera load case: the thirteen authorized decks are arm manoeuvre,
+           emergency stop, 22 kg capture, 150 kg capture, gripper clamp, panel deployment,
+           single-panel-failure, M3R interface and on-orbit modal (ODR-06 scope)'
+      scope_boundary_recorded: >-
+        if the WRIST-mount architecture (CANDIDATE_G4_WRIST, 34 g on link6) is later selected,
+        camera mass moves onto the arm side of the joint torque budget and changes arm inertia.
+        That consequence belongs to
+        HOLD_CAMERA_MOUNT_ARCHITECTURE_NOT_SELECTED_BUS_MOUNT_VS_WRIST_MOUNT, a DIFFERENT open
+        item, not to the TC-13 pointing tolerance. Stating this so the classification is not
+        read more broadly than it is.
+    - condition: does not affect primary structure
+      verified: true
+      evidence:
+        - both bus-mounted bracket candidates are class
+          DESIGN_CANDIDATE_ENVELOPE_EVIDENCE_SOLID_NOT_EXPORTED and are NOT installed
+          components; installed_component_count = 7 and the STEP's 41 solids are exactly
+          accounted for by those 7, so no bracket solid exists in the release geometry
+        - 'candidate-to-bus measurement is CONTACT_WITHOUT_POSITIVE_COMMON_VOLUME at 0.0 mm
+           distance with common_volume_mm3 = 0.0 for both bracket candidates'
+        - the top deck at z = 113.15 mm and the bus primary structure (6 solids,
+          18148626.86976405 mm3) are defined independently of any bracket
+    - condition: does not affect B601 motion or collision
+      verified: true
+      evidence:
+        - the camera and both brackets are absent from the collision model (not installed), so
+          they are not in any collision pair
+        - 'Sim13 BOOTSTRAP_TEST_FRAME_TREE.json carries CAMERA_RESERVE_PRIMARY and its child
+           CAMERA_KEEP_OUT as TOPOLOGY-ONLY frames - the frame tree stores only id and parent,
+           no numeric transform - and the asset loader only checks that the reserve frame
+           exists in the tree'
+        - a pointing tolerance is an angular quantity on the sensing path; it does not alter
+          any body geometry, so it cannot create a collision
+      fail_open_metric_rejected: >-
+        the WP1 build report's candidate-to-arm distances (CAM_A 122.164338902 mm, CAM_B
+        133.647101166 mm) must NOT be used to support this condition. They are measured against
+        the 817.651847974 mm3 frame/axis witness and are themselves labelled
+        KINEMATIC_FRAME_AXIS_WITNESS_OVERLAY_NOT_INTERFERENCE_GEOMETRY. The correct basis is
+        "the camera is not in the collision model at all", which is what is used above.
+    - condition: does not affect current Sim13/Sim15
+      verified: true
+      evidence:
+        - 'Sim13 SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json:
+           imported_mechanical_unknowns.camera_selection_and_calibration = HOLD_ACTION_MASKED,
+           safety_contract.unknown_is_masked = true,
+           safety_contract.shield_substitutes_abort_on_masked_action = true'
+        - 'Sim15: a recursive search of sim_15_m5_geometry_gated_grasping for camera, extrinsic
+           or pointing across .py / .yaml / .json returned ZERO files - Sim15 does not reference
+           a camera at all'
+
+  classification: NON_BLOCKING_EXTERNAL_EQUIPMENT_INTEGRATION_HOLD
+  all_five_conditions_met: true
+  gate_a_blocker: false
+  deferred_to: [GATE_B, ECR]
+  reopen_trigger: ECR-M4 (camera or HDRM hardware selected)
+  odr_14_state_recommendation_for_criterion_12_TOLERANCE_CHAINS:
+    from_the_TC_13_leg_only: PASS_WITH_DECLARED_OPEN_ITEM
+    odr_14_conditions:
+      design_definition_complete: >-
+        yes for everything that exists - the allocation framework is built and ready to receive
+        nominals (WP3's own words); what is missing is the equipment, not the method
+      current_operational_digital_twin_unaffected: yes - camera masked in Sim13, absent in Sim15, absent from WP2/WP7
+      open_item_class: EXTERNAL_EQUIPMENT
+      no_HIGH_finding_attached: yes
+      explicit_future_trigger_named: ECR-M4
+  prohibited_statement: >-
+    TC-13 must NOT be reported as "closed", "allocated" or "12 of 14 plus 2 waived". It is an
+    open chain with a named external dependency and a documented zero-propagation argument.
+
+# ===========================================================================
+# M7-TC-14  HDRM_PRELOAD_INTERFACE
+# ===========================================================================
+TC_14:
+  chain_id: M7-TC-14
+  title: HDRM_PRELOAD_INTERFACE
+  wp3_declared_state: FUNCTIONALLY_OPEN
+  wp3_assembly_leg: HDRM -> ARM_AND_SPACECRAFT_RESTRAINT
+  wp3_function: 'hold-down preload interface: restraint seating, preload retention and release clearance'
+  wp3_functional_requirements: null
+
+  which_mechanism_is_this_actually:
+    determination: THE ARM HDRM, NOT THE SOLAR ARRAY HOLD-DOWN
+    evidence:
+      - 'WP3 TOLERANCE_CHAIN_REGISTER_V1.yaml assembly_leg = "HDRM -> ARM_AND_SPACECRAFT_RESTRAINT"'
+      - 'WP5 HDRM_ENGINEERING_PACK_V1.yaml: mechanism = ARM_HDRM; function = "restrain the B601
+         arm (4.695555949342986 kg, ACCEPTED_URDF L0) against the M3R/interface stack during
+         launch and transport, and release it on orbit for operation"'
+      - 'WP5 SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml: panel_hold_down_for_launch = null,
+         hold_down_status = HOLD_PANEL_RELEASE_DEVICE_NOT_IN_WP5_SCOPE'
+    conclusion: >-
+      two physically distinct devices with two distinct interfaces. The panel hold-down /
+      release device is a separate, not-yet-defined item tracked as
+      PANEL_HOLD_DOWN_DEVICE_NOT_DEFINED_HOLD in WP5, and it is NOT what TC-14 dimensions.
+      This is a positive engineering finding about mechanism identity, not an appeal to missing input.
+
+  three_link_chain:
+    link_1_requirement: >-
+      the ARM HDRM restraint interface shall (a) seat on its restraint pad with defined contact,
+      (b) retain the 50 N candidate restraint preload (HDRM-SMS-01) within tolerance across the
+      interface stack, and (c) provide release clearance so the restraint element fully
+      disengages over the 6.0 mm candidate release stroke (HDRM-SMS-02). All three allocations
+      are null because the mating pattern is null and
+      interface_definition.status = HOLD_INTERFACE_GEOMETRY_NOT_RELEASED.
+    link_2_failure_effect: >-
+      (a) and (b) a seating gap or a preload loss / over-preload at the restraint seat leaves the
+      arm inadequately restrained, or over-stresses the interface, during launch and transport.
+      (c) insufficient release clearance leaves the restraint element partially engaged, so the
+      arm is not fully released or the released element fouls the arm's first commanded motion.
+    link_3_operational_consequence: >-
+      (a) and (b) act only during launch and transport. The accepted operational baseline starts
+      after release, and launch restraint sizing is already explicitly held
+      (LAUNCH_RESTRAINT_SIZING_HOLD_NO_LAUNCHER_ICD; WP5 MAV-01 states the 50 N candidate covers
+      only sub-1 g operational disturbance, margin 0.217 at 5 g, and must be resized rather than
+      grandfathered when a launcher ICD arrives - ODR-06 retained hold).
+      (c) acts once, at a single pre-operational on-orbit release event, and its failure mode is
+      fail-closed BY DESIGN REQUIREMENT: HDRM-SMS-08 states that on refusal the arm stays
+      restrained, the spacecraft remains safe in the stowed configuration and arm operation is
+      inhibited until release is confirmed, and MUM adds "after on-orbit release, no re-lock
+      attempt; arm operation inhibited until release confirmation sensing". A release-clearance
+      tolerance defect can therefore only produce "the mission does not start" - never a
+      mis-modelled, unsafe or silently-degraded operational state. Verification of (c) is the
+      MVR-013 release demonstration, i.e. qualification-class. No operational asset consumes HDRM
+      interface geometry: it appears in WP2 only as a non-configuration-controlled bus placeholder,
+      in Sim13 only as the string HDRM_RELIABILITY_HOLD in open_holds, and not at all in Sim15.
+
+  odr_13_gate_a_blocker_probes:
+    rule: TC-14 REMAINS a Gate A blocker if it affects ANY of the following four items
+    probe_1:
+      item: whether the solar array can release at all
+      affected: false
+      evidence: >-
+        TC-14 dimensions the ARM HDRM restraint seat. The solar array release depends on the
+        panel hold-down device, which is null and explicitly out of WP5 scope
+        (HOLD_PANEL_RELEASE_DEVICE_NOT_IN_WP5_SCOPE). Changing any tolerance in the arm
+        restraint stack cannot make or break a device that is not in that stack.
+    probe_2:
+      item: deployment initial conditions
+      affected: false
+      evidence: >-
+        the solar deployment initial conditions are set by the stowed panel end state, the
+        constant-torque spring and the hold-down release event. SOLAR_HINGE_DEPLOYMENT_PACK_V1
+        frozen_inputs contains panel mass, panel box, span, chord, the two hinge axes and the tip
+        sensitivity - no HDRM quantity appears in it.
+    probe_3:
+      item: deployment dynamics
+      affected: false
+      evidence: >-
+        MAV-01 and MAV-02 are functions of panel inertia about the hinge line, spring torque
+        0.20 N.m, hinge friction 0.02 N.m, harness resistance 0.03 N.m and the damper candidate
+        0.191 N.m.s/rad. None of these is a function of the arm HDRM interface tolerance.
+    probe_4:
+      item: on-orbit latching
+      affected: false
+      evidence: >-
+        disjoint mechanisms. HNG-SMS-05 is the solar hinge end-of-travel latch. The arm HDRM has
+        HDRM-SMS-07 "on-orbit re-lock not required (one on-orbit release event)". The arm HDRM has
+        no latch that participates in solar deployment.
+    all_four_probes_negative: true
+
+  recorded_ambiguity_that_does_not_change_the_classification:
+    location: 'wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml, mum_operation_user_constraints'
+    text: 'deployment is inhibited until HDRM/panel hold-down release confirmation (hold-down device TBD, HOLD)'
+    ambiguity: >-
+      "HDRM/panel hold-down" can be read as (i) the panel hold-down, which is the natural reading
+      given the null device on the line above, or (ii) the arm HDRM gating panel deployment.
+    why_it_does_not_change_the_ruling: >-
+      even under the most coupled reading (ii), the coupling is a COMMAND SEQUENCE inhibit, not a
+      dimensional dependency. A tolerance value in the arm HDRM restraint stack does not change any
+      solar deployment initial condition or dynamic quantity; it changes only whether the arm
+      release event succeeds, which is already fail-closed. Probes 2, 3 and 4 remain negative under
+      both readings.
+    action: >-
+      referred to A3 (WP5) and A0 for a one-line disambiguation of the sentence. Recorded here as
+      OPEN_AMBIGUITY_IN_WP5_TEXT rather than silently resolved, because A1 may not edit WP5.
+
+  scope_split_required_for_an_honest_classification:
+    TC_14a_SEATING_AND_PRELOAD_RETENTION:
+      affects: launch and transport retention only
+      class: NON_BLOCKING_FLIGHT_QUALIFICATION_HOLD
+      external_dependency: launcher / separation ICD (ODR-06 retained hold) plus HDRM device selection
+      trigger: ECR-M6 launcher or separation ICD received
+    TC_14b_RELEASE_CLEARANCE:
+      affects: one pre-operational on-orbit release event
+      class: NON_BLOCKING_FLIGHT_QUALIFICATION_HOLD
+      justification_under_ODR_13: >-
+        ODR-13's non-blocking condition is "affects only launch retention / QUALIFICATION". Release
+        clearance verification is the MVR-013 release demonstration on a device that is not yet
+        procured, i.e. qualification class, and its design-side allocation cannot exist until the
+        HDRM mating pattern exists. Combined with the HDRM-SMS-08 fail-closed inhibit and the fact
+        that no operational asset consumes the interface, TC-14b satisfies the condition on
+        functional grounds and not on the grounds that an input is missing.
+      trigger: ECR-M4 HDRM hardware selected, then MVR-013
+
+  classification: NON_BLOCKING_FLIGHT_QUALIFICATION_HOLD
+  gate_a_blocker: false
+  odr_14_state_recommendation_for_criterion_12_TOLERANCE_CHAINS:
+    from_the_TC_14_leg_only: PASS_WITH_DECLARED_OPEN_ITEM
+    odr_14_conditions:
+      design_definition_complete: >-
+        yes for what is decidable - the HDRM architecture is selected at candidate level
+        (HDRM-N02 non-pyro burn-wire), preload 50 N, stroke 6.0 mm, release energy 0.15 J,
+        redundancy, inadvertent-release protection and refusal disposition are all defined.
+        The mating pattern and its tolerance allocation await the device.
+      current_operational_digital_twin_unaffected: >-
+        yes - no operational asset (WP2 C01..C09, WP7's thirteen decks, WP10 V4, Sim13, Sim15)
+        consumes HDRM interface geometry
+      open_item_class: FLIGHT_QUALIFICATION_AND_EXTERNAL_EQUIPMENT
+      no_HIGH_finding_attached: >-
+        yes for the tolerance chain. Note separately that WP5's own MAV-01 finding (preload margin
+        0.217 at 5 g) is a real negative result and must continue to be carried verbatim; it is a
+        launch-load finding under an existing hold, not a Gate A blocker.
+      explicit_future_trigger_named: ECR-M6 (launcher ICD) and ECR-M4 (HDRM hardware)
+    note_on_wp1_stale_hold: >-
+      WP1's receipt retains HOLD_HDRM_ARCHITECTURE_NOT_SELECTED. WP5 has since selected HDRM-N02 at
+      DESIGN_CANDIDATE_PROTOTYPE_LEVEL. Terminal Round 2 should reconcile the WP1 hold text to
+      "HDRM architecture selected at candidate level; interface geometry and mating pattern remain
+      HOLD_INTERFACE_GEOMETRY_NOT_RELEASED", which is the accurate statement.
+  prohibited_statement: >-
+    TC-14 must NOT be reported as closed, and its non-blocking status must NOT be justified by
+    "the launcher ICD is missing". The justification on record is the mechanism-identity finding,
+    the four negative blocker probes, the HDRM-SMS-08 fail-closed inhibit and the zero operational
+    consumption.
+
+# ===========================================================================
+summary:
+  TC_13: NON_BLOCKING_EXTERNAL_EQUIPMENT_INTEGRATION_HOLD
+  TC_14: NON_BLOCKING_FLIGHT_QUALIFICATION_HOLD
+  gate_a_blockers_among_the_two_open_chains: 0
+  functionally_closed_chains: 12
+  total_chains: 14
+  counting_is_not_the_argument: >-
+    the 12 of 14 count is recorded for bookkeeping only. The classification above rests entirely
+    on the functional chains, not on the count.
+  residual_items_that_are_NOT_TC_13_or_TC_14_and_must_stay_visible:
+    - PANEL_HOLD_DOWN_DEVICE_NOT_DEFINED_HOLD (WP5 / A3) - this, not TC-14, is the item that bears
+      on whether the solar array can be released
+    - HOLD_CAMERA_MOUNT_ARCHITECTURE_NOT_SELECTED_BUS_MOUNT_VS_WRIST_MOUNT (WP1 / A1) - bears on
+      arm inertia if the wrist mount is chosen
+    - WP5 MAV-01 preload margin 0.217 at 5 g - a retained negative result
+
+explicit_non_claims:
+  - NO_TOLERANCE_CHAIN_IS_CLAIMED_CLOSED_BY_THIS_DOCUMENT
+  - NO_HDRM_RELEASE_RELIABILITY_CLAIM
+  - NO_CAMERA_POINTING_BUDGET_IS_INVENTED_OR_ALLOCATED
+  - NOT_MANUFACTURING_RELEASED
+  - NOT_FLIGHT_OR_LAUNCH_QUALIFIED
+
+memory_gate:
+  available_physical_gib: 4.556671
+  total_physical_gib: 15.210205
+  threshold_gib: 6.0
+  memory_gate_passed: false
+  measurement_status: MEASURED
+  declaration: the 6 GiB memory gate is FAILED on this host and stays declared as failed
+
+source_register:
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    sha256: AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B
+    bytes: 4931
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+    bytes: 3531
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml
+    sha256: 5602CB6FC3DC983681F60D8FA94B432FBA4D432830F5B2362049DB4C1B849BF7
+    bytes: 19133
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/arm_probe.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/arm_probe.py
+    sha256: E2CB1E6B16EB1DEB6825E1DFCAC83C38373F1B5BE60B485EB0885B109386368B
+    bytes: 4763
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/body_attrib.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/body_attrib.py
+    sha256: 2C8BC1BF34A36231B384755760A9928CBD2D5A2E48F1A0F09A1020D2F810F9E0
+    bytes: 3488
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/compute_derived.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/compute_derived.py
+    sha256: D2BA572C110C43982AA5F920715BD6A5A329D64A8E4E7ED4F86AA93EDC997384
+    bytes: 11133
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f2_f3.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f2_f3.py
+    sha256: 093911E0C845583B8009588448D0181FCC593CFE71F4125529EA028E6E91C2BC
+    bytes: 4341
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f3_section.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f3_section.py
+    sha256: D574683FC3B8DCF4CAB35A01CEDA8F2A5086C59A6A473D2496D73CABC0E2016B
+    bytes: 1127
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/g08_forensic.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/g08_forensic.py
+    sha256: 4988196794D9861DDCC0CF4E5B154D5AA6682E9AB69585ABF539F99806D65E94
+    bytes: 2770
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/group_check.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/group_check.py
+    sha256: 51DEDBEAEC2C7280D57E46A3588CED2DA8505E1382E9067E4BE93EC24A67A53E
+    bytes: 1033
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/read_saddles.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/read_saddles.py
+    sha256: 6ABCA7898F1F8F3C8B5440C3A1CED5B01B0B13956A853159C1E5C08C7E16B813
+    bytes: 1556
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/refine.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/refine.py
+    sha256: EF6E1BFED236D4F8ABB820E166CB3C0B03CDE4CB1C54A04D3677E0D98A10FC3C
+    bytes: 3368
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/step_probe.py:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/step_probe.py
+    sha256: AD5EFEA8A09ED5166B6B618EF06EF2537089E42F205AE22792456E5B0198AD53
+    bytes: 2071
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json
+    sha256: 105BCB020FAF9F535C3A18F9A37831679F89070A8CA69C5960F959A686F332C1
+    bytes: 29415
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step
+    sha256: 8C85585E9C051AEBB849E48F56354B48BF4204F61103B550BD92FC77BA99EA9E
+    bytes: 1373004
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/HARNESS_ROUTING_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/HARNESS_ROUTING_V1.yaml
+    sha256: E54594FB51C5EC7A1BFE5180870C544BDABA315870DF7451B8B1B0235449DBAC
+    bytes: 52036
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml
+    sha256: AC446D4C685AED21A35AE5BEFAE804A8FE8C49D6103D87509ED7EC9B7EDEDB6D
+    bytes: 36933
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml
+    sha256: 0F9897EF4E41666DDB29CB0FC621DD737FDD8CCDE3F5527030E53A9D1604681A
+    bytes: 48807
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml
+    sha256: 10106444309B6E835D9C87EF41A0FF78FF4CFDAC8C773C7B9B158FC3C0DA1B05
+    bytes: 51418
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/receipt.json:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/receipt.json
+    sha256: E2F7EF70F242BB52554F1E534B2ABCA9F7D678A16197E9CDDD29CF7117B3B4FF
+    bytes: 28709
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml
+    sha256: F20BC2E97FE12AF5D3CFE48B4EDA8B82FA38BE9B3187C59C07FDAA259233786B
+    bytes: 125365
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/TOLERANCE_CHAIN_REGISTER_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/TOLERANCE_CHAIN_REGISTER_V1.yaml
+    sha256: 3E3D596EF65490B68EE875E3ECE0D1F8E6209DB75EBDC31F7E585570C68ED016
+    bytes: 23782
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml
+    sha256: 1F6E2D556921C0D69A00DFC1FDAA02FD47850F5472D4A88B4B66FD1666725FB2
+    bytes: 13650
+  20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml
+    sha256: 1DEC46C6691E5B4BFA2258F6AA6DA9341CA86DF35F8B73354280D28F4AC305FE
+    bytes: 11002
+  ? 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+  : path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+    sha256: 172F3603E458F670323925E644BC68623EE9C85FCA7AF1200FAE2576EB43C68B
+    bytes: 1246
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_L_DEPLOYED.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_L_DEPLOYED.stl
+    sha256: F5EC27D88EAE75D3033DA5718E4C5165B8F475917D126730B69B4D02773BBE78
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/04_ARM_STOW_SUPPORT.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/04_ARM_STOW_SUPPORT.stl
+    sha256: 1C4DE2BCBE27A0278EE901E40F46542E075002ABFF99B6216F6EEC7D183FE5CD
+    bytes: 6084
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Aft_Saddle.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Aft_Saddle.stl
+    sha256: 01E997CE8BCBB92486F256A55536576333A905D0BD4A770009A072217CA71C30
+    bytes: 1484
+  ? 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_B601_ARTICULATED_ENGINEERING_ARM_STOWED_O13V.stl
+  : path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_B601_ARTICULATED_ENGINEERING_ARM_STOWED_O13V.stl
+    sha256: A134EE269689D888E8D05AA60AE05A9014FA3C139AFEF4F1E0429D8628EF57A2
+    bytes: 46026884
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Fwd_Saddle.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Fwd_Saddle.stl
+    sha256: 0ECDF0059EAB1C10FA80FB405FDDE8E7131F7F9FA41EAE3220FB56D1F009D9D6
+    bytes: 1484
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Left.stl
+    sha256: F5160C9FDDD58E55D3275DDB539EF8E424BAB1F912B0AEF70452894B5E84B4EB
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Right.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Right.stl
+    sha256: 435741BD32334372949DFA656868A5B7CD15E3320C755211C6CCD60F7D792055
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Left.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Left.stl
+    sha256: 0D6AA3A2778041143B37E2B4C3B756309F189D07D7598E6337EBCD13ADD263A2
+    bytes: 7084
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Right.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Right.stl
+    sha256: 56D39CEA1163F6FB146A10260BDD35201146C9D409E7CBD9DA352126802D937C
+    bytes: 7084
+  ? 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Launch_Lock_Interface_Reference.stl
+  : path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Launch_Lock_Interface_Reference.stl
+    sha256: D431EF8D9A20F0DE6A60789D6D100324061CA77188DD3A9C3459DC0A9C72B148
+    bytes: 2484
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Mid_Saddle.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Mid_Saddle.stl
+    sha256: AA6E7F59F2CC980A9AACC19E57811E0F5D32BFB896A54A09BD09FF53C84AC5FD
+    bytes: 1484
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Release_Clearance_Envelope.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Release_Clearance_Envelope.stl
+    sha256: 79EE616884401A4EB06A076451F75D487DB67F29234170220BE94CBF183ECB8B
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_L_STOWED.stl:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_L_STOWED.stl
+    sha256: 02BE7F6BFA149FBC78834E7476767D5319AB0C8CEF44DB8A03E560901CED91B7
+    bytes: 684
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/06_supports/F3R2_SUPPORT_V2_DEFINITION.json:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/06_supports/F3R2_SUPPORT_V2_DEFINITION.json
+    sha256: 7CA4BD5B0F83212492DE2200334D35D4F02830C0FD4164DC6C888CF354C94432
+    bytes: 17229
+  20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json
+    sha256: 07618B5CFE2C2F1D2391B5D845CB82AD7ECFBBCC6371EEADF931289C8F2902D6
+    bytes: 5727
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    bytes: 11321
+  20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL
+    sha256: 22641C079014FE968702393F61E7F7F1A8F80C6C1DF45A61E31545F6EAFF3B65
+    bytes: 3898684
+  30_simulation/sim_13_physics_gated_embodied_grasping/assets/BOOTSTRAP_TEST_FRAME_TREE.json:
+    path: 30_simulation/sim_13_physics_gated_embodied_grasping/assets/BOOTSTRAP_TEST_FRAME_TREE.json
+    sha256: 2FBA01A21C856CBC87C3A32D72485E340239A722E1A8F107DEC8FCAC9C3720D1
+    bytes: 1335
+  30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json:
+    path: 30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json
+    sha256: C224853EABBD00C9C14C812922E3B2A7E406AF43A81CF7CA6A307860A951466C
+    bytes: 4196
+  30_simulation/sim_13_physics_gated_embodied_grasping/src/mechanical_asset_loader.py:
+    path: 30_simulation/sim_13_physics_gated_embodied_grasping/src/mechanical_asset_loader.py
+    sha256: C0797E5786888E357784369F6601B380C4E94FAE76B3FBFCF4C46717A833E851
+    bytes: 23753

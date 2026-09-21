@@ -1,0 +1,224 @@
+# F3-P3 State Machine Register
+# Machine-readable joint/state register. No manual dragging as authority.
+
+schema: F3_P3_STATE_MACHINE_V1
+generated_utc: "2026-08-05T16:20:00Z"
+authority: F3_P3_TOP_LEVEL_ASSEMBLY_AND_CONTINUOUS_CLEARANCE
+
+states:
+  Q0:
+    description: All joints at zero position
+    joints:
+      joint1: 0.0
+      joint2: 0.0
+      joint3: 0.0
+      joint4: 0.0
+      joint5: 0.0
+      joint6: 0.0
+      gripper_joint1: 0.0
+      gripper_joint2: 0.0
+    solar_wing: stowed
+    hdrm: locked
+    next_allowed: [STOWED_LOCKED, DEPLOYED_NOMINAL]
+
+  STOWED_LOCKED:
+    description: Arm stowed, HDRM locked, solar wing stowed
+    joints:
+      joint1: 2.540708  # 145.572 deg
+      joint2: -2.932153  # -168.000 deg
+      joint3: -0.994838  # -57.000 deg
+      joint4: -0.718083  # -41.143 deg
+      joint5: -0.365723  # -20.954 deg
+      joint6: -0.05236   # -3.000 deg
+      gripper_joint1: 0.0
+      gripper_joint2: 0.0
+    solar_wing: stowed
+    hdrm: locked
+    next_allowed: [STOWED_PRELOADED, SOLAR_DEPLOY_ARM_LOCKED]
+
+  STOWED_PRELOADED:
+    description: Arm stowed, HDRM preloaded, solar wing stowed
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: stowed
+    hdrm: preloaded
+    next_allowed: [HDRM_RELEASE_COMMAND, SOLAR_DEPLOY_ARM_LOCKED]
+
+  SOLAR_DEPLOY_ARM_LOCKED:
+    description: Solar wing deploying, arm locked
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: deploying
+    hdrm: locked
+    next_allowed: [SOLAR_DEPLOY_CONFIRMED, L_FAIL, R_FAIL, DEPLOY_FAILED_BOTH]
+
+  SOLAR_DEPLOY_CONFIRMED:
+    description: Solar wing deployed and confirmed, arm still locked
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: deployed
+    hdrm: locked
+    next_allowed: [HDRM_RELEASE_COMMAND]
+
+  HDRM_RELEASE_COMMAND:
+    description: HDRM release commanded
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: deployed
+    hdrm: release_commanded
+    next_allowed: [HDRM_RELEASE_START, RELEASE_FAILED]
+
+  HDRM_RELEASE_START:
+    description: HDRM release in progress
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: deployed
+    hdrm: releasing
+    next_allowed: [HDRM_RELEASE_CONFIRMED, PARTIAL_RELEASE, RELEASE_FAILED]
+
+  HDRM_RELEASE_CONFIRMED:
+    description: HDRM release confirmed
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: deployed
+    hdrm: released
+    next_allowed: [ARM_CLEAR_OF_G07]
+
+  ARM_CLEAR_OF_G07:
+    description: Arm cleared of G07 (Aft) saddle
+    joints:
+      joint1: 2.540708
+      joint2: -2.932153
+      joint3: -0.994838
+      joint4: -0.718083
+      joint5: -0.365723
+      joint6: -0.05236
+      gripper_joint1: 0.0
+      gripper_joint2: 0.0
+    solar_wing: deployed
+    hdrm: released
+    clearance_from_g07: 0.010  # 10mm initial lift-off
+    next_allowed: [ARM_CLEAR_OF_G08]
+
+  ARM_CLEAR_OF_G08:
+    description: Arm cleared of G08 (Fwd) saddle
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: deployed
+    hdrm: released
+    clearance_from_g08: 0.020  # 20mm
+    next_allowed: [ARM_CLEAR_OF_MID]
+
+  ARM_CLEAR_OF_MID:
+    description: Arm cleared of Mid saddle (if present)
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: deployed
+    hdrm: released
+    clearance_from_mid: 0.020  # 20mm
+    next_allowed: [ARM_CLEAR_OF_ALL_RESTRAINTS]
+
+  ARM_CLEAR_OF_ALL_RESTRAINTS:
+    description: Arm cleared of all restraints
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: deployed
+    hdrm: released
+    clearance_from_all: 0.050  # 50mm
+    next_allowed: [DEPLOYED_NOMINAL]
+
+  DEPLOYED_NOMINAL:
+    description: Arm deployed to nominal position
+    joints:
+      joint1: 0.0
+      joint2: 0.0
+      joint3: 0.0
+      joint4: 0.0
+      joint5: 0.0
+      joint6: 0.0
+      gripper_joint1: 0.0
+      gripper_joint2: 0.0
+    solar_wing: deployed
+    hdrm: released
+    next_allowed: [SERVICE, 2P_OPEN]
+
+  SERVICE:
+    description: Service position for capture task
+    joints:
+      joint1: 0.785398  # 45 deg
+      joint2: -0.785398  # -45 deg
+      joint3: -1.570796  # -90 deg
+      joint4: 1.570796   # 90 deg
+      joint5: 0.785398   # 45 deg
+      joint6: 0.0
+      gripper_joint1: 0.0
+      gripper_joint2: 0.0
+    solar_wing: deployed
+    hdrm: released
+    next_allowed: [2P_OPEN, 2P_HALF, 2P_CLOSED]
+
+  2P_OPEN:
+    description: Gripper fully open
+    joints:
+      gripper_joint1: 0.0715
+      gripper_joint2: 0.0715
+    next_allowed: [2P_HALF, 2P_CLOSED]
+
+  2P_HALF:
+    description: Gripper half open
+    joints:
+      gripper_joint1: 0.03575
+      gripper_joint2: 0.03575
+    next_allowed: [2P_OPEN, 2P_CLOSED]
+
+  2P_CLOSED:
+    description: Gripper closed
+    joints:
+      gripper_joint1: 0.0
+      gripper_joint2: 0.0
+    next_allowed: [2P_OPEN, 2P_HALF]
+
+  P_ASYMMETRIC:
+    description: Gripper asymmetric position
+    joints:
+      gripper_joint1: 0.05
+      gripper_joint2: 0.02
+    next_allowed: [2P_OPEN, 2P_HALF, 2P_CLOSED]
+
+  RELEASE_FAILED:
+    description: HDRM release failed
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: deployed
+    hdrm: release_failed
+    next_allowed: [HDRM_RELEASE_COMMAND]  # Retry
+
+  PARTIAL_RELEASE:
+    description: HDRM partial release
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: deployed
+    hdrm: partial_release
+    next_allowed: [HDRM_RELEASE_CONFIRMED, RELEASE_FAILED]
+
+  L_FAIL:
+    description: Left solar wing deployment failed
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: left_failed
+    hdrm: locked
+    next_allowed: []  # Terminal fail-closed
+
+  R_FAIL:
+    description: Right solar wing deployment failed
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: right_failed
+    hdrm: locked
+    next_allowed: []  # Terminal fail-closed
+
+  DEPLOY_FAILED_BOTH:
+    description: Both solar wings deployment failed
+    joints: *STOWED_LOCKED_JOINTS
+    solar_wing: both_failed
+    hdrm: locked
+    next_allowed: []  # Terminal fail-closed
+
+# Aliases for repeated joint values
+anchors:
+  STOWED_LOCKED_JOINTS: &STOWED_LOCKED_JOINTS
+    joint1: 2.540708
+    joint2: -2.932153
+    joint3: -0.994838
+    joint4: -0.718083
+    joint5: -0.365723
+    joint6: -0.05236
+    gripper_joint1: 0.0
+    gripper_joint2: 0.0

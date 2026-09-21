@@ -1,0 +1,131 @@
+{
+  "schema": "MECHANICAL_EVIDENCE_ADMISSION_CONTRACT_V1",
+  "artifact_id": "SIM13_M7_TO_SIM13_MECHANICAL_EVIDENCE_ADMISSION_V1",
+  "scope": "SOURCE_ONLY_CONSUMER_ADMISSION__NO_MODEL_GENERATION_OR_PHYSICS_EXECUTION",
+  "allowed_evidence_statuses": [
+    "BOUND_DIGITAL",
+    "DESIGN_CANDIDATE",
+    "DIAGNOSTIC_ONLY",
+    "OWNER_REQUIRED",
+    "TEST_REQUIRED",
+    "ABSENT"
+  ],
+  "quantity_required_fields": [
+    "value",
+    "unit",
+    "coordinate_frame",
+    "reference_point",
+    "authority",
+    "status",
+    "source_artifact",
+    "source_field"
+  ],
+  "topology_contract": {
+    "selected_mode": "EXPLICIT_STRUCTURE_PLUS_RESIDUAL",
+    "total_links": 19,
+    "physical_links": 16,
+    "frame_only_links": 3,
+    "joints": 18,
+    "fixed_joints": 10,
+    "revolute_joints": 6,
+    "prismatic_joints": 2,
+    "actuated_dof": 8,
+    "b601_links": 10,
+    "b601_joints": 9,
+    "b601_fixed_joints": 1,
+    "b601_revolute_joints": 6,
+    "b601_prismatic_joints": 2,
+    "b601_actuated_dof": 8
+  },
+  "joint_contract": {
+    "b601_joint_order": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6",
+      "gripper_joint",
+      "gripper_joint1",
+      "gripper_joint2"
+    ],
+    "b601_actuated_joint_order": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6",
+      "gripper_joint1",
+      "gripper_joint2"
+    ],
+    "revolute_position_unit": "rad",
+    "prismatic_position_unit": "m",
+    "time_unit": "s"
+  },
+  "mass_contract": {
+    "configuration_id": "C01",
+    "system_design_mass_kg": 31.022864807342987,
+    "accepted_b601_subtree_mass_kg": 4.695555949342986,
+    "residual_bus_mass_kg": 17.26823279235072,
+    "explicit_structure_mass_kg": 6.034980607649281,
+    "recomposed_bus_mass_kg": 23.3032134,
+    "prohibited_double_count_total_kg": 37.05784541499227,
+    "absolute_tolerance_kg": 1e-12
+  },
+  "semantic_separation_contract": {
+    "D_frame": "D_BUS_MATE_PHYSICAL",
+    "M_frame": "M_DYNAMICS_NONPHYSICAL",
+    "numeric_transform_relation": "SAME_NUMERIC_TRANSFORM",
+    "identity_relation": "DISTINCT_IDENTITIES__NEVER_ALIAS",
+    "physical_path": [
+      "spacecraft_bus",
+      "D_BUS_MATE_PHYSICAL",
+      "D_BUS_M6_PATTERN",
+      "load_bridge_candidate",
+      "m3r_lumped_link",
+      "base_link"
+    ],
+    "physical_path_must_not_traverse": "M_DYNAMICS_NONPHYSICAL"
+  },
+  "machine_policy_predicates": {
+    "mesh_loadable_is_collision_authority": false,
+    "urdf_velocity_is_physical_velocity_authority": false,
+    "candidate_trajectory_is_released_trajectory": false,
+    "null_physical_contact_parameter_may_be_zero_filled": false,
+    "caller_reported_pass_is_authority": false
+  },
+  "required_domain_statuses": {
+    "system_topology_and_frames": "BOUND_DIGITAL",
+    "accepted_b601_kinematics_and_inertials": "BOUND_DIGITAL",
+    "whole_system_mass_properties": "DESIGN_CANDIDATE",
+    "collision_geometry": "DIAGNOSTIC_ONLY",
+    "mission_trajectory": "DIAGNOSTIC_ONLY",
+    "system_instantiation": "OWNER_REQUIRED",
+    "physical_gripper_and_contact": "TEST_REQUIRED",
+    "authoritative_target_contact_geometry": "ABSENT"
+  },
+  "mandatory_false_outputs": [
+    "system_urdf_available",
+    "current_system_bound",
+    "physical_contact_ready",
+    "dynamics_capture_entry_authorized",
+    "next_stage_authorized"
+  ],
+  "gate_ceiling": "PASS_M7_TO_SIM13_MECHANICAL_EVIDENCE_ADMISSION_SOURCE_FREEZE_ONLY",
+  "forbidden_generated_artifact_extensions": [
+    ".FCStd",
+    ".STEP",
+    ".step",
+    ".STL",
+    ".stl",
+    ".PLY",
+    ".ply",
+    ".urdf",
+    ".inp",
+    ".odb",
+    ".traj",
+    ".csv",
+    ".npz"
+  ]
+}

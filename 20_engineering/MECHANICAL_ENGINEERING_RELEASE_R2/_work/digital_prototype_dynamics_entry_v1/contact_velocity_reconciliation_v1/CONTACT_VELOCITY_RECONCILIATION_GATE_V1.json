@@ -1,0 +1,269 @@
+{
+  "schema": "CONTACT_VELOCITY_RECONCILIATION_GATE_V1",
+  "evaluation_time_policy": "OMITTED_FOR_BYTE_DETERMINISM",
+  "authority_scope": "CONTACT_VELOCITY_SEMANTIC_AND_CONSUMER_COMPATIBILITY_ONLY__NO_AS_BUILT_OR_HARDWARE_RELEASE",
+  "subject": {
+    "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/digital_prototype_dynamics_entry_v1/contact_velocity_reconciliation_v1/CONTACT_VELOCITY_RECONCILIATION_CANDIDATE_V1.yaml",
+    "bytes": 6580,
+    "sha256": "8567F3FB171615FA23B2655B854A414A012278A4D3CB328225E35BAC898A153B"
+  },
+  "support_files": [
+    {
+      "role": "EVALUATOR",
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/digital_prototype_dynamics_entry_v1/contact_velocity_reconciliation_v1/evaluate_contact_velocity_reconciliation.py",
+      "bytes": 16828,
+      "sha256": "6FC98CB9828878356130523203A78FCB12D5DDAEAB2F764E0D81FB7551721D37"
+    },
+    {
+      "role": "DESIGN_LEDGER",
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/digital_prototype_dynamics_entry_v1/contact_velocity_reconciliation_v1/CONTACT_VELOCITY_DESIGN_LEDGER_V1.yaml",
+      "bytes": 3956,
+      "sha256": "C281926B4954DD0A2B079F66D41E719498768D0B58F825B6CF1891212997431B"
+    },
+    {
+      "role": "TEST_SUITE",
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/digital_prototype_dynamics_entry_v1/contact_velocity_reconciliation_v1/tests/test_contact_velocity_reconciliation.py",
+      "bytes": 5495,
+      "sha256": "4169EAF64E4E3F446091BF84EF439A603152BDF44A77C7799950FC482422884D"
+    }
+  ],
+  "criteria": [
+    {
+      "id": "CVR-G01",
+      "name": "frozen input byte counts and SHA-256 values match",
+      "state": "PASS",
+      "observed": [
+        {
+          "id": "R2_GRIPPER_INTERFACE_POINTER",
+          "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/10_GRIPPER_INTERFACE.yaml",
+          "exists": true,
+          "expected_bytes": 1420,
+          "actual_bytes": 1420,
+          "expected_sha256": "6EAD2D9DD0812A903638727E873E882DFFC4E37457689CFDEBCA62013083D6B5",
+          "actual_sha256": "6EAD2D9DD0812A903638727E873E882DFFC4E37457689CFDEBCA62013083D6B5",
+          "match": true
+        },
+        {
+          "id": "GRIPPER_ACTUATION_INTERFACE",
+          "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_gripper_velocity_unit_authority/01_interface/GRIPPER_ACTUATION_INTERFACE_CANDIDATE_V1.yaml",
+          "exists": true,
+          "expected_bytes": 2126,
+          "actual_bytes": 2126,
+          "expected_sha256": "364D7F2C54B6A77CC80B105EC24F3B7DDEA5FD5648FD7F01E7A2F96BE21A5F51",
+          "actual_sha256": "364D7F2C54B6A77CC80B105EC24F3B7DDEA5FD5648FD7F01E7A2F96BE21A5F51",
+          "match": true
+        },
+        {
+          "id": "DESIGN_CONTACT_MODEL",
+          "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/loop_b/DESIGN_CONTACT_MODEL_V1.yaml",
+          "exists": true,
+          "expected_bytes": 9131,
+          "actual_bytes": 9131,
+          "expected_sha256": "E57C799768BFDAB5DF22A3B834F6C8B9F8232D046A46774D24CA1FBB3DB879AD",
+          "actual_sha256": "E57C799768BFDAB5DF22A3B834F6C8B9F8232D046A46774D24CA1FBB3DB879AD",
+          "match": true
+        },
+        {
+          "id": "DESIGN_CONTACT_MODEL_GATE",
+          "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/loop_b/DESIGN_CONTACT_MODEL_GATE_V1.json",
+          "exists": true,
+          "expected_bytes": 858,
+          "actual_bytes": 858,
+          "expected_sha256": "20F3AA89A07D4DE42004EDA6730104332B0A83497B1674E4C19BFC34620666CF",
+          "actual_sha256": "20F3AA89A07D4DE42004EDA6730104332B0A83497B1674E4C19BFC34620666CF",
+          "match": true
+        }
+      ]
+    },
+    {
+      "id": "CVR-G02",
+      "name": "all physical quantity records carry complete SI and uncertainty metadata",
+      "state": "PASS",
+      "observed": []
+    },
+    {
+      "id": "CVR-G03",
+      "name": "source values and authority classes are extracted without reinterpretation",
+      "state": "PASS",
+      "observed": {
+        "design_target_quantity_ref": "quantities.current_design_target_hard_upper_bound",
+        "original_provisional_quantity_ref": "quantities.original_provisional_contact_scenario_speed",
+        "design_target_source_path": "design_target_layer.first_contact_speed_max_m_s",
+        "provisional_source_path": "gripper_actuator.first_contact_closing_velocity_mps",
+        "provisional_source_authority": "DESIGN_ESTIMATE_UNVERIFIED",
+        "source_units_match_si_m_per_s": true
+      }
+    },
+    {
+      "id": "CVR-G04",
+      "name": "0.005 m/s is encoded as the current design-target hard upper bound only",
+      "state": "PASS",
+      "observed": {
+        "estimate": 0.005,
+        "lower_bound": 0.0,
+        "upper_bound": 0.005,
+        "si_unit": "m/s",
+        "standard_uncertainty": null,
+        "uncertainty_type": "NOT_A_MEASUREMENT__DESIGN_LIMIT",
+        "distribution": "NOT_APPLICABLE_DESIGN_LIMIT",
+        "degrees_of_freedom": null,
+        "authority": "GRIPPER_ACTUATION_INTERFACE_CANDIDATE_V1__DESIGN_TARGET_LAYER",
+        "source": "GRIPPER_ACTUATION_INTERFACE.design_target_layer.first_contact_speed_max_m_s",
+        "confidence": "MEDIUM_DESIGN_SEMANTICS_ONLY",
+        "status": "CURRENT_DESIGN_TARGET_HARD_UPPER_BOUND__NOT_MEASURED_CAPABILITY"
+      }
+    },
+    {
+      "id": "CVR-G05",
+      "name": "0.05 m/s is retained exactly as an uncertainty-unqualified provisional source record",
+      "state": "PASS",
+      "observed": {
+        "estimate": 0.05,
+        "lower_bound": 0.01,
+        "upper_bound": 0.1,
+        "si_unit": "m/s",
+        "standard_uncertainty": null,
+        "uncertainty_type": "TYPE_B_NOT_EVALUATED__SOURCE_DECLARED_NO_UNCERTAINTY",
+        "distribution": "UNKNOWN_NOT_DECLARED",
+        "degrees_of_freedom": null,
+        "authority": "DESIGN_CONTACT_MODEL_V1__DESIGN_ESTIMATE_UNVERIFIED",
+        "source": "DESIGN_CONTACT_MODEL.gripper_actuator.first_contact_closing_velocity_mps",
+        "confidence": "LOW",
+        "status": "RETAINED_ORIGINAL_PROVISIONAL_SCENARIO__REJECTED_FOR_CURRENT_CONTACT_CONSUMER"
+      }
+    },
+    {
+      "id": "CVR-G06",
+      "name": "the original 0.05 m/s scenario is machine-rejected for the current consumer",
+      "state": "PASS",
+      "observed": {
+        "quantity_ref": "original_provisional_contact_scenario_speed",
+        "retained_as_source_record": true,
+        "consumer_disposition": "REJECT_CURRENT_CONTACT_CONSUMER",
+        "reentry_condition": "Issue a separate additive scenario whose estimate and upper bound are both <= 0.005 m/s; do not overwrite the original provisional record"
+      }
+    },
+    {
+      "id": "CVR-G07",
+      "name": "an explicit <=0.005 m/s reduced candidate is compatible only in bounded design diagnostics",
+      "state": "PASS",
+      "observed": {
+        "quantity": {
+          "estimate": 0.005,
+          "lower_bound": 0.0,
+          "upper_bound": 0.005,
+          "si_unit": "m/s",
+          "standard_uncertainty": null,
+          "uncertainty_type": "NOT_A_MEASUREMENT__EXPLICIT_DESIGN_REDUCTION",
+          "distribution": "NOT_APPLICABLE_DESIGN_CANDIDATE",
+          "degrees_of_freedom": null,
+          "authority": "ADDITIVE_CONTACT_VELOCITY_RECONCILIATION_CANDIDATE_V1",
+          "source": "Explicit reduction to the current design-target hard upper bound; does not alter DESIGN_CONTACT_MODEL_V1",
+          "confidence": "MEDIUM_DESIGN_SEMANTICS_ONLY",
+          "status": "ACCEPTABLE_FOR_BOUNDED_DESIGN_DIAGNOSTIC_CONSUMPTION_ONLY"
+        },
+        "binding": {
+          "permitted_quantity_ref": "reduced_current_contact_consumer_candidate",
+          "hard_upper_bound_quantity_ref": "current_design_target_hard_upper_bound",
+          "acceptance_expression": "requested.upper_bound <= hard_upper_bound.estimate",
+          "accepted_scope": "BOUNDED_DESIGN_DIAGNOSTIC_ONLY",
+          "physical_contact_authorized": false,
+          "production_dynamics_authorized": false,
+          "non_abort_grasp_authorized": false
+        }
+      }
+    },
+    {
+      "id": "CVR-G08",
+      "name": "as-built speed and its uncertainty remain explicit nulls",
+      "state": "PASS",
+      "observed": {
+        "estimate": null,
+        "lower_bound": null,
+        "upper_bound": null,
+        "si_unit": "m/s",
+        "standard_uncertainty": null,
+        "uncertainty_type": "UNKNOWN_UNMEASURED",
+        "distribution": "UNKNOWN_UNMEASURED",
+        "degrees_of_freedom": null,
+        "authority": "ABSENT_PENDING_GVA_PI_01_THROUGH_07_AND_BENCH_TEST",
+        "source": "No controlled actuator characterization or calibrated bench evidence is present",
+        "confidence": "NONE",
+        "status": "MEASUREMENT_PENDING__NULL_MUST_NOT_BE_ZERO_FILLED"
+      }
+    },
+    {
+      "id": "CVR-G09",
+      "name": "all physical, production and non-ABORT release paths remain fail closed",
+      "state": "PASS",
+      "observed": {
+        "ruling": {
+          "semantic_reconciliation": "PASS_IF_MACHINE_GATE_CONFIRMS_SOURCE_HASHES_AND_DECISION_RULE",
+          "current_design_target_hard_upper_bound_quantity_ref": "current_design_target_hard_upper_bound",
+          "original_provisional_scenario_quantity_ref": "original_provisional_contact_scenario_speed",
+          "original_provisional_scenario_current_consumer_disposition": "REJECT",
+          "explicitly_reduced_design_diagnostic_quantity_ref": "reduced_current_contact_consumer_candidate",
+          "physical_actuator_speed_authority": "HOLD",
+          "frozen_contracts_changed": false,
+          "review_status": "PENDING_OWNER_REVIEW",
+          "next_stage_authorized": false,
+          "release_credit": false
+        },
+        "binding": {
+          "permitted_quantity_ref": "reduced_current_contact_consumer_candidate",
+          "hard_upper_bound_quantity_ref": "current_design_target_hard_upper_bound",
+          "acceptance_expression": "requested.upper_bound <= hard_upper_bound.estimate",
+          "accepted_scope": "BOUNDED_DESIGN_DIAGNOSTIC_ONLY",
+          "physical_contact_authorized": false,
+          "production_dynamics_authorized": false,
+          "non_abort_grasp_authorized": false
+        }
+      }
+    }
+  ],
+  "criteria_total": 9,
+  "criteria_passed": 9,
+  "derived_quantities": {
+    "original_to_design_speed_ratio": {
+      "estimate": 10.0,
+      "lower_bound": 10.0,
+      "upper_bound": 10.0,
+      "si_unit": "1",
+      "standard_uncertainty": null,
+      "uncertainty_type": "NOT_EVALUATED_FOR_SEMANTIC_DIAGNOSTIC",
+      "distribution": "NOT_APPLICABLE_DETERMINISTIC_RECORD_COMPARISON",
+      "degrees_of_freedom": null,
+      "authority": "DETERMINISTIC_EVALUATOR",
+      "source": "original provisional estimate divided by current design-target hard upper bound",
+      "confidence": "HIGH_SEMANTIC_ONLY",
+      "status": "VALID_SEMANTIC_DIAGNOSTIC"
+    },
+    "original_nominal_excess_over_design_bound": {
+      "estimate": 0.045000000000000005,
+      "lower_bound": 0.045000000000000005,
+      "upper_bound": 0.045000000000000005,
+      "si_unit": "m/s",
+      "standard_uncertainty": null,
+      "uncertainty_type": "NOT_EVALUATED_FOR_SEMANTIC_DIAGNOSTIC",
+      "distribution": "NOT_APPLICABLE_DETERMINISTIC_RECORD_COMPARISON",
+      "degrees_of_freedom": null,
+      "authority": "DETERMINISTIC_EVALUATOR",
+      "source": "original provisional estimate minus current design-target hard upper bound",
+      "confidence": "HIGH_SEMANTIC_ONLY",
+      "status": "VALID_SEMANTIC_DIAGNOSTIC"
+    }
+  },
+  "errors": [],
+  "semantic_reconciliation": "PASS",
+  "original_0p05_current_contact_consumer": "REJECT",
+  "reduced_0p005_design_diagnostic_consumer": "ACCEPT_BOUNDED_DIAGNOSTIC_ONLY",
+  "physical_actuator_speed_authority": "HOLD",
+  "physical_contact_ready": false,
+  "production_dynamics_ready": false,
+  "non_abort_grasp_ready": false,
+  "verdict": "PASS_RECONCILIATION__0P005_MPS_HARD_BOUND__0P05_MPS_REJECTED_FOR_CURRENT_CONSUMER__PHYSICAL_AUTHORITY_HOLD",
+  "gate": "PASS_WITH_PHYSICAL_HOLD",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

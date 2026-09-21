@@ -1,0 +1,21 @@
+# 控制阶梯：无量纲静态 probe 不得称为时域控制通过。C3-C5 不因代码存在而 PASS。
+schema: CONTROL_LADDER_V1
+current_declared_metric: "SOURCE_DERIVED_DIMENSIONLESS_STATIC_CANDIDATE_ONLY（V2 gate evidence_state.task_space_metric.scope；time_domain_tracking_executed=false）"
+ladder:
+  C0_free_floating_no_control:
+    status: DONE_THIS_INCREMENT_DIAGNOSTIC
+    evidence: 11_verification/NO_CONTACT_MOMENTUM_LEDGER.json
+    claim: "守恒账本+收敛阶诊断；非任务放行"
+  C1_joint_pd_baseline:
+    status: CANDIDATE_DIAGNOSTIC_THIS_INCREMENT
+    evidence: 12_results/s03_no_contact_joint_motion/
+    claim: "DIAGNOSTIC_ONLY_NOT_CONTROL_PASS（quintic 内点轨迹+PD+饱和裁剪；输出真实时间序列）"
+  C2_reaction_aware_tracking: {status: HOLD, blockers: [执行器速率/力矩/延迟/带宽权威缺失(hard_blocker 登记), 时域验证准则未签发]}
+  C3_coupled_control_candidate: {status: HOLD, blockers: [current plant 全系统实例未成, 帆板参数占位]}
+  C4_compliant_contact_plus_safe: {status: HOLD, blockers: [T_E_T_MISSING, contact_authority_NOT_EVALUATED, SAFE 扩展未授权]}
+  C5_post_capture_adaptive: {status: HOLD, blockers: [S09 锁止组合体链未开, sim_08 推力器需求未入执行器权威]}
+required_timeseries_all_controllers: [q, dq, ddq, torque, base_pose, base_rate, wheel_momentum(声明口径), contact_wrench(若有), tracking_error, saturation_flags, safe_decision]
+upstream_gates_unchanged:
+  ctrl01: {verdict: REPEAT, path: 30_simulation/control_01_end_effector_tracking/results/control_01_gate_check.json}
+  ctrl02: {verdict: PASS, review_status: PENDING_REVIEW, L0: NOT_EVALUATED_NO_ACTUATOR_DYNAMICS}
+  wave1: "冻结增益与预注册轨迹限定语引用规则不变；W1-R12/R13 硬件触发重跑登记保留"

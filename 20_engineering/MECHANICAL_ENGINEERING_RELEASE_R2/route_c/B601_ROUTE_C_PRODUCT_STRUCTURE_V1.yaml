@@ -1,0 +1,116 @@
+schema: B601_ROUTE_C_PRODUCT_STRUCTURE_V1
+generated_utc: '2026-08-25T10:02:34Z'
+stage: RC-3_PRODUCT_DEFINITION
+authority: DESIGN_CANDIDATE; review_status PENDING_OWNER_REVIEW; next_stage_authorized false; release_credit false
+architecture: >-
+  Bus Feedthrough -> J1 Protected Annular Service Loop -> Link-1 Fixed Channel ->
+  J2 Semi-Captive Guided U-Loop -> Link-2 Fixed Channel -> J3 Mini
+  Cable-Carrier/Moving-Guide Hybrid -> Link-3/4 Fixed Channel -> J4-J6 Short
+  Joint-Local Service Loops -> Wrist Strain Relief -> Gripper/Sensor Connectors
+  (ODR-52 ROUTE_C_SEGMENTED_GUIDED_DRESS_PACK_V1)
+frame_convention:
+  root: A0 = B601 base_link frame (accepted URDF sha256 1BC2B748...71C164), mm
+  host_link_frames: accepted URDF link frames at q=0
+  bus_stations: S-frame via mount semantics x=208.0 mm / 25 deg clock about +X_S (single semantics, not averaged)
+frozen_interfaces:
+  accepted_urdf: UNCHANGED (sha256 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164)
+  solar_r2_step: UNCHANGED (sha256 21FF77B882DBFAB87B3E77DD56817EFC7F321C68E30AFEDCDDBB4D79B9915795)
+  b601_donor_shell: NO MODIFICATION - all brackets are derived parts
+  collision_assets: Route-C solids are link-attached L2 collision asset candidates; no virtual joints
+  mass: registered only as mass_delta_by_link candidates (B601_ROUTE_C_MASS_DELTA_BY_LINK_CANDIDATES_V1.json); RC-5 propagation forbidden here
+design_rules:
+  min_bend_radius_mm: 50.0 (P02/P06, DESIGN_CANDIDATE)
+  bundle_od_mm: 9.0 nominal [8.0, 10.0] (PROVISIONAL_DERIVED)
+  channel_clear_mm: 12.0 (P01, DESIGN_CANDIDATE)
+  carrier_travel_mm: 110.0 with hard stops (P04)
+  guide_friction_pair: iglidur liner vs hard-anodized 6061-T6, mu 0.06..0.20 (P10, BOUNDED_DATASHEET_RANGE)
+  carrier_family: igus E2.10 class, inner 10x16 mm, pitch 20 mm (P12, BOUNDED_DATASHEET_RANGE)
+  clamp_spacing_mm: nominal 120, bounded [55, 150] on fixed channels (P13)
+product_tree:
+- id: RC-ASM-ROOT
+  name: B601_ROUTE_C_GUIDED_DRESS_PACK_V1
+  children:
+  - id: RC-SUB-BUS
+    name: 'Bus feedthrough subassembly (host: bus)'
+    parts: [RC-CHN-BUS-FT-BASE, RC-CHN-BUS-FT-WALL-A, RC-CHN-BUS-FT-WALL-B, RC-CHN-BUS-FT-LINER,
+            RC-BRK-BUS-FLANGE, RC-PLT-BUS-CONN, RC-CLP-BUS-HN01, RC-CLP-BUS-HN02]
+    stations: [HN-00 (S 150,0,-70), HN-01 (S 171,0,-70), HN-02 (S 192,0,-70)]
+  - id: RC-SUB-BASE
+    name: 'Base collar and riser subassembly (host: base_link)'
+    parts: [RC-BRK-BASE-COLLAR, RC-PLT-BASE-CONN, RC-CLP-BUS-HN03, RC-CLP-BUS-RISER, RC-BRK-J1-RISER]
+    stations: [HN-03 (S 215,0,-45), HN-04 (S 220,0,-30)]
+  - id: RC-SUB-J1
+    name: 'J1 protected annular service loop (hosts: base_link, link1)'
+    parts: [RC-GDE-J1-ANNULUS-LOW, RC-GDE-J1-ANNULUS-UP, RC-GDE-J1-ANNULUS-WALL, RC-GDE-J1-LINER,
+            RC-CLP-J1-MOV, RC-CLP-L1-01, RC-BRK-L1-01]
+    loop: {type: annular coil, turns: 1.2, radius_mm: 60, pitch_mm_per_turn: -12, take_up_capacity_mm: 452.4, take_up_required_mm: 336.0}
+  - id: RC-SUB-J2
+    name: 'J2 semi-captive guided U-loop (hosts: link1, link2)'
+    parts: [RC-GDE-J2-MANDREL, RC-GDE-J2-MANDREL-LINER, RC-CLP-J2-FIX, RC-CLP-J2-MOV]
+    loop: {type: omega CW, sweep_deg: 250, radius_mm: 50, take_up_capacity_mm: 218.166, take_up_required_mm: 157.0}
+  - id: RC-SUB-L2
+    name: 'Link-2 fixed channel (host: link2)'
+    parts: [RC-CHN-L2-BASE, RC-CHN-L2-WALL-A, RC-CHN-L2-WALL-B, RC-CHN-L2-LINER, RC-CLP-L2-01, RC-CLP-L2-02]
+  - id: RC-SUB-J3
+    name: 'J3 mini cable-carrier/moving-guide hybrid (hosts: link2, link3)'
+    parts: [RC-TRK-J3-RAIL, RC-TRK-J3-STOP-A, RC-TRK-J3-STOP-B, RC-CAR-J3-CARRIAGE, RC-CLP-J3-MOV,
+            RC-CHN-E210-LINK-00, RC-CHN-E210-LINK-01, RC-CHN-E210-LINK-02, RC-CHN-E210-LINK-03,
+            RC-CHN-E210-LINK-04, RC-CHN-E210-LINK-05, RC-GDE-J3-SADDLE, RC-GDE-J3-SADDLE-LINER]
+    carrier: {travel_mm: 110, travel_zone_world_x_mm: [-195, -85], chain: igus E2.10 class inner 10x16 pitch 20, take_up_capacity_mm: 220.0, take_up_required_mm: 197.8}
+  - id: RC-SUB-L3
+    name: 'Link-3 fixed channel (host: link3)'
+    parts: [RC-CHN-L3-BASE, RC-CHN-L3-WALL-A, RC-CHN-L3-WALL-B, RC-CHN-L3-LINER, RC-CLP-L3-01, RC-CLP-L3-02]
+  - id: RC-SUB-J4
+    name: 'J4 joint-local service loop (hosts: link3, link4)'
+    parts: [RC-GDE-J4-MANDREL, RC-GDE-J4-MANDREL-LINER, RC-CLP-J4-FIX, RC-CLP-J4-MOV]
+    loop: {type: omega CW, sweep_deg: 315, radius_mm: 50, take_up_capacity_mm: 274.9, take_up_required_mm: 172.0}
+  - id: RC-SUB-L4
+    name: 'Link-4 tilted channel (host: link4, rises to J5 wrap plane)'
+    parts: [RC-CHN-L4-BASE, RC-CHN-L4-WALL-A, RC-CHN-L4-WALL-B, RC-CHN-L4-LINER,
+            RC-CLP-L4-01, RC-CLP-J5-FIX]
+  - id: RC-SUB-J5
+    name: 'J5 wrist wrap (hosts: link4, link5)'
+    parts: [RC-GDE-J5-WRAP, RC-GDE-J5-WRAP-LINER, RC-CLP-J5-MOV]
+    loop: {type: wrap CW, sweep_deg: 185, radius_mm: 50, wrap_plane_z_mm: 210, take_up_capacity_mm: 161.443, take_up_required_mm: 157.0}
+  - id: RC-SUB-J6
+    name: 'J6 helical wrist wrap (hosts: link5, link6)'
+    parts: [RC-GDE-J6-RING-0, RC-GDE-J6-RING-1, RC-GDE-J6-RING-2, RC-GDE-J6-RING-3,
+            RC-BRK-J6-GUIDE-A, RC-BRK-J6-GUIDE-B, RC-CLP-J6-FIX, RC-CLP-J6-MOV]
+    loop: {type: helix, turns: 1.75, radius_mm: 50, pitch_mm_per_turn: 20, take_up_capacity_mm: 550.878, take_up_required_mm: 314.0}
+  - id: RC-SUB-WRIST
+    name: 'Wrist strain relief and connector split (host: link6)'
+    parts: [RC-SR-WRIST, RC-SR-WRIST-BOOT, RC-PLT-WRIST-SPLIT, RC-CONN-WR-D1, RC-CONN-WR-P1]
+  - id: RC-SUB-BUNDLE
+    name: Harness bundle envelope (OD 9.0 mm, all segments)
+    parts: [RC-BUNDLE-SEG-00-BUS-FEEDTHROUGH-AND-RISER, RC-BUNDLE-SEG-01-J1-ANNULAR-SERVICE-LOOP,
+            RC-BUNDLE-SEG-02-J2-GUIDED-U-LOOP-AND-LINK2-CHANNEL, RC-BUNDLE-SEG-03-J3-CARRIER-HYBRID-WRAP,
+            RC-BUNDLE-SEG-04-J4-LOOP-LINK4-CHANNEL-RISER, RC-BUNDLE-SEG-05-J5-WRIST-WRAP,
+            RC-BUNDLE-SEG-06-J6-HELICAL-WRAP-AND-WRIST-RUN, RC-BUNDLE-SEG-07A-WRIST-TAIL-DATA,
+            RC-BUNDLE-SEG-07B-WRIST-TAIL-POWER]
+    composition: 1x Axon P551259 data + 8x TE 55/9960-26 discrete + sleeve/ties (RFI shortlist candidates, NOT selections)
+  - id: REF_FROZEN_B601
+    name: Reference-only frozen B601 meshes (NOT exported to STEP, NOT part of product)
+    parts: [REF_base_link, REF_link1, REF_link2, REF_link3, REF_link4, REF_link5, REF_link6]
+    authority: read-only reference from accepted URDF package
+take_up_summary:
+  required_total_mm: 1333.82
+  capacity_total_mm: 1877.766
+  margin_mm: 543.946
+  margin_percent_of_required: 40.78
+  source: B601_ROUTE_C_HARNESS_CENTERLINE_V1.json take_up_summary (script-computed exact values)
+per_segment_required_elements:
+  note: every joint segment provides fixed clamp, moving clamp, free bend span (R>=50), anti-wear guide surface (liner), strain relief, service interface per ODR-52
+  J1: [RC-CLP-L1-01 (fixed), RC-CLP-J1-MOV (moving), annular coil span, RC-GDE-J1-LINER, RC-PLT-BASE-CONN, annulus cheek access]
+  J2: [RC-CLP-J2-FIX (fixed), RC-CLP-J2-MOV (moving), omega span, mandrel liner, mandrel cheeks, clamp-level access]
+  J3: [CF-L2-01/02 (fixed), RC-CLP-J3-MOV (moving on carrier), carrier festoon span, saddle liner + channel liner, hard stops, carriage slide-out service]
+  J4: [RC-CLP-J4-FIX (fixed), RC-CLP-J4-MOV (moving), omega span, mandrel liner, mandrel cheeks, clamp-level access]
+  J5: [RC-CLP-J5-FIX (fixed), RC-CLP-J5-MOV (moving), wrap span, wrap liner, ring access]
+  J6: [RC-CLP-J6-FIX (fixed), RC-CLP-J6-MOV (moving), helix span, 4 guide rings, RC-SR-WRIST boot, ring access]
+downstream_holds:
+  - exact connector part numbers / pin maps (MPI-01..04 owner electrical authority)
+  - restoring-torque curves and quantified dynamic flex life (C5/C6 supplier tests)
+  - TVAC/outgassing applicability of polymer parts (C6)
+  - RC-4 exact coupled sweep and mission coverage re-issue (later agents)
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+release_credit: false

@@ -1,0 +1,61 @@
+schema: ECR_B601_HARNESS_RATED_ENVELOPE_01_WORK_ORDER_V1
+generated_local: '2026-08-23T10:21:39+08:00'
+class: ECR_WORK_ORDER
+ecr: ECR-B601-HARNESS-RATED-ENVELOPE-01
+authority: ../00_authority/M7_OWNER_DECISION_ODR35_TO_ODR41_B601_HARNESS_RATED_ENVELOPE_V1.yaml
+status: CLOSED_WITH_NEGATIVE_RESULT__ROUTE_B_REJECTED__ROUTE_C_TRIGGERED
+next_stage_authorized: false
+
+objective: >-
+  Decide whether the frozen B601 fixed external harness routing candidate can
+  be released over a coupled harness-rated operational envelope that contains
+  every mandatory mission trajectory.  If not, reject Route B and trigger
+  ECR-HARNESS-FULL-RANGE-01 for Route C.
+
+frozen_inputs:
+  accepted_urdf: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  full_range_negative_result: ../ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V2.json
+  exact_kernel_source: ../ecr_solar_array_r2/sweep_b601_harness_full_fk.py
+  solar_r2_geometry: ../ecr_solar_array_r2/SOLAR_ARRAY_R2_CANDIDATE_V1.step
+  mount_and_named_pose_source: ../../F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/04_configurations/F3R2_ARM_INITIAL_POSE.yaml
+
+mandatory_outputs:
+  - 01_product_definition/B601_HARNESS_ROUTING_PRODUCT_DEFINITION_V1.yaml
+  - 02_exact_predicate/B601_HARNESS_EXACT_PREDICATE_CONTRACT_V1.yaml
+  - 03_envelope/B601_HARNESS_RATED_ENVELOPE_V1.yaml
+  - 03_envelope/B601_HARNESS_ENVELOPE_MAP_V1.csv
+  - 03_envelope/B601_HARNESS_ENVELOPE_MAP_V1.npz
+  - 04_mission/B601_MANDATORY_MISSION_TRAJECTORY_CONTRACT_V1.yaml
+  - 04_mission/B601_MISSION_POSE_AUTHORITY_REBIND_V1.yaml
+  - 04_mission/B601_HARNESS_MISSION_COVERAGE_GATE.json
+  - 05_mass_torque/B601_HARNESS_MASS_PROPERTIES_V1.yaml
+  - 05_mass_torque/SYSTEM_DESIGN_MASS_PROPERTIES_V4_HARNESS_CANDIDATE.yaml
+  - 05_mass_torque/B601_HARNESS_JOINT_TORQUE_ENVELOPE_V1.yaml
+  - 06_contract/EMBODIED_MECHANICAL_CONTRACT_R3_HARNESS_CANDIDATE.yaml
+  - 07_release/MECHANICAL_TO_EMBODIED_HANDOFF_GATE_V2.json
+  - 07_release/B601_HARNESS_SCOPED_RED_TEAM_V1.json
+  - 07_release/B601_HARNESS_TERMINAL_GATE_V1.json
+  - 07_release/B601_HARNESS_TERMINAL_INDEPENDENT_VALIDATION_V1.json
+  - 08_route_c/ECR_HARNESS_FULL_RANGE_01.yaml
+
+decision_rule:
+  route_b_pass_requires:
+    - every mandatory mission trajectory is present and authority-tagged
+    - every evaluated node and every adaptively refined interval is SAFE
+    - exact predicate source and every input hash match
+    - accepted URDF byte hash is unchanged
+    - mission coverage PASS
+    - handoff V2 12/12 PASS
+    - scoped HIGH findings = 0
+    - internal mechanical HOLD = 0
+  otherwise: ROUTE_B_REJECTED_AND_ROUTE_C_TRIGGERED
+
+closure_result:
+  exact_map: 0_SAFE__75_UNSAFE__0_UNKNOWN
+  mandatory_mission_key_states: 0_SAFE__10_UNSAFE__0_UNKNOWN
+  released_continuous_trajectories: 0_OF_8
+  handoff_v2: 11_OF_12__G12_FAIL
+  independent_validation: 11_OF_11_PASS
+  route_b: REJECTED
+  route_c: TRIGGERED_PENDING_DETAILED_DESIGN_AUTHORIZATION
+  terminal_mechanical_release: NOT_RELEASED

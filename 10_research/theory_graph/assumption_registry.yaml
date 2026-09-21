@@ -1,0 +1,92 @@
+schema_version: research_os_assumption_registry_v1
+status: DERIVED_AUDIT_INDEX_NOT_CONFIG_SSOT
+last_verified_head: b75352c1c226c0f3e9a4bc9c469b766e06f41616
+
+assumptions:
+  - id: A01_terminal_state_supplied
+    statement: terminal relative pose velocity and target tumble are supplied as capture-stage inputs
+    type: scope_assumption
+    status: FROZEN_SCOPE
+    affects: [Q1, Q2]
+    consequence: current evidence does not validate complete orbital rendezvous or navigation
+    source_paths:
+      - 10_research/00_project_architecture/paper_structure_plan.md
+      - 30_simulation/sim_10_mission_feasibility
+    unlock_trigger: authorize and validate an upstream rendezvous and estimation layer
+
+  - id: A02_short_window_external_impulse_contract
+    statement: free-floating short-window dynamics follow the external-wrench contract implemented by existing modules
+    type: model_assumption
+    status: MODEL_BOUND
+    affects: [Q1, Q2]
+    consequence: results cannot be extended to unmodeled sustained disturbances
+    source_paths:
+      - 30_simulation/sim_05_free_floating_arm
+      - 30_simulation/sim_11_coupled_dynamics
+    unlock_trigger: define and gate a disturbance model
+
+  - id: A03_rigid_capture_mainline
+    statement: sim10 and sim12 formal classifications do not include a flexible criterion
+    type: evidence_boundary
+    status: VERIFIED_UNKNOWN_NOT_IN_CRITERIA
+    affects: [Q1, Q2]
+    consequence: no flexible safety-domain claim is allowed from Paper 1 mainline
+    source_paths:
+      - 30_simulation/sim_10_mission_feasibility/results/sim_10_gate_check.json
+      - 30_simulation/sim_12_strategy_feasibility/results/sim_12_gate_check.json
+    unlock_trigger: approve a new flexible classification contract and produce passing evidence
+
+  - id: A04_contact_time_nominal
+    statement: nominal finite contact duration is 20 ms in the current sim11 configuration
+    type: parameter_assumption
+    status: PROVISIONAL_PENDING_B601_MEASUREMENT
+    affects: [Q2]
+    consequence: bandwidth conclusions remain parameter-limited
+    source_paths:
+      - 20_engineering/config/coupled_scene/scene_A2_capture.yaml
+      - 30_simulation/sim_11_coupled_dynamics/results/sim_11_gate_check.json
+    unlock_trigger: measure or independently justify B601 gripper contact duration
+
+  - id: A05_flexible_parameters
+    statement: panel modes shapes stiffness damping and modal count include provisional fields
+    type: parameter_assumption
+    status: PROVISIONAL
+    affects: [Q2, Q3]
+    consequence: sim11 is side evidence rather than certified spacecraft flexibility evidence
+    source_paths:
+      - 20_engineering/config/coupled_scene/coupled_model_v0.yaml
+      - 20_engineering/config/geometry/flexible_appendage_v1.yaml
+    unlock_trigger: replace with measured CAD FEA or authoritative inputs and rerun under a new contract
+
+  - id: A06_target_properties
+    statement: 22 kg satellite and 150 kg debris target models have low confidence metadata
+    type: parameter_assumption
+    status: LOW_CONFIDENCE
+    affects: [Q1, Q3]
+    consequence: feasible-region generalization is limited to the model cases
+    source_paths:
+      - 20_engineering/config/geometry/target_models_v1.yaml
+    unlock_trigger: obtain traceable target mass inertia and grasp-point data
+
+  - id: A07_actuator_and_mission_thresholds
+    statement: several actuator tiers mission thresholds and time limits are provisional or partial
+    type: requirement_assumption
+    status: MIXED_PROVISIONAL_PARTIAL_DERIVED
+    affects: [Q1, Q3]
+    consequence: engineering feasibility must be re-evaluated after hardware selection
+    source_paths:
+      - 20_engineering/config/mission_feasibility/scan_v0.yaml
+      - 30_simulation/e15_core_coverage/config/threshold_registry_core_v1.yaml
+    unlock_trigger: freeze traceable requirements and selected hardware data
+
+  - id: A08_gate_not_authorization
+    statement: a scientific or software gate pass does not automatically authorize execution or the next stage
+    type: governance_rule
+    status: FROZEN
+    affects: [Q1, Q4, Q5]
+    consequence: next_stage_authorized must be inspected independently
+    source_paths:
+      - 30_simulation/safety_00_runtime_gate/results/safety_00_gate_check.json
+      - 10_research/knowledge_base/simulation/gate_logic.md
+    unlock_trigger: explicit project authorization under a new task contract
+

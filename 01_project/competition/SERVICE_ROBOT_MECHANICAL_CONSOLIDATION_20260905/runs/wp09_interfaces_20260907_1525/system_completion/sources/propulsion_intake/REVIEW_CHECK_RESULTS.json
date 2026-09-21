@@ -1,0 +1,245 @@
+{
+  "schema": "SEI_PROPULSION_PUBLIC_SELECTION_CHECKS_V1",
+  "computed_utc": "2026-09-07T11:44:42.341167+00:00",
+  "scope": "Evidence bookkeeping and necessary scalar bounds, not module qualification or operational capability evaluation.",
+  "assumptions_for_compact_module_bound": [
+    "All nozzle force application points lie within stated candidate envelope; catalogue drawings do not replace actual nozzle ICD.",
+    "Net force is zero at every instant (balanced couples), or a fixed-attitude static allocation uses zero integrated net force.",
+    "J_total is the sum of individual nonnegative scalar nozzle impulses, not impulse per nozzle.",
+    "Reference translation cancels for zero resultant; moving a complete compact module outward does not enlarge its internal couple arm.",
+    "Historic H norm, propellant budget and PROVISIONAL time window are sensitivity inputs, not validated current mission requirements.",
+    "Isp=40 s is a catalogue reference; no usable-impulse margin, leakage, reserve, thermal or direction loss is credited.",
+    "This bound does not exclude maneuvers with nonzero resultant forces and translation/orientation excursions."
+  ],
+  "formulas": {
+    "R_box": "sqrt(Lx**2 + Ly**2 + Lz**2)/2",
+    "angular_impulse_upper_bound": "H_max <= R_box * J_total",
+    "required_scalar_impulse_lower_bound": "J_required >= H_norm / R_box",
+    "required_propellant_at_reference_Isp": "m_required >= H_norm/(R_box*g0*Isp)",
+    "required_effective_radius_at_budget": "r_required >= H_norm/(m_budget*g0*Isp)",
+    "ideal_two_jet_force_lower_bound": "F_each >= H_norm/(2*r*T)"
+  },
+  "historical_reference": {
+    "file": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\config\\mission_feasibility\\scan_v0.yaml",
+    "H_norm_Nms": 3.65099,
+    "H_vector": null,
+    "propellant_budget_max_g": 54.73476731425644,
+    "t_detumble_max_s": 3600,
+    "t_status": "PROVISIONAL_HISTORICAL_NOT_CURRENT_CONFIGURATION_BINDING",
+    "current_complete_mass_kg": null,
+    "current_COM_m": null,
+    "current_inertia": null,
+    "sha256": "856f1e30de47ca5b3f505f9fe5bd5cd22a75e448ec916b42d9c330f7a62e28ea"
+  },
+  "g0_m_s2": 9.80665,
+  "catalogue_Isp_reference_s": 40.0,
+  "historical_budget_equivalent_impulse_Ns": 21.470588235294112,
+  "effective_radius_required_by_historical_budget_m": 0.17004610958904115,
+  "torque_required_at_3600s_Nm": 0.001014163888888889,
+  "cases": [
+    {
+      "id": "MiPS_X14029003_1",
+      "envelope_m": [
+        0.0890016,
+        0.0890016,
+        0.03
+      ],
+      "R_box_m": 0.06469654087569134,
+      "catalogue_total_shared_impulse_Ns": 44,
+      "optimistic_H_upper_bound_full_catalogue_impulse_Nms": 2.8466477985304186,
+      "passes_only_this_necessary_full_resource_bound": false,
+      "scalar_impulse_lower_bound_Ns": 56.432537977804,
+      "propellant_lower_bound_at_40s_g": 143.86293478864854,
+      "H_upper_bound_at_historical_propellant_budget_Nms": 1.3890727893898434,
+      "passes_only_this_necessary_historical_budget_bound": false,
+      "ideal_pair_force_each_required_at_3600s_N": 0.007837852496917222,
+      "actual_nozzle_allocation_feasible": null
+    },
+    {
+      "id": "C_POD_LOCKED",
+      "envelope_m": [
+        0.0985012,
+        0.094488,
+        0.101473
+      ],
+      "R_box_m": 0.0850400468521155,
+      "catalogue_total_shared_impulse_Ns": 174,
+      "optimistic_H_upper_bound_full_catalogue_impulse_Nms": 14.796968152268096,
+      "passes_only_this_necessary_full_resource_bound": true,
+      "scalar_impulse_lower_bound_Ns": 42.932596290181564,
+      "propellant_lower_bound_at_40s_g": 109.44766125583548,
+      "H_upper_bound_at_historical_propellant_budget_Nms": 1.825859829471891,
+      "passes_only_this_necessary_historical_budget_bound": false,
+      "ideal_pair_force_each_required_at_3600s_N": 0.00596286059585855,
+      "actual_nozzle_allocation_feasible": null
+    }
+  ],
+  "C_POD_axis_aligned_fits_existing_shared_box_count": 0,
+  "PERSEUS_power_branch_screen": {
+    "conditional_reference_branch": "12 V regulated, 2 A continuous branch; actual current design binding belongs to parent EPS task",
+    "branch_power_W": 24.0,
+    "manufacturer_valve_opening_power_upper_exclusive_W": 30.0,
+    "upper_envelope_current_A": 2.5,
+    "can_cover_entire_published_opening_power_envelope_from_2A_only": false,
+    "published_firing_power_upper_exclusive_W": 20.0,
+    "firing_upper_envelope_current_A": 1.6666666666666667,
+    "actual_draw_A": null,
+    "note": "Published <30W is not a measurement of exactly 30W; actual inrush duration/waveform and protection/hold-up must be obtained before branch verification.",
+    "torque_reference_if_60s_prefiring_is_inside_3600s_window_Nm": 0.0010313531073446328
+  },
+  "checks": [
+    {
+      "id": "source_sha_VACCO_MiPS_frozen_Rev6_15.pdf",
+      "pass": true,
+      "actual": "0b221d9bdd086e0e6c10a8a35d45cfb4d3744c88e9f33a09db2f2c406cd147f5",
+      "expected": "0b221d9bdd086e0e6c10a8a35d45cfb4d3744c88e9f33a09db2f2c406cd147f5"
+    },
+    {
+      "id": "source_sha_VACCO_C_POD_frozen_Rev7_14.pdf",
+      "pass": true,
+      "actual": "86d9f4b73df5948fa89a11d83e7f25979530173ee4d79c65cdb30b642216c088",
+      "expected": "86d9f4b73df5948fa89a11d83e7f25979530173ee4d79c65cdb30b642216c088"
+    },
+    {
+      "id": "source_sha_VACCO_C_POD_current.html",
+      "pass": true,
+      "actual": "fc24ae8b99b5faf48a830f8196175f250f03f645d396544444fe01d3da6eaaf4",
+      "expected": "fc24ae8b99b5faf48a830f8196175f250f03f645d396544444fe01d3da6eaaf4"
+    },
+    {
+      "id": "source_sha_VACCO_downloads_current.html",
+      "pass": true,
+      "actual": "dbd05f668fc397b9985c869d772b0b98942336e37c07ac01e6d28776f30e58e1",
+      "expected": "dbd05f668fc397b9985c869d772b0b98942336e37c07ac01e6d28776f30e58e1"
+    },
+    {
+      "id": "source_sha_VACCO_Standard_MiPS_current.html",
+      "pass": true,
+      "actual": "c7e0d51be876eafd4bc4aee797acbff17489576baaa311dcbfb10b88388185c2",
+      "expected": "c7e0d51be876eafd4bc4aee797acbff17489576baaa311dcbfb10b88388185c2"
+    },
+    {
+      "id": "source_sha_VACCO_C_POD_public.pdf",
+      "pass": true,
+      "actual": "86d9f4b73df5948fa89a11d83e7f25979530173ee4d79c65cdb30b642216c088",
+      "expected": "86d9f4b73df5948fa89a11d83e7f25979530173ee4d79c65cdb30b642216c088"
+    },
+    {
+      "id": "source_sha_VACCO_MiPS_public.pdf",
+      "pass": true,
+      "actual": "0b221d9bdd086e0e6c10a8a35d45cfb4d3744c88e9f33a09db2f2c406cd147f5",
+      "expected": "0b221d9bdd086e0e6c10a8a35d45cfb4d3744c88e9f33a09db2f2c406cd147f5"
+    },
+    {
+      "id": "missing_download_not_misrepresented_GomSpace_NanoProp_6DOF.pdf",
+      "pass": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "id": "source_sha_T4i_PERSEUS_current.html",
+      "pass": true,
+      "actual": "499f43a4ef5e9ec35bf51d152d43118aa398b6c5cb1972e8973050b445b15140",
+      "expected": "499f43a4ef5e9ec35bf51d152d43118aa398b6c5cb1972e8973050b445b15140"
+    },
+    {
+      "id": "source_sha_T4i_Product_Overview_DSH_000010_05.pdf",
+      "pass": true,
+      "actual": "d552944de1aaf724c056ea751962f72ea74c50f9cdbd23ba29c5a57b0de67b9c",
+      "expected": "d552944de1aaf724c056ea751962f72ea74c50f9cdbd23ba29c5a57b0de67b9c"
+    },
+    {
+      "id": "source_sha_T4i_IPERDRONE_launch_2024.html",
+      "pass": true,
+      "actual": "cfcd57825255a6ea69e931962bcba9f3b19317d6089dfac2b2cf11043346f26e",
+      "expected": "cfcd57825255a6ea69e931962bcba9f3b19317d6089dfac2b2cf11043346f26e"
+    },
+    {
+      "id": "source_sha_VACCO_C_POD_downloads_index.pdf",
+      "pass": true,
+      "actual": "2bf995824f1c4f2374fe3f7707e6b86f6b138d80bcd75cfdee938938019813a3",
+      "expected": "2bf995824f1c4f2374fe3f7707e6b86f6b138d80bcd75cfdee938938019813a3"
+    },
+    {
+      "id": "source_sha_VACCO_MiPS_downloads_index.pdf",
+      "pass": true,
+      "actual": "41d30aed4e699260d776f8b4291516a14eae41e800b68c05abfca36d1afade40",
+      "expected": "41d30aed4e699260d776f8b4291516a14eae41e800b68c05abfca36d1afade40"
+    },
+    {
+      "id": "source_sha_VACCO_Standard_MiPS_2020.pdf",
+      "pass": true,
+      "actual": "075ca6081c0731f12941f32d224d08f6c86a2c1feb53e008ef79f8e62c99acd2",
+      "expected": "075ca6081c0731f12941f32d224d08f6c86a2c1feb53e008ef79f8e62c99acd2"
+    },
+    {
+      "id": "missing_download_not_misrepresented_GomSpace_NanoProp_6DOF_www.pdf",
+      "pass": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "id": "exactly_two_formal_alternatives",
+      "pass": true,
+      "actual": 2,
+      "expected": 2
+    },
+    {
+      "id": "zero_full_public_icd_matches",
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "id": "C_POD_same_footer_conflict_recorded",
+      "pass": true,
+      "actual": "CPOD_SAME_PART_SAME_FOOTER_DIFFERENT_SPEC",
+      "expected": "CPOD_SAME_PART_SAME_FOOTER_DIFFERENT_SPEC"
+    },
+    {
+      "id": "history_scan_hash_unchanged",
+      "pass": true,
+      "actual": "856f1e30de47ca5b3f505f9fe5bd5cd22a75e448ec916b42d9c330f7a62e28ea",
+      "expected": "856f1e30de47ca5b3f505f9fe5bd5cd22a75e448ec916b42d9c330f7a62e28ea"
+    },
+    {
+      "id": "compact_old_MiPS_full_impulse_necessary_bound_fails",
+      "pass": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "id": "compact_C_POD_full_impulse_necessary_bound_only_passes",
+      "pass": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "id": "compact_C_POD_hist_budget_necessary_bound_fails",
+      "pass": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "id": "C_POD_no_axis_aligned_fit_old_shared_box",
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "id": "hardware_actions_zero",
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "id": "supplier_contacts_zero",
+      "pass": true,
+      "actual": 0,
+      "expected": 0
+    }
+  ],
+  "checks_passed": 25,
+  "checks_total": 25,
+  "status": "PASS_EVIDENCE_AND_NECESSARY_BOUND_CHECKS_ONLY"
+}

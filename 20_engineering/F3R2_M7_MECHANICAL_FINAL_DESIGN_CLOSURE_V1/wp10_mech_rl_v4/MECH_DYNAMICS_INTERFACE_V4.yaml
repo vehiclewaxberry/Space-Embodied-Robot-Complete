@@ -1,0 +1,264 @@
+schema: MECH_DYNAMICS_INTERFACE_V4
+generated_local: '2026-08-22T00:46:25+08:00'
+scope: M7_DESIGN_AUTHORITY_EXTENSION_LAYER_OVER_M5_MECH_DYNAMICS_INTERFACE_V3
+release_status: DESIGN_LAYER_PENDING_SIBLING_HASH_BACKFILL_NOT_PRODUCTION
+
+relation_to_v3:
+  classification: GOVERNANCE_DECLARATION
+  source: M7_EXECUTION_PLAN_V1 (WP10 contract) + M7_OWNER_DECISION_REGISTER_V1
+  supersedes_v3: false
+  v3_hash_bound_diagnostic_domain_untouched: true
+  v3_binding:
+    path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/07_simulation_handoff/MECH_DYNAMICS_INTERFACE_V3.yaml
+    sha256: 88AE877677BBCE40BE6324AC884B91E0DF8B7862EB9074AD1D001B54FD7F3F79
+    classification: HASH_BOUND_DIAGNOSTIC_AUTHORITY
+  declaration: >-
+    V4 is an additive M7 design-authority layer on top of the V3 pattern. It
+    does not replace, mutate, re-pin, or extend V3's hash-bound diagnostic
+    domain. Sim15 remains bound to V3 by schema string, artifact identifier
+    order, unit contract, acknowledgement string, and per-artifact SHA-256.
+    V4 is neither MECH_RL_INTERFACE_V1 nor MECH_RL_INTERFACE_V2: Sim13 and
+    Sim14 production bindings remain forbidden for this document. Nothing in
+    V4 is flight, launch, or qualification authority.
+
+units:
+  length: m
+  angle: rad
+  mass: kg
+  inertia: kg*m^2
+  force: N
+  moment: N*m
+  impulse: N*s
+  couple_impulse: N*m*s
+  classification: INHERITED_UNCHANGED_FROM_V3
+  source: MECH_DYNAMICS_INTERFACE_V3.units (sha 88AE877677BBCE40BE6324AC884B91E0DF8B7862EB9074AD1D001B54FD7F3F79)
+
+frame_authority:
+  classification: DESIGN_AND_DYNAMICS_AUTHORITY
+  source: ODR-01 (M7_OWNER_DECISION_REGISTER_V1, sha F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6)
+  m_frame_definition:
+    classification: DESIGN_AND_DYNAMICS_AUTHORITY
+    source: ODR-01
+    chain: T_SM = [185.25, 0, 0] mm followed by Ry(90 deg)
+    t_sm_mm: [185.25, 0, 0]
+    rotation: RY_PLUS_90_DEG
+  physical_feature_stack:
+    classification: GEOMETRIC_FEATURE_STACK_NOT_DYNAMICS_FRAME
+    source: ODR-01
+    stations_mm:
+      plate_outer_face: 198.0
+      physical_mounting_face: 208.0
+      screw_end_faces: 210.405
+    rule: must not become a second dynamics frame definition
+
+failure_semantics:
+  classification: CONFIGURATION_AUTHORITY
+  source: ODR-02 (M7_OWNER_DECISION_REGISTER_V1)
+  semantics: ATTACHED_STUCK
+  applies_to_configuration_ids: [C02, C03, C04]
+  applies_to_names: [LEFT_PANEL_FAIL, RIGHT_PANEL_FAIL, BOTH_PANEL_FAIL]
+  ruling: >-
+    Failed panel(s) remain mechanically attached to the spacecraft, stuck or
+    not normally deployed. Jettison interpretation is forbidden unless a
+    dedicated jettison device is later designed and authorized.
+  jettison_forbidden: true
+  mass_model_consequence: failed panel mass and inertia remain in the system model
+
+design_mass_model_binding:
+  classification: DESIGN_MASS_MODEL
+  source: WP2 contract (M7_EXECUTION_PLAN_V1, wp2_design_mass/) + ODR-05
+  reference_frame: spacecraft_assembly_frame
+  reference_frame_alias: S
+  inertia_reference_point: configuration_system_CG
+  system_design_mass_properties:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml
+    sha256: PENDING_SIBLING_HASH
+    required: true
+    classification: DESIGN_MASS_MODEL
+    source: WP2
+  uncertainty_policy:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/DESIGN_MASS_UNCERTAINTY_POLICY_V1.yaml
+    sha256: PENDING_SIBLING_HASH
+    required: true
+    classification: DESIGN_MASS_UNCERTAINTY_POLICY
+    source: WP2
+  configuration_ids: [C01, C02, C03, C04, C05, C06, C07, C08, C09]
+  configuration_identity_authority:
+    path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/M5_CONFIGURATION_GEOMETRY_CONTRACT_V1.yaml
+    sha256: DA18F5A6E2F553FC709E90BA1035CDD7770A6FCEECA13EDC1FDB448CAF75838D
+    classification: HASH_BOUND_CONFIGURATION_IDENTITY
+    names: [DEPLOYED_NOMINAL, LEFT_PANEL_FAIL, RIGHT_PANEL_FAIL, BOTH_PANEL_FAIL,
+      ARM_STOWED_ONORBIT, ARM_TASK_READY, PREGRASP, CAPTURE, POST_CAPTURE]
+    rl_label_crosswalk_note: >-
+      M4 MECH_RL_INTERFACE_V2 required_ids end with TARGET_CAPTURE_22KG /
+      TARGET_CAPTURE_150KG where M5 uses C08=CAPTURE / C09=POST_CAPTURE; the
+      22 kg / 150 kg figures are scenario mass anchors, not extra mechanical
+      configurations. Final alias crosswalk lands with WP2 backfill.
+  required_fields_per_configuration:
+    - mass_kg
+    - center_of_mass_S_m
+    - inertia_about_system_cg_in_S_kg_m2
+    - principal_inertia_kg_m2
+    - principal_axes_S
+    - uncertainty
+    - pedigree
+  required_fields_classification: DESIGN_MASS_MODEL_CONTRACT
+  required_fields_source: M7_EXECUTION_PLAN_V1 WP2 output contract
+  pinned_constants:
+    b601_arm_mass_kg:
+      value: 4.695555949342986
+      classification: ACCEPTED_URDF
+      source: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf (sha 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164)
+      rule: L0 authority, never overridden by CAD or design values
+    m3r_design_mass_kg:
+      value: 0.7619
+      classification: DESIGN_BUDGET
+      confidence: B
+      source: ODR-05
+      retained: M3R_AS_BUILT_MEASUREMENT_OPEN
+    bus_core_diagnostic_kg:
+      value: 22.927194215348
+      classification: DIAGNOSTIC
+      source: M7_EXECUTION_PLAN_V1 contract values (M6 baseline)
+      rule: diagnostic anchor only; design authority arrives via WP2 backfill
+    legacy_flange_diagnostic_kg:
+      value: 0.376019184652
+      classification: DIAGNOSTIC
+      source: M7_EXECUTION_PLAN_V1 contract values
+      allocation: BUS_PRIMARY_STRUCTURE with declared uncertainty
+    solar_panel_each_kg:
+      value: 0.3483933
+      classification: DIAGNOSTIC
+      source: M7_EXECUTION_PLAN_V1 contract values
+      panel_box_m: [0.227, 0.200, 0.006]
+    load_bridge_candidate_mass_g:
+      value: 702.195458
+      classification: MATERIAL_DERIVED_CANDIDATE
+      source: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/
+      material: 6061-T6 2700 kg/m^3
+      rule: candidate not authority; enters design model only through WP2
+  status: PENDING_SIBLING_HASH
+
+joint_stiffness_candidate:
+  classification: CANDIDATE_STIFFNESS
+  source: WP4 contract (M7_EXECUTION_PLAN_V1, wp4_fastener_design/)
+  group: M3R 4xHM4-75 (M4-class) fastener group
+  pattern:
+    classification: CONTRACT_VALUE
+    source: M7_EXECUTION_PLAN_V1 contract values
+    arrangement: 4x square 64x64 mm
+    pcd_mm: 90.509642
+    x_stations_mm: [185.25, 198.0, 208.0, 210.405]
+  design_document:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp4_fastener_design/M3R_FASTENER_DESIGN_V1.yaml
+    sha256: PENDING_SIBLING_HASH
+    required: true
+  torque_preload_schedule:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp4_fastener_design/TORQUE_PRELOAD_SCHEDULE_V1.csv
+    sha256: PENDING_SIBLING_HASH
+    required: true
+  stiffness_values: null
+  stiffness_values_status: PENDING_SIBLING_HASH
+  rule: candidate stiffness may parameterize dynamics sensitivity studies only; it is not test-measured or flight authority
+  status: PENDING_SIBLING_HASH
+
+mechanism_parameters:
+  classification: DESIGN_TARGET
+  source: WP5 contract (M7_EXECUTION_PLAN_V1, wp5_mechanisms/)
+  hinge_moment:
+    value_N_m: null
+    classification: DESIGN_TARGET
+    source_document:
+      path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml
+      sha256: PENDING_SIBLING_HASH
+      required: true
+  gripper_force:
+    value_N: null
+    classification: DESIGN_TARGET
+    source_document:
+      path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+      sha256: PENDING_SIBLING_HASH
+      required: true
+  hdrm_preload:
+    value_N: null
+    classification: DESIGN_TARGET
+    source_document:
+      path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml
+      sha256: PENDING_SIBLING_HASH
+      required: true
+  gripper_kinematics_fact:
+    classification: NEUTRAL_R1_GEOMETRY_AUTHORITY
+    source: M7_EXECUTION_PLAN_V1 contract values (ODR-04 context)
+    stroke_m: [0.0, 0.0715]
+    validation: 144 samples, neutral continuous-stroke 0-overlap PASS
+  rule: design targets until WP5 lands; not measured or qualification values
+  status: PENDING_SIBLING_HASH
+
+fea1_evidence_pointer:
+  classification: OPERATIONAL_STRUCTURAL_VERIFICATION_EVIDENCE
+  source: WP7 contract (M7_EXECUTION_PLAN_V1, wp7_fea_operational/) + ODR-06
+  evidence:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/FEA1_EVIDENCE_V1.json
+    sha256: PENDING_SIBLING_HASH
+    required: true
+  results:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/FEA1_RESULTS_V1.csv
+    sha256: PENDING_SIBLING_HASH
+    required: true
+  authorized_cases: on-orbit operational load cases only (arm maneuver, emergency stop, 22 kg capture, 150 kg capture, gripper clamp, panel deployment, single-panel-failure, M3R interface, on-orbit system modal)
+  launch_qualification_fea: HOLD
+  launch_hold_source: ODR-06 retained (no launcher ICD)
+  status: PENDING_SIBLING_HASH
+
+diagnostic_load_anchors:
+  classification: DERIVED_RESEARCH_BOUND
+  source: M7_EXECUTION_PLAN_V1 contract values (CDR Phase-1 load families)
+  capture_anchor_impulse_22kg_0p5dps_N_s: [0.0601233, 0.360622]
+  capture_anchor_impulse_150kg_3dps_N_s: [0.274973, 0.677633]
+  rule: diagnostic anchors inherited for continuity with the V3 diagnostic domain; not physical contact authority
+
+runtime_gates:
+  geometry_diagnostic: PASS_INHERITED_FROM_V3
+  design_mass_model_loader_ready: PENDING_SIBLING_HASH
+  physical_contact: HOLD
+  structural_analysis_operational: AUTHORIZED_PENDING_WP7_EVIDENCE
+  structural_analysis_launch: HOLD
+  physics_gated_RL: HOLD
+  production_dynamics: HOLD
+  classification: GATE_STATE
+  source: V3 runtime gates + ODR-06 split
+
+prohibitions:
+  v4_replaces_v3_diagnostic_domain: false
+  sim13_production_binding_via_v4: FORBIDDEN
+  sim14_production_binding_via_v4: FORBIDDEN
+  sim13_sim14_sim15_file_modification: FORBIDDEN
+  design_equals_flight_qualified: false
+  zero_fill_of_unknowns: FORBIDDEN
+  candidate_equals_authority: false
+  cad_override_of_accepted_urdf_masses: FORBIDDEN
+  classification: STANDING_PROHIBITIONS
+  source: M7 standing rules + ODR standing_prohibitions_unchanged
+
+required_acknowledgement: I_ACKNOWLEDGE_M7_V4_VALUES_ARE_DESIGN_AUTHORITY_NOT_FLIGHT_QUALIFICATION_OR_PRODUCTION_DYNAMICS
+zero_fill_forbidden: true
+
+source_register:
+  - path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/07_simulation_handoff/MECH_DYNAMICS_INTERFACE_V3.yaml
+    sha256: 88AE877677BBCE40BE6324AC884B91E0DF8B7862EB9074AD1D001B54FD7F3F79
+    role: BASE_INTERFACE_PATTERN_AND_DIAGNOSTIC_DOMAIN
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/08_simulation_assets/MECH_RL_INTERFACE_V2.yaml
+    sha256: 2A72F8B77220529B191BA6FE780924D2067195EC9CAF7A7EE5626A589B2E826F
+    role: RL_INTERFACE_VOCABULARY_AND_HELD_FIELD_BASELINE
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+    role: OWNER_DECISIONS_ODR_01_02_05_06
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    sha256: AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B
+    role: CONTRACT_VALUES_AND_SIBLING_WP_CONTRACT_PATHS
+  - path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/M5_CONFIGURATION_GEOMETRY_CONTRACT_V1.yaml
+    sha256: DA18F5A6E2F553FC709E90BA1035CDD7770A6FCEECA13EDC1FDB448CAF75838D
+    role: CONFIGURATION_IDENTITY_C01_TO_C09
+  - path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    role: L0_ACCEPTED_URDF_NEVER_OVERRIDDEN

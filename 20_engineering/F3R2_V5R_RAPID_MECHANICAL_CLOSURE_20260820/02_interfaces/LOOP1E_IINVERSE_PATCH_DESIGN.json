@@ -1,0 +1,170 @@
+{
+  "schema": "V5R_LOOP1E_IINVERSE_PATCH_DESIGN_V1",
+  "task": "V5_LOOP1E_NATIVE_RECOVERY_R1",
+  "phase": "PHASE_C_SINGLE_POINT_PATCH_DESIGN",
+  "timestamp_utc": "2026-08-20T06:21:08Z",
+  "status": "DESIGNED_AND_STATICALLY_VERIFIED_EXECUTION_BLOCKED_BY_MEMORY_GATE",
+
+  "root_cause_established_without_solidworks": {
+    "method": "read the makepy-generated typelib module directly - no COM activation required",
+    "makepy_module": "C:/Users/stude/AppData/Local/Temp/gen_py/3.13/83A33D31-27C5-11CE-BFD4-00400513BB57x0x32x0.py",
+    "findings": [
+      {
+        "member": "IInverse",
+        "makepy_line": 31178,
+        "emitted_call": "self._oleobj_.InvokeTypes(10, LCID, 1, (9, 0), (),)",
+        "dispid": 10,
+        "wflags": 1,
+        "status": "FAILS with 61836 '无法读只写属性' on this SW2024 SP5 install"
+      },
+      {
+        "member": "Inverse",
+        "makepy_line": 31200,
+        "emitted_call": "self._oleobj_.InvokeTypes(9, LCID, 1, (9, 0), (),)",
+        "dispid": 9,
+        "wflags": 1,
+        "status": "UNTESTED - a DISTINCT member at a DISTINCT dispid, not an alias"
+      },
+      {
+        "member": "IMultiply",
+        "makepy_line": 31186,
+        "emitted_call": "self._oleobj_.InvokeTypes(2, LCID, 1, (9, 0), ((9, 1),), TransformObjIn)",
+        "dispid": 2,
+        "wflags": 1,
+        "status": "WORKS - called successfully on the same object at line 2617 of the Loop1E script"
+      }
+    ],
+    "decisive_inference": "IMultiply succeeds through the SAME static binding, on the SAME IMathTransform object, with the SAME wFlags=1. Therefore the failure is NOT a systemic makepy/COM-layer defect and NOT a memory or geometry problem - it is dispid 10 specifically being rejected as a write-only property. This narrows the fix to one call site and makes a broader COM refactor unjustified.",
+    "consistency_with_owner_ruling": "confirms the ruling's premise that this is a single centralised COM call, patchable without redesigning the COM layer"
+  },
+
+  "defect_site": {
+    "file": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py",
+    "file_sha256_pre_patch": "1F8E83AC067A2C4218BCECADBD192A68D55D09A2DC2C4B896E1BD475141B0419",
+    "function": "relative_transform",
+    "function_def_line": 2610,
+    "failing_line": 2613,
+    "failing_statement": "inverse_raw = first_transform.IInverse()",
+    "iinverse_call_sites_in_file": 1,
+    "patch_locality": "SINGLE_LINE_PLUS_ONE_HELPER",
+    "local_inconsistency_note": "IMultiply (2617) and ArrayData (2621) in the same function are reached through base.value/base.wrap accessors; only IInverse is invoked directly on the statically bound object. The patch removes that inconsistency rather than introducing a new pattern."
+  },
+
+  "candidate_inverse_paths": [
+    {"id": "C1", "path": "static IInverse (current)", "dispid": 10, "rationale": "baseline - must be shown to still fail so the probe proves it reproduces the defect"},
+    {"id": "C2", "path": "static Inverse", "dispid": 9, "rationale": "sibling member, cheapest possible fix, no binding change at all"},
+    {"id": "C3", "path": "late-bound dynamic IInverse", "dispid": 10, "rationale": "PROJECT PRECEDENT - exactly how IMateEntity2.Reference was fixed (FIX_PROPOSAL section 2 item 6, accessor A2)"},
+    {"id": "C4", "path": "late-bound dynamic Inverse", "dispid": 9, "rationale": "combination fallback"},
+    {"id": "C5", "path": "raw InvokeTypes with explicit DISPATCH_METHOD", "dispid": 10, "rationale": "bypasses makepy wFlags=1, targets the exact reported cause"},
+    {"id": "C6", "path": "raw InvokeTypes with explicit DISPATCH_METHOD", "dispid": 9, "rationale": "same, on the sibling dispid"}
+  ],
+  "selection_rule": "the probe returns the first candidate that both (a) returns a non-null transform and (b) satisfies inv(T) x T = I to better than 1e-12. Preference order on ties: C3 (project precedent) > C2 (least invasive) > C5 > C4 > C6.",
+  "candidate_not_yet_selected_reason": "selecting a path requires a live attach-only SolidWorks session; the memory gate blocks that. No candidate will be written into the script on speculation.",
+
+  "probe": {
+    "script": "20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/99_tools/V5R_PHASE_C_IINVERSE_PROBE.py",
+    "py_compile": "OK",
+    "static_audit": {
+      "uses_GetActiveObject": true,
+      "activation_calls_that_would_start_solidworks": [],
+      "bare_Dispatch_calls": 0,
+      "sanctioned_dynamic_Dispatch_calls": 2,
+      "mutation_calls": [],
+      "document_open_calls": [],
+      "attach_only": true,
+      "read_only": true,
+      "verdict": "PROBE_ATTACH_ONLY_READ_ONLY_SAFE_TO_RUN"
+    },
+    "opens_documents": 0,
+    "note": "the probe needs no document at all - IMathUtility.CreateTransform builds the test transform from a raw 16-value array, so nothing on disk is touched",
+    "test_transform": {
+      "description": "deliberately non-trivial rigid transform: 30 deg about Z, translation (0.1, -0.2, 0.3)",
+      "array16": [0.8660254037844387, 0.49999999999999994, 0.0, -0.49999999999999994, 0.8660254037844387, 0.0, 0.0, 0.0, 1.0, 0.1, -0.2, 0.3, 1.0, 0.0, 0.0, 0.0],
+      "why_not_identity": "an identity transform would pass a broken inverse trivially"
+    }
+  },
+
+  "required_smoke_tests_per_owner_ruling": [
+    {
+      "id": "S1",
+      "test": "MathTransform inverse round trip",
+      "criterion": "inv(T) x T within 1e-12 of identity over the 3x3 rotation block and the translation triple",
+      "implemented_in": "probe identity_residual()",
+      "status": "IMPLEMENTED_NOT_YET_RUN"
+    },
+    {
+      "id": "S2",
+      "test": "coordinate round trip A->B->A",
+      "criterion": "residual within existing geometric tolerance",
+      "status": "TO_BE_ADDED_AFTER_A_CANDIDATE_IS_SELECTED",
+      "note": "S2 exercises relative_transform end to end and is only meaningful once the inverse path works; adding it now would test nothing"
+    },
+    {
+      "id": "S3",
+      "test": "six-joint limit-angle drivers cold open and rebuild",
+      "criterion": "0 errors and 0 warnings",
+      "status": "PENDING_PHASE_D",
+      "baseline": "this already passed in the failed run - verdict V5_LOOP1E0_LOCAL_ARM_NO_LEGACY_GRIPPER_WITH_SIX_NATIVE_LIMIT_ANGLE_DRIVERS_PASS - so it is a regression check, not a new capability"
+    },
+    {
+      "id": "S4",
+      "test": "donor PRE/POST hash equality",
+      "criterion": "all pinned and protected hashes unchanged",
+      "status": "PRE_CAPTURED",
+      "evidence": "00_authority/LOOP1E_PRE_PATCH_SHA256.txt"
+    }
+  ],
+
+  "patch_scope_hard_limits": {
+    "files_authorized_to_change": 1,
+    "authorized_file": "99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py",
+    "must_not_change": [
+      "F3R2_V5_NATIVE_LOOP1_IMPORT_ATTACH_ONLY.py (SHA-pinned at TWO locations: repo root and RUN_ROOT/99_tools; load_base() raises BASE_HELPER_HASH_FAIL on any drift)",
+      "accepted B601 URDF",
+      "mass_inertia_budget_v1.csv",
+      "V2_2_NATIVE donor",
+      "B51 protected donor",
+      "F3R1 / F3R2 frozen tops",
+      "the 10 existing V5 native subassemblies",
+      "any existing Gate JSON or threshold registry"
+    ],
+    "in_place_edit_required": true,
+    "in_place_edit_justification": "SCRIPT_COPY is hardcoded to RUN_ROOT/99_tools and is enrolled in the final release manifest (line 3568). A patched copy living only in this round's isolated directory would be neither executed nor manifested.",
+    "self_hash_checks_are_not_an_obstacle": {
+      "line_3560": "sha256(__file__) vs audit['script']['sha256'] - both computed in the SAME run, so this is a TOCTOU guard, not a pin to a historical constant",
+      "line_3563": "sha256(SCRIPT_COPY) vs sha256(__file__) - SCRIPT_COPY resolves to the same path as __file__, satisfied trivially",
+      "conclusion": "editing the script in place does NOT trip SCRIPT_TOCTOU_FAIL or SCRIPT_COPY_DRIFT"
+    },
+    "prohibited_collateral_work": [
+      "no variable renaming",
+      "no reformatting",
+      "no refactoring of other COM calls",
+      "no touching IMultiply or ArrayData (they work)",
+      "PRE/POST diff must be readable on one screen"
+    ]
+  },
+
+  "blocking_state": {
+    "phase_a": "COMPLETE",
+    "phase_b": "FAIL - memory gate",
+    "phase_c": "DESIGN COMPLETE, probe written and statically audited, candidate NOT selected",
+    "phase_d": "BLOCKED - not attempted, attempt counter remains 0 of 2",
+    "memory_gate": {
+      "threshold_gib": 6.0,
+      "measured_min_sample_gib": 1.28801,
+      "sample_count": 10,
+      "result": "FAIL"
+    },
+    "override_bypass_still_armed": true,
+    "override_receipt": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/00_authority/V5_MEMORY_GATE_USER_OVERRIDE.json",
+    "override_consequence": "if Loop1E is launched as-is it will NOT stop at 1.29 GiB; the ruling's precondition available_memory_gib_ge_6 is currently unenforceable in code"
+  },
+
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "solidworks_opened": false,
+  "frozen_assets_modified": false,
+  "loop1e_attempts_consumed": 0,
+  "loop1e_attempts_remaining": 2,
+  "verdict": "IINVERSE_ROOT_CAUSE_PROVEN_SINGLE_DISPID_PATCH_READY_PENDING_MEMORY_AND_OVERRIDE_RESOLUTION"
+}

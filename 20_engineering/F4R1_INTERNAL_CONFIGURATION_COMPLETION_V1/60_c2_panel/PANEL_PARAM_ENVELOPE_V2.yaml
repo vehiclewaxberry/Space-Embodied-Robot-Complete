@@ -1,0 +1,270 @@
+---
+title: PANEL_PARAM_ENVELOPE_V2 — 帆板三档参数包络 V2（LOW/NOMINAL/HIGH）
+generated_at: 2026-08-27
+status: DESIGN_RESEARCH_CANDIDATE
+scope: C-ISS-03 刚度轴失真 + C-ISS-08 COTS 不公开动力学参数的三档自证包络；质量/刚度/阻尼/展开力矩/接触窗
+machine_check: PANEL_VERIFICATION_V1.json（compute_c2_checks.py 复算）
+governance: 冻结占位（0.3483933 kg/板、f1=1.0 Hz、ζ=0.005、T_c=20 ms）一律不改；本卡为新候选 V2，差异逐项声明
+---
+
+schema: PANEL_PARAM_ENVELOPE_V2
+artifact_class: DESIGN_RESEARCH_CANDIDATE
+generated_at: '2026-08-27'
+
+tiers:
+  LOW:
+    areal_density_kg_m2:
+      value: 2.0
+      provenance:
+        type: url
+        source: B3 §2.3/§6 — CFRP/铝蜂窝定制路线下限（底层预算 2.3–3.5 kg/m²）；NASA SOA Power https://www.nasa.gov/smallsat-institute/sst-soa/power-subsystems/ ；JAXA JERG-2-215A https://sma.jaxa.jp/TechDoc/Docs/E_JAXA-JERG-2-215A.pdf
+        in_repo: 20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/10_benchmark/B3_DEPLOYABLE_SOLAR_ARRAY_BENCHMARK.md (sha256 d42aa3867c52)
+      rationale: 蜂窝/CFRP 定制路线最轻角点；低于 2 kg/m² 进入柔性/薄膜毯物类（不同对象，不纳入）
+    panel_mass_kg:
+      sim_line_per_panel:
+        value: 0.0908
+        provenance:
+          type: formula
+          source: m = sigma × A = 2.0 × 0.0454 m²（A = L·b = 0.200×0.227，flexible_appendage_v1.yaml sha256 52fa88084c62）；PANEL_VERIFICATION_V1.json → a_mass_from_areal_density
+        rationale: sim 单板几何不变、仅面密度改档
+      r2_line_per_wing:
+        value: 0.6
+        provenance:
+          type: formula
+          source: m_wing = 3×sigma×A_leaf + hardware = 3×2.0×0.06 + 0.24 kg（hardware 0.24 kg/翼来自冻结 R2 质量模型，SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json sha256 d5b7dd16532f，不随 sigma 缩放）
+        rationale: 叶质量随档、机构硬件冻结值保持不变
+    f1_hz:
+      value: 1.0
+      provenance:
+        type: in_repo_sha
+        source: 现行占位名义值（flexible_appendage_v1.yaml sha256 52fa88084c62；coupled_model_v0.yaml sha256 67a532fb29c7）；B3 §6 保留为「超柔性界」
+      rationale: 包络下界 = 占位本身，对应大型柔性翼/薄膜毯动力学而非 COTS 刚性板；引用时须带该限定语（B3 §6 使用建议 2）
+    zeta:
+      value: 0.002
+      provenance:
+        type: url
+        source: NASA 太阳阵柔性模态建模取值 0.2%（Doherty 1998, NTRS 19980232013）https://ntrs.nasa.gov/api/citations/19980232013/downloads/19980232013.pdf ；B3 §3.3
+      rationale: 公开锚点下界；轻阻尼长振铃角点
+    hinge_stiffness:
+      k_theta_root_Nm_per_rad:
+        value: 50.0
+        provenance:
+          type: in_repo_sha
+          source: R2_FLEXIBILITY_VALIDITY_ENVELOPE_V3.json LOW 角点（sha256 5a15d0d3b8a1），PROVISIONAL_DERIVED bounded interval
+        rationale: R2 整翼线根部铰链刚度下界；sim 单板线铰链刚度折叠进 EI，不单列
+      k_theta_inter_latch_inclusive_Nm_per_rad:
+        value: 20.0
+        provenance:
+          type: in_repo_sha
+          source: 同上 V3 包络 LOW 角点（latch-inclusive；独立锁扣刚度 = null，HOLD_HARDWARE_NOT_SELECTED，零填充禁止）
+        rationale: 板间铰链（含锁扣）刚度下界
+    deployment_torque_margin:
+      resist_worst_Nm:
+        value: 0.006
+        provenance:
+          type: in_repo_sha
+          source: SOLAR_R2_DEPLOYMENT_TORQUE_LEDGER_V1.yaml（sha256 5c78e5916b1d）optimistic 角 = hinge_friction low 0.005 + harness low 0.001
+        rationale: 阻力矩乐观角点
+      required_drive_min_Nm:
+        value: 0.012
+        provenance:
+          type: formula
+          source: ≥2× 判据 × 0.006（JAXA JERG-2-215A §5.3.3 静力矩裕度 >1 ⟺ T_drive ≥ 2×T_resist；MDPI Coatings 2023 13(8):1351 https://www.mdpi.com/2079-6412/13/8/1351 ）；PANEL_VERIFICATION_V1.json → c_deployment_torque_margin
+        rationale: 文献设计规范最低可接受判据
+      current_candidate_ratio:
+        value: 8.333
+        provenance:
+          type: formula
+          source: 弹簧候选 0.05 N·m / 0.006 N·m（账本 PROVISIONAL_DERIVED）
+      verdict: PASS_AT_OPTIMISTIC_CORNER
+    te_c_ms:
+      value: 20.0
+      provenance:
+        type: in_repo_sha
+        source: scene_A2_capture.yaml contact.T_c_ms_nominal（sha256 4b979a1dfd18），PROVISIONAL 待 B601 夹爪闭合时间实测（GAP-IF-01）
+      rationale: 引用不改；campaign 取已扫范围 5–100 ms 内档位覆盖（T_c_ms_sweep [5,10,20,50,100]）
+
+  NOMINAL:
+    areal_density_kg_m2:
+      value: 4.0
+      provenance:
+        type: url
+        source: B3 §2.3/§6 — PCB COTS 中值（ISIS 4.4–5.0 https://www.isispace.nl/products/small-satellite-solar-panels/ ；DHV 3.9 https://www.satnow.com/products/solar-panels/dhv-technology/102-1287-spc-cs10 ；BCT 4.4；Ex-Alta ~3.4 https://arxiv.org/abs/2407.19356 ）
+        in_repo: 20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/10_benchmark/B3_DEPLOYABLE_SOLAR_ARRAY_BENCHMARK.md (sha256 d42aa3867c52)
+      rationale: CubeSat COTS 主流路线中值，4 个独立实测/推算点 + 底层预算 4.0–5.5 支撑
+    panel_mass_kg:
+      sim_line_per_panel:
+        value: 0.1816
+        provenance:
+          type: formula
+          source: m = 4.0 × 0.0454 m²；PANEL_VERIFICATION_V1.json → a_mass_from_areal_density
+        rationale: 同 LOW 档公式
+      r2_line_per_wing:
+        value: 0.96
+        provenance:
+          type: formula
+          source: m_wing = 3×4.0×0.06 + 0.24 kg
+        rationale: 同 LOW 档公式
+    f1_hz:
+      value: 8.0
+      provenance:
+        type: url
+        source: 小卫星带辅助支撑太阳翼展开态一阶 8 Hz 实测/分析（南京航空航天大学学报 2019S02 https://jnuaa.nuaa.edu.cn/ch/reader/view_abstract.aspx?file_no=2019S02&flag=1 ）+ 箱式小卫星展开态设计指标 ≥8 Hz（J. Mach. Eng. Sci. Tech. (UM) 2024 https://journal2.um.ac.id/index.php/jmest/article/download/50192/12640 ）；B3 §3.2/§6（铰链/根部主导的系统级频率）
+        in_repo: B3 sha256 d42aa3867c52
+      rationale: 公开实测锚点 + 设计指标双证；0.2 m 级悬臂刚性板的系统级代表值
+    zeta:
+      value: 0.01
+      provenance:
+        type: ASSUMED
+        source: 航天结构模态阻尼工程惯例中值 0.5–2%（B3 §3.3【估计/建议】，由 Doherty 0.2% 与 Zhang 2025 蜂窝板 3% 两锚点夹住）；等于现 sim SSOT 占位值（flexible_appendage_v1.yaml damping zeta=0.01，TBD_cite_literature 由上述两引用闭环）
+      rationale: 惯例带中值；非单一权威来源，标 ASSUMED
+    hinge_stiffness:
+      k_theta_root_Nm_per_rad:
+        value: 200.0
+        provenance:
+          type: in_repo_sha
+          source: R2_FLEXIBILITY_VALIDITY_ENVELOPE_V3.json NOMINAL 角点（sha256 5a15d0d3b8a1）
+        rationale: 同 LOW 档
+      k_theta_inter_latch_inclusive_Nm_per_rad:
+        value: 100.0
+        provenance:
+          type: in_repo_sha
+          source: 同上 V3 包络 NOMINAL 角点
+        rationale: 同 LOW 档
+    deployment_torque_margin:
+      resist_worst_Nm:
+        value: 0.03
+        provenance:
+          type: in_repo_sha
+          source: SOLAR_R2_DEPLOYMENT_TORQUE_LEDGER_V1.yaml mid-travel worst（friction high 0.02 + harness high 0.01，sha256 5c78e5916b1d）
+        rationale: 中途最不利阻力矩（PROVISIONAL_DERIVED）
+      required_drive_min_Nm:
+        value: 0.06
+        provenance:
+          type: formula
+          source: ≥2× 判据 × 0.030；PANEL_VERIFICATION_V1.json → c_deployment_torque_margin
+        rationale: 同 LOW 档判据
+      current_candidate_ratio:
+        value: 1.667
+        provenance:
+          type: formula
+          source: 弹簧候选 0.05 / 0.030
+      verdict: FAIL_2X_RULE（候选弹簧 0.05 N·m 不满足 ≥2×；JAXA 静力矩裕度 Ms=0.667 < 1；须升级弹簧至 ≥0.060 N·m——登记 GATE_C2 open item，WP5 R2 update 负责选型）
+    te_c_ms:
+      value: 20.0
+      provenance:
+        type: in_repo_sha
+        source: 同 LOW 档（scene_A2_capture.yaml sha256 4b979a1dfd18）
+      rationale: 引用不改
+
+  HIGH:
+    areal_density_kg_m2:
+      value: 7.7
+      provenance:
+        type: in_repo_sha
+        source: 现占位隐含面密度 7.674 kg/m²（0.3483933 kg / 0.0454 m²，flexible_appendage_v1.yaml sha256 52fa88084c62，脚本复算）；B3 §6 取为保守上界（SJ-18 式重演示件 10 kg/m² 可作极端情景，Lan et al. 2021）
+      rationale: 与现行 SSOT 回溯兼容的最重角点；超真实带上界 ~1.5×，代表重结构/重集成情景
+    panel_mass_kg:
+      sim_line_per_panel:
+        value: 0.34958
+        provenance:
+          type: formula
+          source: m = 7.7 × 0.0454 m²；PANEL_VERIFICATION_V1.json → a_mass_from_areal_density
+        rationale: 同 LOW 档公式；较占位 0.3483933 kg 仅 +0.34%
+      r2_line_per_wing:
+        value: 1.626
+        provenance:
+          type: formula
+          source: m_wing = 3×7.7×0.06 + 0.24 kg
+        rationale: 同 LOW 档公式
+    f1_hz:
+      value: 20.0
+      provenance:
+        type: formula
+        source: 悬臂板公式按 B3 §5.2 FR4 PCB 1.6 mm 构造（E=20 GPa, ν=0.18, D=7.055 N·m, EI=1.602 N·m², σ=3.5）→ f1=19.86 Hz≈20 Hz（PANEL_VERIFICATION_V1.json → b_f1_from_cantilever_formula）；公式来源 B3 §5.2
+        in_repo: B3 sha256 d42aa3867c52
+      rationale: 0.2 m 悬臂 PCB 刚性板板弯曲上界；计入铰链/根部后系统级回落 ~5–15 Hz
+    zeta:
+      value: 0.03
+      provenance:
+        type: url
+        source: 蜂窝夹层板声激励频响惯例 3%（Zhang et al. 2025, PMC12737105 https://pmc.ncbi.nlm.nih.gov/articles/PMC12737105/ ）；B3 §3.3
+      rationale: 公开锚点上界；重阻尼快衰减角点
+    hinge_stiffness:
+      k_theta_root_Nm_per_rad:
+        value: 800.0
+        provenance:
+          type: in_repo_sha
+          source: R2_FLEXIBILITY_VALIDITY_ENVELOPE_V3.json HIGH 角点（sha256 5a15d0d3b8a1）
+        rationale: 同 LOW 档
+      k_theta_inter_latch_inclusive_Nm_per_rad:
+        value: 400.0
+        provenance:
+          type: in_repo_sha
+          source: 同上 V3 包络 HIGH 角点
+        rationale: 同 LOW 档
+    deployment_torque_margin:
+      resist_worst_Nm:
+        value: 0.04
+        provenance:
+          type: in_repo_sha
+          source: SOLAR_R2_DEPLOYMENT_TORQUE_LEDGER_V1.yaml final-5deg worst（mid 0.030 + latch engagement 0.01，sha256 5c78e5916b1d）
+        rationale: 末 5° 锁扣啮合最不利阻力矩（PROVISIONAL_DERIVED）
+      required_drive_min_Nm:
+        value: 0.08
+        provenance:
+          type: formula
+          source: ≥2× 判据 × 0.040；PANEL_VERIFICATION_V1.json → c_deployment_torque_margin
+        rationale: 同 LOW 档判据
+      current_candidate_ratio:
+        value: 1.25
+        provenance:
+          type: formula
+          source: 弹簧候选 0.05 / 0.040
+      verdict: FAIL_2X_RULE（Ms=0.25 < 1；控制工况；须升级弹簧至 ≥0.080 N·m——登记 GATE_C2 open item）
+    te_c_ms:
+      value: 20.0
+      provenance:
+        type: in_repo_sha
+        source: 同 LOW 档（scene_A2_capture.yaml sha256 4b979a1dfd18）
+      rationale: 引用不改
+
+metadata:
+  usage:
+    - 论文灵敏度扫描以 (sigma, f1, zeta) 三轴为主；展开力矩单列机构设计章节（B3 §6 建议 1）
+    - LOW f1=1.0 Hz 档引用时必须带限定语「超出 COTS 刚性板物理范围，用于包络大型柔性翼类动力学」（B3 §6 建议 2）
+    - 质量与刚度联动改（真实板 σ 与 EI 同源于基板构造）；禁止 σ=7.7 配 f1=20 这类物理不自洽组合（B3 §6 建议 3）；自洽配对见 B3 §5.2 构造表
+    - 三档为确定性保守角点（非概率不确定度），与 V3 包络 uncertainty_method 同纪律
+  mapping_to_r2_flexibility_validity_envelope_v3:
+    v3_ref: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round4_hf_rom_v3/R2_FLEXIBILITY_VALIDITY_ENVELOPE_V3.json (sha256 5a15d0d3b8a1)
+    relationship: ALIGN_AND_EXTEND（对齐并扩展，非另起炉灶——CHARTER C2 要求）
+    mappings:
+      - C2 f1 LOW=1.0 Hz < V3 LOW 角点 BENDING_1=2.225 Hz：C2 向下扩展（保留占位=超柔性界）
+      - C2 f1 NOMINAL=8.0 Hz ≈ V3 HIGH 角点 BENDING_1=7.830 Hz：叶尺度悬臂公式（B3 §5.2）对 R2 整翼 ROM 系统级频率的对应档
+      - C2 f1 HIGH=20.0 Hz 超出 V3 HIGH：板弯曲上界角点（铰链受限前）
+      - C2 hinge_stiffness 三档直接采用 V3 角点（k_root 50/200/800、k_inter 20/100/400 N·m/rad），不另设
+      - C2 sigma 三档（2.0/4.0/7.7）覆盖 R2 候选 3.0（落于 LOW–NOMINAL 之间）与 sim 占位 7.674（≈HIGH）
+  difference_declarations:
+    - id: DIFF-V2-01
+      item: zeta NOMINAL
+      c2_v2: 0.01（B3 工程惯例中值=sim SSOT 占位，ASSUMED）
+      frozen_v3: 0.005（V3 包络 NOMINAL / coupled_model_v0.yaml zeta_modal，PROVISIONAL_DERIVED）
+      disposition: 两线并存已声明；campaign 可将 ζ 作附属因子在 [0.002, 0.03] 内补点
+    - id: DIFF-V2-02
+      item: f1 口径
+      c2_v2: 叶尺度悬臂板公式 + 公开实测锚点（1/8/20 Hz）
+      frozen_v3: R2 整翼七模态 ROM 系统级包络（BENDING_1 2.225/4.300/7.830 Hz）
+      disposition: 两种口径映射见 mapping；campaign 主链用 C2 叶尺度档，e23 链用 V3 角点交叉
+    - id: DIFF-V2-03
+      item: 占位失真方向
+      statement: 质量轴占位偏重 1.53–3.84×（脚本复算），纠正 AGENTS.md 待办3「5–10 倍」表述；刚度/频率轴占位偏软 f1 低 8–20×、EI 软 ~180×，为主要矛盾（B3 §7）
+    - id: DIFF-V2-04
+      item: 展开力矩
+      statement: 本卡不改 R2 账本数值，仅按 ≥2× 判据核算并判定候选弹簧 FAIL（mid 1.667 / final-5deg 1.25）；账本数值全 PROVISIONAL_DERIVED，弹簧/阻尼/锁扣选型 OPEN（SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1.yaml sha256 11d585258597）
+  unknown_register:
+    - COTS 铰链力矩绝对值（B3 §3.4 UNKNOWN）
+    - COTS 手册展开态频率/阻尼厂商值（B3 §3 总口径 UNKNOWN）
+    - 独立锁扣刚度（V3 null，HOLD_HARDWARE_NOT_SELECTED，零填充禁止）
+    - T_c 夹爪闭合时间实测（GAP-IF-01，PROVISIONAL 20 ms 引用不改）
+  review_status: PENDING_OWNER_REVIEW
+  release_credit: false

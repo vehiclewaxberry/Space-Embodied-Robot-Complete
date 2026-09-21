@@ -1,0 +1,269 @@
+schema: GRIPPER_ENGINEERING_PACK_V2
+generated_local: '2026-08-23T12:55:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP5_MECHANISMS
+mechanism: GRIPPER_R1
+release_level: PROTOTYPE_DESIGN_ONLY
+overall_status: DESIGN_CANDIDATE_SEMANTIC_CORRECTED__PHYSICAL_ACTUATOR_PROTOTYPE_AND_FLIGHT_RELEASE_HOLD
+standards_frame:
+  reference: ECSS-E-ST-33-01C
+  use: DRD structure template only (SMS/MDD/MAV/MUM); analytical design level
+  controlled_copy_held: false
+  status: STANDARD_COPY_NOT_HELD_HOLD
+classification_legend:
+  DESIGN_TARGET_CANDIDATE: design-level target set by this pack
+  DERIVED: computed from pinned contract/baseline inputs under declared assumptions; research-bound; capture
+    anchors are NOT_STRUCTURAL_DESIGN_AUTHORITY per CDR envelope
+  MODEL_LIMIT: URDF model parameter; not a design or qualification load
+  HOLD: physical/environmental/external authority input absent; no zero-fill
+frozen_inputs:
+  stroke_mm:
+  - 0.0
+  - 71.5
+  continuous_stroke_sample_count: 144
+  stroke_sample_step_mm: 0.5
+  positive_rail_palm_overlap_count: 0
+  geometry_status: NEUTRAL_R1_CORRECTION_PASS (V5R validation; native V5 36 findings SUPERSEDED per ODR-04)
+  pregrasp_travel_mm: 55.0
+  urdf_joint_type: prismatic (gripper_joint1 / gripper_joint2)
+  urdf_effort_limit_N: 100.0
+  urdf_limit_role: MODEL_LIMIT_NOT_DESIGN_COMMAND_OR_QUALIFICATION_LOAD
+  urdf_velocity_limit_raw: 15.0
+  urdf_velocity_semantic_unit: m/s
+  urdf_velocity_semantic_value_m_s: 15.0
+  urdf_velocity_source_classification: UNVALIDATED_AUTO_EXPORTED_MODEL_LIMIT
+  urdf_velocity_physical_capability_m_s: null
+  urdf_velocity_physical_uncertainty_m_s: null
+sms_requirements:
+- req_id: GRP-SMS-01
+  title: stroke
+  value_mm:
+  - 0.0
+  - 71.5
+  classification: DERIVED (neutral geometry authority, 144-sample continuous validation, 0 overlaps)
+  verification: MVR-001
+- req_id: GRP-SMS-02
+  title: pregrasp travel
+  value_mm: 55.0
+  classification: DERIVED (M4 kinematics register, PARTIAL)
+  verification: MVR-001
+- req_id: GRP-SMS-03
+  title: closing/contact force per finger
+  value_min_N: 25.0
+  classification: DESIGN_TARGET_CANDIDATE
+  basis: covers MAV-01 worst-case retention demand 22.59 N with margin; force-speed envelope to be bound
+    by MVR-002 bench test
+  verification: MVR-002
+- req_id: GRP-SMS-04
+  title: capture-condition holding force
+  value: see MAV-01/MAV-02 (retention demand, per finger normal force)
+  classification: DERIVED
+  verification: MVR-003 / MVR-019
+- req_id: GRP-SMS-05
+  title: power-off retention
+  value: self-locking transmission or brake candidate; holding force without power >= MAV-01 demand
+  classification: DESIGN_TARGET_CANDIDATE
+  verification: MVR-003 (TEST_REQUIRED_HOLD)
+- req_id: GRP-SMS-06
+  title: closing speed at first contact
+  value_max_mm_s: 5.0
+  classification: DESIGN_TARGET_CANDIDATE
+  basis: limit contact kinetic energy ahead of the capture impulse envelope; 5 mm/s is an independent
+    design target candidate. The URDF literal 15 has SI syntax 15 m/s but is an unvalidated auto-exported
+    model limit and supplies no physical capability or timing authority
+  verification: MVR-002
+- req_id: GRP-SMS-07
+  title: life cycle count
+  value: 10000
+  unit: cycle
+  classification: DESIGN_TARGET_CANDIDATE
+  verification: MVR-006 (TEST_REQUIRED_HOLD)
+- req_id: GRP-SMS-08
+  title: contact friction coefficient
+  value: null
+  classification: HOLD
+  basis: static/kinetic friction of the selected contact pair unmeasured; mu = 0.3 used in MAV-01 is a
+    declared candidate, not data
+  verification: MVR-004 (TEST_REQUIRED_HOLD)
+- req_id: GRP-SMS-09
+  title: allowable contact pressure
+  value: null
+  unit: MPa
+  classification: HOLD
+  basis: target geometry/surface/damage criterion authorities absent (M4 TARGET_CAPTURE_INTERFACE HOLD)
+  verification: MVR-005 (TEST_REQUIRED_HOLD)
+- req_id: GRP-SMS-10
+  title: position/force sensing
+  value: jaw position sensing required for end-state observability; force sensing candidate
+  classification: DESIGN_TARGET_CANDIDATE
+  verification: MVR-002 / MVR-003
+mdd_design_description:
+  function: symmetric two-finger capture and retention end effector on the B601 arm (arm mass 4.695555949342986
+    kg, ACCEPTED_URDF L0)
+  kinematic_baseline:
+    topology: ACCEPTED_URDF (two prismatic finger joints, symmetric)
+    digital_motion_evidence: continuous stroke 0-71.5 mm, 144 samples, 0.5 mm step, zero positive rail-palm
+      overlaps (DERIVED_NEUTRAL_GEOMETRY_ONLY)
+  actuation:
+    architecture_candidate: single motor with symmetric transmission to both fingers; self-locking transmission
+      candidate for power-off retention
+    open_items:
+    - actuator selection
+    - force-speed curve
+    - duty cycle
+    - fault response
+    - holding brake data
+    status: HOLD_ACTUATOR_CAPABILITY
+  contact_interface:
+    target_22kg_geometry_authority: LOW_CONFIDENCE_BLOCK_MODEL_ONLY
+    target_150kg_geometry_authority: LOW_CONFIDENCE_BLOCK_MODEL_ONLY
+    contact_normals: null
+    friction_model: candidate Coulomb, mu = 0.3 (declared candidate)
+    status: HOLD_CONTACT_AUTHORITIES
+  guide:
+    rail_friction_candidate_coefficient: 0.15
+    status: DESIGN_TARGET_CANDIDATE (no measured rail friction)
+mav_analytical_verification:
+  checks:
+  - check_id: MAV-01
+    title: capture impulse to equivalent quasi-static load
+    source: CDR capture anchor matrix DERIVED_CAPTURE_LOAD_ENVELOPE_V1.csv (DERIVED, research-bound, NOT_STRUCTURAL_DESIGN_AUTHORITY;
+      sim_06 capture_impulse_matrix_v0.csv pinned by sha256)
+    method: F_eq = J / dt with declared candidate contact durations dt = {0.05, 0.1} s (no contact-duration
+      authority exists; CDR limitation "no_contact_duration_or_force_time_history_authority"); M_eq =
+      couple / dt
+    results:
+      case_22kg_0p5dps:
+        impulse_range_N_s:
+        - 0.0601233
+        - 0.360622
+        F_eq_dt50ms_N:
+        - 1.202
+        - 7.212
+        F_eq_dt100ms_N:
+        - 0.601
+        - 3.606
+        grasp_couple_max_eq_Nm_dt50ms: 0.0305
+      case_150kg_3dps:
+        impulse_range_N_s:
+        - 0.274973
+        - 0.677633
+        F_eq_dt50ms_N:
+        - 5.499
+        - 13.553
+        F_eq_dt100ms_N:
+        - 2.75
+        - 6.776
+        grasp_couple_max_eq_Nm_dt50ms: 2.604
+      classification: DERIVED
+    verdict: ANALYTIC_CLOSED_AS_ENVELOPE_ESTIMATE; structural use waits for a capture design envelope
+      with contact model and owner approval (CDR release_condition)
+  - check_id: MAV-02
+    title: retention (holding) force demand
+    method: two-finger friction retention; required normal per finger N = F_lateral / (2*mu), mu = 0.3
+      candidate; worst lateral load = 13.553 N (150 kg anchor, dt = 0.05 s); post-capture centripetal
+      cross-check F = m*w^2*r at post rates 3.06561 dps / 0.231 dps
+    results:
+      worst_lateral_eq_N: 13.553
+      required_normal_per_finger_N: 22.59
+      post_capture_centripetal_150kg_N: 0.522
+      required_normal_centripetal_150kg_N: 0.87
+      post_capture_centripetal_22kg_N: 9.0e-05
+      governing_case: CAPTURE_CONTACT_EVENT (centripetal demands are two orders below contact-event demands)
+    verdict: ANALYTIC_CLOSED_AT_DESIGN_LEVEL with candidate mu; MVR-019 retained-transform/slip test remains
+      TEST_REQUIRED_HOLD
+  - check_id: MAV-03
+    title: drive margin vs model effort limit
+    method: actuator demand per finger = N_required + mu_rail*N_required (rail friction candidate 0.15);
+      compared against URDF effort limit 100 N (MODEL LIMIT, not design authority)
+    results:
+      rail_friction_per_finger_N: 3.39
+      actuator_demand_per_finger_N: 25.98
+      margin_vs_urdf_model_limit: 3.85
+    verdict: ANALYTIC_CLOSED_AS_SANITY_CHECK; real drive margin requires selected actuator force-speed
+      data (MVR-002, TEST_REQUIRED_HOLD)
+  - check_id: MAV-04
+    title: stroke timing authority
+    method: physical timing requires a controlled actuator/transmission mapping and instrumented force-speed/latency
+      data; URDF velocity is excluded
+    results:
+      full_stroke_time_s: null
+      pregrasp_time_s: null
+      physical_velocity_m_s: null
+      physical_velocity_standard_uncertainty_m_s: null
+      closing_speed_at_first_contact_design_target_mm_s: 5.0
+      design_target_role: DESIGN_TARGET_CANDIDATE__NOT_MEASURED_CAPABILITY
+      urdf_literal_full_stroke_time_diagnostic_s: 0.0047666666666666664
+      urdf_literal_pregrasp_time_diagnostic_s: 0.0036666666666666666
+      diagnostic_use: DIMENSIONAL_MISMATCH_DEMONSTRATION_ONLY__NOT_PHYSICAL_TIMING_OR_COMMAND
+    verdict: HOLD_NO_PHYSICAL_GRIPPER_SPEED_AUTHORITY
+  - check_id: MAV-05
+    title: jam / release conditions and fault posture
+    method: design-rule analysis
+    results:
+      jam_prevention: symmetric drive with compliance per finger; rail-palm clearance guarded by V5R-validated
+        neutral geometry (0 overlaps in 144 samples)
+      release_condition: powered opening to stroke 0; on power loss with self-locking candidate the grasp
+        is retained (fail-closed capture)
+      safe_release: commanded opening only with arm-held target support or in safe mode; safe-mode mechanical
+        state undefined (CDR HOLD)
+    verdict: DESIGN_RULES_CLOSED; fault-injection verification MVR-003 TEST_REQUIRED_HOLD
+  prohibited_claims:
+  - NO_FORCE_CONTACT_RETENTION_OR_LIFE_CLAIM
+  - NO_TARGET_CAPTURE_PERFORMANCE_CLAIM
+  - NO_TEST_COMPLETION_CLAIM
+  - NO_FORMAL_FEA_CREDIT
+mum_operation_user_constraints:
+- gripper operates only after HDRM release confirmation (WP5 HDRM pack, MVR-013/017 chain)
+- approach and first contact under GRP-SMS-06 speed limit; capture envelope anchored to the CDR DERIVED
+  matrix (22 kg / 0.5 dps and 150 kg / 3 dps research anchors, not flight targets)
+- on power loss the candidate self-locking transmission retains the grasp (fail-closed); release requires
+  commanded opening
+- no target contact outside the validated 0-71.5 mm stroke envelope; keep-out and finger sweep per WP1
+  KEEP_OUT_REGISTER_V1 (PENDING_SIBLING_HASH)
+- physical mass properties of the gripper remain HOLD_URDF_VALUES_NOT_PHYSICAL_RECONCILIATION (MVR-020);
+  L0 URDF masses are never overridden
+retained_holds:
+- ACTUATOR_FORCE_SPEED_DUTY_FAULT_DATA_HOLD
+- CONTACT_FRICTION_PRESSURE_DAMAGE_CRITERIA_HOLD
+- TARGET_GEOMETRY_SURFACE_AUTHORITY_HOLD
+- WEAR_LIFE_AND_DEBRIS_TEST_HOLD
+- PHYSICAL_MASS_PROPERTIES_HOLD
+- PROTOTYPE_AND_FLIGHT_RELEASE_HOLD
+- PHYSICAL_GRIPPER_SPEED_AND_TIMING_HOLD
+verification_crossref: wp5_mechanisms/MECHANISM_VERIFICATION_CROSSREF_V1.csv (MVR-001..MVR-006, MVR-019,
+  MVR-020)
+source_register:
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+  sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+  sha256: AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B
+- path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/06_mechanism/GRIPPER_R1_MECHANISM_RELEASE_STATUS_V2.yaml
+  sha256: F8BC4551F0308B94F709139980184DA4C5EEBBCEFDAA92A1747BC49541D6F14F
+- path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/06_mechanism/MECHANISM_STATUS_REGISTER_V1.yaml
+  sha256: 307A205460D746AD8B4FA3561157CA63FBAAD2EC6153D63A6FA733E695236FC9
+- path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+  sha256: 7BC0DF784B36159624A8A89B67207C54C5C9C780B103CB38658DE2D6BA845F47
+- path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/DERIVED_CAPTURE_LOAD_ENVELOPE_V1.csv
+  sha256: E852DE89BCA633C126B0547257649C69B7A62E658E19DBE726ECA4C38CB900A6
+- path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/AUTHORIZED_MECHANICAL_LOADS_V1.yaml
+  sha256: 82E331239D6EB86EE4B617145022E62133F5D837403119CDAD2ADD83BCB78797
+- path: 30_simulation/sim_06_capture_impulse/results/capture_impulse_matrix_v0.csv
+  sha256: 8CBAD84B8FF69FFCA6992CE29E95520BAE3C309260EC8C55083CBE62DFED5151
+- path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_gripper_velocity_unit_authority/00_authority/GRIPPER_VELOCITY_UNIT_RECONCILIATION_CONTRACT_V1.yaml
+  sha256: EEBF3F550582201637E5D752E71B23C48E3FCCBB26FC78CC62B2CD39B328D71A
+supersedes:
+  artifact: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+  scope: velocity-unit semantics and MAV-04 timing only
+  historical_artifact_modified: false
+  reason: V1 silently relabeled the URDF prismatic velocity literal 15 from m/s to mm/s.
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+unit_reconciliation:
+  authority_record: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_gripper_velocity_unit_authority/00_authority/GRIPPER_VELOCITY_UNIT_RECONCILIATION_CONTRACT_V1.yaml
+  authority_record_sha256: EEBF3F550582201637E5D752E71B23C48E3FCCBB26FC78CC62B2CD39B328D71A
+  combined_state: SEMANTIC_RECONCILIATION_PASS__PHYSICAL_ACTUATOR_SPEED_AUTHORITY_HOLD
+  active_downstream_rule: new consumers shall bind V2 plus the reconciliation gate; V1 is historical only

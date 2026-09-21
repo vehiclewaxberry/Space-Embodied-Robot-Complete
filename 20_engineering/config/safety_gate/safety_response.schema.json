@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "safety_response.schema.json",
+  "title": "SafetyResponse",
+  "$defs": {
+    "candidateRowBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_path",
+        "source_hash_mode",
+        "source_sha256",
+        "key",
+        "row_hash_mode",
+        "row_sha256",
+        "case_config_path",
+        "case_config_hash_mode",
+        "case_config_sha256",
+        "case_key",
+        "case_sha256",
+        "mu_reference_path",
+        "mu_reference_hash_mode",
+        "mu_reference_sha256"
+      ],
+      "properties": {
+        "source_path": {"type": "string", "minLength": 1},
+        "source_hash_mode": {"const": "CANONICAL_CSV_TABLE_SHA256_V1"},
+        "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "key": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["case", "strategy"],
+          "properties": {
+            "case": {"type": "string"},
+            "strategy": {"type": "string"}
+          }
+        },
+        "row_hash_mode": {"const": "CANONICAL_CSV_ROW_SHA256_V1"},
+        "row_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "case_config_path": {"type": "string"},
+        "case_config_hash_mode": {"const": "CANONICAL_YAML_SHA256_V1"},
+        "case_config_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "case_key": {"type": "string"},
+        "case_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "mu_reference_path": {"type": "string"},
+        "mu_reference_hash_mode": {"const": "CANONICAL_YAML_SHA256_V1"},
+        "mu_reference_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "request_id",
+    "physical_state",
+    "decision",
+    "reason_code",
+    "reason_codes",
+    "modified_action",
+    "valid_until",
+    "evidence_hashes",
+    "provenance",
+    "fallback_trace",
+    "authorization"
+  ],
+  "properties": {
+    "contract_version": {"const": "safety-gate-v1"},
+    "request_id": {"type": "string", "minLength": 1},
+    "physical_state": {"type": "string", "enum": ["SAFE", "UNSAFE", "UNKNOWN"]},
+    "decision": {"type": "string", "enum": ["ALLOW", "MODIFY", "WAIT", "BACKOFF", "ABORT"]},
+    "reason_code": {"type": "string", "pattern": "^[A-Z0-9_]{1,96}$"},
+    "reason_codes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z0-9_]{1,96}$"}
+    },
+    "modified_action": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "solver", "boundary_policy_id"],
+          "properties": {
+            "kind": {"const": "USE_EXACT_SOLVER"},
+            "solver": {"const": "EXACT_SOLVER"},
+            "boundary_policy_id": {"const": "MOD-EXACT-SOLVER-V1"}
+          }
+        }
+      ]
+    },
+    "valid_until": {"type": "string", "format": "date-time"},
+    "evidence_hashes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["complete", "records"],
+      "properties": {
+        "complete": {"type": "boolean"},
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_id",
+              "artifact_scope",
+              "gate_json_path",
+              "gate_json_hash_mode",
+              "gate_json_sha256",
+              "gate_verdict",
+              "registry_sha256",
+              "scenario_hash",
+              "data_row_refs",
+              "row_binding",
+              "model_level",
+              "certification",
+              "provisional_flags",
+              "flex_status"
+            ],
+            "properties": {
+              "artifact_id": {"type": "string", "enum": ["sim10", "sim11", "sim12", "e15_ancf"]},
+              "artifact_scope": {"type": "string", "enum": ["GLOBAL_GATE_NON_SCENARIO", "SCENARIO_ROW"]},
+              "gate_json_path": {"type": "string"},
+              "gate_json_hash_mode": {"const": "CANONICAL_JSON_SHA256_V1"},
+              "gate_json_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$",
+                "description": "Canonical-JSON SHA-256; stable across CRLF/LF, indentation and object key order."
+              },
+              "gate_verdict": {"type": "string"},
+              "registry_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$",
+                "description": "Frozen raw-byte SHA-256 of threshold_registry_core_v1.yaml."
+              },
+              "scenario_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "data_row_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string"}
+              },
+              "row_binding": {
+                "oneOf": [
+                  {"type": "null"},
+                  {"$ref": "#/$defs/candidateRowBinding"}
+                ]
+              },
+              "model_level": {"type": "string", "enum": ["L0", "L1", "L2"]},
+              "certification": {"type": "string", "enum": ["CERTIFIED", "PROVISIONAL", "SCREENING_ONLY", "FAILED", "UNAVAILABLE"]},
+              "provisional_flags": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {"type": "string"}
+              },
+              "flex_status": {"type": "string", "enum": ["VALIDATED", "PROVISIONAL", "UNKNOWN_NOT_IN_CRITERIA"]}
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {"artifact_id": {"const": "sim12"}},
+                  "required": ["artifact_id"]
+                },
+                "then": {
+                  "properties": {
+                    "artifact_scope": {"const": "SCENARIO_ROW"},
+                    "row_binding": {"$ref": "#/$defs/candidateRowBinding"}
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "artifact_scope": {"const": "GLOBAL_GATE_NON_SCENARIO"},
+                    "row_binding": {"type": "null"}
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "fallback_trace": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["target_level", "domain_checked", "computed_in_domain", "accepted_for_finalization"],
+        "properties": {
+          "target_level": {"type": "string", "enum": ["L0", "L1"]},
+          "domain_checked": {"type": "boolean"},
+          "computed_in_domain": {"type": ["boolean", "null"]},
+          "accepted_for_finalization": {"const": false}
+        }
+      }
+    },
+    "authorization": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "scheme",
+            "key_id",
+            "not_before",
+            "expires_at",
+            "mac_hex",
+            "enforcement_required"
+          ],
+          "properties": {
+            "scheme": {"const": "HMAC-SHA256"},
+            "key_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]{1,96}$"},
+            "not_before": {"type": "string", "format": "date-time"},
+            "expires_at": {"type": "string", "format": "date-time"},
+            "mac_hex": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "enforcement_required": {"const": true}
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"decision": {"enum": ["ALLOW", "MODIFY"]}},
+        "required": ["decision"]
+      },
+      "then": {
+        "properties": {
+          "physical_state": {"const": "SAFE"},
+          "authorization": {"not": {"type": "null"}},
+          "provenance": {
+            "properties": {
+              "complete": {"const": true},
+              "records": {"minItems": 1}
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {"authorization": {"type": "null"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"decision": {"const": "ALLOW"}},
+        "required": ["decision"]
+      },
+      "then": {"properties": {"modified_action": {"type": "null"}}}
+    },
+    {
+      "if": {
+        "properties": {"decision": {"const": "MODIFY"}},
+        "required": ["decision"]
+      },
+      "then": {"properties": {"modified_action": {"not": {"type": "null"}}}}
+    }
+  ]
+}

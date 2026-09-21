@@ -1,0 +1,233 @@
+schema_version: comp-prot-03-a3-g0-evidence-closure-matrix-v0.1
+matrix_id: candidate_12u_b601_db_blocker_scope_disposition_v0_1
+phase: COMP-PROT-03-A3-G0-EVIDENCE-CLOSURE
+evaluated_on: "2026-07-23"
+status: ALL_15_HAVE_GEOMETRY_ONLY_SCOPE_DISPOSITION
+
+authority:
+  scientific_gate: false
+  modifies_original_A2_ledger: false
+  full_scope_evidence_closure_claimed: false
+  geometry_only_request_scope_only: true
+
+state_vocabulary:
+  CLOSED_FOR_GEOMETRY_ONLY_INPUT: required input has a source-bound or explicitly approved design value
+  ISOLATED_FROM_GEOMETRY_ONLY: blocker remains open but the geometry-only consumer cannot read the affected field
+  CARRIED_LIMITATION: evidence is sufficient only for a stated limited claim
+  A3_EXIT_EVIDENCE: evidence must be produced by the future CAD stage and is not a circular precondition
+
+blockers:
+  - blocker_id: DB-BLK-001
+    title: mass_ownership_not_closed
+    geometry_only_disposition: CLOSED_FOR_GEOMETRY_ONLY_INPUT
+    evidence:
+      - mass_owner_registry_v0_1.yaml
+    result:
+      - split_bus_panels_selected_exactly_once
+      - adapter_has_separate_owner
+      - accepted_URDF_full_10link_selected_exactly_once
+      - provisional_watermark_preserved
+    retained_limit:
+      - no_physical_weighing
+      - aggregate_com_and_inertia_unknown
+    full_scope_state: OPEN_FOR_DYNAMICS
+
+  - blocker_id: DB-BLK-002
+    title: end_effector_frame_parent_absent
+    geometry_only_disposition: CLOSED_FOR_GEOMETRY_ONLY_INPUT
+    evidence:
+      - frame_tree_v2_candidate.yaml#T_link6_E
+      - frame_tree_v2_candidate.yaml#frame_distinction_rules
+    result:
+      - E_parent_is_link6
+      - E_has_full_design_transform
+      - E_is_distinct_from_G
+      - E_is_not_physical_TCP
+    retained_limit:
+      - T_E_TCP_unknown
+    full_scope_state: OPEN_FOR_CONTACT_AND_TARGET_INTEGRATION
+
+  - blocker_id: DB-BLK-003
+    title: vendor_step_locator_stale
+    geometry_only_disposition: ISOLATED_FROM_GEOMETRY_ONLY
+    evidence:
+      - ../../../80_third_party/notices/rebot_b601/PROVENANCE.yaml
+      - solidworks_skeleton_input_v0_1.yaml
+    result:
+      - external_path_commit_and_hash_recorded
+      - vendor_STEP_not_consumed
+    retained_limit:
+      - future_import_requires_new_asset_manifest_and_review
+    full_scope_state: CONDITIONAL_OPEN_IF_STEP_IMPORTED
+
+  - blocker_id: DB-BLK-004
+    title: capture_geometry_tbd
+    geometry_only_disposition: ISOLATED_FROM_GEOMETRY_ONLY
+    evidence:
+      - mechanical_interface_semantics_v0_1.yaml#target_semantics
+    result:
+      - target_not_in_host
+      - contact_and_rigid_lock_edges_disabled
+    retained_limit:
+      - contact_patch_and_physical_TCP_unknown
+    full_scope_state: OPEN_IF_TARGET_ENTERS
+
+  - blocker_id: DB-BLK-005
+    title: cds_appendix_b_manual_review_missing
+    geometry_only_disposition: CARRIED_LIMITATION
+    evidence:
+      - ../comp_prot_03_a2_candidate_model_review/cds_appendix_b_12u_review_record.md
+      - 20_engineering/stage1_spacecraft_layout/03_mechanical_layout_notes/appendix_b_manual_dimension_review_todo.md
+    result:
+      - 12U_reference_input_review_preserved
+      - display_profile_not_misrepresented_as_CDS_compliant
+    retained_limit:
+      - no_deployer_or_launch_compliance_claim
+    full_scope_state: OPEN_FOR_LAUNCH_COMPLIANCE
+
+  - blocker_id: DB-BLK-006
+    title: e16_current_checkout_source_bundle_mismatch
+    geometry_only_disposition: ISOLATED_FROM_GEOMETRY_ONLY
+    evidence:
+      - digital_mechanical_host_v0_1.yaml#evidence_layer
+    result:
+      - inherited_gate_count_is_zero
+    retained_limit:
+      - e16_remains_historical_reference_only
+    full_scope_state: OPEN_HISTORICAL_EVIDENCE_DEBT
+
+  - blocker_id: DB-BLK-007
+    title: sim05_loader_path_stale
+    geometry_only_disposition: ISOLATED_FROM_GEOMETRY_ONLY
+    evidence:
+      - digital_mechanical_host_v0_1.yaml#consumer_views
+    result:
+      - no_runtime_or_sim05_consumer_enabled
+    retained_limit:
+      - sim05_loader_not_repaired
+    full_scope_state: OPEN_REPOSITORY_TECHNICAL_DEBT
+
+  - blocker_id: DB-BLK-008
+    title: b601_yaml_and_accepted_urdf_mass_subtotal_conflict
+    geometry_only_disposition: CLOSED_FOR_GEOMETRY_ONLY_INPUT
+    evidence:
+      - mass_owner_registry_v0_1.yaml#source_conflict
+    result:
+      - accepted_URDF_exact_link_sum_selected
+      - conflicting_yaml_retained_unchanged
+      - no_tolerance_merge
+    retained_limit:
+      - physical_weighing_pending
+      - canonical_yaml_not_harmonized
+    full_scope_state: CLOSED_FOR_CANDIDATE_SOURCE_DECISION
+
+  - blocker_id: DB-BLK-009
+    title: free_flyer_B_and_T_SB_unbound
+    geometry_only_disposition: ISOLATED_FROM_GEOMETRY_ONLY
+    evidence:
+      - frame_tree_v2_candidate.yaml#T_SB
+    result:
+      - B_retained_as_distinct_frame
+      - T_SB_remains_null
+      - dynamics_consumers_disabled
+    retained_limit:
+      - no_unique_T_SB
+    full_scope_state: OPEN_BLOCKING_FOR_URDF_AND_DYNAMICS
+
+  - blocker_id: DB-BLK-010
+    title: flange_profile_and_interference_conflict
+    geometry_only_disposition: A3_EXIT_EVIDENCE
+    evidence:
+      - cad_profile_decision_v0_1.yaml
+      - solidworks_skeleton_input_v0_1.yaml
+    result:
+      - unique_profile_selected
+      - 160mm_interface_selected
+      - deprecated_140mm_interface_excluded
+      - physical_clearance_deferred_to_non_circular_A3_exit
+    retained_limit:
+      - adapter_axial_stack_unknown
+      - interference_and_rail_clearance_not_checked
+    full_scope_state: INPUT_CLOSED_PHYSICAL_EXIT_OPEN
+
+  - blocker_id: DB-BLK-011
+    title: target_and_capture_frame_tree_incomplete
+    geometry_only_disposition: ISOLATED_FROM_GEOMETRY_ONLY
+    evidence:
+      - digital_mechanical_host_v0_1.yaml#selected_configuration
+      - mechanical_interface_semantics_v0_1.yaml#target_semantics
+    result:
+      - target_id_is_null
+      - target_branches_disabled
+    retained_limit:
+      - T_ST_T_SD_and_full_C_frames_unknown
+    full_scope_state: OPEN_IF_TARGET_ENTERS
+
+  - blocker_id: DB-BLK-012
+    title: debris_grasp_semantic_conflict
+    geometry_only_disposition: ISOLATED_FROM_GEOMETRY_ONLY
+    evidence:
+      - mechanical_interface_semantics_v0_1.yaml#debris_semantic_reconciliation
+    result:
+      - preferred_front_ring_semantic_recorded
+      - aft_engine_keepout_recorded
+      - target_not_in_host
+    retained_limit:
+      - frozen_geometry_and_capture_yaml_conflict_not_modified
+    full_scope_state: OPEN_CANONICAL_HARMONIZATION
+
+  - blocker_id: DB-BLK-013
+    title: T_SM_authority_and_geometry_profile_conflict
+    geometry_only_disposition: CLOSED_FOR_GEOMETRY_ONLY_INPUT
+    evidence:
+      - cad_profile_decision_v0_1.yaml
+      - frame_tree_v2_candidate.yaml#T_SM
+    result:
+      - COMPETITION_DISPLAY_V0_selected_exactly_once
+      - T_SM_single_valued_and_profile_bound
+      - CDS_12U_REFERENCE_not_consumed
+    retained_limit:
+      - CDS_profile_mapping_and_T_SM_remain_open
+    full_scope_state: CLOSED_FOR_SELECTED_DISPLAY_PROFILE_ONLY
+
+  - blocker_id: DB-BLK-014
+    title: b601_license_not_portable
+    geometry_only_disposition: CLOSED_FOR_GEOMETRY_ONLY_INPUT
+    evidence:
+      - ../../../80_third_party/notices/rebot_b601/CERN-OHL-W-2.0.txt
+      - ../../../80_third_party/notices/rebot_b601/NOTICE.md
+      - ../../../80_third_party/notices/rebot_b601/PROVENANCE.yaml
+    result:
+      - full_license_text_portable
+      - NOTICE_portable
+      - upstream_commit_and_hashes_portable
+      - normalized_license_text_equal
+    retained_limit:
+      - vendor_STEP_itself_not_packaged_or_consumed
+      - future_copy_or_modification_requires_distribution_review
+    full_scope_state: CLOSED_FOR_LICENSE_PROVENANCE_STEP_IMPORT_CONDITIONAL
+
+  - blocker_id: DB-BLK-015
+    title: integrated_12u_b601_target_model_absent
+    geometry_only_disposition: A3_EXIT_EVIDENCE
+    evidence:
+      - solidworks_skeleton_input_v0_1.yaml#future_A3_required_outputs
+    result:
+      - retained_as_non_circular_future_output
+      - no_integrated_model_claimed
+    retained_limit:
+      - no_integrated_CAD_or_URDF
+    full_scope_state: OPEN_EXPECTED_A3_OUTPUT
+
+summary:
+  blocker_denominator: 15
+  all_blockers_have_geometry_only_scope_disposition: true
+  geometry_only_disposition_counts:
+    CLOSED_FOR_GEOMETRY_ONLY_INPUT: 5
+    ISOLATED_FROM_GEOMETRY_ONLY: 7
+    CARRIED_LIMITATION: 1
+    A3_EXIT_EVIDENCE: 2
+  full_scope_all_evidence_closed: false
+  geometry_only_request_packet_ready: true
+  geometry_only_execution_authorized: false
+  original_A2_verdict_preserved: CAD_ENTRY_BLOCKED_BY_EVIDENCE

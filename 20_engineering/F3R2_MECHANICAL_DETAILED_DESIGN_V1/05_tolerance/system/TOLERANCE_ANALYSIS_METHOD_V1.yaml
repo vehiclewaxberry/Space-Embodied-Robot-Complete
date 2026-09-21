@@ -1,0 +1,90 @@
+schema_version: TOLERANCE_ANALYSIS_METHOD_V1
+generated_local: '2026-08-21T13:50:00+08:00'
+phase: M3_MECHANICAL_DETAILED_DESIGN_CLOSURE
+register: 05_tolerance/system/SYSTEM_TOLERANCE_CHAIN_REGISTER_V1.csv
+overall_status: METHOD_READY_ALL_CHAINS_HOLD_NUMERIC_TOLERANCE_AUTHORITY
+
+unit_policy:
+  model_unit: m
+  drawing_input_unit_per_field: explicitly declared
+  angular_model_unit: rad
+  conversion_at_boundaries_only: true
+  unitless_numeric_tolerance_forbidden: true
+
+limit_representation:
+  nominal_value: required
+  lower_deviation: required
+  upper_deviation: required
+  symmetric_shorthand_allowed: false
+  unknown_limit_policy: null_plus_HOLD
+  display_rounding_is_not_tolerance_authority: true
+
+analysis_models:
+  radial_clearance:
+    definition: C_r = (D_female - D_male)/2
+    worst_case_minimum: C_r_min = (D_female_min - D_male_max)/2
+    worst_case_maximum: C_r_max = (D_female_max - D_male_min)/2
+    statistical_standard_uncertainty: u_Cr = 0.5*sqrt(u_Df^2 + u_Dm^2 - 2*rho*u_Df*u_Dm)
+    thermal_extension: evaluate female and male diameters at each required temperature using approved CTE data
+  axial_stack:
+    definition: G = sum(signed_length_i)
+    worst_case: sum directional limit endpoints that minimize and maximize G
+    statistical: propagate covariance using the signed sensitivity vector
+    requirements: [DATUM_ORDER, SIGN_CONVENTION, CONTACT_STATE, PRELOAD_STATE]
+  planar_hole_pattern:
+    definition: transform every hole axis into a common datum frame and evaluate fastener-to-hole available radial clearance
+    worst_case: include hole position size fastener size datum mobility and clocking locator constraints
+    statistical: Monte Carlo required when datum shift or nonlinear contact logic is active
+    requirements: [HOLE_LIMITS, FASTENER_LIMITS, POSITION_TOLERANCE, DATUM_REFERENCE_FRAME, MATERIAL_CONDITION, CLOCKING_RULE]
+  frame_transform_chain:
+    definition: T_root_to_child = ordered_product_of_authoritative_transforms
+    translation_metric: L2 norm in m
+    rotation_metric: SO3 geodesic angle in rad
+    uncertainty_model: propagate the full six-degree-of-freedom covariance including correlations
+  hinge_freeplay:
+    radial_component: derive from pin and bore limit diameters
+    axial_component: derive from lug spacer washer retainer and preload stack
+    deployed_angle_effect: propagate radial axial and stop-contact deviations through hinge geometry
+  thermal_stack:
+    definition: dimension(T) = dimension(T_ref)*(1 + approved_CTE*(T-T_ref)) within approved applicability
+    current_status: HOLD_TEMPERATURE_RANGE_AND_APPROVED_CTE_DATA_MISSING
+
+uncertainty_and_decision_rule:
+  manufacturing_limits_are_not_standard_uncertainties: true
+  source_distribution_required_before_converting_limits_to_standard_uncertainty: true
+  correlation_review_required: true
+  monte_carlo_required_for_nonlinear_contact_or_datum_shift: true
+  conformity_requires_documented_decision_rule: true
+  guard_band_value: null
+  false_accept_risk: null
+  status: HOLD_DECISION_RULE_NOT_APPROVED
+
+current_register_metrics:
+  chain_count: 14
+  chains_with_complete_numeric_limits: 0
+  chains_with_complete_standard_uncertainties: 0
+  chains_with_approved_thermal_inputs: 0
+  chains_accepted: 0
+  m3r_nominal_clearance_derivations_available: 2
+  all_chain_gate: HOLD
+
+priority_closure_sequence:
+  - TC-001_M3R_SPIGOT_RADIAL_CLEARANCE
+  - TC-002_M3R_ANNULAR_SKIRT_POCKET_CLEARANCE
+  - TC-003_M3R_AXIAL_SEATING
+  - TC-004_B601_FOUR_HOLE_PATTERN
+  - TC-005_M3R_EIGHT_M5_PATTERN
+  - TC-006_M3R_CLOCKING_LOCATOR
+  - TC-007_SPACECRAFT_M6_PATTERN
+  - TC-014_SYSTEM_ROOT_FRAME
+  - TC-009_AND_TC-010_WING_HINGE_AND_STOP
+  - TC-011_STOW_SUPPORT_CONTACTS
+  - TC-012_HDRM
+  - TC-013_GRIPPER_SYSTEM_INTERFACE
+
+release_prohibitions:
+  - NO_DRAWING_RELEASE_WHILE_A_FUNCTIONAL_CHAIN_HAS_NULL_LIMITS
+  - NO_INTERFERENCE_FREE_CLAIM_FROM_NOMINAL_CLEARANCE_ALONE
+  - NO_ASSEMBLY_FIT_PASS_WITHOUT_DATUM_SCHEME_AND_PHYSICAL_OR_CONTROLLED_DIGITAL_VALIDATION
+  - NO_THERMAL_FIT_CLAIM_WITHOUT_APPROVED_MATERIAL_AND_TEMPERATURE_INPUTS
+  - NO_ACCEPTANCE_RESULT_WITHOUT_MEASUREMENT_UNCERTAINTY_AND_DECISION_RULE

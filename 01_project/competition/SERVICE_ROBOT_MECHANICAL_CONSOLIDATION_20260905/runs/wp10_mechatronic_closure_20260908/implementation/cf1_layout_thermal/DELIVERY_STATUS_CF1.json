@@ -1,0 +1,1259 @@
+{
+  "schema": "CF1_DELIVERY_STATUS",
+  "revision": "CF1",
+  "date": "2026-09-17",
+  "kind": "LAYOUT_AND_THERMAL_MODEL_LEVEL_REVISION_ON_V32",
+  "parent": {
+    "electrical": "ecad/revisions/v32",
+    "geometry": "V30",
+    "source_lock": "cf1_layout_thermal/results/PARENT_SOURCE_LOCK.json",
+    "parent_board_sha256": "6cd2d3fa1f0fcfcee35f004460193e773ace4e298bc48c86218f8d68eafe7633"
+  },
+  "status": "THERMAL_OPEN_AT_360W_MODEL_LEVEL__UNASSIGNED_HEAT_GAP__PCB_PAD_ENTRY_NECK_OPEN__MODULE_POSE_REJECTED__WHOLE_DESIGN_OPEN",
+  "pcb": {
+    "validation_passed": false,
+    "checks": 23,
+    "failed_checks": [
+      "forward_current_density_le_35_including_Q201_pad_entry_necks",
+      "SPEC_4_2_F201_land_width_ge_10mm",
+      "SPEC_4_3_parallel_copper_at_F201_and_R201_R202_ends",
+      "SPEC_4_4_TIM_pours_return_plus_forward_ge_2400mm2"
+    ],
+    "board_sha256": "c2b52d2cb59cf69a0e1e10561cba30b274b2ad7f863b1a2d997639f166f40c79",
+    "R20_mohm": 3.817961540814895,
+    "parent_R20_mohm": 8.577963976092049,
+    "loss_20A_100C_W": 2.007331459698839,
+    "parent_loss_20A_100C_W": 4.509950340070155,
+    "loss_reduction": 0.554936333981553,
+    "loss_reduction_bands_only_model": 0.5743964142137663,
+    "worst_band_density_A_mm2": 29.0952380952381,
+    "pad_entry_neck_density_A_mm2": 62.90862290862299,
+    "density_limit_A_mm2": 35.0,
+    "drc_violations": 0,
+    "schematic_parity": "NOT_EXECUTABLE_SCHEMATIC_NOT_FULLY_ANNOTATED",
+    "erc_default_ignored_checks": [
+      "single_global_label",
+      "four_way_junction",
+      "simulation_model_issue",
+      "footprint_filter"
+    ],
+    "spec_deviations": [
+      {
+        "clause": "DESIGN_SPEC_CF1.md 4.2",
+        "asked": "10 mm wide F201 land connection",
+        "delivered": "8 mm bands (plan corridor y 8-16)",
+        "accepted_by_owner": false
+      },
+      {
+        "clause": "DESIGN_SPEC_CF1.md 4.3",
+        "asked": "B.Cu parallel copper with >=12-via arrays at both ends of F201 and of R201/R202",
+        "delivered": "one B.Cu strip on WP10_PRECHARGED_PLUS with 20 vias",
+        "rationale": "the B.Cu under the F201/R201/R202 bands is the return pour required by 4.4; both cannot occupy it",
+        "accepted_by_owner": false
+      },
+      {
+        "clause": "DESIGN_SPEC_CF1.md 4.4",
+        "asked": "return + forward B.Cu pours totalling >= 60x40 mm with forward thermal vias",
+        "delivered": "return pour only, 704 mm2 outline, no forward pour, no thermal vias",
+        "accepted_by_owner": false
+      },
+      {
+        "clause": "DESIGN_SPEC_CF1.md negative case",
+        "asked": "via array mis-connected to another net -> DRC short",
+        "delivered": "one via moved into the return pour -> DRC shorting_items",
+        "rationale": "KiCad net propagation makes a persistent wrong-net via inexpressible",
+        "accepted_by_owner": false
+      }
+    ],
+    "fabrication": false,
+    "hardware_tests": 0
+  },
+  "thermal": {
+    "validation_passed": true,
+    "checks": 36,
+    "failed_checks": [],
+    "acceptance_passes": false,
+    "acceptance_point": {
+      "load_W": 360,
+      "eta": 0.85,
+      "Q201_hot_multiplier": 2.0,
+      "pack_V": 20.0,
+      "shared_R_ohm": 0.01,
+      "env": "HOT_B_SUN_MINUS_Z",
+      "state": "service"
+    },
+    "worst_env_by_criterion": {
+      "CHB_case_C": "HOT_B_SUN_MINUS_Z",
+      "carrier_C": "HOT_C_SUN_MINUS_Y",
+      "Q201_Tj_C": "HOT_C_SUN_MINUS_Y"
+    },
+    "min_margins_C": {
+      "CHB_case_C": 9.411729116418996,
+      "carrier_C": -42.16274121500851,
+      "Q201_Tj_C": -27.895265994550044
+    },
+    "worst_CHB_case_C": 95.588270883581,
+    "worst_carrier_C": 137.1627412150085,
+    "worst_Q201_Tj_C": 177.89526599455004,
+    "by_env_5mm": {
+      "HOT_A_SUN_PLUS_Y": {
+        "CHB_case_C": 90.16569113446519,
+        "carrier_C": 134.8852553274656,
+        "Q201_Tj_C": 175.61778010700712,
+        "passes": false
+      },
+      "HOT_B_SUN_MINUS_Z": {
+        "CHB_case_C": 95.588270883581,
+        "carrier_C": 134.42629465142676,
+        "Q201_Tj_C": 175.1588194309683,
+        "passes": false
+      },
+      "HOT_C_SUN_MINUS_Y": {
+        "CHB_case_C": 90.27863785387348,
+        "carrier_C": 137.1627412150085,
+        "Q201_Tj_C": 177.89526599455004,
+        "passes": false
+      },
+      "DARK_330K_OCCLUDER": {
+        "CHB_case_C": 81.93687940224532,
+        "carrier_C": 125.31061346741177,
+        "Q201_Tj_C": 166.0431382469533,
+        "passes": false
+      }
+    },
+    "web_model": "IN_PLANE_WEB_SHEETS_FROM_PROBE",
+    "limits_C": {
+      "CHB_case": 105.0,
+      "carrier": 95.0,
+      "Q201_Tj": 150.0
+    },
+    "spec_deviations": [
+      {
+        "clause": "DESIGN_SPEC_CF1.md 5",
+        "asked": "-Y lug patch z 40..90",
+        "delivered": "z 35..75 (raised clear of the compute/comms proxy top, lowered for the carrier-underside bar)",
+        "accepted_by_owner": false
+      },
+      {
+        "clause": "Global Constraints",
+        "asked": "pack 20/22/25.2/29.4 V",
+        "delivered": "20 and 25.2 V (20 V bounds every metric; see axes_note)",
+        "accepted_by_owner": false
+      }
+    ],
+    "mesh_refinement_delta_C": 0.17936707222560244,
+    "matrix_cases": 128,
+    "matrix_all_pass": false,
+    "strap_R_K_W": {
+      "minus_Y": 3.1356862612230088,
+      "plus_Y": 1.6718299903895912
+    },
+    "strap_R_terms_K_W": {
+      "minus_Y": {
+        "carrier_path:arch_riser_A_descent": 1.1107784431137726,
+        "carrier_path:plate_spreading_1D": 0.7031391761930683,
+        "TIM_source": 0.18064480000000002,
+        "conduction": 0.9125748502994012,
+        "TIM_sink": 0.18064480000000002,
+        "lug_through": 0.04790419161676646
+      },
+      "plus_Y": {
+        "carrier_path:arch_riser_A_to_paddle_centroid": 0.3922155688622755,
+        "TIM_source": 0.2230182716049383,
+        "conduction": 0.8449767132401863,
+        "TIM_sink": 0.16726370370370372,
+        "lug_through": 0.044355732978487473
+      }
+    },
+    "path_geometry_sha256": "15d3f70cdc5f0460de573206908d38e2af270f5ee145de2287bf50a9f169a983",
+    "unassigned_heat": {
+      "spec_listed_W": 22.0,
+      "total_unassigned_W": 33.26902279718156,
+      "points": [
+        [
+          0.0,
+          95.41,
+          136.78,
+          false
+        ],
+        [
+          5.0,
+          98.64,
+          140.09,
+          false
+        ],
+        [
+          10.0,
+          101.77,
+          143.3,
+          false
+        ],
+        [
+          22.0,
+          108.97,
+          150.66,
+          false
+        ],
+        [
+          33.26902279718156,
+          115.33,
+          157.17,
+          false
+        ]
+      ],
+      "spec_listed_with_plus_X_skin": {
+        "CHB_case_C": 99.76580956978114,
+        "carrier_C": 137.1068481281646,
+        "Q201_Tj_C": 177.83937290770612,
+        "passes": false,
+        "by_env": {
+          "HOT_A_SUN_PLUS_Y": {
+            "CHB_case_C": 94.2245001567344,
+            "carrier_C": 135.30971434832725,
+            "Q201_Tj_C": 176.04223912786878,
+            "passes": false
+          },
+          "HOT_B_SUN_MINUS_Z": {
+            "CHB_case_C": 99.76580956978114,
+            "carrier_C": 134.9066073675931,
+            "Q201_Tj_C": 175.63913214713463,
+            "passes": false
+          },
+          "HOT_C_SUN_MINUS_Y": {
+            "CHB_case_C": 94.36758683551233,
+            "carrier_C": 137.1068481281646,
+            "Q201_Tj_C": 177.83937290770612,
+            "passes": false
+          },
+          "DARK_330K_OCCLUDER": {
+            "CHB_case_C": 87.25637416776266,
+            "carrier_C": 127.1006203858737,
+            "Q201_Tj_C": 167.83314516541523,
+            "passes": false
+          }
+        }
+      }
+    },
+    "continuous_thermal_closure": false,
+    "fallback": {
+      "basis": {
+        "extra_face_heat_W": 0.0,
+        "criterion": "carrier_C",
+        "envs": "all four, 10 mm mesh"
+      },
+      "plus_X_skin_full_area": {
+        "CHB_case_C": 86.32541881439738,
+        "carrier_C": 123.71252052568826,
+        "Q201_Tj_C": 164.4450453052298,
+        "passes": false
+      },
+      "Q201_11mohm_alternative": {
+        "CHB_case_C": 88.81269910865586,
+        "carrier_C": 101.38584108085377,
+        "Q201_Tj_C": 122.72192548918504,
+        "passes": false
+      },
+      "skin_plus_Q201_alt": {
+        "CHB_case_C": 79.86536898362345,
+        "carrier_C": 88.65365453085298,
+        "Q201_Tj_C": 109.98973893918425,
+        "passes": true
+      },
+      "HOST_CHANGE_bridge_under_lugs": {
+        "CHB_case_C": 93.8911217420387,
+        "carrier_C": 100.59549185279207,
+        "Q201_Tj_C": 141.3280166323336,
+        "passes": false
+      },
+      "HOST_CHANGE_bridge_under_lugs_plus_skin": {
+        "CHB_case_C": 84.60406388534341,
+        "carrier_C": 86.43280798310445,
+        "Q201_Tj_C": 127.16533276264599,
+        "passes": true
+      },
+      "HOST_CHANGE_bridge_under_lugs_plus_Q201_alt": {
+        "CHB_case_C": 87.79944443639994,
+        "carrier_C": 78.13823706106098,
+        "Q201_Tj_C": 99.47432146939225,
+        "passes": true
+      },
+      "HOST_CHANGE_bridge_under_lugs_plus_skin_plus_Q201_alt": {
+        "CHB_case_C": 78.71034600778398,
+        "carrier_C": 64.47933163878594,
+        "Q201_Tj_C": 85.81541604711721,
+        "passes": true
+      },
+      "min_plus_X_skin_area_fraction": {
+        "fraction": null,
+        "area_mm2": null,
+        "note": "full 214x214 skin does not close in this configuration; no fraction exists"
+      },
+      "min_plus_X_skin_area_fraction_with_HOST_CHANGE_bridges": {
+        "fraction": 0.2978515625,
+        "area_mm2": 13640.41015625,
+        "note": null
+      }
+    },
+    "released_state_same_point_CHB_C": 117.2079187210681,
+    "cold_250K_60W_heater16W": {
+      "CHB_C": 24.912881626615132,
+      "carrier_C": 13.110207307019266
+    },
+    "cold_250K_60W_no_heater": {
+      "CHB_C": -0.8022192840857931,
+      "carrier_C": -5.341937261487544
+    },
+    "conditional_on": [
+      "module pose clears the host (results/mechanical/MODULE_POSE_NARROWPHASE_CF1.json currently REJECTED)",
+      "lug faces bear on the 2 mm inner web over the declared areas and the web reaches the panel only through the probed bridges (results/mechanical/WEB_FACE_PROBE_CF1.json)",
+      "unassigned heat (see unassigned_heat_sensitivity) is radiated somewhere: this screen places none of it unless stated",
+      "25 psi TIM pressure realised at every interface (clamp design not done)"
+    ],
+    "orbit_validated": false,
+    "thermal_vacuum_test": false
+  },
+  "mechanical": {
+    "step": "cf1_layout_thermal/mechanical/thermal_path_cf1.step",
+    "step_sha256": "4e4e46d1cad9ab82a43248e0b6f386b1afc93f883227270cccb1ac5014e39776",
+    "aluminium_mass_kg": 0.2241758376,
+    "web_contact": {
+      "plus_Y": {
+        "face_S_y": 101.15,
+        "contact_mm2": 1080.0,
+        "fraction": 1.0
+      },
+      "minus_Y": {
+        "face_S_y": -101.15,
+        "contact_mm2": 1000.0,
+        "fraction": 1.0
+      }
+    },
+    "straps_vs_host": {
+      "parent_status": "REJECTED_SAVED_GEOMETRY_INTERFERENCE",
+      "physical_only_view": "CLEAR__registered_envelopes_present",
+      "physical_collision_free": true,
+      "registered_envelope_intersections": {
+        "MANUFACTURER_MAX_OUTER_ENVELOPE_NOT_OEM_BREP": [
+          [
+            "CF1_CARRIER_BOSS_6061T6_RETURN_TIM_PEDESTAL",
+            "WP10_RRC3570_4_D_MAX_ENVELOPE"
+          ],
+          [
+            "CF1_STRAP_MINUS_Y_6061T6_CARRIER_TO_WEB",
+            "WP10_RRC3570_4_D_MAX_ENVELOPE"
+          ]
+        ]
+      },
+      "envelope_dispositions": {
+        "WP10_RRC3570_4_D_MAX_ENVELOPE": "manufacturer maximum outer box of the battery, not the ordered cell BRep; the V30 module body itself lies inside it by 90412.63 mm3 at this pose (MODULE_POSE_NARROWPHASE_CF1.json), so the boss/strap overlap is a consequence of the module placement, not of the straps",
+        "WP10_INTERNAL_BATTERY_BYPASS": "bounding box crosses every -Y corridor, exact tube solid is >=37.9 mm away: clear",
+        "PROP_PWR_ROUTE / PROP_DATA_ROUTE": "+Y strap clears by 1.000 / 1.472 mm: clear with 1 mm design margin"
+      },
+      "role_rule": {
+        "registered_not_rejecting": [
+          "FUNCTIONAL_ENVELOPE",
+          "FUNCTIONAL_ENVELOPE_OD6_R21_NO_CUT_LENGTH",
+          "MANUFACTURER_MAX_OUTER_ENVELOPE_NOT_OEM_BREP",
+          "STRANDED_WIRE_AND_INSULATION_MAXIMUM_ENVELOPES_NOMINAL_STATIC_ROUTE"
+        ],
+        "everything_else_rejects": "including SIMPLIFIED_PROXY and GLASS_FOOTPRINT_CIC_LAYER_PROXY (proxies of real hardware) and every physical/OEM/project role, as in the parent tool"
+      },
+      "module_self_check": {
+        "module_step_sha256": "c69529cb948f57c62dc653341ef94d87a031b5fa1542c25f8a611e8fcea3a07b",
+        "parts": [
+          {
+            "id": "CF1_CARRIER_BOSS",
+            "common_volume_with_module_mm3": 0.0,
+            "distance_to_module_mm": 0.0
+          },
+          {
+            "id": "CF1_STRAP_MINUS_Y",
+            "common_volume_with_module_mm3": 0.0,
+            "distance_to_module_mm": 0.0
+          },
+          {
+            "id": "CF1_LUG_MINUS_Y",
+            "common_volume_with_module_mm3": 0.0,
+            "distance_to_module_mm": 37.15
+          },
+          {
+            "id": "CF1_STRAP_PLUS_Y",
+            "common_volume_with_module_mm3": 0.0,
+            "distance_to_module_mm": 0.0
+          },
+          {
+            "id": "CF1_LUG_PLUS_Y",
+            "common_volume_with_module_mm3": 0.0,
+            "distance_to_module_mm": 57.15
+          }
+        ],
+        "contact_slabs": {
+          "boss_on_carrier_top_mm2": 704.0,
+          "minusY_bar_on_carrier_bottom_mm2": 1000.0,
+          "plusY_paddle_on_arch_face_mm2": 810.0,
+          "module_material_in_boss_TIM_gap_mm3": 0.0
+        },
+        "no_interpenetration": true
+      }
+    },
+    "module_pose": {
+      "T_S_module": [
+        [
+          1,
+          0,
+          0,
+          -24
+        ],
+        [
+          0,
+          1,
+          0,
+          30
+        ],
+        [
+          0,
+          0,
+          1,
+          61.6
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "status": "MODULE_POSE_REJECTED_PHYSICAL_INTERFERENCE",
+      "physical_mm3": {
+        "CLAMP_DUAL_BASE": {
+          "service": 384.101,
+          "parking": 384.101,
+          "released": 384.101
+        },
+        "CLAMP_DUAL_LID": {
+          "service": 18.82,
+          "parking": 18.82,
+          "released": 18.82
+        },
+        "POST_DUAL_0": {
+          "service": 9.003,
+          "parking": 9.003,
+          "released": 9.003
+        },
+        "POST_DUAL_1": {
+          "service": 9.003,
+          "parking": 9.003,
+          "released": 9.003
+        }
+      },
+      "envelope_mm3": {
+        "P60_REFERENCE_B": {
+          "service": 66.761,
+          "parking": 66.761,
+          "released": 66.761
+        },
+        "PROP_DATA_ROUTE": {
+          "service": 263.098,
+          "parking": 263.098,
+          "released": 263.098
+        },
+        "WP10_RRC3570_4_D_MAX_ENVELOPE": {
+          "service": 90412.626,
+          "parking": 90412.626,
+          "released": 90412.626
+        }
+      },
+      "role_rule": {
+        "registered_not_rejecting": [
+          "FUNCTIONAL_ENVELOPE",
+          "FUNCTIONAL_ENVELOPE_OD6_R21_NO_CUT_LENGTH",
+          "MANUFACTURER_MAX_OUTER_ENVELOPE_NOT_OEM_BREP",
+          "STRANDED_WIRE_AND_INSULATION_MAXIMUM_ENVELOPES_NOMINAL_STATIC_ROUTE"
+        ],
+        "everything_else_rejects": true
+      },
+      "context": {
+        "V30_accepted_pose_status": "REJECTED_SAVED_GEOMETRY_INTERFERENCE",
+        "V33_shortlist_acceptable": [
+          false,
+          false,
+          false
+        ]
+      },
+      "local_search": {
+        "poses": 16,
+        "grid_mm": {
+          "dx": [
+            0.0
+          ],
+          "dy": [
+            0.0,
+            -2.0,
+            -4.0,
+            -6.0
+          ],
+          "dz": [
+            0.0,
+            2.0,
+            4.0,
+            6.0
+          ]
+        },
+        "physically_clear_poses": [],
+        "best": {
+          "delta_mm": [
+            0.0,
+            -6.0,
+            0.0
+          ],
+          "physical_volume_mm3": 139.837,
+          "envelope_volume_mm3": 94618.80200000001,
+          "physical": {
+            "CLAMP_DUAL_BASE": {
+              "service": 54.0,
+              "parking": 54.0,
+              "released": 54.0
+            },
+            "RB303": {
+              "service": 85.837,
+              "parking": 85.837,
+              "released": 85.837
+            }
+          },
+          "envelope": {
+            "P60_REFERENCE_B": {
+              "service": 33.38,
+              "parking": 33.38,
+              "released": 33.38
+            },
+            "WP10_RRC3570_4_D_MAX_ENVELOPE": {
+              "service": 94585.422,
+              "parking": 94585.422,
+              "released": 94585.422
+            }
+          }
+        }
+      }
+    },
+    "native_SolidWorks_created": false,
+    "fit_verified": false,
+    "installed": false
+  },
+  "adversarial_review": {
+    "schema": "CF1_ADVERSARIAL_REVIEW",
+    "r1": {
+      "date": "2026-09-17",
+      "method": "Workflow: four read-only lenses (pcb, thermal, mechanical, claims) -> 3 refuters per finding -> synthesis. The mechanical and claims lenses, every refuter and the synthesis failed on the session token limit, so the r1 findings below are raw reviewer output that was triaged by the author, not machine-verified.",
+      "lenses_completed": [
+        "pcb",
+        "thermal"
+      ],
+      "findings": [
+        {
+          "id": "thermal-1",
+          "severity": "blocker",
+          "file": "cf1_layout_thermal/mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+          "location": "parts[CF1_LUG_PLUS_Y].purpose; links.plus_Y.sink_face / TIM_sink_mm; also INTERFACE_REQUIREMENTS_CF1.json IF_CF1_08 and tools/thermal_cf1.py L63-66 (_link_R)",
+          "claim": "'8 mm lug on the inner face of shear_web_1 (S y 96.5), footprint S x 28..55, S z 50..90'; the +Y link R = 1.1665 K/W includes a 27x40 mm TIM sink on that web and carries 13.41 W at the acceptance point.",
+          "defect": "In the saved host geometry the +Y web has no face at S y 96.5 under the lug. Both STEPs that represent shear_web_1 (mechanical/wall_navigation_bosses.step, bound in MAIN_INPUT_PLACEMENT_BOUNDS_V27.json states/service[144]; and mechanical/fixed_heat_wall_pos.step) have their local inner face at S y 101.15 in x 28..55, z 50..90. The 96.5 seat exists only at the parent CHB cold-finger boss (x -54..4, z -82..-58). The lug outer face therefore floats 4.65 mm off the web: the +Y strap link is open in the saved geometry, and the 'physical_collision_free' narrowphase never tested a lug/web pair (NARROWPHASE_CF1.json checked_pairs=6, unique_host_files=4, none is a shear web).",
+          "evidence": "OCP read-only check (BRepExtrema_DistShapeShape, BRepAlgoAPI_Common): lug box (28,88.5,50)-(55,96.5,90) to wall_navigation_bosses.step distance = 4.65 mm; material in a 0.2 mm slab y 96.5..96.7 inside the lug footprint = 0.0 mm3 for both STEPs; material in the footprint spans y 101.15..113.15 (10619 mm3). Features reaching y<97.5 on fixed_heat_wall_pos: bbox x -54..4, z -82..-58 (the cold-finger seat, 1373.8 of 1392 mm2 contact). Contrast: parent cold-finger seat at 96.5 really exists; the CF1 lug location was copied from that number without a solid check.",
+          "suggested_fix": "Set the +Y lug thickness/position from the actual wall inner face (12.65 mm to reach 101.15, or move the lug onto an existing boss), add a narrowphase receipt that reports the contact area of each lug face with its web (common volume of a thin slab at the TIM plane), re-run thermal_cf1.py and downgrade THERMAL_ACCEPTANCE_CF1.json.passes until it exists.",
+          "disposition": "FIXED",
+          "disposition_note": "+Y lug moved to the probed web skin at S y 101.15 (WEB_FACE_PROBE_CF1.json: contact 1080 mm2, distance 0); strap lengthened to 57.15 mm; verify check lug_outer_faces_on_probed_web_skin added"
+        },
+        {
+          "id": "thermal-2",
+          "severity": "blocker",
+          "file": "cf1_layout_thermal/mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+          "location": "parts[CF1_LUG_MINUS_Y].purpose ('8 mm lug on the inner face of shear_web_-1 (S y -83.5)'); links.minus_Y.TIM_sink_mm [25,40]; INTERFACE_REQUIREMENTS_CF1.json IF_CF1_05",
+          "claim": "The -Y lug bears on the shear_web_-1 inner face at S y -83.5 over 25x40 mm (1000 mm2 TIM, R_TIM 0.1806 K/W), giving the -Y link 0.9920 K/W and 14.05 W.",
+          "defect": "S y -83.5 is the bounding-box inner extent that DESIGN_SPEC_CF1.md section 3 itself flags as needing a solid intersection ruling ('该包围盒向内延伸到 y=-83.5，需实体求交裁定'). The solid shows the web plate proper ends around S y -109..-105 in the lug footprint; the only material reaching -83.5 inside x -15..10, z 35..75 is a 1 mm wide strip at x -15..-14. The lug therefore touches ~40 mm2 (4 %) of the assumed 1000 mm2 sink, and 24 of its 25 mm width face a >20 mm air gap. The 1-D link R and the FIXED_MINUS_Y patch coupling are not supported by the geometry the increment binds to.",
+          "evidence": "OCP on mechanical/fixed_heat_wall_neg.step (V27 states/service[109], sha 3f9a1321...): 1 mm y-slabs within the lug footprint give 1000 mm2-equivalent at y -113.15..-109, 0.0 at -105..-95, 39.9 mm2 at -86..-83.5; 0.2 mm slab at the lug face y -83.7..-83.5 contains 7.985 mm3 -> 39.9 mm2 with bbox x -15.0..-14.0. Min distance lug->wall 0.0 at point (-14.0,-83.5,35.08) (edge contact). verify_thermal_cf1.py check 'minusY_conduction_length_matches_boxes' only checks the strap boxes against themselves, never against the web.",
+          "suggested_fix": "Rule the -Y web inner face from the solid (section at x -15..10, z 35..75), re-dimension the lug/strap to reach it (or move to the x<-14 feature that does reach -83.5), and add the same contact-area receipt as T1 before any strap R is used.",
+          "disposition": "FIXED",
+          "disposition_note": "-Y lug moved to S y -101.15 and shifted +2 mm in x, clear of the 1 mm rib; contact 1000 mm2 (100 %); web-through term booked"
+        },
+        {
+          "id": "thermal-3",
+          "severity": "blocker",
+          "file": "cf1_layout_thermal/results/thermal/THERMAL_ACCEPTANCE_CF1.json",
+          "location": "continuous_thermal_closure: true; result_5mm.unassigned_heat_W; notes[1]; design/README_CF1.md section 1 ('360 W 稳态验收点闭合于模型层面'); tools/thermal_cf1.py L110-115 module_heat",
+          "claim": "360 W steady state closes: CHB 94.17 <= 105, carrier 80.12 <= 95, Tj 120.83 <= 150, with 'unassigned' heat merely listed.",
+          "defect": "36 % of the increment's own accounted heat (33.26 W of 91.16+33.26 W: other_wiring_contacts 5.35, shared_contact 5.86, aux 0.05, THN 4.2, STOP 16.8, brake 1.0) is dropped from a model whose only radiators are the three modelled faces. Placing just the spec-listed 22 W (STOP+THN+brake) anywhere on those faces drives the CHB above its limit in the same solver, so the closure flag is contradicted by the model it cites. DESIGN_SPEC section 1 required closure OR a quantified gap; neither is given, whereas the parent screen (SPATIAL_RADIATOR_NETWORK_SCREEN.json unassigned_extra_heat_sensitivity) at least published a +5/+10 W sensitivity.",
+          "evidence": "Re-solve with thermal_cf1.solve_with_node at the acceptance point, extra heat spread over the three faces in proportion to area: +5 W -> CHB 97.23 / carrier 83.43; +10 W -> 100.38 / 86.66; +22 W -> CHB 107.59 (>105) / carrier 94.08 / Tj 134.79; +33.3 W -> CHB 113.99 / carrier 100.67 (>95) / Tj 141.37. Slope ~0.6 K/W. other_wiring_contacts (5.35 W = I_m^2 x 0.010 ohm, thermal_cf1.py L77/L92) is main-path loss that the module connectors/harness must dissipate, yet it is excluded from the node.",
+          "suggested_fix": "Set continuous_thermal_closure=false (or CONDITIONAL_ON_UNASSIGNED_HEAT), add an unassigned-heat sensitivity block (0/5/10/22/33 W) to THERMAL_ACCEPTANCE_CF1.json, and state the CHB gap (about +2.6 K over the limit at 22 W) in README section 1.",
+          "disposition": "FIXED_AS_DISCLOSED_GAP",
+          "disposition_note": "unassigned_heat_sensitivity block (0/5/10/22/33.3 W, all four environments) added; continuous_thermal_closure=false; +X skin fallback at 22 W reported (passes); README section 1 states the gap"
+        },
+        {
+          "id": "thermal-4",
+          "severity": "major",
+          "file": "cf1_layout_thermal/tools/thermal_cf1.py",
+          "location": "L63-66 _link_R (R = L/(kA) + 2 R_TIM) and THERMAL_PATH_GEOMETRY_CF1.json excluded_from_the_1D_link_model",
+          "claim": "Strap R 0.9920 / 1.1665 K/W with carrier margin 14.88 K; exclusions listed as spreading in carrier and lugs, fasteners, pressure non-uniformity, radiation, expansion.",
+          "defect": "The link model omits terms the parent's own nominal link included and that are not in the exclusion list: through-conduction of the 8 mm lug and of the web between its inner face and its radiating outer sheet (parent SPATIAL screen link_nominal_1D_terms_K_W has wall_through = 0.0942 K/W; CF1 has nothing), and the 4 mm carrier plate spreading between the Q201 arch at S y 36 and the -Y contact centroid at S y -36. Together they consume more than half the stated carrier margin. verify_thermal_cf1.py 'strap_R_recomputed' (L35-40) is a verbatim copy of the same formula, so it cannot detect an omitted term.",
+          "evidence": "Even taking the declared faces at face value: -Y lug 8 mm@167 + web 29.65 mm@130 over 1000 mm2 = 0.276 K/W; +Y 8 mm + 16.65 mm over 1080 mm2 = 0.163 K/W. Re-solve with these added: carrier 83.17 C, Tj 123.87. Adding a 1-D full-width plate spreading term 0.072/(167*0.004*0.132)=0.817 K/W on the -Y path: carrier 88.22 C, Tj 128.93 (margin 6.8 K instead of 14.9 K). Parent link terms for comparison: bottom_foot_through 0.076, riser 0.342, horizontal_arm 0.311, TIM 0.133, wall_through 0.094.",
+          "suggested_fix": "Add lug and web through-conduction terms to _link_R (read web thickness from the solid, not the bbox), add a carrier-plate spreading estimate or a second carrier node, list any remaining omissions explicitly, and make verify recompute R from the STEP-derived dimensions rather than re-evaluating the identical expression.",
+          "disposition": "FIXED",
+          "disposition_note": "lug-through, web-through (skin / stiffener gap / half plate from the probe) and a 1-D carrier-spreading term added; terms itemised in strap_R_terms_K_W; verify recomputes from the geometry file with its own arithmetic (term list shared, disclosed)"
+        },
+        {
+          "id": "thermal-5",
+          "severity": "major",
+          "file": "cf1_layout_thermal/tools/thermal_cf1.py",
+          "location": "L233-236 (worst = max(hot_cases, key=CHB_case_C)) and verify_thermal_cf1.py L72-75 acceptance_env_is_worst_of_four",
+          "claim": "Acceptance point = worst of the four environments; reported carrier margin 14.88 K and Tj margin 29.17 K at the 5 mm mesh.",
+          "defect": "'Worst' is selected by CHB case temperature only. The carrier and Q201 Tj criteria are worst in HOT_C_SUN_MINUS_Y (and HOT_A), not HOT_B, so the acceptance record understates the carrier/Tj exposure and the 5 mm refinement was never run for the environment that governs those two criteria. The spec ('三种受晒面中的最坏') applies to each criterion.",
+          "evidence": "THERMAL_MATRIX_CF1.json 360/0.85/20 V rows at 10 mm: HOT_B carrier 80.10 / Tj 120.81 (chosen); HOT_C carrier 83.46 / Tj 124.17; HOT_A 82.81 / 123.52. Real worst carrier margin = 95-83.46 = 11.54 K, not 14.88 K. VALIDATION.json check 15 only compares CHB values (envs dict lists CHB only).",
+          "suggested_fix": "Select the acceptance environment per criterion (or run the 5 mm case for all four) and report the minimum margin of each criterion across environments; extend the verify check to carrier and Tj.",
+          "disposition": "FIXED",
+          "disposition_note": "all four environments run at 5 mm; worst_env_by_criterion and min_margins_C reported; passes requires every environment; verify checks per criterion"
+        },
+        {
+          "id": "thermal-6",
+          "severity": "major",
+          "file": "cf1_layout_thermal/tools/thermal_cf1.py",
+          "location": "L255 energy_balance_all_cases counterexample; L164-167 convergence test; verify_thermal_cf1.py L53-60 energy_balance_all_cases_le_1e-6W",
+          "claim": "Counterexample 'energy_balance_all_cases' detected (max 4.13e-9 W < 1e-6) and verify 'recomputes' the energy balance per case.",
+          "defect": "Neither is a test that can fail. The Newton loop only exits when |radiated-heat| < 5e-9 W (L165), so every converged case satisfies a criterion 200x looser than its own stop condition; the observed maximum 4.13e-9 W is simply the last iterate below 5e-9. The verify check subtracts two numbers the solver wrote (net_outward_W, input_W) and re-solves nothing, so it also cannot fail independently. The plan asked for a rejection test ('能量残差 >1e-6 时拒绝'); no unbalanced case is injected and no rejection path exists (if 80 iterations are exhausted only residual_max < 1e-8 is asserted, L168, not balance).",
+          "evidence": "COUNTEREXAMPLES.json energy_balance_all_cases.max_abs_W = 4.126e-9 (same order as the 5e-9 loop threshold); VALIDATION.json check 11 worst_abs_W identical value; README section 4 describes verify as '复算能量平衡（每工况 < 1e-6 W）'.",
+          "suggested_fix": "Turn the energy check into an independent recomputation (rebuild area*(eps*sigma*T^4-incoming) from a stored temperature field, or re-solve one case) and add a genuine negative control (e.g. a case with the node heat deliberately omitted from the RHS must be flagged); drop it from the 'counterexamples' list otherwise.",
+          "disposition": "FIXED",
+          "disposition_note": "ACCEPTANCE_FIELD_CF1.json stores T/area/incoming/heat; verify recomputes radiated-vs-input from the field (independent of solver totals) and shows a +1 K perturbation is detected; node link heats recomputed from the field vectors"
+        },
+        {
+          "id": "thermal-7",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/results/thermal/COUNTEREXAMPLES.json",
+          "location": "strap_degraded_20KW_carrier_exceeds; released_state_folded_wings_raises_CHB (thermal_cf1.py L251-254)",
+          "claim": "Two falsification tests detect a degraded strap and the released-state penalty.",
+          "defect": "Both are demonstrations of built-in behaviour rather than tests that probe a failure mode. With two 20 K/W straps in parallel the node temperature is the linear identity T_patch + Q*R/2 (27.46 W x 10 K/W = 274.6 K above the ~65 C patches = 339.9 C), so 'detected' is guaranteed for any R above ~4.5 K/W; the plan's stated control (R -> 1e6, i.e. link absent) was replaced by R = 20. The released-state control passes because the released grid blocks ~90 % of both Y faces versus 26-31 % (RADIATOR_MESH_VIEW_SCREEN mean blocked_fraction 0.899/0.903 vs 0.257/0.309); it only proves the state key is read.",
+          "evidence": "COUNTEREXAMPLES.json carrier_C 339.92 with threshold CARRIER_LIMIT+50 = 145; released_CHB 115.72 vs service 94.00, threshold +10 K.",
+          "suggested_fix": "Keep them as sanity checks but label them as such; add real negative controls (e.g. wrong patch face id must move the lug heat to a different sheet and be detected by the per-sheet net_outward split; a patch centre outside the face must raise the Sheet.weights assertion).",
+          "disposition": "FIXED",
+          "disposition_note": "the two built-in behaviours relabelled sanity_checks; three real negative controls added (wrong patch face moves 5.4 W between the Y faces; off-face patch refused; zero strap R refused)"
+        },
+        {
+          "id": "thermal-8",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/tools/thermal_cf1.py",
+          "location": "L100-107 replay_check (ok = rel < 5e-3 on input_power_W only); THERMAL_MATRIX_CF1.json replay_check",
+          "claim": "'Electrical replica matches COUPLED_RESULTS within 0.5 %' (relative error 6.04e-4), reproducing the operating point used for the acceptance.",
+          "defect": "The replay is against COUPLED_RESULTS operating_points[17] (pack 25.2 V, the CANDIDATE analysis scenario), not the acceptance point (20 V, operating_points[1]); it asserts input power only, while Q201 and CHB heat are reported but never compared; and the 0.28 W miss is not numerical noise but the replica omitting the startup (0.25 W) and input-capacitor-leakage (~0.07 W) loads from the current draw (L75-79 include only load+brake, aux and 6 mA). A 5e-3 tolerance (about 2.4 W) would also hide a missing 2 W term.",
+          "evidence": "replay_check: reference 471.022 W vs replica 470.737 W (diff 0.285 W); reference startup+cap leakage = 0.25+0.071 = 0.321 W. At 20 V with V29 copper (my recompute): 488.777 vs 488.467 W (rel 6.3e-4), Q201 22.940 vs 22.903 W (rel 1.6e-3), not asserted anywhere.",
+          "suggested_fix": "Replay the actual acceptance point (index 1), assert Q201, CHB and battery current with a tolerance tied to the known omitted loads, and add startup/leakage to the current balance so the tolerance can be tightened to ~1e-4.",
+          "disposition": "FIXED",
+          "disposition_note": "replay at both the 25.2 V and 20 V points; input, Q201 and CHB each asserted; known omissions (startup 0.25 W, cap leakage 0.07 W) recorded and the tolerance tied to them"
+        },
+        {
+          "id": "thermal-9",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/tools/thermal_cf1.py",
+          "location": "L227-231 matrix loops (load x eta x pack{20,25.2} x env, hot fixed 2.0)",
+          "claim": "README section 4: 64-case matrix load x eta x pack x env, all pass.",
+          "defect": "Silent scope change versus the contract: DESIGN_SPEC section 5 and IMPLEMENTATION_PLAN Task 8 define the sweep as load x eta x Q201 {x1, x2} x env, and Global Constraints list pack 20/22/25.2/29.4 V. The delivered matrix drops the Q201 x1 axis, drops 22 and 29.4 V, and substitutes a two-value pack axis. Not harmful to the hot acceptance (x2 and 20 V are the worst), but the deviation is not recorded in the spec, plan or acceptance file.",
+          "evidence": "All 64 cases have Q201_hot_multiplier 2.0; pack_V values are only 20.0 and 25.2; the 25.2 V rows are cooler on every metric (e.g. 360/0.85 HOT_B: CHB 87.77 vs 93.996), confirming 25.2 V is never hotter.",
+          "suggested_fix": "Either run the contracted axes or record the deviation and its rationale in THERMAL_ACCEPTANCE_CF1.json and the README.",
+          "disposition": "FIXED",
+          "disposition_note": "Q201 x1 axis added (128 cases); the 22/29.4 V omission recorded in axes_note with its rationale"
+        },
+        {
+          "id": "thermal-10",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/tools/thermal_cf1.py",
+          "location": "L246-248 cold cases (load 15 W, heater_W=20.0); run_case L219 passes= uses hot limits",
+          "claim": "Cold case: released state, 250 K, standby load, heater 20 W; 'passes: true'.",
+          "defect": "(a) The heater is applied as 20 W of heat, but DESIGN_SPEC section 5 and CANDIDATE_V30 thermal specify 20 W x efficiency 0.8 = 16 W. (b) The 15 W standby load is not declared in any input; the plan (Task 8) said to take the 60 W tier. (c) 'passes' for the cold cases is evaluated against the hot limits (105/95/150 C), there is no cold criterion, so the flag is meaningless there.",
+          "evidence": "cold.with_heater: CHB 18.05 C, carrier 5.83 C at 20 W; recompute at 16 W: CHB 11.74 C, carrier 1.63 C. cold.without_heater carrier -18.15 C and 'passes': true. 60 W standby without heater (recompute): CHB -0.78 C, carrier -7.15 C.",
+          "suggested_fix": "Use 16 W heater heat (or document why 20 W), cite the source of the 15 W standby figure, and either add a cold limit (e.g. CANDIDATE heater_setpoint 0 C, battery minimum) or set passes=null for cold cases.",
+          "disposition": "FIXED",
+          "disposition_note": "heater 20 W x 0.8 = 16 W; standby 60 W tier per plan; cold passes=null with criterion NONE_DECLARED"
+        },
+        {
+          "id": "thermal-11",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/results/thermal/THERMAL_ACCEPTANCE_CF1.json",
+          "location": "continuous_thermal_closure / passes (unconditional); THERMAL_MATRIX_CF1.json R_TIM_K_W",
+          "claim": "Acceptance JSON: passes=true, continuous_thermal_closure=true with no condition; matrix header R_TIM_K_W = 0.1806.",
+          "defect": "README section 1 and DELIVERY_STATUS_CF1.json status ('CONDITIONALLY_CLOSED... MODULE_POSE_REJECTED') make the thermal result conditional on a module pose that is rejected by exact narrowphase, but the acceptance JSON (the machine-readable receipt) carries no such condition or pose reference. Separately, the single R_TIM_K_W value is the 25x40 TIM only; the +Y source TIM is 27x30 (0.2230 K/W), so the header understates one of the three TIM terms.",
+          "evidence": "THERMAL_ACCEPTANCE_CF1.json notes mention only unassigned heat and bounding-box clearance; DELIVERY_STATUS_CF1.json thermal block says acceptance_passes true while mechanical.module_pose.status = MODULE_POSE_REJECTED_PHYSICAL_INTERFERENCE.",
+          "suggested_fix": "Add pose_status and a 'conditional_on' list to the acceptance JSON; replace R_TIM_K_W by the three per-interface values.",
+          "disposition": "FIXED",
+          "disposition_note": "conditional_on list in THERMAL_ACCEPTANCE_CF1.json; R_TIM_per_interface_K_W (four values) in the matrix header"
+        },
+        {
+          "id": "thermal-12",
+          "severity": "note",
+          "file": "cf1_layout_thermal/tools/thermal_cf1.py",
+          "location": "L138-139 (L rebuilt from L.data with L.nonzero() indices), L145-154 (link/node link assembly without the parent's finite-positive-R assert)",
+          "claim": "solve_with_node = parent solve plus one non-radiating node.",
+          "defect": "The lumped-node insertion itself is correct (v = +1 at node, -weights on patch; outer(v,v)/R symmetric; node area 0 so no radiation; node_link heat sign node-to-patch positive; residual row for the node = sum (T_n - Tbar_patch)/R - Q). Two robustness points: rebuilding L pairs L.data with L.nonzero() indices, which raises a shape error if any stored entry is an explicit zero (works today only because no g is zero); and the parent's assert that link R is finite and positive was dropped, so a zero or negative strap R would produce a singular/indefinite system rather than a clear failure.",
+          "evidence": "Verified against spatial_radiator_network.solve; acceptance iterations=5, residual 4.9e-13 W.",
+          "suggested_fix": "Use L.tocoo() for the resize and restore the R assert for links and node_links.",
+          "disposition": "FIXED",
+          "disposition_note": "block_diag rebuilt via COO row/col; finite-positive R asserted for links and node links"
+        },
+        {
+          "id": "pcb-1",
+          "severity": "blocker",
+          "file": "cf1_layout_thermal/tools/current_density_cf1.py",
+          "location": "lines 58-59 (filter `r['y0'] < 10.0`), results/pcb/CURRENT_DENSITY_CF1.json cf1.worst_forward_current_density_A_mm2, README_CF1.md §3 table row '正向最坏电流密度 29.1 A/mm²'",
+          "claim": "Worst forward current density is 29.1 A/mm² ≤ 35 A/mm² (VALIDATION check copper_loss_and_density_acceptance, DELIVERY_STATUS_CF1.json pcb.worst_forward_density_A_mm2).",
+          "defect": "The 29.1 figure is computed only on the five 8 mm bands. The two Q201 pad-entry stubs that the build adds (build_pcb_cf1.py:93 PAD_STUB_Q201_DRAIN x57.6-61.3 y15-17, 3.7 mm wide; :95 PAD_STUB_Q201_SOURCE x62.8-67.0 y15-17, 4.2 mm wide) are excluded by the y0<10 filter with the comment 'pad-entry stubs ... are not series conductors'. They are series conductors: the MAIN_SENSE band ends at y=15 and Q201 pad 2 copper starts at y=15.5 (pad bbox 57.6-61.3 x 15.5-18.5), so the whole 24.44 A crosses the 3.7 mm x 0.105 mm stub section; the project's own negative control (b) proves it (removing the stub -> DRC 'Missing connection between PTH pad 2 [WP10_MAIN_SENSE] of Q201 and Polygon'). J_drain = 24.44/(3.7*0.105) = 62.9 A/mm²; J_source = 24.44/(4.2*0.105) = 55.4 A/mm² - both above the 35 A/mm² limit. The V29 parent model counted the equivalent 2.6 mm necks to the same pad centres as MAIN_FORWARD_NECK (134 A/mm²), and IMPLEMENTATION_PLAN Task 2 explicitly lists the '补 (59.45,11)→(59.45,17) 3.7' and '(64.9,12)→(64.9,17) 4.2' stubs as forward-path segments, so excluding them is a silent redefinition of the criterion.",
+          "evidence": "current_density_cf1.py:59 `if r['net'] in FORWARD and r['layer']=='F.Cu' and r['y0'] < 10.0 ...`; build_pcb_cf1.py:92-95 band (46.2,7.0,61.3,15.0) + stub (57.6,15.0,61.3,17.0); pcbnew read-back Q201 pad 2 size 3.7x3.0 drill 2.7x2.0 bbox y 15.5-18.5; negative_cf1_no_drain_stub_DRC.json unconnected_items[0]; V29 segments 'WP10_MAIN_SENSE (59.45,10)->(59.45,17) 2.6 MAIN_FORWARD_NECK'; arithmetic 24.44/(3.7*0.105)=62.9.",
+          "suggested_fix": "Include the two stubs (and any other neck between band and pad) as MAIN_FORWARD_NECK segments with length = band edge to pad edge (0.5 mm) or to pad centre (2 mm, parent convention) and report the true worst density; either widen the entry (e.g. taper the band into a full-pad-width fan-out plus B.Cu PTH-side copper on both Q201 power pads) or re-state the criterion explicitly as 'bands only' in DESIGN_SPEC/README with the neck densities disclosed alongside.",
+          "disposition": "FIXED_AS_OPEN_ITEM",
+          "disposition_note": "necks modelled as MAIN_FORWARD_NECK; worst neck 62.9 A/mm2 reported; VALIDATION check forward_current_density_le_35_including_Q201_pad_entry_necks now FAILS by design; band-only 29.1 A/mm2 reported separately; open item in DELIVERY_STATUS"
+        },
+        {
+          "id": "pcb-2",
+          "severity": "major",
+          "file": "cf1_layout_thermal/tools/current_density_cf1.py",
+          "location": "docstring lines 3-7, cf1_segments() lines 55-69 vs parent_segments() lines 36-43; results/pcb/CURRENT_DENSITY_CF1.json acceptance.loss_reduction_vs_V29_recorded = 0.5744",
+          "claim": "Main-path copper loss reduced 57.4 % vs V29 (R20 8.578 -> 3.651 mΩ), 'apples-to-apples' series model.",
+          "defect": "The parent side is the V29 15-segment centreline model including two 2.6 mm necks (0.663 + 0.388 mΩ); the CF1 side drops the corresponding necks entirely (see CF1-PCB-01) and treats each band as a conductor of its full x-extent. The two sides therefore use different path definitions. Recomputed R20 from CURRENT_DENSITY_CF1.json segments: forward 0.2853+0.1991+0.1765+0.3099+0.5346 = 1.5054 mΩ, return 2*0.2258+2*0.3694+0.9553 = 2.1457 mΩ, total 3.6510 mΩ (matches). Adding the omitted necks at the parent convention (to pad centre, 2 mm): r20(2,3.7,0.105)=0.0887 mΩ + r20(2,4.2,0.105)=0.0782 mΩ -> 3.818 mΩ, loss20 = 400*3.818e-3*1.3144 = 2.008 W, reduction 55.5 %; at band-edge-to-pad-edge (0.5 mm) -> 3.693 mΩ, 56.9 %. The ≥40 % criterion survives, but the stated 57.4 % and the 'not series conductors' justification are not model-consistent. (Band x-extent lengths over-count length vs the actual entry/exit points by roughly 0.25 mΩ in CF1's disfavour, so the net bias is small but undocumented.) thermal_cf1.py line 54 consumes the 3.651 mΩ figure as COPPER_CF1_20C.",
+          "evidence": "V29 R20_ohm 0.008578 with MAIN_FORWARD_NECK entries; CF1 segments list has no neck entries; docstring 'Vias are ignored (conservative: no credit)' and code comment line 58.",
+          "suggested_fix": "Model the CF1 forward path with the same segment definition as V29 (band + neck to pad centre), report both R20 numbers, and restate the reduction; propagate the corrected R20 into thermal_cf1.py (effect on carrier temperature is < 0.2 K, but the receipt chain must be consistent).",
+          "disposition": "FIXED",
+          "disposition_note": "necks booked to the pad centre (V29 convention): R20 3.818 mOhm, reduction 55.5 % (bands-only 57.4 % also shown); thermal_cf1.py consumes the corrected R20"
+        },
+        {
+          "id": "pcb-3",
+          "severity": "major",
+          "file": "cf1_layout_thermal/results/pcb/MAIN_INPUT_DRC_PARITY.json",
+          "location": "whole file (date 2026-09-14T01:19:56, violations[36], unconnected_items[1], schematic_parity[]); tools/verify_pcb_cf1.py lines 91-94; README_CF1.md §3 '未覆盖：原理图 parity（kicad-cli 拒绝未全注释原理图）'; DELIVERY_STATUS_CF1.json pcb block",
+          "claim": "Schematic parity is NOT_EXECUTABLE because kicad-cli refused the un-annotated schematic; status recorded in VALIDATION.json check 'schematic_parity_status_recorded'.",
+          "defect": "The file presented as the parity receipt is a stale DRC report of an earlier, failing build iteration: it is timestamped 01:19:56, five minutes before the final board was saved (wp10_main_input.kicad_pcb mtime 01:25:00, MAIN_INPUT_DRC.json 01:25:02), it contains 36 violations including 'Items shorting two nets (WP10_PRECHARGED_PLUS and WP10_INPUT_RETURN)' at via (68.0,19.8) and track_not_centered_on_via at vias x=68.0/69.2/24.2 - the pre-patch via columns that tools/_patch_build_drcfix.py replaced - and 1 unconnected item; its schematic_parity list is empty. It contains no parity information about the delivered board. The VALIDATION check passes unconditionally (`ck('schematic_parity_status_recorded', True, ...)`) and derives the status string from file existence, not content, so it cannot fail. No log captures the actual kicad-cli refusal. I reproduced the refusal on a scratch copy of the delivered board ('Failed to fetch schematic netlist for parity tests. Schematic parity tests require a fully annotated schematic.' followed by 0 violations / 0 unconnected), so the disclosure text is substantively right, but the cited receipt is wrong and the check is vacuous. DELIVERY_STATUS_CF1.json reports only `drc_violations: 0` with no parity status field, so the NOT_EXECUTABLE limit is not carried into the delivery record.",
+          "evidence": "MAIN_INPUT_DRC_PARITY.json 'date': '2026-09-14T01:19:56', 36 violations, 1 unconnected; results/pcb mtimes; verify_pcb_cf1.py:92 `ck('schematic_parity_status_recorded', True, status='NOT_EXECUTABLE_...' if parity is not None else 'NOT_RUN')`; scratch re-run stderr quoted above.",
+          "suggested_fix": "Delete or rename the stale file; store the actual `kicad-cli pcb drc --schematic-parity` stdout/stderr and JSON for the delivered board sha as the parity receipt; make the verify check assert the receipt's source sha and the refusal text; add `schematic_parity: NOT_EXECUTABLE` to DELIVERY_STATUS_CF1.json.pcb.",
+          "disposition": "FIXED",
+          "disposition_note": "parity re-run on the delivered board (2026-09-17 06:25:32), refusal text captured in MAIN_INPUT_DRC_PARITY.log; verify asserts source, freshness and refusal text; schematic_parity field in DELIVERY_STATUS"
+        },
+        {
+          "id": "pcb-4",
+          "severity": "major",
+          "file": "cf1_layout_thermal/design/README_CF1.md",
+          "location": "§3 items 3-4 vs design/DESIGN_SPEC_CF1.md §4.2-4.4; build_pcb_cf1.py lines 96-107 and comment lines 100-101; verify_pcb_cf1.py line 73 (`area >= 600.0`)",
+          "claim": "PCB delivered per the owner-approved design spec ('六项改动'): B.Cu parallel copper + via array; TIM contact pour 703.98 mm².",
+          "defect": "Silent scope narrowing against DESIGN_SPEC_CF1.md §4: (a) §4.3 requires B.Cu parallel copper with ≥12-via arrays 'at both ends of F201 and both ends of R201/R202'; delivered is a single strip on WP10_PRECHARGED_PLUS (x 68.7-77.6), a location the spec never asked for, and the build comment records 'MAIN_FUSED B.Cu parallel copper dropped'; IMPLEMENTATION_PLAN Task 3 (MAIN_FUSED + SENSE_MID strips, ≥40 vias) is likewise not met (20 vias, one net). (b) §4.4 requires a B.Cu TIM contact area of return-net pour AND forward-net pour totalling ≥60x40 mm (2400 mm²) with forward-net thermal vias; delivered is the return pour only, 704 mm² (29 % of spec), no forward pour, no thermal vias; the verify threshold 600 mm² comes from the plan, not the spec. (c) §4.2 asks for a 10 mm-wide F201 land connection; the bands are 8 mm. None of these deltas is stated in README §3 or DELIVERY_STATUS_CF1.json, which present the PCB as passing 16/16.",
+          "evidence": "DESIGN_SPEC_CF1.md §4.3 '在 F201 两端、R201/R202 两端...用 ≥12 孔...过孔阵列连接'; §4.4 '合计覆盖不小于 60×40 mm'; build_pcb_cf1.py COPPER_RECTS has one PARALLEL_BCU entry and RETURN_ZONE (18,3,82,14) = 704 mm²; verify_pcb_cf1.py:73.",
+          "suggested_fix": "Either implement the spec'd parallel copper/TIM pours or record each deviation explicitly (spec clause, delivered value, rationale, owner acceptance) in README §3 and DELIVERY_STATUS_CF1.json; set the verify thresholds to the spec values so the checks fail until the deviation is formally accepted.",
+          "disposition": "FIXED_AS_DISCLOSED",
+          "disposition_note": "four spec deviations listed in DELIVERY_STATUS_CF1.json pcb.spec_deviations and README section 3 with rationale, accepted_by_owner=false"
+        },
+        {
+          "id": "pcb-5",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/tools/falsify_pcb_cf1.py",
+          "location": "parallel_copper_ok() line 46 (`n >= 8`), main() cases (a)-(c); current_density_cf1.py lines 116-122 (negative control d)",
+          "claim": "Four negative controls prove the checks can fail (README §3 '四项均被检出').",
+          "defect": "(d) '3 mm band -> density FAIL' only overwrites width_mm=3.0 in memory and re-evaluates I/(w*t) = 24.44/(3*0.105) = 77.6; it never touches the board or the y0<10 filter, so it is an arithmetic identity that cannot fail and does not test the segment selection that actually matters (CF1-PCB-01). (a) uses a threshold of ≥8 vias while verify_pcb_cf1.py requires ≥16, README says '≥16', DESIGN_SPEC says ≥12 per array and the plan says ≥40 - four different thresholds for the same check. The spec's negative case '过孔阵列错连到另一网 -> DRC 短路' was replaced by 'move one via into the return pour' (script comment lines 83-86); the orphan ecad/negative_cf1_via_wrong_net.kicad_prl (01:26:34) shows the abandoned attempt, but README does not say the spec'd case was substituted. (b) and (c) are genuine.",
+          "evidence": "falsify_pcb_cf1.py:46 `return n >= 8`; verify_pcb_cf1.py:69 `inside >= 16`; current_density_cf1.py:120 `s['width_mm'] = 3.0`.",
+          "suggested_fix": "Make (d) operate on a modified board copy (shrink the polygon) and run the full cf1_segments() pipeline; add a negative that moves a stub/neck into the model to show the filter's effect; unify the via-count threshold to the spec value; record the substituted negative case in README.",
+          "disposition": "PARTIALLY_FIXED",
+          "disposition_note": "via threshold unified to >=12 (spec) in falsify and verify; control (d) relabelled arithmetic and a segment-selection control (e) added; the substituted negative case is stated in README and the verify note; control (d) still operates in memory"
+        },
+        {
+          "id": "pcb-6",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/tools/build_pcb_cf1.py",
+          "location": "geometry() lines 34-44; README_CF1.md §3 '同一 35 个封装、同一焊盘指纹'; VALIDATION check 'footprint_and_pad_fingerprint_identical_to_parent'",
+          "claim": "Footprint/pad fingerprint identical to the V32 parent; no part substitution.",
+          "defect": "The fingerprint covers ref, lib name, position, angle, jumper flag and pad (number, net, xy, size, drill, shape, layers) only. I independently confirmed it is equal (43 footprints). But the same build changes the footprints in ways the fingerprint is blind to: attributes set on 12 board instances (before 0 -> after 1/2), F/B courtyards added to 8 board-embedded footprints, and 10 library .kicad_mod files rewritten via FootprintSave. 'Identical footprints' should therefore be qualified as 'identical reference/placement/pad geometry/pad nets'. Also README says '35 个封装' while the board and VALIDATION report 43 footprints (35 components + MH1-4 + 4 PORT_* embedded footprints).",
+          "evidence": "NATIVE_BUILD.json footprint_attributes_set (12 entries), courtyards_added (8), library_attributes_set (10); VALIDATION.json footprints: 43.",
+          "suggested_fix": "Rename the check to 'pad_geometry_and_net_fingerprint' and list the attribute/courtyard/library deltas next to it; fix the 35/43 count in README.",
+          "disposition": "FIXED",
+          "disposition_note": "check renamed pad_geometry_and_net_fingerprint_identical_to_parent with the attribute/courtyard/library deltas listed; README says 43 footprints"
+        },
+        {
+          "id": "pcb-7",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/results/pcb/MAIN_INPUT_DRC.json",
+          "location": "ignored_checks [] / included_severities; README §3 item 6 'DRC 全规则启用'; results/pcb/SYSTEM_ERC.json ignored_checks (4 entries); ecad/wp10_system.kicad_pro (2 bytes, '{}')",
+          "claim": "DRC clean with all rules enabled; ERC 13 sheets clean.",
+          "defect": "DRC: verified - all 62 rule severities are non-ignore (parent had 5 ignored), report includes error/warning/exclusion, 0/0, and I reproduced 0 violations / 0 unconnected on the delivered bytes. However `footprint_filters_mismatch` (one of the five rules the increment enabled) is evaluated by KiCad's schematic-parity test provider, and parity was not executable, so enabling it had no effect on this run - 'all rules enabled' is a severity statement, not an evaluation statement. ERC: SYSTEM_ERC.json lists four ignored checks (single_global_label, four_way_junction, simulation_model_issue, footprint_filter) because wp10_system.kicad_pro is an empty '{}' project and ERC ran with KiCad defaults; verify check 'system_ERC_clean' does not look at ignored_checks and README states 'ERC 13 页 0' without the caveat.",
+          "evidence": "wp10_main_input.kicad_pro rule_severities: cf1 ignore=[] vs parent ignore=[5 rules]; SYSTEM_ERC.json ignored_checks; `ls -la ecad/revisions/v32/wp10_system.kicad_pro` -> 2 bytes.",
+          "suggested_fix": "State in README/VALIDATION that footprint_filters_mismatch could not be evaluated without parity, and that ERC ran with 4 default-ignored checks; consider a real wp10_system.kicad_pro with explicit ERC severities.",
+          "disposition": "FIXED_AS_DISCLOSED",
+          "disposition_note": "README and verify notes: footprint_filters_mismatch not evaluated without parity; ERC ran with 4 default-ignored checks (empty wp10_system.kicad_pro)"
+        },
+        {
+          "id": "pcb-8",
+          "severity": "note",
+          "file": "cf1_layout_thermal/ecad/wp10_main_input.kicad_pcb",
+          "location": "lines 37-75 (stackup block), line 6 (general thickness 1.6); current_density_cf1.py line 48 `thick = 0.105`; verify_pcb_cf1.py line 55",
+          "claim": "3 oz outer copper persisted in the .kicad_pcb stackup.",
+          "defect": "Verified: the stackup is present in the saved text with `(thickness 0.105)` on F.Cu and B.Cu, copper_finish/dielectric_constraints retained, and it sums to the 1.6 mm general thickness (0.01+0.105+1.37+0.105+0.01). But nothing downstream reads it: the copper-loss script hard-codes 0.105 instead of reading the board stackup, KiCad DRC ignores copper thickness, and the verify check is a string count of '(thickness 0.105)'. The stackup and the calculation could diverge silently; the 3 oz claim is a text annotation, not a checked design input.",
+          "evidence": "grep stackup lines 48-51/73-74; current_density_cf1.py:48.",
+          "suggested_fix": "Read copper thickness from BOARD_STACKUP in current_density_cf1.py and assert it equals the value used; keep the text check as a secondary guard.",
+          "disposition": "FIXED",
+          "disposition_note": "current_density_cf1.py reads the stackup block and asserts F.Cu == B.Cu thickness; verify checks the value used"
+        },
+        {
+          "id": "pcb-9",
+          "severity": "note",
+          "file": "cf1_layout_thermal/tools/current_density_cf1.py",
+          "location": "docstring line 6 'Vias are ignored (conservative: no credit)'; lines 62-67 parallel credit; line 18 RHO20 comment 'replays the V29 recorded per-segment R20 exactly'",
+          "claim": "Ignoring vias is conservative; parent model replays V29 exactly.",
+          "defect": "Ignoring via resistance inside a parallel branch overstates, not understates, the branch credit: with ~0.59 mΩ per 0.6 mm via (25 µm plating, 1.6 mm) the 10+10 via array adds ≈0.12 mΩ in series with the 0.209 mΩ B.Cu strip, changing the parallel segment from 0.0974 to ≈0.117 mΩ (+0.02 mΩ, ≈0.5 % of R20). Direction of the word 'conservative' is wrong even though the magnitude is negligible. The B.Cu branch also enters through 2.2 mm-wide F.Cu landing rectangles; if the model's 47 % branch share is taken literally the landing sees ≈49 A/mm² locally. RHO20=1.724e-8 vs V29's implied 1.7241e-8 gives the recorded parent replay error 5.8e-5 - 'exactly' is overstated (the acceptance threshold 1e-3 is fine).",
+          "evidence": "CURRENT_DENSITY_CF1.json acceptance.parent_replay_relative_error 5.800e-05; segment PRECHARGED R20 0.5346 mΩ with parallel_overlap 8.9 mm.",
+          "suggested_fix": "Reword to 'via resistance omitted (slightly optimistic)'; optionally add the via series term; set RHO20 to the V29 value or drop 'exactly'.",
+          "disposition": "FIXED",
+          "disposition_note": "wording corrected (vias omitted: slightly optimistic; RHO20 matches V29 to 6e-5)"
+        },
+        {
+          "id": "pcb-10",
+          "severity": "note",
+          "file": "cf1_layout_thermal/mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+          "location": "parts[0] CF1_CARRIER_BOSS boxes_module_mm [18.0,-14.0,-7.6,64.0,11.0,5.797], contact_area_mm2 704.0, matches_pcb_zone '703.98 mm2'",
+          "claim": "Boss contact 704 mm² matches the PCB return zone (703.98 mm²).",
+          "defect": "Checked and consistent: box_at(x,y,z,l,w,h) in coupled_closure/mechanical_parts.py:8 is min-corner + size, so the boss spans module x 18-82, y -14..-3 (= KiCad y 3-14 after the frame's y negation), z top -1.803 = board bottom -1.6 minus 0.203 mm TIM; this is the same 64x11 rectangle as RETURN_ZONE (18,3,82,14). 704 is the outline area, 703.98 the fill area (0.0155 mm² lost to fill corner rounding). No defect; recorded so the question is closed with evidence.",
+          "evidence": "mechanical_parts.py:8 `def box_at(x,y,z,l,w,h):return Pos(x+l/2,y+w/2,z+h/2)*Box(l,w,h)`; NATIVE_BUILD.json return_zone rect_mm [18,3,82,14], filled_area_mm2 703.9845.",
+          "suggested_fix": "None required; optionally state 'outline 704 / fill 703.98' in the JSON note.",
+          "disposition": "NO_CHANGE_NEEDED",
+          "disposition_note": "reviewer confirmed consistency; the JSON note now says outline 704 / fill 703.98"
+        },
+        {
+          "id": "pcb-11",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/design/README_CF1.md",
+          "location": "§6 '对抗复核见 DELIVERY_STATUS_CF1.json 的 adversarial_review'; DELIVERY_STATUS_CF1.json 'adversarial_review': 'NOT_RUN'; DESIGN_SPEC_CF1.md §7 step 5",
+          "claim": "Adversarial review results are recorded in the delivery status.",
+          "defect": "DELIVERY_STATUS_CF1.json carries `adversarial_review: 'NOT_RUN'`, and the spec's implementation order requires a read-only adversarial review before DELIVERY_STATUS is issued ('复核：一名只读对抗复核代理逐项核对回执与判据；修正后出 DELIVERY_STATUS_V33.json'). The README points readers to a review that does not exist in the record; the delivery status was generated (2026-09-17 01:56) before any review.",
+          "evidence": "DELIVERY_STATUS_CF1.json line 'adversarial_review': 'NOT_RUN'; delivery_status_cf1.py:29 reads results/REVIEW_CF1.json only if present (absent).",
+          "suggested_fix": "Write results/REVIEW_CF1.json from this review and regenerate DELIVERY_STATUS_CF1.json / SHA256_CF1.csv, or change README §6 to say the review is pending.",
+          "disposition": "FIXED",
+          "disposition_note": "results/REVIEW_CF1.json written; DELIVERY_STATUS regenerated after review"
+        },
+        {
+          "id": "pcb-12",
+          "severity": "note",
+          "file": "cf1_layout_thermal/tools/verify_pcb_cf1.py",
+          "location": "lines 76-77; tools/_patch_build_drcfix.py, tools/_probe_steps.py, logs/_probe_out.kicad_pcb/.kicad_pro; ecad/negative_broken_VIN_sense.*, ecad/negative_missing_internal_R201.*, ecad/negative_cf1_via_wrong_net.kicad_prl",
+          "claim": "Clean, reproducible increment tree.",
+          "defect": "verify_pcb_cf1.py:76-77 is a dead branch (`if str(...) in build.get('drc_rules_enabled', []): pass`). The tree ships one-off scratch tooling (_patch_build_drcfix.py shows the shipped build_pcb_cf1.py is a post-hoc patched version; _probe_steps.py and logs/_probe_out.* are exploratory outputs) and, because the build copies the whole v32 revision folder, the V32 negative fixtures (negative_broken_VIN_sense, negative_missing_internal_R201) sit in ecad/ next to the CF1 fixtures without being part of any CF1 receipt; negative_cf1_via_wrong_net.kicad_prl is an orphan of an abandoned case. None affects results, but they blur what is evidence and what is scratch.",
+          "evidence": "File listing and mtimes in results/pcb, logs, ecad (2026-09-11 vs 2026-09-14).",
+          "suggested_fix": "Remove the dead branch; move _patch/_probe files to logs/ or delete; exclude parent negative fixtures from the ecad copy or list them as inherited-not-rerun.",
+          "disposition": "FIXED",
+          "disposition_note": "dead branch removed; _patch/_probe files moved to logs/scratch; orphan .kicad_prl deleted; inherited V32 negative fixtures remain in ecad/ and are named as inherited-not-rerun"
+        }
+      ]
+    },
+    "r2": {
+      "date": "2026-09-17",
+      "method": "Workflow: fresh mechanical + claims lenses on the r2 files, two disposition audits over the 24 r1 findings, 2 refuters per new blocker/major, synthesis. The four review/audit agents completed; every refuter and the synthesis failed on the session token limit, so the new findings are raw lens output triaged by the author.",
+      "lenses_completed": [
+        "claims",
+        "mechanical"
+      ],
+      "findings": [
+        {
+          "id": "mechanical-1",
+          "severity": "blocker",
+          "file": "cf1_layout_thermal/mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+          "location": "web_section_from_probe.layers_inward_to_outward_mm (lines 28-33), links.*.web_through via link_model (line 117); same numbers in INTERFACE_REQUIREMENTS_CF1.json IF_CF1_05 line 44-45 / IF_CF1_08 line 68-69, README_CF1.md lines 60 and 101, tools/thermal_cf1.py line 73",
+          "claim": "Heat crosses the web in series: 1.85 mm skin (fill 1.0) + 2 mm stiffener gap at 15 % fill + 4 mm half plate, giving web_through 0.1476 K/W (-Y) / 0.1366 K/W (+Y), 'measured over the lug footprint'.",
+          "defect": "The layer table is a misreading of the probe's 1 mm slab quantisation. In both saved host STEPs the inner skin is 2.0 mm (S y 101.15..103.15), the band 103.15..105.15 is EMPTY inside both lug footprints, and the 8 mm plate runs 105.15..113.15. The '15 % stiffener fill' is the last 0.15 mm of the skin, not a bridge. Within and around the lug footprints the skin is not joined to the radiating plate at all: on the +Y wall the only skin-to-plate join anywhere is the CHB cold-finger block at S x -54..4, z -82..-58 (110.6 mm from the +Y lug's skin patch); on the -Y wall the nearest join is the rib at x -72..-28, z 40..85 (15.0 mm from the -Y lug patch). The booked series term therefore describes a path that does not exist; the real path is lateral conduction in a 2 mm skin to a distant rib, then into the plate. The thermal Sheet model injects the lug heat directly into 8 mm plate cells (spatial_radiator_network.py line 26: t = 8 mm default), so no part of the model carries the skin spreading.",
+          "evidence": "OCP read-only 0.05 mm y-scan inside the lug footprints (x 28..55, z 50..90 and x -13..12, z 35..75): wall_navigation_bosses.step fill 1.0 for every 0.05 mm slab 101.15..103.15, NO material 103.15..105.15, fill 0.9628 from 105.15, fill 1.0 to 113.15; fixed_heat_wall_neg.step fill 1.0 -101.15..-103.15, nothing -103.15..-105.15, fill 1.0 -105.15..-113.15. Slab y 103.0..103.2 in the +Y footprint = 162.0 mm3 with bbox y 103.0..103.15 (= 0.15 mm x 1080 mm2: the skin tail, exactly the probe's 0.15 'fill'). Material in the band 103.2..105.1 over the WHOLE +Y wall: one solid, 2610 mm3, bbox x -54..4, z -82..-58; distance from the +Y lug skin patch to it = 110.635 mm. -Y wall band -105.1..-103.2: four solids, nearest to the lug patch = 15.0 mm (bbox x -72..-28, z 40..85). Booked terms (THERMAL_MATRIX strap_R_terms_K_W): web_through 0.14756 / 0.13663 = 1.85e-3/(130*1e-3) + 2e-3/(130*0.15*1e-3) + 4e-3/(130*1e-3) = 0.0142+0.1026+0.0308 (A = 1000 mm2). Order-of-magnitude real +Y term: 0.11 m in a 2 mm skin even 180 mm wide = 0.11/(130*0.002*0.18) = 2.35 K/W (17x booked). Sensitivity: node carries 27.59 W (15.56 W via -Y, 12.03 W via +Y; THERMAL_ACCEPTANCE result_5mm), current parallel R = 1/(1/2.1725+1/1.4162) = 0.857 K/W; +0.5 K/W on +Y alone -> 1.005 K/W -> +4.1 K on the carrier against a 1.55 K minimum margin (HOT_A 93.45 C vs 95).",
+          "suggested_fix": "Replace the fictitious series term with a path that exists in the saved geometry: either (a) move/extend the lugs so they bear on a skin region that is joined to the plate (e.g. -Y lug over the x -72..-28, z 40..85 rib; +Y has no such region near the lug -> a through-bolted lug/insert that contacts the 8 mm plate through the gap, i.e. a host design change), or (b) model the 2 mm skin as its own in-plane sheet (t = 2 mm) between the lug patch and the rib joins and re-run the acceptance. Correct the layer table to skin 2.0 / gap 2.0 @ 0.0 / plate 8.0 (105.15..113.15) and state that the gap fill under both lugs is zero. Until then the 360 W model-level closure and the 1.55 K carrier margin are unsupported.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "r3 models the wall as built: 2 mm inner web as its own non-radiating sheet, coupled to the 8 mm panel only at the probed gap-layer bridges (WEB_FACE_PROBE_CF1.json gap_bridges); lug patches on the web sheets; the r2 skin/stiffener/half-plate term withdrawn; acceptance re-run"
+        },
+        {
+          "id": "mechanical-2",
+          "severity": "major",
+          "file": "cf1_layout_thermal/tools/narrowphase_cf1.py",
+          "location": "lines 106-107 (physical/envelope split) and 115-117 (role_classification_rule), 129-134 (status); NARROWPHASE_CF1.json collision_summary / status / states[*].status",
+          "claim": "Physical/OEM parts reject on any common volume; only envelopes are registered. 'physical_collision_free': true, status SAVED_GEOMETRY_ENVELOPE_INTERSECTIONS_ONLY.",
+          "defect": "The rule treats every representation_role containing 'PROXY' as non-rejecting. In the V27 parent 433 rows are SIMPLIFIED_PROXY and 84 are GLASS_FOOTPRINT_CIC_LAYER_PROXY (517 of 974 rows) — proxies of real hardware (navigation camera, P60 rods, CIC layers), not functional envelopes. The design criterion (FUNCTIONAL_ENVELOPE registered, PHYSICAL rejects) and the parent host_narrowphase.run (line 63-65, 71: any common volume > 1e-3 mm3 -> REJECTED) both reject proxy overlaps; the CF1 wrapper silently relaxes that for more than half the host. The receipt is also self-contradicting: every states[*].status still reads REJECTED_SAVED_GEOMETRY_INTERFERENCE (parent semantics, because the envelope hits count) while the top-level status says ENVELOPE_INTERSECTIONS_ONLY. In this run no proxy pair was reached (8 exact pairs, none PROXY), so there is no wrong number today, but the check is blind to proxy interference by construction.",
+          "evidence": "narrowphase_cf1.py:106 `physical = {... if not any(t in k for t in ('ENVELOPE', 'PROXY'))}`; V27 role inventory (states/service): SIMPLIFIED_PROXY 433, GLASS_FOOTPRINT_CIC_LAYER_PROXY 84, FUNCTIONAL_ENVELOPE 37, PHYSICAL_GEOMETRY 205; NARROWPHASE_CF1.json states.service.status = 'REJECTED_SAVED_GEOMETRY_INTERFERENCE' vs status = 'SAVED_GEOMETRY_ENVELOPE_INTERSECTIONS_ONLY'. The same rule is used in module_pose_narrowphase_cf1.py:29 and module_pose_local_search_cf1.py:34-36 (min_distance_to_physical_mm also excludes PROXY rows).",
+          "suggested_fix": "Classify by an explicit allow-list of registered roles (FUNCTIONAL_ENVELOPE, FUNCTIONAL_ENVELOPE_OD6_R21_NO_CUT_LENGTH, MANUFACTURER_MAX_OUTER_ENVELOPE_NOT_OEM_BREP) and treat SIMPLIFIED_PROXY / *_PROXY as rejecting (or at minimum as a separate 'proxy_hits' class that blocks physical_collision_free). Report the per-state status under the CF1 semantics or rename the field so the two verdicts cannot be read as contradicting.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "narrowphase drivers use an explicit registered-envelope allow-list; every other role incl. *_PROXY rejects; file status is now the parent ruling with a separate physical_only_view; per-state field renamed parent_status"
+        },
+        {
+          "id": "mechanical-3",
+          "severity": "major",
+          "file": "cf1_layout_thermal/mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+          "location": "links.plus_Y.carrier_spreading (lines 100-104: length_mm 0.0) and excluded_from_the_1D_link_model line 124; compare links.minus_Y.carrier_spreading lines 82-86",
+          "claim": "'Q201 heat enters the monolithic arch whose +Y face carries the strap; no plate spreading term' — +Y link total 1.416 K/W.",
+          "defect": "Q201 does not clamp to the +Y face. In the parent carrier (coupled_closure/mechanical_parts.py lines 23-25, 44-46) the Q201 TIM sits at module y -14.8..-14.597 on the second riser (y -14.597..-9.597, z 3..32); heat must climb that riser, cross the 5 mm x 40 mm overhead shelf (y -14.597..6, z 27..32; clear span between risers -9.597..1 = 10.6 mm) and descend the +Y riser (y 1..6) to the paddle (z 1.4..31.4). That arch path is a series term on the +Y link of the same nature as the 0.703 K/W plate-spreading term booked on -Y, but it is booked as 0.0 and listed as 'excluded'. Excluding it does not remove it from the acceptance margin.",
+          "evidence": "Shelf span alone: 0.0106/(167*0.040*0.005) = 0.317 K/W. Riser climb from the Q201 TIM centroid (z 13.7) to the shelf mid-plane (z 29.5): 0.0158/(167*2e-4) = 0.47 K/W; descent to the paddle centroid (z 16.4): 0.39 K/W; total 0.3..1.2 K/W depending on how the case-to-carrier 1.5 K/W is interpreted. With node heat 27.59 W and parallel R 0.857 K/W, raising +Y from 1.416 to 1.73 K/W (shelf only) gives R_par = 1/(1/2.1725+1/1.733) = 0.964 -> +3.0 K on the carrier; the minimum carrier margin is 1.55 K (THERMAL_ACCEPTANCE min_margins_C.carrier_C 1.5502).",
+          "suggested_fix": "Book the arch path (riser B climb + shelf span + riser A descent, section 40 x 5 mm, k 167) as plus_Y.carrier_spreading with a stated basis, or move the +Y strap source to the Q201-side riser; re-run the acceptance and verify.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "carrier node defined at the arch shelf; plus_Y books riser-A conduction to the paddle centroid (13.1 mm, 40x5), minus_Y books riser-A descent (37.1 mm) + plate spreading; Q201 case->node budget 1.5 K/W = TIM 0.54 + riser B 0.47 + shelf 0.32 recorded"
+        },
+        {
+          "id": "mechanical-4",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/results/mechanical/WEB_FACE_PROBE_CF1.json",
+          "location": "webs.shear_web_1.outer_face_S_y (line 127) = 113, plate_thickness_mm (line 128) = 11.85; webs.shear_web_-1 lines 257-258; rule in tools/probe_web_faces_cf1.py lines 74 and 78 (`back = max/min of fill>=0.95 slabs`)",
+          "claim": "Outer face at S y +/-113, plate thickness 11.85 mm; JSON note line 33 and README line 101 say the plate ends at +/-113.15.",
+          "defect": "The probe corrects the inner face by the adjacent partial slab but applies no such correction to the outer face, so it truncates the 0.15 mm slab tail at 113..113.15 and reports 113 / 11.85 mm. The V27 bbox (113.15), the 0.05 mm scan (fill 1.0 through 113.15) and the increment's own prose (113.15) disagree with the receipt. 'plate_thickness' is also mislabelled: 11.85 spans skin + gap + plate, not a plate.",
+          "evidence": "0.05 mm slabs 113.0..113.15 fill 1.0 on wall_navigation_bosses.step; -113.15..-113.0 fill 1.0 on fixed_heat_wall_neg.step; 1 mm slab 113..114 fill 0.15 = 0.15 mm x 1080 mm2 (162 mm3), the same tail pattern the tool does correct on the inner side.",
+          "suggested_fix": "Apply the partial-slab correction on the outer side (back = y1_full + adj_fill) or use the bbox extent; rename plate_thickness_mm to section_span_mm and add skin_mm = 2.0, gap_mm = 2.0, plate_mm = 8.0 from a fine scan.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "probe re-written at 0.25 mm y resolution: web 2.0 / gap 2.0 / panel 8.0, outer face 113.15, zero slabs kept, layers listed"
+        },
+        {
+          "id": "mechanical-5",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+          "location": "web_section_from_probe.source (line 26): 'mechanical/fixed_heat_wall_pos.step / fixed_heat_wall_neg.step'",
+          "claim": "The +Y web probe sliced mechanical/fixed_heat_wall_pos.step.",
+          "defect": "The probe reads the V27 row shear_web_1, whose step_path is mechanical/wall_navigation_bosses.step (sha d45fb79f...), not fixed_heat_wall_pos.step (sha 69b90eb2...). The two parents disagree on the +Y wall's identity: MAIN_INPUT_PLACEMENT_BOUNDS_V27.json binds shear_web_1 to wall_navigation_bosses.step while thermal/RADIATOR_OBSTACLE_BOUNDS.json (which the radiator faces come from) binds it to fixed_heat_wall_pos.step. The SSOT cites a file that was not probed and the discrepancy is not disclosed anywhere in CF1 (the source_discrepancy block only covers equipment_compute_communications).",
+          "evidence": "WEB_FACE_PROBE_CF1.json webs.shear_web_1.step_path = ...wall_navigation_bosses.step, source_sha256 d45fb79f...; RADIATOR_OBSTACLE_BOUNDS rows shear_web_1 -> fixed_heat_wall_pos.step; sha256(fixed_heat_wall_pos.step) = 69b90eb2... != d45fb79f.... I verified the two STEPs give identical 1 mm slab fills and bbox inside the +Y lug footprint, so there is no geometric consequence for the lug, only a traceability one.",
+          "suggested_fix": "Cite wall_navigation_bosses.step (with sha) as the probed +Y source, record fixed_heat_wall_pos.step as the thermal-side alias with its sha and the verified identical footprint profile, and add the shear_web_1 dual binding to source_discrepancy.",
+          "r3_disposition": "FIXED_AS_DISCLOSED",
+          "r3_disposition_note": "shear_web_1 dual binding (V27 wall_navigation_bosses.step vs RADIATOR_OBSTACLE_BOUNDS fixed_heat_wall_pos.step) recorded in the geometry file source_discrepancies and in the probe receipt thermal_side_binding"
+        },
+        {
+          "id": "mechanical-6",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+          "location": "frame.module_envelope_S_mm (line 9) = [-40,-56,50,92,36,93.6]; design/IMPLEMENTATION_PLAN_CF1.md line 125; design/DESIGN_SPEC_CF1.md line 36",
+          "claim": "'module envelope' S x -40..92, y -56..36, z 50..93.6; spec: the only conflict-free cavity is x[-44,88]... and the module slot [-40,-56,50]..[92,36,94] contains no bounding box.",
+          "defect": "That box is the 132 x 92 x 43.6 carrier plate + arch, not the module. The V30 module compound at the same pose spans module x -47.02..147.02, z -16.0..32.0, i.e. S x -71.0..123.0, z 45.6..93.6 (194 mm wide, 4.4 mm of hardware below the plate). The scheme-A 'cavity' premise in the spec/plan was therefore never a statement about the module, which is why the exact module-pose test rejects the pose (CLAMP_DUAL_BASE 384.1 mm3 etc.). r2 records the rejection but keeps the mislabelled field, and no tool reads it (grep: only the JSON itself).",
+          "evidence": "MODULE_POSE_NARROWPHASE_CF1.json module_bbox_module_mm = [-47.0226, -86.0018, -16.0018, 147.0226, 6.0018, 32.0018]; T_S_module translation (-24, 30, 61.6). 300.8 mm3 of module material lies below the carrier (module z -16..-11.6, y -37.2..-5.8) per OCP slab.",
+          "suggested_fix": "Rename to carrier_plate_and_arch_S_mm and add module_bbox_S_mm = [-71.02,-56.0,45.6,123.02,36.0,93.6]; annotate the spec/plan cavity statement as superseded by MODULE_POSE_NARROWPHASE_CF1.json.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "field renamed carrier_plate_and_arch_S_mm; module_bbox_S_mm added with the exact-test note"
+        },
+        {
+          "id": "mechanical-7",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/design/README_CF1.md",
+          "location": "line 14 (section 1 item 4): '±6 mm 平移搜索无解'; grid in tools/module_pose_local_search_cf1.py lines 15-17",
+          "claim": "No solution within a +/-6 mm translation search.",
+          "defect": "The search is a half-open grid: dx = [0] only, dy in {0,-2,-4,-6}, dz in {0,+2,+4,+6}. No +y, no -z and no x offset was tried, so '±6 mm' overstates the coverage (section 5 and INTERFACE_REQUIREMENTS state the grid correctly). The 16-row table is internally consistent (best 139.837 = CLAMP_DUAL_BASE 54.0 + RB303 85.837 at dy -6; every row has physical > 0), but the conclusion 'no clear pose within the local neighbourhood' is only supported for one quadrant of the y-z plane.",
+          "evidence": "MODULE_POSE_LOCAL_SEARCH_CF1.json grid_mm = {dx:[0.0], dy:[0,-2,-4,-6], dz:[0,2,4,6]}, poses_checked 16, physically_clear_poses [].",
+          "suggested_fix": "Say 'dy 0..-6, dz 0..+6, dx 0' in section 1, or extend the grid to +/-6 on all three axes before claiming a neighbourhood has no solution.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "README states the half-open grid (dy 0..-6, dz 0..+6, dx 0)"
+        },
+        {
+          "id": "mechanical-8",
+          "severity": "note",
+          "file": "cf1_layout_thermal/results/mechanical/NARROWPHASE_CF1.json",
+          "location": "scope (receipt) / narrowphase_cf1.py lines 142-143; README_CF1.md line 14 '五个实体对宿主无任何实体级干涉'",
+          "claim": "Five solids have no physical interference (with the host); self-intersection with the V30 module parts is declared out of scope.",
+          "defect": "The contact assumptions the whole path rests on (boss on the carrier top, -Y bar under the carrier, +Y paddle on the arch face, no module hardware inside the strap volumes) are asserted from mechanical_parts.py box arithmetic, never from the V30 module STEP, and the README's 'no interference' sentence is host-only. I ran the check read-only: it passes, but it is absent from the record.",
+          "evidence": "OCP, module frame, CF1 STEP vs coupled_closure/main_input_lugs_v30.step: common volume 0.0 for all five solids; distance 0.0 for boss, -Y strap, +Y strap, 37.15 mm for the -Y lug and 57.15 mm for the +Y lug. Contact slabs on the module STEP: carrier top under the boss (z -7.8..-7.6, x 18..82, y -14..-3) 140.8 mm3 = full 704 mm2; carrier bottom under the bar (z -11.6..-11.4, x 11..36, y -86..-46) 200.0 mm3 = full 1000 mm2; riser face (y 5.8..6.0, x 52..79, z 1.4..31.4) 162.0 mm3 = full 810 mm2; module material in the TIM gap z -1.803..-1.6 and inside the boss and bar volumes: 0.0. Module hardware below the plate: 300.8 mm3 at y -37.2..-5.8, clear of the bar.",
+          "suggested_fix": "Add the module-self check (common volume + contact slabs) to narrowphase_cf1.py and cite it in README section 5 so the contact areas used by the thermal link are receipts rather than assumptions.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "module-self check added to narrowphase_cf1.py: common volume of the five solids with the V30 module STEP (0), contact slabs 704 / 1000 / 810 mm2, TIM gap empty"
+        },
+        {
+          "id": "mechanical-9",
+          "severity": "note",
+          "file": "cf1_layout_thermal/mechanical/INTERFACE_REQUIREMENTS_CF1.json",
+          "location": "IF_CF1_03/04/06/07 'fasteners' (lines 30, 38, 54, 62) and the S ranges in every 'from'/'to'",
+          "claim": "25 psi over 1000 / 810 / 1080 mm2 = 172 / 140 / 186 N, 43 N per screw; all S ranges of the parts and contacts.",
+          "defect": "No defect found — recorded so the arithmetic is closed with evidence: 25 psi = 172 369 Pa; x 1.000e-3 m2 = 172.4 N (43.1 N/screw), x 8.10e-4 = 139.6 N, x 1.080e-3 = 186.2 N. Every S_bounds_mm in the geometry JSON equals module box + (-24, 30, 61.6); the -Y bar top (S z 50) is the carrier bottom (module z -11.6); the carrier/bar overlap S y -56..-16 = 40 mm x 25 = 1000 mm2; the +Y paddle (module x 52..79, y 6..12, z 1.4..31.4) lies inside the riser face (x 39.45..79.45, z -7.6..32); boss top -1.803 = board bottom -1.6 minus 0.203; volumes 4081.088 + 32681.25 + 8000 + 29625.75 + 8640 = 83028.09 mm3 x 2.7e-3 g/mm3 = 224.18 g; receipt step_sha256 4e4e46d1... equals the current file; SHA256_CF1.csv mechanical rows all match; local-search rows consistent with the stated best.",
+          "evidence": "Arithmetic above; hashes recomputed on the current files.",
+          "suggested_fix": "None.",
+          "r3_disposition": "NO_CHANGE_NEEDED",
+          "r3_disposition_note": "reviewer closed the arithmetic"
+        },
+        {
+          "id": "claims-1",
+          "severity": "blocker",
+          "file": "cf1_layout_thermal/mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+          "location": "web_section_from_probe.layers_inward_to_outward_mm (inner_skin 1.85 @1.0; stiffener_gap 2.0 @0.15; plate 4.0) -> tools/thermal_cf1.py L73 web_through; README_CF1.md L60/L64-65 (2.172/1.416 K/W), L11 ('全部通过', 载板 1.55 K), L78; DELIVERY_STATUS_CF1.json status 'THERMAL_CLOSED_AT_360W_MODEL_LEVEL', thermal.min_margins_C.carrier_C 1.5502; THERMAL_ACCEPTANCE_CF1.json passes=true; INTERFACE_REQUIREMENTS_CF1.json IF_CF1_05/IF_CF1_08 ('1.85 mm skin', '2 mm stiffener gap (15 % fill under the lug)'); REVIEW_CF1.json thermal-1/2/4 disposition FIXED",
+          "claim": "Each strap link crosses the web as skin 1.85 mm + 2 mm stiffener gap at 15 % fill + half plate, giving web_through 0.1476 / 0.1366 K/W 'from WEB_FACE_PROBE_CF1.json'; with that, 360 W / 0.85 / x2 / 20 V passes all four environments at 5 mm with carrier margin 1.55 K (HOT_A 93.45 C) and Tj margin 15.82 K; r1 thermal-1/2/4 are FIXED.",
+          "defect": "The layer table is a misreading of the probe. In WEB_FACE_PROBE_CF1.json the 'fill 0.15' slabs (103-104 and 113-114 on +Y; -104..-103 and -114..-113 on -Y) are exactly 0.15 x footprint (162.0/1080, 150.0/1000), i.e. 0.15 mm geometric tails of the 2.0 mm web and of the 8 mm plate, not 15 % stiffeners; the slab |y| 104-105 has zero volume and is absent from the receipt because probe_web_faces_cf1.py:70 only appends slabs with v > 1e-6, so the empty gap was never seen. The '1.85 mm skin' comes from the probe's integer outer_face_S_y=113 (plate_thickness 11.85 = 113-101.15) decomposed as 1.85+2+8 instead of the true 2.0+2.0+8.0 = 12.0 to 113.15. A read-only OCP re-probe of the same STEPs (wall_navigation_bosses.step, fixed_heat_wall_neg.step, identity transforms as in the receipt) gives: web 101.15-103.15 (2.00 mm, 100 % fill), gap 103.15-105.15 with 0.0 mm3 under the +Y lug footprint and 0.0 mm3 under the -Y lug footprint, plate 105.15-113.15. Over the WHOLE +Y web the gap layer contains only 2610 mm3, all in x -54..4, z -82..-58 (the CHB cold-finger bridge); the nearest bridge material is 110.6 mm from the +Y lug. On -Y the nearest bridge (device bridge block x -72..-28, z 35..91) is 15.0 mm from the lug edge. fixed_heat_common.py:36-55 confirms the construction: the original 2 mm shear web and an external 8 mm radiator panel are joined only by device 'boss' bridges and the CHB bridge ('No fictitious dry-interface conductance is used'). So under both lugs the radiating sheet is reachable only laterally through the 2 mm web, and the 1-D web_through term (0.148/0.137 K/W) has no physical support; the r1 blockers thermal-1/2 (link open in the saved geometry) and thermal-4 (omitted web term) are therefore not actually closed. Consequence on the headline: re-solving with the increment's own thermal_cf1.run_case (in memory, 10 mm, four environments) and replacing web_through by +0.25 / +0.50 / +1.0 / +2.0 K/W per link gives carrier max 94.90 / 98.34 / 105.23 / 119.00 C (limit 95) and Tj 135.6 / 139.1 / 146.0 / 159.7 C; +1.0 K/W on -Y alone -> 98.88 C, on +Y alone -> 100.29 C. A 1-D strip estimate of the lateral path is -Y 2.64 K/W one-sided (27.5 mm to the block at 2 mm x 40 mm, k 130), 1.97 K/W two-sided; +Y radial 2-D estimate ln(155/20)/(2*pi*130*0.002) = 1.25 K/W. Even a generous 2-D fan-out cannot bring either below +0.5 K/W, so the carrier criterion fails by roughly 3-10 K and Tj by 0-10 K; README S1 '全部通过', the 1.55 K carrier margin, DELIVERY status 'THERMAL_CLOSED_AT_360W_MODEL_LEVEL', THERMAL_ACCEPTANCE passes=true and the 128/128 matrix all rest on the fabricated term. The 31/31 thermal VALIDATION cannot see this because 'strap_R_recomputed' and 'strap_R_includes_lug_and_web_through_terms' re-read the same JSON layers.",
+          "evidence": "WEB_FACE_PROBE_CF1.json shear_web_1 slabs: {101-102: 918 (0.85)}, {102-103: 1080 (1.0)}, {103-104: 162 (0.15)}, [104-105 absent], {105-106: 883.87 (0.8184)}, ... {113-114: 162 (0.15)}; shear_web_-1: {-102..-101: 850}, {-103..-102: 1000}, {-104..-103: 150 (0.15)}, [-105..-104 absent], {-106..-105: 850}. probe_web_faces_cf1.py:70 'if v > 1e-6: slabs.append(...)'; :78 back = max(y1 of fullish) -> 113. OCP re-probe (scratch, read-only): +Y fine slabs 101.0-101.25 fill 0.40, 101.25-103.0 fill 1.0, 103.0-103.25 fill 0.60, 103.25-105.0 nothing, 105.0-105.25 fill 0.385, 105.25+ fill 0.963; gap_layer_under_lug_mm3 = 0.0 (both webs); +Y gap_layer_whole_web = 2610.3 mm3, bbox x -54..4, y 103.2..105.1, z -82..-58, dist lug-gap box -> gap material = 110.635 mm; -Y gap material x-bins within lug z: x -72..-28 and x 80..120 only, dist = 15.0 mm. fixed_heat_common.py:40 panel=Box(344,t,180) at yout-t/2; :49-50 boss bridges 44x45 (70x72 for CHB) only at device seats; :55 CHB path box. thermal_cf1 in-memory re-solve: as delivered carrier max 93.42 (HOT_A); +0.25 -> 94.90 pass; +0.50 -> 98.34 FAIL; +1.0 -> 105.23; +2.0 -> 119.00; minus_Y +1.0 only -> 98.88; plus_Y +1.0 only -> 100.29 (HOT_C). Arithmetic: 0.0275/(130*0.002*0.040)=2.644 K/W; 0.0805/(130*0.002*0.040)=7.74 K/W; parallel 1.97 K/W; ln(155/20)/(2*pi*130*0.002)=1.253 K/W.",
+          "suggested_fix": "Fix probe_web_faces_cf1.py to record zero slabs and to derive faces/layers at 0.25 mm resolution; rewrite web_section_from_probe as {web 2.0 @1.0, gap 2.0 @0.0-under-lug, plate 8.0} and replace the 1-D web_through by an explicit lateral-web term (or move the lugs onto existing bridges: -Y lug onto the device bridge block at S x -72..-28 / z 35..91; +Y has no bridge except the CHB seat, so either add a bridge to the host design as a registered host change or route the +Y strap to the CHB bridge and model the shared seat); then re-run thermal_cf1.py, set passes/min_margins from the corrected model, downgrade DELIVERY status from THERMAL_CLOSED, and reopen r1 thermal-1/2/4.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "same as mechanical-1"
+        },
+        {
+          "id": "claims-2",
+          "severity": "major",
+          "file": "cf1_layout_thermal/mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+          "location": "links.plus_Y.radiator_patch_center_ab_mm [41.5, 70], radiator_patch_face_id FIXED_PLUS_Y; thermal_cf1.py L233 node_links (sheet=1 patch at the lug footprint); README_CF1.md L67 '接耳补丁 ... +Y 中心 (41.5, 70)'",
+          "claim": "The +Y strap delivers its heat (12-14 W at the acceptance point) into the FIXED_PLUS_Y radiating sheet at the lug footprint (S x 28..55, S z 50..90).",
+          "defect": "In the saved host geometry the +Y radiating sheet (the external 8 mm panel at S y 105.15..113.15) is joined to the 2 mm web the lug bolts to only at the CHB bridge (S x -54..4, S z -82..-58, centre (-25,-70)), which is exactly the parent cold-finger link endpoint b (sheet 1, center [-25,-70], size [58,24]) already carrying ~14 W of CHB heat. The strap heat therefore cannot enter the modelled sheet at (41.5,70); it can only enter at the CHB seat after ~110-155 mm of lateral conduction in the 2 mm web (finding r2-claims-1). The patch location in the model is unsupported, and the co-location with the CHB link (which raises the CHB case temperature, the criterion with the second-smallest margin, 10.79 K) is not represented. The negative control 'wrong_patch_face_moves_heat' only proves the face index is honoured, not that the patch location is physical.",
+          "evidence": "OCP re-probe: +Y gap-layer material bbox [-54.0, 103.2, -82.0, 4.0, 105.1, -58.0], total 2610.3 mm3, nothing else in x -172..172, z -101..101; SPATIAL_RADIATOR_NETWORK_SCREEN.json links_endpoints[0].b = {sheet 1, center [-25,-70], size [58,24]}; fixed_heat_common.py:52-55 CHB path box is the only +Y bridge besides device seats (the +Y wall has no other devices in the gap layer). THERMAL_ACCEPTANCE HOT_B node_link_heat_node_to_patch_W [15.56, 12.03] and link_heat_a_to_b_W [14.04, 14.75].",
+          "suggested_fix": "Model the +Y path as lug -> 2 mm web (lateral) -> CHB bridge -> sheet patch at [-25,-70] (or add a registered host bridge under the lug), and report the CHB case temperature with both heats on the same seat.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "with the web sheets the +Y strap heat can only reach the panel through the CHB bridge patch; the model now carries that path and the CHB case temperature includes both heats on the same seat"
+        },
+        {
+          "id": "claims-3",
+          "severity": "major",
+          "file": "cf1_layout_thermal/tools/verify_thermal_cf1.py",
+          "location": "L41-53 strap_R_recomputed / strap_R_includes_lug_and_web_through_terms; L66-73 lug_outer_faces_on_probed_web_skin; results/thermal/VALIDATION.json checks 9-10 and 14; README_CF1.md L67 ('核对接耳外面落在探测的腹板面上') and L60 ('来自 WEB_FACE_PROBE_CF1.json')",
+          "claim": "verify_thermal_cf1.py (31/31) independently recomputes the link resistances 'from the geometry file' and ties the lugs to the probed web; the web layering is 'from WEB_FACE_PROBE_CF1.json'.",
+          "defect": "The web layering used by the solver (1.85 / 2.0@0.15 / 4.0) exists only in THERMAL_PATH_GEOMETRY_CF1.json; WEB_FACE_PROBE_CF1.json contains no layer, fill or thickness fields beyond the raw 1 mm slabs, and no verify check compares the geometry file's layers to the probe slabs (which would have failed: the slab |y| 104-105 is absent and the 0.15 slabs are 0.15 x footprint). 'strap_R_recomputed' re-evaluates the same expression on the same inputs (its own note says 'independence is in the arithmetic, not in the term list'), and 'lug_outer_faces_on_probed_web_skin' only checks that the lug face equals probe.inner_face_S_y and contact_fraction >= 0.95, i.e. contact with the 2 mm web, not a path to the radiating sheet. r1 thermal-4 asked for 'verify recompute R from the STEP-derived dimensions'; the r2 disposition 'FIXED' is not met: no check in the 31 can fail on a wrong web section, so the 31/31 headline is not evidence for the web term.",
+          "evidence": "verify_thermal_cf1.py L49 sums path['web_section_from_probe']['layers_inward_to_outward_mm'] (same JSON as thermal_cf1.py L73); L69-73 compare only y-faces and contact fractions; grep of WEB_FACE_PROBE_CF1.json: no 'thickness', 'fill 0.15' layer, 'stiffener' or '1.85' keys other than slab rows; REVIEW_CF1.json thermal-4 disposition_note 'verify recomputes from the geometry file with its own arithmetic (term list shared, disclosed)'.",
+          "suggested_fix": "Add a verify check that rebuilds the layer table from the probe slabs (including zero slabs) and fails if any declared layer's fill or thickness differs by more than 0.1 mm / 5 %; add a check that the lug footprint has a bridge to the radiating plate (gap-layer common volume > 0) or that a lateral term is present.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "verify_thermal_cf1.py checks the web model against the probe receipt (thickness, bridges, zero gap under the lug, non-radiating webs, patch sheets) rather than against the solver copy"
+        },
+        {
+          "id": "claims-4",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/design/README_CF1.md",
+          "location": "L45 '24.44 A / 100 °C 损耗 | — | 3.00 W | 热模型使用值'; L33 and DESIGN_SPEC_CF1.md S3 '热工况电池电流 24.44 A'; tools/current_density_cf1.py L26 I_HOT = 24.44",
+          "claim": "The thermal model uses the 3.00 W copper loss computed at 24.44 A / 100 C.",
+          "defect": "thermal_cf1.py computes the module copper heat inside operating_point() as I_m^2 x R_copper(100 C) with the main-branch current of its own replica, not with 24.44 A: at the acceptance point I_m = 23.148 A, battery 24.219 A, copper heat 2.689 W (module 27.592 W). 3.00 W is I_HOT^2 R100 with the COUPLED_RESULTS battery current (which includes the 1.07 A aux branch that does not flow in the forward bands; COUPLED_RESULTS[1] main_A = 23.37 A). The density model's use of the battery current for the main path is conservative (+4.6 % current) but the README label '热模型使用值' is not backed by any receipt.",
+          "evidence": "thermal_cf1.py L102-103 copper=I_m**2*R_copper; in-memory call operating_point(360,20,0.01,0.85,2.0,COPPER_CF1_20C): main_A 23.1476, copper_heat_W 2.6889; 24.44^2 x 3.818e-3 x 1.3144 = 2.9975 W (CURRENT_DENSITY_CF1.json cf1.loss_hot_24p44A_100C_W); COUPLED_RESULTS.json operating_points[1] main_A 23.3706, battery_A 24.4389.",
+          "suggested_fix": "Change the README cell to '24.44 A (battery) bound: 3.00 W; thermal replica at I_m 23.15 A: 2.69 W', or make the density model take main_A from the replica.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "README cell reworded: 3.00 W is the 24.44 A battery-current bound; the thermal replica books copper at I_m (23.15 A)"
+        },
+        {
+          "id": "claims-5",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/tools/thermal_cf1.py",
+          "location": "L287-296 (fallback only if not all_pass); THERMAL_ACCEPTANCE_CF1.json fallback = {}; DELIVERY_STATUS_CF1.json thermal.fallback = {}; README_CF1.md L95 '未覆盖' list; DESIGN_SPEC_CF1.md S1 ('Q201 换型只做数值评估') and S5 '不满足时的处理'; IMPLEMENTATION_PLAN Task 8 bullet 7",
+          "claim": "README S2 'design ... 已执行至 Task 10'; the +X skin fallback is reported at the spec-listed 22 W and 'passes'.",
+          "defect": "DESIGN_SPEC S5 requires, when the acceptance does not close, (a) the minimum +X skin area fraction (bisection) that brings CHB <= 105 C and (b) the losses/temperatures with Q201 replaced by IXTX200N10L2 (11 mOhm), the latter explicitly in scope per S1. Since continuous_thermal_closure is false (22 W point fails: CHB 107.6, carrier 107.3), the 'not satisfied' branch applies, but thermal_cf1.py gates all fallbacks on the nominal all_pass flag, so only the full-area +X skin at 22 W was run; no area bisection and no Q201 11 mOhm numbers exist anywhere in results/. Neither omission is listed under README '未覆盖' or as a deviation in DELIVERY_STATUS (which has spec_deviations for pcb only, none for thermal). Also the delivered -Y patch z-range 35..75 differs from DESIGN_SPEC S5 'z[40,90]' without a deviation entry.",
+          "evidence": "thermal_cf1.py L289 'if not all_pass:'; L294 'Q201_11mohm_alternative' exists in code but is never reached; THERMAL_ACCEPTANCE_CF1.json 'fallback': {}; grep '11' mohm / 'IXTX' in results/thermal returns nothing; README L95 lists only orbit, transient, 2-D spreading, TIM pressure, +X mechanical.",
+          "suggested_fix": "Run the S5 fallbacks against the 22 W point (min skin area, Q201 11 mOhm, skin+Q201) or list both as not delivered in README S4 and add a thermal spec_deviations block to DELIVERY_STATUS.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "spec-5 fallbacks run whenever nominal or spec-listed closure fails: full +X skin, Q201 11 mOhm, both, and the minimum skin area fraction by bisection; -Y patch z 35..75 vs spec z 40..90 recorded as a thermal spec deviation"
+        },
+        {
+          "id": "claims-6",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/results/mechanical/NARROWPHASE_CF1.json",
+          "location": "states.service/parking/released.status = 'REJECTED_SAVED_GEOMETRY_INTERFERENCE' vs top-level status 'SAVED_GEOMETRY_ENVELOPE_INTERSECTIONS_ONLY' and collision_summary.physical_collision_free = true; role_classification_rule; README_CF1.md L14 '五个实体对宿主无任何实体级干涉', L103; DELIVERY_STATUS mechanical.straps_vs_host; IMPLEMENTATION_PLAN Task 9 last bullet",
+          "claim": "Straps vs host: 0 physical interference; envelope intersections only; 'physical_collision_free: true'.",
+          "defect": "The parent tool (host_narrowphase.run, reused 'as is') rules all three states REJECTED_SAVED_GEOMETRY_INTERFERENCE (it rejects on any common volume > 1e-3 mm3 regardless of role, and the parent's own HOST_NARROWPHASE.json counts FUNCTIONAL_ENVELOPE hits among its 18 collisions). CF1 overlays a local substring rule (any role containing 'ENVELOPE' or 'PROXY' does not reject) and reports the opposite top-level status in the same file. The role MANUFACTURER_MAX_OUTER_ENVELOPE_NOT_OEM_BREP is listed by MAIN_INPUT_PLACEMENT_BOUNDS_V27.json as a distinct role (1 row), not FUNCTIONAL_ENVELOPE; the plan's own Task 9 criterion says envelope overlaps are '登记为改线需求，不算通过'. The boss lies 100 % inside that envelope (4081.088 of 4081.088 mm3) and the -Y bar 45 % (14 700 of 32 681 mm3). The open item is disclosed, but the words '无任何实体级干涉' / 'physical_collision_free' are a CF1 re-classification, not the tool's ruling, and the receipt contradicts itself.",
+          "evidence": "host_narrowphase.py:63-65 collisions=[r for r in checked if common_volume>1e-3]; status REJECTED if collisions; NARROWPHASE_CF1.json states.*.status REJECTED..., checked[6..7] common 4081.088 / 14700.0 (role MANUFACTURER_MAX_OUTER_ENVELOPE_NOT_OEM_BREP); MAIN_INPUT_PLACEMENT_BOUNDS_V27.json role counts: FUNCTIONAL_ENVELOPE 37, MANUFACTURER_MAX_OUTER_ENVELOPE_NOT_OEM_BREP 1; parts[0].volume_mm3 4081.088; parts[1].volume_mm3 32681.25.",
+          "suggested_fix": "Keep the parent ruling as the file status (REJECTED) and present the CF1 classification as a separate 'physical_only_view' field; in README S1 say 'no PHYSICAL/OEM-role interference; REJECTED by the parent tool on the battery D-max envelope (boss 100 % inside)'.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "file status = parent ruling (REJECTED on the battery D-max envelope); physical_only_view separate; README wording changed"
+        },
+        {
+          "id": "claims-7",
+          "severity": "minor",
+          "file": "cf1_layout_thermal/design/README_CF1.md",
+          "location": "L113 'r1 对抗复核（4 视角只读）提出 24 项' and 'r2 复核结果见同一文件'; L3 '父本文件零改动（verify_pcb_cf1.py 与 verify_thermal_cf1.py 逐字节复核）'; L93 '±Y 净辐射各移 5.4 W'",
+          "claim": "r1 was a four-lens read-only review; r2 results are in REVIEW_CF1.json; both verify scripts byte-check the parent; the wrong-face control moves 5.4 W on each Y face.",
+          "defect": "REVIEW_CF1.json.r1.method states only the pcb and thermal lenses completed ('The mechanical and claims lenses, every refuter and the synthesis failed on the session token limit ... raw reviewer output that was triaged by the author, not machine-verified'), so '4 视角' overstates the review that exists, and there is no 'r2' key in the file yet. The two verify scripts byte-check 64 of the 84 PARENT_SOURCE_LOCK entries (58 ecad/revisions/v32 + 6 thermal/coupled inputs); the other 20 (host_narrowphase.py, mechanical_parts.py, MAIN_INPUT_PLACEMENT_BOUNDS_V27.json, MAIN_INPUT_COPPER_LOSS_V29.json, both module STEPs, RADIATOR_OBSTACLE_BOUNDS.json, kelvin_v32 receipts, baseline_load_closure_v31 inputs, ...) are not verified by any script (three of them only appear as sha fields inside the narrowphase receipts). I recomputed all 84 and they match, and `git status --short -- coupled_closure thermal power ecad/revisions/v32` is clean, so the fact is true but the cited receipts do not cover it. The wrong-face control receipt is +5.389 W (+Y) / -5.194 W (-Y); '各移 5.4 W' over-rounds the -Y value.",
+          "evidence": "REVIEW_CF1.json r1.lenses_completed ['pcb','thermal']; keys of REVIEW_CF1.json: ['schema','r1']; verify_pcb_cf1.py L46 filters lock to 'ecad/revisions/v32/'; verify_thermal_cf1.py L34-36 six paths; PARENT_SOURCE_LOCK.json sources = 84; COUNTEREXAMPLES.json wrong_patch_face_moves_heat delta_plus_Y_W 5.3888, delta_minus_Y_W -5.1936.",
+          "suggested_fix": "State '2 of 4 lenses completed, author-triaged' in README S6, drop the r2 sentence until r2 is merged, add a lock-wide byte check (all 84) to one verify script, and write '+5.4 / -5.2 W'.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "README says 2 of 4 lenses completed and author-triaged for r1; verify checks all 84 locked sources; +5.4 / -5.2 W"
+        },
+        {
+          "id": "claims-8",
+          "severity": "note",
+          "file": "cf1_layout_thermal/tools/register_cf1_navigation.py",
+          "location": "whole file (mtime 2026-09-17 06:53:05, after SHA256_CF1.csv 06:50:35); absent from SHA256_CF1.csv (114 rows) and from README_CF1.md S2 product map; L41-46 and L48-63 write implementation/CURRENT_WORKING_CANDIDATE.json and SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905/CURRENT_candidate.md; L34 '--force' bypass",
+          "claim": "README L3: all products live in cf1_layout_thermal/ and are listed in SHA256_CF1.csv; navigation files are not modified while Codex is active (namespace note in DESIGN_SPEC/PLAN).",
+          "defect": "An unlisted tool with a write path into the parent navigation files exists in the increment. It has not been executed (git status shows CURRENT_WORKING_CANDIDATE.json and CURRENT_candidate.md unchanged) and it refuses while Codex looks active, but it can be forced, and its hard-coded entry text repeats the claims that finding r2-claims-1 invalidates ('五实体对宿主无实体干涉', '360 W 名义点四环境 5 mm 网格全部通过'). The SHA manifest and product map are therefore incomplete for the delivered tree.",
+          "evidence": "SHA256 recheck: 114 rows, 0 stale, 0 missing, 1 unlisted file cf1_layout_thermal/tools/register_cf1_navigation.py; `git status --short -- CURRENT_WORKING_CANDIDATE.json ../../CURRENT_candidate.md` empty; register_cf1_navigation.py L54-58 format string.",
+          "suggested_fix": "Either delete the script or add it to the product map and manifest, make it read its sentences from DELIVERY_STATUS rather than hard-coding them, and remove the --force bypass until the owner authorises navigation edits.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "register_cf1_navigation.py: --force removed, sentences composed from DELIVERY_STATUS fields, listed in the product map and manifest"
+        },
+        {
+          "id": "claims-9",
+          "severity": "note",
+          "file": "cf1_layout_thermal/DELIVERY_STATUS_CF1.json",
+          "location": "thermal.acceptance_point.env 'HOT_B_SUN_MINUS_Z'; thermal.CHB_case_C 94.2097 / carrier_C 89.6989 / Q201_Tj_C 130.4314 (flat fields) vs thermal.worst_env_by_criterion carrier/Tj = HOT_A and min_margins_C.carrier_C 1.5502; tools/delivery_status_cf1.py L31 a5 = acc['result_5mm'], L61",
+          "claim": "The thermal block reports the acceptance-point temperatures.",
+          "defect": "The flat CHB/carrier/Tj fields are the HOT_B (CHB-worst) case, so a reader sees carrier 89.70 C (5.3 K margin) next to min_margins carrier 1.55 K and worst_env carrier = HOT_A (93.45 C, Tj 134.18 C) without the HOT_A numbers appearing anywhere in DELIVERY_STATUS. Not wrong, but the flat fields understate the governing carrier/Tj exposure that r1 thermal-5 was raised about.",
+          "evidence": "THERMAL_ACCEPTANCE_CF1.json results_5mm_by_env.HOT_A_SUN_PLUS_Y carrier_C 93.4498, Q201_Tj_C 134.1823; result_5mm = HOT_B; delivery_status_cf1.py L61 CHB_case_C=a5[...], carrier_C=a5[...], Q201_Tj_C=a5[...].",
+          "suggested_fix": "Report per-criterion worst values (CHB from HOT_B, carrier and Tj from HOT_A) in the flat fields or replace them with a by_env table.",
+          "r3_disposition": "FIXED",
+          "r3_disposition_note": "DELIVERY_STATUS thermal block reports per-criterion worst values and the by-env table"
+        }
+      ],
+      "r1_disposition_audit": [
+        {
+          "id": "pcb-1",
+          "status": "RESOLVED",
+          "residual_severity": "major",
+          "evidence": "tools/current_density_cf1.py:81,93-97 books both Q201 stubs as MAIN_FORWARD_NECK (W 3.7/4.2, L 2.0 to pad centre); CURRENT_DENSITY_CF1.json cf1.segments has 'WP10_MAIN_SENSE F.Cu MAIN_FORWARD_NECK 2.0 3.7 R20=0.0888 J=62.91' and 'WP10_PRECHARGED_PLUS ... 4.2 J=55.42' (24.44/(3.7*0.105)=62.91, /(4.2*0.105)=55.42, reproduced); acceptance.forward_density_ok_including_pad_entry_necks=false; VALIDATION.json passed=false, failed=['forward_current_density_le_35_including_Q201_pad_entry_necks'] (19/20); DELIVERY_STATUS_CF1.json pcb.validation_passed=false, pad_entry_neck_density_A_mm2=62.9086, open_items[0] names the neck; README §3 row 18 '62.9 / 55.4 A/mm² 超限，开放项'. Residual: the design still violates the 35 A/mm² criterion (62.9 = 1.8x limit); status string '__PCB_PAD_ENTRY_NECK_OPEN' is hard-coded in delivery_status_cf1.py:36 rather than derived from the check, so it cannot clear itself if the neck is ever fixed (note).",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "pcb-2",
+          "status": "RESOLVED",
+          "residual_severity": "note",
+          "evidence": "CURRENT_DENSITY_CF1.json cf1.R20_total_ohm=0.0038180 (forward 1.5054+0.0888+0.0782=1.6723 mΩ + return 2.1457 mΩ = 3.8180 mΩ, matches r1's recomputation); loss_20A_100C_W=2.00733; reduction 1-2.00733/4.51021=0.55494 recorded as loss_reduction_vs_V29_recorded=0.554936; bands-only 0.5744 kept separately; parent replay 8.5780 mΩ / 4.50995 W (rel err 5.8e-5). thermal_cf1.py:54 COPPER_CF1_20C=copper['cf1']['R20_total_ohm']; results/thermal/THERMAL_MATRIX_CF1.json copper_R20_ohm.CF1=0.003817961540814895 (written 06:46, after CURRENT_DENSITY 06:37). README §3 table row 14 '3.818 mΩ', row 15 '55.5 %'. Residual note: 'same path definition' is still loose — CF1 bands use full x-extent (BAT band starts x 3.0 vs parent 7.0; MAIN_SENSE band runs to x 61.3 vs parent 59.45; PRECHARGED from 62.8 vs parent 69) ≈ +0.16 mΩ against CF1 (conservative, undocumented in JSON).",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "pcb-3",
+          "status": "RESOLVED",
+          "residual_severity": "minor",
+          "evidence": "results/pcb/MAIN_INPUT_DRC_PARITY.json date '2026-09-17T06:25:32', source 'wp10_main_input.kicad_pcb', violations [] / unconnected_items [] (mtime 06:25:32 > board mtime 2026-09-14 01:25:00; board sha c2b52d2c... matches NATIVE_BUILD/VALIDATION). MAIN_INPUT_DRC_PARITY.log lines 1-2: 'Failed to fetch schematic netlist for parity tests.' / 'Schematic parity tests require a fully annotated schematic.' verify_pcb_cf1.py:110-113 asserts source, empty violations, refusal text in log, and json mtime >= board mtime; DELIVERY_STATUS_CF1.json pcb.schematic_parity='NOT_EXECUTABLE_SCHEMATIC_NOT_FULLY_ANNOTATED'. Residual: freshness is mtime-only (a copied file passes); the receipt carries no board sha and the log has no command line, and no script in tools/ runs the parity command (README §7 reproduction omits it) — the receipt is not regenerable from the tree.",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "pcb-4",
+          "status": "DISPOSITION_DISPUTED",
+          "residual_severity": "major",
+          "evidence": "Disclosure is present: DELIVERY_STATUS_CF1.json pcb.spec_deviations lists 4.2 (10 mm→8 mm), 4.3, 4.4 and the negative-case substitution with accepted_by_owner=false; README §3 line 21 repeats them. But (1) r1's fix asked to set verify thresholds to spec values so checks fail until accepted; verify_pcb_cf1.py:73 still passes at >=8.0 mm, :87 at area>=600 mm² (spec 2400), :81 at one strip (spec: arrays at F201 and R201/R202 ends) — VALIDATION reports these three as passed:true with a 'spec_deviation' string, so 19/20 overstates spec compliance. (2) The recorded 4.3 rationale 'the B.Cu under the F201/R201/R202 bands is the return pour required by 4.4; both cannot occupy it' is geometrically false for F201's upstream end: F201 at (20,15) pad1 x=15.325, BAT_PROTECTED band x 3.0-16.9, return zone x 18-82 y 3-14 (build_pcb_cf1.py:83) — no pour under x<18; and the pour stops at y 14 while bands run to y 16. build_pcb_cf1.py:76-77 gives a different reason (F.Cu feeders/Kelvin lands at x 23-33 y 16-22). Two inconsistent rationales; the delivered one does not hold.",
+          "r3_action": "verify_pcb_cf1.py now carries spec-conformance checks (4.2 F201 land 10 mm, 4.3 parallel copper at F201/R201/R202, 4.4 pours >= 2400 mm2) that FAIL until the owner accepts the deviations"
+        },
+        {
+          "id": "pcb-5",
+          "status": "PARTIALLY_RESOLVED",
+          "residual_severity": "minor",
+          "evidence": "Via threshold unified: verify_pcb_cf1.py:13 VIA_ARRAY_MIN=12, falsify_pcb_cf1.py:46 'n >= 12', README §3 line 7 '≥ 12'. Control (e) added: current_density_cf1.py:162 requires cf1 worst > bands_only worst + 10 (62.9 vs 29.1). Substitution stated: README §3 line 21, verify note :128, DELIVERY spec_deviations[3]. Residual (author-acknowledged): (d) still in-memory (current_density_cf1.py:156-161) whereas DESIGN_SPEC §4 negative list requires '把任一加宽段回退为 3 mm 时 ... 判 FAIL' i.e. a board-level revert; (e) toggles the include_necks flag inside the same code path, not a board edit. falsify_pcb_cf1.py docstring line 5 still lists only (d) and not (e). Also the spec's third negative ('断开一段取样线时 DRC 报未连接，继承 V32 反例') is replaced by 'delete drain stub' without being listed as a substitution.",
+          "r3_action": "accepted as partial: control (d) remains an in-memory arithmetic control, labelled as such"
+        },
+        {
+          "id": "pcb-6",
+          "status": "RESOLVED",
+          "residual_severity": "none",
+          "evidence": "verify_pcb_cf1.py:56-61 check renamed 'pad_geometry_and_net_fingerprint_identical_to_parent' with covers=... and not_covered_but_changed_by_the_build={footprint_type_attributes_set:12, courtyards_added:8, library_files_rewritten:10}; VALIDATION.json shows the same with footprints=43 and note '43 footprints = 35 component references + MH1-4 + 4 PORT_*'; README §3 line 3 '同一 43 个封装（35 个位号 + MH1–4 + 4 个 PORT_*）... 封装属性、courtyard 与 10 个库文件确有改动'.",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "pcb-7",
+          "status": "RESOLVED",
+          "residual_severity": "none",
+          "evidence": "verify_pcb_cf1.py:102 note 'footprint_filters_mismatch is evaluated by the schematic-parity provider, which could not run'; :106 note 'wp10_system.kicad_pro is an empty project, so ERC ran with KiCad default severities (4 checks ignored by default)' and default_ignored_checks recorded in VALIDATION.json; README line 23 'ERC 13 页 0 违规（4 项 KiCad 默认忽略）', §3 line 25 'footprint_filters_mismatch 规则虽启用但未被评估'; DELIVERY_STATUS pcb.erc_default_ignored_checks lists the 4 keys.",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "pcb-8",
+          "status": "RESOLVED",
+          "residual_severity": "none",
+          "evidence": "current_density_cf1.py:44-54 stackup_copper_thickness_mm() regex-reads '(layer \"F.Cu\" ... (thickness X)' and B.Cu from the saved board, asserts equality, and :69 uses it for every CF1 segment; CURRENT_DENSITY_CF1.json acceptance.stackup_copper_thickness_mm=0.105; verify_pcb_cf1.py:118 'stackup_copper_thickness_read_by_density_model' asserts |0.105-value|<1e-9; text guard :65 retained.",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "pcb-9",
+          "status": "PARTIALLY_RESOLVED",
+          "residual_severity": "minor",
+          "evidence": "Wording fixed: current_density_cf1.py docstring lines 9-11 'Via resistance is omitted (slightly optimistic ... ~0.02 mOhm)', 'matches the V29 receipt to 6e-5'; CURRENT_DENSITY_CF1.json excluded[0] 'vias (omitted; slightly optimistic for the parallel branch)'. Not addressed: the landing-rectangle point. The model credits a B.Cu branch share rf/(rf+rb)=0.18266/(0.18266+0.20876)=46.7 % (credit 0.0852 mΩ on PRECHARGED, 0.6205→0.5346 mΩ) yet the two 2.2 mm F.Cu landing rects (build_pcb_cf1.py:73-74, y0=16) that carry that branch current are excluded by both filters (:80 y0<10, :81 y0==15): 11.41 A/(2.2*0.105)=49.4 A/mm² > 35, unscreened and not listed in 'excluded'. Without the credit R20=3.903 mΩ, reduction 54.5 % (criterion still met).",
+          "r3_action": "accepted as partial: wording only"
+        },
+        {
+          "id": "pcb-10",
+          "status": "RESOLVED",
+          "residual_severity": "none",
+          "evidence": "mechanical/THERMAL_PATH_GEOMETRY_CF1.json line 44 matches_pcb_zone: 'CF1_RETURN_TIM_CONTACT outline 64x11 = 704 mm2 (results/pcb/NATIVE_BUILD.json filled area 703.98 mm2 after fill corner rounding)'; NATIVE_BUILD.json return_zone.filled_area_mm2=703.984522.",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "pcb-11",
+          "status": "PARTIALLY_RESOLVED",
+          "residual_severity": "minor",
+          "evidence": "results/REVIEW_CF1.json exists (06:50:35.66) and DELIVERY_STATUS_CF1.json (06:50:35.82) embeds it verbatim (adversarial_review == file: True); SHA256_CF1.csv (114 rows) re-verified with zero drift. Residual: REVIEW_CF1.json r1.method states 'The mechanical and claims lenses, every refuter and the synthesis failed on the session token limit ... raw reviewer output that was triaged by the author, not machine-verified', lenses_completed=['pcb','thermal'] only, and dispositions were self-written by logs/scratch/_write_review_r1.py — so DESIGN_SPEC §7 step 5 ('逐项核对回执与判据' before DELIVERY_STATUS) is met for 2 of 4 lenses. README §6 line 3 'r2 复核结果见同一文件' points to r2 content not present in the file.",
+          "r3_action": "r2 and r3 sections added to this file"
+        },
+        {
+          "id": "pcb-12",
+          "status": "PARTIALLY_RESOLVED",
+          "residual_severity": "minor",
+          "evidence": "Done: verify_pcb_cf1.py has no dead 'drc_rules_enabled' branch; _patch_build_drcfix.py/_probe_steps.py now in logs/scratch/; ecad/negative_cf1_via_wrong_net.kicad_prl absent. Not done: the disposition says the inherited V32 fixtures 'are named as inherited-not-rerun', but grep of README/JSON/py finds that phrase only inside the review disposition text itself; negative_broken_VIN_sense.* and negative_missing_internal_R201.* still sit in ecad/ and are hashed into SHA256_CF1.csv rows 9-11, 20-22 as CF1 deliverables with no receipt or README line naming them inherited. logs/_probe_out.kicad_pcb/.kicad_pro remain in logs/ (excluded from the SHA list, acceptable).",
+          "r3_action": "README lists the inherited V32 negative fixtures as inherited-not-rerun"
+        },
+        {
+          "id": "thermal-1",
+          "status": "RESOLVED",
+          "residual_severity": "note",
+          "evidence": "THERMAL_PATH_GEOMETRY_CF1.json parts[CF1_LUG_PLUS_Y].boxes_module_mm=[[52,63.15,-11.6,27,8,40]] -> S y 93.15..101.15, x 28..55, z 50..90. WEB_FACE_PROBE_CF1.json shear_web_1: inner_face_S_y 101.15, current_lug_contact_mm2 1080, fraction 1.0, distance 0.0. My OCP re-check on wall_navigation_bosses.step (V27 service[144], identity transform): lug box distance 0.0, common volume 0.0, 0.2 mm slab y 101.15..101.35 = 216.0 mm3 = 1080 mm2 (planar face), slab 101.0..101.15 = 0. NARROWPHASE_CF1.json now contains CF1_LUG_PLUS_Y vs shear_web_1 (PHYSICAL_GEOMETRY, distance 0, common 0) in all three states; VALIDATION.json check lug_outer_faces_on_probed_web_skin plus_Y=[101.15,101.15,1.0] passed. Residual (belongs to thermal-4): the skin the lug bears on is joined to the 8 mm radiating plate only through the CHB cold-finger boss.",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "thermal-2",
+          "status": "RESOLVED",
+          "residual_severity": "minor",
+          "evidence": "parts[CF1_LUG_MINUS_Y].boxes_module_mm=[[11,-131.15,-26.6,25,8,40]] -> S x -13..12, y -101.15..-93.15, z 35..75 (shifted +2 mm from r1's -15..10). Probe shear_web_-1: inner_face_S_y -101.15, contact 1000 mm2, fraction 1.0, distance 0. My OCP on fixed_heat_wall_neg.step: lug distance 0.0, common 0.0, slab -101.35..-101.15 = 200 mm3 = 1000 mm2; strap bar and paddle to web distance 1.000 mm (clear of the x -15..-14 rib); slab -101..-83.5 in the footprint = 0 (the old -83.5 seat confirmed absent). Residual: INTERFACE_REQUIREMENTS_CF1.json IF_CF1_05 states 'the 8 mm radiating plate lies behind a 2 mm stiffener gap (15 % fill under the lug)'; the probe has no slab at -105..-104 (probe script drops slabs with v<=1e-6) and OCP gives 0.0 mm3 there in the footprint, so the '15 % fill under the lug' wording is false for half the gap (see thermal-4).",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "thermal-3",
+          "status": "RESOLVED",
+          "residual_severity": "minor",
+          "evidence": "THERMAL_ACCEPTANCE_CF1.json: continuous_thermal_closure=false, closure_with_spec_listed_unassigned_heat=false; unassigned_heat_sensitivity.points at 0/5/10/22/33.269 W in all four environments: +5 W -> carrier 96.73 (HOT_A) fails; +22 W -> CHB 107.61 / carrier 107.33 / Tj 148.06 fails; +33.27 W -> 113.99/113.87/154.60; spec_listed_with_plus_X_skin (links R=0.5 K/W as declared in IMPLEMENTATION_PLAN_CF1.md L115) CHB 98.42 / carrier 92.49 passes. README_CF1.md section 1 item 2 states the gap ('只要 +5 W 就使载板越限', 'continuous_thermal_closure = false'). verify check continuous_closure_flag_consistent_with_sensitivity passed (spec_listed_W 22, passes_with_spec_listed false). Residuals: the plan's bisection for the minimum +X skin area was not run (full 214x214 skin used); sensitivity is at 10 mm mesh only; and per thermal-4 the 0 W row's passes=true is itself unsupported.",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "thermal-4",
+          "status": "PARTIALLY_RESOLVED",
+          "residual_severity": "blocker",
+          "evidence": "Added terms exist (strap_R_terms_K_W minus_Y: carrier_spreading 0.7031, lug_through 0.0479, web_through 0.1476; plus_Y: 0, 0.0444, 0.1366; sums 2.1725/1.4162 reproduce from the JSON inputs) and verify recomputes them (strap_R_recomputed, own note: 'same declared inputs as the solver'). But the web_through term is NOT what the probe measured. THERMAL_PATH_GEOMETRY_CF1.json web_section_from_probe.layers: stiffener_gap thickness 2.0 fill 0.15 '(15 % fill measured over the lug footprint)'. WEB_FACE_PROBE_CF1.json lists 103..104 fill 0.15 and NO 104..105 slab (probe_web_faces_cf1.py L70 drops slabs with v<=1e-6, i.e. zero); same for -104..-103 (0.15) and no -105..-104. My OCP: 104..105 in the +Y footprint = 0.0 mm3, -105..-104 in the -Y footprint = 0.0 mm3, so a 1-D series path through the gap does not exist under either lug. Full-extent slabs on shear_web_1 (wall_navigation_bosses.step; fixed_heat_wall_pos.step identical): 101.15..103 = 69,282 mm2 skin; 103..104 ribs 11,560 mm2; 104..105 and 105..105.15 = 1373.8 mm2 with bbox x -54..4, z -82..-58 = the CHB cold-finger boss ONLY; plate 105.15..113.15 = 61,000 mm2. The +Y skin is joined to the radiating plate nowhere else, so lug heat must travel ~155 mm laterally through a 1.85 mm skin. On shear_web_-1 the skin-plate joints are three 44x45 mm pads (x -150..-106, -72..-28, 82..126; z 40..85) plus the boss, 7314 mm2 total, none under the lug (x -13..12). 2-D FD of the skin (k 130, t 1.85; t 2.02/2.09 with ribs smeared): +Y lateral R 3.71 (3.40) K/W vs 0.137 booked; -Y 0.96 (0.85) K/W vs 0.148 booked. In-memory re-solve with the project solver (booked R reproduces HOT_A 5 mm carrier 93.45): plus_Y 4.68 / minus_Y 2.875 -> HOT_A carrier 117.2 C, Tj 157.9 C; HOT_C 119.4/160.1; DARK 107.1: carrier and Tj fail in every environment. Only -Y corrected -> HOT_A carrier 97.44 (fails); only +Y corrected -> 109.4. Sensitivity ladder: +0.15 K/W on both straps already gives 95.48 C (fails), i.e. the 1.55 K margin tolerates <0.15 K/W of omitted resistance. Also carrier_spreading basis 'entry centroid S y ~26' is not derivable: arch face S y 36, boss S y 16..27 (centroid 21.5), heat-weighted (22.50 W arch, 5.09 W boss) = 33.3 -> L 69 mm -> +0.079 K/W (carrier 93.91). verify ties only lug face/contact fraction to the probe, never the layer table. Geometry JSON cites fixed_heat_wall_pos.step as probe source while the probe used wall_navigation_bosses.step. Headline 'passes: true / carrier margin 1.55 K' is not supported by the bound host geometry.",
+          "r3_action": "superseded by the r3 web-sheet model (mechanical-1)"
+        },
+        {
+          "id": "thermal-5",
+          "status": "RESOLVED",
+          "residual_severity": "note",
+          "evidence": "THERMAL_ACCEPTANCE_CF1.json worst_env_by_criterion={CHB_case_C: HOT_B_SUN_MINUS_Z, carrier_C: HOT_A_SUN_PLUS_Y, Q201_Tj_C: HOT_A_SUN_PLUS_Y}; min_margins_C={10.79, 1.55, 15.82}; results_5mm_by_env has all four environments (HOT_A carrier 93.45, HOT_B CHB 94.21, HOT_C 92.02, DARK 81.48); thermal_cf1.py L246-252 passes=all envs and refinement<=1; verify checks worst_env_selected_per_criterion, min_margins_recomputed, acceptance_logic_recomputed per env all passed; README section 4 table lists all four with minimum margins. Residual note: mesh_refinement_by_env_C is CHB-only (carrier 10->5 mm HOT_A 93.415->93.450 = 0.035 K, unreported).",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "thermal-6",
+          "status": "RESOLVED",
+          "residual_severity": "note",
+          "evidence": "ACCEPTANCE_FIELD_CF1.json stores T_K/area_m2/incoming_W_m2/heat_W (7717 entries), node_link_vectors and R. verify_thermal_cf1.py L75-78 recomputes sum(area*(eps*sigma*T^4-incoming)) = 91.29787196125962 vs heat.sum() 91.29787196125264 (7e-12 W) without using the solver's balance number; L80-82 +1 K on sheet 0 gives 0.579 W imbalance (detected); L84-86 node link heats recomputed [15.559, 12.033] and node_heat_equals_strap_heat_flow. Residuals: only one case (HOT_B 5 mm) has a field, the other 131 remain solver totals (disclosed in check note); the field check can fail only if the 80-iteration loop exits unconverged in balance but with residual<1e-8 (a narrow but real path); energy_balance_all_cases (4.93e-9) is still in COUNTEREXAMPLES.json, annotated as solver-side.",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "thermal-7",
+          "status": "RESOLVED",
+          "residual_severity": "note",
+          "evidence": "COUNTEREXAMPLES.json: sanity_checks (strap_degraded 341.37 C, released 115.75 vs 94.03) carry 'regression sanity, not a falsification test' notes; negative_controls: wrong_patch_face_moves_heat delta_plus_Y 5.389 W / delta_minus_Y -5.194 W (threshold +-3 W), off_face_patch_refused true (center [500,55]), zero_strap_R_refused true; verify negative_controls_detected passed. Note: thermal_cf1.py L283-295 catch bare AssertionError, so an unrelated assertion (e.g. 'thermal solve did not converge') would also count as 'refused'.",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "thermal-8",
+          "status": "PARTIALLY_RESOLVED",
+          "residual_severity": "minor",
+          "evidence": "THERMAL_MATRIX_CF1.json replay_check.points at 25.2 V and 20 V (COUPLED_RESULTS op[1], active, 488.777 W): input rel 6.04e-4/6.35e-4 (<1e-3), Q201 1.60e-3/1.58e-3 (<5e-3), CHB 0.0 (<2e-3); known_replica_omissions_W startup 0.25, leakage 0.07; verify asserts ok and len(points)==2. Residuals: (i) the CHB comparison cannot fail: both sides are P_out*(1/eta-1) = 361*(1/0.85-1) = 63.7059 W by construction (thermal_cf1.py L92 vs COUPLED heat_breakdown_W.CHB); (ii) battery current is not asserted and startup/leakage are still absent from the current balance (L77 I_c = 0.003+0.003 only), so the tolerance stays 1e-3 instead of the ~1e-4 r1 asked for; (iii) Q201 tolerance 5e-3 is ~3x the omission-explained error (~2*6.5e-4), not 'tied'; (iv) recorded leakage 0.07 W vs op[1].heat_breakdown_W.input_capacitor_leakage 0.0546 W at 20 V.",
+          "r3_action": "accepted as partial: tolerance tied to the known omissions"
+        },
+        {
+          "id": "thermal-9",
+          "status": "RESOLVED",
+          "residual_severity": "none",
+          "evidence": "THERMAL_MATRIX_CF1.json axes.Q201_hot_multiplier=[1.0,2.0], 128 cases (thermal_cf1.py L227-232); axes_note records the 22/29.4 V omission with rationale; my check over all 64 pack pairs: no 25.2 V row hotter than its 20 V twin on CHB, carrier or Tj (0 violations), so the monotonicity claim holds; verify matrix_axes_include_Q201_x1_and_x2 passed; README section 4 states the omission.",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "thermal-10",
+          "status": "RESOLVED",
+          "residual_severity": "note",
+          "evidence": "THERMAL_ACCEPTANCE_CF1.json cold: heater_electrical_W 20.0, heater_efficiency 0.8, with_heater.heater_W 16.0, standby_load_W 60, criterion 'NONE_DECLARED (passes=null)', with_heater.passes null, without_heater.passes null (CHB 25.02/-0.78 C, carrier 10.37/-6.95 C). Sources: DESIGN_SPEC_CF1.md L58 '加热器 20 W×η 0.8', IMPLEMENTATION_PLAN_CF1.md L116 '待机热（取 60 W 档）+加热器 20 W/0.8'; verify cold_cases_have_no_hot_pass_flag passed. Note: the plan's '20 W/0.8' reads as 25 W if taken literally (spec says x0.8, followed); heater heat is applied to the CHB patch on the bottom plate (thermal_cf1.py L216), a location the spec does not declare.",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "thermal-11",
+          "status": "RESOLVED",
+          "residual_severity": "none",
+          "evidence": "THERMAL_ACCEPTANCE_CF1.json conditional_on = 4 items including 'module pose clears the host (results/mechanical/MODULE_POSE_NARROWPHASE_CF1.json currently REJECTED)', lug faces on the probed skin, unassigned heat, 25 psi TIM; THERMAL_MATRIX_CF1.json R_TIM_per_interface_K_W = {minus_Y_source 0.1806, minus_Y_sink 0.1806, plus_Y_source 0.2230, plus_Y_sink 0.1673} (single R_TIM_K_W 0.1806 retained alongside).",
+          "r3_action": "none needed"
+        },
+        {
+          "id": "thermal-12",
+          "status": "RESOLVED",
+          "residual_severity": "none",
+          "evidence": "thermal_cf1.py L138-139: Lc = block_diag([...], format='coo'); L = csr_matrix(coo_matrix((Lc.data,(Lc.row,Lc.col)), shape=(N,N))) — explicit zeros no longer break the resize; L140-141: assert np.isfinite(r['R_K_W']) and r['R_K_W'] > 0 for links + node_links, exercised by the zero_strap_R_refused negative control (COUNTEREXAMPLES.json detected true).",
+          "r3_action": "none needed"
+        }
+      ]
+    },
+    "r3": {
+      "date": "2026-09-17",
+      "status": "NOT_MACHINE_REVIEWED",
+      "note": "r3 corrections (web-sheet model, arch path terms, role allow-list, spec-conformance checks, receipts) were self-checked by the verify scripts only; no third review pass was run."
+    }
+  },
+  "open_items": [
+    "THERMAL/HOST: both +/-Y walls are a 2 mm inner web + 2 mm gap layer with discrete bridge blocks + 8 mm radiator panel; there is NO bridge under either lug (nearest +Y bridge = CHB seat 110.6 mm away, nearest -Y bridge = device seat 15 mm away), so the strap heat is trapped in the webs: carrier 137.2 C / Tj 177.9 C at the nominal 360 W point. Closure needs a host change (bridge blocks under the lugs) plus +X skin (>= 30 % area) or the Q201 11 mOhm alternative, or a different thermal architecture.",
+    "PCB: Q201 pad-entry necks carry the full main current at 62.9 A/mm2 (limit 35): footprint-bound; needs a wider-pad footprint variant, thicker copper or an accepted local-neck criterion.",
+    "THERMAL: 22.0 W of the operating point (THN + STOP + brake) and 33.3 W in total are not radiated by this model; see unassigned_heat sensitivity.",
+    "MECHANICAL: module pose rejected (physical overlaps with the battery dual clamp); no clear pose within +/-6 mm; no exactly-clear module pose exists in the tree.",
+    "MECHANICAL: boss and -Y strap (and the whole module) lie inside the RRC3570 D-max battery envelope.",
+    "MECHANICAL: lug fastening into the 2 mm inner web needs through-bolts to the panel or inserts; web hole pattern host-owned.",
+    "UPSTREAM: equipment_compute_communications placed at two different poses in two bounds files.",
+    "UPSTREAM: coupled_closure/CANDIDATE.json source lock drifted (ecad/wp10_main_input.kicad_pcb, ecad/wp10_power_1.kicad_sch, ecad/wp10_system.xml); parent coupled_adapter no longer imports."
+  ],
+  "whole_design_complete": false,
+  "manufacturing_release": false,
+  "flight_release": false,
+  "registered_as_active_candidate": false,
+  "scope": "EDA layout increment, lumped thermal screen and five project-nominal aluminium bodies on the V32/V30 parent. Conditional on a module pose that clears the host; that pose does not exist yet."
+}

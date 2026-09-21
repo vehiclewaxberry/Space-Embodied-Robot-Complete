@@ -1,0 +1,729 @@
+schema_version: MECHANICAL_SYSTEM_REQUIREMENTS_SPEC_V1
+title: Mechanical System Requirements Specification V1
+document_status: DRAFT_ENGINEERING_BASELINE_FOR_AUTHORIZED_REVIEW
+generated_date: '2026-08-21'
+scope: F3R2 mechanical CDR qualification-closure WP0 requirements and verification planning
+structure_assessment: CANDIDATE_PASS
+design_status: HOLD
+qualification_status: HOLD
+ecss_compliance_claimed: false
+cdr_pass_claimed: false
+flight_release_claimed: false
+copyright_handling: OFFICIAL_METADATA_URLS_AND_SHORT_SCOPE_PARAPHRASES_ONLY_NO_STANDARD_CLAUSE_TEXT
+boundary_notes:
+  - Document completeness is not evidence of design compliance qualification or flight readiness.
+  - Unknown launcher environments material allowables test levels and standard clauses remain explicit input-dependent HOLDs.
+  - Simulation and neutral geometry evidence are not promoted to hardware or qualification evidence.
+  - NASA-STD-5001B Change 3 is an independent cross-check only and is not NASA-mandatory for this project.
+verification_method_legend:
+  A: Analysis
+  I: Inspection
+  T: Test
+  D: Demonstration
+  R: Review_of_design_or_records
+owner_task_status_baseline:
+  owner_request_expected_count: 14
+  owner_list_observed_count: 14
+  count_reconciliation_status: PASS
+  no_synthetic_item_added: true
+  source_note: Parent-agent transcription of Owner list on 2026-08-21; corroborating paths listed per item where available
+  items:
+    - {task_id: LAUNCH_STOWED, status: HOLD, evidence: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json}
+    - {task_id: SEPARATION, status: HOLD_UNKNOWN_NO_ICD, evidence: OWNER_TASK_STATUS_20260821}
+    - {task_id: POST_SEPARATION_SAFE, status: HOLD_REQUIREMENTS_NOT_AUTHORIZED, evidence: OWNER_TASK_STATUS_20260821}
+    - {task_id: SOLAR_ARRAY_DEPLOYMENT, status: HOLD_MECHANISM_QUALIFICATION, evidence: OWNER_TASK_STATUS_20260821}
+    - {task_id: ARM_RELEASE, status: HOLD_HDRM_RELIABILITY, evidence: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json}
+    - {task_id: ARM_TASK_READY, status: ACCEPTED_SEMANTIC_ENUM_ONLY/GEOMETRIC_READBACK_HOLD, evidence: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/CONFIGURATION_MATRIX.csv}
+    - {task_id: ARM_MANEUVER, status: DERIVED_SIMULATION_EXISTS/MECHANICAL_LOAD_AUTHORITY_HOLD, evidence: OWNER_TASK_STATUS_20260821}
+    - {task_id: PREGRASP, status: ACCEPTED_SEMANTIC_ENUM+NEUTRAL_R1_GEOMETRY_PASS/HARDWARE_CONTACT_HOLD, evidence: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json}
+    - {task_id: CAPTURE, status: DERIVED_SIMULATION_ONLY/STRUCTURAL_CONTACT_LOAD_HOLD, evidence: OWNER_TASK_STATUS_20260821}
+    - {task_id: POST_CAPTURE_STABILIZATION, status: DERIVED_SIMULATION_ONLY/QUALIFICATION_HOLD, evidence: OWNER_TASK_STATUS_20260821}
+    - {task_id: SAFE_MODE, status: SIM13_UNKNOWN_FAIL_CLOSED/MECHANICAL_REQUIREMENTS_HOLD, evidence: 30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json}
+    - {task_id: LEFT_PANEL_FAIL, status: ACCEPTED_SEMANTIC_ENUM_ONLY/PER_CONFIG_GEOMETRY_AND_LOAD_HOLD, evidence: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/CONFIGURATION_MATRIX.csv}
+    - {task_id: RIGHT_PANEL_FAIL, status: ACCEPTED_SEMANTIC_ENUM_ONLY/PER_CONFIG_GEOMETRY_AND_LOAD_HOLD, evidence: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/CONFIGURATION_MATRIX.csv}
+    - {task_id: BOTH_PANEL_FAIL, status: ACCEPTED_SEMANTIC_ENUM_ONLY/PER_CONFIG_GEOMETRY_AND_LOAD_HOLD, evidence: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/CONFIGURATION_MATRIX.csv}
+  derived_groupings:
+    - {group_id: PANEL_FAILURE_CASES, members: [LEFT_PANEL_FAIL, RIGHT_PANEL_FAIL, BOTH_PANEL_FAIL], status: DERIVED_GROUPING_NOT_OWNER_LIST_ITEM}
+requirements:
+  - id: MSR-GOV-001
+    text: The WP0 baseline shall state its review-only status and shall not claim ECSS compliance CDR passage flight release or qualification completion.
+    source: [OWNER_WP0_SCOPE_20260821, ECSS-S-ST-00C_Rev2]
+    configuration: [ALL]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "All four claim flags ecss_compliance_claimed cdr_pass_claimed flight_release_claimed and qualification_status are respectively false false false and HOLD", inputs_required: []}
+    owner: SYSTEMS_ENGINEERING_OWNER
+    status: CANDIDATE_PASS_DOCUMENT_BOUNDARY
+    evidence: [MECHANICAL_SYSTEM_REQUIREMENTS_SPEC_V1.yaml, STANDARDS_TAILORING_MATRIX_V1.csv]
+    flight_applicability: APPLICABLE
+    prototype_applicability: APPLICABLE
+  - id: MSR-GOV-002
+    text: Each selected standard or handbook shall have an official source URL edition identity retrieval date project role controlled-copy status and clause-mapping status before compliance review.
+    source: [ECSS-S-ST-00C_Rev2, OWNER_WP0_SCOPE_20260821]
+    configuration: [ALL]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "14 of 14 Owner-specified source-baseline documents have complete ledger fields and zero blank official URLs; project-controlled-copy and clause mapping may close only through authorized records", inputs_required: [AUTHORIZED_CONTROLLED_COPIES, AUTHORIZED_TAILORING_RECORD]}
+    owner: STANDARDS_AND_CONFIGURATION_OWNER
+    status: HOLD_CONTROLLED_COPIES_AND_CLAUSE_MAPPING
+    evidence: [STANDARDS_SOURCE_LEDGER_V1.csv, STANDARDS_TAILORING_MATRIX_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_WITH_REVIEW_LIMITS
+  - id: MSR-GOV-003
+    text: The Owner operational-task list shall be reproduced exactly without creating an unprovided task or counting a derived grouping as an Owner item.
+    source: [OWNER_TASK_STATUS_20260821]
+    configuration: [ALL]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "Exactly the 14 supplied task IDs are recorded; expected_count=14 observed_count=14 no_synthetic_item_added=true and PANEL_FAILURE_CASES is excluded from the Owner-item count", inputs_required: []}
+    owner: OWNER
+    status: PASS_OWNER_TASK_LIST_REPRODUCED
+    evidence: [MECHANICAL_SYSTEM_REQUIREMENTS_SPEC_V1.yaml]
+    flight_applicability: APPLICABLE
+    prototype_applicability: APPLICABLE
+  - id: MSR-GOV-004
+    text: Mechanical requirement evidence shall identify configuration and immutable or version-controlled source artifacts so that simulation prototype and flight claims cannot be interchanged.
+    source: [ECSS-E-ST-10-06C, RAPID_MECHANICAL_GATE]
+    configuration: [ALL]
+    verification: [I, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Every closure record identifies configuration artifact path revision or hash evidence class and claim boundary; missing fields fail closed", inputs_required: [APPROVED_CONFIGURATION_MANAGEMENT_PLAN]}
+    owner: CONFIGURATION_MANAGER
+    status: HOLD_APPROVED_CONFIGURATION_MANAGEMENT_PLAN
+    evidence: [MECHANICAL_VERIFICATION_CONTROL_DOCUMENT_V1.csv, HOLD_TO_REQUIREMENT_TRACEABILITY_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE
+  - id: MSR-GOV-005
+    text: A named HOLD shall close only when its linked acceptance criterion is met and the designated closure authority accepts the cited evidence.
+    source: [ECSS-Q-ST-10-09C_Rev1, RAPID_OPEN_HOLD_REGISTER]
+    configuration: [ALL]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "Every open named HOLD has at least one linked requirement closure input closure evidence owner and current status; zero HOLDs are closed solely by document creation", inputs_required: [AUTHORIZED_CLOSURE_RECORDS]}
+    owner: PRODUCT_ASSURANCE_OWNER
+    status: OPEN_HOLDS_TRACED_NOT_CLOSED
+    evidence: [HOLD_TO_REQUIREMENT_TRACEABILITY_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-GOV-006
+    text: Each mechanical requirement shall be assigned one or more verification methods from A I T D R with configuration acceptance criterion evidence owner and credit boundary.
+    source: [ECSS-E-ST-10-02C_Rev1, ECSS-E-ST-10-06C]
+    configuration: [ALL]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "Requirement-to-VCD mapping missing=0 duplicate_requirement_id=0 invalid_method_code=0", inputs_required: []}
+    owner: VERIFICATION_LEAD
+    status: CANDIDATE_PASS_WP0_STRUCTURE_ONLY
+    evidence: [MECHANICAL_VERIFICATION_CONTROL_DOCUMENT_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE
+  - id: MSR-OPS-001
+    text: In LAUNCH_STOWED the mechanical system shall fit an Owner-authorized launcher envelope and retain all launch restraints and clearances under authorized launch loads.
+    source: [OWNER_TASK_STATUS_20260821, RAPID_MECHANICAL_GATE]
+    configuration: [LAUNCH_STOWED]
+    verification: [A, I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Measured worst-case envelope plus approved uncertainty is within every authorized launcher ICD boundary and restraint margins meet authorized criteria; the historical 132.72 mm exceedance must be dispositioned", inputs_required: [LAUNCHER_ICD_ENVELOPE, LAUNCH_LOADS, TOLERANCE_STACK, RESTRAINT_DEFINITION, OWNER_DISPOSITION_132P72_MM]}
+    owner: MECHANICAL_LEAD
+    status: HOLD_HISTORICAL_ENVELOPE_EXCEEDANCE_132P72_MM
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-OPS-002
+    text: The SEPARATION configuration and event shall conform to an authorized spacecraft-launcher mechanical ICD including interfaces clearances released bodies and separation loads.
+    source: [OWNER_TASK_STATUS_20260821]
+    configuration: [SEPARATION]
+    verification: [A, I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "All mechanical interface dimensions released-body trajectories and separation load cases are verified against the approved ICD with no unassessed contact", inputs_required: [SPACECRAFT_LAUNCHER_ICD, SEPARATION_EVENT_DEFINITION, SEPARATION_LOADS, RELEASED_BODY_GEOMETRY]}
+    owner: SYSTEM_INTERFACE_OWNER
+    status: HOLD_UNKNOWN_NO_ICD
+    evidence: [HOLD_TO_REQUIREMENT_TRACEABILITY_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-OPS-003
+    text: POST_SEPARATION_SAFE shall have Owner-authorized mechanical state constraints covering deployed and restrained items keep-outs and allowable motions.
+    source: [OWNER_TASK_STATUS_20260821]
+    configuration: [POST_SEPARATION_SAFE]
+    verification: [A, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "All authorized state constraints are demonstrated or analyzed with zero prohibited deployment or keep-out violation", inputs_required: [AUTHORIZED_POST_SEPARATION_SAFE_REQUIREMENTS, STATE_TRANSITION_DEFINITION, KEEP_OUT_AUTHORITY]}
+    owner: SYSTEMS_ENGINEERING_OWNER
+    status: HOLD_REQUIREMENTS_NOT_AUTHORIZED
+    evidence: [HOLD_TO_REQUIREMENT_TRACEABILITY_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-OPS-004
+    text: SOLAR_ARRAY_DEPLOYMENT shall complete the commanded deployment without prohibited collision and shall satisfy authorized mechanism performance life and qualification criteria.
+    source: [OWNER_TASK_STATUS_20260821, ECSS-E-ST-33-01C_Rev2]
+    configuration: [SOLAR_ARRAY_DEPLOYMENT, DEPLOYED_NOMINAL]
+    verification: [A, T, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Deployment completes for both wings over the approved environment and life with no prohibited contact and all authorized torque margin synchronization and end-state criteria met", inputs_required: [MECHANISM_SPECIFICATION, DEPLOYMENT_LOADS, DUTY_CYCLE, ENVIRONMENT, QUALIFICATION_PLAN]}
+    owner: MECHANISMS_LEAD
+    status: HOLD_MECHANISM_QUALIFICATION
+    evidence: [HOLD_TO_REQUIREMENT_TRACEABILITY_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-OPS-005
+    text: ARM_RELEASE shall release the arm restraint on command while satisfying authorized HDRM release reliability shock clearance and fail-safe criteria.
+    source: [OWNER_TASK_STATUS_20260821, ECSS-E-ST-33-01C_Rev2]
+    configuration: [ARM_RELEASE]
+    verification: [A, T, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Approved HDRM unit and release sequence meet authorized success probability shock motion and clearance criteria over qualification and acceptance evidence", inputs_required: [HDRM_PRODUCT_SELECTION, HDRM_SPECIFICATION, RELIABILITY_TARGET, RELEASE_SHOCK_LIMIT, TEST_PLAN]}
+    owner: MECHANISMS_LEAD
+    status: HOLD_HDRM_RELIABILITY
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-OPS-006
+    text: ARM_TASK_READY shall be independently realized and read back in the authoritative mechanical configuration with its envelope and external interference verified.
+    source: [OWNER_TASK_STATUS_20260821, RAPID_CONFIGURATION_MATRIX]
+    configuration: [ARM_TASK_READY]
+    verification: [I, D, R]
+    acceptance_criterion: {type: quantitative, criterion: "Native or approved equivalent configuration activation count=1 geometric readback complete=1 bounding-box measurement complete=1 prohibited external-interference count=0", inputs_required: [AUTHORITATIVE_CONFIGURABLE_GEOMETRY]}
+    owner: CAD_CONFIGURATION_OWNER
+    status: ACCEPTED_SEMANTIC_ENUM_ONLY_GEOMETRIC_READBACK_HOLD
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/CONFIGURATION_MATRIX.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_WITH_SEMANTIC_LIMIT
+  - id: MSR-OPS-007
+    text: ARM_MANEUVER shall remain within authorized joint motion load cable keep-out and collision constraints throughout every approved trajectory.
+    source: [OWNER_TASK_STATUS_20260821, ECSS-E-ST-32C_Rev1]
+    configuration: [ARM_MANEUVER]
+    verification: [A, T, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "For every approved trajectory all joint loads structural responses cable sweep clearances and prohibited-contact metrics meet Owner-authorized limits", inputs_required: [ARM_TRAJECTORY_SET, PAYLOAD_MASS_PROPERTIES, JOINT_LIMITS, STRUCTURAL_LOAD_AUTHORITY, HARNESS_SWEEP, CONTACT_MODEL]}
+    owner: ROBOTICS_MECHANICAL_OWNER
+    status: DERIVED_SIMULATION_EXISTS_MECHANICAL_LOAD_AUTHORITY_HOLD
+    evidence: [OWNER_TASK_STATUS_20260821, 30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-OPS-008
+    text: PREGRASP shall position the gripper within an approved approach corridor using physically validated contact datums and verified gripper geometry.
+    source: [OWNER_TASK_STATUS_20260821, GRIPPER_R1_VALIDATION]
+    configuration: [PREGRASP, GRIPPER_PREGRASP]
+    verification: [A, I, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Neutral R1 internal sweep remains zero overlap and hardware contact datums normals approach corridor clearances and native integration are accepted", inputs_required: [CONTACT_DATUM_METROLOGY, TARGET_OBJECT_GEOMETRY, APPROACH_CORRIDOR, NATIVE_R1_REINTEGRATION]}
+    owner: GRIPPER_OWNER
+    status: ACCEPTED_SEMANTIC_ENUM_AND_NEUTRAL_R1_GEOMETRY_PASS_HARDWARE_CONTACT_HOLD
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-OPS-009
+    text: CAPTURE shall sustain the authorized object contact and transient loads without prohibited slip loss of capture structural failure or collision.
+    source: [OWNER_TASK_STATUS_20260821, ECSS-E-ST-32C_Rev1]
+    configuration: [CAPTURE, GRIPPER_PARTIAL, GRIPPER_CLOSED]
+    verification: [A, T, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Analysis and representative test meet approved capture-load strength stiffness retention slip and clearance criteria for all authorized object properties", inputs_required: [CAPTURE_LOAD_CASES, TARGET_OBJECT_PROPERTIES, CONTACT_FRICTION_AUTHORITY, MATERIAL_ALLOWABLES, RETENTION_CRITERIA]}
+    owner: GRIPPER_OWNER
+    status: DERIVED_SIMULATION_ONLY_STRUCTURAL_CONTACT_LOAD_HOLD
+    evidence: [OWNER_TASK_STATUS_20260821, 30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-OPS-010
+    text: POST_CAPTURE_STABILIZATION shall achieve an Owner-defined mechanically stable state without exceeding approved joint structure interface or contact limits.
+    source: [OWNER_TASK_STATUS_20260821]
+    configuration: [POST_CAPTURE_STABILIZATION]
+    verification: [A, T, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Measured or validated dynamic response enters and remains within all approved stability load displacement and retention thresholds for the specified duration", inputs_required: [STABILITY_DEFINITION, CAPTURED_BODY_PROPERTIES, CONTROL_PROFILE, LOAD_LIMITS, TEST_DURATION]}
+    owner: ROBOTICS_MECHANICAL_OWNER
+    status: DERIVED_SIMULATION_ONLY_QUALIFICATION_HOLD
+    evidence: [OWNER_TASK_STATUS_20260821]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-OPS-011
+    text: SAFE_MODE shall have authorized mechanical configuration motion restraint and keep-out requirements and shall fail closed when required state inputs are unknown.
+    source: [OWNER_TASK_STATUS_20260821, SIM13_BOOTSTRAP_GATE]
+    configuration: [SAFE_MODE]
+    verification: [A, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Every authorized safe-mode mechanical constraint is met and any unknown required state produces abort or inhibited motion with zero false allow events", inputs_required: [SAFE_MODE_MECHANICAL_REQUIREMENTS, SAFE_STATE_SENSORS, MOTION_INHIBIT_LOGIC, KEEP_OUT_AUTHORITY]}
+    owner: SYSTEM_SAFETY_OWNER
+    status: SIM13_UNKNOWN_FAIL_CLOSED_MECHANICAL_REQUIREMENTS_HOLD
+    evidence: [30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_WITH_FAIL_CLOSED_LIMIT
+  - id: MSR-OPS-012
+    text: LEFT_PANEL_FAIL shall be independently instantiated and verified for geometry envelope loads restraints and external interference.
+    source: [OWNER_TASK_STATUS_20260821, RAPID_CONFIGURATION_MATRIX]
+    configuration: [LEFT_PANEL_FAIL]
+    verification: [A, I, D, R]
+    acceptance_criterion: {type: quantitative, criterion: "Independent activation=1 geometric readback complete=1 bounding box complete=1 approved load cases complete=1 prohibited external-interference count=0", inputs_required: [AUTHORITATIVE_CONFIGURABLE_GEOMETRY, PANEL_FAILURE_LOAD_CASES]}
+    owner: MECHANICAL_LEAD
+    status: ACCEPTED_SEMANTIC_ENUM_ONLY_PER_CONFIG_GEOMETRY_AND_LOAD_HOLD
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/CONFIGURATION_MATRIX.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_WITH_SEMANTIC_LIMIT
+  - id: MSR-OPS-013
+    text: RIGHT_PANEL_FAIL shall be independently instantiated and verified for geometry envelope loads restraints and external interference.
+    source: [OWNER_TASK_STATUS_20260821, RAPID_CONFIGURATION_MATRIX]
+    configuration: [RIGHT_PANEL_FAIL]
+    verification: [A, I, D, R]
+    acceptance_criterion: {type: quantitative, criterion: "Independent activation=1 geometric readback complete=1 bounding box complete=1 approved load cases complete=1 prohibited external-interference count=0", inputs_required: [AUTHORITATIVE_CONFIGURABLE_GEOMETRY, PANEL_FAILURE_LOAD_CASES]}
+    owner: MECHANICAL_LEAD
+    status: ACCEPTED_SEMANTIC_ENUM_ONLY_PER_CONFIG_GEOMETRY_AND_LOAD_HOLD
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/CONFIGURATION_MATRIX.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_WITH_SEMANTIC_LIMIT
+  - id: MSR-OPS-014
+    text: BOTH_PANEL_FAIL shall be independently instantiated and verified for geometry envelope loads restraints and external interference.
+    source: [OWNER_TASK_STATUS_20260821, RAPID_CONFIGURATION_MATRIX]
+    configuration: [BOTH_PANEL_FAIL]
+    verification: [A, I, D, R]
+    acceptance_criterion: {type: quantitative, criterion: "Independent activation=1 geometric readback complete=1 bounding box complete=1 approved load cases complete=1 prohibited external-interference count=0", inputs_required: [AUTHORITATIVE_CONFIGURABLE_GEOMETRY, PANEL_FAILURE_LOAD_CASES]}
+    owner: MECHANICAL_LEAD
+    status: ACCEPTED_SEMANTIC_ENUM_ONLY_PER_CONFIG_GEOMETRY_AND_LOAD_HOLD
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/CONFIGURATION_MATRIX.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_WITH_SEMANTIC_LIMIT
+  - id: MSR-STR-001
+    text: The accepted B601 URDF mass value shall remain the sole simulation-interface mass authority until superseded by an Owner-approved mass reconciliation.
+    source: [ACCEPTED_B601_URDF, MECH_RL_INTERFACE_V1]
+    configuration: [ALL_B601_SIMULATION_CONFIGURATIONS]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "Accepted URDF SHA-256 equals 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164 and summed B601 mass equals 4.695555949342986 kg; mesh-derived mass is not substituted", inputs_required: []}
+    owner: ROBOTICS_MODEL_OWNER
+    status: PASS_SIMULATION_INTERFACE_ONLY_PHYSICAL_MASS_HOLD
+    evidence: [20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf, 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MECH_RL_INTERFACE_V1.yaml]
+    flight_applicability: NOT_CREDITABLE_FOR_FLIGHT_MASS
+    prototype_applicability: APPLICABLE_FOR_SIMULATION_INTERFACE
+  - id: MSR-STR-002
+    text: Physical mass center-of-mass and inertia properties shall be reconciled to as-built hardware and an approved coordinate frame before structural or flight credit.
+    source: [ECSS-E-ST-32C_Rev1, RAPID_MASS_PROPERTIES_TABLE]
+    configuration: [ALL]
+    verification: [A, I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Measured or approved CAD mass properties close within Owner-authorized uncertainty against the released BOM and frame definition with no unresolved placeholder masses", inputs_required: [AS_BUILT_MASS_MEASUREMENT, RELEASED_BOM, MATERIAL_DENSITIES, MASS_PROPERTY_TOLERANCES, INERTIA_FRAME_AUTHORITY]}
+    owner: MASS_PROPERTIES_OWNER
+    status: HOLD_PHYSICAL_MASS_AND_INERTIA_RECONCILIATION
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MASS_PROPERTIES_TABLE.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-STR-003
+    text: Structural sizing and verification shall use Owner-authorized launcher mission handling deployment maneuver capture thermal and shock environments with controlled load combinations.
+    source: [ECSS-E-ST-32C_Rev1, ECSS-E-HB-32-26A_GUIDANCE_ONLY]
+    configuration: [ALL_LOAD_CASES]
+    verification: [A, R]
+    acceptance_criterion: {type: input_dependency, criterion: "A controlled loads-and-environments specification covers every applicable lifecycle event with source units coordinate frame combinations uncertainty and approval", inputs_required: [LAUNCHER_ICD, MISSION_ENVIRONMENT, HANDLING_LOADS, DEPLOYMENT_LOADS, ARM_AND_CAPTURE_LOADS, THERMAL_ENVIRONMENT, SHOCK_ENVIRONMENT]}
+    owner: STRUCTURAL_DYNAMICS_OWNER
+    status: HOLD_LOAD_AND_ENVIRONMENT_AUTHORITY
+    evidence: [STANDARDS_TAILORING_MATRIX_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-STR-004
+    text: All structural members interfaces joints and mechanisms shall meet Owner-authorized strength stiffness stability fatigue and life acceptance criteria for every applicable load case.
+    source: [ECSS-E-ST-32C_Rev1, NASA-STD-5001B_Change3_CROSS_CHECK_ONLY]
+    configuration: [ALL_LOAD_CASES]
+    verification: [A, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "For each applicable failure mode the calculated or tested response meets approved allowable factors margins life and uncertainty criteria; all inputs and methods are configuration controlled", inputs_required: [MATERIAL_ALLOWABLES, FACTORS_OF_SAFETY, MARGIN_POLICY, LOAD_CASES, MODEL_CORRELATION, LIFE_REQUIREMENTS]}
+    owner: STRESS_LEAD
+    status: HOLD_ALLOWABLES_FACTORS_LOADS_AND_ANALYSIS
+    evidence: [MECHANICAL_VERIFICATION_CONTROL_DOCUMENT_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-STR-005
+    text: M3R Stage A and Stage B masses shall be reconciled to a single released configuration and method before system mass or structural-load use.
+    source: [RAPID_MECHANICAL_GATE, M3R_BOM_CANDIDATE, V5_NATIVE_BOM_SEED]
+    configuration: [M3R_REV_B2]
+    verification: [A, I, T, R]
+    acceptance_criterion: {type: quantitative, criterion: "One Owner-approved released mass replaces the unresolved 761.900000 g nominal 761.904197 g legacy candidate and 782.327248 g provisional CAD-density values; source configuration density and measurement uncertainty are recorded", inputs_required: [M3R_RELEASED_GEOMETRY, MATERIAL_AND_DENSITY_AUTHORITY, AS_BUILT_MASS_OR_APPROVED_CAD_MASS, OWNER_MASS_RULING]}
+    owner: M3R_OWNER
+    status: HOLD_M3R_MASS_RECONCILIATION
+    evidence: [20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_ADAPTER_BOM_CANDIDATE.csv, 20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/08_bom/V5_NATIVE_BOM_SEED.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-STR-006
+    text: The M3R Rev-B2 interface geometry shall preserve the documented Stage A plus Stage B architecture and all released arm-side and spacecraft-side interface datums.
+    source: [RAPID_MECHANICAL_GATE, RAPID_INTERFACE_DRAWINGS]
+    configuration: [M3R_REV_B2]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "Arm-side interface has 4 M4 positions on the documented 64 mm by 64 mm class pattern; documented PCD=90.509641772 mm and clocking=25.000014 deg are reconciled to released drawing datums; non-continuous mounting face is explicitly retained or redesigned by Owner", inputs_required: [RELEASED_M3R_INTERFACE_DRAWING, DATUM_TOLERANCES]}
+    owner: M3R_OWNER
+    status: HOLD_RELEASED_DATUM_AND_TOLERANCE_AUTHORITY
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_WITH_GEOMETRY_LIMIT
+  - id: MSR-STR-007
+    text: M3R threaded joints shall have released fastener specification preload method torque or tension control joint stiffness load distribution and positive margins for all authorized load cases.
+    source: [ECSS-E-ST-32C_Rev1, ECSS-E-HB-32-23A_Rev1_GUIDANCE_ONLY]
+    configuration: [M3R_REV_B2, ALL_LOAD_CASES]
+    verification: [A, I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Approved bolted-joint analysis and verification show positive Owner-authorized margins for separation slip bearing pull-through and fastener failure including preload scatter and environment", inputs_required: [FASTENER_SPECIFICATION, PRELOAD_METHOD, FRICTION_DATA, JOINT_STIFFNESS, LOADS, MATERIAL_ALLOWABLES, MARGIN_CRITERIA]}
+    owner: JOINTS_AND_FASTENERS_OWNER
+    status: HOLD_M3R_FASTENER_MOS_AND_PRELOAD
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/OPEN_HOLD_REGISTER.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-STR-008
+    text: M3R locating dowels and mating features shall have released fits tolerances installation sequence load-sharing assumptions and inspection acceptance criteria.
+    source: [RAPID_MECHANICAL_GATE]
+    configuration: [M3R_REV_B2]
+    verification: [A, I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Worst-case tolerance analysis and representative fit inspection meet approved insertion retention alignment and load-sharing criteria without interference or loss of location", inputs_required: [DOWEL_SPECIFICATION, HOLE_TOLERANCES, MATERIALS, TEMPERATURE_RANGE, INSTALLATION_PROCESS, LOAD_SHARING_POLICY]}
+    owner: M3R_OWNER
+    status: HOLD_M3R_LOCATING_DOWEL_FIT
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/OPEN_HOLD_REGISTER.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-STR-009
+    text: Flight structural qualification shall be completed on an authorized representative model and test program before any flight-ready claim.
+    source: [ECSS-E-ST-10-03C_Rev1, ECSS-E-ST-32C_Rev1]
+    configuration: [QUALIFICATION_CONFIGURATION, FLIGHT_CONFIGURATION]
+    verification: [A, I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Approved qualification and acceptance evidence covers all applicable environments modes interfaces and mechanisms with anomalies dispositioned and configuration representativeness accepted", inputs_required: [MODEL_PHILOSOPHY, TEST_LEVELS, TEST_DURATIONS, FACILITIES, INSTRUMENTATION, PASS_FAIL_CRITERIA, ANOMALY_DISPOSITIONS]}
+    owner: QUALIFICATION_LEAD
+    status: HOLD_FLIGHT_STRUCTURE_QUALIFICATION
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: NOT_REQUIRED_FOR_NONFLIGHT_DEMONSTRATION_UNLESS_OWNER_APPLIES
+  - id: MSR-MEC-001
+    text: The gripper R1 rail-slot correction shall preserve zero positive rail-palm overlap throughout the 0.0 mm to 71.5 mm stroke at the validated sampling resolution before neutral-geometry prototype use.
+    source: [GRIPPER_R1_VALIDATION]
+    configuration: [GRIPPER_CLOSED, GRIPPER_PARTIAL, GRIPPER_PREGRASP, GRIPPER_OPEN]
+    verification: [A, I, R]
+    acceptance_criterion: {type: quantitative, criterion: "144 samples at 0.5 mm increment over 0.0 to 71.5 mm produce overlap rows=0 and positive overlap volume=0.0 mm3 on the exact hashed R1 assets", inputs_required: []}
+    owner: GRIPPER_OWNER
+    status: PASS_NEUTRAL_R1_INTERNAL_SWEEP_ONLY
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json]
+    flight_applicability: NOT_CREDITABLE_FOR_FLIGHT
+    prototype_applicability: APPLICABLE_WITH_SCOPE_LIMIT
+  - id: MSR-MEC-002
+    text: The gripper R1 palm shall be integrated into the authoritative native configuration and the full stroke interference check repeated before native-assembly credit.
+    source: [RAPID_MECHANICAL_GATE, GRIPPER_R1_VALIDATION]
+    configuration: [ALL_GRIPPER_CONFIGURATIONS]
+    verification: [I, D, R]
+    acceptance_criterion: {type: quantitative, criterion: "Authoritative native R1 part occurrence count=1 legacy palm occurrence count=0 and native full-stroke rail-palm positive-overlap rows=0; current legacy native count 36 is eliminated", inputs_required: [VALIDATED_NATIVE_TOP_ASSEMBLY, NATIVE_R1_REINTEGRATION]}
+    owner: CAD_CONFIGURATION_OWNER
+    status: HOLD_NATIVE_V5_GRIPPER_R1_REINTEGRATION
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD_FOR_NATIVE_CREDIT
+  - id: MSR-MEC-003
+    text: Gripper running manufacturing and assembly clearances shall be defined with tolerances finishes thermal effects and contamination allowances for all stroke positions.
+    source: [ECSS-Q-ST-70C_Rev2, RAPID_MECHANICAL_GATE]
+    configuration: [ALL_GRIPPER_CONFIGURATIONS]
+    verification: [A, I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Worst-case minimum clearance remains at or above an Owner-authorized value for the full stroke including tolerance thermal finish wear and contamination contributions", inputs_required: [MINIMUM_CLEARANCE_REQUIREMENT, DIMENSIONAL_TOLERANCES, SURFACE_FINISH, THERMAL_RANGE, WEAR_AND_CONTAMINATION_ALLOWANCE]}
+    owner: GRIPPER_OWNER
+    status: HOLD_GRIPPER_MANUFACTURING_CLEARANCE
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/OPEN_HOLD_REGISTER.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-MEC-004
+    text: The R1 rail-slot correction shall retain an Owner-approved minimum wall thickness in every critical section.
+    source: [GRIPPER_R1_VALIDATION]
+    configuration: [ALL_GRIPPER_CONFIGURATIONS]
+    verification: [A, I, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Measured minimum remaining wall thickness including tolerance is not less than the Owner-authorized design minimum at every critical section", inputs_required: [MINIMUM_WALL_REQUIREMENT, WALL_DATUM, TOLERANCES, R1_METROLOGY]}
+    owner: GRIPPER_OWNER
+    status: HOLD_GRIPPER_MINIMUM_WALL_THICKNESS
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-MEC-005
+    text: The gripper palm fingers rails actuators and interfaces shall meet authorized strength stiffness and life criteria for pregrasp capture retention release and off-nominal loads.
+    source: [ECSS-E-ST-32C_Rev1, ECSS-E-ST-33-01C_Rev2]
+    configuration: [PREGRASP, CAPTURE, POST_CAPTURE_STABILIZATION, SAFE_MODE]
+    verification: [A, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Approved analysis and representative test meet all authorized strength stiffness fatigue wear and life acceptance criteria with positive margins", inputs_required: [GRIPPER_LOAD_CASES, MATERIAL_ALLOWABLES, CONTACT_LOADS, DUTY_CYCLE, FACTORS_AND_MARGINS, TEST_PLAN]}
+    owner: GRIPPER_OWNER
+    status: HOLD_GRIPPER_STRUCTURAL_STRENGTH
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/OPEN_HOLD_REGISTER.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-MEC-006
+    text: Gripper contact with the external target object shall be validated using authorized object geometry contact surfaces normals friction and compliance over all capture states.
+    source: [MECH_RL_INTERFACE_V1, SIM13_BOOTSTRAP_GATE]
+    configuration: [PREGRASP, CAPTURE, POST_CAPTURE_STABILIZATION]
+    verification: [A, T, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Validated contact model and representative test show zero prohibited interpenetration and satisfy authorized capture retention and release criteria for every target-object case", inputs_required: [TARGET_OBJECT_GEOMETRY, CONTACT_DATUM_METROLOGY, SURFACE_NORMAL_AUTHORITY, FRICTION_AND_COMPLIANCE_DATA, CONTACT_ACCEPTANCE_CRITERIA]}
+    owner: GRIPPER_OWNER
+    status: HOLD_GRIPPER_EXTERNAL_OBJECT_CONTACT_VALIDATION
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MECH_RL_INTERFACE_V1.yaml, 30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-MEC-007
+    text: Solar-array hinge drive restraint and end-stop mechanisms shall have released specifications and verified performance life margins and deployment clearances.
+    source: [ECSS-E-ST-33-01C_Rev2]
+    configuration: [LAUNCH_STOWED, SOLAR_ARRAY_DEPLOYMENT, DEPLOYED_NOMINAL, LEFT_PANEL_FAIL, RIGHT_PANEL_FAIL, BOTH_PANEL_FAIL]
+    verification: [A, I, T, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Each mechanism completes all authorized functions over required life and environment with approved margins and no prohibited contact; off-nominal states are independently verified", inputs_required: [MECHANISM_SPECIFICATIONS, PRODUCT_SELECTIONS, LOADS, LIFE, ENVIRONMENTS, TEST_PLAN]}
+    owner: SOLAR_ARRAY_MECHANISMS_OWNER
+    status: HOLD_SOLAR_ARRAY_MECHANISM_QUALIFICATION
+    evidence: [OWNER_TASK_STATUS_20260821]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-MEC-008
+    text: Each HDRM shall have an approved product selection installation definition release reliability target and physical release verification.
+    source: [ECSS-E-ST-33-01C_Rev2, RAPID_OPEN_HOLD_REGISTER]
+    configuration: [LAUNCH_STOWED, SOLAR_ARRAY_DEPLOYMENT, ARM_RELEASE]
+    verification: [I, T, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "All HDRMs meet Owner-authorized installation function release-time reliability shock and post-release clearance criteria with traceable test evidence", inputs_required: [HDRM_PRODUCT_DATA, INSTALLATION_DRAWING, RELIABILITY_TARGET, RELEASE_TEST_PLAN, SHOCK_LIMITS]}
+    owner: MECHANISMS_LEAD
+    status: HOLD_HDRM_RELIABILITY
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/OPEN_HOLD_REGISTER.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-MEC-009
+    text: The service camera product optical envelope mount alignment and hand-eye calibration shall be selected and verified before camera keep-out or optical-frame flight credit.
+    source: [MECH_RL_INTERFACE_V1, SYSTEM_FRAME_TREE]
+    configuration: [ARM_TASK_READY, ARM_MANEUVER, PREGRASP, CAPTURE]
+    verification: [A, I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Selected camera and mount fit the approved keep-out with measured alignment and calibration residual within Owner-authorized limits over applicable environment", inputs_required: [CAMERA_SELECTION, OPTICAL_MODEL, MOUNT_DRAWING, ALIGNMENT_TOLERANCE, HAND_EYE_CALIBRATION_CRITERION, ENVIRONMENT]}
+    owner: VISION_HARDWARE_OWNER
+    status: HOLD_CAMERA_SELECTION_AND_CALIBRATION
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MECH_RL_INTERFACE_V1.yaml]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-MEC-010
+    text: Moving harnesses shall have released routing bend-radius strain-relief connector and dynamic sweep definitions with verified clearance over all motions.
+    source: [MECH_RL_INTERFACE_V1, RAPID_OPEN_HOLD_REGISTER]
+    configuration: [SOLAR_ARRAY_DEPLOYMENT, ARM_RELEASE, ARM_MANEUVER, PREGRASP, CAPTURE]
+    verification: [A, I, T, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Dynamic sweep over every approved trajectory has zero prohibited contact and meets approved bend radius strain connector load wear and service-life criteria", inputs_required: [HARNESS_PART_DEFINITION, ROUTING, BEND_RADIUS, STRAIN_RELIEF, MOTION_SET, CLEARANCES, LIFE_TEST_PLAN]}
+    owner: HARNESS_MECHANICAL_OWNER
+    status: HOLD_HARNESS_MOVING_SWEEP
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/OPEN_HOLD_REGISTER.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-INT-001
+    text: The 81 donor static interference rows shall remain a signed scoped inherited exception and shall not be reported as zero or used as evidence for the updated composite geometry.
+    source: [RAPID_MECHANICAL_GATE, OWNER_SIGNED_OPTION_A]
+    configuration: [DONOR_BASELINE]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "Donor-static count=81 classification=CLASS_1_DONOR_STATIC_INHERITED and disposition cites signed Option A; count is excluded only from the explicitly bounded system-external metric", inputs_required: []}
+    owner: OWNER
+    status: ACCEPTED_EXCEPTION_SCOPE_ONLY
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: NOT_CREDITABLE_FOR_FLIGHT
+    prototype_applicability: APPLICABLE_WITH_SIGNED_EXCEPTION
+  - id: MSR-INT-002
+    text: The historical zero unexplained external-interference result shall apply only to the hash-identical main neutral deployed geometry on which it was measured.
+    source: [RAPID_INTERFERENCE_CLASSIFICATION, RAPID_MECHANICAL_GATE]
+    configuration: [DEPLOYED_NOMINAL_MAIN_NEUTRAL_ONLY]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "Main-neutral historical unexplained external-interference count=0 and geometry hashes match the cited evidence; scope excludes all package addenda and other configurations", inputs_required: []}
+    owner: MECHANICAL_INTEGRATION_OWNER
+    status: PASS_HASH_BOUND_MAIN_NEUTRAL_ONLY
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/INTERFERENCE_CLASSIFICATION.csv]
+    flight_applicability: NOT_CREDITABLE_FOR_COMPOSITE_OR_FLIGHT
+    prototype_applicability: APPLICABLE_WITH_SCOPE_LIMIT
+  - id: MSR-INT-003
+    text: The package-level composite comprising main neutral V4 delta addenda M3R and gripper R1 shall undergo placed narrow-phase interference verification before composite clearance credit.
+    source: [RAPID_MECHANICAL_GATE, RAPID_NEUTRAL_PACKAGE]
+    configuration: [DEPLOYED_NOMINAL_COMPOSITE, ALL_RELEVANT_CONFIGURATIONS]
+    verification: [A, I, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Every addendum is located by an approved transform in one composite configuration and all prohibited narrow-phase interference counts equal zero for the approved state set", inputs_required: [APPROVED_ADDENDA_TRANSFORMS, AUTHORITATIVE_COMPOSITE_GEOMETRY, INTERFERENCE_RULESET, CONFIGURATION_STATE_SET]}
+    owner: MECHANICAL_INTEGRATION_OWNER
+    status: HOLD_COMPOSITE_ADDENDA_PLACEMENT_AND_NARROW_PHASE
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-INT-004
+    text: The main neutral V4 delta addenda and gripper R1 shall not be described as one monolithically integrated model until an authoritative integrated B-rep or native assembly is produced and validated.
+    source: [RAPID_NEUTRAL_PACKAGE, RAPID_OPEN_HOLD_REGISTER]
+    configuration: [ALL]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "An integrated authority contains all required occurrences with missing=0 duplicate=0 transform-unresolved=0 and validation receipt accepted; until then package description states package-level composite", inputs_required: [INTEGRATED_MODEL, OCCURRENCE_MANIFEST, VALIDATION_RECEIPT]}
+    owner: CAD_CONFIGURATION_OWNER
+    status: HOLD_MONOLITHIC_NEUTRAL_INTEGRATION
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/OPEN_HOLD_REGISTER.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_WITH_PACKAGE_COMPOSITE_LABEL
+  - id: MSR-INT-005
+    text: A validated authoritative native top assembly shall exist before native CAD drawings mass properties configurations or manufacturing release receive authority.
+    source: [RAPID_MECHANICAL_GATE]
+    configuration: [ALL_NATIVE_CONFIGURATIONS]
+    verification: [I, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Native top assembly opens resolves and rebuilds without missing or suppressed required components; exact version and dependency manifest are receipted by an independent validation", inputs_required: [VALIDATED_NATIVE_TOP_ASSEMBLY, DEPENDENCY_MANIFEST, COLD_OPEN_REBUILD_RECEIPT]}
+    owner: CAD_CONFIGURATION_OWNER
+    status: HOLD_NATIVE_TOP_ASSEMBLY
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD_FOR_NATIVE_CREDIT
+  - id: MSR-INT-006
+    text: A lightweight native assembly candidate shall not receive authority until its lightweight state dependencies occurrence completeness and cold-open behavior are validated.
+    source: [RAPID_MECHANICAL_GATE]
+    configuration: [ALL_NATIVE_CONFIGURATIONS]
+    verification: [I, D, R]
+    acceptance_criterion: {type: quantitative, criterion: "Cold-open validation passes required occurrence count missing reference count=0 unexpected suppression count=0 and exact content hash is recorded", inputs_required: [LIGHTWEIGHT_VALIDATION_ENVIRONMENT, ACCEPTANCE_OCCURRENCE_LIST]}
+    owner: CAD_CONFIGURATION_OWNER
+    status: HOLD_LIGHTWEIGHT_SLDASM_NATIVE_VALIDATION
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD_FOR_NATIVE_CREDIT
+  - id: MSR-INT-007
+    text: Each accepted mechanical configuration shall be independently activated and read back from an authoritative configurable geometry source.
+    source: [RAPID_CONFIGURATION_MATRIX]
+    configuration: [DEPLOYED_NOMINAL, LEFT_PANEL_FAIL, RIGHT_PANEL_FAIL, BOTH_PANEL_FAIL, ARM_STOWED_ONORBIT, ARM_TASK_READY, GRIPPER_CLOSED, GRIPPER_PARTIAL, GRIPPER_PREGRASP, GRIPPER_OPEN]
+    verification: [I, D, R]
+    acceptance_criterion: {type: quantitative, criterion: "For all 10 accepted semantic configurations independent_activation=PASS and geometry readback record count=10 with zero unresolved mates suppressions or state mismatches", inputs_required: [AUTHORITATIVE_CONFIGURABLE_GEOMETRY]}
+    owner: CAD_CONFIGURATION_OWNER
+    status: HOLD_CONFIGURATION_NATIVE_READBACK
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/CONFIGURATION_MATRIX.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_WITH_SEMANTIC_LIMIT
+  - id: MSR-INT-008
+    text: Each accepted configuration shall have a measured bounding box in the approved coordinate system with tolerance and uncertainty recorded.
+    source: [RAPID_CONFIGURATION_MATRIX]
+    configuration: [ALL_10_ACCEPTED_SEMANTIC_CONFIGURATIONS]
+    verification: [A, I, R]
+    acceptance_criterion: {type: quantitative, criterion: "Bounding-box records complete=10 missing=0 each with x y z extrema units frame geometry hash and measurement uncertainty", inputs_required: [AUTHORITATIVE_CONFIGURABLE_GEOMETRY, APPROVED_FRAME, TOLERANCE_POLICY]}
+    owner: MECHANICAL_INTEGRATION_OWNER
+    status: HOLD_PER_CONFIGURATION_BOUNDING_BOX
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/CONFIGURATION_MATRIX.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-INT-009
+    text: Each accepted configuration and all approved transition sweeps shall be checked for prohibited external interference against an authorized rule set.
+    source: [RAPID_CONFIGURATION_MATRIX, RAPID_MECHANICAL_GATE]
+    configuration: [ALL_10_ACCEPTED_SEMANTIC_CONFIGURATIONS, APPROVED_TRANSITION_SWEEPS]
+    verification: [A, D, R]
+    acceptance_criterion: {type: quantitative, criterion: "Per-configuration and continuous-sweep records complete for every approved case with prohibited external-interference count=0 or an Owner-signed itemized disposition", inputs_required: [AUTHORITATIVE_CONFIGURABLE_GEOMETRY, TRANSITION_SET, INTERFERENCE_RULESET, APPROVED_EXCEPTIONS]}
+    owner: MECHANICAL_INTEGRATION_OWNER
+    status: HOLD_PER_CONFIGURATION_EXTERNAL_INTERFERENCE
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-INT-010
+    text: The spacecraft root-to-M-frame transform and all downstream datum transforms shall be reasserted by an approved integrated geometry or metrology source.
+    source: [SYSTEM_FRAME_TREE]
+    configuration: [ALL]
+    verification: [I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Transform chain has one approved root no unknown parent normalized rotations stated units and metrology or integrated-geometry evidence for root-to-M-frame", inputs_required: [ROOT_TO_M_FRAME_AUTHORITY, DATUM_METROLOGY, FRAME_CONTROL_DOCUMENT]}
+    owner: SYSTEM_INTERFACE_OWNER
+    status: HOLD_ROOT_TO_M_FRAME_NOT_REASSERTED_BY_NEUTRAL_PACKAGE
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/SYSTEM_FRAME_TREE.yaml]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-INT-011
+    text: M3R tool access cable channel and mating interfaces shall pass representative physical fit-up and inspection before manufacturing or flight credit.
+    source: [MECH_RL_INTERFACE_V1, RAPID_INTERFACE_DRAWINGS]
+    configuration: [M3R_REV_B2]
+    verification: [I, T, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Representative parts mate without forced fit; all approved tool envelopes cable routing and access operations complete with clearances above authorized minima", inputs_required: [REPRESENTATIVE_HARDWARE, TOOLING, FASTENER_INSTALLATION_PROCESS, CABLE_DEFINITION, MINIMUM_ACCESS_CLEARANCES]}
+    owner: M3R_OWNER
+    status: HOLD_M3R_PHYSICAL_FITUP
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MECH_RL_INTERFACE_V1.yaml]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-INT-012
+    text: If Parasolid is a required downstream exchange format a nonzero validated export shall be produced from the approved geometry and hash-bound to its source.
+    source: [RAPID_OPEN_HOLD_REGISTER]
+    configuration: [APPROVED_EXCHANGE_CONFIGURATION]
+    verification: [I, D, R]
+    acceptance_criterion: {type: quantitative, criterion: "Required Parasolid files missing=0 zero_byte=0 import_errors=0 body_count_mismatch=0 and source/export hashes are recorded", inputs_required: [OWNER_PARASOLID_REQUIREMENT, APPROVED_SOURCE_GEOMETRY, IMPORT_VALIDATION_TOOL]}
+    owner: CAD_CONFIGURATION_OWNER
+    status: HOLD_PARASOLID_EXPORT_NOT_PRODUCED
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/OPEN_HOLD_REGISTER.csv]
+    flight_applicability: CONDITIONAL_HOLD
+    prototype_applicability: CONDITIONAL_HOLD
+  - id: MSR-MAT-001
+    text: Every mechanical part shall have an approved material specification temper condition finish heat treatment and lot or procurement traceability appropriate to its intended use.
+    source: [ECSS-Q-ST-70C_Rev2]
+    configuration: [ALL_PHYSICAL_HARDWARE]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "Released BOM material and process fields complete=100 percent for flight-design items with zero TBD values and traceable supplier or lot records", inputs_required: [RELEASED_BOM, MATERIAL_SPECIFICATIONS, PROCESS_SPECIFICATIONS, PROCUREMENT_RECORDS]}
+    owner: MATERIALS_AND_PROCESSES_OWNER
+    status: HOLD_MATERIAL_AND_PROCESS_AUTHORITY
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/TOP_LEVEL_BOM.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-MAT-002
+    text: Structural material allowables and environmental knockdowns shall be approved for the material form process direction temperature life and failure mode used in each analysis.
+    source: [ECSS-E-ST-32C_Rev1, ECSS-Q-ST-70C_Rev2]
+    configuration: [ALL_LOAD_CASES]
+    verification: [A, I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Every reported margin traces to an approved allowable with material form process batch direction temperature life statistical basis and applicable knockdowns", inputs_required: [APPROVED_ALLOWABLES_DATABASE, MATERIAL_PROCESS_TRACEABILITY, ENVIRONMENT, LIFE, STATISTICAL_BASIS]}
+    owner: MATERIALS_AND_PROCESSES_OWNER
+    status: HOLD_MATERIAL_ALLOWABLES
+    evidence: [STANDARDS_TAILORING_MATRIX_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-MAT-003
+    text: Materials mechanical parts and manufacturing processes shall be evaluated approved and configuration controlled before manufacturing release.
+    source: [ECSS-Q-ST-70C_Rev2]
+    configuration: [ALL_PHYSICAL_HARDWARE]
+    verification: [I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Approved materials-process-parts list covers every released item with qualification or verification evidence and all deviations are formally dispositioned", inputs_required: [APPROVED_MATERIALS_PROCESS_PARTS_LIST, QUALIFICATION_RECORDS, DEVIATION_PROCESS, SUPPLIER_DATA]}
+    owner: MATERIALS_AND_PROCESSES_OWNER
+    status: HOLD_MANUFACTURING_RELEASE
+    evidence: [MECHANICAL_CRITICAL_ITEMS_REGISTER_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-MAT-004
+    text: Cleanliness and contamination requirements shall be derived from mission performance and defined for sensitive items facilities operations verification and acceptance.
+    source: [ECSS-Q-ST-70-01C_Rev1]
+    configuration: [MANUFACTURE, ASSEMBLY, TEST, STORAGE, LAUNCH, OPERATION]
+    verification: [A, I, T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Owner-approved contamination-sensitive item list cleanliness limits control plan and verification evidence are complete with no unassessed sensitive interface", inputs_required: [MISSION_CONTAMINATION_LIMITS, SENSITIVE_ITEM_LIST, FACILITY_CAPABILITY, CLEANLINESS_CONTROL_PLAN, VERIFICATION_METHODS]}
+    owner: PRODUCT_ASSURANCE_OWNER
+    status: HOLD_CLEANLINESS_AND_CONTAMINATION_INPUTS
+    evidence: [STANDARDS_TAILORING_MATRIX_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: CONDITIONAL_HOLD
+  - id: MSR-MAT-005
+    text: Thermal-vacuum or thermal-cycling evaluation of selected materials parts and assemblies shall use an authorized test specification when required by the tailored verification plan.
+    source: [ECSS-Q-ST-70-04C, ECSS-E-ST-10-03C_Rev1]
+    configuration: [QUALIFICATION_ARTICLE, ACCEPTANCE_ARTICLE]
+    verification: [T, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Approved procedure defines article environment temperatures vacuum cycles durations instrumentation tolerances and pass-fail criteria and the resulting report has zero unresolved anomalies", inputs_required: [TAILORED_TEST_REQUIREMENT, ARTICLE_DEFINITION, TEST_LEVELS, TEST_CYCLES, FACILITY, PASS_FAIL_CRITERIA]}
+    owner: TEST_AND_VERIFICATION_LEAD
+    status: HOLD_THERMAL_TEST_INPUTS
+    evidence: [STANDARDS_TAILORING_MATRIX_V1.csv]
+    flight_applicability: CONDITIONAL_HOLD
+    prototype_applicability: CONDITIONAL_HOLD
+  - id: MSR-VER-001
+    text: The mechanical verification program shall define verification level method model configuration procedure evidence and closure authority for every baselined requirement.
+    source: [ECSS-E-ST-10-02C_Rev1]
+    configuration: [ALL]
+    verification: [I, R]
+    acceptance_criterion: {type: quantitative, criterion: "VCD requirement coverage=100 percent missing=0 invalid verification methods=0 and every row has closure authority and claim boundary", inputs_required: [AUTHORIZED_VERIFICATION_PLAN]}
+    owner: VERIFICATION_LEAD
+    status: CANDIDATE_PASS_WP0_MAPPING_ONLY_PROGRAM_HOLD
+    evidence: [MECHANICAL_VERIFICATION_CONTROL_DOCUMENT_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE
+  - id: MSR-VER-002
+    text: Qualification acceptance and protoflight test levels durations margins tolerances and model philosophy shall be Owner-authorized and source-backed before test execution.
+    source: [ECSS-E-ST-10-03C_Rev1]
+    configuration: [QUALIFICATION_CONFIGURATION, ACCEPTANCE_CONFIGURATION, PROTOFLIGHT_CONFIGURATION]
+    verification: [I, R]
+    acceptance_criterion: {type: input_dependency, criterion: "A signed model philosophy and test specification identifies source and value for every level duration margin tolerance sequence article and retest rule; no placeholder value remains", inputs_required: [MISSION_ENVIRONMENTS, MODEL_PHILOSOPHY, TEST_LEVELS, TEST_DURATIONS, TOLERANCES, RETEST_POLICY]}
+    owner: TEST_AND_VERIFICATION_LEAD
+    status: HOLD_TEST_LEVELS_AND_MODEL_PHILOSOPHY_AUTHORIZATION
+    evidence: [STANDARDS_TAILORING_MATRIX_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: CONDITIONAL_HOLD
+  - id: MSR-VER-003
+    text: Qualification and acceptance evidence shall be traceable to the exact tested configuration and all anomalies nonconformances waivers and deviations shall be dispositioned before credit.
+    source: [ECSS-E-ST-10-02C_Rev1, ECSS-E-ST-10-03C_Rev1, ECSS-Q-ST-10-09C_Rev1]
+    configuration: [QUALIFICATION_ARTICLE, ACCEPTANCE_ARTICLE, FLIGHT_CONFIGURATION]
+    verification: [I, T, R]
+    acceptance_criterion: {type: quantitative, criterion: "Test-to-configuration trace missing=0 unresolved anomaly count=0 unresolved nonconformance count=0 and closure approvals complete=100 percent", inputs_required: [TEST_REPORTS, CONFIGURATION_RECORDS, NCR_AND_ANOMALY_DISPOSITIONS]}
+    owner: PRODUCT_ASSURANCE_OWNER
+    status: HOLD_QUALIFICATION_AND_ACCEPTANCE_EVIDENCE
+    evidence: [HOLD_TO_REQUIREMENT_TRACEABILITY_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: CONDITIONAL_HOLD
+  - id: MSR-VER-004
+    text: Mechanical critical items and failure modes shall be reviewed and controlled using an Owner-authorized criticality scheme and analysis depth.
+    source: [ECSS-Q-ST-30-02C, RAPID_MECHANICAL_GATE]
+    configuration: [ALL_LIFECYCLE_STATES]
+    verification: [A, I, R]
+    acceptance_criterion: {type: input_dependency, criterion: "All identified mechanical functions interfaces mechanisms and open HOLDs are screened; criticality rationale controls verification and closure evidence are approved; formal FMEA/FMECA completion is claimed only after authorized analysis", inputs_required: [MISSION_FUNCTIONS, FAILURE_SEVERITY_CRITERIA, RISK_POLICY, AUTHORIZED_FMEA_SCOPE]}
+    owner: DEPENDABILITY_OWNER
+    status: CANDIDATE_CRITICAL_ITEM_REGISTER_ONLY_FMEA_HOLD
+    evidence: [MECHANICAL_CRITICAL_ITEMS_REGISTER_V1.csv]
+    flight_applicability: APPLICABLE_HOLD
+    prototype_applicability: APPLICABLE_HOLD
+  - id: MSR-VER-005
+    text: Neutral-package and interface artifacts used for prototype or simulation shall be hash-manifested validated for missing zero-byte hash-mismatch and unexpected-file conditions and explicitly labeled by evidence class.
+    source: [RAPID_NEUTRAL_PACKAGE_VALIDATION, RAPID_MECHANICAL_GATE]
+    configuration: [NEUTRAL_PACKAGE]
+    verification: [I, D, R]
+    acceptance_criterion: {type: quantitative, criterion: "Package validation missing=0 zero_byte=0 hash_mismatch=0 unexpected=0 and every visualization is labeled NEUTRAL or INTERFACE EVIDENCE rather than native CAD screenshot", inputs_required: []}
+    owner: CONFIGURATION_MANAGER
+    status: PASS_RAPID_PACKAGE_ONLY_NOT_DESIGN_QUALIFICATION
+    evidence: [20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/06_pack_and_go/NEUTRAL_PACKAGE_VALIDATION.json, 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/08_gate/V5_OPERATIONAL_MECHANICAL_GATE.json]
+    flight_applicability: NOT_CREDITABLE_FOR_FLIGHT_QUALIFICATION
+    prototype_applicability: APPLICABLE_WITH_EVIDENCE_CLASS_LIMIT
+  - id: MSR-VER-006
+    text: Simulation bootstrap shall not be credited as contact-physics flexible-body training HIL real-robot or flight-mechanical verification without separate authorized evidence gates.
+    source: [SIM13_BOOTSTRAP_GATE, RAPID_MECHANICAL_GATE]
+    configuration: [SIM13_BOOTSTRAP, ARM_MANEUVER, PREGRASP, CAPTURE, POST_CAPTURE_STABILIZATION]
+    verification: [A, I, T, D, R]
+    acceptance_criterion: {type: input_dependency, criterion: "Separate approved gates and evidence exist for contact fidelity flexible bodies policy training/evaluation HIL and real robot; until then next_stage_authorized=false and all unknowns are action-masked", inputs_required: [CONTACT_MODEL_VALIDATION, FLEXIBLE_BODY_MODEL_VALIDATION, TRAINING_EVALUATION_PLAN, HIL_PLAN, REAL_ROBOT_SAFETY_AND_TEST_PLAN]}
+    owner: ROBOTICS_VERIFICATION_OWNER
+    status: HOLD_CONTACT_FIDELITY_FLEXIBLE_BODY_TRAINING_HIL_AND_REAL_ROBOT
+    evidence: [30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json]
+    flight_applicability: NOT_CREDITABLE_FOR_FLIGHT
+    prototype_applicability: APPLICABLE_HOLD_BEYOND_BOOTSTRAP

@@ -1,0 +1,158 @@
+{
+  "status": "OFFLINE_DM_PROTOCOL_REUSE_COMPLETE_WITH_DECLARED_HARDWARE_INPUTS",
+  "parent_from_to": {
+    "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp09_interfaces_20260907_1525\\functional_closure\\ecad\\FUNCTIONAL_FROM_TO.csv",
+    "sha256": "487fe1497c19bef5adbebf06efa29fdc5e39c37bd641c42ab687a9e06dfa849e",
+    "total_conductors": 23
+  },
+  "electrical_rows_bound": [
+    {
+      "wire_id": "C01",
+      "net": "DM_CANH",
+      "from_device": "CAN",
+      "from_pin": "H",
+      "to_device": "SEP",
+      "to_pin": "H",
+      "wire_or_mate": "OEM GH1.25 two-pin lead",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "BOTH_CAVITIES_OPEN",
+      "source": "DM_PUBLIC",
+      "cut_length_mm": "",
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": "False"
+    },
+    {
+      "wire_id": "C02",
+      "net": "DM_CANL",
+      "from_device": "CAN",
+      "from_pin": "L",
+      "to_device": "SEP",
+      "to_pin": "L",
+      "wire_or_mate": "OEM GH1.25 two-pin lead",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "BOTH_CAVITIES_OPEN",
+      "source": "DM_PUBLIC",
+      "cut_length_mm": "",
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": "False"
+    },
+    {
+      "wire_id": "C03",
+      "net": "DM_CANH",
+      "from_device": "SEP",
+      "from_pin": "H",
+      "to_device": "DM",
+      "to_pin": "CANH_REF",
+      "wire_or_mate": "OEM XT302+2 signal pair",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "V4_PIN_OPEN",
+      "source": "DM_PUBLIC;DM_2023",
+      "cut_length_mm": "",
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": "False"
+    },
+    {
+      "wire_id": "C04",
+      "net": "DM_CANL",
+      "from_device": "SEP",
+      "from_pin": "L",
+      "to_device": "DM",
+      "to_pin": "CANL_REF",
+      "wire_or_mate": "OEM XT302+2 signal pair",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "V4_PIN_OPEN",
+      "source": "DM_PUBLIC;DM_2023",
+      "cut_length_mm": "",
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": "False"
+    }
+  ],
+  "selection_evidence": [
+    {
+      "url": "https://wiki.seeedstudio.com/rebot_b601_dm_getting_started/",
+      "finding": "Preparation adapter product link resolves to SKU 100011896; Windows gateway example explicitly dm-serial, 921600; reference IDs motor 1..7 and feedback 0x11..0x17."
+    },
+    {
+      "url": "https://www.seeedstudio.com/DM-CAN-USB-Driver-Borad-p-6706.html",
+      "finding": "Official linked product identifies SKU 100011896."
+    },
+    {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp09_interfaces_20260907_1525\\functional_closure\\inputs\\vendor_sources\\DM_PUBLIC_BOM.md",
+      "sha256": "1a7bf885b42adbd6753d98264e5c74e73da751036684c563e36a2ff3e8596452",
+      "finding": "DM V4 reference uses three 4340P and four 4310; J1 correction recorded. Counts alone do not assign each remaining joint."
+    }
+  ],
+  "mapping": [
+    {
+      "source": "motor_vendors/damiao/src/protocol.rs::encode_mit_cmd/decode_sensor_feedback/float_to_uint/uint_to_float",
+      "project": "software/dm_codec.py",
+      "implementation": "Python port with float32 rounding; MIT header and local full MIT license"
+    },
+    {
+      "source": "motor_core/src/dm_serial.rs::encode_tx/try_parse_rx",
+      "project": "software/dm_codec.py::encode_dm_serial/RxParser",
+      "implementation": "Offline byte codec; receive validates DLC8, standard ID, no RTR and bounded buffer more strictly than upstream"
+    },
+    {
+      "source": "motor_vendors/damiao/src/motor.rs::DAMIAO_MODELS",
+      "project": "software/dm_codec.py::MODELS",
+      "implementation": "4310/4340P constants extracted by review and regex checked against source during tests"
+    },
+    {
+      "source": "bindings/python/src/motorbridge/core.py::Motor.send_mit/_require_open + _ok/_err_text",
+      "project": "software/test_dm_offline.py::test_24",
+      "implementation": "Unmodified AST method bodies executed with fake ABI; constructors, imports and native code excluded"
+    }
+  ],
+  "units": {
+    "position": "rad at configured joint / motor output shaft",
+    "velocity": "rad/s",
+    "torque": "N m",
+    "kp": "N m/rad",
+    "kd": "N m s/rad",
+    "temperature": "degC",
+    "transform": "motor_q = r * joint_q + motor_zero; motor_v = r * joint_v; motor_tau = joint_tau / r; motor_kp,kd = joint_kp,kd / r^2; ideal static mapping, r/zero/efficiency not identified on actual device"
+  },
+  "source_protocol_scaling_not_hardware_safe_limits": {
+    "4310": {
+      "pmax_rad": 12.5,
+      "vmax_rad_s": 30,
+      "tmax_nm": 10
+    },
+    "4340P": {
+      "pmax_rad": 12.5,
+      "vmax_rad_s": 10,
+      "tmax_nm": 28
+    }
+  },
+  "side_effect_review": {
+    "protocol_rs": "pure byte/arithmetic routines; no opening",
+    "dm_serial_rs": "DmSerialBus::open calls serialport.open; send writes port; therefore not executed",
+    "motor_rs": "new constructs state; enable/disable/maintenance methods call bus.send; none executed",
+    "python_core": "Controller constructors call ABI bus-open routines; from_dm_device calls runtime installation helper; not imported or instantiated",
+    "ast_isolation": "Only reviewed forwarding/error methods extracted, no __init__ or imports; fake lib contains no I/O"
+  },
+  "resolved_this_package": [
+    "public adapter transport selection",
+    "reviewable actual protocol source",
+    "offline MIT/serial encoding and feedback",
+    "explicit model/ID/configuration contract",
+    "local error/timeout inhibition and communication-vs-power separation"
+  ],
+  "remaining_exact_inputs": [
+    "Actual DM V4 adapter/motor firmware revisions and installed CAN/master IDs",
+    "J2..J7 motor model assignment, calibrated joint sign/zero/ratio, travel/speed/torque limits",
+    "Actual CAN bitrate, termination count, connector cavity views and signal return/isolation/backfeed",
+    "Real sample frames and a matching Rust/ABI build for end-to-end byte/ABI validation",
+    "Hardware power interlock K1 and bus-energy behavior; mechanical support and measured stop time"
+  ],
+  "protocol_limitations": [
+    "Upstream TX CRC field fixed zero; RX envelope has no validated checksum here. Cannot certify corruption detection.",
+    "DM payload has no authenticated timestamp/sequence; local API sequence blocks repeated local calls only, not valid wire replay or forged telemetry.",
+    "MOS/rotor byte temperatures and status fault flags are parsed; no unverified thermal threshold is invented.",
+    "Ambiguous register-like sensor bytes are rejected conservatively. Receiver does not implement maintenance replies."
+  ],
+  "hardware_execution": false,
+  "build_approved": false,
+  "scientific_gate_credit": false
+}

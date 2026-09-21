@@ -1,0 +1,86 @@
+# V2.1 Master Skeleton 参数增量（相对 V2.0 b3_build_spec.yaml）
+# 规则：冻结值原样入方程文件；无证据值只建变量名，value: UNKNOWN，禁填"看起来合理"的数。
+# 方程出口：System_Equations_V2_1.txt。当前 D-EQ-01 环境下外部方程 API 未打通，
+# 因此各原生文件只以 PARAM_* 自定义属性镜像，并由 A2 账本对拍；不得声称已建立原生外链。
+delta_id: V2_1_MASTER_SKELETON_DELTA
+baseline: Space_Embodied_Robot_CAD_V2_0/automation/b3_build_spec.yaml
+envelope_rule: COMPETITION_DISPLAY_V0 340.5×226.3×226.3 不变；366mm CDS 参考包络禁止混入（另属未来 V3_CDS_REFERENCE）
+
+equations_file: System_Equations_V2_1.txt   # 系统级文本权威（V2.1 新增）
+solidworks_external_equation_link:
+  status: HOLD_D_EQ_01_API_UNAVAILABLE
+  implemented_fallback: PARAM_* custom-property mirror + A2 ledger comparison
+  claim_limit: 不是 SolidWorks 原生外部方程链接；尺寸仍由构建脚本显式生成
+
+parameters_frozen:      # 直接继承 V2.0 冻结值
+  BUS_L: 340.5
+  BUS_W: 226.3
+  BUS_H: 226.3
+  FRAME_FRONT_X: 170.25          # 前任务面（前端框外缘）
+  FRAME_MID1_X: 56.75            # 前/中舱横框站位
+  FRAME_MID2_X: -56.75           # 中/后舱横框站位
+  FRAME_REAR_X: -170.25          # 后端框外缘
+  ARM_MOUNT_X: 185.25            # M 面（T_SM 冻结）
+  ARM_MOUNT_PLATE_SIZE: 160.0    # EVIDENCE_BOUND 法兰/板边长
+  ARM_BOSS_D: 100.0              # EVIDENCE_BOUND boss 直径
+  PANEL_L: 200.0                 # 翼板展长（SSOT frozen）
+  PANEL_W: 227.0                 # 翼板弦长
+  PANEL_T: 6.0                   # 翼板厚
+  PANEL_ROOT_Y: 113.15           # 根部平面（±Y 体面）
+  LONGERON_OFFSET_Y: 105.65      # V2.0 显示提案值（DESIGN_PROPOSAL，可在 B4-1 重估）
+  LONGERON_OFFSET_Z: 105.65
+
+parameters_new_named_only:   # V2.1 新变量：仅建名，值 UNKNOWN（B4-1 亦不得臆填）
+  PANEL_HINGE_AXIS_Z: UNKNOWN      # 铰链轴线 Z 位置（待太阳翼 ICD）
+  PANEL_DEPLOY_ANGLE: UNKNOWN      # 展开角（部署运动学未授权）
+  SERVICE_PANEL_GAP: UNKNOWN
+  HARNESS_CORRIDOR_W: UNKNOWN
+  MAINTENANCE_CLEARANCE: UNKNOWN
+  SA_ROOT_BRACKET_ENVELOPE: UNKNOWN   # 根部支座包络（trade study 冻结方案后由项目 ICD 定）
+  HINGE_BLOCK_ENVELOPE: UNKNOWN
+  HDRM_ENVELOPE: UNKNOWN              # hold-down/release 参考包络
+
+must_stay_unknown:    # 与用户指令一致的硬 UNKNOWN 清单
+  - 铰链轴径 / 轴承类型
+  - 弹簧刚度与预紧角
+  - 释放丝材料与直径 / 锁定机构
+  - 展开冲击 / 铰链寿命
+  - 线缆弯曲半径
+  - 面板材料与铺层 / 太阳电池厚度
+
+structure_semantic_classes:   # V2.1 对象语义分类（替代"好看的加强筋"）
+  - LOAD_PATH_INTENT
+  - VISUAL_COVER
+  - SERVICE_OPENING
+  - CABLE_PASSAGE
+  - NON_STRUCTURAL_PANEL
+
+load_path_freeze_candidate:   # B4-0 冻结候选（对抗轮裁剪后入 trade study）
+  chain: B601 base → boss → adapter plate → front load-spreading frame →
+         four longitudinal members → mid transverse frame → spacecraft body
+  rule: 机械臂安装框不与太阳翼铰链共用局部薄壁载荷区；太阳翼根部独立支座
+
+assembly_tree_proposal: 见用户指令第五节（Primary_Frame/Equipment_Decks/Removable_Panels/
+  Solar_Array_Root_Module_L+R/Solar_Wing_L+R 分立；B601_Visual_Arm_V2_0 原样继承不重构）
+
+performance_management:
+  speedpak_configs: [FULL_REVIEW, STRUCTURE_ONLY, SOLAR_MECHANISM_REVIEW,
+                     B601_SPEEDPAK, COMPETITION_RENDER, SERVICE_ACCESS]
+  rule: 干涉检查禁用缺关键几何的 SpeedPak 配置；出图前切完整解析
+
+human_rulings_applied:
+  C1: LOAD_PATH_INTENT 构件开口逐项走规则3；甲板不整类豁免
+  C2: 翼根支撑选择 MID2 ±Y 节点垫；必要时 REAR 同机制辅垫；驳回新增桥带
+  C3: ±Y 面板在 MID1 站位分段；前段全态可拆，后段仅 DEPLOYED/SERVICE
+  C4: HDRM 站位限 MID2+REAR；禁止 MID1
+  C5: OPEN；收拢叠厚与项目包络语义未签发
+
+b4_1_realization:
+  authorization: GRANTED
+  root: 20_engineering/cad/Space_Embodied_Robot_CAD_V2_1
+  native_inventory: {SLDPRT: 51, SLDASM: 9, SLDDRW: 0}
+  state_family: [STOWED, DEPLOYED_NOMINAL, DEPLOY_FAILED_BOTH, L_FAIL, R_FAIL, PARTIAL, SERVICE]
+  mechanism_references: ZERO_SOLID_NAMED_ONLY
+  speedpak_configs: HOLD_NOT_CREATED
+  native_drawing_package: HOLD_NOT_PRODUCED
+  physical_mechanism_gate: HOLD

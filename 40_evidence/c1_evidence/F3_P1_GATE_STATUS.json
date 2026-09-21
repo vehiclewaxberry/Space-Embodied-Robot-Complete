@@ -1,0 +1,122 @@
+{
+  "schema": "F3_P1_GATE_STATUS_V1",
+  "gate_id": "F3_P1_HIFI_ATTACHMENT_AND_T005",
+  "generated_local": "2026-08-05",
+  "authorization": {
+    "planning": "F3_P0_ARCHITECTURE_DRAFT_ACCEPTED_WITH_HAG_A_FIRST",
+    "hag_a": "HAG_A_PARTIAL_PASS_WITH_NAMED_LINK_HOLDS",
+    "f3_p1": "AUTHORIZED"
+  },
+  "subgates": {
+    "visual_packages": {
+      "status": "PASS",
+      "packages_created": 10,
+      "total_objects": 133,
+      "note": "All 10 links have independent visual packages with proper AuthorityRole/DynamicsMassAuthority/JointAuthority properties"
+    },
+    "transform_validation": {
+      "status": "PASS",
+      "transforms_validated": 8,
+      "all_pass": true,
+      "note": "All 8 B5.0 transforms validated: orthogonal, det=+1, no scale, no reflection, mm scale"
+    },
+    "p_branch_independence": {
+      "status": "PASS",
+      "left_objects": 1,
+      "right_objects": 1,
+      "independent": true,
+      "no_mimic": true,
+      "note": "gripper_left (01_Finger) and gripper_right (01_Finger001) split as independent P-branches"
+    },
+    "stow_fk_alignment": {
+      "status": "PASS",
+      "stow_q_source": "O13_STOW_VECTOR_V3_REPORT.md",
+      "frames_computed": 10,
+      "note": "STOW FK frames computed for all 10 links using v3 stow vector"
+    },
+    "handedness_check": {
+      "status": "PASS",
+      "links_checked": 8,
+      "all_right_handed": true,
+      "note": "All 8 transforms have det=+1 (right-handed)"
+    },
+    "joint_boundary": {
+      "status": "PASS",
+      "joints_checked": 9,
+      "crossings_detected": 0,
+      "note": "No rigid body crosses motion joint boundary"
+    },
+    "t005_a": {
+      "status": "PASS",
+      "named_states": 5,
+      "joint_perturbations": 48,
+      "random_poses": 20,
+      "note": "Q0, STOWED, DEPLOYED_NOMINAL, PARTIAL, SERVICE all PASS. 20 random poses with fixed seed 42."
+    },
+    "t005_b": {
+      "status": "PASS",
+      "rounds": 3,
+      "steps_per_round": 10,
+      "all_reset_pass": true,
+      "max_reset_error_mm": 0.0,
+      "note": "3 rounds of sequential drive + explicit reset. No drift, no crosstalk."
+    },
+    "t005_c": {
+      "status": "PASS",
+      "packages_tested": 10,
+      "all_pass": true,
+      "total_elapsed_s": 35.87,
+      "note": "All 10 visual packages pass cold reopen: objects match, part features match, volume match, hash unchanged."
+    },
+    "repair_boundary": {
+      "status": "PASS",
+      "invalid_parts": 3,
+      "originals_preserved": true,
+      "healed_copies": 0,
+      "note": "3 DM-J4340P* originals preserved. No healed copies created (not authorized)."
+    },
+    "gui_witness": {
+      "status": "HOLD_NOT_WITNESSED",
+      "note": "GUI import witness not performed in this automated pass. FreeCADCmd is authorized interface."
+    }
+  },
+  "pass_criteria_checklist": {
+    "ten_link_all_attached": true,
+    "139_matched_objects_unique_ownership": true,
+    "accessory_status_complete": true,
+    "8_provisional_transforms_closed": true,
+    "two_p_independent": true,
+    "q0_pass": true,
+    "stow_pass": true,
+    "handedness_pass": true,
+    "joint_boundary_pass": true,
+    "t005_a_pass": true,
+    "t005_b_pass": true,
+    "t005_c_pass": true,
+    "accepted_urdf_zero_mod": true,
+    "donor_zero_mod": true,
+    "cad_mass_not_overwrite_dynamics": true,
+    "gui_witness": false
+  },
+  "verdict": "F3_P1_PARTIAL_PASS_WITH_NAMED_GEOMETRY_HOLDS",
+  "verdict_class": "HIFI_ATTACHMENT_COMPLETE_WITH_GUI_WITNESS_HOLD",
+  "verdict_rationale": [
+    "All 10 links have independent visual packages with proper authority properties.",
+    "8 B5.0 transforms validated: orthogonal, det=+1, no scale, no reflection, mm scale.",
+    "gripper_left/right split as independent P-branches with no mimic.",
+    "STOW FK frames computed for all 10 links using v3 stow vector.",
+    "All transforms right-handed (det=+1).",
+    "No rigid body crosses motion joint boundary.",
+    "T005-A/B/C all PASS (5 named states, 48 perturbations, 20 random poses, 3 rounds, 10 cold reopen).",
+    "3 DM-J4340P* originals preserved with repair boundary register.",
+    "GUI witness not performed — this is the only named hold.",
+    "Accepted URDF and donor STEP zero modification verified."
+  ],
+  "ready_for_f3_p2": true,
+  "f3_p2_scope": "Mechanical interface design: base adapter, load bridge, G07/G08 stow restraint, HDRM. HIFI geometry is now ACCEPTED_VISUAL_GEOMETRY_CANDIDATE.",
+  "named_holds": [
+    "HOLD_GUI_WITNESS_NOT_PERFORMED"
+  ],
+  "next_authorized_recommendation": "F3_P2_MECHANICAL_INTERFACE_DESIGN",
+  "next_authorized_scope": "Base adapter, load bridge, G07/G08 stow restraint, HDRM. Do not redesign B601 internal joints or use HIFI for mass/inertia."
+}

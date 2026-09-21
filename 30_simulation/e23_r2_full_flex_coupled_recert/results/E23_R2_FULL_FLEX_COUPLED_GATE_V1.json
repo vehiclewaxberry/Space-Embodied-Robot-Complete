@@ -1,0 +1,240 @@
+{
+  "schema": "E23_R2_FULL_FLEX_COUPLED_GATE_V1",
+  "technical_verdict": "PASS_WITH_DECLARED_PROVISIONAL_PHYSICS",
+  "scope": "CHECKPOINT-A recertification of current R2 rigid/flexible coupled diagnostics with the Round4 seven-mode ROM; no mission release",
+  "criteria": [
+    {
+      "id": "G01",
+      "name": "fail-closed authority preflight",
+      "pass": true
+    },
+    {
+      "id": "G02",
+      "name": "all numerical outputs finite",
+      "pass": true
+    },
+    {
+      "id": "G03",
+      "name": "pre/post/Delassus SPD",
+      "pass": true
+    },
+    {
+      "id": "G04",
+      "name": "contact linear/angular momentum absolute+relative and work-energy audits",
+      "pass": true
+    },
+    {
+      "id": "G05",
+      "name": "attach linear/angular/modal momentum blocks",
+      "pass": true
+    },
+    {
+      "id": "G06",
+      "name": "post linear/angular momentum absolute+relative and energy audits",
+      "pass": true
+    },
+    {
+      "id": "G07",
+      "name": "Radau/BDF bounded-window cross <=5%",
+      "pass": true
+    },
+    {
+      "id": "G08",
+      "name": "5/10/20/50/100 ms contact coverage",
+      "pass": true
+    },
+    {
+      "id": "G09",
+      "name": "LOW/NOMINAL/HIGH current R2 coverage",
+      "pass": true
+    },
+    {
+      "id": "G10",
+      "name": "nested coupled m6->m7 truncation <=1%",
+      "pass": true
+    },
+    {
+      "id": "G11",
+      "name": "183-DOF HF to seven-mode dynamic truncation <=1%",
+      "pass": true
+    },
+    {
+      "id": "G12",
+      "name": "all current R2 response reconstruction inside linearity domain",
+      "pass": true
+    },
+    {
+      "id": "G13",
+      "name": "rigid degeneration returns RIGID_R2",
+      "pass": true
+    },
+    {
+      "id": "G14",
+      "name": "source-lane/NaN/null/hash/double-count negative controls",
+      "pass": true
+    },
+    {
+      "id": "G15",
+      "name": "diagnostic classifications match rate/H tiers",
+      "pass": true
+    },
+    {
+      "id": "G16",
+      "name": "provisional damping isolated without Gate credit",
+      "pass": true
+    },
+    {
+      "id": "G17",
+      "name": "three-lane/two-scenario co-presentation: current-scope numeric comparison complete, legacy reference guarded non-causal, no empty comparison set",
+      "pass": true
+    },
+    {
+      "id": "G18",
+      "name": "e15/harness/review/next/release guards retained",
+      "pass": true
+    }
+  ],
+  "summary": {
+    "passed": 18,
+    "total": 18,
+    "failed": []
+  },
+  "key_metrics": {
+    "cross_solver_max_relative": 1.8136532292893113e-05,
+    "rigid_degeneration_max_relative": 0.0,
+    "hf_to_rom_seven_mode_max_relative": 0.0027143911284986865,
+    "hf_to_rom_limit": 0.01,
+    "independent_best_any_5D_HF_subset_max_relative": 0.010829637562359794,
+    "independent_minimum_passing_dimension": 6,
+    "executed_rom_dimension_preserving_three_bending_modes": 7,
+    "linearity_all_current_R2": true,
+    "three_lane_comparison_state": "COMPLETE_CURRENT_SCOPE__LEGACY_HISTORICAL_REFERENCE_GUARDED",
+    "current_max_linear_momentum_absolute_Ns": 8.222661409824415e-14,
+    "current_max_angular_momentum_absolute_Nms": 1.7772978511113677e-13,
+    "current_max_contact_energy_relative": 1.400052292878299e-09,
+    "22kg_nominal_omega_plus_equiv_dps": 0.1603671648970606,
+    "22kg_nominal_Hc_Nms": 0.011782323851997206,
+    "150kg_nominal_omega_plus_equiv_dps": 3.042713056507504,
+    "150kg_nominal_Hc_Nms": 3.6466119549031752
+  },
+  "authority_dispositions": {
+    "diagnostic_gate_classification": "PROVISIONAL_E22_DIAGNOSTIC",
+    "sim10_authority_inheritance": "NOT_INHERITED_THRESHOLD_HASH_DRIFT",
+    "e15_current": "REPEAT_ANCF_CERTIFICATION",
+    "e15_inheritance": "NOT_INHERITED",
+    "linear_subset": "E15_R2_LINEAR_SUBSET_PASS",
+    "harness": "UNSAFE_INDEPENDENT_FACT",
+    "review_status": "PENDING_OWNER_REVIEW",
+    "next_stage_authorized": false,
+    "release_credit": false
+  },
+  "risk_and_followup": {
+    "root_cause_E22": "CONTRACT_BOUNDED_ROM_DIMENSION_INSUFFICIENT_FOR_1PCT_DYNAMIC_RECONSTRUCTION",
+    "resolution_executed": "Owner TMC-01 authorized ROM reselection to 7D B1-B3+T1-T4; Round4 V3 gate 17/17 PASS_WITH_DECLARED_PROVISIONAL_PHYSICS; this E23 package is the coupled recertification",
+    "independent_falsifier": {
+      "provenance": "HASH_PINNED_CHECKPOINT_A_RED_TEAM_FALSIFIER",
+      "source_artifact_sha256": "D219E69FE8D3555228BB007774F0B59F4F5BDFAD7711569EB7CD074130104E18",
+      "source_recompute_script_sha256": "2CEEA915A5A4B0D29891DA96FEA21816E855C4D380A2692BB526369E41E5C3EC",
+      "definition": "max over LEFT/RIGHT and metrics of abs(candidate_peak-HF_peak)/max(abs(HF_peak),1e-14)",
+      "first_12_HF_modes_all_five_dimensional_subsets_tested": 792,
+      "all_five_dimensional_subsets_fail_1pct": true,
+      "best_five_dimensional_subset": {
+        "HF_indices_0based": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "labels": [
+          "B1",
+          "T1",
+          "T2",
+          "B2",
+          "T3"
+        ],
+        "max_relative_error": 0.010829637562359794,
+        "governing_metrics": [
+          "L_torsion_peak_rad",
+          "R_torsion_peak_rad"
+        ]
+      },
+      "minimum_passing_six_dimensional_subset": {
+        "HF_indices_0based": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "labels": [
+          "B1",
+          "T1",
+          "T2",
+          "B2",
+          "T3",
+          "T4"
+        ],
+        "max_relative_error": 0.006575808515557166,
+        "governing_metrics": [
+          "L_hinge_peak_rad"
+        ]
+      },
+      "passing_subset_retaining_three_bending_modes": {
+        "HF_indices_0based": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+        ],
+        "labels": [
+          "B1",
+          "T1",
+          "T2",
+          "B2",
+          "T3",
+          "T4",
+          "B3"
+        ],
+        "max_relative_error": 0.002714391128536163,
+        "governing_metrics": [
+          "L_torsion_peak_rad",
+          "R_torsion_peak_rad"
+        ]
+      },
+      "additional_torsion_frequencies_hz": {
+        "TORSION_3": 31.31314700020132,
+        "TORSION_4": 43.86844952995683
+      },
+      "P2_max_modes_per_wing_historical": 5,
+      "P2_max_modes_per_wing": 7,
+      "disposition": "ROM_DIMENSION_INSUFFICIENT_WITHIN_P2_MAX5; do not change basis, threshold or upstream Round3 silently"
+    },
+    "required_resolution_E22_historical": "Owner/P2 contract change and upstream ROM regeneration: use a reselected 6D B1+B2+T1-T4 family, or 7D B1-B3+T1-T4 if preserving Round3's three-bending family; EXECUTED here as the 7D family per Owner TMC-01",
+    "projected_propagator_cross_scope": "G07 binds Radau/BDF only on the bounded implicit-ODE window. A separate read-only 0.5 s PROJECTED_EXPONENTIAL versus implicit witness is about 1.59e-5, but is not machine-bound by this Gate; projected P/H/E enforcement is therefore not claimed as an independent long-horizon algorithm validation"
+  },
+  "evidence_hashes": {
+    "30_simulation/e23_r2_full_flex_coupled_recert/config/e23_config.yaml": "0B79BF3AC8C903F3799EE9F33BB001F326FA5E1E9A998166FE3855EFE7EADF0B",
+    "30_simulation/e23_r2_full_flex_coupled_recert/src/e23_model.py": "3867F7945A3260381A2A594BB7FBE03ABB14DD71EA9039E942F74E3E28AABB71",
+    "30_simulation/e23_r2_full_flex_coupled_recert/src/build_e23.py": "9EB9E95168666187EF2FA5C1852433875256E789D08DF03AD44475102B9F4BBC",
+    "30_simulation/e23_r2_full_flex_coupled_recert/README.md": "5EDF88B734D2DDC87C58F73312BAFB2228CB19347CAD96776E8670DA117BEB93",
+    "30_simulation/e23_r2_full_flex_coupled_recert/tests/test_e23.py": "797713B6541F7307E12B738D4E30AE081719AD721867184938A83798F18E2EB3",
+    "30_simulation/e23_r2_full_flex_coupled_recert/tests/independent_recompute.py": "71959F843C5FD315273D13D16F4106449BFBDBF80B6B02D66AE2781E8EDF3CCC",
+    "30_simulation/e23_r2_full_flex_coupled_recert/tests/replay_determinism.py": "BD56D010CA7F98EC6CAA967A775119D4F85C779E8EB15C5DA5F72F797BF8AE72",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/checkpoint_a/red_team/ROM5_DIMENSION_FALSIFIER_V1.json": "D219E69FE8D3555228BB007774F0B59F4F5BDFAD7711569EB7CD074130104E18",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/checkpoint_a/red_team/recompute_rom5_dimension_falsifier.py": "2CEEA915A5A4B0D29891DA96FEA21816E855C4D380A2692BB526369E41E5C3EC",
+    "30_simulation/e23_r2_full_flex_coupled_recert/results/E23_SOURCE_AND_AUTHORITY_AUDIT_V1.json": "F2D0C421C7AE380B43D2E27551070BF03F2CD6128F1C9202E4D417504D5036D5",
+    "30_simulation/e23_r2_full_flex_coupled_recert/results/E23_R2_COUPLED_CASES_V1.json": "3D5BFCCC6CAF8D619187780A466259145C65A9C46B60CDBACE9A510E63336841",
+    "30_simulation/e23_r2_full_flex_coupled_recert/results/E23_R2_SENSITIVITY_AND_VALIDATION_V1.json": "1A00B1E9E1A0F22F56FC763117842A278483FC2C6BA5CDB6FEFF5FED2EC1A907",
+    "30_simulation/e23_r2_full_flex_coupled_recert/results/R2_HF_TO_ROM_DYNAMIC_VALIDATION_V1.json": "9245285A0BB9FE3A6244FB7A7A626CDCF20B632E6048B937BB60E53A066E1831",
+    "30_simulation/e23_r2_full_flex_coupled_recert/results/E23_CASE_MATRIX_V1.csv": "C4827618DC82503CA5C0EAFEA8B4ECA5885FE0E66021C69296088F9C6D3C9A55"
+  },
+  "self_hash_policy": "SELF_REFERENCE_EXCLUDED",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

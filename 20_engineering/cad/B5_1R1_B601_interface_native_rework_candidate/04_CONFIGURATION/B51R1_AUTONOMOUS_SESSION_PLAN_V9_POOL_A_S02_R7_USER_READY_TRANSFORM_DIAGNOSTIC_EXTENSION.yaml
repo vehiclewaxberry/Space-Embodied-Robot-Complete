@@ -1,0 +1,42 @@
+schema: B51R1_AUTONOMOUS_SESSION_PLAN_V9_POOL_A_S02_R7_USER_READY_TRANSFORM_DIAGNOSTIC_EXTENSION
+generated_at: '2026-08-03T03:03:00+08:00'
+status: POOL_A_ONE_SLOT_USER_READY_DIAGNOSTIC_EXTENSION_AUTHORIZED_FOR_S02_R7_ONLY
+base_plan: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V3_PHASED.yaml
+prior_extension: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V8_POOL_A_S02_R6_SPARSE_DELAYED_TRANSFORM_DIAGNOSTIC_EXTENSION.yaml
+effective_pool_a_capacity: 18
+added_slot:
+  id: A18_S02_R7_USER_READY_TRANSFORM_DIAGNOSTIC
+  envelope: S02_R7
+  substages:
+    - USER_OPENED_SINGLE_VISIBLE_RESPONSIVE_DOCUMENT_EMPTY_SESSION
+    - ONE_SHOT_STRONG_TYPED_EXISTING_SESSION_READINESS_PROBE
+    - PID_BOUND_INPUT_LOCK
+    - TRANSFORM_CONVENTION_PROBE_READ_ONLY
+  additional_slots_added: 1
+  additional_slots_beyond_a18: 0
+  cad_write_allowed: false
+  save_api_allowed: false
+  active_candidate_pointer_allowed: false
+trigger:
+  incident: 07_VERIFICATION/AUTONOMOUS/S02_R6/B51R1_S02_R6_AUTOMATED_STARTUP_COMPLETION_BLOCKING_INCIDENT.json
+  prior_slot: A17_S02_R6_SPARSE_DELAYED_TRANSFORM_DIAGNOSTIC
+  prior_slot_status: FAIL_CLOSED_BEFORE_INPUT_LOCK_AND_CAD_OPEN_STARTUP_NOT_COMPLETE
+  owner_runtime_signal: USER_CONFIRMED_SOLIDWORKS_READY_AND_EMPTY
+runtime_boundary:
+  expected_process_id: 34896
+  process_count: 1
+  visible: true
+  responsive: true
+  document_count: 0
+  readiness_probe_route: STRONG_TYPED_CSHARP_MARSHAL_GETACTIVEOBJECT
+exit_rule:
+  pass: TRANSFORM_CONVENTION_EVIDENCE_CAPTURED_AND_CLASSIFIED
+  fail: PRESERVE_ALL_OUTPUTS_AND_KEEP_S02_BLOCKED
+downstream_hold:
+  s02_cold_reopen_pass: true
+  active_candidate_pointer: true
+  property_writer_qualification: true
+  s03: true
+  carrier_creation: true
+  joint_creation: true
+claim_limit: SINGLE_READ_ONLY_DIAGNOSTIC_SLOT_ONLY_NO_S02_PASS_ACTIVE_CANDIDATE_OR_S03_CREDIT

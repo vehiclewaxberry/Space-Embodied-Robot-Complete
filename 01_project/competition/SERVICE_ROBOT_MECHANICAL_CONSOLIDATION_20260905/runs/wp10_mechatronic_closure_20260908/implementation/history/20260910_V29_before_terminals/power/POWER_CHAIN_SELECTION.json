@@ -1,0 +1,130 @@
+{
+  "schema": "WP10_PUBLIC_SOURCE_POWER_SELECTION_V1",
+  "status": "INTEGRATED_POWER_CANDIDATE_WITH_EXPLICIT_OPEN_ENGINEERING_GATES",
+  "battery": {
+    "MPN": "RRC3570-4",
+    "PN": "110338",
+    "nominal_V": 25.2,
+    "energy_Wh": 407.43,
+    "continuous_A": 30,
+    "nominal_mass_kg": 2.08,
+    "dimensions_max_mm": [
+      189.5,
+      85.5,
+      82.2
+    ],
+    "minimum_terminal_V": null,
+    "source": "rrc3570_4.pdf p4-5"
+  },
+  "manager": {
+    "MPN": "RRC-PMM35",
+    "PN": "110297",
+    "input_V": [
+      19,
+      24
+    ],
+    "battery_discharge_A": 20,
+    "charge_max_V": 29.4,
+    "charge_max_A": 6,
+    "charge_max_W": 180,
+    "logic_header_positions": 6,
+    "logic_3V3_supply_max_mA": 3,
+    "single_power_contact_A": 10,
+    "public_hole_centers_mm": null,
+    "public_SMBus_registers": null,
+    "source": "pmm35.pdf A p2-3; supersedes inconsistent webpage 5-pin summary",
+    "active_main_power_path": false,
+    "proposed_charger_only_external_parallel_load_supported": null,
+    "proposed_charger_only_status": "UNCONFIRMED_NOT_CONNECTED_IN_NATIVE_CIRCUIT",
+    "public_mount_hole_count": 4,
+    "integrated_battery_connector_angle_deg": 90
+  },
+  "converter": {
+    "MPN": "CHB500W-24S24N",
+    "quantity": 1,
+    "rated_V": 24,
+    "rated_A": 21,
+    "input_V": [
+      9.5,
+      40
+    ],
+    "logic": "NEGATIVE; open=OFF; connect pin2 to pin4=ON; input-referenced",
+    "parallel": false,
+    "mounting": "4 M3x0.5 inserts; standard mechanical OEM STEP",
+    "efficiency_full_operating_range_min": null,
+    "output_reverse_current_allowed": false,
+    "source": "cincon_chb500w.pdf V12; chb500w_application.pdf V13"
+  },
+  "integration": {
+    "old_D_99_ref_system_unchanged": true,
+    "old_873_assembly_unchanged": true,
+    "candidate_new_sources": [
+      "mechanical/converter_carrier.step.py",
+      "mechanical/converter_installation.step.py",
+      "ecad/wp10_converter_reference.kicad_sch",
+      "ecad/PMM35_TOPVIEW_ENDPOINTS.csv"
+    ],
+    "energization_allowed": false,
+    "orbit_power_closed": false,
+    "flight_qualified": false,
+    "derived_A_system": "ecad/wp10_system.kicad_sch",
+    "derived_system_includes_original_99_refs": true,
+    "new_source_pin_pages_integrated": true
+  },
+  "decision_basis": [
+    "single protected pack removes MB2590 pair coupling",
+    "single 21A output module removes i7C current-sharing dependency",
+    "battery has manufacturer-listed matching PMM35 charging ecosystem",
+    "store more energy without claiming solar replenishment or minimum usable energy",
+    "module-level COTS reused; adapter carrier is project responsibility"
+  ],
+  "known_blockers": [
+    "Battery D Sys Detect and protected-terminal connector binding absent; E revision retained separately",
+    "PMM charger-only parallel-load wiring not manufacturer confirmed; charging source and mode control unimplemented",
+    "F201/C203 MPNs selected; fuse L/R and clearing, C203 ripple/temperature, startup/SOA and efficiency qualification unverified",
+    "Independent THN static screen fits STOP; dynamic amplitude and STOP internal rail stability remain UNKNOWN",
+    "LM74800 and absolute brake circuit integrated; clamp timing/mission energy/PCB switching and thermal capacity unverified",
+    "Primary-side automatic CHB enable circuit implemented; brown-ramp, PGD open-wire, response and latched reset verification remain open",
+    "Local TIM designed; radiator, battery/PMM retention and full873 integration remain open"
+  ],
+  "independent_aux": {
+    "MPN": "THN 30-2415WIR",
+    "static_screen_0_50C_V": [
+      23.544,
+      24.456
+    ],
+    "old_STOP_contract_V": [
+      23.04,
+      24.96
+    ],
+    "residual_dynamic_and_wiring_margin_V": 0.504,
+    "output_external_caps_nominal_uF": 13.6,
+    "external_caps_max_uF": 16.32,
+    "load_cap_limit_uF": 375,
+    "unknown_internal_STOP_input_capacitance_uF": null,
+    "ripple_max_Vpp": null,
+    "transient_deviation_max_V": null,
+    "dynamic_pass": false
+  },
+  "load_side_brake": {
+    "actual_circuit_integrated": true,
+    "local_CAD_integrated": true,
+    "physical_hardware_installed": false,
+    "qualified": false
+  },
+  "shared_battery_path": {
+    "active_model": "tools/shared_battery_path.py",
+    "definition": "power/SHARED_BATTERY_PATH_DEFINITION.json",
+    "calculations": "power/SHARED_BATTERY_PATH_CALCULATIONS.json",
+    "old_uncoupled_sensitivities_retained": true,
+    "meaning": "Both discharge branches now see shared MC35 loop drop; main and AUX branch resistances exclude that loop.",
+    "OEM_50mOhm_test_definition_confirmed": false,
+    "full_power_thermal_verified": false,
+    "input_capacitor_leakage_scenario_A": 0.003
+  },
+  "input_passives": "power/INPUT_PASSIVE_SELECTION.json",
+  "input_passive_calculations": "power/INPUT_PASSIVE_CALCULATIONS.json",
+  "input_capacitor_mechanical_interface": "ecad/C203_MECHANICAL_INTERFACE.json",
+  "current_mechanical_source_plan": "mechanical/INPUT_CAP_MOUNT_INSTANCE_PLAN.json",
+  "input_fuse_coordination": "power/INPUT_FUSE_COORDINATION.json"
+}

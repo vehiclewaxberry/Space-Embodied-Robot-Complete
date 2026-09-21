@@ -1,0 +1,371 @@
+{
+  "status": "CONDITIONAL_DESIGN_CALCULATED__NOT_HARDWARE_RELEASE",
+  "obc": {
+    "source_dynamic_min_v": 3.27,
+    "load_worst_min_v": 3.219684511188268,
+    "load_worst_max_at_zero_current_v": 3.34,
+    "margin_low_v": 0.019684511188267972,
+    "margin_high_v": 0.06000000000000005,
+    "max_current_a": 0.27953049339851094,
+    "wire_screen_ohm": 0.046116408000000005,
+    "wire_plus_contact_screen_ohm": 0.176116408,
+    "required_source_min_before_dynamic_v": 3.2706250000000003,
+    "required_source_max_before_dynamic_v": 3.38,
+    "conditional_voltage_pass": true,
+    "source_guarantee_not_established": true
+  },
+  "pv": {
+    "cold_voc_screen_v": 22.506736,
+    "cold_voc_required_max_v": 23.0,
+    "hot_EOLe15_mpp_at_ACU_v": 11.339739999999999,
+    "channel_max_isc_screen_a": 1.1741840000000001,
+    "series_bounds_screen": [
+      4,
+      7
+    ],
+    "parallel_max_screen": 3,
+    "installed_cells": 84,
+    "cell_glass_footprint_m2": 0.27031389,
+    "panel_area_requirement_m2": 0.3180163411764706,
+    "CIC_mass_only_reference_kg": 0.3024,
+    "sun_bus_power_conditional_w": 31.495549069670403,
+    "conditional_range_pass": true,
+    "cold_extrapolation_outside_datasheet_coefficient_range": true,
+    "actual_array_range_pass": null,
+    "guaranteed_cold_Voc_upper_bound_required": 3.2857142857142856
+  },
+  "budget": {
+    "mode_rows": [
+      {
+        "name": "SURVIVAL_ECLIPSE",
+        "duration_min": 35,
+        "sun": false,
+        "OBC_w": 0.9,
+        "other_loads_w": 2.0,
+        "heater_w": 6.0,
+        "propulsion_w": 0.0,
+        "regulated_load_w": 2.9,
+        "battery_equivalent_w": 11.125,
+        "energy_wh": 6.489583333333333
+      },
+      {
+        "name": "SUN_RECHARGE",
+        "duration_min": 45,
+        "sun": true,
+        "OBC_w": 0.9,
+        "other_loads_w": 8.0,
+        "heater_w": 0.0,
+        "propulsion_w": 0.0,
+        "regulated_load_w": 8.9,
+        "battery_equivalent_w": 12.625,
+        "energy_wh": 9.46875
+      },
+      {
+        "name": "SERVICE_SENSING",
+        "duration_min": 10,
+        "sun": true,
+        "OBC_w": 0.9,
+        "other_loads_w": 18.0,
+        "heater_w": 0.0,
+        "propulsion_w": 0.0,
+        "regulated_load_w": 18.9,
+        "battery_equivalent_w": 25.124999999999996,
+        "energy_wh": 4.187499999999999
+      },
+      {
+        "name": "PROPULSION_WINDOW",
+        "duration_min": 5,
+        "sun": true,
+        "OBC_w": 0.9,
+        "other_loads_w": 10.0,
+        "heater_w": 0.0,
+        "propulsion_w": 10.0,
+        "regulated_load_w": 20.9,
+        "battery_equivalent_w": 27.624999999999996,
+        "energy_wh": 2.302083333333333
+      }
+    ],
+    "orbital_window_identity": "95 min illustrative requirement window; not propagated mission orbit",
+    "total_energy_wh": 22.447916666666664,
+    "eclipse_energy_wh": 6.489583333333333,
+    "sun_bus_power_required_w": 23.16898148148148,
+    "sun_bus_power_margin_w": 8.326567588188922,
+    "eclipse_capacity_allocated_wh": 35.7048,
+    "eclipse_energy_pass_conditional": true,
+    "battery_peak_a": 2.5468749999999996,
+    "pdu_input_peak_a": 2.2343749999999996,
+    "peak_limits_pass": true,
+    "minimum_incidence_factor_for_energy": 0.47815765744072364,
+    "future_arm_360W_battery_current_a": 18.8125,
+    "actual_mission_complete": false
+  },
+  "regen": {
+    "resistor_on_power_interval_w": [
+      280.2607619047618,
+      376.3303157894738
+    ],
+    "brake_peak_a": 14.073684210526318,
+    "required_absorb_power_w": 200.0,
+    "repeat_average_w": 5.0,
+    "electrical_arithmetic_pass": true,
+    "contactor_low_current_loss_at15A_requirement_w": 0.225,
+    "U1_input_loss_absorption_verified": false,
+    "motion_permit": false,
+    "pulse_curve_and_DM_bus_absmax_not_bound": true
+  },
+  "nominal_validation_errors": [],
+  "physical_tests": 0,
+  "build_approved": false,
+  "negative_controls": [
+    {
+      "case": "OBC_long_hot_harness",
+      "input_mutation": {
+        "obc.loop_resistance_max_ohm": 0.3
+      },
+      "expected": "OBC_VOLTAGE_OR_DUAL_SUPPLY",
+      "observed": [
+        "OBC_VOLTAGE_OR_DUAL_SUPPLY"
+      ],
+      "detected": true
+    },
+    {
+      "case": "OBC_excess_upper_setpoint",
+      "input_mutation": {
+        "obc.source_voltage_v": [
+          3.28,
+          3.39
+        ]
+      },
+      "expected": "OBC_VOLTAGE_OR_DUAL_SUPPLY",
+      "observed": [
+        "OBC_VOLTAGE_OR_DUAL_SUPPLY"
+      ],
+      "detected": true
+    },
+    {
+      "case": "P1_FSI_double_feed",
+      "input_mutation": {
+        "obc.fsi_powered": true
+      },
+      "expected": "OBC_VOLTAGE_OR_DUAL_SUPPLY",
+      "observed": [
+        "OBC_VOLTAGE_OR_DUAL_SUPPLY"
+      ],
+      "detected": true
+    },
+    {
+      "case": "PV_8_series_cold",
+      "input_mutation": {
+        "pv.Ns": 8
+      },
+      "expected": "PV_RANGE_OR_CURRENT",
+      "observed": [
+        "PV_RANGE_OR_CURRENT"
+      ],
+      "detected": true
+    },
+    {
+      "case": "PV_4_parallel",
+      "input_mutation": {
+        "pv.Np": 4
+      },
+      "expected": "PV_RANGE_OR_CURRENT",
+      "observed": [
+        "PV_RANGE_OR_CURRENT"
+      ],
+      "detected": true
+    },
+    {
+      "case": "PV_shadow",
+      "input_mutation": {
+        "pv.incidence_factor_assumption": 0.2
+      },
+      "expected": "ENERGY_RECHARGE_DEFICIT",
+      "observed": [
+        "ENERGY_RECHARGE_DEFICIT"
+      ],
+      "detected": true
+    },
+    {
+      "case": "PV_missing_blocking",
+      "input_mutation": {
+        "pv.per_string_blocking_diode": false
+      },
+      "expected": "STRING_REVERSE_CURRENT_PATH",
+      "observed": [
+        "STRING_REVERSE_CURRENT_PATH"
+      ],
+      "detected": true
+    },
+    {
+      "case": "BPX_NC_pin14_connected",
+      "input_mutation": {
+        "eps.bpx_pin14_connected": true
+      },
+      "expected": "BPX_PIN14_NC_CONFLICT",
+      "observed": [
+        "BPX_PIN14_NC_CONFLICT"
+      ],
+      "detected": true
+    },
+    {
+      "case": "battery_charge_cold",
+      "input_mutation": {
+        "eps.charge_temperature_requirement_C": [
+          -1,
+          40
+        ]
+      },
+      "expected": "CHARGE_TEMPERATURE_EXCESS",
+      "observed": [
+        "CHARGE_TEMPERATURE_EXCESS"
+      ],
+      "detected": true
+    },
+    {
+      "case": "battery_charge4A",
+      "input_mutation": {
+        "eps.charge_limit_requirement_a": 4
+      },
+      "expected": "CHARGE_CURRENT_EXCESS",
+      "observed": [
+        "CHARGE_CURRENT_EXCESS"
+      ],
+      "detected": true
+    },
+    {
+      "case": "arm360W_on_PDU",
+      "input_mutation": {
+        "peak.PDU_total_w": 360
+      },
+      "expected": "DOCK_OR_PDU_PEAK_EXCESS",
+      "observed": [
+        "DOCK_OR_PDU_PEAK_EXCESS"
+      ],
+      "detected": true
+    },
+    {
+      "case": "RSP_BPX_parallel",
+      "input_mutation": {
+        "configuration.parallel_RSP_BPX": true
+      },
+      "expected": "UNAUTHORIZED_SOURCE_PARALLEL",
+      "observed": [
+        "UNAUTHORIZED_SOURCE_PARALLEL"
+      ],
+      "detected": true
+    },
+    {
+      "case": "regen200J_250ms",
+      "input_mutation": {
+        "stop.stop_energy_requirement_j": 200
+      },
+      "expected": "REGEN_POWER_CURRENT_OR_REPEAT_EXCESS",
+      "observed": [
+        "REGEN_POWER_CURRENT_OR_REPEAT_EXCESS"
+      ],
+      "detected": true
+    },
+    {
+      "case": "regen_repeated_1Hz",
+      "input_mutation": {
+        "stop.repeat_period_requirement_s": 1
+      },
+      "expected": "REGEN_POWER_CURRENT_OR_REPEAT_EXCESS",
+      "observed": [
+        "REGEN_POWER_CURRENT_OR_REPEAT_EXCESS"
+      ],
+      "detected": true
+    },
+    {
+      "case": "dropout_claims_motion",
+      "input_mutation": {
+        "stop.motion_permit": true
+      },
+      "expected": "STOP_DROPOUT_UNVERIFIED",
+      "observed": [
+        "STOP_DROPOUT_UNVERIFIED"
+      ],
+      "detected": true
+    },
+    {
+      "case": "premature_release",
+      "input_mutation": {
+        "build_approved": true
+      },
+      "expected": "UNSATISFIED_PHYSICAL_RELEASE",
+      "observed": [
+        "UNSATISFIED_PHYSICAL_RELEASE"
+      ],
+      "detected": true
+    },
+    {
+      "case": "overcharge_CV",
+      "input_mutation": {
+        "eps.charge_cv_requirement_v": 32.1
+      },
+      "expected": "CHARGE_CV_EXCESS",
+      "observed": [
+        "CHARGE_CV_EXCESS"
+      ],
+      "detected": true
+    },
+    {
+      "case": "propulsion25W",
+      "input_mutation": {
+        "peak.propulsion_12V_branch_peak_w": 25
+      },
+      "expected": "PROPULSION_CHANNEL_EXCESS",
+      "observed": [
+        "PROPULSION_CHANNEL_EXCESS"
+      ],
+      "detected": true
+    },
+    {
+      "case": "5V_shared25W",
+      "input_mutation": {
+        "peak.regulator2_5V_peak_w": 25
+      },
+      "expected": "REGULATOR_SHARED_EXCESS",
+      "observed": [
+        "REGULATOR_SHARED_EXCESS"
+      ],
+      "detected": true
+    }
+  ],
+  "all_negative_controls_detected": true,
+  "source_hashes": {
+    "A3200_DS1006901_2_0.pdf": "43174a4e16c6f2a9b34b68c9d6baa6c1d43d9b9d504a05d6f17fdf21849d34a7",
+    "A3200_DS1006901_2_0.txt": "02859971444f466356ce51192a3bfbda1db7b436a7052327a6d75e552387786d",
+    "ACU200_DS1014406_2_3.pdf": "80f13c97cf8f8bd5506477f5b9a1fa79ce0e3ee0c482a9743a885883a266b74b",
+    "ACU200_DS1014406_2_3.txt": "c86ac6fdb1ba3dd9a1171219de3b70b55987a0a5deb902254dc6c06dff197247",
+    "ACU200_OSF1014027_4_0.pdf": "c68651a903c1c8fe6a5d7107a653bea71f2bf106c5ec775f04abb82266ab7c30",
+    "ACU200_OSF1014027_4_0.txt": "45f5c958bdfc09055ea33a97cb2feab0d799930091ee13a0f0a6a7d3e93e2549",
+    "ACU200_p8.png": "c11da63201deab8e8855ae77cc4c10206808f2c69726d192ac9d16a26a7c8d54",
+    "AZUR_3G30_ADV_4x8_DB00010891_01.pdf": "043f795f37b076dcfb1157231181e90879b6118eff74fc6423fdb06cc9aa4c61",
+    "AZUR_3G30_ADV_4x8_DB00010891_01.txt": "c49f853727dfc045a76c27044e4b9811dadc170da9e14938b4f88ec66d2c1c62",
+    "AZUR_p2.png": "af65213ab35f69665b476ee205df5b9dee6783d9a4b6e072d34314f16990e69d",
+    "BPX100WH_DS1076870_1_1_0.pdf": "8669f8ab693c80e32ffb2a783e1ad1ad7fb76a18dd5888331c131a2a2aec1641",
+    "BPX100WH_DS1076870_1_1_0.txt": "6618db96cb7e7991a487b4b85e4edf44c9756796d1397dd5efb8da7a6d1a3317",
+    "CONTACTOR_OFFICIAL_WEB_RETRIEVAL.json": "29912dccc9f92da35b7e4dc2b506442765244d8d980a279bd3a56ef04ce9f096",
+    "DOCK_OSF1014114_5_2.pdf": "19f9c169eef939136c5f243fe5d7e3746cd3960a15d6510cb5513a3e09fcfdac",
+    "DOCK_OSF1014114_5_2.txt": "714d422995e55a821dafb2fbc051aee395380bce1290a175e80b58cd0c4e71d5",
+    "ETA_ESX10_16A_2405.pdf": "184cde1c8b187a25f4492cda9f982f8e77abd68022844aa1c19f4ea7ead06e28",
+    "ETA_ESX10_16A_2405.txt": "13c67694e182f0693238187074a83af29c76b1fec970d475565efaaf99397560",
+    "MOLEX_SPEC_WEB_RETRIEVAL.json": "7700f8c1789e2369fe5b92d70ec1793accc2975627b6e55ef46c24136893443a",
+    "ODRIVE_REGEN_0_6_12.html": "677094028e169d059578fcc9cf7bae1f0b04ea52ba3f3a53cae7e88a4f48b8c3",
+    "P60_DOCK_3_1.pdf": "1ae31f34a2d2d7902364372b8f426f7630163c4e9d1f45621959cc0c299199b4",
+    "P60_DOCK_3_1.txt": "454e93717fe85e36b87af152685df7e718592378d0dd5482e78bbf2f7f05c786",
+    "P60_PDU200_2_6.pdf": "cb8eb943c91370062493183139b3490a77bc25e3dbc91ea674d6bff168ba838e",
+    "P60_PDU200_2_6.txt": "bee652976677f373ed369f087fd07f0ddd814a64a1ece10f0986435a67e493b5",
+    "PDU200_OPTION_1021197_4_5.pdf": "659714451bfef3bfaf95b101b715c64bed62c399bbc8926c25569b813eb46851",
+    "PDU200_OPTION_1021197_4_5.txt": "a819adfaef7b60977c47ae01f6d2f5cecea116ac765dac8bcbaaf27804e45434",
+    "RSP_500_20250926.pdf": "d6916efdd37e9c5f42abe4764c8bb5032b972ccbe073f8896697e50f12a6dc41",
+    "RSP_500_20250926.txt": "34cc51018f8eb4490f4310c40c838bada5c25ab044535881132a3f527f03a886",
+    "SAMTEC_SFSD.pdf": "c7a04c78d4c69eb1a1de34460c56b70a7f0dbfab0625d5ded4158017f15564df",
+    "SAMTEC_SFSD.txt": "c62a3db4fd80f41d4b737010516464806f5fb72b13c198ba437f8afa672e3691",
+    "SOURCE_MANIFEST.json": "ad2671c33383ee790e2147499e8e2fb1ec137918aba0216d43c8412862243c90"
+  },
+  "contract_sha256": "c831797a33af367a6ad64081bde0c1d0881586552e4bc5c9695bc5ec913b6f4b",
+  "calculator_sha256": "8bf35f60de9b760405f3ef43f9e77c695b6adf156c1a3cf7cd1dfacba3f68cf3"
+}

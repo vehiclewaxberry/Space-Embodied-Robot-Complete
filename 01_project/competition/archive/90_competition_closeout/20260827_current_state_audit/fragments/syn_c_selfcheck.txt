@@ -1,0 +1,41 @@
+SYN-C 自检记录（叙事与计划类交付综合代理）
+生成时间：2026-08-27（本地）。审计模式：综合生成，只读项目资产。
+
+== 一、产出文件清单（7 个最终文件 + 本自检文件）==
+目录：90_competition_closeout/20260827_current_state_audit/
+- 00_READ_FIRST.md                        57 行    6,075 B
+- 09_COMPETITION_DECISION_MEMO.md        173 行   30,712 B
+- 10_FIVE_DAY_CLOSEOUT_PLAN.md           110 行   10,666 B
+- 11_OWNER_ACTIONS_REQUIRED.md            18 行    4,963 B
+- 12_SUBMISSION_PACKAGE_CHECKLIST.md      32 行    5,533 B
+- 13_TITLE_AND_CLAIM_CEILING.md           37 行    5,944 B
+- 14_CURRENT_STATE_DELTA_20260827.md      50 行   10,954 B
+- fragments/syn_c_selfcheck.txt          本文件
+
+== 二、独立复核记录（不依赖 fragments 转述的直接核验）==
+1. 机器 Gate 关键字段复算（python json 直读，2026-08-27）：
+   - 00_RELEASE_GATE.json：verdict=TERMINAL_CLOSURE_EXECUTED__GATE_A_NOT_PASSED__TMG4_TM6_INTERNAL_BLOCKERS_REGISTERED__NO_RELEASE_CREDIT、gate_a_pass=false、review_status=PENDING_OWNER_REVIEW、next_stage_authorized=false、release_credit=false → 与 memo 状态头一致。
+   - competition_gate_check.json：final_verdict=COMPETITION_DEMO_READY、17/17、next_stage_authorized=false；command_emitted=false、offline_replay=true、real_time_synchronization=false、scenario_actions={A_low:EXECUTE,B_anchor:ABORT,C_transition:MODIFY}、hardware_component_status 四字段（B601_MOTION=PROHIBITED 等）→ 一致。
+   - SIM13_20_OF_20_GATE_V1.json：nc_score=20/20、maximum_operational_state 逐字 = ABORT_ONLY_WITH_VALIDATED_FAIL_CLOSED_BACKENDS_20_OF_20_NC__PRODUCTION_NON_ABORT_STILL_MASKED_BY_12_GATE_AUTHORITY → 一致。
+   - control_01 gate verdict=REPEAT；control_02 gate verdict=PASS+review_status=PENDING_REVIEW；safety_00 gate verdict=PASS+PENDING_REVIEW+next=false → 一致。
+2. git 快照复算：HEAD=5c5addea00ddb70d86a5cc37a88bbcda50350e43、最后提交 2026-08-08 01:24:43 +0800、status --short=141 条、remote -v 空 → 与 compdeliv fragment 一致。
+3. AGENTS.md sha256 前 12 位复算 = 3d2269562678 → 与各 fragment 引用一致。
+4. 字符串级核验：候选标题「…基于 Binding-Gate 的物理约束抓捕策略选择与失效闭合安全验证」grep 仅命中本审计 fragments（业务文档零命中）；10_research 下 physics_agent 零匹配；仓内 *.tex 仅 80_third_party/vendor 命中（比赛报告母稿不存在成立）；PUBLICATION_HOLD 全仓（除 .git）零命中 → 均与 fragments 结论一致。
+5. 产出文件内容机检：memo 头部 13 行与任务书逐字一致（sed 抽取比对通过）；ABORT_ONLY 全称字符串在 09/00/14 中出现 4 次均逐字正确；越界词扫描（已实现的 VLA/已验证具身智能闭环/在轨碎片清除系统能力声称）在否定语境外 0 命中。
+
+== 三、铁律合规自检 ==
+- 只读项目资产：未对 fragments、源码、CAD、Gate、git 做任何写/移/删；写入仅限上述 8 个授权文件。通过。
+- 中文写作、机器字段英文：通过（verdict/token/字段名保留英文原文）。
+- 每个数字/结论带证据指针（路径+JSON key/行定位+sha256 前 12 位）：09 备忘录 20 问逐条带指针；13/14 全文带指针；10/11/12 计划类文件的关键事实句均带指针。通过。
+- 子 PASS 不升级父 Gate：Sim13 双口径并置登记（09 Q10、14 §C），未将 20/20 写成当前系统通过。通过。
+- UNKNOWN≠EXECUTE / source-only≠current-system / 模块 PASS≠执行授权：09 Q9/Q10/Q12/Q16 与 13 §4 显式区分；fail-closed 15 条逐条标注（13 项 NOT_TRIGGERED + 2 项 TRIGGERED 按任务书指定 + 1 项 B4G 历史触发已正确冻结）。通过。
+- 未删除任何 REPEAT/HOLD/负结果：e15/CTRL-01/WAVE1/E22/V9F/B4G 全部原样保留并登记。通过。
+
+== 四、修正/加注记录 ==
+1. DYNAMICS_CONTROL_PREBIND = GO：按任务书原文收录，但依 PREBIND_AUTHORITY.json（e1157532605b）与 PB_G0_GATE.json（da2bbe1381a0）加注「GO 仅限诊断性 prebind，无 release credit」，防止误读为正式绑定放行。已记入 09 §0 与 00 §2 注。
+2. fail-closed 条件 8「solver 不收敛」标注为 TRIGGERED（已正确 fail-closed）：依据 B4G 失效注册（2743fbd314cc）——该触发发生于历史执行链且已被系统正确冻结，非本次综合新触发；15 条中仅任务书指定的 12/13 两条冻结当前分支。
+3. 00 §1「16 项」口径：00–15 共 16 个编号文件 + fragments/ 证据目录；初版 00 以占位描述引用 01–08（未等待、未代写），SYN-A/SYN-B 落盘后已将 01–08/15 更新为实际文件名（01_REPOSITORY_AND_SECURITY_SNAPSHOT.json … 15_SOURCE_AND_HASH_MANIFEST.csv），行数增至 64 行。
+
+== 五、遗留与风险（与本分派内容相关） ==
+- 最高风险 1：P0 七项中四项解除条件（官方要求/报告母稿/claim 冻结/git 锚定+仓库安全）全部依赖 Owner 在 8-28 至 8-31 间实际动作；任何一项滑期即 CONDITIONAL_GO→NO_GO。
+- 最高风险 2：fail-closed 条件 12/13 持续 TRIGGERED（官方格式不可确认、GitHub 公开性未决），对应分支已冻结，赛前无内部闭环路径。

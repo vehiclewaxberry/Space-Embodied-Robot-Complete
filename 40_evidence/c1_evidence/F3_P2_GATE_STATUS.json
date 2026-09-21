@@ -1,0 +1,73 @@
+{
+  "schema": "F3_P2_GATE_STATUS_V1",
+  "gate_id": "F3_P2_MECHANICAL_INTERFACE_DESIGN",
+  "generated_local": "2026-08-05",
+  "authorization": {
+    "planning": "F3_P0_ARCHITECTURE_DRAFT_ACCEPTED_WITH_HAG_A_FIRST",
+    "hag_a": "HAG_A_PARTIAL_PASS_WITH_NAMED_LINK_HOLDS",
+    "f3_p1": "F3_P1_PARTIAL_PASS_WITH_NAMED_GEOMETRY_HOLDS",
+    "f3_p2": "AUTHORIZED"
+  },
+  "subgates": {
+    "F3_P2A_load_path_dof_freeze": {
+      "status": "PASS",
+      "deliverables": [
+        "F3_P2A_LOAD_PATH_AND_DOF_FREEZE.md",
+        "B601_STOW_RESTRAINT_DOF_ALLOCATION_MATRIX.csv (embedded)"
+      ],
+      "note": "Base working load path frozen (6-component → adapter → boss → flange → spreading frame → load bridge → longerons → ring frames → spacecraft). Stow restraint 6-DOF allocation matrix frozen (Fwd/Mid/Aft with clear primary/secondary/compliance/release for each DOF)."
+    },
+    "F3_P2B_base_adapter_load_bridge": {
+      "status": "PASS",
+      "deliverables": [
+        "F3_P2B_BASE_ADAPTER_LOAD_BRIDGE.md"
+      ],
+      "note": "8 existing V2_3 parts inherited (not redesigned). Material candidates (Al 7075-T6 / Al 6061-T6), datum system (A/B/C), fastener candidates (M6/M5/M4), GD&T candidates, engineering drawing requirements, BOM, unit-load FEA requirements defined."
+    },
+    "F3_P2C_g07_g08_hdrm": {
+      "status": "PASS",
+      "deliverables": [
+        "F3_P2C_G07_G08_HDRM.md"
+      ],
+      "note": "G07 (Aft) main saddle contact frozen (link6, Tz+Tx+Rx). G08 (Fwd) wrist support contact frozen (gripper_link, Ry). Mid saddle decision pending FEA. HDRM functional envelope defined (latch, release actuator, preload spring, status sensor, mechanical stop). Release sequence and initial lift-off clearance defined."
+    }
+  },
+  "pass_criteria_checklist": {
+    "load_path_frozen": true,
+    "dof_allocation_frozen": true,
+    "base_adapter_inherited": true,
+    "g07_g08_contacts_frozen": true,
+    "hdrm_envelope_defined": true,
+    "release_sequence_defined": true,
+    "accepted_urdf_zero_mod": true,
+    "donor_zero_mod": true,
+    "cad_mass_not_overwrite_dynamics": true,
+    "no_new_cad_parts_created": true
+  },
+  "named_holds": [
+    "HOLD_GUI_WITNESS_NOT_PERFORMED (inherited from F3-P1)",
+    "HOLD_T_SM_TRACK_CONFLICT (dynamics 185.25 vs display 198, unresolved)",
+    "HOLD_CONTACT_PAD_MATERIAL (TBD, pending HAG-A physics branch)",
+    "HOLD_CONTACT_PAD_STIFFNESS (TBD, pending measurement)",
+    "HOLD_LAUNCH_LOAD_SPECTRUM (undefined, cannot do strength/stiffness verification)",
+    "HOLD_STOW_Z_LIMIT (UNKNOWN, arm top z=359.02 exceeds box top 245.87)",
+    "HOLD_MID_SADDLE_DECISION (PENDING_FEA_ANALYSIS)",
+    "HOLD_HDRM_SPECIFIC_MODEL (functional envelope, not flight model)",
+    "HOLD_C5_WING_OVERAGE (12mm, wing body not in V2_3)"
+  ],
+  "verdict": "F3_P2_PARTIAL_PASS_WITH_NAMED_DESIGN_HOLDS",
+  "verdict_class": "MECHANICAL_INTERFACE_ARCHITECTURE_FROZEN_WITH_PROVISIONAL_PARAMETERS",
+  "verdict_rationale": [
+    "Load path and 6-DOF allocation frozen without creating new CAD parts.",
+    "8 existing V2_3 parts inherited for manufacturing-grade deepening (material/datum/fastener/GD&T/drawing/BOM defined as candidates).",
+    "G07/G08 contact surfaces frozen based on STOW FK + HIFI geometry.",
+    "HDRM functional envelope defined (not flight model).",
+    "All candidates marked as DESIGN_PROPOSAL or UNKNOWN_BLOCKED, not engineering truth.",
+    "No new CAD parts created in this stage.",
+    "Accepted URDF and donor STEP zero modification verified."
+  ],
+  "ready_for_f3_p3": true,
+  "f3_p3_scope": "Top-level assembly and continuous clearance verification. Create single FreeCAD top-level candidate with all configurations (STOWED, DEPLOYED_NOMINAL, failure modes). Verify continuous clearance for arm-spacecraft, arm-wing, arm-saddle, gripper-saddle, harness-structure, camera FOV, HDRM residue.",
+  "next_authorized_recommendation": "F3_P3_TOP_LEVEL_ASSEMBLY_AND_CONTINUOUS_CLEARANCE",
+  "next_authorized_scope": "Create top-level FreeCAD assembly candidate. Run continuous clearance verification across all configurations. Do not create new mechanical parts or modify existing V2_3 structure."
+}

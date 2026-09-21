@@ -1,0 +1,30 @@
+{
+  "schema": "WP10_SHARED_BATTERY_READONLY_REVIEW_V1",
+  "reviewer": "/root/sw_volume_api_readonly",
+  "mode": "READ_ONLY; root is sole source writer",
+  "method_reported": "Independent two-variable Im/Ia Newton solution of KVL times branch current; did not import shared_battery_path solver. Native source-node and OEM document review; final JSON/CSV and SHA comparison.",
+  "reviewed_calculations_sha256": "def53ca1fdde2610242d2ba28e26ba09941411104637483a7a95dd15f515ef35",
+  "reviewed_thermal_csv_sha256": "e0d6279513039c4b4332f4b12f1628c605f9785f1326d3840d42f5f38024b60c",
+  "independent_cases": 192,
+  "maximum_field_difference_before_cold_semantic_repair": 1.78e-14,
+  "final_independent_output_energy_residual_max_W": 2.06e-13,
+  "counterexample_count": 16,
+  "model_checks_passed": 34,
+  "cold_states_main_input_voltage_null": 192,
+  "thermal_csv_rows": 2880,
+  "thermal_case_states": {"run": 192, "cold": 192},
+  "thermal_node_value_difference_max_W": 0,
+  "input_and_source_hashes_matched": true,
+  "findings_repaired": [
+    {"id": "SBP-R1", "finding": "COLD did not list the operating THN conversion loss or COLD thermal CSV rows", "resolution": "Added THN loss and separate COLD output heat closure, CSV state column"},
+    {"id": "SBP-R2", "finding": "Open main-switch PRECHARGED voltage was represented by zero-load algebraic continuation", "resolution": "Actual main_input_V is null, diagnostic algebraic extension named separately"}
+  ],
+  "limits": [
+    "50mOhm per power pole is an explicit conservative interpretation, not measured or OEM-qualified mated loop data",
+    "Hypothetical already-on DC roots do not predict actual UVLO oscillation, time-domain stability or sustained heat",
+    "Native endpoint identities remain project-side; OEM SysDetect and socket transform are unbound",
+    "No CAD, assembly, thermal environment, PCB or physical qualification credit"
+  ],
+  "physical_tests_executed": false,
+  "whole_design_complete": false
+}

@@ -1,0 +1,291 @@
+schema: M7_DESIGN_MASS_UNCERTAINTY_POLICY_V2
+generated_local: '2026-08-22T02:59:18+08:00'
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP2_DESIGN_MASS
+status: ACTIVE_DECLARED_ENGINEERING_POLICY_PENDING_CALIBRATION
+scope: Declared standard-uncertainty policy for the M7 nine-configuration DESIGN mass model (SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml).
+  Every number produced under this policy is a DECLARED engineering standard uncertainty bound to a source
+  class. Nothing here is a measured, as-built, or installed uncertainty; no physical metrology exists
+  anywhere in the input chain. Calibration against controlled weighing/measurement is an open item (PENDING_CALIBRATION).
+authority_basis:
+- ODR-05: M3R 0.7619 kg is the design-budget authority (DESIGN_BUDGET, confidence B); as-built measurement
+    remains open
+- ODR-02: panel failure = attached-stuck; failure configurations keep panel mass, placed at the stowed
+    endpoint
+- ODR-01: M-frame authority T_SM=[185.25,0,0] mm + Ry(90 deg); legacy flange mass allocated to BUS_PRIMARY_STRUCTURE
+    by design ruling
+- M7 execution plan contract values (B601 4.695555949342986 kg ACCEPTED_URDF; bus core 22.927194215348
+  kg; legacy flange 0.376019184652 kg; panel 0.3483933 kg; load bridge candidate 702.195458 g MATERIAL_DERIVED)
+- 'ODR-07: component inertia uncertainty is propagated as a COVARIANCE (C_global = T(R) C_local T(R)^T);
+  reported per-component standard uncertainties are sigma_i = sqrt(C_global[i,i]) and are non-negative;
+  abs(), clipping to zero and deletion of entries are forbidden remediations'
+policy_rules:
+- rule_id: P1_DECLARED_NOT_MEASURED
+  statement: All uncertainties in this policy are declared Type-B engineering assignments by source class.
+    They MUST NOT be reported as measured, as-built, as-installed, or metrology-traceable uncertainties
+    anywhere.
+- rule_id: P2_NO_ZERO_FILL
+  statement: No uncertainty field may be zero-filled. Quantities whose true state of knowledge is absent
+    carry the largest applicable class uncertainty; genuinely unevaluable quantities stay null+HOLD (none
+    remain in the DESIGN mass model scope).
+- rule_id: P3_NO_URDF_OVERRIDE
+  statement: The accepted L0 URDF arm mass 4.695555949342986 kg and URDF-derived pose properties are used
+    as-is; CAD-derived or candidate values never override them. ACCEPTED_URDF uncertainty covers digital-model
+    vs physical-arm dispersion only; it does not absorb the Q_STOW FK regression failure (567.734 mm),
+    which remains a separately retained fact.
+- rule_id: P4_NORMALIZATION
+  statement: 'Analytic idealizations supply SHAPE (CoM position and inertia distribution) only. Mass is
+    normalized to the active authority: M3R ring+plate composite is normalized to the ODR-05 budget 0.7619
+    kg (stage split proportional to idealized stage volumes, stage allocation itself PENDING owner allocation);
+    the load-bridge box+hole composite is normalized to the M6 candidate mass 0.702195458 kg.'
+- rule_id: P5_COMBINATION
+  statement: Independent first-order (GUM) propagation, k=1 standard uncertainties, root-sum-square combination.
+    A numerical central-difference Jacobian of the full aggregation chain (mass, CoM, rotated tensor +
+    parallel-axis shift to the configuration system CoM, eigenvalues, eigenvectors) is evaluated per configuration.
+    Principal-axis angular standard uncertainties use first-order eigenvector perturbation; near-degenerate
+    axis pairs are flagged, not silently reported.
+- rule_id: P6_MERGED_BUS_RECORD
+  statement: BUS_PRIMARY_STRUCTURE merges the bus core (BUDGETED) and the legacy flange (MATERIAL_DERIVED,
+    design-ruling allocation per ODR-01 scope note). Its mass standard uncertainty is the RSS of the two
+    sub-record absolute terms; CoM/inertia uncertainties use the BUDGETED class of the dominant sub-record
+    (bus core).
+- rule_id: P7_OFFDIAGONAL_INERTIA
+  statement: 'Off-diagonal inertia components may be near zero by symmetry, so their standard uncertainty
+    is absolute: u(Ipq) = class_relative_u x I_scale, I_scale = (Ixx+Iyy+Izz)/3 of the same component.
+    Diagonal terms use class_relative_u x |Ipp|.'
+- rule_id: P8_CORRELATION
+  statement: Component uncertainties are treated as uncorrelated. Known shared-source pairs (left/right
+    panels from one stage-1 budget row; bus core and its derived CoM/inertia from one block model) are
+    declared here; a correlation review is REQUIRED before any calibration upgrade. This carries forward
+    the M4 correlation_review_required contract.
+- rule_id: P9_UNCERTAINTY_UNDER_FRAME_ROTATION_IS_A_COVARIANCE
+  statement: 'An inertia standard uncertainty is a non-negative magnitude and MUST NOT be rotated component-wise
+    the way an inertia tensor is. When a component tensor is expressed in a rotated frame (I_S = R I_local
+    R^T), the associated uncertainty is transformed as a covariance of the six independent tensor components:
+    C_global = T(R) C_local T(R)^T, where T(R) is the 6x6 linear map induced by R on the component vector
+    [Ixx,Iyy,Izz,Ixy,Ixz,Iyz] of a symmetric second-order tensor. Off-diagonal entries of C_global are
+    covariances and MAY legitimately be negative. The reported per-component standard uncertainties are
+    sigma_i = sqrt(C_global[i,i]) and are therefore non-negative by construction. Because the map is exactly
+    linear, this is an exact propagation of the declared inputs, not a first-order approximation.'
+  declared_input_covariance: C_local = diag(u(Ixx)^2, u(Iyy)^2, u(Izz)^2, u(Ixy)^2, u(Ixz)^2, u(Iyz)^2)
+    with the u() values from rule P7 evaluated in the component source frame. The input covariance is
+    DIAGONAL because rule P8 declares component quantities uncorrelated; no correlation data exists anywhere
+    in the input chain, so inventing off-diagonal input correlations is forbidden (fail-closed). Any off-diagonal
+    entry appearing in C_global is therefore rotation-induced correlation, which is a real statistical
+    consequence of changing frame.
+  forbidden_remediations:
+  - abs(rotated_uncertainty_matrix)
+  - clipping negative entries to zero
+  - deleting the offending entries
+  - reporting a rotated standard-uncertainty matrix as if it were a covariance
+  forbidden_remediation_rationale: Taking absolute values, clipping or deleting destroys the statistical
+    meaning of the covariance and converts a real finding into a fabricated PASS (ODR-07).
+  required_checks_per_component_record:
+  - covariance_symmetric
+  - covariance_positive_semidefinite
+  - variance_diagonal_nonnegative
+  - reported_sigma_nonnegative
+  data_structure_required_in_consumers:
+    inertia_uncertainty:
+      covariance_matrix: SIGNED_OFF_DIAGONAL_ALLOWED
+      component_standard_uncertainty:
+      - Ixx
+      - Iyy
+      - Izz
+      - Ixy
+      - Ixz
+      - Iyz
+  relation_to_P5: 'P5 governs the CONFIGURATION level: a numerical central-difference Jacobian of the
+    full aggregation chain already handles the frame rotation correctly, so configuration-level standard
+    uncertainties were never affected by the defect. P9 governs the reported COMPONENT level, where the
+    defect occurred.'
+uncertainty_model:
+  level: k1_standard_uncertainty
+  distribution_assumption: NORMAL_UNLESS_STATED (convention only; no fit to data exists)
+  propagation: first-order Taylor series, numerical central-difference Jacobian
+  combination: root_sum_square over independent declared sources
+  correlation_treatment: INDEPENDENCE_DECLARED_CORRELATION_REVIEW_REQUIRED
+  principal_axis_method: FIRST_ORDER_EIGENVECTOR_PERTURBATION_DEGENERACY_FLAGGED
+  component_frame_transformation: COVARIANCE_C_GLOBAL_EQ_T_R_C_LOCAL_T_R_TRANSPOSE_PER_P9
+  reported_component_sigma: SQRT_OF_COVARIANCE_DIAGONAL
+  component_input_covariance: DIAGONAL_INDEPENDENCE_DECLARED_P8
+source_classes:
+- class_id: ACCEPTED_URDF
+  mass_relative_standard_uncertainty: 0.02
+  com_absolute_standard_uncertainty_m_per_axis: 0.005
+  inertia_relative_standard_uncertainty: 0.03
+  rationale: Hash-pinned accepted digital model with controlled link inertials; never physically weighed.
+    Covers digital-vs-physical dispersion of the as-delivered B601 (density assignment, discretization,
+    vendor tolerances). It is NOT a measurement uncertainty.
+  applies_to:
+  - b601_complete_arm_including_gripper_urdf_links (mass, per-pose CoM and inertia from URDF FK)
+- class_id: CAD_DERIVED
+  mass_relative_standard_uncertainty: 0.05
+  com_absolute_standard_uncertainty_m_per_axis: 0.005
+  inertia_relative_standard_uncertainty: 0.07
+  rationale: 'Controlled released CAD geometry with controlled material assignment, not weighed. Reserved
+    class: no C01..C09 member currently draws mass from controlled released CAD (the load bridge is classified
+    MATERIAL_DERIVED because its density is a candidate).'
+  applies_to: []
+- class_id: MATERIAL_DERIVED
+  mass_relative_standard_uncertainty: 0.1
+  com_absolute_standard_uncertainty_m_per_axis: 0.01
+  inertia_relative_standard_uncertainty: 0.12
+  rationale: Controlled/candidate volume multiplied by a candidate density (6061-T6 2700 kg/m3); not a
+    weighing result. Covers density dispersion, stock tolerance, and volume-model fidelity.
+  applies_to:
+  - legacy_flange_subrecord_of_bus_primary_structure (mass term only)
+  - spacecraft_load_bridge_candidate (mass)
+- class_id: ANALYTIC_IDEALIZATION
+  mass_relative_standard_uncertainty: 0.15
+  com_absolute_standard_uncertainty_m_per_axis: 0.015
+  inertia_relative_standard_uncertainty: 0.18
+  rationale: 'Mass properties obtained from analytic primitive idealization (thin-plate panel spec; M3R
+    ring+plate composite; bridge box+hole composite) instead of released CAD mass properties (FreeCAD
+    is not run in WP2 under the failed 6 GiB memory gate). Idealized volumes were cross-checked against
+    independent STEP B-rep volumes: Stage A ring +2.8%, Stage B plate -2.8%, bridge plate -0.17%; residual
+    shape distribution error is covered by this class.'
+  applies_to:
+  - solar_array_left / solar_array_right (CoM placement and own-CoM inertia under bound transforms)
+  - m3r_stage_a_plus_stage_b_budget_envelope (CoM and inertia; mass itself is BUDGETED per ODR-05)
+  - spacecraft_load_bridge_candidate (CoM and inertia)
+- class_id: BUDGETED
+  mass_relative_standard_uncertainty: 0.2
+  com_absolute_standard_uncertainty_m_per_axis: 0.02
+  inertia_relative_standard_uncertainty: 0.25
+  rationale: 'Owner-selected or source-bound design allocations without controlled measurement: bus-core
+    block-model recomposition, panel mass rows, and the ODR-05 M3R budget. Bus coverage of camera/HDRM/sensor/harness
+    placeholders is not configuration-controlled; that coverage limitation is carried as a retained note,
+    not converted into a numeric allowance.'
+  applies_to:
+  - spacecraft_bus_core_no_panels_no_legacy_flange (mass/CoM/inertia, merged into bus_primary_structure)
+  - solar_array_left / solar_array_right (mass)
+  - m3r_stage_a_plus_stage_b_budget_envelope (mass, ODR-05 authority)
+- class_id: PROVISIONAL
+  mass_relative_standard_uncertainty: 0.3
+  com_absolute_standard_uncertainty_m_per_axis: 0.05
+  inertia_relative_standard_uncertainty: 0.4
+  rationale: 'Scenario anchor values, never measured, low confidence (RA-003): 22 kg / 150 kg target scenarios,
+    their block-model CoM/inertia, and the M5 display-derived capture transforms T@[1.24,0,-0.1] / D@[1.61,0,-1.05]
+    used as DESIGN bindings. Capture transforms remain unratified; the class uncertainty does not confer
+    ratification.'
+  applies_to:
+  - target_22kg_scenario (C08 member)
+  - target_150kg_scenario (C09 member)
+component_quantity_class_map:
+  bus_primary_structure:
+    mass: 'MERGED_RSS(bus_core: BUDGETED, legacy_flange: MATERIAL_DERIVED)'
+    center_of_mass: BUDGETED
+    inertia_about_own_com: BUDGETED
+  solar_array_left:
+    mass: BUDGETED
+    center_of_mass: ANALYTIC_IDEALIZATION
+    inertia_about_own_com: ANALYTIC_IDEALIZATION
+  solar_array_right:
+    mass: BUDGETED
+    center_of_mass: ANALYTIC_IDEALIZATION
+    inertia_about_own_com: ANALYTIC_IDEALIZATION
+  b601_complete_arm_including_gripper_urdf_links:
+    mass: ACCEPTED_URDF
+    center_of_mass_per_pose: ACCEPTED_URDF
+    inertia_about_own_com_per_pose: ACCEPTED_URDF
+  m3r_stage_a_plus_stage_b_budget_envelope:
+    mass: BUDGETED
+    center_of_mass: ANALYTIC_IDEALIZATION
+    inertia_about_own_com: ANALYTIC_IDEALIZATION
+  spacecraft_load_bridge_candidate:
+    mass: MATERIAL_DERIVED
+    center_of_mass: ANALYTIC_IDEALIZATION
+    inertia_about_own_com: ANALYTIC_IDEALIZATION
+  target_22kg_scenario:
+    mass: PROVISIONAL
+    center_of_mass: PROVISIONAL
+    inertia_about_own_com: PROVISIONAL
+  target_150kg_scenario:
+    mass: PROVISIONAL
+    center_of_mass: PROVISIONAL
+    inertia_about_own_com: PROVISIONAL
+pending_calibration_register:
+- AS_BUILT_WEIGHING_OF_BUS_PANELS_M3R_BRIDGE_AND_ARM (M3R as-built measurement open per ODR-05 retained
+  item)
+- CONTROLLED_UNCERTAINTY_BUDGET_AND_CORRELATION_MODEL
+- TARGET_IDENTITY_AND_PHYSICAL_MASS_PROPERTIES (target values are scenario anchors)
+- Q_STOW_POSE_PHYSICAL_VALIDATION (FK regression failure 567.734 mm retained; not absorbed by any class)
+- PANEL_HINGE_KINEMATICS_AND_STOWED_COLLISION_RELIEF (transforms are DESIGN bindings, not ratified kinematics)
+prohibitions:
+- DO_NOT_REPORT_THESE_UNCERTAINTIES_AS_MEASURED_OR_AS_BUILT
+- DO_NOT_USE_THESE_UNCERTAINTIES_FOR_FLIGHT_MARGIN_OR_QUALIFICATION
+- DO_NOT_ZERO_FILL_OR_DROP_ANY_UNCERTAINTY_FIELD
+- DO_NOT_OVERRIDE_ACCEPTED_URDF_MASSES_WITH_CAD_OR_CANDIDATE_VALUES
+- DO_NOT_ROTATE_A_STANDARD_UNCERTAINTY_MATRIX_COMPONENT_WISE
+- DO_NOT_ABS_CLIP_OR_DELETE_A_NEGATIVE_COVARIANCE_ENTRY
+- DO_NOT_INVENT_INPUT_CORRELATIONS_NO_CALIBRATION_DATA_EXISTS
+source_register:
+  m7_owner_decision_register:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+    bytes: 3531
+  m7_execution_plan:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    sha256: AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B
+    bytes: 4931
+  m4_system_mass_properties_v3:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/SYSTEM_MASS_PROPERTIES_V3.yaml
+    sha256: 3F88318666C8A7DA57A74D65F94E8B27A7D84E32741039A893C21FC247A9FE9F
+    bytes: 20705
+  cdr_system_mass_properties_authority_v2:
+    path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/SYSTEM_MASS_PROPERTIES_AUTHORITY_V2.yaml
+    sha256: 32E5B0EEEC784731A05B649CCF8583325CDF569302F1532E0EB4B84D712F455B
+    bytes: 4634
+  m3r_mass_ruling:
+    path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/M3R_MASS_RULING.json
+    sha256: 4DDFD3F160E448FEF614A27C9A96957118C2A785533D811EAD503CEA340B4FCB
+    bytes: 6727
+  accepted_b601_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    bytes: 11321
+  m7_terminal_closure_contract:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml
+    sha256: 5602CB6FC3DC983681F60D8FA94B432FBA4D432830F5B2362049DB4C1B849BF7
+    bytes: 19133
+  design_mass_uncertainty_policy_v1_superseded:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/DESIGN_MASS_UNCERTAINTY_POLICY_V1.yaml
+    sha256: 22817DB6632F5E89EC066FF2A38A95EDF68D5981DCD5AE603F91CB45DE091EDE
+    bytes: 12209
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+supersedes:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/DESIGN_MASS_UNCERTAINTY_POLICY_V1.yaml
+  sha256: 22817DB6632F5E89EC066FF2A38A95EDF68D5981DCD5AE603F91CB45DE091EDE
+  bytes: 12209
+  reason: 'ODR-07 (WP2-AUD-02): the V1 policy declared the per-class standard uncertainty inputs (rules
+    P5/P7) but never declared how an uncertainty transforms under a component-to-S frame rotation. The
+    consuming aggregator therefore rotated the standard-uncertainty matrix component-wise like an inertia
+    tensor, which produced 44 negative entries in 11 component records. V2 adds rule P9 (covariance propagation)
+    and the required check set. No class value, no rule P1..P8 text and no class map entry changed.'
+  v1_status_after_this_issue: SUPERSEDED_FOR_UNCERTAINTY_FRAME_TRANSFORMATION_SEMANTICS_ONLY
+covariance_semantics:
+  component_vector_order:
+  - Ixx
+  - Iyy
+  - Izz
+  - Ixy
+  - Ixz
+  - Iyz
+  induced_map_definition: T(R)[:,k] = comp6(R E_k R^T) with the symmetric basis E_1=e1e1^T, E_2=e2e2^T,
+    E_3=e3e3^T, E_4=e1e2^T+e2e1^T, E_5=e1e3^T+e3e1^T, E_6=e2e3^T+e3e2^T and comp6(M)=[M00,M11,M22,M01,M02,M12];
+    then comp6(R I R^T) = T(R) comp6(I) exactly for every symmetric I.
+  reported_sigma_definition: sigma_i = sqrt(C_global[i,i])
+  off_diagonal_sign: SIGNED_COVARIANCE_NEGATIVE_ALLOWED
+  diagonal_sign: VARIANCE_NON_NEGATIVE_REQUIRED
+  special_case_note: 'Every component-to-S rotation used in the current M7 design (panel deployed/stowed,
+    target capture poses) is a SIGNED PERMUTATION matrix, so T(R) is also a signed permutation and T(R)
+    C_local T(R)^T stays exactly diagonal. For this specific data set the covariance-derived sigma therefore
+    coincides numerically with the magnitude of the V1 rotated entries. That coincidence is a property
+    of these transforms, NOT of the method: for a general rotation the covariance-derived sigma differs
+    from abs(R U R^T), and the implementation is required to demonstrate that difference on a generic
+    rotation (method-discrimination test) so that the fix cannot be mistaken for, or degenerate into,
+    the forbidden abs() remediation.'
+policy_builder:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/build_uncertainty_policy_v2.py
+  note: 'regenerate with: python <this file>'

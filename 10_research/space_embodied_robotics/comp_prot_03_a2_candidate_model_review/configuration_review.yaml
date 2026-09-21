@@ -1,0 +1,177 @@
+schema_version: comp-prot-03-a2-configuration-review-v0
+review_id: COMP-PROT-03-A2-REVIEW-20260723-V0
+phase: COMP-PROT-03-A2
+status: CANDIDATE_MODEL_DESIGN_ONLY
+
+authorization:
+  source: user_approved_candidate_model_design_only
+  allowed_outputs: [markdown_documents, yaml_manifests, topology_design, frame_proposals, read_only_multi_agent_review]
+  prohibited_actions: [CAD_generation, URDF_generation, simulation, Basilisk, ROS, Isaac, controller, RL, Gate_modification]
+  cad_generation_authorized: false
+  a3_authorized: false
+
+review_packet:
+  baseline_git_head: b75352c1c226c0f3e9a4bc9c469b766e06f41616
+  hash_mode: RAW_BYTES
+  candidate_configuration_path: candidate_configuration_v0.yaml
+  candidate_configuration_sha256: a055fb70c7e39047a84381c22bafed61a63932c334e81986a7b14599dce0a820
+  mechanical_standard_path: mechanical_configuration_design_standard.md
+  mechanical_standard_sha256: 61fb5695f9f3e03788a5a3e226c344217b10c5cbe121e15c2161aeab52f3242e
+  digital_skeleton_path: digital_skeleton_model_v0.yaml
+  digital_skeleton_sha256: 5d0f87aaabc00e43466873d67213455f75c568521eb5acaa84dbeed6d3d7248d
+  blocker_ledger_path: db_blocker_resolution_ledger.yaml
+  blocker_ledger_sha256: c71308c2b5d3cab5ebb93d2340771eb7bcddb4b9e4654c316bff5bfd1a40e7b8
+  cad_entry_gate_path: cad_entry_gate.md
+  cad_entry_gate_sha256: f2846219a6bd0ca906f9b95636b707120d22ac158c960314705dc133e5b91353
+  final_packet_same_hash_reviewed_by_all_roles: false
+  advisory_three_agent_same_hash_review_complete: true
+  formal_five_independent_reviewer_same_hash_review_complete: false
+  note: three_independent_agents_covered_five_roles_on_the_final_hash_set_with_two_recorded_role_pairing_exceptions_formal_five_independent_reviewer_requirement_remains_open
+
+configurations:
+  configuration_A:
+    id: A_CENTERLINE_TASK_FACE_SINGLE_ARM
+    role: PRIMARY_CANDIDATE_FOR_DESIGN_REVIEW
+    baseline_ids: [servicer_12U_candidate, robot_mount_adapter_v0, arm_b601_v1]
+    mount_concept: centered_positive_X_S_task_face
+    mission_scope: candidate_topology_only
+    assumptions:
+      - selected_to_minimize_evidence_drift_not_to_claim_physical_optimality
+      - exact_geometry_profile_and_T_SM_remain_open
+    blocker_dependencies: [DB-BLK-001, DB-BLK-002, DB-BLK-008, DB-BLK-009, DB-BLK-010, DB-BLK-013, DB-BLK-014]
+    allowed_claims: [primary_design_review_candidate]
+    forbidden_claims: [optimal, reduced_torque, collision_free, reachable, launch_compliant, verified]
+  configuration_B:
+    id: B_SIDE_MOUNT_SINGLE_ARM
+    role: COMPARATOR_HYPOTHESIS_ONLY
+    changed_fields: [mount_datum, T_SM, mass_properties, FOV, panel_clearance, rail_clearance, workspace]
+    non_inherited_evidence: true
+    forbidden_claims: [better_visuals, competition_ready, inertia_effect_proved]
+  configuration_C:
+    id: C_DUAL_ARM
+    role: EXCLUDED_OUT_OF_SCOPE
+    exclusion_reason: no_second_arm_interface_mass_power_frame_license_or_control_evidence
+    reentry_gate_required: true
+
+reviewers:
+  - reviewer_id: competition_paper_audit
+    roles: [Geometry_Reviewer, Competition_Configuration_Reviewer]
+    independent_from_builder: true
+    review_mode: PRE_DRAFT_REVIEW_PLUS_FINAL_PACKET_HASH_REGRESSION
+    final_packet_hash_match: true
+    final_regression_result: NO_REMAINING_PACKET_HARD_ERROR_IN_ROLE_SCOPE
+    canonical_sources_read: [CDS_12U_page_34, frame_tree, model_specs, adapter_and_layout_sources]
+    findings:
+      - configuration_A_is_only_evidence_continuous_mainline
+      - display_340_5mm_and_CDS_366mm_profiles_must_not_be_mixed
+      - T_SM_185_25mm_is_not_validated_for_CDS_profile
+      - DB_BLK_010_and_013_are_hard_pre_CAD_blocks
+    hard_vetoes: [formal_CAD_before_geometry_profile_and_T_SM_closure]
+    decision: CAD_SKELETON_G0_NOT_READY
+  - reviewer_id: dynamics_transition_audit
+    roles: [Dynamics_Reviewer, Robotics_URDF_Reviewer]
+    independent_from_builder: true
+    independence_exception: one_agent_covered_two_roles_due_available_slots
+    review_mode: PRE_DRAFT_REVIEW_PLUS_FINAL_PACKET_HASH_REGRESSION
+    final_packet_hash_match: true
+    final_regression_result: MASS_GRAPH_AND_SCHEMA_INTEGRITY_CONFIRMED
+    canonical_sources_read: [accepted_B601_URDF, mass_budget, coordinate_frame_SSOT, arm_and_frame_sources]
+    findings:
+      - split_mass_tree_and_full_URDF_exactly_one_required
+      - provisional_ledger_total_source_decimal_is_29_8955559493429862kg_not_final_mass
+      - T_SB_must_remain_unknown_until_signed
+      - E_and_gripper_link_must_remain_distinct_frames
+    hard_vetoes: [dynamics_use, guessed_T_SB, silent_E_rename, double_counted_mass]
+    decision: CAD_PRE_GATE_HOLD
+  - reviewer_id: embodied_vla_audit
+    roles: [Mission_Reviewer, Red_Team]
+    independent_from_builder: true
+    independence_exception: one_agent_covered_mission_and_red_team_roles
+    review_mode: PRE_DRAFT_REVIEW_PLUS_FINAL_PACKET_HASH_REGRESSION
+    final_packet_hash_match: true
+    final_regression_result: NO_REMAINING_HARD_ERROR_OR_OVERCLAIM_IN_ROLE_SCOPE
+    canonical_sources_read: [A0_A1_manifest, blocker_register, target_and_capture_sources, historical_evidence_boundaries]
+    findings:
+      - A_is_candidate_not_optimal
+      - target_must_remain_independent_before_capture
+      - ground_reBot_evidence_does_not_prove_orbital_free_flyer_behavior
+      - all_15_preclosed_before_CAD_is_circular_for_DB_BLK_015_and_part_of_010
+    hard_vetoes: [historical_Gate_inheritance, nozzle_rim_grasp_wording, license_bypass, automatic_A3_start]
+    decision: CAD_ENTRY_BLOCKED_BY_EVIDENCE
+
+independence_and_coverage:
+  required_core_roles: [Geometry, Dynamics, Robotics_URDF, Mission, Red_Team]
+  role_coverage: 1.0
+  distinct_independent_agent_count: 3
+  required_independent_role_count: 5
+  formal_independence_requirement_met: false
+  final_packet_hash_review_coverage: 0.0
+  advisory_final_packet_hash_review_coverage: 1.0
+  object_coverage: 1.0
+  blocker_inspection_coverage: 1.0
+  blocker_evidence_resolution_coverage: 0.0666666667
+  red_team_response_coverage: 1.0
+  note: source_level_review_is_complete_but_formal_same_packet_acceptance_is_not
+
+correction_cycle:
+  status: CORRECTIONS_APPLIED_AND_THREE_AGENT_REGRESSION_COMPLETE
+  corrected_findings:
+    - DB_BLK_015_not_closed_by_logical_skeleton
+    - servicer_flange_adapter_plate_and_boss_object_and_mass_owner_separation
+    - E_virtual_and_TCP_contact_separation
+    - target_keepout_registry_completion
+    - T_SB_gate_scope_consistency
+    - URDF_source_decimal_mass_preservation
+    - assembly_root_and_transform_reference_registry_completion
+    - b601_exactly_one_group_yaml_indentation
+  final_hash_set:
+    mechanical_standard: 61fb5695f9f3e03788a5a3e226c344217b10c5cbe121e15c2161aeab52f3242e
+    candidate_configuration: a055fb70c7e39047a84381c22bafed61a63932c334e81986a7b14599dce0a820
+    digital_skeleton: 5d0f87aaabc00e43466873d67213455f75c568521eb5acaa84dbeed6d3d7248d
+    blocker_ledger: c71308c2b5d3cab5ebb93d2340771eb7bcddb4b9e4654c316bff5bfd1a40e7b8
+    cad_entry_gate: f2846219a6bd0ca906f9b95636b707120d22ac158c960314705dc133e5b91353
+
+target_interface_review:
+  grasp_regions:
+    - {target_id: target_debris_v0, region_id: forward_end_ring_candidate_patch, region_type: visual_patch, parent_frame: D, position_mm: [660, 0, 950], orientation: UNKNOWN, surface_normal: approximately_positive_X_D, confidence: low}
+  keepout_regions:
+    - {target_id: target_debris_v0, region_id: aft_engine_region, region_type: keepout, parent_frame: D, bounds: z_D_less_than_minus_1000_mm, allowed_contact_modes: []}
+    - {target_id: target_debris_v0, region_id: smooth_shell_wall, region_type: keepout, parent_frame: D, bounds: radius_about_600mm_and_abs_z_below_900mm_excluding_ribs_and_rings, allowed_contact_modes: []}
+    - {target_id: target_satellite_v0, region_id: solar_panel_positive_Y, region_type: keepout, parent_frame: T, allowed_contact_modes: []}
+    - {target_id: target_satellite_v0, region_id: solar_panel_negative_Y, region_type: keepout, parent_frame: T, allowed_contact_modes: []}
+    - {target_id: target_satellite_v0, region_id: antenna, region_type: keepout, parent_frame: T, allowed_contact_modes: []}
+  semantic_conflicts:
+    - nozzle_rim_label_conflicts_with_forward_positive_Z_ring_and_aft_engine_keepout
+  interface_level_authorized: interface_0_visual_patch_only
+
+ground_orbit_boundary:
+  ground_rebot_role: hardware_identity_joint_motor_encoder_and_future_calibration_reference
+  orbital_free_flyer_role: separate_model_requires_B_T_SB_mass_inertia_and_coupled_dynamics_evidence
+  transferable_evidence: [link_names, joint_topology, local_joint_limits, mesh_and_source_identity]
+  non_transferable_claims: [microgravity_validated, orbital_dynamics_validated, momentum_exchange_validated, Sim2Real_closed, flight_qualified]
+
+historical_evidence_isolation:
+  e16_binding: HISTORICAL_REFERENCE_ONLY
+  sim05_binding: HISTORICAL_REFERENCE_ONLY
+  inherited_gate_count: 0
+
+blocker_disposition_summary:
+  denominator: 15
+  source: db_blocker_resolution_ledger.yaml
+  closed_by_design: 4
+  closed_by_evidence: 1
+  isolated_from_scope: 4
+  open_blocking: 6
+
+chair:
+  chair_id: primary_project_architect
+  builder_and_chair_same_agent: true
+  acceptance_self_sign_allowed: false
+  all_roles_reviewed_same_final_packet: false
+  majority_vote_used: false
+  specialist_veto_overridden: false
+  document_verdict: DOCUMENT_COMPLETE_WITH_RECORDED_DOWNSTREAM_BLOCKS
+  cad_entry_verdict: CAD_ENTRY_BLOCKED_BY_EVIDENCE
+  a3_authorized: false
+  next_gate: CAD-SKELETON-G0
+  separate_human_authorization_required: true

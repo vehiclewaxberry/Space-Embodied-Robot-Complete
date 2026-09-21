@@ -1,0 +1,75 @@
+{
+  "schema": "WP10_FIXED_HEAT_REVIEW_DISPOSITION_V1",
+  "sole_writer": "root",
+  "readonly_reviewer": "thermal_layout_readonly",
+  "repaired": [
+    {
+      "id": "HT01",
+      "issue": "Single-sided carrier had no sized fixed radiative exit",
+      "change": "Two monolithic source walls with external faces and actual OEM/TIM seats generated",
+      "closed_scope": "Source geometry only; single-face heat rejection fails"
+    },
+    {
+      "id": "HT02",
+      "issue": "Back pocket skin modelled as full 8mm; source average masked hotspot",
+      "change": "3.5mm pocket thickness map and source peak criterion",
+      "evidence": "thermal/FIXED_RADIATOR_BUDGET.json"
+    },
+    {
+      "id": "HT03",
+      "issue": "New DATA route intersected trunk_clip_65 by45.84572184mm3",
+      "change": "DUAL S(+6,-10,0), deck holes x106, remove initial DATA S bend",
+      "evidence": "results/FIXED_HEAT_INTERFACE_SUMMARY.json"
+    },
+    {
+      "id": "HT04",
+      "issue": "Native-normalized transform applied to STEP authored in S caused false P60 penetration",
+      "change": "Original V6 source manifest and SHA bound to T_S_step; native T separately retained; no extra P60 hole",
+      "evidence": "tools/prepare_fixed_heat_integration.py"
+    },
+    {
+      "id": "HT05",
+      "issue": "Legacy GSE records had no precomputed AABB",
+      "change": "Exact source STEP loaded for missing bboxes; source hashes checked; unknown count zero",
+      "evidence": "tools/check_fixed_heat_interfaces.py"
+    },
+    {
+      "id": "HT06",
+      "issue": "Nominal40W was at risk of being treated as a prescribed passive split",
+      "change": "Solved bridge heat from mean contact temperature difference and energy balances; .25K/W remains numerical allocation",
+      "evidence": "thermal/TWO_PANEL_BRIDGE_BUDGET.json"
+    },
+    {
+      "id": "HT07",
+      "issue": "Opposite radiator faces cannot both receive the same normal direct sunlight",
+      "change": "New paired environments have direct sunlight only on +Y; old equal-environment cases retained as independent pressure examples",
+      "evidence": "thermal/TWO_PANEL_BRIDGE_SCENARIO.json"
+    },
+    {
+      "id": "HT08",
+      "issue": "300mm selection and30–120C public pipe range insufficiently tied to layout and load",
+      "change": "Declared U route needs334.24778mm versus306mm longest tolerance; low-load node diagnosis withholds temperature/transport qualification; SKU is not frozen",
+      "evidence": "thermal/FIXED_HEAT_TRANSFER_SELECTION.json"
+    }
+  ],
+  "open": [
+    "85% CHB heat needs distribution and environmental/area sizing",
+    "COTS heat pipe thermal resistance, route, mounting and microgravity/freeze validity",
+    "CHB/RB fasteners and measured TIM compression; OEM resistor hole revision mismatch",
+    "Battery/PMM installation, rest of sources and complete thermal network",
+    "Full native assembly and continuous motion/tool/tolerance closure"
+  ],
+  "failed_geometry_retained": "results/FIXED_HEAT_SERVICE_COUNTEREXAMPLE_V1.json",
+  "new_thermal_negative": "Single +Y radiator is above105C case even with ideal isothermal dark deep-space boundary",
+  "full_design_complete": false,
+  "thermal_network_topology": "Bridge proposed between outer-wall nodes; existing TIM and16.65mm metal R shared only for this topology. An earlier branch requires a new network.",
+  "final_readonly_code_review": {
+    "reviewer": "thermal_layout_readonly",
+    "scope": "Actual two_panel_bridge_budget.py and both scenario/result JSON read; independent scalar/energy/passivity recalculation; no CAD executed",
+    "publication_blocker_found_in_declared_four_cases": false,
+    "independent_max_energy_residual_W": 3.37e-08,
+    "independent_max_bridge_residual_K": 8.46e-08,
+    "boundary": "Sheet solver currently supports only0<=q<=CHB_loss; explicit fail-closed error now reports unbracketed reverse/environment-fed scenarios. No generalized reverse-flow credit.",
+    "future_extension": "Signed transfer intervals before adding hotter-negative-side or ambient-fed cases; additional heat-source ledger and coupled mesh refinement remain open"
+  }
+}

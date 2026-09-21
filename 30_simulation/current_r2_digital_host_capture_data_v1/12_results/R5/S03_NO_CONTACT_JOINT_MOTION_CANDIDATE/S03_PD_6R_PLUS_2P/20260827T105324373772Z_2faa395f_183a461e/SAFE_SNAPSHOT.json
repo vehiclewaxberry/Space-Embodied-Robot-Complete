@@ -1,0 +1,56 @@
+{
+  "schema": "R5_SAFE_SNAPSHOT_V1",
+  "source_path": "30_simulation/current_r2_digital_host_capture_data_v1/08_control_safe/SAFE_PREBIND_CONFIG.yaml",
+  "source_sha256": "87b4d6bfc7b3ce67d82a2e99aac8893a6d6c6c5d093a069f16d7b368952da340",
+  "source_content": {
+    "schema": "SAFE_PREBIND_CONFIG_V1",
+    "relationship_to_safe00": "SAFE-00 为运行时安全门权威（PASS, 47/47, PENDING_REVIEW）；本核是其 fail-closed 语义在 prebind 数据管线的适配器，仅用于 S07 注入与 episode 终态标注",
+    "decision_space": [
+      "EXECUTE",
+      "MODIFY",
+      "ABORT",
+      "WAIT"
+    ],
+    "status_space": [
+      "VERIFIED",
+      "PROVISIONAL",
+      "UNKNOWN",
+      "NOT_EVALUATED",
+      "MISSING",
+      "MISMATCH",
+      "STALE"
+    ],
+    "mapping": {
+      "MISSING_UNKNOWN_MISMATCH_NOT_EVALUATED": "ABORT",
+      "STALE_within_budget": "WAIT",
+      "STALE_beyond_budget": "ABORT",
+      "PROVISIONAL_admissible": "CAP_AT_MODIFY",
+      "PROVISIONAL_inadmissible": "ABORT"
+    },
+    "stale_wait_budget_s": 2.0,
+    "invariants": [
+      "UNKNOWN != EXECUTE（架构不可达，S07 INJ 系列证明）",
+      "NOT_EVALUATED != SAFE，且不得转普通负样本（label_from_decision + writer 校验）",
+      "EXECUTE 标签与 T_E_T MISSING/UNKNOWN 组合被 writer 硬拒绝（EpisodeWriteError）"
+    ],
+    "required_items_default": [
+      "ACCEPTED_URDF",
+      "FRAME_CONTRACT",
+      "UNIT_CONTRACT",
+      "CURRENT_STEP_STATE",
+      "COLLISION_ASSETS",
+      "M01_MOTION_CERTIFICATE",
+      "T_E_T",
+      "CONTACT_AUTHORITY",
+      "TARGET_POSE_MEASUREMENT",
+      "WHEEL_MOMENTUM_MARGIN"
+    ],
+    "scope_reductions": {
+      "NO_CONTACT_PREBIND": "接触类 items（T_E_T/CONTACT_AUTHORITY/COLLISION/M01/STEP）标 required=false，但 episode manifest 仍如实记录其全局状态（NOT_EVALUATED/MISSING）"
+    },
+    "verification": "11_verification/FAILCLOSED_INJECTION_REPORT.json"
+  },
+  "evaluation_status": "NOT_EVALUATED_DIAGNOSTIC_ONLY",
+  "execute": false,
+  "safe_release_credit": false
+}

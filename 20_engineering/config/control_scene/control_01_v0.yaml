@@ -1,0 +1,157 @@
+schema_version: control-01-v1
+task_id: CTRL-01
+frozen_before_plant_runs: true
+gains_tuned_on_plant: false
+thresholds_widened: false
+repository_timing_evidence:
+  status: PROCEDURAL_ONLY_CONFIG_AND_RESULTS_COMMITTED_TOGETHER
+  interpretation: not_independent_strong_preregistration_proof
+  no_post_result_threshold_or_matrix_change: true
+repeat_remediation:
+  loop: CTRL-01-R
+  authorized_by: 10_research/partner_requirement_closure/wave1_repeat/repeat_preregistration.md
+  items: [R-2_t3_trigger_freeze, R-3_c2_match5_comparator_and_energy_ledger_fix]
+  all_gate_thresholds_unchanged: true
+  changes:
+    - T3_initial_state_is_method_specific_frozen_T2_state_at_15s
+    - T3_target_and_combined_collision_now_evaluated_under_frozen_propagation
+    - energy_ledger_integrated_with_state_by_DOP853_first_order_hold
+    - C2_MATCH5_supplemental_comparator_added_before_isolated_nullspace_claims
+numerics:
+  closed_loop_command_hold: first_order_hold_velocity_ramp_per_sample
+  ledger_integrator: per_interval_DOP853_reduced_momentum
+  ledger_rtol: 1.0e-11
+  ledger_atol: 1.0e-13
+  fast_plant_equivalence: machine_cross_check_against_sim11_ssot_fail_closed
+
+model:
+  source: 30_simulation/sim_11_coupled_dynamics/src/coupled_dynamics.py
+  n_modes_per_panel: 3
+  stiffness_case: nominal
+  panel_parameters_status: PROVISIONAL
+  contact_window_Tc_ms: 20.0
+  contact_window_status: PROVISIONAL_NOT_USED_IN_PRECAPTURE_CONTROL
+
+frame_contract:
+  base_frame: S
+  quaternion: scalar_first_body_to_inertial
+  momentum_reference_point: base_origin_S
+  controller_twist: inertial_end_effector_twist_expressed_in_current_S
+  generalized_jacobian: Jstar_maps_joint_and_modal_rates_to_inertial_EE_twist_expressed_in_S
+  t1_reference: A1_true_base_motion_plus_FK_composed_in_inertial_frame
+  pure_S_FK_path_use: C0_KINEMATIC_DIAGNOSTIC_ONLY
+  error_position: inertial_position_error_expressed_in_current_S
+  error_orientation: inertial_rotation_error_rotvec_expressed_in_current_S
+
+controller:
+  sample_period_s: 0.01
+  position_gain_per_s: 1.2
+  orientation_gain_per_s: 1.0
+  dls_lambda: 0.001
+  svd_rank_rtol: 1.0e-8
+  reaction_nullspace_gain: 0.35
+  reaction_nullspace_min_effect_pct: 5.0
+  nullspace_limit_fade_margin_rad: 0.15
+  c3_allowed_task: approach_5d
+  c3_pose_6d_error_code: TASK_NULLITY_ZERO
+  feedforward:
+    C0: none
+    C1: none
+    C2: inertial_reference_twist_rotated_to_S_using_current_base_attitude
+    C3: same_as_C2
+  gain_rule:
+    source: preregistered_analytic_bandwidth_rule
+    panel_mode_1_hz: 1.0005
+    max_closed_loop_crossover_fraction: 0.30
+    resulting_upper_bound_rad_per_s: 1.885898
+
+trajectories:
+  T1:
+    name: pregrasp_A1_anchor
+    task_mode_main: pose_6d
+    duration_move_s: 8.0
+    duration_total_s: 12.0
+    q_start_rad: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    q_end_deg: [0.0, 60.0, -40.0, 0.0, 0.0, 0.0]
+    benchmark_joint_limit_conflict: true
+    benchmark_note: sim_05_19p20deg_anchor_uses_q2_positive_outside_URDF_limit
+  T2:
+    name: synchronize_rotating_target
+    task_mode_main: pose_6d
+    duration_total_s: 30.0
+    capture_point_S_m: [0.95, 0.0, -0.10]
+    q_initial_rad:
+      [-1.4722592995215019e-5, -1.0482002296028674, -1.3989828152470147,
+       -1.2200100679438755, 3.673218594813444e-6, 1.8395811591279014e-5]
+    target_tumble_rate_before_capture_deg_per_s: 3.0
+    target_tumble_axis_inertial: [1.0, 0.15, 0.4]
+    stationkept_capture_point: true
+  T3:
+    name: emergency_retreat
+    task_mode_main: pose_6d
+    duration_move_s: 3.0
+    duration_total_s: 5.0
+    retreat_distance_m: 0.5
+    direction: negative_trigger_tool_approach_axis
+    trigger:
+      source: method_specific_T2_closed_loop_full_state
+      time_s: 15.0
+      method_specific: true
+      target_phase_continuation: true
+      frozen_state_fields:
+        [theta, theta_dot, base_position_I, base_quaternion_BI, eta, eta_dot]
+      authorized_by: repeat_preregistration_R2
+
+t3_collision_contract_audit:
+  frozen_geometry_source: 20_engineering/config/grasp_evaluator/collision_geometry_v1.yaml
+  frozen_target_id: target_satellite_v0
+  frozen_target_specification: 20_engineering/cad/spacecraft_layout/target_satellite_v0/target_satellite_v0.json
+  frozen_primary_grasp_id: launch_adapter_ring
+  static_geometry_sampling: every_fixed_integration_node_at_0p01s
+  target_geometry_sampling: every_fixed_integration_node_at_0p01s
+  wave1_plan_required_trigger: method_specific_T2_state_at_15s
+  wave1_plan_required_target_motion: sim09_const_omega_3degps_continued_through_T3
+  implemented_trigger: method_specific_T2_state_at_15s_full_state_frozen
+  implemented_target_motion: sim09_const_omega_3degps_phase_continued_from_15s
+  plan_contract_status: MATCHED
+  target_and_combined_gate_status: EVALUATED
+  gate_policy: fail_closed_NOT_EVALUATED_on_any_input_violating_the_frozen_contract
+
+provisional_actuator_limits:
+  status: PROVISIONAL_CLASS_VALUES
+  source: control_01_v0_preregistration_not_hardware_qualification
+  joint_speed_abs_rad_per_s: [0.70, 0.70, 0.70, 0.80, 0.80, 1.00]
+  joint_acceleration_abs_rad_per_s2: [2.0, 2.0, 2.0, 2.5, 2.5, 3.0]
+  joint_torque_abs_Nm: [12.0, 12.0, 10.0, 6.0, 4.0, 3.0]
+
+wheel_envelope_interface_only:
+  used_by_CTRL01: false
+  per_axis_box_abs_Nms: [0.100, 0.100, 0.100]
+  legacy_scalar_sum_Nms: 0.300
+  legacy_scalar_sum_use: frozen_chain_comparison_only
+  sim05_peak_single_axis_proxy_Nms: 0.0891
+  per_axis_occupancy_pct: 89.1
+
+analytic_error_bounds:
+  applies_to: [C1, C2, C3]
+  position_disturbance_bound_m_per_s: 0.12
+  orientation_disturbance_bound_rad_per_s: 0.35
+  sampling_position_allowance_m: 0.01
+  sampling_orientation_allowance_rad: 0.03
+
+gate_thresholds:
+  anchor_open_loop_abs_deg: 1.0e-6
+  anchor_closed_loop_abs_deg: 0.05
+  anchor_rigid_abs_deg: 0.05
+  momentum_abs: 1.0e-12
+  energy_relative: 1.0e-9
+  c0_c1_t2_p95_ratio_min: 3.0
+  c2_vs_c1_t2_improvement_min_pct: 30.0
+  c3_vs_c1_matched5_reaction_improvement_min_pct: 5.0
+  c3_tracking_degradation_max_pct: 10.0
+  singular_value_min: 1.0e-4
+  joint_limit_margin_min_rad: 0.0
+  t3_collision_margin_min_m: 0.0
+
+gate_result_enum: [PASS, REPEAT, BLOCKED]
+independent_red_team_status: PENDING_REVIEW

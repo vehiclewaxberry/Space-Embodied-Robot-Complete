@@ -1,0 +1,59 @@
+schema: F3R2_MECHANICAL_STATE_MACHINE_V1
+runtime_states:
+  -
+    state: DEPLOYED_NOMINAL
+    arm_pose: Q_DEPLOYED_HOME
+    wings: "both deployed 90 deg"
+    autonomous: true
+  -
+    state: SERVICE_STAGING
+    arm_pose: Q_SERVICE_READY
+    wings: "both deployed 90 deg"
+    autonomous: true
+  -
+    state: SAFE_STOP
+    arm_pose: "hold current"
+    wings: unchanged
+    autonomous: true
+    note: "brakes engaged, no new motion accepted"
+  -
+    state: MANUAL_RECOVERY
+    arm_pose: "ground commanded"
+    wings: unchanged
+    autonomous: false
+non_runtime_states:
+  -
+    state: STOWED_ENGINEERING_CANDIDATE
+    arm_pose: Q_STOW_ENGINEERING_CANDIDATE
+    hold: O13_V3_CANDIDATE_HOLD_PROVISIONAL
+  -
+    state: SOLAR_DEPLOY_ARM_LOCKED
+    arm_pose: Q_STOW_ENGINEERING_CANDIDATE
+    hold: "wing deploy TRANSIT unauthorised"
+  -
+    state: "L_FAIL / R_FAIL / DEPLOY_FAILED_BOTH"
+    arm_pose: Q_STOW_ENGINEERING_CANDIDATE
+    hold: "off-nominal wing states, arm stays restrained"
+  -
+    state: PARTIAL
+    hold: "REGISTERED_NOT_GEOMETRICALLY_DIFFERENTIATED; not in the runtime enum"
+  -
+    state: SERVICE
+    hold: "PENDING_RATIFICATION_HOLD (G2)"
+transitions_authorised:
+  -
+    from: DEPLOYED_NOMINAL
+    to: SERVICE_STAGING
+    evidence: "G5 swept"
+  -
+    from: SERVICE_STAGING
+    to: DEPLOYED_NOMINAL
+    evidence: "G5 swept (reverse of the same segment)"
+  -
+    from: any
+    to: SAFE_STOP
+    evidence: "always allowed"
+transitions_not_authorised:
+  - "anything into or out of STOW (HDRM release chain incomplete)"
+  - "SERVICE_DOCKING / GRASP / TRANSPORT / ASSEMBLY / RETRIEVED_NOMINAL (no q vectors exist)"
+  - "wing deployment TRANSIT"

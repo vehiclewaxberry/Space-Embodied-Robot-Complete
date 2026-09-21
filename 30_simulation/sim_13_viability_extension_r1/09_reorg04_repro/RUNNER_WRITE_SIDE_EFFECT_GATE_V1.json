@@ -1,0 +1,69 @@
+{
+ "schema": "RUNNER_WRITE_SIDE_EFFECT_GATE_V1",
+ "generated_date_local": "2026-08-30",
+ "review_status": "PENDING_OWNER_REVIEW",
+ "classification_counts": {
+  "DESTRUCTIVE_ON_FAILURE": 1,
+  "READ_ONLY": 2,
+  "WRITES_CANDIDATE_OUTPUT": 1
+ },
+ "destructive_runners": [
+  "30_simulation/control_02_base_attitude/tests/run_all.py"
+ ],
+ "empirical_finding": "control_02 run_all.py overwrote results/control_02_gate_check.json during a FAILING run. This reproduces the previously reported Gate truncation and confirms the runner is destructive on failure, not merely a candidate writer.",
+ "control_measure": "safe_capsule_verify.py",
+ "control_measure_verified": true,
+ "protected_files_monitored": 373,
+ "ctrl01_ctrl02_fail_closed_in_active_tree": true,
+ "verdict": "RUNNER_WRITE_SIDE_EFFECTS_CLASSIFIED__DESTRUCTIVE_RUNNERS_CONTAINED",
+ "rows": [
+  {
+   "runner": "30_simulation/sim_05_free_floating_arm/tests/run_all.py",
+   "capsule": "sim_05",
+   "classification": "READ_ONLY",
+   "observed_mutated_files": "",
+   "authority_files_mutated": "",
+   "n_mutated": 0,
+   "source_declares_results_write": false,
+   "observation_method": "empirical, isolated worktree, safe_capsule_verify.py",
+   "permitted_execution_context": "ANY",
+   "active_tree_execution": "ALLOWED"
+  },
+  {
+   "runner": "30_simulation/sim_11_coupled_dynamics/tests/run_all.py",
+   "capsule": "sim_11",
+   "classification": "READ_ONLY",
+   "observed_mutated_files": "",
+   "authority_files_mutated": "",
+   "n_mutated": 0,
+   "source_declares_results_write": false,
+   "observation_method": "empirical, isolated worktree, safe_capsule_verify.py",
+   "permitted_execution_context": "ANY",
+   "active_tree_execution": "ALLOWED"
+  },
+  {
+   "runner": "30_simulation/control_01_end_effector_tracking/tests/run_all.py",
+   "capsule": "ctrl_01",
+   "classification": "WRITES_CANDIDATE_OUTPUT",
+   "observed_mutated_files": "test_results.json",
+   "authority_files_mutated": "",
+   "n_mutated": 1,
+   "source_declares_results_write": true,
+   "observation_method": "empirical, isolated worktree, safe_capsule_verify.py",
+   "permitted_execution_context": "ISOLATED_WORKTREE_ONLY",
+   "active_tree_execution": "FORBIDDEN"
+  },
+  {
+   "runner": "30_simulation/control_02_base_attitude/tests/run_all.py",
+   "capsule": "ctrl_02",
+   "classification": "DESTRUCTIVE_ON_FAILURE",
+   "observed_mutated_files": "control_02_gate_check.json;test_report.json",
+   "authority_files_mutated": "control_02_gate_check.json",
+   "n_mutated": 2,
+   "source_declares_results_write": true,
+   "observation_method": "empirical, isolated worktree, safe_capsule_verify.py",
+   "permitted_execution_context": "ISOLATED_WORKTREE_ONLY",
+   "active_tree_execution": "FORBIDDEN"
+  }
+ ]
+}

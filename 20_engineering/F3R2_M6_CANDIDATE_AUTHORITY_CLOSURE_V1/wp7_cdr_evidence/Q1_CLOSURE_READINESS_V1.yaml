@@ -1,0 +1,285 @@
+schema: Q1_CLOSURE_READINESS_V1
+generated_local: '2026-08-21T12:36:00+08:00'
+work_package: WP7_CDR_EVIDENCE
+evidence_class: CANDIDATE_CLOSURE_READINESS_NOT_AUTHORITY
+disposition: PENDING_OWNER_REVIEW
+
+target_gate:
+  gate: MECH_Q1_LOAD_ENVIRONMENT_AUTHORITY
+  gate_file: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/04_gates/MECH_Q1_LOAD_ENVIRONMENT_AUTHORITY_GATE.json
+  gate_sha256: daa7855df7d9901af8851ba37c1590d89001e9006dcbcbb5a05aa5c065dbad61
+  gate_status_at_generation: HOLD
+  pass_token_issued_at_generation: false
+  gate_status_change_by_this_pack: NONE
+  parent_phase_gate: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/04_gates/MECHANICAL_CDR_PHASE1_GATE.json
+  parent_phase_gate_sha256: fecb6ca59bc2c953e1f4b16eaee69c7301e0bd766926f9668107b5bbddcb60d2
+  parent_phase_gate_status_at_generation: HOLD
+
+scope: LOAD_AUTHORITY_SUBGATE_CLOSURE_PATH_CLASSIFICATION_ONLY
+pack_purpose: >-
+  Classify each of the 19 open load-source gaps in the WP1 gap register by
+  its closure path, identify which gaps already carry bound derived research
+  evidence and what their upgrade path to authority would require, and list
+  the external holds that remain. This pack changes no gate, binds no ICD,
+  authorizes no flight load, and upgrades no derived value to authority.
+
+closure_path_class_vocabulary:
+  LAUNCHER_ICD_EXTERNAL: Closure requires a selected launcher or deployer plus its controlled ICD and load documents; outside this digital workspace.
+  SEPARATION_ICD_EXTERNAL: Closure requires a selected separation system plus controlled ICD and test data; outside this digital workspace.
+  ENVIRONMENT_SPECTRUM_EXTERNAL: Closure requires a controlled external environment specification (sine, random, acoustic, thermal) with levels, axes, durations and tolerances.
+  DERIVED_RESEARCH_BOUND: Derived research evidence is already bound (hash-pinned); the closure path is an upgrade route that adds contact/structural models, uncertainty, reproducibility and Owner approval before any authority claim.
+  MECHANISM_HARDWARE_EXTERNAL: Closure requires selected and qualified mechanism hardware data (HDRM, hinge, gripper actuator); outside this digital workspace.
+  PROJECT_POLICY_AUTHORITY: Closure requires an Owner/Chief-Engineer-approved project policy (combination factors, uncertainty and conformity decision rules).
+  Q2_DEPENDENCY: Closure is blocked by the Q2 mass/interface authority subgate and follows its release.
+  INTERNAL_REPRODUCIBILITY_REPAIR: Closure requires repairing or superseding an internal evidence reproducibility chain under configuration control.
+
+q1_internal_state_snapshot:
+  load_case_architecture_status: PASS
+  load_combination_architecture_status: PASS
+  boundary_condition_inventory_status: PASS_WITH_CRITICAL_GAPS
+  flight_launch_load_authority: HOLD
+  launcher_or_deployer_icd_bound: false
+  separation_system_icd_bound: false
+  authorized_launch_spectrum_present: false
+  authorized_flight_load_case_count: 0
+  counts: {load_families: 19, load_cases: 21, load_combinations: 13, boundaries: 9, open_load_source_gaps: 19}
+  unit_load_characterization_policy: MODEL_CHARACTERIZATION_ONLY_NO_MOS_OR_QUALIFICATION_CLAIM
+
+bound_derived_research_evidence:
+  capture_anchor_matrix:
+    rows: 8
+    source: 30_simulation/sim_06_capture_impulse/results/capture_impulse_matrix_v0.csv
+    source_sha256: 8CBAD84B8FF69FFCA6992CE29E95520BAE3C309260EC8C55083CBE62DFED5151
+    delivery_register: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/DERIVED_CAPTURE_LOAD_ENVELOPE_V1.csv
+    status: BOUND_AS_DERIVED_NOT_AUTHORIZED
+    22kg_0p5dps_contact_impulse_range_N_s: [0.0601233, 0.360622]
+    150kg_3dps_contact_impulse_range_N_s: [0.274973, 0.677633]
+    known_limitations:
+      - rigid_capture_model_no_contact_force_time_authority
+      - no_structural_load_distribution
+      - no_test_correlation
+      - 150kg_post_capture_rate_exceeds_existing_2_deg_s_research_budget
+      - default_mass_inertia_input_path_and_solver_hash_chain_not_reproducible_LG019
+  arm_nominal_slew_trajectory:
+    source: 20_engineering/config/coupled_scene/scene_A1_arm_slew.yaml
+    status: DERIVED_SIMULATION_TRAJECTORY_NOT_MECHANICAL_DESIGN_LOAD
+  hdrm_functional_envelope:
+    source: 20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/00_authority/V5_HDRM_AUTHORITY.yaml
+    status: PROVISIONAL_FUNCTIONAL_ENVELOPE_NOT_SELECTED_HARDWARE
+  gripper_urdf_effort_limit:
+    value_N: 100.0
+    status: MODEL_LIMIT_NOT_DESIGN_OR_QUALIFICATION_LOAD
+
+load_source_gap_closure_classification:
+  - gap_id: LG-001
+    subject: launcher_or_deployer_selection
+    priority: CRITICAL
+    closure_path_class: LAUNCHER_ICD_EXTERNAL
+    bound_derived_evidence: null
+    upgrade_path: [OWNER_LAUNCHER_OR_DEPLOYER_SELECTION_RECORD, CONTROLLED_ICD_REGISTRATION, FRAME_AND_SIGN_CONVENTION_BINDING]
+    remaining_external_hold: true
+  - gap_id: LG-002
+    subject: launch_coordinate_system
+    priority: CRITICAL
+    closure_path_class: LAUNCHER_ICD_EXTERNAL
+    bound_derived_evidence: null
+    upgrade_path: [EXTRACT_FRAME_DEFINITION_FROM_CONTROLLED_ICD, BIND_TO_SYSTEM_FRAME_TREE_UNDER_CONFIGURATION_CONTROL]
+    remaining_external_hold: true
+  - gap_id: LG-003
+    subject: quasi_static_load_factors
+    priority: CRITICAL
+    closure_path_class: LAUNCHER_ICD_EXTERNAL
+    secondary_classes: [ENVIRONMENT_SPECTRUM_EXTERNAL]
+    bound_derived_evidence: null
+    upgrade_path: [CONTROLLED_LAUNCH_LOADS_DOCUMENT_WITH_POSITIVE_AND_NEGATIVE_AXIS_FACTORS_AND_DISPERSIONS, OWNER_REVIEW]
+    remaining_external_hold: true
+  - gap_id: LG-004
+    subject: sine_vibration_input
+    priority: CRITICAL
+    closure_path_class: ENVIRONMENT_SPECTRUM_EXTERNAL
+    bound_derived_evidence: null
+    upgrade_path: [CONTROLLED_SINE_SPECIFICATION_WITH_BREAKPOINTS_SWEEP_RATE_AXES_DAMPING_AND_DURATION]
+    remaining_external_hold: true
+  - gap_id: LG-005
+    subject: random_vibration_input
+    priority: CRITICAL
+    closure_path_class: ENVIRONMENT_SPECTRUM_EXTERNAL
+    bound_derived_evidence: null
+    upgrade_path: [CONTROLLED_RANDOM_VIBRATION_SPECIFICATION_WITH_PSD_GRMS_DURATION_AXES_AND_NOTCHING]
+    remaining_external_hold: true
+  - gap_id: LG-006
+    subject: acoustic_environment
+    priority: HIGH
+    closure_path_class: ENVIRONMENT_SPECTRUM_EXTERNAL
+    bound_derived_evidence: null
+    upgrade_path: [CONTROLLED_ACOUSTIC_SPECIFICATION_WITH_OASPL_BAND_SPECTRUM_AND_DURATION, OR_DOCUMENTED_N_A_TAILORING_RECORD]
+    remaining_external_hold: true
+  - gap_id: LG-007
+    subject: separation_event
+    priority: CRITICAL
+    closure_path_class: SEPARATION_ICD_EXTERNAL
+    bound_derived_evidence: null
+    upgrade_path: [SEPARATION_SYSTEM_SELECTION, CONTROLLED_ICD_WITH_IMPULSE_SRS_STIFFNESS_AND_TIPOFF, TEST_DATA_BINDING]
+    remaining_external_hold: true
+  - gap_id: LG-008
+    subject: hdrm_product_and_release_load
+    priority: CRITICAL
+    closure_path_class: MECHANISM_HARDWARE_EXTERNAL
+    bound_derived_evidence: PROVISIONAL_FUNCTIONAL_ENVELOPE_6MM_STROKE_50N_PRELOAD
+    upgrade_path: [SELECTED_HDRM_HARDWARE_DATA, FORCE_TIME_SRS_FRICTION_LIFE_AND_THERMAL_RANGE, OWNER_APPROVAL]
+    remaining_external_hold: true
+  - gap_id: LG-009
+    subject: solar_deployment_load
+    priority: CRITICAL
+    closure_path_class: MECHANISM_HARDWARE_EXTERNAL
+    bound_derived_evidence: null
+    upgrade_path: [APPROVED_MECHANISM_MODEL_WITH_HINGE_TORQUE_FRICTION_DAMPING_STOP_STIFFNESS_AND_OFFLOAD, CORRELATED_DEPLOYMENT_TEST]
+    remaining_external_hold: true
+  - gap_id: LG-010
+    subject: arm_design_trajectory_and_stop
+    priority: CRITICAL
+    closure_path_class: DERIVED_RESEARCH_BOUND
+    bound_derived_evidence: SCENE_A1_QUINTIC_TRAJECTORY_8S_DERIVED
+    upgrade_path: [OWNER_APPROVED_JOINT_SPEED_ACCELERATION_TORQUE_AND_STOP_TIME_ENVELOPE, ACTUATOR_TORQUE_AUTHORITY, EMERGENCY_STOP_LAW]
+    remaining_external_hold: true
+    upgrade_note: RESEARCH_TRAJECTORY_IS_BOUND_BUT_IS_NOT_A_MECHANICAL_ENVELOPE_AUTHORITY
+  - gap_id: LG-011
+    subject: capture_design_envelope
+    priority: CRITICAL
+    closure_path_class: DERIVED_RESEARCH_BOUND
+    bound_derived_evidence: CAPTURE_IMPULSE_MATRIX_8_ROWS_SHA256_BOUND
+    upgrade_path: [REPAIR_LG019_REPRODUCIBILITY_FIRST, APPROVED_RELATIVE_STATE_DISPERSION_CONTACT_COMPLIANCE_FRICTION_AND_STRUCTURAL_LOAD_DISTRIBUTION, OWNER_APPROVED_CAPTURE_DESIGN_ENVELOPE]
+    remaining_external_hold: true
+    upgrade_note: RIGID_DYNAMICS_RESULT_IS_NOT_CONTACT_FORCE_TIME_AUTHORITY
+  - gap_id: LG-012
+    subject: gripper_contact_force_and_life
+    priority: CRITICAL
+    closure_path_class: MECHANISM_HARDWARE_EXTERNAL
+    secondary_classes: [DERIVED_RESEARCH_BOUND]
+    bound_derived_evidence: URDF_EFFORT_LIMIT_100N_MODEL_LIMIT_ONLY
+    upgrade_path: [ACTUATOR_DATA_FORCE_CONTROL_TOLERANCE_FRICTION_LUBRICATION_AND_CYCLE_SPECTRUM, CONTACT_AND_LIFE_TEST_DEFINITION]
+    remaining_external_hold: true
+  - gap_id: LG-013
+    subject: thermal_environment
+    priority: HIGH
+    closure_path_class: ENVIRONMENT_SPECTRUM_EXTERNAL
+    bound_derived_evidence: null
+    upgrade_path: [CONTROLLED_MISSION_THERMAL_ENVIRONMENT_WITH_TEMPERATURE_MAP_GRADIENT_CYCLES_AND_ANALYSIS_CASES]
+    remaining_external_hold: true
+  - gap_id: LG-014
+    subject: boundary_stiffness_and_joint_preload
+    priority: CRITICAL
+    closure_path_class: PROJECT_POLICY_AUTHORITY
+    secondary_classes: [MECHANISM_HARDWARE_EXTERNAL]
+    bound_derived_evidence: MEASURED_COMPETITION_DATUM_GEOMETRY_ONLY_BC_M3R_001
+    upgrade_path: [APPROVED_JOINT_DEFINITION_PRELOAD_RANGE_CONTACT_AND_INTERFACE_STIFFNESS, FASTENER_SPECIFICATION_AND_MATERIAL_PAIR_DATA]
+    remaining_external_hold: true
+  - gap_id: LG-015
+    subject: load_combination_factors
+    priority: CRITICAL
+    closure_path_class: PROJECT_POLICY_AUTHORITY
+    bound_derived_evidence: null
+    upgrade_path: [APPROVED_LOADS_AND_VERIFICATION_PLAN_WITH_COMBINATION_RULES_AND_SAFETY_FACTOR_POLICY, TAILORING_RECORD_LINK_TO_Q0]
+    remaining_external_hold: true
+  - gap_id: LG-016
+    subject: input_uncertainty_and_tolerance
+    priority: HIGH
+    closure_path_class: PROJECT_POLICY_AUTHORITY
+    bound_derived_evidence: null
+    upgrade_path: [SOURCE_UNCERTAINTY_BUDGET_WITH_STATED_DISTRIBUTIONS_CONFIDENCE_AND_TEST_INPUT_TOLERANCES, DECISION_RULES]
+    remaining_external_hold: true
+  - gap_id: LG-017
+    subject: material_allowables
+    priority: CRITICAL
+    closure_path_class: MECHANISM_HARDWARE_EXTERNAL
+    secondary_classes: [PROJECT_POLICY_AUTHORITY]
+    bound_derived_evidence: null
+    upgrade_path: [CONTROLLED_MATERIAL_AND_PROCESS_SPECIFICATIONS, TEMPERATURE_DEPENDENT_ALLOWABLE_BASIS, OWNER_APPROVAL]
+    remaining_external_hold: true
+    cross_wp_note: M6_WP4_PRODUCES_CANDIDATE_LIBRARY_ONLY_NOT_ALLOWABLES_AUTHORITY
+  - gap_id: LG-018
+    subject: system_mass_properties
+    priority: CRITICAL
+    closure_path_class: Q2_DEPENDENCY
+    bound_derived_evidence: CDR_WP2_PARTIAL_AUTHORITY_B601_AND_M3R_BUDGET_ONLY
+    upgrade_path: [Q2_RELEASED_MASS_PROPERTY_AUTHORITY, THEN_BIND_TO_LOAD_CASES]
+    remaining_external_hold: true
+    cross_wp_note: M6_WP2_NINE_CONFIGURATION_AGGREGATION_IS_DIAGNOSTIC_CANDIDATE_ONLY_AND_CANNOT_SATISFY_THIS_GAP
+  - gap_id: LG-019
+    subject: capture_impulse_reproducibility
+    priority: CRITICAL
+    closure_path_class: INTERNAL_REPRODUCIBILITY_REPAIR
+    secondary_classes: [DERIVED_RESEARCH_BOUND]
+    bound_derived_evidence: CAPTURE_MATRIX_RECALCULATED_AFTER_READ_ONLY_PATH_REDIRECTION_BUT_DEFAULT_CHAIN_BROKEN
+    upgrade_path: [BIND_CONTROLLED_EXISTING_INPUT_PATH, CLEAN_RERUN_RECEIPT_BINDING_SIM06_SCRIPT_COMMON_MODULES_MASS_INERTIA_BUDGET_CSV_AND_REGENERATED_MATRIX, OR_CONTROLLED_SUPERSEDING_CAPTURE_AUTHORITY]
+    remaining_external_hold: false
+    internal_note: CLOSABLE_UNDER_PROJECT_CONFIGURATION_CONTROL_WITHOUT_NEW_EXTERNAL_ICD
+
+gap_class_summary:
+  LAUNCHER_ICD_EXTERNAL: [LG-001, LG-002, LG-003]
+  SEPARATION_ICD_EXTERNAL: [LG-007]
+  ENVIRONMENT_SPECTRUM_EXTERNAL: [LG-004, LG-005, LG-006, LG-013]
+  DERIVED_RESEARCH_BOUND_PRIMARY: [LG-010, LG-011]
+  MECHANISM_HARDWARE_EXTERNAL: [LG-008, LG-009, LG-012, LG-017]
+  PROJECT_POLICY_AUTHORITY: [LG-014, LG-015, LG-016]
+  Q2_DEPENDENCY: [LG-018]
+  INTERNAL_REPRODUCIBILITY_REPAIR: [LG-019]
+  total_gap_count: 19
+  gaps_with_bound_derived_evidence: [LG-008, LG-010, LG-011, LG-012, LG-018, LG-019]
+  gaps_closable_without_external_icd: [LG-019]
+  gaps_requiring_external_authority: 18
+
+q1_release_condition_echo:
+  q1_pass_requires:
+    - launcher_or_deployer_and_separation_icd_bound
+    - authorized_launch_environment_with_axes_levels_duration_and_tolerances
+    - mechanism_and_arm_dynamic_load_time_histories_or_approved_envelopes
+    - capture_design_envelope_with_contact_model_and_owner_approval
+    - reproducible_capture_evidence_source_path_and_controlled_regeneration_or_superseding_authority
+    - approved_load_combinations_and_factors
+    - boundary_conditions_and_interface_stiffness_authority
+  current_gate_candidate: HOLD
+
+claim_controls:
+  authorized_flight_loads_claimed: false
+  launch_strength_pass_claimed: false
+  fastener_mos_pass_claimed: false
+  structural_qualification_ready_claimed: false
+  derived_evidence_upgraded_to_authority: false
+  human_review_impersonated: false
+  gate_state_flipped: false
+
+remaining_external_holds:
+  - EXTERNAL_HOLD_NO_SELECTED_LAUNCHER_DEPLOYER_OR_SEPARATION_ICD
+  - EXTERNAL_HOLD_NO_AUTHORIZED_LAUNCH_OR_OPERATIONAL_LOAD_ENVIRONMENT
+  - EXTERNAL_HOLD_NO_APPROVED_LOAD_COMBINATION_FACTOR_AND_UNCERTAINTY_POLICY
+  - EXTERNAL_HOLD_NO_APPROVED_ARM_HDRM_SOLAR_CAPTURE_THERMAL_AND_BOUNDARY_LOAD_AUTHORITIES
+  - INTERNAL_HOLD_CAPTURE_EVIDENCE_REPRODUCIBILITY_CHAIN_NOT_REPAIRED
+
+source_register:
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/04_gates/MECH_Q1_LOAD_ENVIRONMENT_AUTHORITY_GATE.json
+    sha256: daa7855df7d9901af8851ba37c1590d89001e9006dcbcbb5a05aa5c065dbad61
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/04_gates/MECHANICAL_CDR_PHASE1_GATE.json
+    sha256: fecb6ca59bc2c953e1f4b16eaee69c7301e0bd766926f9668107b5bbddcb60d2
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/AUTHORIZED_MECHANICAL_LOADS_V1.yaml
+    sha256: 82e331239d6eb86ee4b617145022e62133f5d837403119cdad2add83bcb78797
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_CASE_MATRIX.csv
+    sha256: cc37f1dfab7bb5be219c7df78f2276ce605475f8990e50101502fcc4f521eee5
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_COMBINATION_MATRIX.csv
+    sha256: a2f60430fb7b6223e67c71234fa66637613dc31857c72d1cf45df1f82289cb6c
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_SOURCE_GAP_REGISTER.csv
+    sha256: a2108a335458da1dc87a845d8b25526ed6db2fe373b289c9e238c23c289d2414
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LAUNCHER_INTERFACE_ASSUMPTION_REGISTER.csv
+    sha256: 7ba0e734491d0ab8494293d814851f1141c4b5f6702285e5d81c92ff4e16817f
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/DERIVED_CAPTURE_LOAD_ENVELOPE_V1.csv
+    sha256: e852de89bca633c126b0547257649c69b7a62e658e19dbe726eca4c38cb900a6
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/BOUNDARY_CONDITION_AUTHORITY.json
+    sha256: 4d936f4278c728243a088703e84bd421149a95780658755d05ed7cea13121de4
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/06_evidence/CDR_PHASE1_AUDIT_SUMMARY.md
+    sha256: 204e20c1b40fb85972a9bf9a00368c09055e2a53973830134fb1bdbecbbfa900
+  - path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/00_authority/M6_PHASE_AUTHORITY_AND_BOUNDARY.yaml
+    sha256: ec0511522164404e5cfa323d3065e7fb33f6fb7140f60323dfdddc3fa468b284
+  - path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/00_authority/M6_EXECUTION_PLAN_V1.md
+    sha256: dd3151297208c48291938265c568bf345c1d58246acd2c588e104a4a020abca1
+
+overall_status: Q1_CLOSURE_PATHS_CLASSIFIED_GATE_REMAINS_HOLD_PENDING_OWNER_REVIEW

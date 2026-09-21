@@ -1,0 +1,12 @@
+# Geometry SSOT v1 — capture interface (frame C, supports 3DOF / 6DOF constraint modes)
+version: v1
+status: geometry TBD (gap P1-4); frames + constraint modes frozen so sims can proceed
+frame_C: coincides with target grasp point (C_sat / C_deb in frame_tree_v1.yaml)
+constraint_modes:
+  point_capture_3dof: {locks: [tx, ty, tz], frees: rotation, use: soft-capture instant}
+  rigid_lock_6dof: {locks: all, use: post-hard-capture (sim_06 rigidization assumption)}
+ee_tool_envelope_proposal: {jaws: 2 x capsule D30 x 120 mm, status: TBD}
+target_side:
+  satellite: ring D200 x 20 mm on separation ring (center-aimed capture)
+  debris: rim clamp zone 80 x 40 mm on nozzle rim (1.02 m lateral lever -> impulse coupling)
+sim_07_comparison_required: 3DOF point capture vs 6DOF rigid lock response difference

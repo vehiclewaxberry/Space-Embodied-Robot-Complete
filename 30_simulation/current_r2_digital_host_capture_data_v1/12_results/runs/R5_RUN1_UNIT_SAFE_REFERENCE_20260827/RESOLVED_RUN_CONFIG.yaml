@@ -1,0 +1,330 @@
+task_id: R5_UNIT_SAFE_MOMENTUM_LEDGER_AND_VERSIONED_RUNNER
+configs:
+  gate:
+    schema: R5_UNIT_SAFE_MOMENTUM_GATE_V1
+    status: PREREGISTERED_FOR_R5_EXECUTION
+    task_id: R5_UNIT_SAFE_MOMENTUM_LEDGER_AND_VERSIONED_RUNNER
+    scope: RIGID_NO_CONTACT_PREBIND_NUMERICAL_DIAGNOSTIC
+    comparison: strict_less_than
+    momentum:
+      epsilon_P_max: 1.0e-09
+      epsilon_H_max: 1.0e-09
+      roundoff_floor_P: 1.0e-12
+      roundoff_floor_H: 1.0e-12
+      convergence_order_range:
+      - 3.0
+      - 5.5
+      minimum_refinement_points: 3
+      required_dt_ratio: 2.0
+    energy:
+      relative_drift_max: 1.0e-09
+    base_velocity_crosscheck:
+      epsilon_omega_max: 1.0e-08
+      epsilon_linear_velocity_max: 1.0e-08
+    ledger:
+      angular_momentum_about: INERTIAL_ORIGIN_I
+      expressed_in: I
+      origin_motion: FIXED
+      external_wrench_status_required: FROZEN_ZERO_BY_MODEL_SCOPE
+      event_monitor_status_required: VERIFIED
+      unaccounted_event_policy: FAIL_UNACCOUNTED_EVENT_IMPULSE
+    scale_contract:
+      timing: COMPUTED_FROM_FROZEN_PLANT_AND_INITIAL_STATE_BEFORE_INTEGRATION
+      P_denominator: max(sum_body_initial_linear_momentum_norms, external_impulse_budget,
+        total_mass_times_L_ref_over_T_ref)
+      H_denominator: max(sum_body_initial_angular_momentum_about_O_norms, external_angular_impulse_budget,
+        system_com_inertia_spectral_norm_over_T_ref)
+      angular_rate_scale: max(initial_base_angular_rate_norm, one_over_T_ref)
+      linear_velocity_scale: max(initial_base_linear_velocity_norm, L_ref_over_T_ref)
+      posterior_residual_scaling_forbidden: true
+    hard_rules:
+      no_mixed_dimension_norm: true
+      hard_gate_masking_forbidden: true
+      absent_subsystem_zero_fill_forbidden: true
+      all_s02_cases_require_three_point_refinement: true
+    claim_ceiling: R5_UNIT_SAFE_PREBIND_NUMERICAL_LEDGER_VERIFIED__DIAGNOSTIC_ONLY
+    control_release: false
+    contact_credit: false
+    parent_gate_reissue: false
+  controller_s03:
+    schema: S03_PD_CONTROLLER_R5_V1
+    status: FROZEN_FROM_PRE_R5_S03
+    scenario_id: S03_NO_CONTACT_JOINT_MOTION_CANDIDATE
+    controller_type: JOINT_PD_WITH_COMPONENTWISE_EFFORT_CLIPPING
+    joint_order:
+    - joint1
+    - joint2
+    - joint3
+    - joint4
+    - joint5
+    - joint6
+    - gripper_joint1
+    - gripper_joint2
+    joint_types:
+    - revolute
+    - revolute
+    - revolute
+    - revolute
+    - revolute
+    - revolute
+    - prismatic
+    - prismatic
+    q_units:
+    - rad
+    - rad
+    - rad
+    - rad
+    - rad
+    - rad
+    - m
+    - m
+    qd_units:
+    - rad/s
+    - rad/s
+    - rad/s
+    - rad/s
+    - rad/s
+    - rad/s
+    - m/s
+    - m/s
+    effort_units:
+    - N*m
+    - N*m
+    - N*m
+    - N*m
+    - N*m
+    - N*m
+    - N
+    - N
+    Kp:
+    - 40.0
+    - 60.0
+    - 50.0
+    - 15.0
+    - 10.0
+    - 8.0
+    - 200.0
+    - 200.0
+    Kp_units:
+    - N*m/rad
+    - N*m/rad
+    - N*m/rad
+    - N*m/rad
+    - N*m/rad
+    - N*m/rad
+    - N/m
+    - N/m
+    Kd:
+    - 8.0
+    - 12.0
+    - 10.0
+    - 2.0
+    - 1.5
+    - 1.2
+    - 20.0
+    - 20.0
+    Kd_units:
+    - N*m*s/rad
+    - N*m*s/rad
+    - N*m*s/rad
+    - N*m*s/rad
+    - N*m*s/rad
+    - N*m*s/rad
+    - N*s/m
+    - N*s/m
+    Ki:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    integral_term_status: STRUCTURAL_ZERO_PD_NO_INTEGRATOR
+    effort_cap_source: ACCEPTED_B601_URDF_JOINT_LIMIT_EFFORT
+    expected_effort_caps:
+    - 27.0
+    - 27.0
+    - 27.0
+    - 7.0
+    - 7.0
+    - 7.0
+    - 100.0
+    - 100.0
+    saturation_detection_ratio: 0.999
+    trajectory:
+      type: QUINTIC_ZERO_ENDPOINT_VELOCITY_ACCELERATION
+      duration_s: 6.0
+      q_start:
+      - 0.0
+      - -1.2
+      - -0.9
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      q_goal:
+      - 0.8
+      - -0.6
+      - -1.3
+      - 0.0
+      - 0.7
+      - 0.5
+      - 0.0
+      - 0.0
+    claim: DIAGNOSTIC_ONLY_NOT_CONTROL_PASS
+  controller_c0:
+    schema: C0_NO_CONTROL_R5_V1
+    status: FROZEN_EXPLICIT_ZERO_BY_SCENARIO_AND_EOM
+    controller_type: ZERO_JOINT_EFFORT
+    applicable_scenario: S02_FREE_FLOAT_CONSERVATION
+    effort_command: COMPONENTWISE_ZERO
+    base_wrench: COMPONENTWISE_ZERO
+    claim: NUMERICAL_CONSERVATION_DIAGNOSTIC_ONLY
+  scenarios:
+    schema: R5_S02_S03_SCENARIO_SET_V1
+    status: FROZEN_FOR_R5_EXECUTION
+    seed: 20260827
+    sample_period_s: 0.05
+    solver:
+      family: FIXED_STEP_CLASSICAL_RK4
+      arithmetic: IEEE754_FLOAT64
+      quaternion_policy: RENORMALIZE_AFTER_EACH_MACRO_STEP_WITH_NONIMPULSIVE_AUDIT
+      adaptive_step: false
+    s02:
+      scenario_id: S02_FREE_FLOAT_CONSERVATION
+      t_end_s: 5.0
+      dt_grid_s:
+      - 0.004
+      - 0.002
+      - 0.001
+      nominal_dt_s: 0.001
+      external_force_I_N:
+      - 0.0
+      - 0.0
+      - 0.0
+      external_torque_about_O_I_Nm:
+      - 0.0
+      - 0.0
+      - 0.0
+      external_wrench_status: FROZEN_ZERO_BY_MODEL_SCOPE
+      event_monitor_status: VERIFIED
+      cases:
+      - case_id: S02_C01_ARM_REST_BASE
+        plant_id: ARM_ONLY_ACCEPTED
+        initial_condition: base_at_rest_arm_moving
+      - case_id: S02_C02_ARM_TUMBLING_BASE
+        plant_id: ARM_ONLY_ACCEPTED
+        initial_condition: base_tumbling_arm_moving
+      - case_id: S02_C03_SERVICER_ARM_TSM_TUMBLING_BASE
+        plant_id: SERVICER_ARM_TSM_PREBIND
+        initial_condition: base_tumbling_arm_moving
+    s03:
+      scenario_id: S03_NO_CONTACT_JOINT_MOTION_CANDIDATE
+      t_end_s: 8.0
+      dt_grid_s:
+      - 0.001
+      - 0.0005
+      - 0.00025
+      nominal_dt_s: 0.0005
+      external_force_I_N:
+      - 0.0
+      - 0.0
+      - 0.0
+      external_torque_about_O_I_Nm:
+      - 0.0
+      - 0.0
+      - 0.0
+      external_wrench_status: FROZEN_ZERO_BY_MODEL_SCOPE
+      event_monitor_status: VERIFIED
+      stability_linearization:
+        equilibrium: q_goal_qd_zero_zero_total_momentum
+        finite_difference_scaled_epsilon: 1.0e-07
+        eigenvalue_classification_tolerance: 1.0e-08
+        reduced_state: 8_joint_position_plus_8_joint_rate_zero_total_momentum_subspace
+        full_state: 8_joint_position_plus_6_base_velocity_plus_8_joint_rate
+        coordinate_scales:
+          revolute_position_rad: 1.0
+          prismatic_position_m: 0.01
+          angular_velocity_rad_s: 1.0
+          linear_velocity_m_s: 0.01
+          revolute_rate_rad_s: 1.0
+          prismatic_rate_m_s: 0.01
+    scope_exclusions:
+      contact: NOT_RUN_T_E_T_MISSING
+      target_dynamics: REGISTERED_NOT_SYSTEM_MEMBER
+      reaction_wheels: NOT_IN_PLANT_NULL_NOT_ZERO_FILLED
+      thrusters: NOT_IN_PLANT_NULL_NOT_ZERO_FILLED
+      flexible_panels: NOT_IN_PLANT_PLACEHOLDER_EXCLUDED
+      route_c: NOT_IN_PLANT
+      isaac_sim: NOT_RUN
+      rl_vla: NOT_RUN
+  plant_binding:
+    schema: R5_PLANT_BINDING_V1
+    status: FROZEN_FOR_R5_EXECUTION
+    accepted_arm_urdf:
+      path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+      sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+    servicer_urdf:
+      path: 20_engineering/cad/spacecraft_layout/servicer_12U_v0/servicer_12U_v0.urdf
+      sha256: 2ecb4b1c778ca309632714d13cabf09033e424ee646ca85fdebc776e1d74e8da
+    mount_T_SM:
+      xyz_m:
+      - 0.18525
+      - 0.0
+      - 0.0
+      rpy_rad:
+      - 0.0
+      - 1.5707963267948966
+      - 0.0
+      authority: ODR-01_NOMINAL_FROZEN_V1
+      joint_name: mount_T_SM_ODR01_nominal_frozen_v1
+      parent_link: S_servicer_12U_v0
+    plant_scope:
+      arm_actual_dynamic_dof: 8
+      joint_composition: 6R_PLUS_2P
+      urdf_comment_conflict: TWO_PRISMATIC_GRIPPER_JOINTS_COMMENTED_LOCKED_BUT_DYNAMIC_IN_CURRENT_FLOATING_PLANT
+      conflict_ruling: PRESERVE_FROZEN_PLANT_AND_REGISTER_HOLD_NO_6R_ONLY_CLAIM
+      bus: MODELED_RIGID_LOW_CONFIDENCE
+      arm: MODELED_ACCEPTED_URDF
+      target: REGISTERED_NOT_SYSTEM_MEMBER
+      wheels: NOT_IN_PLANT
+      thrusters: NOT_IN_PLANT
+      flex: NOT_IN_PLANT_PLACEHOLDER_EXCLUDED
+      route_c: NOT_IN_PLANT
+    contracts:
+      frame_graph:
+        path: 30_simulation/current_r2_digital_host_capture_data_v1/02_frames_units/FRAME_GRAPH.yaml
+        sha256: ef696dde3be403c59dce2c64fb828615c853567a1263195f6e73a00b021944ff
+      unit_contract:
+        path: 30_simulation/current_r2_digital_host_capture_data_v1/02_frames_units/UNIT_CONTRACT.yaml
+        sha256: 40d02a65c49b60f788352b73ce95ea98422fe9474004cee72daa35094b4041d5
+      reference_point_contract:
+        path: 30_simulation/current_r2_digital_host_capture_data_v1/02_frames_units/REFERENCE_POINT_CONTRACT.yaml
+        sha256: 76afbe0b20f374be20c8f8b2ef04648dcdc764a20cbd1169e815d82ff9eaa036
+      inertia_convention:
+        path: 30_simulation/current_r2_digital_host_capture_data_v1/02_frames_units/INERTIA_CONVENTION.yaml
+        sha256: ae761f205bf24d532176d8778efd7eb2a999c4ccd8ab872b585f946dfca387fb
+      safe_prebind:
+        path: 30_simulation/current_r2_digital_host_capture_data_v1/08_control_safe/SAFE_PREBIND_CONFIG.yaml
+        sha256: 87b4d6bfc7b3ce67d82a2e99aac8893a6d6c6c5d093a069f16d7b368952da340
+      authority_snapshot:
+        path: 30_simulation/current_r2_digital_host_capture_data_v1/00_authority/CURRENT_V2_STATUS_SNAPSHOT.json
+        sha256: ead7289f8fe51366fa74cab145de45a4b04a7db2e3b37abe861203cc6cb1dbd3
+    provenance:
+      legacy_canonical_plant_hash_is_host_path_dependent: true
+      r5_identity: plant_physics_sha256_over_robot_name_links_and_joints
+      source_tree_manifest_required: true
+      git_head_not_sufficient_because_target_tree_untracked: true
+config_file_hashes:
+  gate: 807d80b1013a26a67bec0699f645c0d460d87a5b2ac5d00ea53d49459ff6d0bc
+  controller_s03: 6402c52ca8db4b1a7b8bfe75106397613de2633f52228b17a0b3d1a0bf28b6ed
+  controller_c0: 1c533df0733887bd008728232f0d1c133ba17157bc3b8d26f6b41e07c067db8c
+  scenarios: 274e10de250b2cb34eb552b81bc3d6b5dd525f0ca5473745b08c2e38d032f824
+  plant_binding: ebd509c5e5cdb516e1fc768227a1e99f4233efac7178e62d61bc0b11118efaad
+plant_physics_hashes:
+  ARM_ONLY_ACCEPTED: e6e45d4438285959e398d19c000c147f4267fef87056a6ce8fcbc5a4871cc6ed
+  SERVICER_ARM_TSM_PREBIND: 7934d0a1dee63f89af123d91d0e01c9861bb93b5792702784c65f32aea49b06c
+source_tree_sha256: ee8fc5362cb1cf3444727381027da848daf015ad6d702d530b30a88a246ca61f

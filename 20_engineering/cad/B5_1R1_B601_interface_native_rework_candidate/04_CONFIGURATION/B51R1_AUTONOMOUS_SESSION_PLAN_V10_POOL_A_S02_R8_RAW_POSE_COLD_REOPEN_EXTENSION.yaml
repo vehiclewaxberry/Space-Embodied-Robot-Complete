@@ -1,0 +1,35 @@
+schema: B51R1_AUTONOMOUS_SESSION_PLAN_V10_POOL_A_S02_R8_RAW_POSE_COLD_REOPEN_EXTENSION
+generated_at: '2026-08-03T03:20:00+08:00'
+status: POOL_A_ONE_SLOT_RAW_POSE_COLD_REOPEN_EXTENSION_AUTHORIZED_FOR_S02_R8_ONLY
+base_plan: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V3_PHASED.yaml
+prior_extension: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V9_POOL_A_S02_R7_USER_READY_TRANSFORM_DIAGNOSTIC_EXTENSION.yaml
+effective_pool_a_capacity: 19
+added_slot:
+  id: A19_S02_R8_RAW_POSE_FULL_COLD_REOPEN
+  envelope: S02_R8
+  substages:
+    - FRESH_VISIBLE_RESPONSIVE_DOCUMENT_EMPTY_SESSION
+    - PID_BOUND_INPUT_LOCK
+    - READ_ONLY_OPEN
+    - TEN_REBUILD_READBACK_CYCLES_ACROSS_THREE_CONFIGURATIONS
+    - NORMAL_CLOSE_AND_EXIT
+  additional_slots_added: 1
+  additional_slots_beyond_a19: 0
+  cad_write_allowed: false
+  save_api_allowed: false
+  force_termination_allowed: false
+trigger:
+  classification: 07_VERIFICATION/AUTONOMOUS/S02_R7/B51R1_S02_R7_TRANSFORM_CONVENTION_CLASSIFICATION_ADDENDUM.json
+  prior_runtime_failure: 07_VERIFICATION/AUTONOMOUS/S02_R2/B51R1_S02_R2_COLD_REOPEN_RECEIPT.json
+repair_route:
+  coordinate_pose: RAW_DUAL_API_LOCAL_TO_MODEL
+  reference_plane_pose: RAW_IREFPLANE_TRANSFORM
+exit_rule:
+  pass: S02_R8_MASTER_SKELETON_COLD_REOPEN_PASS
+  fail: PRESERVE_ALL_OUTPUTS_AND_KEEP_S02_BLOCKED
+downstream_hold:
+  active_candidate_pointer: true
+  property_writer_qualification: true
+  s03: true
+  carrier_creation: true
+claim_limit: SINGLE_READ_ONLY_COLD_REOPEN_SLOT_ONLY_NO_S03_CREDIT_UNTIL_GATE

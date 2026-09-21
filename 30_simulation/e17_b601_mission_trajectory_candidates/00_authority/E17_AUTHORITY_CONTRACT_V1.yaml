@@ -1,0 +1,52 @@
+schema: E17_B601_TRAJECTORY_CANDIDATE_AUTHORITY_CONTRACT_V1
+generated_local: '2026-08-23T16:05:00+08:00'
+authority_class: NON_RELEASE_DIAGNOSTIC_CANDIDATE
+status: BOUNDED_NUMERIC_SEED_GENERATION_AUTHORIZED__MISSION_RELEASE_NOT_AUTHORIZED
+released_for_mission_gate: false
+next_stage_authorized: false
+scope:
+  allowed:
+    - deterministic arm-only quintic seeds for M02, M03, M04, M05_150 and M07_22
+    - symbolic q-hold scaffold for M06_22 with null physical timing and null contact values
+    - fail-closed registers for M01 and M05_22
+    - integrity, units, limit, endpoint, derivative, hash and negative-control checks
+  prohibited:
+    - edit accepted URDF or any CAD/mesh asset
+    - release any of the eight mission trajectories
+    - claim collision, Solar keep-out, Route-C harness, SAFE-00 or contact clearance
+    - infer target synchronization from a PREGRASP-to-PREGRASP zero arm path
+    - assign physical gripper timing from the conflicting velocity-unit records
+    - authorize production dynamics, physical-contact RL or hardware motion
+joint_coordinate_contract:
+  order: [joint1, joint2, joint3, joint4, joint5, joint6]
+  q_unit: rad
+  dq_unit: rad/s
+  ddq_unit: rad/s^2
+  root_frame: accepted_urdf/base_link
+  whole_system_transform_authority: HOLD_ODR01_DYNAMICS_FRAME_AND_M7_CAD_FRAME_NOT_RECONCILED_FOR_THIS_PACKAGE
+immutable_asset:
+  path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  modification: FORBIDDEN
+source_bindings:
+  - path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/04_mission/B601_MANDATORY_MISSION_TRAJECTORY_CONTRACT_V1.yaml
+    sha256: C06A40DE171F0517ACB34CCC14C918A9A4252F7B55A425B2CBAC95229B44A98A
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/04_mission/B601_MISSION_POSE_AUTHORITY_REBIND_V1.yaml
+    sha256: 2954AA16DE68CE6550C0A281DD309BF14585970087EBE35663485E0E932AA62A
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/11_validation/B601_NAMED_POSE_REVALIDATION_V1.json
+    sha256: 68D0356F889E5888399631E6C735D404140AC5933B7FA172AB1F9E26BA26B844
+  - path: 20_engineering/config/control_scene/control_01_v0.yaml
+    sha256: 0B5EA0E60B670ACB6DBFC77998E98BB69B5511FED9FBC6611C060AEE969B3429
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+    sha256: 8FB36EFC856E55398B9F91A126C8B0C4421206281108544F84244987DF7CE6D2
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/CONFIGURATION_LIBRARY_V1.yaml
+    sha256: DCE40C1DB8A318A077F0DD92A47F236BE55EAF2FD32B4E514D2BB67C9B19B4A2
+fail_closed_boundary:
+  M01: HOLD_STOW_FK_SOURCE_MISMATCH_AND_HDRM_RELEASE_SWEEP_AUTHORITY_ABSENT
+  M05_22: HOLD_TARGET_RELATIVE_STATE_AND_SYNCHRONIZATION_BOUNDARY_CONDITIONS_ABSENT
+  M06_22: SYMBOLIC_ARM_HOLD_ONLY__CONTACT_TIMING_FORCE_NORMAL_AND_LOCK_CONFIRMATION_NULL
+  M07_22: ARM_ONLY_REVERSE_SEED__ATTACHED_TARGET_AND_LOCK_RETENTION_NOT_MODELED
+  all_segments: RELEASED_FALSE_UNTIL_INDEPENDENT_MISSION_AUTHORITY_AND_ALL_COUPLED_GATES_CLOSE
+

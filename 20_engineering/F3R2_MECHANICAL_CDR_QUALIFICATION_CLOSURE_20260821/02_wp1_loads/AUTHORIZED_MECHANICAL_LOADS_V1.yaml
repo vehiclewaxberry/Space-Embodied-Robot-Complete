@@ -1,0 +1,261 @@
+schema: AUTHORIZED_MECHANICAL_LOADS_V1
+document_status: DRAFT_ENGINEERING_BASELINE_FOR_AUTHORIZED_REVIEW
+generated_at: 2026-08-21T01:06:28.0818863+08:00
+baseline_id: V5R_NEUTRAL_OPERATIONAL_MECHANICAL_BASELINE_V1
+phase: MECH_CDR_Q1_LOAD_ENVIRONMENT_AUTHORITY
+overall_status: HOLD_FLIGHT_LOAD_ENVIRONMENT_AUTHORITY_INCOMPLETE
+formal_strength_mos_fea_authorized: false
+unit_load_characterization_authorized: true
+qualification_claim_authorized: false
+
+authority_policy:
+  allowed_source_classes:
+    - AUTHORIZED
+    - DERIVED
+    - PROVISIONAL
+    - UNKNOWN
+  authorized_requires:
+    - controlled_source_document
+    - source_revision_and_issuer
+    - applicable_configuration
+    - coordinate_frame_and_sign_convention
+    - load_level_and_combination_rule
+    - uncertainty_or_tolerance_statement
+    - project_owner_approval
+  missing_value_policy: KEEP_NULL_AND_HOLD
+  unit_policy: SI_UNITS_AT_INTERFACES_NO_UNIT_STRIPPING
+  uncertainty_policy: NO_BARE_PLUS_MINUS_NO_UNSTATED_COVERAGE
+  no_fea_back_derivation: true
+
+standards_basis:
+  primary:
+    - id: ECSS-E-ST-32C_Rev1
+      role: structural_lifecycle_requirements
+      numerical_load_source: false
+    - id: ECSS-E-ST-10-02C_Rev1
+      role: verification_program_structure
+      numerical_load_source: false
+    - id: ECSS-E-ST-10-03C_Rev1
+      role: ground_test_program_structure
+      numerical_load_source: false
+  guidance:
+    - id: ECSS-E-HB-32-26A
+      role: spacecraft_mechanical_loads_analysis_practice
+      requirements_document: false
+  independent_cross_check:
+    - id: NASA-STD-5001B_CHANGE_3
+      role: factors_of_safety_and_service_life_method_cross_check
+      mixed_into_ecss_factors_without_tailoring: false
+
+external_environment_authority:
+  launcher_selected: false
+  launcher_icd_bound: false
+  deployer_selected: false
+  deployer_icd_bound: false
+  separation_system_selected: false
+  separation_system_icd_bound: false
+  authorized_launch_load_spectrum_present: false
+  flight_launch_load_authority: HOLD
+  evidence:
+    - 20_engineering/F3_P5_structural_closure_candidate/00_audit/F3_P5_LAUNCH_LOAD_AUTHORITY.md
+    - 20_engineering/cad/B5_1_B601_interface_closure_candidate/06_ANALYSIS/B51_INTERFACE_LOAD_CASE_REGISTER.yaml
+
+known_model_bindings:
+  b601:
+    mass_kg: 4.695555949342986
+    source_class: AUTHORIZED
+    authority: accepted_B601_URDF
+    applicability: dynamics_model_mass_only
+    structural_load_authority: false
+  m3r:
+    architecture: STAGE_A_RING_PLUS_STAGE_B_LOAD_DIFFUSION_PLATE_REV_B2
+    installed_mass_kg: null
+    source_class: UNKNOWN
+    status: M3R_MASS_RECONCILIATION_HOLD
+  target_22kg_anchor:
+    mass_kg: 22.0
+    tumble_deg_s: 0.5
+    tumble_rad_s: 0.008726646259971648
+    source_class: PROVISIONAL
+    role: SIM13_SCENARIO_ANCHOR_NOT_FLIGHT_TARGET_AUTHORITY
+  target_150kg_anchor:
+    mass_kg: 150.0
+    tumble_deg_s: 3.0
+    tumble_rad_s: 0.05235987755982989
+    source_class: PROVISIONAL
+    role: SIM13_SCENARIO_ANCHOR_NOT_FLIGHT_TARGET_AUTHORITY
+
+load_families:
+  launch_quasi_static:
+    source_class: UNKNOWN
+    status: HOLD_NO_LAUNCHER_ICD
+    acceleration_vectors_m_s2: null
+    load_factors_g: null
+    applicable_configuration: LAUNCH_STOWED
+  launch_sine_vibration:
+    source_class: UNKNOWN
+    status: HOLD_NO_INPUT_SPECTRUM
+    frequency_amplitude_profile: null
+    damping_ratio: null
+  launch_random_vibration:
+    source_class: UNKNOWN
+    status: HOLD_NO_PSD
+    acceleration_psd: null
+    duration_s: null
+  launch_acoustic:
+    source_class: UNKNOWN
+    status: HOLD_NO_OASPL_OR_BAND_SPECTRUM
+    oaspl_db: null
+    band_spectrum: null
+  separation:
+    source_class: UNKNOWN
+    status: HOLD_NO_SEPARATION_SYSTEM_ICD
+    interface_impulse_N_s: null
+    interface_couple_N_m_s: null
+    srs: null
+    initial_rate_rad_s: null
+  hdrm_release:
+    source_class: PROVISIONAL
+    status: HOLD_FUNCTIONAL_ENVELOPE_NOT_SELECTED_HARDWARE
+    release_stroke_candidate_mm: 6.0
+    working_preload_candidate_N: 50.0
+    release_shock_srs: null
+    candidate_source: 20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/00_authority/V5_HDRM_AUTHORITY.yaml
+  solar_array_deployment:
+    source_class: UNKNOWN
+    status: HOLD_NO_HINGE_TORQUE_DAMPING_OR_STOP_IMPACT_AUTHORITY
+    hinge_torque_N_m: null
+    stop_impact_impulse_N_s: null
+    deployment_time_s: null
+  arm_nominal_slew:
+    source_class: DERIVED
+    status: DERIVED_SIMULATION_TRAJECTORY_NOT_MECHANICAL_DESIGN_LOAD
+    trajectory: quintic_10_15_6
+    maneuver_time_s: 8.0
+    q_start_deg: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    q_end_deg: [0.0, 60.0, -40.0, 0.0, 0.0, 0.0]
+    source: 20_engineering/config/coupled_scene/scene_A1_arm_slew.yaml
+    joint_load_time_histories: null
+  arm_emergency_stop:
+    source_class: UNKNOWN
+    status: HOLD_NO_STOP_TIME_DECELERATION_LAW_OR_ACTUATOR_TORQUE_AUTHORITY
+    stop_time_s: null
+    joint_deceleration_rad_s2: null
+    joint_torque_N_m: null
+  arm_joint_lock:
+    source_class: UNKNOWN
+    status: HOLD_NO_FAULT_LOAD_AUTHORITY
+    lock_stiffness_N_m_rad: null
+    impact_rate_rad_s: null
+    hard_stop_geometry: null
+    load_redistribution: null
+  capture_22kg_anchor:
+    source_class: DERIVED
+    status: DERIVED_SIMULATION_EVIDENCE_NOT_STRUCTURAL_DESIGN_AUTHORITY
+    target_mass_kg: 22.0
+    target_tumble_deg_s: 0.5
+    approach_speed_range_m_s: [0.005, 0.03]
+    grasp_lever_arm_m: 0.25173
+    contact_impulse_range_N_s: [0.0601233, 0.360622]
+    grasp_couple_range_N_m_s: [0.00151536, 0.00152744]
+    source: 30_simulation/sim_06_capture_impulse/results/capture_impulse_matrix_v0.csv
+    source_sha256: 8CBAD84B8FF69FFCA6992CE29E95520BAE3C309260EC8C55083CBE62DFED5151
+    limitations:
+      - rigid_capture_model
+      - no_contact_duration_or_force_time_history_authority
+      - no_structural_load_distribution
+      - no_test_correlation
+  capture_150kg_anchor:
+    source_class: DERIVED
+    status: DERIVED_SIMULATION_EVIDENCE_NOT_STRUCTURAL_DESIGN_AUTHORITY
+    target_mass_kg: 150.0
+    target_tumble_deg_s: 3.0
+    approach_speed_range_m_s: [0.005, 0.03]
+    grasp_lever_arm_m: 1.21521
+    contact_impulse_range_N_s: [0.274973, 0.677633]
+    grasp_couple_range_N_m_s: [0.111944, 0.130197]
+    source: 30_simulation/sim_06_capture_impulse/results/capture_impulse_matrix_v0.csv
+    source_sha256: 8CBAD84B8FF69FFCA6992CE29E95520BAE3C309260EC8C55083CBE62DFED5151
+    limitations:
+      - rigid_capture_model
+      - post_capture_rate_exceeds_existing_2_deg_s_research_budget
+      - no_contact_duration_or_force_time_history_authority
+      - no_structural_load_distribution
+      - no_test_correlation
+  capture_eccentricity:
+    source_class: UNKNOWN
+    status: HOLD_NO_CAPTURE_DISPERSION_AUTHORITY
+    grasp_point_distribution_m: null
+    contact_normal_error_rad: null
+    lever_arm_tolerance_m: null
+    contact_compliance_m_N: null
+  gripper_closure:
+    source_class: UNKNOWN
+    status: HOLD_NO_CONTACT_FORCE_FRICTION_OR_ACTUATOR_AUTHORITY
+    accepted_urdf_effort_limit_N: 100.0
+    effort_limit_role: MODEL_LIMIT_NOT_DESIGN_OR_QUALIFICATION_LOAD
+    contact_force_N: null
+  post_capture_stabilization:
+    source_class: DERIVED
+    status: PARAMETRIC_DYNAMICS_ONLY_MECHANICAL_INTERFACE_REACTION_HOLD
+    interface_reaction_time_history: null
+    controller_and_actuator_authority: null
+  thermal_gradient:
+    source_class: UNKNOWN
+    status: HOLD_NO_MISSION_THERMAL_ENVIRONMENT_OR_TEMPERATURE_MAP
+    temperature_field_K: null
+    reference_temperature_K: null
+    preload_temperature_dependence: null
+  panel_failure_cases:
+    source_class: DERIVED
+    status: CONFIGURATION_ENUM_ONLY_LOADS_UNKNOWN
+    configurations: [LEFT_PANEL_FAIL, RIGHT_PANEL_FAIL, BOTH_PANEL_FAIL]
+    asymmetric_inertia: null
+    hinge_and_hdrm_reactions: null
+  safe_mode:
+    source_class: UNKNOWN
+    status: HOLD_SAFE_MODE_MECHANICAL_STATE_UNDEFINED
+    mechanical_safe_pose: null
+    hold_torque_N_m: null
+    brake_state: null
+    power_off_loads: null
+  m3r_unit_load:
+    source_class: DERIVED
+    status: AUTHORIZED_MODEL_CHARACTERIZATION_ONLY
+    detailed_contract: unit_load_characterization
+    flight_load_authority: false
+
+unit_load_characterization:
+  status: AUTHORIZED_FOR_MODEL_CHARACTERIZATION_ONLY
+  interface: M3R_B601_AS_BUILT_PATTERN_DATUM
+  components: [Fx, Fy, Fz, Mx, My, Mz]
+  nominal_unit_values: [1_N, 1_N, 1_N, 1_N_m, 1_N_m, 1_N_m]
+  permitted_outputs:
+    - stiffness_matrix_6x6
+    - compliance_matrix_6x6
+    - reaction_balance
+    - mesh_convergence
+    - load_path_visualization
+  prohibited_outputs:
+    - flight_strength_margin
+    - flight_buckling_margin
+    - launch_qualification_statement
+
+prohibited_claims:
+  - AUTHORIZED_FLIGHT_LOADS
+  - LAUNCH_STRENGTH_PASS
+  - LAUNCH_BUCKLING_PASS
+  - FASTENER_MOS_PASS
+  - QUALIFICATION_READY
+  - FLIGHT_STRUCTURE_QUALIFIED
+
+release_condition:
+  q1_pass_requires:
+    - launcher_or_deployer_and_separation_icd_bound
+    - authorized_launch_environment_with_axes_levels_duration_and_tolerances
+    - mechanism_and_arm_dynamic_load_time_histories_or_approved_envelopes
+    - capture_design_envelope_with_contact_model_and_owner_approval
+    - reproducible_capture_evidence_source_path_and_controlled_regeneration_or_superseding_authority
+    - approved_load_combinations_and_factors
+    - boundary_conditions_and_interface_stiffness_authority
+  current_gate_candidate: HOLD

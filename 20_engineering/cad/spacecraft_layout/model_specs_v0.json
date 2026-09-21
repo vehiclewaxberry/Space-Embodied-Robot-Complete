@@ -1,0 +1,1010 @@
+[
+ {
+  "key": "servicer_12U_v0",
+  "spec": {
+   "object_id": "servicer_12U_v0",
+   "frame": "S",
+   "reference_point": "S_origin (geometric center of the 12U body envelope; CoM offset TBD per SSOT §4)",
+   "target_mass_kg": 24,
+   "confidence": "low",
+   "primitives": [
+    {
+     "shape": "box",
+     "role": "front_task_bay",
+     "dims_mm": {
+      "length_x": 113.5,
+      "width_y": 226.3,
+      "height_z": 226.3
+     },
+     "center_offset_mm": [
+      113.5,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "mid_bus_bay",
+     "dims_mm": {
+      "length_x": 113.5,
+      "width_y": 226.3,
+      "height_z": 226.3
+     },
+     "center_offset_mm": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "rear_bay",
+     "dims_mm": {
+      "length_x": 113.5,
+      "width_y": 226.3,
+      "height_z": 226.3
+     },
+     "center_offset_mm": [
+      -113.5,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "flange",
+     "dims_mm": {
+      "length_x": 15,
+      "width_y": 140,
+      "height_z": 140
+     },
+     "center_offset_mm": [
+      177.75,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "cylinder",
+     "role": "camera_payload",
+     "dims_mm": {
+      "radius": 25,
+      "cyl_length": 40,
+      "axis": "x"
+     },
+     "center_offset_mm": [
+      190.25,
+      0,
+      80
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "solar_panel_left",
+     "dims_mm": {
+      "length_x": 227,
+      "width_y": 200,
+      "height_z": 6
+     },
+     "center_offset_mm": [
+      -56.75,
+      213.15,
+      0
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "solar_panel_right",
+     "dims_mm": {
+      "length_x": 227,
+      "width_y": 200,
+      "height_z": 6
+     },
+     "center_offset_mm": [
+      -56.75,
+      -213.15,
+      0
+     ]
+    },
+    {
+     "shape": "cylinder",
+     "role": "nozzle",
+     "dims_mm": {
+      "radius": 45,
+      "cyl_length": 60,
+      "axis": "x"
+     },
+     "center_offset_mm": [
+      -200.25,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "cylinder",
+     "role": "antenna_placeholder",
+     "dims_mm": {
+      "radius": 15,
+      "cyl_length": 50,
+      "axis": "z"
+     },
+     "center_offset_mm": [
+      -113.5,
+      0,
+      138.15
+     ]
+    }
+   ],
+   "features": {
+    "mount_face_M": {
+     "origin_mm": [
+      185.25,
+      0,
+      0
+     ],
+     "normal": [
+      1,
+      0,
+      0
+     ],
+     "note": "Outer datum face of the robot_mount_adapter (flange) on the +X front task face = frame M origin. +Z_M := +X_S (mount-face normal / arm reach & target-approach direction), +X_M along task-face main bolt array (project +Z_S). Placed at Y=Z=0 to sit on the servicer CoM lateral projection (req 12U-LR-01) and near-coaxial with the camera. T_SM (S->M) is directly readable off this face after CAD: nominal translation [185.25,0,0] mm, rotation = +90deg about Y_S mapping X_S->Z_M."
+    },
+    "keepout": {
+     "robot_arm_workspace": {
+      "shape": "cylinder",
+      "axis": "x",
+      "base_x_mm": 185.25,
+      "cyl_length": 500,
+      "radius": 250,
+      "note": "forward capture/reach volume ahead of frame M; solar panels, antenna and nozzle are kept clear of it (baseline §2, req 12U-LR-02/05)"
+     },
+     "camera_fov_cone": {
+      "apex_mm": [
+       210,
+       0,
+       80
+      ],
+      "boresight": [
+       1,
+       0,
+       0
+      ],
+      "half_angle_deg": 20,
+      "note": "must stay unoccluded by folded arm (req 12U-LR-04)"
+     },
+     "com_allowable_box_mm": {
+      "ref": "geometric_center",
+      "x_half": 45,
+      "y_half": 45,
+      "z_half": 70,
+      "source": "CDS Rev14.1 Table 2 (12U)"
+     }
+    },
+    "camera_boresight": {
+     "optical_center_mm": [
+      190,
+      0,
+      80
+     ],
+     "direction": [
+      1,
+      0,
+      0
+     ],
+     "maps_to": "frame C"
+    },
+    "grasp_points_mm": [],
+    "marker_points_mm": [],
+    "tumble_axis": null,
+    "bay_partitions_x_mm": {
+     "rear": [
+      -170.25,
+      -56.75
+     ],
+     "mid": [
+      -56.75,
+      56.75
+     ],
+     "front": [
+      56.75,
+      170.25
+     ]
+    },
+    "envelope_mm": {
+     "length_x": 340.5,
+     "width_y": 226.3,
+     "height_z": 226.3
+    }
+   },
+   "open_asset_refs": [
+    "OreSat 12U_Frames.SLDASM (12U frame / bay-stack layering reference)",
+    "OreSat lensMount.STEP / OreSat1_CameraBoard.SLDPRT (camera payload placement)",
+    "OreSat OreSat_ReactionWheels.SLDASM (mid-bay RW cluster, lumped internally)",
+    "PyCubed mainboard/batteryboard (mid bus-bay card-stack mass, lumped internally)",
+    "CDS Rev.14.1 (Appendix B 12U outline; Table 1 mass 24 kg; Table 2 CoM box)",
+    "NASA SmallSat SOA propulsion & communications chapters (rear nozzle/antenna placeholders)",
+    "reBot base requirements / reBot-DevArm_fixend.urdf (frame M mount-face datum)"
+   ],
+   "assumptions": [
+    "S origin is placed at the geometric center of the 12U envelope; CoM is assumed near-center (Y=Z=0) but not yet computed — CoM offset and T_SB are TBD per SSOT §4.",
+    "Envelope taken as the nominal 12U (2x2x3) form: 340.5 mm (X) x 226.3 mm (Y) x 226.3 mm (Z). Exact CDS Appendix B dims are unverified (drawing-text parse failed, doc §1 limitation) and must be manually reviewed before CAD.",
+    "The 340.5 mm long axis is aligned with +X_S (rear service bay -> front task bay = target-approach). Three bays each 113.5 mm (1U) deep partition the body along X: rear [-170.25,-56.75], mid [-56.75,56.75], front [56.75,170.25]. Bay boxes share the full 226.3x226.3 cross-section and union into one monolithic body; internal bulkheads not modeled.",
+    "target_mass_kg = 24.0 kg adopted as the CDS Rev14.1 Table 1 12U max-mass reference, used as a design target for the display servicer (confidence low). Builder sizes effective density to hit it. Internal components (OBC/C&DH, EPS/PMAD, battery, reaction-wheel set, IMU) are lumped into the body mass, not modeled as separate outer geometry (they do not change the external envelope).",
+    "Robot mount face M = outer datum of a 140x140x15 mm adapter flange centered on the +X front face; M origin [185.25,0,0] mm, outward normal +X_S. Positioned at Y=Z=0 to lie on the CoM lateral projection (req 12U-LR-01) and clear of camera/panels/antenna (req 12U-LR-02).",
+    "Camera modeled as a Ø50 x 40 mm cylinder mounted on the front face, offset +80 mm in +Z above the arm mount, boresight +X and near-coaxial with the robot workspace (baseline §4 front-task-face C-over-B); it does not conflict with the mount or occlude when the arm is folded (req 12U-LR-04).",
+    "Solar panels modeled as two 227x200x6 mm flat plates deployed on ±Y with Z-normal, spanning only the rear+mid bays (X from -170.25 to +56.75) so they clear the forward robot workspace and camera FOV cone (baseline §2 side deployables). Deployed state assumed; stowed envelope TBD.",
+    "Propulsion placeholder = Ø90 x 60 mm cylinder on the -X rear face (nozzle, axis +X, protruding rearward). Antenna placeholder = Ø30 x 50 mm cylinder on the rear-bay +Z face. Both are isolated from the front-end robot workspace and the panels (baseline §2 rear service bay; req in reference-inputs §2).",
+    "No fillets, holes, rails, or -Z 'tuna-can' extra volume are modeled; rail contact zones and the -Z extra volume are intentionally left free per CDS. Block model = simple boxes + cylinders unioned only.",
+    "Grasp/marker points and tumble axis are N/A for the servicer (they belong to target/debris models); left empty/null.",
+    "Reference deployment system assumed rail-reference (baseline §3), pending Appendix B manual review.",
+    "Geometry only; inertia is self-defined downstream. No OreSat/PyCubed/BIRDS CAD is copied or renamed — external open assets informed only sub-system stacking/interface ideas per mapping doc §1 (whole-servicer geometry is original, risk RA-001)."
+   ]
+  }
+ },
+ {
+  "key": "servicer_6U_v0",
+  "spec": {
+   "object_id": "servicer_6U_v0",
+   "frame": "S",
+   "reference_point": "S_origin",
+   "target_mass_kg": 9,
+   "confidence": "low",
+   "primitives": [
+    {
+     "shape": "box",
+     "role": "rear_bay",
+     "dims_mm": {
+      "length_x": 122,
+      "width_y": 100,
+      "height_z": 226.3
+     },
+     "center_offset_mm": [
+      -122,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "mid_bus_bay",
+     "dims_mm": {
+      "length_x": 122,
+      "width_y": 100,
+      "height_z": 226.3
+     },
+     "center_offset_mm": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "front_task_bay",
+     "dims_mm": {
+      "length_x": 122,
+      "width_y": 100,
+      "height_z": 226.3
+     },
+     "center_offset_mm": [
+      122,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "flange",
+     "dims_mm": {
+      "length_x": 8,
+      "width_y": 90,
+      "height_z": 180
+     },
+     "center_offset_mm": [
+      187,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "camera_placeholder",
+     "dims_mm": {
+      "length_x": 40,
+      "width_y": 40,
+      "height_z": 40
+     },
+     "center_offset_mm": [
+      203,
+      0,
+      50
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "solar_panel",
+     "dims_mm": {
+      "length_x": 260,
+      "width_y": 6,
+      "height_z": 200
+     },
+     "center_offset_mm": [
+      -30,
+      53,
+      0
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "solar_panel",
+     "dims_mm": {
+      "length_x": 260,
+      "width_y": 6,
+      "height_z": 200
+     },
+     "center_offset_mm": [
+      -30,
+      -53,
+      0
+     ]
+    },
+    {
+     "shape": "cylinder",
+     "role": "nozzle",
+     "dims_mm": {
+      "radius": 15,
+      "cyl_length": 30,
+      "axis": "x"
+     },
+     "center_offset_mm": [
+      -198,
+      0,
+      0
+     ]
+    }
+   ],
+   "features": {
+    "mount_face_M": {
+     "origin_mm": [
+      191,
+      0,
+      0
+     ],
+     "normal": [
+      1,
+      0,
+      0
+     ],
+     "x_axis_hint": [
+      0,
+      0,
+      1
+     ],
+     "note": "Frame M = arm mounting-face / reBot URDF base = adapter flange outer-surface datum. +Z_M = mount-face normal = +X_S (arm reach direction); +X_M (main bolt array) aligned with +Z_S. T_SM = S->M to be read off CAD once the flange bolt pattern is fixed (per coordinate SSOT, this is the mechanical-to-dynamics bridge, old T_SB)."
+    },
+    "camera_boresight_S": [
+     1,
+     0,
+     0
+    ],
+    "keepout": {
+     "arm_workspace": "Forward hemisphere about +X_S emanating from mount_face_M; solar panels held behind x=+100 mm to stay clear (6U-LR-05).",
+     "rail_contact_surface": "CDS Rev14 rail / contact-surface keepout on the deployer-rail edges is TBD pending manual dimension review; not modeled at block-model level."
+    }
+   },
+   "open_asset_refs": [
+    "OreSat",
+    "UPSat",
+    "OSSAT-KISPE",
+    "bac-hardware"
+   ],
+   "assumptions": [
+    "Frame S origin = geometric center of the 6U envelope (100x226.3x366 mm); reconciliation with CoM is deferred to the mass-inertia budget (T_SB S->B offset left TBD).",
+    "Axis mapping (documented, not from a fixed drawing): long 366 mm = X_S (rear service bay -> front task bay / approach axis); 100 mm = Y_S (right solar-panel side); 226.3 mm = Z_S (up). Consistent with the CDS Rev14 6U envelope.",
+    "The 'single body' is represented as three equal-length X-partitioned bays of 122 mm each (rear_bay, mid_bus_bay, front_task_bay) that sum to the full envelope with zero overlap; no detailed internal packaging (OBC/EPS/battery/RW/IMU are notional occupants of mid_bus_bay, comms/propulsion/interface of rear_bay).",
+    "Arm mount = frame M on the +X front task face: M origin at flange outer surface [191,0,0] mm in S; mount-face normal +Z_M = +X_S = [1,0,0] (arm reaches forward); +X_M (main bolt array) aligned with +Z_S. T_SM to be exported/reviewed with the adapter model, not guessed post-CAD.",
+    "Camera placeholder co-located on the front task face, offset +50 mm in Z above the arm axis to keep the FOV near-coaxial with the arm capture workspace (6U-LR-02); optical boresight assumed = +X_S.",
+    "Two side solar panels modeled as thin (6 mm) body-mounted plates flush on the +/-Y faces, spanning X in [-160,+100] mm to stay clear of the forward arm workspace hemisphere (6U-LR-05). This is a stowed / body-mounted representation only; deployed envelope, hinge line and deployment mechanism are NOT modeled and will change the collision envelope.",
+    "Rear propulsion/interface represented by one small nozzle cylinder (r=15, L=30 mm) on -X; individual comms antennas, connectors, harness exits and ground-support interfaces are not modeled (placeholder volume only).",
+    "Flange, camera, nozzle and panels are simple geometric placeholders per block-model rules: boxes + cylinders unioned, NO fillets/holes/fasteners/manufacturing detail.",
+    "Mass/CoM/inertia are self-defined (RA-003): target_mass_kg = 9.0 kg is a v0 STATED ASSUMPTION, chosen to be lighter than the 12U variant and consistent with ~1100 kg/m^3 effective density over the ~8.3 L envelope; it is NOT a measured value. Inertia tensor to be derived by the deterministic builder / mass-inertia budget about a stated reference point. Confidence: low.",
+    "No external CAD geometry is imported: no full-servicer CAD exists (RA-001). Open assets (OreSat, UPSat, OSSAT/KISPE, bac-hardware) informed only subsystem stacking/panel-interconnect concepts; all geometry here is self-authored.",
+    "Units are millimeters; all frames right-handed; every primitive is placed by center_offset_mm from the S origin."
+   ]
+  }
+ },
+ {
+  "key": "target_satellite_v0",
+  "spec": {
+   "object_id": "target_satellite_v0",
+   "frame": "T",
+   "reference_point": "T_origin (main-body geometric center; CoM recorded separately via features.com_offset_mm)",
+   "target_mass_kg": 22,
+   "confidence": "low",
+   "primitives": [
+    {
+     "shape": "box",
+     "role": "body",
+     "dims_mm": {
+      "length_x": 340,
+      "width_y": 226,
+      "height_z": 226
+     },
+     "center_offset_mm": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "cylinder",
+     "role": "body_cylinder",
+     "dims_mm": {
+      "radius": 100,
+      "cyl_length": 120,
+      "axis": "x"
+     },
+     "center_offset_mm": [
+      230,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "solar_panel",
+     "dims_mm": {
+      "length_x": 300,
+      "width_y": 200,
+      "height_z": 12
+     },
+     "center_offset_mm": [
+      0,
+      213,
+      0
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "solar_panel",
+     "dims_mm": {
+      "length_x": 300,
+      "width_y": 200,
+      "height_z": 12
+     },
+     "center_offset_mm": [
+      0,
+      -213,
+      0
+     ]
+    },
+    {
+     "shape": "cylinder",
+     "role": "antenna",
+     "dims_mm": {
+      "radius": 6,
+      "cyl_length": 200,
+      "axis": "z"
+     },
+     "center_offset_mm": [
+      -100,
+      0,
+      213
+     ]
+    }
+   ],
+   "features": {
+    "com_offset_mm": [
+     40,
+     0,
+     0
+    ],
+    "com_note": "self-defined; shifted +X toward denser adapter/propulsion end; recorded separately from T_origin per SSOT sec4; low confidence, never measured",
+    "grasp_points_mm": [
+     {
+      "name": "launch_adapter_ring",
+      "point_mm": [
+       290,
+       0,
+       0
+      ],
+      "ring_outer_radius_mm": 100,
+      "approach_axis": "+X_T",
+      "type": "rigid_separation_ring",
+      "priority": "primary",
+      "note": "far +X face rim of Agena-like adapter cylinder; servicer approaches along -X_T into ring; rigid structural capture interface"
+     },
+     {
+      "name": "solar_panel_yoke_+Y",
+      "point_mm": [
+       0,
+       113,
+       0
+      ],
+      "approach_axis": "+Z_T",
+      "type": "structural_yoke_root",
+      "priority": "secondary",
+      "note": "panel hinge/yoke root fitting at +Y body face; grasp the structural yoke only, NEVER the panel laminate"
+     },
+     {
+      "name": "solar_panel_yoke_-Y",
+      "point_mm": [
+       0,
+       -113,
+       0
+      ],
+      "approach_axis": "+Z_T",
+      "type": "structural_yoke_root",
+      "priority": "secondary",
+      "note": "mirror of +Y yoke"
+     }
+    ],
+    "marker_points_mm": [
+     {
+      "name": "AprilTag_front",
+      "id": 0,
+      "point_mm": [
+       170,
+       90,
+       90
+      ],
+      "normal": "+X_T",
+      "size_mm": 60,
+      "note": "servicer-facing +X body face, corner clear of adapter cylinder footprint (radial 127mm > cyl radius 100mm); visible along approach axis"
+     },
+     {
+      "name": "AprilTag_top",
+      "id": 1,
+      "point_mm": [
+       -60,
+       0,
+       113
+      ],
+      "normal": "+Z_T",
+      "size_mm": 60,
+      "note": "redundant marker on +Z top face, offset from antenna root"
+     }
+    ],
+    "keepout": [
+     {
+      "name": "solar_panel_+Y",
+      "type": "fragile_non_grasp",
+      "primitive_ref": "solar_panel@[0,213,0]"
+     },
+     {
+      "name": "solar_panel_-Y",
+      "type": "fragile_non_grasp",
+      "primitive_ref": "solar_panel@[0,-213,0]"
+     },
+     {
+      "name": "antenna",
+      "type": "slender_non_grasp",
+      "primitive_ref": "antenna@[-100,0,213]"
+     }
+    ],
+    "tumble_axis": {
+     "axis": "+Z_T",
+     "nominal_rate_deg_s": [
+      2,
+      5
+     ],
+     "basis": "self_defined_nominal_non_cooperative_flat_spin",
+     "confidence": "low",
+     "note": "failed non-cooperative satellite assumed slowly tumbling; axis/rate are placeholders to be set by Stage 2 scenario matrix; never measured"
+    },
+    "frame_axes": {
+     "+X_T": "long body axis toward primary grasp interface / servicer approach direction",
+     "+Z_T": "toward solar-panel deploy normal / upper surface",
+     "+Y_T": "completes right-handed frame (toward +Y solar-panel side)"
+    }
+   },
+   "open_asset_refs": [
+    "NASA-3D Agena (cylindrical docking/adapter section geometry, form only; no inertia inherited)",
+    "ESA SCIFLEET (large-satellite geometry reference, form only)",
+    "SwissCube per-part CAD (CubeSat geometry reference, form only)",
+    "CDS 12U envelope 226.3x226.3x340.5mm (bounding-box reference; exact dims are manual_review_required per APPB-004)",
+    "OreSat frame/solar/antenna assets (subsystem form reference)"
+   ],
+   "assumptions": [
+    "Mapping: target_satellite_v0 = Target-1 failed non-cooperative small satellite per cad_asset_mapping_v0 sec3 and target_models_requirements sec3; open assets inform GEOMETRY ONLY, geometry re-authored (no BIRDS/OreSat copy).",
+    "Frame T per coordinate_frame_definition_v0 SSOT: right-handed; origin at main-body geometric center; +X_T toward primary grasp interface / servicer approach; +Z_T toward panel-deploy normal; +Y_T completes RH. CoM differs from origin and is recorded separately (features.com_offset_mm).",
+    "Chose 12U class over 6U for v0; body simplified to a 340 x 226 x 226 mm box (long axis along X_T) from the CDS 12U envelope. These are v0 PLACEHOLDERS, not verified Appendix B dimensions (12U outer dims flagged manual_review_required, APPB-004).",
+    "Agena-like cylindrical section modeled as a launch-adapter / separation-ring stub: radius 100mm (~8-inch/203mm sep-ring class), length 120mm, protruding from the +X body face and unioned to it; geometry informed by NASA-3D Agena only, NO inertia inherited.",
+    "Solar panels modeled as two deployable flat stub plates (300 x 200 x 12 mm) along +/-Y, one plate per side, rooted at the body Y faces (y=+/-213 center so root touches +/-113 face); hinge/yoke abstracted to a point; panels are fragile keepout, not a default grasp target.",
+    "Antenna modeled as a single slender monopole rod (radius 6mm, length 200mm) along +Z rooted on the top face; abstracts a VHF/UHF whip; slender keepout, not a grasp target.",
+    "Mass self-defined at 22.0 kg (~12U upper-mass class ~2 kg/U plus adapter and panels); NOT measured; deterministic builder sizes an effective uniform density to hit this target. confidence low.",
+    "Inertia is self-defined downstream and NEVER claimed as measured (risk RA-003 / R-014); this spec provides geometry + mass target only, no inertia tensor asserted here.",
+    "CoM assumed offset +40mm along +X_T toward the denser adapter/propulsion end; low confidence, to be replaced by the mass-inertia CSV after component assignment.",
+    "Primary grasp = rigid launch-adapter ring at the far +X face of the adapter cylinder (approach along +X_T); secondary grasp = solar-panel structural yoke/root at the +/-Y body faces; the panel laminate itself is explicitly forbidden as a grasp surface.",
+    "AprilTag markers self-placed on the servicer-facing +X body face (clear of the adapter-cylinder footprint) and on the +Z top face; IDs and 60mm size are placeholders; markers denote demonstration/perception NARRATIVE only, no completed perception claimed.",
+    "Non-cooperative failed satellite assumed slowly tumbling; nominal tumble axis self-defined about +Z_T at ~2-5 deg/s placeholder rate, to be finalized by the Stage 2 scenario matrix; low confidence.",
+    "Block model only: boxes + cylinders unioned, all primitives mutually touching/overlapping for a single solid; NO fillets, holes, thin-wall, or mechanism detail; grasp/marker/keepout/tumble entries are annotation metadata, not solid geometry.",
+    "All dimensions in millimeters; center_offset_mm is measured from the frame T origin."
+   ]
+  }
+ },
+ {
+  "key": "target_debris_v0",
+  "spec": {
+   "object_id": "target_debris_v0",
+   "frame": "D",
+   "reference_point": "D_axis_mid (cylinder axis mid-point per coordinate_frame_definition_v0 SSOT; +Z_D = nominal tumble/symmetry axis)",
+   "target_mass_kg": 150,
+   "confidence": "low",
+   "primitives": [
+    {
+     "shape": "cylinder",
+     "role": "body_cylinder",
+     "dims_mm": {
+      "axis": "z",
+      "radius": 600,
+      "cyl_length": 2000
+     },
+     "center_offset_mm": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "shape": "cylinder",
+     "role": "forward_end_ring_grasp",
+     "dims_mm": {
+      "axis": "z",
+      "radius": 660,
+      "cyl_length": 100
+     },
+     "center_offset_mm": [
+      0,
+      0,
+      950
+     ]
+    },
+    {
+     "shape": "cylinder",
+     "role": "aft_end_ring_flange",
+     "dims_mm": {
+      "axis": "z",
+      "radius": 660,
+      "cyl_length": 100
+     },
+     "center_offset_mm": [
+      0,
+      0,
+      -950
+     ]
+    },
+    {
+     "shape": "cylinder",
+     "role": "reinforcement_rib_ring",
+     "dims_mm": {
+      "axis": "z",
+      "radius": 630,
+      "cyl_length": 80
+     },
+     "center_offset_mm": [
+      0,
+      0,
+      300
+     ]
+    },
+    {
+     "shape": "cylinder",
+     "role": "nozzle",
+     "dims_mm": {
+      "axis": "z",
+      "radius": 300,
+      "cyl_length": 500
+     },
+     "center_offset_mm": [
+      0,
+      0,
+      -1250
+     ]
+    },
+    {
+     "shape": "box",
+     "role": "plate",
+     "dims_mm": {
+      "length_x": 30,
+      "width_y": 200,
+      "height_z": 250
+     },
+     "center_offset_mm": [
+      615,
+      0,
+      300
+     ]
+    }
+   ],
+   "features": {
+    "tumble_axis": {
+     "axis_unit_D": [
+      0,
+      0,
+      1
+     ],
+     "label": "+Z_D",
+     "role": "nominal symmetry / spin (tumble) axis",
+     "rate_context": "magnitude order only from MMT/RoBo6/LCDC upper-stage light-curve datasets (~few deg/s up to tens of deg/s); used ONLY for Stage-2 angular-rate initial condition, NOT for geometry",
+     "note": "real spent stages precess/nutate and can flat-spin; Z_D is the nominal principal/spin axis, not a guaranteed pure single-axis rotation"
+    },
+    "symmetry_axis_D": [
+     0,
+     0,
+     1
+    ],
+    "grasp_region": "rim / ring: the two proud end rings (forward_end_ring_grasp at +Z, aft_end_ring_flange at -Z) are the stiffest capture features; a mid-body reinforced band at the rib ring is a secondary option. Smooth shell wall is NOT a grasp surface.",
+    "grasp_points_mm": [
+     [
+      660,
+      0,
+      950
+     ],
+     [
+      -660,
+      0,
+      950
+     ],
+     [
+      0,
+      660,
+      950
+     ],
+     [
+      0,
+      -660,
+      950
+     ],
+     [
+      660,
+      0,
+      -950
+     ],
+     [
+      0,
+      660,
+      -950
+     ]
+    ],
+    "marker_points_mm": [
+     {
+      "loc_mm": [
+       630,
+       0,
+       300
+      ],
+      "normal_D": [
+       1,
+       0,
+       0
+      ],
+      "surface": "AprilTag bracket plate on +X_D shell (servicer-approach-visible)"
+     },
+     {
+      "loc_mm": [
+       0,
+       0,
+       1000
+      ],
+      "normal_D": [
+       0,
+       0,
+       1
+      ],
+      "surface": "forward end-cap flat, inside forward ring rim"
+     }
+    ],
+    "keepout": [
+     {
+      "zone": "smooth_shell_wall",
+      "approx_bounds_mm": "radius ~600, |z| < 900 (excluding rib/rings)",
+      "reason": "thin unreinforced shell, crush/puncture risk - forbidden grasp/contact"
+     },
+     {
+      "zone": "aft_engine_region",
+      "approx_bounds_mm": "z < -1000 (nozzle stub + aft cap)",
+      "reason": "fragile engine bell, assumed possible residual propellant - forbidden contact"
+     }
+    ],
+    "collision_envelope": {
+     "primary_cylinder": {
+      "axis": "z",
+      "radius_mm": 660,
+      "z_min_mm": -1000,
+      "z_max_mm": 1000
+     },
+     "nozzle_cylinder": {
+      "axis": "z",
+      "radius_mm": 300,
+      "z_min_mm": -1500,
+      "z_max_mm": -1000
+     },
+     "note": "cylinder axis (Z_D) must be renderable in sim per Target-2 requirement"
+    },
+    "mount_face_M": "N/A - non-cooperative debris has no defined mechanical mounting/servicing interface (frame M applies only to servicer arm-mount adapter, not to a target)"
+   },
+   "open_asset_refs": [
+    "42 (NASA GSFC) - tumbling rigid-body + contact dynamics reuse, custom inertia/omega",
+    "SmallSatSim (JPL/UMich) - MuJoCo contact/RPO test harness",
+    "MMT/RoBo6/LCDC (kyselica/RoBo6) - upper-stage real tumble-rate calibration CONTEXT ONLY, no geometry",
+    "NASA SmallSat SOA - active debris removal narrative (Target-2 reference)",
+    "NASA-3D Agena - cylindrical upper-stage geometry-level reference only (per-model check, not copied)"
+   ],
+   "assumptions": [
+    "No manufacturing/measured CAD of a cylindrical upper-stage/adapter debris exists in the asset pool (gap RA-003); this is an ORIGINAL simplified block model, not copied from any open asset. Tsinghua space_robot debris URDF is license-gate D and explicitly NOT used.",
+    "Representative envelope chosen: body Ø1200 mm x 2000 mm long = a 'small spent upper-stage / large payload-adapter shell segment' scale, not tied to any specific vehicle (Agena-class ~1.5 m dia noted only as an upper bound reference).",
+    "True structure is a thin-walled hollow shell; here it is modeled as solid boxes+cylinders. Inertia is SELF-DEFINED via effective density (builder sizes density to hit target_mass_kg), never claimed as measured (RA-003 / R-014).",
+    "target_mass_kg = 150 kg is a STATED ASSUMPTION for a depleted/empty thin-wall aluminum shell of this envelope (lateral+cap area ~9.8 m^2 x ~3 mm Al ~= 80 kg shell + rings/nozzle/residual ~= 150 kg); confidence LOW.",
+    "+Z_D = nominal tumble/symmetry axis per SSOT; real debris precesses/nutates and may flat-spin - Z_D is the nominal spin/principal axis only.",
+    "Tumble-rate magnitude taken as ORDER-OF-MAGNITUDE context from MMT/RoBo6/LCDC light-curve data for Stage-2 angular-rate IC; it informs dynamics, NOT geometry.",
+    "Non-cooperative target: no standard servicing/mount interface, so mount_face_M (frame M) is N/A; grasp is on native structure (end rings / reinforced band), never on a defined docking port.",
+    "Grasp region = the two proud end rings (rim/ring), the stiffest features; smooth thin cylindrical shell wall is keepout (crush risk).",
+    "Aft nozzle stub added to represent a spent engine bell (simplified as a plain cylinder); aft region flagged keepout as fragile / possible residual propellant.",
+    "AprilTag/marker features are NOT debris-native - the +X_D shell bracket plate and the flat forward end-cap are provided as CANDIDATE marker locations for the servicer scenario; real debris carries no cooperative marker.",
+    "Reinforcement rib ring at z=+300 is a nominal stiffener placeholder (jiagou jin / flange); its exact location is assumed.",
+    "D origin placed at the body-cylinder axis mid-point per SSOT; geometric center assumed ~= CoM for the symmetric shell. The nozzle biases CoM slightly toward -Z; this small offset is ignored at v0 (record separately when inertia is estimated).",
+    "+X_D chosen as the nominal servicer approach / marker-visible direction (analogous to the +X_T convention in target_models_requirements).",
+    "All dimensions in millimeters; primitives are boxes + cylinders only, unioned; no fillets, holes, wall thickness, or manufacturing detail."
+   ]
+  }
+ },
+ {
+  "key": "robot_mount_adapter_v0",
+  "spec": {
+   "object_id": "robot_mount_adapter_v0",
+   "frame": "M",
+   "reference_point": "mount_plane = M origin at mount face (Z_M=0, reBot-interface bolt-array center); primitives placed by center_offset from it",
+   "primitives": [
+    {
+     "shape": "box",
+     "role": "plate",
+     "dims_mm": {
+      "length_x": 160,
+      "width_y": 160,
+      "height_z": 12
+     },
+     "center_offset_mm": [
+      0,
+      0,
+      -21
+     ]
+    },
+    {
+     "shape": "cylinder",
+     "role": "flange",
+     "dims_mm": {
+      "radius": 50,
+      "cyl_length": 15,
+      "axis": "z"
+     },
+     "center_offset_mm": [
+      0,
+      0,
+      -7.5
+     ]
+    }
+   ],
+   "target_mass_kg": 1.2,
+   "confidence": "low",
+   "features": {
+    "mount_face_M": {
+     "origin_mm": [
+      0,
+      0,
+      0
+     ],
+     "normal": [
+      0,
+      0,
+      1
+     ],
+     "note": "reBot URDF base (frame M) attaches here at top of flange boss; T_SM is read off CAD once plate is placed on the servicer front task face (frame S). Old symbol ^S T_B == T_SM per coordinate SSOT."
+    },
+    "frame_M_axes": "+Z_M = mount-face normal toward arm reach; +X_M along task-face / main bolt array; +Y_M completes RH",
+    "stackup_note": "Adapter lies entirely on -Z_M side of mount face. Flange boss spans Z=-15..0 (mount face at top, Z=0). Plate spans Z=-27..-15. Plate bottom (Z=-27) = servicer front-task-bay interface.",
+    "bolt_pattern_M": {
+     "role": "reBot_base_interface",
+     "pitch_circle_dia_mm": 80,
+     "count": 4,
+     "points_mm": [
+      [
+       28.28,
+       28.28,
+       0
+      ],
+      [
+       -28.28,
+       28.28,
+       0
+      ],
+      [
+       -28.28,
+       -28.28,
+       0
+      ],
+      [
+       28.28,
+       -28.28,
+       0
+      ]
+     ],
+     "note": "Placeholder only, no final hardware claimed (ADP-01 / flange-bolt placeholder). PCD and count pending reBot base ICD."
+    },
+    "servicer_bolt_pattern_note": "Adapter-to-servicer fasteners near plate corners at approx (+-65, +-65, -27) mm on plate bottom; placeholder, no final hardware.",
+    "keepout": {
+     "reBot_bolt_access": {
+      "shape": "cylinder",
+      "axis": "z",
+      "radius_mm": 55,
+      "z_from_mm": 0,
+      "z_to_mm": 20,
+      "note": "Reserve for reBot fasteners and tool access above mount face; no structure or cable routing inside."
+     },
+     "folded_arm_envelope": {
+      "shape": "cylinder",
+      "axis": "z",
+      "radius_mm": 120,
+      "z_from_mm": 0,
+      "z_to_mm": 350,
+      "note": "Placeholder reBot stowed/folded-arm envelope on +Z_M side. Metadata only, NOT a built solid. Must be overlaid vs solar-panel deployment zone, camera FOV, antenna, servicer body and target/debris envelopes (ADP-03, keepout checklist). Final geometry pending reBot folded config."
+     },
+     "cable_channel": {
+      "shape": "box",
+      "center_offset_mm": [
+       55,
+       0,
+       -21
+      ],
+      "dims_mm": [
+       20,
+       40,
+       12
+      ],
+      "note": "Reserved cable passage bus bay -> robot base (power/data/sensor/E-stop), routed outside arm motion envelope and solar-panel deployment zone (ADP-03). Metadata only; block-model union cuts no hole."
+     }
+    },
+    "ft_interface_plane_M": {
+     "origin_mm": [
+      0,
+      0,
+      0
+     ],
+     "normal": [
+      0,
+      0,
+      1
+     ],
+     "type": "virtual",
+     "note": "Stage 2 virtual force/torque interface at mount face (ADP-04); no physical F/T sensor volume claimed."
+    },
+    "T_SM_status": "TBD (Stage 1-C). Not fixed numerically here; to be exported and reviewed with this adapter model since it is the mechanical-to-dynamics bridge (small change alters coupled inertia / base reaction).",
+    "protrusion_rule_note": "CDS Rev14.1 6.5 mm protrusion and 8.5 mm rail-to-first-protrusion checks are stowed-rail-envelope checks in frame S (P0), not resolved in this M-frame block model."
+   },
+   "open_asset_refs": [
+    "reBot-DevArm_fixend.urdf (base-frame convention for M; must match exactly, not modified)",
+    "SpaceRobotEnv v_base.stl (visual reference only, not the reBot base)",
+    "OreSat frame / MountingBeam.STEP (mounting-plate and stiffener/reinforcement organization reference)",
+    "OpenManipulator-X (arm+base CAD/URDF organization reference)",
+    "CubeSat Design Specification Rev14.1 (6.5 mm / 8.5 mm protrusion & rail keepout rules)"
+   ],
+   "assumptions": [
+    "Self-designed adapter: no open CAD reused (mapping v0 sec.5). reBot base frame M must match reBot-DevArm_fixend.urdf convention; SpaceRobotEnv v_base.stl is visual reference only.",
+    "Frame M per coordinate SSOT: origin at adapter mounting-plate datum / reBot-interface bolt-array center on the mount face; +Z_M mount-face normal toward arm reach; +X_M along task-face/main bolt array; +Y_M completes RH.",
+    "Mount face placed at Z_M=0 (top of flange boss) = where reBot URDF base bolts on. Adapter body entirely on -Z_M side (toward servicer).",
+    "T_SM (old ^S T_B) is NOT fixed numerically at Stage 1-C; the mount_face_M origin/normal lets it be read off CAD once the plate is located on the servicer (S) front task face.",
+    "Plate 160 x 160 x 12 mm assumed to fit within the 12U servicer front-task-face rail keepout (front face assumed >= 200 x 200 mm); rail/protrusion CDS checks deferred to S-frame stowed-envelope analysis.",
+    "Flange boss diameter 100 mm (r=50) x 15 mm is a placeholder reBot-base pilot/register; final diameter pending reBot base ICD.",
+    "reBot base bolt pattern placeholder: PCD 80 mm, 4 fasteners at 45/135/225/315 deg; no final hardware claimed (ADP-01).",
+    "Bolt-access keepout cylinder r=55 mm, Z=0..+20 mm reserved for reBot fasteners/tool clearance; no structure or cabling inside.",
+    "Folded-arm keepout envelope (cylinder r=120 mm x 350 mm on +Z_M) is placeholder metadata, NOT a built solid; must be overlaid against solar-panel deployment, camera FOV, antenna, body and target/debris envelopes (ADP-03).",
+    "Cable routing channel reserved off-axis in plate (~x=+55 mm) as metadata only; block-model union cuts no hole. Cables routed outside arm motion envelope and solar-panel deployment zone (ADP-03).",
+    "Force/torque interface modeled as a virtual plane at the mount face (Z_M=0) for Stage 2 (ADP-04); no purchased/physical F/T sensor claimed.",
+    "Target mass 1.2 kg is a stated-assumption estimate: Al-6061 (rho=2700 kg/m^3) over plate+boss volume ~4.25e-4 m^3 (~1.15 kg) plus rib/reinforcement allowance; builder sizes effective density to hit it. Inertia self-defined, low confidence, recorded separately (ADP-05, mapping 'inertia must be self-defined').",
+    "Block-model rule honored: only a box (plate) + a cylinder (flange boss), unioned; no fillets, holes, threads, ribs, or pockets modeled (reinforcement/lightening folded into effective density).",
+    "Adapter is a servicer-side mount (not target/debris): grasp_points, marker_points, and tumble_axis are not applicable and omitted.",
+    "All dimensions in millimeters; frame M is right-handed."
+   ]
+  }
+ }
+]

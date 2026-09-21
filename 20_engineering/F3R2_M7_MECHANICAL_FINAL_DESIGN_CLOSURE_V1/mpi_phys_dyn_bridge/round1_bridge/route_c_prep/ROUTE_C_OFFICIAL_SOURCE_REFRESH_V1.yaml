@@ -1,0 +1,161 @@
+schema: ROUTE_C_OFFICIAL_SOURCE_REFRESH_V1
+generated_date_local: '2026-08-24'
+artifact_class: OFFICIAL_MANUFACTURER_SOURCE_CANDIDATE_REGISTER__WEB_RETRIEVAL_METADATA_ONLY__NO_SELECTION_NO_FIELD_PROMOTION
+scope: Route-C P04/P06/P10/P12 candidate-source refresh under the frozen C2-01 registry
+
+base_registry:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml
+  bytes: 19773
+  sha256: 6264A0A45F6A497787F3D96205CEF7799A19A225CD23CEA66D5AD31E335A3E8E
+  immutable: true
+  entries_total: 13
+  value_non_null: 0
+  status_AVAILABLE: 0
+  status_HOLD: 13
+
+base_admission_gate:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_C2_ADMISSION_GATE_V1.yaml
+  bytes: 16376
+  sha256: 0AE3888EDBE9A2DCD85792AA0E8800432911E4ED1C11D48C2206B60BED2521B8
+  immutable: true
+  pass: 2
+  fail: 6
+  ROUTE_C_CAD_AUTHORIZED: false
+
+source_policy:
+  allowed_here: official manufacturer page or datasheet, captured as retrieval metadata and fact snapshot
+  not_claimed: locally archived controlled PDF, exact project-selected part, supplier response, bench measurement, flight qualification
+  promotion_ceiling: CANDIDATE_RANGE_ONLY
+  available_rule: a source alone never makes a P-field AVAILABLE; exact part selection, Owner acceptance, unit, tolerance or uncertainty, provenance and field-specific closure are all required
+
+official_source_records:
+  - id: SRC-E2M-06
+    manufacturer: igus
+    title: E2 Micro Series 06 Energy Chain catalog
+    url: https://www.igus.com/us/pdf/s06.pdf
+    retrieval_date_local: '2026-08-24'
+    affected_fields: [P04, P12]
+    source_class: vendor_catalog
+    catalog_fact_snapshot:
+      series: '06'
+      inner_height_mm: 10.5
+      inner_width_range_mm: [6.0, 64.0]
+      outer_width_range_mm: [12.5, 71.0]
+      outer_height_mm: 15.0
+      bend_radius_options_mm: [18.0, 28.0, 38.0]
+      pitch_mm: 20.0
+      approximate_linear_mass_range_kg_per_m: [0.13, 0.30]
+      center_mount_chain_length_relation: chain_length = travel_S/2 + K
+    candidate_status: CANDIDATE_RANGE_ONLY
+    exclusions:
+      - no exact part number selected
+      - no B601 carrier travel or hard-stop position established
+      - no installed-bundle fit demonstrated
+      - no space-vacuum or mission-cycle qualification established
+
+  - id: SRC-TSUBAKI-PVDF
+    manufacturer: Tsubakimoto Chain
+    title: Cable Carrier special PVDF specification
+    url: https://en.tt-net.tsubakimoto.co.jp/tecs/engd/ccv/engd_ccv_01.asp
+    retrieval_date_local: '2026-08-24'
+    affected_fields: [P04, P12]
+    source_class: vendor_catalog
+    catalog_fact_snapshot:
+      applicable_families: [TKP, TKC]
+      material_option: special fluororesin PVDF specification
+      stated_intent: reduce gas generation where vacuum-atmosphere outgassing is undesirable
+      supplier_contact_required: true
+    candidate_status: SUPPLIER_INQUIRY_SOURCE_ONLY
+    exclusions:
+      - no exact model or size selected
+      - no numeric outgassing result or project environmental qualification captured
+      - no B601 travel, hard-stop, mass or fit value established
+
+  - id: SRC-CF9-UL
+    manufacturer: igus
+    title: chainflex CF9.UL e-chain control-cable datasheet
+    url: https://www.igus.com/contentData/Product_Files/Download/pdf/CF9-UL_en.pdf
+    retrieval_date_local: '2026-08-24'
+    affected_fields: [P06]
+    source_class: vendor_catalog
+    catalog_fact_snapshot:
+      cable_family: CF9.UL
+      stated_e_chain_lifetime_double_strokes: [5000000, 7500000, 10000000]
+      middle_temperature_band_C: [-25.0, 90.0]
+      minimum_e_chain_bend_radius_factor_d_by_lifetime: [5.0, 6.0, 7.0]
+      example_part: CF9.UL.02.04
+      example_outer_diameter_max_mm: 5.5
+      example_5M_minimum_radius_mm_at_20C: 27.5
+    candidate_status: PRODUCT_FAMILY_DYNAMIC_EVIDENCE_ONLY
+    exclusions:
+      - not selected against B601 electrical and data ICD
+      - not an installed dress-pack construction
+      - no combined six-joint bend-torsion mission spectrum demonstrated
+      - no space-vacuum or radiation qualification established
+
+  - id: SRC-TECASINT-8591
+    manufacturer: Ensinger
+    title: TECASINT 8591 grey modified PTFE for space applications
+    url: https://www.ensingerplastics.com/en/shapes/tecasint-8591-grey
+    retrieval_date_local: '2026-08-24'
+    affected_fields: [P10]
+    source_class: vendor_catalog
+    catalog_fact_snapshot:
+      material: TECASINT 8591 grey modified PTFE
+      coefficient_of_friction_range: [0.14, 0.22]
+      wear_rate_range_1e_minus_6_mm3_per_Nm: [1.0, 10.0]
+      high_vacuum_outgassing: passed ECSS-Q-70-02
+      manufacturer_stated_application: tribological use in deployable LEO satellite systems
+    candidate_status: SINGLE_MATERIAL_SCREENING_ONLY
+    exclusions:
+      - exact mating cable-jacket material is not selected
+      - coefficient is not registered as a named liner-by-jacket pair under B601 contact pressure, speed and temperature
+      - particulate and installed wear-life evidence is absent
+
+field_effects:
+  - id: P04
+    quantity: carrier_travel_mm
+    registry_value: null
+    registry_status: HOLD
+    added_candidate_source_ids: [SRC-E2M-06, SRC-TSUBAKI-PVDF]
+    promotion: NONE
+    remaining_closure: Owner topology and exact carrier selection, B601 travel derivation, controlled moving/fixed ends and hard-stop margin
+  - id: P06
+    quantity: minimum_dynamic_bend_radius_mm
+    registry_value: null
+    registry_status: HOLD
+    added_candidate_source_ids: [SRC-CF9-UL]
+    promotion: NONE
+    remaining_closure: exact selected installed construction plus combined bend-torsion-temperature-vacuum mission-life evidence
+  - id: P10
+    quantity: guide_friction_candidate
+    registry_value: null
+    registry_status: HOLD
+    added_candidate_source_ids: [SRC-TECASINT-8591]
+    promotion: NONE
+    remaining_closure: named liner-by-exact-jacket material pair and applicable vacuum-temperature friction, wear and particulate evidence
+  - id: P12
+    quantity: carrier_size_mm
+    registry_value: null
+    registry_status: HOLD
+    added_candidate_source_ids: [SRC-E2M-06, SRC-TSUBAKI-PVDF]
+    promotion: NONE
+    remaining_closure: exact part number, Owner selection, installed-bundle fit, mass, travel, hard stops and environment/life verification
+
+unchanged_fields: [P01, P02, P03, P05, P07, P08, P09, P11, P13]
+
+decision:
+  source_records_added: 4
+  fields_with_new_screening_sources: 4
+  fields_promoted_to_AVAILABLE: 0
+  registry_value_non_null_after: 0
+  registry_status_AVAILABLE_after: 0
+  registry_status_HOLD_after: 13
+  exact_parts_selected: 0
+  owner_accepted: false
+  ROUTE_C_CAD_AUTHORIZED: false
+  geometry_execution_authorized: false
+  next_stage_authorized: false
+  release_credit: false
+  verdict: PASS_OFFICIAL_SOURCE_REFRESH_ONLY__ALL_PROJECT_FIELDS_REMAIN_NULL_HOLD__ROUTE_C_CAD_UNAUTHORIZED
+

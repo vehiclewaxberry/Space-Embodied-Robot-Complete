@@ -1,0 +1,193 @@
+schema: ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1
+generated_local: '2026-08-23T18:25:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+generator: KIMI M7 机械终局接管 swarm Wave-2b DYN-AUTHORITY 子代理（纯 Python hashlib/numpy/scipy 复核；未启动任何 CAD/FEA/仿真进程；全部上游文件只读）
+
+decision_class: ENGINEERING_AUTHORITY_DECISION__NOT_OWNER_LEVEL__ECR_REVERSIBLE
+ruling_id: ENG-RULING-DYN-MASS-ALLOC-MC-A-V1
+status: ISSUED_AND_EFFECTIVE_AT_ENGINEERING_LEVEL__PENDING_OWNER_CONFIRMATION__REVERSIBLE_VIA_ECR
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+release_credit: false
+
+authority_basis:
+  issuing_authority: Frame/Mass/Dynamics 工程权威（Wave-2b DYN-AUTHORITY 授权范围）
+  explicit_nonclaim_owner: 本裁决不是 Owner 级裁决，不并入 ODR 登记链，不升格任何 PROVISIONAL 状态；Owner 可经显式裁决或 ECR 逆转、修改或升格本裁决。
+  open_item_answered: OI-R1-06 (DYNAMICS_MASS_ALLOCATION, HIGH) —— OPEN_ITEMS_AND_ECR_REGISTER_V1.csv 该栏登记 owner_or_engineering=OWNER（MPI/动力学权威裁决）；本文件 discharge 其全部工程内容，Owner 级确认保持 pending。
+  gap_answered: GAP-09（R2_FLEX_INPUT_INVENTORY_V1.json hf_model_and_rom_input_gap_list）—— dynamic mass allocation freeze，工程级闭合。
+  odr_context:
+    ODR-43: B601_ARM_PLACEMENT_RULE=DUAL_FRAME_EXPLICIT_BRIDGE（addendum candidate，待 Owner/CM 正式并入）；本裁决不涉及坐标架语义。
+    ODR-44: APPROVE_BOUNDED_DETAILED_DESIGN（addendum candidate）；本裁决不授权任何 Route-C CAD、不触碰任何 accepted 资产。
+
+ruling:
+  selected_option: MC-A
+  selection_is_single_explicit_written: true
+  rejected_options:
+    MC-B: Mqq* 为权威将强制失效已发布 FLEXIBLE_APPENDAGE_R2_MODES.json 并要求新版本重发五工况证据链，在 2026-09-01 提交硬截止前制造证据断档期；本轮纪律禁止重生成上游 accepted 文件。
+    MC-C: 维持 HOLD 与现状兼容但不推进闭合；柔性频率二值歧义（最高 -13.40%）将无限期携带。
+  rule_verbatim_engineering: >-
+    R2 太阳翼 ROM/自由漂浮动力学的唯一权威质量阵 = 已发布 leaf-only Mqq
+    （FLEXIBLE_APPENDAGE_R2.yaml wing_L2_reduced_model.mass_matrix_kgm2；e21 独立复现 4.999999997368221e-10 kg·m2，E21-G19 PASS）。
+    每翼 2 个 0.03 kg 移动板间铰点质量作为刚性、非随动界面质量集中记账在铰线处：
+    计入结构质量账本与系统质量闭合（SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json mass_model.hinge_inter_kg_each=0.03，0.78 kg/翼闭合已含此 0.06 kg），
+    但不进入 ROM 动能（即忽略其对翼内相对坐标的惯性贡献 ΔM）。
+  delta_M_excluded_from_rom_kg_m2:
+  - [0.006, 0.0024, 0.0]
+  - [0.0024, 0.0012, 0.0]
+  - [0.0, 0.0, 0.0]
+  delta_M_source: e21 E21_FIXED_BASE_R2_ROM_REPRODUCTION_AND_MASS_CONFLICT_V1.json nonselecting_conflict_diagnostic.Mqq_star_minus_leaf_only_kg_m2（逐字）
+  authoritative_Mqq_kg_m2_published:
+  - [0.064800281, 0.033600188, 0.009600094]
+  - [0.033600188, 0.019200188, 0.006000094]
+  - [0.009600094, 0.006000094, 0.002400094]
+
+freeze:
+  dynamic_mass_allocation_frozen: true
+  effective_from_local: '2026-08-23T18:25:00+08:00'
+  effective_scope: 仅约束本裁决生效之后的下游全柔性工作包（ROM 扩展、参与因子计算、HF 模型、新全耦合模型、e15 重认证输入包）。
+  non_retroactivity: >-
+    不回溯改写 e21 既有 gate：E21-G21 证据中 selected=false / propagated_to_free_floating_dynamics=false /
+    dynamic_mass_allocation_frozen=false 是 e21 时刻的历史状态记录，逐字保持有效；本冻结是 MPI/工程级新增记录，自本裁决生效。
+  freeze_surface: ROM/动力学质量阵唯一性（Mqq 唯一权威；禁止任何下游消费 Mqq*、禁止两阵平均、禁止按模块混用）。
+
+nominal_frequency_basis_registration:
+  published_basis: 已发布五工况频率 = leaf-only 口径（FIXED_BASE_FREE_VIBRATION_ONLY），继续保持权威；无任何已发布证据失效。
+  published_five_case_hz_verbatim:
+    nominal: [6.9726, 39.3586, 98.0042]
+    all_low: [3.3278, 18.2952, 44.1763]
+    all_high: [13.9452, 78.7172, 196.0085]
+    root_low_inter_high: [4.3424, 65.0146, 190.5319]
+    root_high_inter_low: [4.7369, 30.2986, 74.9597]
+  bookkeeping_difference_entry:
+    id: BK-DYN-MASS-HINGE-ALLOC-MC-A
+    type: KNOWN_BOOKKEEPING_DIFFERENCE__NOT_STANDARD_UNCERTAINTY
+    statement: >-
+      若铰点质量改为随动计入 ROM 动能（Mqq* 车道），频率相对 leaf-only 权威口径下移；
+      该差异为记账约定差异，不是测量不确定度；standard_uncertainty 保持 null；禁止平均、禁止修正、禁止零填。
+    nominal_relative_shift_pct: [-3.5096, -6.9411, -13.4]
+    five_case_relative_shift_pct_recomputed:
+      nominal: [-3.5096, -6.9411, -13.4]
+      all_low: [-3.3994, -7.0102, -13.4345]
+      all_high: [-3.5096, -6.9411, -13.4]
+      root_low_inter_high: [-4.2509, -6.3929, -13.2407]
+      root_high_inter_low: [-2.5825, -8.6238, -12.6446]
+    conflict_lane_nominal_hz: [6.727892161986368, 36.626689494084914, 84.87164594535494]
+    reverse_framing_note: leaf-only 口径相对冲突车道偏刚（nominal +3.64% / +7.46% / +15.47%），即柔性响应估计落在偏保守一侧；捕获激励主频带为第一阶（3.33-13.95 Hz），其记账差异 ≤4.25%。
+    uncertainty_register_disposition: 本条目即不确定度寄存器登记内容（本轮无可写的外部寄存器文件；CM 转录时逐字携带，不得改为 standard uncertainty）。
+
+rationale:
+- 与已发布且经 e21 独立复现的证据完全相容：E21-G19 质量阵复现 4.999999997368221e-10 kg·m2、E21-G20 五工况频率复现最大误差 4.840419126761475e-05 Hz，23/23 判据全 PASS；采纳 MC-A 无任何已发布证据失效。
+- 扰动最小：无需重发任何上游 accepted 文件（ODR-44 与本轮纪律禁止重生成）；立即解除 GAP-03 参与因子计算的前置阻塞。
+- 物理近似的影响集中于第三阶翼内反相模态（全刚度带角稳定约 -13% 记账差异），捕获激励主频带为第一阶（差异 -2.58%..-4.25%），且方向为柔性响应偏刚 = 偏保守一侧。
+- MC-B 物理记账更完整但强制证据链断档重发；MC-C 不推进闭合。两选项均未采纳，但不删除其记录（备忘录原样保持）。
+
+scope:
+  applies_to:
+  - R2 太阳翼柔性动力学质量分配（leaf-only Mqq vs Mqq* 冲突，E21-G21 登记项）
+  - 下游 ROM 扩展、模态参与因子计算、HF 模型、新全耦合模型、e15 重认证的输入口径
+  out_of_scope:
+  - 24 kg 整星预算重分配（GAP-12，OPEN，系统级裁决，本文件不触碰；整星 24.8632134 kg 仍非 accepted budget）
+  - B601 双框架桥（MPI-FB-02 已冻结，sha 0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C，本裁决不修改）
+  - Route-C 任何 CAD 候选（ODR-44：MPI-01..08 全闭合前禁止）
+  - e21/V5/任何上游 gate 文件（只读，逐字保持）
+  - R2 全柔性闭合本身：r2_full_flexible_coupling 保持 NOT_EVALUATED，至后续工作包按 GAP-01..08 与 MPI-FB-01..08 闭合后再评估
+  - 帆板质量/刚度占位问题（AGENTS.md 待办 3，0.348 kg SSOT 占位 vs 真实 2-5 kg/m2）不在本裁决范围，保持最高优先级开放
+
+reversibility:
+  mechanism: ECR（机械变更政策 ECR_ONLY 框架）或 Owner 显式裁决；逆转/修改须引用本文件 sha256 与 ruling_id。
+  reversal_conditions:
+  - RC-1: WP5 实物称重表明铰点质量显著偏离 0.03 kg/个（对应 ECR-M5 as-built mass correlation 触发族）。
+  - RC-2: 铰链实测表明随动惯性不可忽略（第三阶模态敏感，记账差异约 13% 量级不可接受时）。
+  - RC-3: 全柔性 HF 模型闭合（GAP-01..08 补齐）后重估 ROM 质量阵，证明 leaf-only 分配不再适用。
+  - RC-4: Owner 或 CM 经显式动作否决、修改或升格本裁决。
+  reversal_effect: 任一逆转条件命中即解冻 dynamic_mass_allocation_frozen，按新裁决重登记；届时若切换至 Mqq* 车道，已发布 MODES.json 须新版本重发且 e15 T2 触发。
+
+downstream_effects:
+  e15_recertification:
+  - E1: 重认证输入口径钉死——认证对象质量阵 = 已发布 leaf-only Mqq；本裁决不触发 T2（质量阵未变更），e15 重认证范围不因此扩大。
+  - E2: E15_RECERTIFICATION_TEST_SPEC_DRAFT_V1 E15R-T1 前置条件“MC 裁决已落账”在工程级满足；T1/T7 等新耦合模型触发项保持逐字有效。
+  - E3: e15 现状 REPEAT_ANCF_CERTIFICATION 逐字保持；本裁决不授权重认证运行（运行须另等 MPI-FB-01..08 与 owner 放行）。
+  rom_extension:
+  - E4: GAP-09 工程级闭合；R2_ROM_PARTICIPATION_DAMPING_SPEC_DRAFT_V1 SLOT-10 冲突按 MC-A 解除。
+  - E5: SLOT-07 模态参与因子/动量耦合系数计算前置解除——可按规格草案 §2 计算：Phi 取自 eigh(K, Mqq)，禁止用 Mqq* 预计算，禁止从 R1 卡继承数值；稀疏性负控制（B_t 仅 v_z 行非零、B_r 仅 omega_x 行非零）逐字适用。
+  - E6: SLOT-01..06/08/09 全部 null/PROVISIONAL 状态不变；阻尼、强迫响应、latch 独立刚度等仍按各自获取路径闭合。
+  sim_11_coupling:
+  - E7: 新 R2 耦合模型可引用已发布五工况频率带与 Mqq 为权威；旧 R1 卡（0.3483933 kg、1.0 Hz 包络）继续仅限历史复现，禁止入 R2 车道（e21 forbidden 逐字有效）。
+  - E8: r2_full_flexible_coupling 保持 NOT_EVALUATED；scene-A2 类捕获经 R2 柔性评估仍 HOLD，须 GAP-03/04 闭合 + MPI-FB-01..08 + owner 放行。
+  - E9: 刚性翼车道不受本裁决影响，继续按既有合同走。
+  mass_ledger:
+  - E10: 系统质量闭合不变——0.78 kg/翼（已含 2x0.03 kg 刚性界面记账）、两翼 1.56 kg、整星 24.8632134 kg；GAP-12 保持 OPEN。
+
+verification_record:
+  independent_recomputation_by_this_agent:
+    method: scipy.linalg.eigh(K, M)，K=diag(k_root,k_inter,k_inter) 五工况，Mqq/Mqq* 取自 e21 ROM JSON 逐字；输出仅写入本裁决文件，未污染任何既有目录。
+    nominal_leaf_hz: [6.972602, 39.358623, 98.004248]
+    nominal_conflict_hz: [6.727892, 36.626689, 84.871646]
+    nominal_shift_pct: [-3.5096, -6.9411, -13.4]
+    five_case_table_match_with_memo_section1: true
+  hash_reverification_by_this_agent_full_sha256:
+    matches_memo_section7_all_8_pins: true
+    note: 全部以 64-hex 复算吻合（红队 RT1-F01 教训：本文件 evidence_links 一律用全哈希，不用截断拼写）。
+  e21_gate_state: 23/23 判据 PASS，overall=HOLD 逐字保持；E21-G19/G20/G21/G22 证据逐字复核一致。
+
+evidence_links:
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/r2_flex_prep/R2_FLEX_MASS_ALLOCATION_RULING_OPTIONS_V1.md
+  sha256: F68EA9C0DE51BC5002CE9B8273734C18265BC814DA300AA4DEAF8E55D5B8A6AC
+  role: MC-A/B/C 裁决选项备忘录（推荐 MC-A；本裁决采纳其推荐）
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round0_handover/03_r2_flex_inputs/R2_FLEX_INPUT_INVENTORY_V1.json
+  sha256: 82DED34930694831AE9A03C1F6E1888C7B4577BA27F17098BBAFA8C16E4A00AD
+  role: 输入盘点与 GAP-01..12；mass_conflict_resolution_options；e15 触发清单
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round0_handover/03_r2_flex_inputs/R2_FLEX_INPUT_INVENTORY_V1.md
+  sha256: 920E97DF99F08C22F32E030BE78BE5786CF6BA12A0CFAB5EB548A60FD9815C86
+  role: 盘点人读版
+- path: 30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_FIXED_BASE_R2_ROM_REPRODUCTION_AND_MASS_CONFLICT_V1.json
+  sha256: 57958A9F3AC194893D689E9ECA4F12666474D97E0CFBB848ACBA794838B8396B
+  role: Mqq/Mqq*/ΔM 逐字源；五工况双车道频率；三 false 历史状态
+- path: 30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_DIAGNOSTIC_GATE_V1.json
+  sha256: B03B7C7AF571AA00FE3612756FFBBD99CB834B84377BA8DC2C213355C252616B
+  role: E21-G19..G22 PASS 证据；23/23 判据
+- path: 30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/00_authority/E21_AUTHORITY_CONTRACT_V1.yaml
+  sha256: 7D2E0792B3FF6BAB9BD9AE11A605341B20BAAB821961A7BA8E119996D1515D81
+  role: 权威合同（mandatory_holds；averaging_forbidden；branch_delta_is_uncertainty=false）
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml
+  sha256: A04ACFE440C636BB095585C74F71E3563FD35F6678FCFAA39355383A9BF6B3FD
+  role: 已发布 leaf-only Mqq 载体（wing_L2_reduced_model.mass_matrix_kgm2）
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json
+  sha256: E068DE078A0DC680A44807516733FDF018DD720B5F65636BB2B8D21E557593B6
+  role: 已发布五工况频率（leaf-only 口径，本裁决下继续权威）
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json
+  sha256: D5B7DD16532FE7117D27ECC09EFB29ECC570F51928BDBDF3B27BB96C3CF12C5E
+  role: 刚性界面记账指认（mass_model.hinge_inter_kg_each=0.03）；0.78 kg/翼闭合
+- path: 30_simulation/e15_ancf_certification/results/gate_summary.json
+  sha256: AAB4D609E219279C2563C8A38743AC1784BBF16DE399D5B8798439B0AC2DCA80
+  role: e15 现状 REPEAT_ANCF_CERTIFICATION 逐字源
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml
+  sha256: 0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C
+  role: 双框架桥冻结背景（本裁决不修改；格式与 self-hash 约定参照件）
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/00_authority/OPEN_ITEMS_AND_ECR_REGISTER_V1.csv
+  sha256: 5B31D0506CBBD198980A1015ACE2893FF397EB81B4B1FDB4120CBB8914E910AD
+  role: OI-R1-06 登记源（本裁决 discharge 其工程内容）
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/r2_flex_prep/R2_ROM_PARTICIPATION_DAMPING_SPEC_DRAFT_V1.md
+  sha256: E3453EFBFF644FA499AD2453E63621F710AC2B0BDB6F56798AA2B0D14B929E18
+  role: SLOT-07 参与因子计算规格（前置由本裁决解除）
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/r2_flex_prep/E15_RECERTIFICATION_TEST_SPEC_DRAFT_V1.md
+  sha256: FBC90E00C5C2775635B0ECAFA53C3A9F54F82E61B756F9A00EAA8B64633DA369
+  role: e15 重认证测试规格草案（T1-T7 触发口径）
+
+forbidden:
+- 把本裁决表述为 Owner 级裁决或并入 ODR 登记链（除非 Owner/CM 显式升格）
+- 借本裁决闭合 R2 全柔性（r2_full_flexible_coupling 保持 NOT_EVALUATED）
+- 修改 e21/V5/任何上游 gate 文件或 accepted 资产（URDF、Solar R2、e21 模块、wp2/wp10/wp13 既有文件、round0/round1 已落盘产物）
+- 下游消费 Mqq* 或将 Mqq 与 Mqq* 平均/按模块混用
+- 把铰质量记账差异（-3.51%/-6.94%/-13.40% nominal）记为标准不确定度或对发布频率作修正/平均
+- 静默复用旧 24 kg 预算或 R1 柔性模型入 R2 车道
+- null 零填（damping/participation/forced_response/standard_uncertainty 保持显式 null）
+
+nonclaims:
+- 本裁决不授予任何生产、制造、鉴定、发射或飞行权威
+- 本裁决不改变任何已发布数字；leaf-only 频率带与 Mqq 原样继续权威
+- 本裁决不评价 24 kg 预算重分配（GAP-12 保持 OPEN）
+- 本裁决不授权 e15 重认证运行、不授权任何仿真/CAD/FEA 进程
+
+self_hash_policy: SELF_REFERENCE_EXCLUDED - this file carries no hash of itself; downstream consumers pin its sha256 after emission (same policy as e21/V5 manifests)
+companion_human_readable: ENG_DECISION_DYNAMIC_MASS_ALLOCATION_V1.md（同目录，人读版；与本文本冲突时以 YAML 结构化字段为准）

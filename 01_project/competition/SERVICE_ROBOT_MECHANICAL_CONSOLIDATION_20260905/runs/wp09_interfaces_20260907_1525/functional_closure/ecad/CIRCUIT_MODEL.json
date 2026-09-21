@@ -1,0 +1,681 @@
+{
+  "schema": "WP09_FUNCTIONAL_ELECTRICAL_CANDIDATE",
+  "devices": {
+    "PS1": {
+      "pn": "MEAN WELL RSP-500-24",
+      "role": "EXTERNAL_GSE",
+      "pins": {
+        "TB2.4": "+24V",
+        "TB2.1": "ARM_RET",
+        "TB1.FG": "PE_CHASSIS",
+        "CN100.3": "RC-",
+        "CN100.4": "RC+"
+      },
+      "source": "RSP"
+    },
+    "Q1": {
+      "pn": "E-T-A ESX10-105-DC24V-16A-E",
+      "role": "EXTERNAL_GSE_CANDIDATE",
+      "pins": {
+        "1": "LINE+",
+        "2": "LOAD+",
+        "11": "GND",
+        "13": "SC",
+        "14": "SO"
+      },
+      "source": "ETA"
+    },
+    "K1": {
+      "pn": null,
+      "role": "OPEN_COMPONENT_SELECTION",
+      "pins": {
+        "P_IN": "CONTACT_REQUIREMENT",
+        "P_OUT": "CONTACT_REQUIREMENT",
+        "R_IN": "CONTACT_REQUIREMENT",
+        "R_OUT": "CONTACT_REQUIREMENT",
+        "COIL+": "CONTROL_REQUIREMENT",
+        "COIL-": "CONTROL_REQUIREMENT"
+      },
+      "source": "DESIGN_REQUIREMENT; two-pole NO, monitored feedback, actual DC break rating >= fault case required"
+    },
+    "U1": {
+      "pn": "ODrive Regen Clamp / screw terminals TB005-762-06BE",
+      "role": "EXTERNAL_GSE_CANDIDATE",
+      "pins": {
+        "IN+": "IN+",
+        "IN-": "IN-",
+        "OUT+": "OUT+",
+        "OUT-": "OUT-",
+        "R+": "R+",
+        "R-": "R-"
+      },
+      "source": "REGEN"
+    },
+    "RB1": {
+      "pn": "ODrive supplied 2ohm 50W resistor; detailed pulse curve pending",
+      "role": "EXTERNAL_GSE_CANDIDATE",
+      "pins": {
+        "A": "BRAKE",
+        "B": "BRAKE"
+      },
+      "source": "REGEN"
+    },
+    "DM": {
+      "pn": "reBot B601 DM, public V4 BOM",
+      "role": "GROUND_ROBOT",
+      "pins": {
+        "VCC_REF": "V4_PIN_UNBOUND",
+        "RET_REF": "V4_PIN_UNBOUND",
+        "CANH_REF": "V4_PIN_UNBOUND",
+        "CANL_REF": "V4_PIN_UNBOUND"
+      },
+      "source": "DM_PUBLIC"
+    },
+    "SEP": {
+      "pn": "Seeed 100045091 XT30 2+2 splitter",
+      "role": "GROUND_ROBOT",
+      "pins": {
+        "PWR": "POWER_CAVITY_UNBOUND",
+        "RET": "RETURN_CAVITY_UNBOUND",
+        "H": "GH_2PIN_CAVITY_UNBOUND",
+        "L": "GH_2PIN_CAVITY_UNBOUND"
+      },
+      "source": "DM_PUBLIC"
+    },
+    "CAN": {
+      "pn": "Seeed 100011896 USB-CAN board",
+      "role": "EXTERNAL_GSE",
+      "pins": {
+        "USB": "USB_5V_DATA",
+        "H": "CAN_CAVITY_UNBOUND",
+        "L": "CAN_CAVITY_UNBOUND"
+      },
+      "source": "DM_PUBLIC"
+    },
+    "PDU": {
+      "pn": "P60 PDU200; 8S option; candidate Dock X1; Reg0=12V CH1; Reg1=3.3V CH2; Reg2=5V unused",
+      "role": "LOW_POWER_CANDIDATE",
+      "pins": {
+        "TFM.9": "CH2_3V3",
+        "TFM.10": "EPS_RET",
+        "TFM.1": "CH1_12V",
+        "TFM.2": "EPS_RET",
+        "TFM.23": "CSP_CANH",
+        "TFM.24": "CSP_CANL"
+      },
+      "source": "PDU;PDU_OPTION"
+    },
+    "OBC": {
+      "pn": "NanoMind A3200 200284 / DS2.0",
+      "role": "LOW_POWER_GROUND_CHECKOUT_CANDIDATE",
+      "pins": {
+        "P1.1": "EPS_RET",
+        "P1.2": "VCC_OBC",
+        "P1.3": "USART2_RX",
+        "P1.4": "USART2_TX"
+      },
+      "source": "A3200"
+    },
+    "PC": {
+      "pn": "Existing user computer; USB model unspecified",
+      "role": "EXTERNAL_GSE",
+      "pins": {
+        "USB_A": "USB_PORT",
+        "USB_B": "USB_PORT",
+        "USB_CAN": "USB_PORT"
+      },
+      "source": "HOST_REQUIREMENT"
+    },
+    "RS_A": {
+      "pn": "FTDI USB-RS422-WE-1800-BT",
+      "role": "EXTERNAL_OWN_PROTOCOL_LOOP_ENDPOINT",
+      "pins": {
+        "black": "GND",
+        "red": "TXD-",
+        "orange": "TXD+",
+        "yellow": "RXD+",
+        "white": "RXD-",
+        "brown": "CTS+",
+        "grey": "CTS-",
+        "green": "RTS+",
+        "blue": "RTS-"
+      },
+      "source": "FTDI"
+    },
+    "RS_B": {
+      "pn": "FTDI USB-RS422-WE-1800-BT",
+      "role": "EXTERNAL_OWN_PROTOCOL_LOOP_ENDPOINT",
+      "pins": {
+        "black": "GND",
+        "red": "TXD-",
+        "orange": "TXD+",
+        "yellow": "RXD+",
+        "white": "RXD-",
+        "brown": "CTS+",
+        "grey": "CTS-",
+        "green": "RTS+",
+        "blue": "RTS-"
+      },
+      "source": "FTDI"
+    }
+  },
+  "wires": [
+    {
+      "wire_id": "A01",
+      "net": "ARM_RAW+",
+      "from_device": "PS1",
+      "from_pin": "TB2.4",
+      "to_device": "Q1",
+      "to_pin": "1",
+      "wire_or_mate": "LAPP1120762 2x2.5mm2 core1",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "PIN_DESIGN; TERMINAL_LUG_SELECTION_OPEN",
+      "source": "RSP;ETA",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "A02",
+      "net": "ARM_Q+",
+      "from_device": "Q1",
+      "from_pin": "2",
+      "to_device": "K1",
+      "to_pin": "P_IN",
+      "wire_or_mate": "LAPP1120762 core1",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "K1_OPEN",
+      "source": "ETA",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "A03",
+      "net": "ARM_SW+",
+      "from_device": "K1",
+      "from_pin": "P_OUT",
+      "to_device": "U1",
+      "to_pin": "IN+",
+      "wire_or_mate": "LAPP1120762 core1",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "K1_OPEN",
+      "source": "REGEN",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "A04",
+      "net": "ARM_RET",
+      "from_device": "PS1",
+      "from_pin": "TB2.1",
+      "to_device": "K1",
+      "to_pin": "R_IN",
+      "wire_or_mate": "LAPP1120762 core2",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "K1_OPEN",
+      "source": "RSP",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "A05",
+      "net": "ARM_RET_SW",
+      "from_device": "K1",
+      "from_pin": "R_OUT",
+      "to_device": "U1",
+      "to_pin": "IN-",
+      "wire_or_mate": "LAPP1120762 core2",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "K1_OPEN",
+      "source": "REGEN",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "A06",
+      "net": "ARM_RET",
+      "from_device": "PS1",
+      "from_pin": "TB2.1",
+      "to_device": "Q1",
+      "to_pin": "11",
+      "wire_or_mate": "separate rated reference lead, PN pending",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "REFERENCE_PIN_DESIGN",
+      "source": "ETA",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "A07",
+      "net": "ARM_BUS+",
+      "from_device": "U1",
+      "from_pin": "OUT+",
+      "to_device": "SEP",
+      "to_pin": "PWR",
+      "wire_or_mate": "LAPP1120762 to OEM copper-lug harness; transition terminal pending",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "V4_SPLITTER_CAVITY_OPEN",
+      "source": "DM_PUBLIC;REGEN",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "A08",
+      "net": "ARM_BUS_RET",
+      "from_device": "U1",
+      "from_pin": "OUT-",
+      "to_device": "SEP",
+      "to_pin": "RET",
+      "wire_or_mate": "LAPP1120762 to OEM copper-lug harness; transition terminal pending",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "V4_SPLITTER_CAVITY_OPEN",
+      "source": "DM_PUBLIC;REGEN",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "A09",
+      "net": "ARM_BUS+",
+      "from_device": "SEP",
+      "from_pin": "PWR",
+      "to_device": "DM",
+      "to_pin": "VCC_REF",
+      "wire_or_mate": "OEM XT30(2+2) harness retained",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "V4_PIN_OPEN",
+      "source": "DM_PUBLIC;DM_2023",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "A10",
+      "net": "ARM_BUS_RET",
+      "from_device": "SEP",
+      "from_pin": "RET",
+      "to_device": "DM",
+      "to_pin": "RET_REF",
+      "wire_or_mate": "OEM XT30(2+2) harness retained",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "V4_PIN_OPEN",
+      "source": "DM_PUBLIC;DM_2023",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "A11",
+      "net": "BRAKE+",
+      "from_device": "U1",
+      "from_pin": "R+",
+      "to_device": "RB1",
+      "to_pin": "A",
+      "wire_or_mate": "supplied resistor leads; fit to terminal to verify",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "PIN_DESIGN_PULSE_THERMAL_OPEN",
+      "source": "REGEN",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "A12",
+      "net": "BRAKE-",
+      "from_device": "U1",
+      "from_pin": "R-",
+      "to_device": "RB1",
+      "to_pin": "B",
+      "wire_or_mate": "supplied resistor leads",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "PIN_DESIGN_PULSE_THERMAL_OPEN",
+      "source": "REGEN",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "C01",
+      "net": "DM_CANH",
+      "from_device": "CAN",
+      "from_pin": "H",
+      "to_device": "SEP",
+      "to_pin": "H",
+      "wire_or_mate": "OEM GH1.25 two-pin lead",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "BOTH_CAVITIES_OPEN",
+      "source": "DM_PUBLIC",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "C02",
+      "net": "DM_CANL",
+      "from_device": "CAN",
+      "from_pin": "L",
+      "to_device": "SEP",
+      "to_pin": "L",
+      "wire_or_mate": "OEM GH1.25 two-pin lead",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "BOTH_CAVITIES_OPEN",
+      "source": "DM_PUBLIC",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "C03",
+      "net": "DM_CANH",
+      "from_device": "SEP",
+      "from_pin": "H",
+      "to_device": "DM",
+      "to_pin": "CANH_REF",
+      "wire_or_mate": "OEM XT302+2 signal pair",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "V4_PIN_OPEN",
+      "source": "DM_PUBLIC;DM_2023",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "C04",
+      "net": "DM_CANL",
+      "from_device": "SEP",
+      "from_pin": "L",
+      "to_device": "DM",
+      "to_pin": "CANL_REF",
+      "wire_or_mate": "OEM XT302+2 signal pair",
+      "pin_view": "NAMED_TERMINALS; no inferred cavity numbering",
+      "design_status": "V4_PIN_OPEN",
+      "source": "DM_PUBLIC;DM_2023",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "L01",
+      "net": "OBC_3V3",
+      "from_device": "PDU",
+      "from_pin": "TFM.9",
+      "to_device": "OBC",
+      "to_pin": "P1.2",
+      "wire_or_mate": "Samtec SFSD-15-28-G-10.00-S -> Molex510210400 +500798000; wire/insulation crimp fit pending",
+      "pin_view": "PDU TFM key adjacent pin30; identify9/10 from DS2.6 mating-face drawing. OBC P1 header view DS2.0 p7; cable wiring-face is mirrored, match cavity marks",
+      "design_status": "FUNCTIONAL_PIN_MAP_COMPLETE; VOLTAGE_PROTECTION_CRIMP_OPEN",
+      "source": "PDU;PDU_OPTION;A3200;SFSD;MOLEX",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "L02",
+      "net": "EPS_RET",
+      "from_device": "PDU",
+      "from_pin": "TFM.10",
+      "to_device": "OBC",
+      "to_pin": "P1.1",
+      "wire_or_mate": "Samtec SFSD-15-28-G-10.00-S -> Molex510210400 +500798000; wire/insulation crimp fit pending",
+      "pin_view": "PDU TFM key adjacent pin30; identify9/10 from DS2.6 mating-face drawing. OBC P1 header view DS2.0 p7; cable wiring-face is mirrored, match cavity marks",
+      "design_status": "FUNCTIONAL_PIN_MAP_COMPLETE; RETURN_INCLUDED",
+      "source": "PDU;A3200;SFSD;MOLEX",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "S01",
+      "net": "RS_LOOP_1",
+      "from_device": "RS_A",
+      "from_pin": "orange",
+      "to_device": "RS_B",
+      "to_pin": "yellow",
+      "wire_or_mate": "Two original FTDI wire-ended cables; insulated labelled splice S1",
+      "pin_view": "Color names are wire identity, not connector cavities; self-defined ground test link",
+      "design_status": "SIGNAL_MAP_COMPLETE; RECEIVER_TERMINATION_REVISION_OPEN",
+      "source": "FTDI",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "S02",
+      "net": "RS_LOOP_2",
+      "from_device": "RS_A",
+      "from_pin": "red",
+      "to_device": "RS_B",
+      "to_pin": "white",
+      "wire_or_mate": "Two original FTDI wire-ended cables; insulated labelled splice S2",
+      "pin_view": "Color names are wire identity, not connector cavities; self-defined ground test link",
+      "design_status": "SIGNAL_MAP_COMPLETE; RECEIVER_TERMINATION_REVISION_OPEN",
+      "source": "FTDI",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "S03",
+      "net": "RS_LOOP_3",
+      "from_device": "RS_A",
+      "from_pin": "yellow",
+      "to_device": "RS_B",
+      "to_pin": "orange",
+      "wire_or_mate": "Two original FTDI wire-ended cables; insulated labelled splice S3",
+      "pin_view": "Color names are wire identity, not connector cavities; self-defined ground test link",
+      "design_status": "SIGNAL_MAP_COMPLETE; RECEIVER_TERMINATION_REVISION_OPEN",
+      "source": "FTDI",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "S04",
+      "net": "RS_LOOP_4",
+      "from_device": "RS_A",
+      "from_pin": "white",
+      "to_device": "RS_B",
+      "to_pin": "red",
+      "wire_or_mate": "Two original FTDI wire-ended cables; insulated labelled splice S4",
+      "pin_view": "Color names are wire identity, not connector cavities; self-defined ground test link",
+      "design_status": "SIGNAL_MAP_COMPLETE; RECEIVER_TERMINATION_REVISION_OPEN",
+      "source": "FTDI",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    },
+    {
+      "wire_id": "S05",
+      "net": "RS_LOOP_5",
+      "from_device": "RS_A",
+      "from_pin": "black",
+      "to_device": "RS_B",
+      "to_pin": "black",
+      "wire_or_mate": "Two original FTDI wire-ended cables; insulated labelled splice S5",
+      "pin_view": "Color names are wire identity, not connector cavities; self-defined ground test link",
+      "design_status": "SIGNAL_MAP_COMPLETE; RECEIVER_TERMINATION_REVISION_OPEN",
+      "source": "FTDI",
+      "cut_length_mm": null,
+      "physical_status": "NOT_EXECUTED",
+      "build_approved": false
+    }
+  ],
+  "sources": {
+    "DM_PUBLIC": {
+      "url": "https://github.com/Seeed-Projects/reBot-DevArm",
+      "revision": "c9b893aa26c7d89019dd3d0a28ff8f6a7d47ccf9",
+      "scope": "Public DM V4 BOM; shipping identity not confirmed"
+    },
+    "DM_2023": {
+      "url": "https://files.seeedstudio.com/products/Damiao/DM-J4310-en.pdf",
+      "revision": "2023-11-16 V1.0 for DM-J4310-2EC V1.1",
+      "pages": [
+        4,
+        9,
+        13,
+        14
+      ],
+      "scope": "Legacy interface reference only; NOT V4 pin certification"
+    },
+    "RSP": {
+      "url": "https://www.meanwell.com/Upload/PDF/RSP-500/RSP-500-SPEC.PDF",
+      "revision": "2025-09-26",
+      "pages": [
+        2,
+        4,
+        5
+      ]
+    },
+    "ETA": {
+      "url": "https://www.e-t-a.de/fileadmin/user_upload/Ordnerstruktur/pdf-Data/Products/Elek_Ueberstromschutz/DC/1_de/D_ESX10_DC24V-16A-E_de.pdf",
+      "revision": "2405",
+      "pages": [
+        2,
+        3,
+        4
+      ]
+    },
+    "REGEN": {
+      "url": "https://docs.odriverobotics.com/v/latest/hardware/regen-clamp-datasheet.html",
+      "revision": "docs0.6.12 accessed2026-09-07",
+      "scope": "Ground COTS candidate; DM compatibility untested"
+    },
+    "A3200": {
+      "url": "https://gomspace.com/wp-content/uploads/2025/09/gs-ds-nanomind-a3200_1006901-2.0.pdf",
+      "revision": "DS1006901 2.0 2025-03-26",
+      "pages": [
+        7,
+        9,
+        11
+      ]
+    },
+    "PDU": {
+      "url": "https://gomspace.com/wp-content/uploads/2025/09/gs-ds-nanopower-p60-pdu200-26.pdf",
+      "revision": "DS1014111 2.6",
+      "pages": [
+        6,
+        8
+      ]
+    },
+    "PDU_OPTION": {
+      "url": "https://gomspace.com/wp-content/uploads/2025/09/gs-osf-nanopower_pdu200_OSF_-_1021197_-_1_-_45_-_1.pdf",
+      "revision": "OSF1021197 4.5",
+      "pages": [
+        1,
+        2
+      ]
+    },
+    "SFSD": {
+      "url": "https://suddendocs.samtec.com/catalog_english/sfsd.pdf",
+      "revision": "accessed2026-09-07",
+      "pages": [
+        1
+      ]
+    },
+    "MOLEX": {
+      "url": "https://www.molex.com/content/dam/molex/molex-dot-com/products/automated/en-us/salesdrawingpdf/510/51021/510210700_sd.pdf",
+      "revision": "indexed official family drawing; local download timed out"
+    },
+    "LAPP_CABLE": {
+      "url": "https://products.lappgroup.com/online-catalogue/power-and-control-cables/various-applications/pvc-outer-sheath-and-numbered-cores/oelflex-classic-110-lt.html",
+      "revision": "accessed2026-09-07"
+    },
+    "LAPP_GLAND": {
+      "url": "https://products.lappgroup.com/online-catalogue/cable-glands/skintop-cable-glands-plastic-metric/standard/skintop-st-m.html",
+      "revision": "accessed2026-09-07"
+    },
+    "FTDI": {
+      "url": "https://ftdichip.com/products/usb-rs422-we-1800-bt/",
+      "datasheet": "https://ftdichip.com/wp-content/uploads/2023/07/DS_USB_RS422_CABLES.pdf",
+      "revision": "v1.4 linked; download403, wire-color table separately indexed in official v1.3",
+      "scope": "Physical signal definition; internal termination and received cable revision require binding"
+    },
+    "BELDEN": {
+      "url": "https://www.belden.com/products/cable/electronic-wire-cable/multi-pair-cable/8723",
+      "revision": "accessed2026-09-07",
+      "scope": "Rejected for unmodified R21; official minimum41mm"
+    },
+    "FUSE_REJECT": {
+      "url": "https://www.littelfuse.com/assetdocs/fuse-451-and-453-datasheet?assetguid=533cd5cc-956c-4243-867f-6ab5a62f6ba1",
+      "revision": "GD12/01/25",
+      "scope": "15A fuse alone rejected; guaranteed opening point30A exceeds source lower current limit22.05A"
+    }
+  },
+  "circuit_groups": {
+    "arm": [
+      "A01",
+      "A02",
+      "A03",
+      "A04",
+      "A05",
+      "A06",
+      "A07",
+      "A08",
+      "A09",
+      "A10",
+      "A11",
+      "A12"
+    ],
+    "dm_can": [
+      "C01",
+      "C02",
+      "C03",
+      "C04"
+    ],
+    "obc": [
+      "L01",
+      "L02"
+    ],
+    "rs422_loop": [
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05"
+    ]
+  },
+  "net_rules": {
+    "different_networks": [
+      "ARM_RET",
+      "EPS_RET",
+      "USB_REF",
+      "PE_CHASSIS",
+      "CABLE_SHIELD"
+    ],
+    "binding_policy": "No automatic net tie. PE bonds external RSP chassis. No EPS return to ARM return; explicit galvanic-interface/bonding review required. FTDI loop GND is common USB reference of same ground host only; never directly connect to flight RS422.",
+    "no_parallel_sources": true,
+    "A3200_bottom_power_allowed": false,
+    "A3200_debug_P1_2_only_source": true,
+    "CAN_rate_reference_bit_s": 1000000,
+    "USB_serial_reference_bit_s": 921600,
+    "CAN_V4_actual_rate": null,
+    "CAN_termination_installed_inventory": null,
+    "extra_terminators_to_fit": null,
+    "default_reset_allows_motion": false
+  },
+  "no_connect": {
+    "OBC.P1.3": "NC until separate3.3V UART adapter matched; do not connect RS422 voltage",
+    "OBC.P1.4": "NC",
+    "OBC.X1.VCC": "NO powered motherboard in P1 checkout configuration",
+    "PDU.TFM.unused": "Other flying leads individually insulated; do not bus all odd pins; TFM5/6 are I2C not power",
+    "RS_A.handshake": "RTS outputs isolated separately; CTS unused with hardware flow control disabled",
+    "RS_B.handshake": "same",
+    "PS1.CN100.RC": "Auxiliary shutdown only; OPEN=ON, not fail-open stop",
+    "PS1.TB1.AC": "Qualified AC enclosure design/PE work pending; not wired"
+  },
+  "completeness": {
+    "pin_level_functional_supply_designs": 1,
+    "pin_level_signal_mappings": 1,
+    "fully_build_released_device_circuits": 0,
+    "verified_physical_circuits": 0,
+    "native_eda_erc": false,
+    "native_eda_available": false,
+    "unknowns_preserved": true
+  }
+}

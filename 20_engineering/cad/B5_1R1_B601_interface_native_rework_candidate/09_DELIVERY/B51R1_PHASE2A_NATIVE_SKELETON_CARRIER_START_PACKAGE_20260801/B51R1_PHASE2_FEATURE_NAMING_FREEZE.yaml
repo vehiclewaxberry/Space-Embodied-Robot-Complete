@@ -1,0 +1,105 @@
+schema: B51R1_PHASE2_FEATURE_NAMING_FREEZE_V1
+generated_on: "2026-08-01"
+package_status: PREPARED_NOT_AUTHORIZED
+status: HUMAN_FREEZE_REQUIRED
+gate: G1_HOLD
+automatic_selection_permitted: false
+native_canonical_scheme_selected: null
+human_authorizer: null
+authorized_at_with_timezone: null
+decision_reference: null
+
+attachment_six_canonical_tokens:
+  source_sha256: C78926131EE309B67F652197FD839FEBDBB28E5D9D99EA45EBF21636CEEABAE2
+  tokens:
+    - CS_LINK
+    - CS_PARENT_JOINT
+    - CS_CHILD_JOINT
+    - AXIS_JOINT
+    - PLANE_ZERO
+    - CS_VISUAL_MOUNT
+  semantic: HUMAN_DIRECTIVE_GENERIC_CANONICAL_NAMES_UNEXPANDED
+
+existing_contract_tokens:
+  source_path: 03_CAD/10_KINEMATIC_CARRIERS/B51R1_CARRIER_ARCHITECTURE_CONTRACT.md
+  source_sha256: 3998412F0FEF3DD6E0305877A4D72831A176DF6538764576608A8510B8D29112
+  tokens:
+    - CS_LINK
+    - CS_IN_<JOINT>
+    - CS_OUT_<JOINT>
+    - AXIS_<JOINT>_POS
+    - PLN_<JOINT>_Q0
+    - CS_VISUAL
+  semantic: ARCHITECTURE_LEVEL_GENERIC_NAMES
+
+configuration_expanded_tokens:
+  source_path: 04_CONFIGURATION/B51R1_URDF_CARRIER_FRAME_MAPPING.yaml
+  source_sha256: 4D5488A1A95F0CF052194908C6D8F3C79417F4FFA6EC3D06CB598D19AA19EB43
+  tokens:
+    - CS_LINK_<LINK>
+    - CS_PARENT_JOINT_<JOINT>
+    - CS_CHILD_JOINT_<JOINT>
+    - AXIS_<JOINT>
+    - PLANE_ZERO_<JOINT>
+    - CS_VISUAL_MOUNT_<LINK>
+  semantic: LINK_AND_JOINT_EXPANDED_NATIVE_NAME_CANDIDATE
+
+conflict_register:
+  - role: LINK_FRAME
+    attachment_token: CS_LINK
+    contract_alias: CS_LINK
+    expanded_alias: CS_LINK_<LINK>
+    resolution: HUMAN_FREEZE_REQUIRED
+  - role: INCOMING_JOINT_FRAME
+    attachment_token: CS_PARENT_JOINT
+    contract_alias: CS_IN_<JOINT>
+    expanded_alias: CS_PARENT_JOINT_<JOINT>
+    resolution: HUMAN_FREEZE_REQUIRED
+  - role: OUTGOING_JOINT_FRAME
+    attachment_token: CS_CHILD_JOINT
+    contract_alias: CS_OUT_<JOINT>
+    expanded_alias: CS_CHILD_JOINT_<JOINT>
+    resolution: HUMAN_FREEZE_REQUIRED
+  - role: MOVING_JOINT_AXIS
+    attachment_token: AXIS_JOINT
+    contract_alias: AXIS_<JOINT>_POS
+    expanded_alias: AXIS_<JOINT>
+    resolution: HUMAN_FREEZE_REQUIRED
+  - role: JOINT_Q0_PLANE
+    attachment_token: PLANE_ZERO
+    contract_alias: PLN_<JOINT>_Q0
+    expanded_alias: PLANE_ZERO_<JOINT>
+    resolution: HUMAN_FREEZE_REQUIRED
+  - role: VISUAL_MOUNT_FRAME
+    attachment_token: CS_VISUAL_MOUNT
+    contract_alias: CS_VISUAL
+    expanded_alias: CS_VISUAL_MOUNT_<LINK>
+    resolution: HUMAN_FREEZE_REQUIRED
+
+read_only_alias_policy_candidate:
+  state: NOT_AUTHORIZED_PROPOSAL_ONLY
+  rule: ONE_NATIVE_NAME_PER_FEATURE_AND_ZERO_DUPLICATE_NATIVE_FEATURES
+  non_selected_names_may_be_used_as: READ_ONLY_REGISTER_ALIASES_ONLY
+  api_lookup_may_use_aliases: false
+  alias_resolution_must_precede_api_call: true
+
+planned_carrier_filenames:
+  - B51R1_CARRIER_base_link.SLDPRT
+  - B51R1_CARRIER_link1.SLDPRT
+  - B51R1_CARRIER_link2.SLDPRT
+  - B51R1_CARRIER_link3.SLDPRT
+  - B51R1_CARRIER_link4.SLDPRT
+  - B51R1_CARRIER_link5.SLDPRT
+  - B51R1_CARRIER_link6.SLDPRT
+  - B51R1_CARRIER_gripper_link.SLDPRT
+  - B51R1_CARRIER_gripper_left.SLDPRT
+  - B51R1_CARRIER_gripper_right.SLDPRT
+
+pass_requirements:
+  - HUMAN_SELECTS_EXACTLY_ONE_NATIVE_NAMING_SCHEME
+  - HUMAN_DEFINES_EXACT_CASE_AND_LINK_JOINT_SUBSTITUTION
+  - HUMAN_DEFINES_READ_ONLY_ALIAS_MAPPING
+  - ALL_TEN_CARRIER_EXPECTED_FEATURE_LISTS_ARE_EXPANDED_OFFLINE
+  - STATUS_IS_SET_TO_PASS_HUMAN_FROZEN
+
+claim_limit: NAMING_CONFLICT_REGISTERED_NOT_FROZEN

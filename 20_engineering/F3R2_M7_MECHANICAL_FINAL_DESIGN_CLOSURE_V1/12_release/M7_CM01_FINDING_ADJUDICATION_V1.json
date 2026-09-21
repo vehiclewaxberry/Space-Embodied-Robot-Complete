@@ -1,0 +1,1773 @@
+{
+  "schema": "M7_CM01_FINDING_ADJUDICATION_V1",
+  "generated_local": "2026-08-22T13:33:16.967511+08:00",
+  "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+  "phase": "M7_MECHANICAL_FINAL_DESIGN_CLOSURE",
+  "work_package": "12_RELEASE",
+  "role": "A0_MECHANICAL_CHIEF",
+  "authority_basis": [
+    "ODR-13 reasoning discipline",
+    "ODR-14",
+    "ODR-12"
+  ],
+  "python": "3.13.9",
+  "adjudicates": {
+    "artifact": "12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_V1.json",
+    "sha256": "576C03D6EA8D0AF62A4C003985718F6AF876098A123A90316542C4E2927FCCDB",
+    "bytes": 284200,
+    "its_verdict_was": "HOLD",
+    "its_finding_counts_were": {
+      "high": 1,
+      "medium": 2,
+      "high_ids": [
+        "CM01-F15"
+      ],
+      "medium_ids": [
+        "CM01-F12",
+        "CM01-F13"
+      ]
+    }
+  },
+  "method": {
+    "principle": "a HIGH finding is closed by per-hit evidence under a declared rule set, never by assertion and never by weakening the detector",
+    "detector_regexes_modified": false,
+    "detector_re_run_in_weakened_form": false,
+    "audit_v1_artifact_modified": false,
+    "frozen_inputs_modified": false,
+    "evidence_re_read_from_disk": true,
+    "fail_closed_default": "GENUINE_CLAIM_REQUIRING_REMEDIATION"
+  },
+  "rule_set": [
+    {
+      "id": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+      "predicate": "the cited file IS the CM01 detector's own source; its literal regex patterns and finding strings match themselves",
+      "resulting_class": "DETECTOR_SOURCE_SELF_MATCH"
+    },
+    {
+      "id": "RULE-B_FORBIDDEN_VERDICT_ENUMERATION",
+      "predicate": "the line enumerates a forbidden verdict token INSIDE a guard, prohibition or assertion block (guard word present within +/-8 lines)",
+      "resulting_class": "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD"
+    },
+    {
+      "id": "RULE-C_SAME_LINE_NEGATION",
+      "predicate": "the same line explicitly negates the claim (widened negation lexicon; the matched phrasing is recorded per hit)",
+      "resulting_class": "PROHIBITION_OR_NEGATION_STATEMENT"
+    },
+    {
+      "id": "RULE-D_GEVS_BAND_LABEL_NOT_A_MATERIAL_PROPERTY",
+      "predicate": "the only 'typical' token is the GEVS thermal ENVIRONMENT band label GEVS_TYP*, not a material property, and the same row states 'candidate CTEs, not allowables'",
+      "resulting_class": "LABEL_TOKEN_NOT_A_MATERIAL_PROPERTY"
+    },
+    {
+      "id": "RULE-E_CSV_COLUMN_NAME",
+      "predicate": "the hit is a CSV header row: the token is a COLUMN NAME (e.g. flight_qualification_status), not a value or a claim",
+      "resulting_class": "SCHEMA_FIELD_NAME_NOT_A_CLAIM"
+    },
+    {
+      "id": "RULE-F_GATE_CRITERION_LABEL",
+      "predicate": "the token is the NAME of Gate A criterion 17 (MANUFACTURING_RELEASE_PACKAGE = the drawing/BOM/inspection package), not an assertion that manufacturing release has been granted",
+      "resulting_class": "NAMED_CRITERION_LABEL_NOT_A_RELEASE_CLAIM"
+    },
+    {
+      "id": "RULE-G_HOLD_CLASS_ENUMERATION",
+      "predicate": "the line enumerates the NAME of a carried HOLD / open-item class inside a holds or prohibitions block",
+      "resulting_class": "HOLD_CLASS_ENUMERATION"
+    },
+    {
+      "id": "RULE-H_WRAPPED_STATEMENT_NEGATION",
+      "predicate": "the hit line is a CONTINUATION fragment of a prose statement wrapped across physical lines, and the negation sits on an adjacent line (+/-2) of the same statement; the adjacent line is recorded per hit",
+      "resulting_class": "PROHIBITION_OR_NEGATION_STATEMENT_LINE_WRAPPED"
+    }
+  ],
+  "negation_lexicon": {
+    "v1_detector_negation_pattern": "not[\\s_-]*(flight|launch|qualif|manufactur|as[\\s_-]?built|measured|released|a[\\s_-]*nasa)|no[\\s_-]*(flight|launch|qualif|manufactur)|forbidden|prohibit|must[\\s_-]*not|shall[\\s_-]*not|may[\\s_-]*not|never|hold|HOLD|false|FALSE|remains?[\\s_-]*(hold|open)|pending|deferred|non[\\s_-]*normative|is[\\s_-]*not|are[\\s_-]*not|cannot|excluded|_HOLD|forbidden_verdicts|standing_prohibitions|prohibitions_honored|not_authorized|NOT_A_|NO_.*_CLAIM|superseded|guard|_required|_open|illegitimate|carried_holds|blocking_holds_forbidden|retained_holds|unchanged",
+    "source_of_v1_pattern": "READ_FROM_DETECTOR_AST_AT_RUNTIME_NOT_HAND_COPIED",
+    "detector_path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+    "detector_sha256": "FCB3DF670E9EB1B11B92B1A8CC884E6C45B183E6D918BEAFA2C3698AEE256DEA",
+    "stable_on_reread": true,
+    "widened_additions": "!=|\\u2260|not[\\s_]+an?[\\s_]+allowable|not[\\s_]+allowables?|NOT_ALLOWABLES?|NOT_AS_ALLOWABLES?|_ONLY_NOT_|INDICATIVE_NOT_|NONE[\\s_]+EXIST|no_typical_property|NO_PUBLIC_TYPICAL|NOT_A_MARGIN|NOT a margin|non[\\s_-]*allowable|not[\\s_]+computed|NOT_COMPUTED|Nothing[\\s_]+here[\\s_]+grants",
+    "why_widened": "the detector's negation lexicon has no ALLOWABLE-side vocabulary. It recognises 'not flight-qualified' but not 'not allowables', so every line that correctly says 'candidate CTEs, not allowables' fell through to REVIEW_REQUIRED. The additions negate the allowable claim itself.",
+    "is_superset_by_construction": true,
+    "hand_copy_attempt_rejected": "an earlier hand-copied reproduction of this pattern silently dropped the trailing alternatives |blocking_holds_forbidden|retained_holds| unchanged.  The exact-reproduction check caught it, the hand copy was removed, and the pattern is now read from the detector at runtime.",
+    "per_hit_provenance_recorded": true
+  },
+  "detector_self_exclusion_defect": {
+    "guard_present_in_detector": true,
+    "declared_PROJECT_ROOT_in_detector": "f:\\China Graduate Future Flight Vehicle Innovation Competition",
+    "declared_root_drive_letter_case": "f:",
+    "walked_path_example": "f:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1\\12_release\\M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+    "self_path_example_if_launched_with_uppercase_drive": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1\\12_release\\M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+    "string_equal": false,
+    "case_insensitive_equal": true,
+    "root_cause": "the self-exclusion compares os.path.abspath strings.  On Windows os.path.abspath does NOT normalise drive-letter case.  The detector hard-codes PROJECT_ROOT with a lower-case drive letter, so every walked path begins 'f:\\' while SELF_PATH begins 'F:\\' whenever the script is launched by its upper-case path.  The guard therefore silently fails and the detector scans itself.",
+    "consequence": "detector-source self-matches were emitted as CM01-F15 (HIGH) and CM01-F12 (MEDIUM) evidence rows.  This inflates the counts; it does not hide anything.",
+    "remediation_class": "DETECTOR_DEFECT_NOT_A_DESIGN_DEFECT",
+    "remediation_prescribed": "use os.path.normcase(os.path.realpath(...)) on both sides of the self-exclusion.  This is a path-comparison fix; it does NOT touch a single detection regex and does not lower detection sensitivity.",
+    "detector_not_modified_by_this_run": true
+  },
+  "per_finding": {
+    "CM01-F12": {
+      "severity_in_v1": "MEDIUM",
+      "title": "Authority-scope language requiring adjudication",
+      "hits_total": 60,
+      "hits_adjudicated_not_a_claim": 60,
+      "hits_still_open": 0,
+      "by_rule": {
+        "RULE-H_WRAPPED_STATEMENT_NEGATION": 4,
+        "RULE-C_SAME_LINE_NEGATION": 20,
+        "RULE-G_HOLD_CLASS_ENUMERATION": 7,
+        "RULE-B_FORBIDDEN_VERDICT_ENUMERATION": 10,
+        "RULE-F_GATE_CRITERION_LABEL": 1,
+        "RULE-A_DETECTOR_SOURCE_SELF_MATCH": 17,
+        "RULE-E_CSV_COLUMN_NAME": 1
+      },
+      "by_class": {
+        "PROHIBITION_OR_NEGATION_STATEMENT_LINE_WRAPPED": 4,
+        "PROHIBITION_OR_NEGATION_STATEMENT": 20,
+        "HOLD_CLASS_ENUMERATION": 7,
+        "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD": 10,
+        "NAMED_CRITERION_LABEL_NOT_A_RELEASE_CLAIM": 1,
+        "DETECTOR_SOURCE_SELF_MATCH": 17,
+        "SCHEMA_FIELD_NAME_NOT_A_CLAIM": 1
+      },
+      "closed": true,
+      "severity_after_adjudication": "INFO_CLOSED",
+      "hits": [
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/README.md",
+          "line": 25,
+          "pattern": "LAUNCH_CLAIM",
+          "text": "design-budget authority; operational-loads FEA authorized, launch-qualification",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-H_WRAPPED_STATEMENT_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT_LINE_WRAPPED",
+            "wrapped_statement_evidence": {
+              "negation_source_line_no": 24,
+              "negation_source_text": "interference findings superseded by neutral R1 authority; M3R 0.7619 kg =",
+              "negation_relied_on": {
+                "phrase": "superseded",
+                "lexicon": "V1_DETECTOR_OWN_NEGATION_LEXICON"
+              }
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/README.md",
+          "line": 46,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "Fail-closed; no zero-fill; candidate≠authority; design≠flight-qualified;",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "≠",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/README.md",
+          "line": 46,
+          "pattern": "QUALIFIED_OR_CERTIFIED_WORD",
+          "text": "Fail-closed; no zero-fill; candidate≠authority; design≠flight-qualified;",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "≠",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml",
+          "line": 7,
+          "pattern": "MANUFACTURING_RELEASE_CLAIM",
+          "text": "manufacturing-release, or qualification authority.",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-H_WRAPPED_STATEMENT_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT_LINE_WRAPPED",
+            "wrapped_statement_evidence": {
+              "negation_source_line_no": 5,
+              "negation_source_text": "These are owner rulings. They convert former HOLDs into design authority",
+              "negation_relied_on": {
+                "phrase": "HOLD",
+                "lexicon": "V1_DETECTOR_OWN_NEGATION_LEXICON"
+              }
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml",
+          "line": 67,
+          "pattern": "LAUNCH_CLAIM",
+          "text": "M3R interface, on-orbit system modal). Launch-qualification FEA",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-G_HOLD_CLASS_ENUMERATION",
+            "class": "HOLD_CLASS_ENUMERATION"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml",
+          "line": 79,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "- no_typical_property_as_design_allowable_for_flight_margin",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "no_typical_property",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+          "line": 10,
+          "pattern": "MANUFACTURING_RELEASE_CLAIM",
+          "text": "an M8/M9 phase. Nothing here grants flight, launcher, manufacturing-release",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "Nothing here grants",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+          "line": 10,
+          "pattern": "M8_M9_PLANNING",
+          "text": "an M8/M9 phase. Nothing here grants flight, launcher, manufacturing-release",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "Nothing here grants",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+          "line": 25,
+          "pattern": "M8_M9_PLANNING",
+          "text": "L6 is the terminus. No M8/M9 planning artifact may be created by this loop.",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-H_WRAPPED_STATEMENT_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT_LINE_WRAPPED",
+            "wrapped_statement_evidence": {
+              "negation_source_line_no": 23,
+              "negation_source_text": "next_stage_authorized_on_issue: false",
+              "negation_relied_on": {
+                "phrase": "false",
+                "lexicon": "V1_DETECTOR_OWN_NEGATION_LEXICON"
+              }
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+          "line": 197,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "- STRUCTURAL_QUALIFICATION_PASS",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-B_FORBIDDEN_VERDICT_ENUMERATION",
+            "class": "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+          "line": 198,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "- FLIGHT_MOS_PASS",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-B_FORBIDDEN_VERDICT_ENUMERATION",
+            "class": "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+          "line": 199,
+          "pattern": "LAUNCH_CLAIM",
+          "text": "- LAUNCH_LOAD_PASS",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-B_FORBIDDEN_VERDICT_ENUMERATION",
+            "class": "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+          "line": 202,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "Naming precision is what prevents the absence of flight qualification",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-G_HOLD_CLASS_ENUMERATION",
+            "class": "HOLD_CLASS_ENUMERATION"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+          "line": 346,
+          "pattern": "MANUFACTURING_RELEASE_CLAIM",
+          "text": "- {id: '17', name: MANUFACTURING_RELEASE_PACKAGE, requirement: drawings, BOM, assembly, inspection, fastener schedule complete}",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-F_GATE_CRITERION_LABEL",
+            "class": "NAMED_CRITERION_LABEL_NOT_A_RELEASE_CLAIM"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+          "line": 362,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "- flight-qualified allowables",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-G_HOLD_CLASS_ENUMERATION",
+            "class": "HOLD_CLASS_ENUMERATION"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+          "line": 362,
+          "pattern": "QUALIFIED_OR_CERTIFIED_WORD",
+          "text": "- flight-qualified allowables",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-G_HOLD_CLASS_ENUMERATION",
+            "class": "HOLD_CLASS_ENUMERATION"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 17,
+          "pattern": "QUALIFIED_OR_CERTIFIED_WORD",
+          "text": "C5  authority-scope sweep (flight/qualified/released/next_stage_authorized/Gate B/ODR stretch)",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 794,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "(\"FLIGHT_QUALIFICATION_CLAIM\", re.compile(",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 796,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "r\"|FLIGHT_MOS_PASS|STRUCTURAL_QUALIFICATION_PASS\", re.I)),",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 798,
+          "pattern": "LAUNCH_CLAIM",
+          "text": "r\"launch[\\s_-]*(load[\\s_-]*pass|surviv|qualif)|LAUNCH_LOAD_PASS\", re.I)),",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 799,
+          "pattern": "MANUFACTURING_RELEASE_CLAIM",
+          "text": "(\"MANUFACTURING_RELEASE_CLAIM\", re.compile(",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 812,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "(\"TYPICAL_PROPERTY_AS_ALLOWABLE\", re.compile(",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 814,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "r\"|allowable[\\s\\S]{0,40}?typical\", re.I)),",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 959,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "\"typical_property_as_allowable_hits\": [],",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1063,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "res[\"typical_property_as_allowable_hits\"].append({",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1125,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "1 for h in res[\"typical_property_as_allowable_hits\"]",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1128,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "1 for h in res[\"typical_property_as_allowable_hits\"]",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1221,
+          "pattern": "MANUFACTURING_RELEASE_CLAIM",
+          "text": "\"Regex hits for flight/launch/manufacturing-release/qualified language on lines \"",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1221,
+          "pattern": "QUALIFIED_OR_CERTIFIED_WORD",
+          "text": "\"Regex hits for flight/launch/manufacturing-release/qualified language on lines \"",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1236,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "add(\"HIGH\", \"CM01-F15\", \"Possible typical property used as a design allowable\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1239,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "[h for h in c6[\"typical_property_as_allowable_hits\"]",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1294,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "\"design_not_equal_flight_qualified\": True,",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1407,
+          "pattern": "M8_M9_PLANNING",
+          "text": "\"no M8/M9 planning artifact created (ODR-17)\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/TC13_TC14_BLOCKING_CLASSIFICATION_V1.yaml",
+          "line": 291,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "open_item_class: FLIGHT_QUALIFICATION_AND_EXTERNAL_EQUIPMENT",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-G_HOLD_CLASS_ENUMERATION",
+            "class": "HOLD_CLASS_ENUMERATION"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml",
+          "line": 523,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "static/dynamic envelope allowance and no separation-plane clearance may be stated. Gate B (MECHANICAL_FLIGHT_QUALIFICATION_RELEASED)",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-H_WRAPPED_STATEMENT_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT_LINE_WRAPPED",
+            "wrapped_statement_evidence": {
+              "negation_source_line_no": 521,
+              "negation_source_text": "status: HOLD_NO_LAUNCHER_ICD",
+              "negation_relied_on": {
+                "phrase": "HOLD",
+                "lexicon": "V1_DETECTOR_OWN_NEGATION_LEXICON"
+              }
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/WP1_CONTRACT_ARTIFACTS_BUILDER_V1.py",
+          "line": 15,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "* candidate != authority; design != flight-qualified; analysis != test",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "!=",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/WP1_CONTRACT_ARTIFACTS_BUILDER_V1.py",
+          "line": 15,
+          "pattern": "QUALIFIED_OR_CERTIFIED_WORD",
+          "text": "* candidate != authority; design != flight-qualified; analysis != test",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "!=",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/build_wp2_receipt.py",
+          "line": 336,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "\"flight-qualified; analysis != test\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "!=",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/build_wp2_receipt.py",
+          "line": 336,
+          "pattern": "QUALIFIED_OR_CERTIFIED_WORD",
+          "text": "\"flight-qualified; analysis != test\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "!=",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/build_wp2_receipt_v2.py",
+          "line": 362,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "\"classification\": \"candidate != authority; design != flight-qualified; analysis != test\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "!=",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/build_wp2_receipt_v2.py",
+          "line": 362,
+          "pattern": "QUALIFIED_OR_CERTIFIED_WORD",
+          "text": "\"classification\": \"candidate != authority; design != flight-qualified; analysis != test\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "!=",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/receipt.json",
+          "line": 397,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "\"classification\": \"candidate != authority; design != flight-qualified; analysis != test\"",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "!=",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/receipt.json",
+          "line": 397,
+          "pattern": "QUALIFIED_OR_CERTIFIED_WORD",
+          "text": "\"classification\": \"candidate != authority; design != flight-qualified; analysis != test\"",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "!=",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/receipt_V1_SUPERSEDED.json",
+          "line": 404,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "\"classification\": \"candidate != authority; design != flight-qualified; analysis != test\"",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "!=",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/receipt_V1_SUPERSEDED.json",
+          "line": 404,
+          "pattern": "QUALIFIED_OR_CERTIFIED_WORD",
+          "text": "\"classification\": \"candidate != authority; design != flight-qualified; analysis != test\"",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "!=",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/WP2_INDEPENDENT_AUDIT_V2.py",
+          "line": 1183,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "\"MEASURED_MASS\", \"LAUNCH_LOAD_PASS\", \"FLIGHT_MOS_PASS\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-B_FORBIDDEN_VERDICT_ENUMERATION",
+            "class": "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/WP2_INDEPENDENT_AUDIT_V2.py",
+          "line": 1183,
+          "pattern": "LAUNCH_CLAIM",
+          "text": "\"MEASURED_MASS\", \"LAUNCH_LOAD_PASS\", \"FLIGHT_MOS_PASS\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-B_FORBIDDEN_VERDICT_ENUMERATION",
+            "class": "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/WP2_INDEPENDENT_AUDIT_V2.py",
+          "line": 1184,
+          "pattern": "MANUFACTURING_RELEASE_CLAIM",
+          "text": "\"MANUFACTURING_RELEASE\"]",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-B_FORBIDDEN_VERDICT_ENUMERATION",
+            "class": "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/WP2_INDEPENDENT_AUDIT_V2.py",
+          "line": 1306,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "\"as-built or flight-qualified mass property.\"),",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-G_HOLD_CLASS_ENUMERATION",
+            "class": "HOLD_CLASS_ENUMERATION"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/WP2_INDEPENDENT_AUDIT_V2.py",
+          "line": 1306,
+          "pattern": "QUALIFIED_OR_CERTIFIED_WORD",
+          "text": "\"as-built or flight-qualified mass property.\"),",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-G_HOLD_CLASS_ENUMERATION",
+            "class": "HOLD_CLASS_ENUMERATION"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1.yaml",
+          "line": 172,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "property_use_rule: TYPICAL_VALUES_FOR_DESIGN_TRADE_AND_DOCUMENTATION_ONLY_NOT_ALLOWABLES",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "_ONLY_NOT_",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1.yaml",
+          "line": 208,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "property_use_rule: TYPICAL_VALUES_FOR_DESIGN_TRADE_AND_DOCUMENTATION_ONLY_NOT_ALLOWABLES",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "_ONLY_NOT_",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1.yaml",
+          "line": 352,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "property_use_rule: TYPICAL_VALUES_FOR_DESIGN_TRADE_AND_DOCUMENTATION_ONLY_NOT_ALLOWABLES",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "_ONLY_NOT_",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1.yaml",
+          "line": 377,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "- NO_PUBLIC_TYPICAL_PROPERTY_AS_FLIGHT_DESIGN_ALLOWABLE",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "NO_PUBLIC_TYPICAL",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/PROCESS_AND_FINISH_REGISTER_V1.csv",
+          "line": 1,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "row_id,part_family_or_station,substrate_material_ref,process_id_ref,process_candidate,specification_reference,selected_type_class_candidate,application_note,selection_status,flight_qualification_statu",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-E_CSV_COLUMN_NAME",
+            "class": "SCHEMA_FIELD_NAME_NOT_A_CLAIM"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/receipt.json",
+          "line": 105,
+          "pattern": "TYPICAL_PROPERTY_AS_ALLOWABLE",
+          "text": "\"no_typical_property_as_design_allowable\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "no_typical_property",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/audit_fea1b.py",
+          "line": 171,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "for bad in [\"STRUCTURAL_QUALIFICATION_PASS\", \"FLIGHT_MOS_PASS\", \"LAUNCH_LOAD_PASS\"]:",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-B_FORBIDDEN_VERDICT_ENUMERATION",
+            "class": "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/audit_fea1b.py",
+          "line": 171,
+          "pattern": "LAUNCH_CLAIM",
+          "text": "for bad in [\"STRUCTURAL_QUALIFICATION_PASS\", \"FLIGHT_MOS_PASS\", \"LAUNCH_LOAD_PASS\"]:",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-B_FORBIDDEN_VERDICT_ENUMERATION",
+            "class": "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/build_fea1b_evidence.py",
+          "line": 821,
+          "pattern": "FLIGHT_QUALIFICATION_CLAIM",
+          "text": "\"STRUCTURAL_QUALIFICATION_PASS\", \"FLIGHT_MOS_PASS\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-B_FORBIDDEN_VERDICT_ENUMERATION",
+            "class": "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/build_fea1b_evidence.py",
+          "line": 822,
+          "pattern": "LAUNCH_CLAIM",
+          "text": "\"LAUNCH_LOAD_PASS\"],",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-B_FORBIDDEN_VERDICT_ENUMERATION",
+            "class": "FORBIDDEN_VERDICT_ENUMERATION_BY_A_GUARD"
+          }
+        }
+      ]
+    },
+    "CM01-F15": {
+      "severity_in_v1": "HIGH",
+      "title": "Possible typical property used as a design allowable",
+      "hits_total": 48,
+      "hits_adjudicated_not_a_claim": 48,
+      "hits_still_open": 0,
+      "by_rule": {
+        "RULE-C_SAME_LINE_NEGATION": 36,
+        "RULE-A_DETECTOR_SOURCE_SELF_MATCH": 10,
+        "RULE-H_WRAPPED_STATEMENT_NEGATION": 2
+      },
+      "by_class": {
+        "PROHIBITION_OR_NEGATION_STATEMENT": 36,
+        "DETECTOR_SOURCE_SELF_MATCH": 10,
+        "PROHIBITION_OR_NEGATION_STATEMENT_LINE_WRAPPED": 2
+      },
+      "closed": true,
+      "severity_after_adjudication": "INFO_CLOSED",
+      "hits": [
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml",
+          "line": 79,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "- no_typical_property_as_design_allowable_for_flight_margin",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "no_typical_property",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 812,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "(\"TYPICAL_PROPERTY_AS_ALLOWABLE\", re.compile(",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 813,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "r\"typical[\\s_-]*(value|propert\\w+)[\\s\\S]{0,60}?(allowable|margin[\\s_-]*of[\\s_-]*safety|MoS)\"",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 814,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "r\"|allowable[\\s\\S]{0,40}?typical\", re.I)),",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 959,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "\"typical_property_as_allowable_hits\": [],",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1063,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "res[\"typical_property_as_allowable_hits\"].append({",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1125,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "1 for h in res[\"typical_property_as_allowable_hits\"]",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1128,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "1 for h in res[\"typical_property_as_allowable_hits\"]",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1236,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "add(\"HIGH\", \"CM01-F15\", \"Possible typical property used as a design allowable\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1238,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "\"margin of safety from a typical material property.\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_INPUT_AND_CM_INTEGRITY_AUDIT_BUILDER_V1.py",
+          "line": 1239,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "[h for h in c6[\"typical_property_as_allowable_hits\"]",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-A_DETECTOR_SOURCE_SELF_MATCH",
+            "class": "DETECTOR_SOURCE_SELF_MATCH"
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp4_fastener_design/build_wp4_fastener_design.py",
+          "line": 457,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "\"p=Q/(d*t_plate) vs 6061-T6 Ftu TYPICAL 310MPa reference level; INDICATIVE_NOT_AN_ALLOWABLE\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "INDICATIVE_NOT_",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1.yaml",
+          "line": 172,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "property_use_rule: TYPICAL_VALUES_FOR_DESIGN_TRADE_AND_DOCUMENTATION_ONLY_NOT_ALLOWABLES",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "_ONLY_NOT_",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1.yaml",
+          "line": 208,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "property_use_rule: TYPICAL_VALUES_FOR_DESIGN_TRADE_AND_DOCUMENTATION_ONLY_NOT_ALLOWABLES",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "_ONLY_NOT_",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1.yaml",
+          "line": 352,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "property_use_rule: TYPICAL_VALUES_FOR_DESIGN_TRADE_AND_DOCUMENTATION_ONLY_NOT_ALLOWABLES",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "_ONLY_NOT_",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1.yaml",
+          "line": 377,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "- NO_PUBLIC_TYPICAL_PROPERTY_AS_FLIGHT_DESIGN_ALLOWABLE",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "NO_PUBLIC_TYPICAL",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/receipt.json",
+          "line": 105,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "\"no_typical_property_as_design_allowable\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "no_typical_property",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/build_fea1b_evidence.py",
+          "line": 1746,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "\"CANDIDATE_TYPICAL_PROPERTIES_CONSUMED_NOT_AS_ALLOWABLES\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "NOT_AS_ALLOWABLES",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/FEA1_EVIDENCE_V1.json",
+          "line": 214,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "\"allowables\": \"NONE EXIST. Both yields are value_kind TYPICAL_* with standard_uncertainty null.\"",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "NONE EXIST",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/receipt_fea1b.json",
+          "line": 283,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "\"wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1\": \"CANDIDATE_TYPICAL_PROPERTIES_CONSUMED_NOT_AS_ALLOWABLES\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "NOT_AS_ALLOWABLES",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/WP7_FEA_OPERATIONAL_BUILDER_V1.py",
+          "line": 270,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "\"TYPICAL_AS_ALLOWABLE\",",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-H_WRAPPED_STATEMENT_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT_LINE_WRAPPED",
+            "wrapped_statement_evidence": {
+              "negation_source_line_no": 269,
+              "negation_source_text": "\"TYPICAL_PROPERTY_NOT_A_DESIGN_ALLOWABLE_NASA_STD_5001B_PROHIBITS_\"",
+              "negation_relied_on": {
+                "phrase": "NOT_A_",
+                "lexicon": "V1_DETECTOR_OWN_NEGATION_LEXICON"
+              }
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/WP7_FEA_OPERATIONAL_BUILDER_V1.py",
+          "line": 800,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "\"\"\"Peak stress vs CANDIDATE typical property. NOT a margin of safety.\"\"\"",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "NOT a margin",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/WP7_FEA_OPERATIONAL_BUILDER_V1.py",
+          "line": 827,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "\"allowables. Both library yields are value_kind TYPICAL_* with \"",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-H_WRAPPED_STATEMENT_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT_LINE_WRAPPED",
+            "wrapped_statement_evidence": {
+              "negation_source_line_no": 825,
+              "negation_source_text": "\"prohibition_honored\":",
+              "negation_relied_on": {
+                "phrase": "prohibit",
+                "lexicon": "V1_DETECTOR_OWN_NEGATION_LEXICON"
+              }
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/WP7_FEA_OPERATIONAL_BUILDER_V1.py",
+          "line": 1361,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "\"allowables\": \"NONE EXIST. Both yields are value_kind TYPICAL_* with \"",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "NONE EXIST",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 56,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0055,HOT,GEVS_TYP_MAX_PREDICTED_FLIGHT,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,45.0,-5.0,25,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_AL6061_ASSUMPTION,0,mm,ANALYTIC_DERIVED_EQUAL_CTE_COMPUTED_ZE",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 59,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0058,HOT,GEVS_TYP_OPERATIONAL,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,50.0,-10.0,30,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_AL6061_ASSUMPTION,0,mm,ANALYTIC_DERIVED_EQUAL_CTE_COMPUTED_ZERO_NOT_Z",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 62,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0061,HOT,GEVS_TYP_ACCEPTANCE_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,55.0,-15.0,35,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_AL6061_ASSUMPTION,0,mm,ANALYTIC_DERIVED_EQUAL_CTE_COMPUTED_ZERO_N",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 65,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0064,HOT,GEVS_TYP_PROTOFLIGHT_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,60.0,-20.0,40,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_AL6061_ASSUMPTION,0,mm,ANALYTIC_DERIVED_EQUAL_CTE_COMPUTED_ZERO_",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 74,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0073,HOT,GEVS_TYP_MAX_PREDICTED_FLIGHT,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,45.0,-5.0,25,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_CRES304_ASSUMPTION,0.0071276343075,mm,ANALYTIC_DERIVED_B601_B",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 77,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0076,HOT,GEVS_TYP_OPERATIONAL,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,50.0,-10.0,30,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_CRES304_ASSUMPTION,0.008553161169,mm,ANALYTIC_DERIVED_B601_BASE_MATER",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 80,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0079,HOT,GEVS_TYP_ACCEPTANCE_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,55.0,-15.0,35,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_CRES304_ASSUMPTION,0.0099786880305,mm,ANALYTIC_DERIVED_B601_BASE_",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 83,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0082,HOT,GEVS_TYP_PROTOFLIGHT_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,60.0,-20.0,40,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_CRES304_ASSUMPTION,0.011404214892,mm,ANALYTIC_DERIVED_B601_BASE_",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 92,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0091,HOT,GEVS_TYP_MAX_PREDICTED_FLIGHT,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,45.0,-5.0,25,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_TI6AL4V_ASSUMPTION,0.016653774128,mm,ANALYTIC_DERIVED_B601_BA",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 95,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0094,HOT,GEVS_TYP_OPERATIONAL,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,50.0,-10.0,30,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_TI6AL4V_ASSUMPTION,0.0199845289536,mm,ANALYTIC_DERIVED_B601_BASE_MATE",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 98,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0097,HOT,GEVS_TYP_ACCEPTANCE_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,55.0,-15.0,35,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_TI6AL4V_ASSUMPTION,0.0233152837792,mm,ANALYTIC_DERIVED_B601_BASE_",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 101,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0100,HOT,GEVS_TYP_PROTOFLIGHT_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,60.0,-20.0,40,M3R_B601_JOINT,pattern_radial_drift_mm,BASE_TI6AL4V_ASSUMPTION,0.0266460386048,mm,ANALYTIC_DERIVED_B601_BASE",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 110,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0109,HOT,GEVS_TYP_MAX_PREDICTED_FLIGHT,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,45.0,-5.0,25,M3R_B601_JOINT,hole_shaft_radial_clearance_change_mm,BOLT_A286_IN_AL6061_STAGE_A,0.000532,mm,ANALYTIC_DER",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 113,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0112,HOT,GEVS_TYP_OPERATIONAL,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,50.0,-10.0,30,M3R_B601_JOINT,hole_shaft_radial_clearance_change_mm,BOLT_A286_IN_AL6061_STAGE_A,0.0006384,mm,ANALYTIC_DERIVED_BO",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 116,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0115,HOT,GEVS_TYP_ACCEPTANCE_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,55.0,-15.0,35,M3R_B601_JOINT,hole_shaft_radial_clearance_change_mm,BOLT_A286_IN_AL6061_STAGE_A,0.0007448,mm,ANALYTIC_DERIVE",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 119,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0118,HOT,GEVS_TYP_PROTOFLIGHT_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,60.0,-20.0,40,M3R_B601_JOINT,hole_shaft_radial_clearance_change_mm,BOLT_A286_IN_AL6061_STAGE_A,0.0008512,mm,ANALYTIC_DERIV",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 128,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0127,HOT,GEVS_TYP_MAX_PREDICTED_FLIGHT,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,45.0,-5.0,25,M3R_B601_JOINT,hole_shaft_radial_clearance_change_mm,BOLT_CRES304_IN_AL6061_STAGE_A,0.000492,mm,ANALYTIC_",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 131,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0130,HOT,GEVS_TYP_OPERATIONAL,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,50.0,-10.0,30,M3R_B601_JOINT,hole_shaft_radial_clearance_change_mm,BOLT_CRES304_IN_AL6061_STAGE_A,0.0005904,mm,ANALYTIC_DERIVED",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 134,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0133,HOT,GEVS_TYP_ACCEPTANCE_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,55.0,-15.0,35,M3R_B601_JOINT,hole_shaft_radial_clearance_change_mm,BOLT_CRES304_IN_AL6061_STAGE_A,0.0006888,mm,ANALYTIC_DER",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 137,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0136,HOT,GEVS_TYP_PROTOFLIGHT_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,60.0,-20.0,40,M3R_B601_JOINT,hole_shaft_radial_clearance_change_mm,BOLT_CRES304_IN_AL6061_STAGE_A,0.0007872,mm,ANALYTIC_DE",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 254,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0253,HOT,GEVS_TYP_MAX_PREDICTED_FLIGHT,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,45.0,-5.0,25,CAMERA_BRACKET_LINK6,optical_frame_translation_mm,BRACKET_AL6061_PROPOSED_MOUNT_DEFINED_NOT_MODELLED,0.04",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 257,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0256,HOT,GEVS_TYP_OPERATIONAL,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,50.0,-10.0,30,CAMERA_BRACKET_LINK6,optical_frame_translation_mm,BRACKET_AL6061_PROPOSED_MOUNT_DEFINED_NOT_MODELLED,0.0524111316",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 260,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0259,HOT,GEVS_TYP_ACCEPTANCE_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,55.0,-15.0,35,CAMERA_BRACKET_LINK6,optical_frame_translation_mm,BRACKET_AL6061_PROPOSED_MOUNT_DEFINED_NOT_MODELLED,0.061146",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        },
+        {
+          "file": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv",
+          "line": 263,
+          "pattern": "REVIEW_REQUIRED_POSSIBLE_TYPICAL_AS_ALLOWABLE",
+          "text": "WP8-0262,HOT,GEVS_TYP_PROTOFLIGHT_TEST,ASSUMPTION_CANDIDATE_BAND_GEVS_TYPICAL,60.0,-20.0,40,CAMERA_BRACKET_LINK6,optical_frame_translation_mm,BRACKET_AL6061_PROPOSED_MOUNT_DEFINED_NOT_MODELLED,0.06988",
+          "adjudication": {
+            "status": "ADJUDICATED_NOT_A_CLAIM",
+            "rule": "RULE-C_SAME_LINE_NEGATION",
+            "class": "PROHIBITION_OR_NEGATION_STATEMENT",
+            "negation_relied_on": {
+              "phrase": "not allowables",
+              "lexicon": "WIDENED_ALLOWABLE_SIDE_ADDITION"
+            }
+          }
+        }
+      ]
+    },
+    "CM01-F13": {
+      "severity_in_v1": "MEDIUM",
+      "title": "Standard cited that the CDR ledger does not contain",
+      "adjudication": "UPHELD_REAL_CM_GAP_NOT_A_FALSE_POSITIVE",
+      "standards_cited_without_a_ledger_row": [
+        {
+          "canonical": "ASTMF593",
+          "tokens_as_written": [
+            "ASTM F593"
+          ],
+          "occurrences": 1,
+          "file_count": 1
+        },
+        {
+          "canonical": "ISO11359",
+          "tokens_as_written": [
+            "ISO 11359"
+          ],
+          "occurrences": 1,
+          "file_count": 1
+        },
+        {
+          "canonical": "ISO1183",
+          "tokens_as_written": [
+            "ISO 1183"
+          ],
+          "occurrences": 1,
+          "file_count": 1
+        },
+        {
+          "canonical": "ISO2768",
+          "tokens_as_written": [
+            "ISO2768"
+          ],
+          "occurrences": 2,
+          "file_count": 2
+        },
+        {
+          "canonical": "ISO27681",
+          "tokens_as_written": [
+            "ISO 2768-1"
+          ],
+          "occurrences": 2,
+          "file_count": 2
+        },
+        {
+          "canonical": "ISO286",
+          "tokens_as_written": [
+            "ISO 286",
+            "ISO286"
+          ],
+          "occurrences": 142,
+          "file_count": 4
+        },
+        {
+          "canonical": "ISO2862",
+          "tokens_as_written": [
+            "ISO 286-2"
+          ],
+          "occurrences": 53,
+          "file_count": 4
+        },
+        {
+          "canonical": "ISO527",
+          "tokens_as_written": [
+            "ISO 527"
+          ],
+          "occurrences": 1,
+          "file_count": 1
+        },
+        {
+          "canonical": "ISO7089",
+          "tokens_as_written": [
+            "ISO7089"
+          ],
+          "occurrences": 4,
+          "file_count": 2
+        },
+        {
+          "canonical": "ISO8981",
+          "tokens_as_written": [
+            "ISO 898-1"
+          ],
+          "occurrences": 3,
+          "file_count": 2
+        },
+        {
+          "canonical": "MMPDS",
+          "tokens_as_written": [
+            "MMPDS",
+            "mmpds"
+          ],
+          "occurrences": 6,
+          "file_count": 3
+        }
+      ],
+      "why_it_is_not_remediated_in_this_loop": "STANDARDS_SOURCE_LEDGER_V1.csv lives inside the FROZEN CDR baseline (F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821).  Adding rows to it would produce frozen-baseline hash drift, which is itself a criterion-01 blocking condition.  Deleting the citations would destroy real design provenance.  Neither is acceptable, so the gap is DECLARED, not silently closed.",
+      "ledger_path": "20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/01_wp0_requirements/STANDARDS_SOURCE_LEDGER_V1.csv",
+      "ledger_sha256": "7854FF787CBB5A881B08797385506E0C57E6436C8024E2B8C69406E306AD7818",
+      "ledger_bytes": 6409,
+      "ledger_modified_by_this_run": false,
+      "what_is_actually_unverified": "the REVISION, status and controlled-copy state of the 11 designators. Every one of them is a dimensional/tolerance/fastener/material-test designator used at DESIGN level (ISO 286 fits, ISO 2768 general tolerances, ISO 898-1 / ASTM F593 fastener classes, ISO 527 / 1183 / 11359 polymer test methods, MMPDS as a property SOURCE).  None of them is used as a flight allowable: the flight-allowable prohibition is carried separately as FLIGHT_MATERIAL_ALLOWABLE_HOLD.",
+      "odr_14_classification": "DECLARED_OPEN_ITEM",
+      "open_item_class": "CONFIGURATION_MANAGEMENT_STANDARDS_PEDIGREE",
+      "blocks_terminal_release_condition": false,
+      "blocks_reason": "terminal_release_condition requires high_severity_open_findings = 0. CM01-F13 is MEDIUM and remains MEDIUM.  It is carried, not closed.",
+      "future_trigger_condition": "ECR-M7 (structural or thermal qualification finding) or any Gate B activity that requires a controlled copy of a cited standard."
+    }
+  },
+  "totals": {
+    "ADJUDICATED_NOT_A_CLAIM": 108,
+    "GENUINE_CLAIM_REQUIRING_REMEDIATION": 0,
+    "EVIDENCE_STALE_TEXT_MISMATCH": 0,
+    "EVIDENCE_STALE_LINE_OUT_OF_RANGE": 0,
+    "EVIDENCE_UNREADABLE": 0,
+    "RULE_ERROR": 0,
+    "NOT_A_LINE_HIT": 0
+  },
+  "gate_a_criterion_01_state_after_adjudication": {
+    "odr_14_state": "PASS_WITH_DECLARED_OPEN_ITEM",
+    "reason": "C1 FROZEN_BASELINE_DRIFT, C2 RECEIPT_SELF_CONSISTENCY, C3 LINE_ENDING_FALSE_POSITIVE_GUARD and C4 ZERO_BYTE_AND_DEGENERATE_EVIDENCE_SWEEP all PASS with hash_mismatch_count = 0 and zero_byte_evidence_count = 0.  The C5/C6 FAILs rested on CM01-F15 (HIGH) and CM01-F12/F13 (MEDIUM).  F15 and F12 are per-hit adjudicated to zero remaining claims under a declared rule set; F13 is UPHELD and carried as a declared open item.",
+    "high_severity_open_findings": 0,
+    "medium_severity_open_findings": 1,
+    "hash_mismatch_count": 0,
+    "zero_byte_evidence_count": 0,
+    "declared_open_items": [
+      "CM01-F13 CONFIGURATION_MANAGEMENT_STANDARDS_PEDIGREE",
+      "CM-OPEN-01 V2_BASELINE_SUPERSESSION_ECR_NOT_YET_RAISED",
+      "CM-OPEN-02 WP13_EMBODIED_MECHANICAL_CONTRACT_PENDING",
+      "CM-OPEN-03 CONCURRENT_WRITE_ZONE_12_RELEASE"
+    ],
+    "authority_note": "A0 assigns the criterion state per ODR-14.  This document supplies the evidence; it does not by itself issue Gate A."
+  },
+  "carried_holds_unchanged": [
+    "FLIGHT_QUALIFICATION_HOLD",
+    "LAUNCHER_AND_SEPARATION_LOAD_HOLD",
+    "AS_BUILT_MASS_CORRELATION_HOLD",
+    "FLIGHT_MATERIAL_ALLOWABLE_HOLD",
+    "QUALIFICATION_TEST_HOLD"
+  ],
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "prohibitions_honored": [
+    "no detection regex was relaxed, deleted or bypassed",
+    "no frozen baseline file was written",
+    "no flight / launcher / manufacturing-release / qualification claim",
+    "no typical material property was converted into a design allowable",
+    "UNKNOWN is never PASS; an unmatched hit keeps the criterion at HOLD"
+  ],
+  "self": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/M7_CM01_FINDING_ADJUDICATION_V1.py",
+    "sha256": "88D595B290A17501A4849ADBCAC8C78DF4A5800C71D0BD247ACBCEEE61A85368",
+    "bytes": 28889
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "SIM13_V2_GATE_SNAPSHOT_RECEIPT_SCHEMA_V1",
+  "artifact_class": "RECEIPT_SCHEMA_DEFINITION_ONLY",
+  "work_order": "WO-NC15",
+  "receipt_schema_name": "SIM13_V2_GATE_SNAPSHOT_RECEIPT_V1",
+  "description": "Fresh action/context-bound gate-snapshot receipt with trusted timestamp, single-use nonce, and bounded expiry. Stale or replayed snapshots are rejected (snapshot_rejected) and the runtime shield masks the non-ABORT request to the canonical ABORT.",
+  "required_payload_fields": [
+    "schema",
+    "issuer",
+    "key_class",
+    "clock_class",
+    "issued_at_s",
+    "not_before_s",
+    "expires_at_s",
+    "validity_window_s",
+    "nonce",
+    "action_sha256",
+    "context_sha256",
+    "gate_snapshot_sha256",
+    "release_credit",
+    "next_stage_authorized"
+  ],
+  "field_rules": {
+    "schema": {"exact_value": "SIM13_V2_GATE_SNAPSHOT_RECEIPT_V1"},
+    "issuer": {"exact_value": "SIM13_V2_RUNTIME_FAIL_CLOSED_RECEIPT_AUTHORITY_V1"},
+    "key_class": {"exact_value": "PUBLIC_NON_SECRET_COOPERATIVE_FAIL_CLOSED_BOUNDARY_NOT_CRYPTO_ROOT"},
+    "clock_class": {"allowed_values": ["HOST_WALL_CLOCK_UTC_NOT_HARDWARE_ROOT_OF_TRUST", "INJECTED_DETERMINISTIC_CLOCK_FOR_TESTS_AND_EVIDENCE"]},
+    "issued_at_s": {"type": "finite_number"},
+    "not_before_s": {"type": "finite_number", "rule": "must equal issued_at_s"},
+    "expires_at_s": {"type": "finite_number", "rule": "must equal issued_at_s + validity_window_s"},
+    "validity_window_s": {"type": "finite_number", "rule": "0 < window <= 5.0"},
+    "nonce": {"type": "non_empty_string", "rule": "single-use via atomic replay-store marker"},
+    "action_sha256": {"type": "sha256_upper_hex", "rule": "canonical digest of the requested action mapping"},
+    "context_sha256": {"type": "sha256_upper_hex", "rule": "canonical digest of the execution context mapping"},
+    "gate_snapshot_sha256": {"type": "sha256_upper_hex", "rule": "canonical digest of the 12-gate authority snapshot mapping"},
+    "release_credit": {"exact_value": false},
+    "next_stage_authorized": {"exact_value": false}
+  },
+  "signature": {
+    "algorithm": "HMAC-SHA256 over canonical JSON payload",
+    "key_class": "public non-secret cooperative fail-closed boundary constant; tamper-evidence only, not a cryptographic root of trust",
+    "field": "signature_hmac_sha256"
+  },
+  "rejection_reasons": [
+    "SNAPSHOT_REJECTED_RECEIPT_MISSING",
+    "SNAPSHOT_REJECTED_MALFORMED",
+    "SNAPSHOT_REJECTED_SIGNATURE_INVALID",
+    "SNAPSHOT_REJECTED_SCOPE_INVALID",
+    "SNAPSHOT_REJECTED_TIME_FIELDS_INVALID",
+    "SNAPSHOT_REJECTED_VALIDITY_WINDOW_INVALID",
+    "SNAPSHOT_REJECTED_NOT_YET_VALID",
+    "SNAPSHOT_REJECTED_STALE",
+    "SNAPSHOT_REJECTED_ACTION_MISMATCH",
+    "SNAPSHOT_REJECTED_CONTEXT_MISMATCH",
+    "SNAPSHOT_REJECTED_GATE_SNAPSHOT_MISMATCH",
+    "SNAPSHOT_REJECTED_NONCE_INVALID",
+    "SNAPSHOT_REJECTED_NONCE_REPLAY"
+  ],
+  "replay_store": {
+    "pattern": "UNIFIED_R2_RUN_CONSUMPTION_SINGLE_USE_MARKER",
+    "marker_schema": "SIM13_V2_SNAPSHOT_NONCE_CONSUMPTION_V1",
+    "marker_filename": "sha256(nonce).json",
+    "atomicity": "exclusive-create file write; a second consumption of the same nonce fails closed"
+  },
+  "fail_closed_invariants": [
+    "UNKNOWN is never PASS",
+    "stale snapshot is never admitted",
+    "replayed nonce is never admitted",
+    "no receipt grants release credit or next-stage authorization"
+  ],
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

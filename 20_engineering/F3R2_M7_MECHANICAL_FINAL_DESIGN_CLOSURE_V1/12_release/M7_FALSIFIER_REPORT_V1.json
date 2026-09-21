@@ -1,0 +1,208 @@
+{
+  "schema": "M7_FALSIFIER_REPORT_V1",
+  "generated_local": "2026-08-22T16:25:36+08:00",
+  "role": "A6_RED_TEAM falsifier (read-only)",
+  "script": "12_release/red_team_and_falsifier_v1.py",
+  "input_pins_sha256_16": {
+    "gate_json": "74006eff52e83e9f",
+    "contract_yaml": "600f2a488699ce8c",
+    "handoff_json": "6ddf78483c848847",
+    "terminal_yaml": "5602cb6fc3dc9836",
+    "urdf": "1bc2b7483cd8025d",
+    "wp2_v2_yaml": "151474dcd2f4eddf",
+    "fea1_evidence": "2e3fc1297785d3e1",
+    "fea1b_evidence": "58e420c0aa966bce",
+    "calibration_yaml": "7463c1309c3530a4",
+    "gripper_pack": "8fb36efc856e5539"
+  },
+  "claims": {
+    "F1": {
+      "claim": "0/144 positive rail-palm overlaps over the gripper continuous stroke",
+      "method": "recount the raw 144-sample sweep CSV and cross-check the pack's frozen_inputs against the recount; verify the pinned validation summary hash-matches",
+      "result": "SURVIVED",
+      "evidence": {
+        "frozen_inputs": {
+          "stroke_mm": [
+            0.0,
+            71.5
+          ],
+          "continuous_stroke_sample_count": 144,
+          "stroke_sample_step_mm": 0.5,
+          "positive_rail_palm_overlap_count": 0,
+          "geometry_status": "NEUTRAL_R1_CORRECTION_PASS (V5R validation; native V5 36 findings SUPERSEDED per ODR-04)",
+          "pregrasp_travel_mm": 55.0,
+          "urdf_joint_type": "prismatic (gripper_joint1 / gripper_joint2)",
+          "urdf_effort_limit_N": 100.0,
+          "urdf_velocity_limit_mm_s": 15.0,
+          "urdf_limit_role": "MODEL_LIMIT_NOT_DESIGN_OR_QUALIFICATION_LOAD"
+        },
+        "gripper_pack_sha256_16": "8fb36efc856e5539",
+        "validation_json": {
+          "path": "20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json",
+          "declared_sha256": "7BC0DF784B36159624A8A89B67207C54C5C9C780B103CB38658DE2D6BA845F47",
+          "live_sha256": "7BC0DF784B36159624A8A89B67207C54C5C9C780B103CB38658DE2D6BA845F47",
+          "hash_match": true
+        },
+        "recount": {
+          "csv": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820\\04_validation\\GRIPPER_R1_CONTINUOUS_STROKE_SAMPLES.csv",
+          "csv_sha256_16": "dae4dbd5c2300d3c",
+          "rows": 144,
+          "positive_overlap_rows": 0,
+          "max_overlap_upper_bound_mm3": 0.0,
+          "all_analytic_pass": true,
+          "travel_min": 0.0,
+          "travel_max": 71.5,
+          "uniform_step_0p5": true,
+          "anchors": [
+            "CLOSED",
+            "CONTINUOUS_SAMPLE",
+            "OPEN",
+            "PREGRASP"
+          ],
+          "proof_methods": [
+            "CONSERVATIVE_AABB_MINKOWSKI_ENVELOPE_SUBTRACTION"
+          ]
+        },
+        "csv_pinned_in_pack_source_register": false,
+        "csv_referenced_in_validation_json": true,
+        "what_could_be_reproduced": "row count, stroke range, 0.5 mm step, per-sample overlap upper bound == 0 and analytic_pass == true for all 144 samples",
+        "what_could_not_be_reproduced": "the underlying B-rep/AABB-Minkowski envelope computation itself (no CAD kernel in this audit); the CSV's own provenance is via its sibling validation JSON which the pack pins by full sha256 - the CSV is NOT itself hash-pinned in the pack source_register"
+      }
+    },
+    "F2": {
+      "claim": "WP2-AUD-02 fix is not an abs() pseudo-fix; C_global = R C_local R^T covariance propagation is what is implemented",
+      "method": "static scan of aggregate_m7_design_mass_v2.py for forbidden abs() patterns + presence of the T(R) C T(R)^T map; recompute from SYSTEM_DESIGN_MASS_PROPERTIES_V2.yaml: every reported sigma >= 0, every covariance matrix symmetric PSD (eigvalsh >= -1e-12*scale); verify the discrimination witness (covariance result differs from the forbidden abs-rotated matrix)",
+      "result": "SURVIVED",
+      "evidence": {
+        "abs_line_count": 61,
+        "forbidden_abs_pattern_hits": [],
+        "covariance_map_implemented": true,
+        "sigma_from_covariance_diag": true,
+        "discrimination_max_abs_delta": 0.24892937275790167,
+        "discrimination_witness_present": true,
+        "remediation": {
+          "status": "CLOSED_WITH_EVIDENCE",
+          "records_checked": 56,
+          "negative_reported_sigma_after_fix": 0
+        },
+        "sigma_scalars_checked": 301,
+        "negative_sigmas": [],
+        "covariance_matrices_checked": 65,
+        "covariance_not_symmetric_psd": []
+      }
+    },
+    "F3": {
+      "claim": "D_i is a fixed rigid calibration across configurations (chain closure 0.0 everywhere; worst empirical residual 0.000163 mm; non-empirical configurations declared ANALYTIC)",
+      "method": "re-read calibration yaml; verify per-configuration chain closures are exactly 0.0, the worst empirical residual matches, exactly 2 configurations carry independent CAD geometry, and the ANALYTIC declaration covers all remaining configurations",
+      "result": "SURVIVED",
+      "evidence": {
+        "per_configuration_chain_closure": {
+          "q0": 0.0,
+          "Q_STOW_C05_ARM_STOWED_ONORBIT": 0.0,
+          "Q_TASK_READY_C06": 0.0,
+          "Q_INTERMEDIATE_C07_PREGRASP": 0.0,
+          "Q_DEPLOYED_HOME_C01": 0.0,
+          "Q_JOINT_LOWER_LIMITS": 0.0,
+          "Q_JOINT_UPPER_LIMITS": 0.0
+        },
+        "all_zero": true,
+        "worst_empirical_residual_mm": 0.0001629909138996286,
+        "empirical_configurations": [
+          "q0",
+          "Q_STOW_C05_ARM_STOWED_ONORBIT"
+        ],
+        "analytic_extension_text": "D_i is body-fixed, so its application at ARM_TASK_READY (C06), the C07 intermediate, DEPLOYED_HOME (C01) and all joint lower / upper limits is exact by rigid-body composition (residual 0 by construction).  Those four are ANALYTIC, not measured: the CAD has no independent geometry export at them.  Declared, not claimed as empirical.",
+        "calibration_sha256_16": "7463c1309c3530a4",
+        "non_empirical_configurations": [
+          "Q_TASK_READY_C06",
+          "Q_INTERMEDIATE_C07_PREGRASP",
+          "Q_DEPLOYED_HOME_C01",
+          "Q_JOINT_LOWER_LIMITS",
+          "Q_JOINT_UPPER_LIMITS"
+        ],
+        "analytic_declared": true,
+        "naming_note": "7 configurations total: 2 empirical (q0, Q_STOW_C05) + 5 non-empirical. The analytic_extension prose says 'Those four are ANALYTIC' while listing C06, C07, C01 and the joint lower/upper limits; counting the two joint-limit configurations separately gives 5 non-empirical configurations. All 5 are covered by the declaration; the four-vs-five wording is a prose imprecision, not an empirical claim."
+      }
+    },
+    "F4": {
+      "claim": "FEA reaction balance passed (and the evidence is read from .dat/.odb extracts, not typed in)",
+      "method": "recompute per-job force/moment residuals from the stored applied and reaction vectors; verify against the 1e-4 criterion; recompute sha256 of every job's .dat and ODB-extract JSON against the evidence register (provenance that numbers came from solver outputs)",
+      "result": "SURVIVED",
+      "evidence": {
+        "method_declared": "Independently recomputed from the ODB RF field: sum of all nodal reaction forces, plus the resultant moment of those reactions about the global origin and about the load reference point (0,0,30.75), compared with the deck-applied load.",
+        "summary": {
+          "worst_relative_force_residual": 1.090194385298805e-07,
+          "worst_relative_force_residual_job": "fea1_capture_150kg_qs_medium",
+          "worst_relative_moment_residual": 9.630703732720799e-09,
+          "worst_relative_moment_residual_job": "fea1_arm_estop_qs_fine",
+          "jobs_with_reaction_leakage_outside_encastre_set": [],
+          "odb_precision": "SINGLE_PRECISION",
+          "verdict": "PASS",
+          "criterion": "global force and moment residual < 1e-5 relative (float32 odb round-off floor is ~1e-7)"
+        },
+        "per_job_recompute": {
+          "jobs": 13,
+          "worst_relative_residual_recomputed": 1.090194385298805e-07,
+          "tolerance": 0.0001,
+          "inconsistent_jobs": []
+        },
+        "provenance_recompute": {
+          "pinned_file_records_checked": 104,
+          "hash_and_bytes_matched": 104,
+          "mismatches": [],
+          "missing_files": [],
+          "note": "every per-job artifact pinned in per_file_result_hashes (inp/dat/msg/sta/odb/com/prt/_extract_json, declared paths including jobs/_extract/) recomputed by full sha256 + bytes"
+        },
+        "fea1b": {
+          "reaction_balance_verdict": null,
+          "reaction_balance_criterion": null
+        }
+      }
+    },
+    "F5": {
+      "claim": "no zero-byte evidence anywhere in the release thread",
+      "method": "full-tree scan of wp1-wp13 + 00_authority + 12_release (+99_tools) for zero-byte files; classify each as cited-as-evidence (basename or relative path appears in any yaml/json of the thread) or legitimate placeholder/tooling",
+      "result": "SURVIVED",
+      "evidence": {
+        "files_scanned": 838,
+        "zero_byte_files": [],
+        "zero_byte_cited_as_evidence": []
+      }
+    },
+    "F6": {
+      "claim": "the phantom base plate open item is declared, not hidden",
+      "method": "verify contract collision.CRITICAL_phantom_base_plate.status == OPEN_DECLARED, that gate criterion 18's open items name WP11-F-01, and that the handoff gate carries the same declared open item",
+      "result": "SURVIVED",
+      "evidence": {
+        "contract_status": "OPEN_DECLARED",
+        "contract_finding": "WP11-F-01_ACCEPTED_URDF_BASE_LINK_COLLISION_MESH_CONTAINS_A_DELETED_PART",
+        "criterion_18_open_items": [
+          {
+            "id": "MECH_RL_COLLISION_MESH_CALIBRATION_APPLICATION",
+            "class": "external-equipment",
+            "future_trigger": "ECR-M2 (collision or reachability defect discovered in the downstream Sim/RL consumer); the re-export touches WP10/WP9 assets outside this loop's write scope",
+            "note": "operational collision meshes not yet re-exported through the D_i calibration (WP11-F-01/F-02); the transforms and consumption rules are defined and the current digital twin is unaffected."
+          }
+        ],
+        "criterion_18_mentions_WP11_F_01": true,
+        "handoff_declared_open_item": {
+          "finding": "WP11-F-01_ACCEPTED_URDF_BASE_LINK_COLLISION_MESH_CONTAINS_A_DELETED_PART",
+          "status": "OPEN_DECLARED",
+          "trigger": "ECR-M2 (collision or reachability defect)",
+          "note": "declared open item, reported not hidden: loadability of the on-disk meshes is checked above; the phantom base plate content of base_link.STL is a declared OPEN item pending re-export through D_i"
+        }
+      }
+    }
+  },
+  "results": {
+    "F1": "SURVIVED",
+    "F2": "SURVIVED",
+    "F3": "SURVIVED",
+    "F4": "SURVIVED",
+    "F5": "SURVIVED",
+    "F6": "SURVIVED"
+  },
+  "survived": 6,
+  "falsified": 0,
+  "not_independently_reproducible": 0
+}

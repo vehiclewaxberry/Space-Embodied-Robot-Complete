@@ -1,0 +1,83 @@
+schema: M7_OWNER_DECISION_ODR27_TO_ODR34_TERMINAL_FREEZE_V1
+generated_local: '2026-08-22T22:10:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: OWNER_DECISION_REGISTER_ENTRY
+extends: M7_OWNER_DECISION_REGISTER_V1.yaml
+authority: OWNER_DIRECTIVE_2026-08-22_R2_GEOMETRY_FREEZE_AND_TERMINAL_CONVERGENCE
+review_status: RECORDED_AS_DIRECTED
+next_stage_authorized: false
+
+decisions:
+
+  - id: ODR-27
+    subject: SOLAR_ARRAY_R2_PRIMARY_GEOMETRY_FROZEN
+    ruling: >-
+      After WI-07, SOLAR_ARRAY_R2 primary geometry is FROZEN_CANDIDATE:
+      300 x 200 mm x 3 leaves/wing, X_S root hinge axis, 1.0 mm standoff,
+      8.5 mm stack, 9.5 mm operational protrusion, inboard-retracting HDRM.
+      Modification only on: negative functional margin, positive
+      interference, structural failure, or deployment impossibility.
+
+  - id: ODR-28
+    subject: STANDOFF_PHYSICAL_DATUM
+    ruling: >-
+      The 1.0 mm standoff shall be realized by a deterministic physical
+      datum feature (hinge/root bracket machined shoulder preferred), not
+      by unconstrained assembly placement or washer stacks. Output:
+      SOLAR_STANDOFF_DATUM_FEATURE_V1 bound to drawings.
+
+  - id: ODR-29
+    subject: B601_HARNESS_FULL_FK_SWEEP_REQUIRED
+    ruling: >-
+      B601 harness cannot be terminal PASS until a full-chain FK sweep
+      closes R2-HRN-04: length margin, curvature distribution, sweep
+      collision vs joint housings/links/solar wing/M3R/camera/gripper,
+      pinch at hard stops/flanges, clamp+strain-relief definition; sampled
+      over stowed, ARM_TASK_READY, PREGRASP, joint limits and
+      representative capture poses.
+
+  - id: ODR-30
+    subject: SOLAR_HARNESS_CENTRELINE_ACCEPTED
+    ruling: >-
+      Solar harness centreline geometry is accepted (root loop 279.3 mm,
+      jumpers 72.1 mm, +2.5 mm worst clearance). Remaining work is hardware
+      realization only: SOLAR_ROOT_FEEDTHROUGH definition, flex jumper
+      bend/no-clamp zones, per-leaf entry/exit clamps.
+
+  - id: ODR-31
+    subject: SOLAR_R2_MECHANISM_ANALYTICAL_CLOSURE_SCOPE
+    ruling: >-
+      The mechanism ledger covers: deployment torque over the full angular
+      domain, end-stop propagation to all THREE hinge/stop reactions
+      (identify controlling stop), latch engagement/retention/back-drive,
+      HDRM hold/release/post-release geometry. HDRM inboard retraction
+      frozen. Flight reliability stays HOLD.
+
+  - id: ODR-32
+    subject: SOLAR_R2_FLEXIBILITY_TWO_MODELS
+    ruling: >-
+      F-R2-HF high-fidelity engineering model (3 flexible leaves + hinge
+      compliances + latch boundary, per-leaf m/I/EI/GJ, k_theta, c_theta)
+      and F-R2-ROM reduced model (3-5 dominant modes/wing with modal mass/
+      stiffness/frequency/damping/participation) for the embodied contract.
+      Includes deployed latch stiffness k_theta_deployed candidate with
+      uncertainty band. Legacy sim_11 flexible parameters may not
+      represent R2.
+
+  - id: ODR-33
+    subject: OPERATIONAL_FEA_NOT_REOPENED
+    ruling: >-
+      Previous M3R/Stage-A/B operational FEA is NOT automatically reopened
+      by R2. A SOLAR_R2_STRUCTURAL_IMPACT_SCREEN (wing root reaction,
+      hinge loads, new panel mass, deployment stop loads vs the accepted
+      operational envelope) decides; only its failure triggers ECR-M1.
+
+  - id: ODR-34
+    subject: TERMINAL_CONVERGENCE
+    ruling: >-
+      After ODR-25 impact assessment, WI-06, both harness gates, the
+      mechanism ledger, thermal/collision regression and handoff 11/11 all
+      pass, no further active mechanical development is authorized.
+      Terminal Mechanical Gates collapse to seven: TMG-1 Product, TMG-2
+      Mass, TMG-3 Mechanism, TMG-4 Harness, TMG-5 Flexibility, TMG-6
+      Mechanical-to-Embodied, TMG-7 Adversarial.

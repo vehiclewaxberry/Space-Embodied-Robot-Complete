@@ -1,0 +1,96 @@
+manifest_id: SPACE_EMBODIED_ROBOT_CAD_V2_1_DEVIATION_MANIFEST
+date: "2026-07-25"
+baseline:
+  root: ../Space_Embodied_Robot_CAD_V2_0
+  immutable: true
+  final_native_hash_records: 57
+  readonly_recheck: 57_of_57_match
+  machine_verdict: V2_SYSTEM_MECHANICAL_CAD_COMPLETE_WITH_PHYSICAL_LIMITATIONS
+  review_status: PENDING_HUMAN_REVIEW
+
+v2_1_scope:
+  authorization: evidence/b4_1_00/HUMAN_APPROVAL_RECORD.yaml
+  allowed: [独立V2.1目录, 主结构语义深化, 太阳翼机械reference子装配, 七态配置族, 验收证据]
+  prohibited: [覆盖V2.0, FEA, 动力学, 控制, 接触, 飞行合规, 制造合规, Git提交]
+  profile: COMPETITION_DISPLAY_V0
+  frozen_envelope_mm: [340.5, 226.3, 226.3]
+  native_inventory:
+    SLDPRT: 51
+    SLDASM: 9
+    SLDDRW: 0
+    total: 60
+
+deviations:
+  - id: D21-01
+    change: 新建独立 V2.1 原生 CAD 树；V2.0 不写入。
+    evidence_state: EVIDENCE_BOUND_PROCESS
+    claim_limit: version isolation only
+
+  - id: D21-02
+    change: 新增 System_Equations_V2_1.txt 与 Master_Skeleton_V2_1 参数属性。
+    evidence_state: DESIGN_PROPOSAL_WITH_FROZEN_INHERITANCE
+    unknown_policy: named_only; no plausible-value fill
+
+  - id: D21-03
+    change: 主结构表达增加 MID2 左右节点垫、前任务框局部角撑和逐件 STRUCT_CLASS。
+    evidence_state: LOAD_PATH_INTENT_ONLY
+    claim_limit: no strength, stiffness, modal or manufacturing result
+
+  - id: D21-04
+    change: ±Y 侧板按人工 C3 在 MID1 站位分前/后段；其余面板保持可拆语义。
+    evidence_state: DESIGN_PROPOSAL
+    physical_serviceability: NOT_EVALUATED
+
+  - id: D21-05
+    change: 新建左右独立 Solar_Array_Root_Module；根支座、双铰链、双保持/释放点、止挡、弹簧和线束均为零实体具名 reference。
+    evidence_state: UNKNOWN_BLOCKED_REFERENCE
+    claim_limit: no mechanism geometry, deployment or redundancy claim
+
+  - id: D21-06
+    change: 每侧太阳翼建立 DEPLOYED/STOWED 双实体表示，并由翼子装配 DEPLOYED/STOWED/NONE 引用配置管理。
+    evidence_state: DESIGN_PROPOSAL
+    claim_limit: representation states, not deployment kinematics
+
+  - id: D21-07
+    change: 顶层建立 STOWED、DEPLOYED_NOMINAL、DEPLOY_FAILED_BOTH、L_FAIL、R_FAIL、PARTIAL、SERVICE 七态。
+    evidence_state: SCENARIO_ENTRY
+    claim_limit: failure-state entry points, not completed failure analysis
+
+  - id: D21-08
+    change: B601 使用 V2.0 子装配路径原样继承，不重构、不复制、不改写。
+    evidence_state: EVIDENCE_BOUND_READ_ONLY
+    claim_limit: q0 static proxy is not workspace or trajectory sweep
+
+  - id: D21-09
+    change: 增加 source/license/adaptation、A1-A20 和 red-team correction 证据链。
+    evidence_state: PROCESS_EVIDENCE
+    physical_mechanism_gate: HOLD
+
+  - id: D21-10
+    change: 工程图登记已扩展，但原生 SLDDRW/PDF 和紧固件登记未生成。
+    evidence_state: HOLD_NOT_DELIVERED
+    reason: physical dimensions, fasteners, tool access and tolerances remain unsigned
+
+negative_results_preserved:
+  - V2-UNK-001 profile/deployer ambiguity remains open
+  - C5 stowed stack 238.3 mm greater than bus width 226.3 mm remains open
+  - deployed tip approximately |Y|=313.15 mm remains an explicit envelope finding
+  - B601 q0 bbox cannot prove solar-root reachability or dynamic arm-solar clearance
+  - camera frame, boresight and FOV remain UNKNOWN
+
+current_gate:
+  semantic_reference_cad: CONDITIONAL
+  physical_solar_mechanism: HOLD
+  arm_solar_dynamic_clearance: NOT_EVALUATED_UNKNOWN_PARAM
+  vision_occlusion: NOT_EVALUATED_UNKNOWN_PARAM
+  native_drawing_package: HOLD_NOT_PRODUCED
+
+final_acceptance:
+  completed_utc: "2026-07-25T17:34:51.627354Z"
+  overall: B4_1_NATIVE_REFERENCE_CAD_BUILT_ACCEPTANCE_HOLD
+  acceptance_verdict: B4_1_ACCEPTANCE_HOLD
+  exit_code: 2
+  release_ready: false
+  counts: {PASS: 6, HOLD: 17, FAIL: 0}
+  canonical_gate: evidence/B4_1_GATE_STATUS.yaml
+  canonical_summary: evidence/acceptance/acceptance_summary.json

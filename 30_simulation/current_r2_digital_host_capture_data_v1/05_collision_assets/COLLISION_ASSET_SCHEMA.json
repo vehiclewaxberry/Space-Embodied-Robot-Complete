@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "COLLISION_ASSET_SCHEMA_V1",
+  "description": "current 碰撞资产注册条目合同。每个 moving link 的碰撞体不得跨越关节轴；无 wildcard clearance、无默认继承、无 caller override。缺逐 pair requirement 时保持 UNKNOWN。",
+  "type": "object",
+  "required": ["asset_id", "object_id", "role", "visual_source", "collision_source", "frame_attachment", "source_sha256", "simplification", "authority_status"],
+  "properties": {
+    "asset_id": {"type": "string"},
+    "object_id": {"type": "string", "description": "对象宇宙 ID，如 A::link3、S::bus、T::satellite"},
+    "role": {"enum": ["ARM_LINK_COLLISION", "BUS_COLLISION", "GRIPPER_CONTACT", "SOLAR_COLLISION", "TARGET_COLLISION", "SUPPORT_COLLISION", "SCENE_BROADPHASE"]},
+    "visual_source": {"type": ["string", "null"]},
+    "collision_source": {"type": ["string", "null"]},
+    "collision_class": {"enum": ["NARROW_PHASE_MESH", "CONVEX_DECOMPOSITION", "CONSERVATIVE_PRIMITIVE", "BROAD_PHASE_ONLY", "ABSENT"]},
+    "frame_attachment": {"type": "object", "required": ["frame", "T_frame_asset_rows", "authority"], "properties": {"frame": {"type": "string"}, "T_frame_asset_rows": {"type": ["array", "null"]}, "authority": {"type": "string"}}},
+    "source_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "simplification": {"type": "object", "required": ["method", "max_deviation_mm", "conservative"], "properties": {"method": {"type": "string"}, "max_deviation_mm": {"type": ["number", "null"]}, "conservative": {"type": ["boolean", "null"]}}},
+    "crosses_joint_axis": {"type": "boolean", "const": false},
+    "authority_status": {"enum": ["OPERATIONAL", "CANDIDATE", "BROAD_PHASE_ONLY", "ABSENT", "UNKNOWN"]},
+    "one_to_one_provenance": {"type": "string", "description": "visual↔collision↔来源 CAD 一对一映射说明"}
+  },
+  "x_fail_closed": [
+    "authority_status != OPERATIONAL 的资产不得进入 pair/edge/path 评价",
+    "UNKNOWN 不得默认为安全",
+    "简化误差为 null 时资产不可用于最小间隙证书"
+  ]
+}

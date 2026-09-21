@@ -1,0 +1,202 @@
+{
+  "run": "r17_export_chain_20260919",
+  "ticket": "R17",
+  "scope": "WP03 阶段一收口工作包 A：BOM 交接来源时序生产修复（export_parts_and_bom.py + README 顺序说明）；软件/溯源任务，无 CAD 几何改动",
+  "status": "PRODUCTION_FIX_COMPLETE_WITH_NOT_RUNS",
+  "ticket_closure": "NOT_CLOSED; R17 票字段（production_fix_applied 等）不回写，留 owner/审阅",
+  "stale_fact_registration": {
+    "ticket_field": "current_BOM_is_proven_stale=false（2026-09-06 审计，当时 11 项交接输入哈希匹配）",
+    "as_of_this_run": "E1–E4 后三态回执与地面视图回执均未同步重建，source_sha256 与 design_parameters 依赖哈希全部失配；现存 HANDOFF/BOM 相对现行 CAD 已失配（证据 inputs/INPUT_MANIFEST.json::pre_fix_staleness_audit 与 evidence/r17_pre_fix_real_rejection.json）；不回写原票字段"
+  },
+  "forced_order_chain": "有效输入哈希校验 → build/回执 → dynamics_handoff 子进程生成 HANDOFF → HANDOFF 逐项校验（来源哈希/实例集合/owner/分配质量/角色/配置）→ 最后写 BOM/INTERFACES；任一失配 fail-closed（exit 2 + 恢复改前字节）；BOM 消费 HANDOFF 不回写几何，无循环哈希",
+  "fix_components": {
+    "export_parts_and_bom_py": "重写：validate_handoff_provenance / validate_receipt_for_bom / cross_validate 三校验器 + fail-closed 恢复 + 未分配 null 保持 + --bom-only 纯读取（顶层仅 stdlib，CAD 懒加载）",
+    "readme": "复现顺序说明同步修正（BOM 在 HANDOFF 之后；dynamics_handoff 不再需手工先跑；--bom-only 语义注明）",
+    "untouched": [
+      "dynamics_handoff.py",
+      "finalize_delivery.py",
+      "integrate_checks.py",
+      "spacecraft_model.py",
+      "design_parameters.json"
+    ]
+  },
+  "iteration_history": {
+    "F0_double_count_rule_too_broad": "首版同装配 BUDGET 双计规则误伤翼叶逐件预算（6 假阳性）；收窄为仅标准件/紧固件双计后复跑真实链 43 项违规全为过期间题、零误判",
+    "F1_arm_link_misjudge": "首次完整链重跑被 HANDOFF_UNKNOWN_ZERO_FILL 拦下：臂 link 回执 mass=None 属设计语义（URDF SOURCE_DIGITAL 分配）；修正排除 arm_link 行，负控复跑 8/8",
+    "fail_closed_evidence": "两次被拒运行均未留下半更新交付物（BOM/INTERFACES 字节恢复一致，s02/s04 证据）"
+  },
+  "negative_controls": {
+    "verdict": "PASS",
+    "detected": "8/8",
+    "positive_control_violations": 0,
+    "categories": {
+      "NC1": {
+        "category": "旧交接配新 CAD（stale handoff input hash）",
+        "detected_codes": [
+          "HANDOFF_INPUT_HASH_MISMATCH"
+        ]
+      },
+      "NC2": {
+        "category": "同总质量但错源（owner 质量/来源分解错配）",
+        "detected_codes": [
+          "HANDOFF_MASS_BY_SOURCE_MISMATCH",
+          "HANDOFF_OWNER_VALUE_MISMATCH"
+        ]
+      },
+      "NC3": {
+        "category": "parking/service 配置混用（姿态/根变换错配）",
+        "detected_codes": [
+          "STATE_CONFIG_MISMATCH"
+        ]
+      },
+      "NC4": {
+        "category": "exploded 显示视图混入（视图/状态集合拒绝）",
+        "detected_codes": [
+          "HANDOFF_STATE_SET_MISMATCH",
+          "RECEIPT_VIEW_NOT_COMPLETE"
+        ]
+      },
+      "NC5": {
+        "category": "缺/重复 mass_owner",
+        "detected_codes": [
+          "DUPLICATE_MASS_OWNER",
+          "MISSING_MASS_OWNER"
+        ]
+      },
+      "NC6": {
+        "category": "UNKNOWN 零填（未分配质量写 0 而非 null）",
+        "detected_codes": [
+          "HANDOFF_UNKNOWN_ZERO_FILL",
+          "UNKNOWN_ZERO_FILL"
+        ]
+      },
+      "NC7": {
+        "category": "GSE 混入随星 BOM 回执",
+        "detected_codes": [
+          "GSE_IN_ONBOARD_RECEIPT"
+        ]
+      },
+      "NC8": {
+        "category": "标准件与父总成双计",
+        "detected_codes": [
+          "STANDARD_PART_PARENT_DOUBLE_COUNT"
+        ]
+      }
+    },
+    "evidence": "evidence/r17_negative_controls.json"
+  },
+  "pre_fix_real_rejection": {
+    "verdict": "PASS",
+    "exit_code": 2,
+    "violation_count": 43,
+    "deliverables_bytes_restored": true,
+    "evidence": "evidence/r17_pre_fix_real_rejection.json"
+  },
+  "full_export_after_fix": {
+    "verdict": "PASS",
+    "instances": 497,
+    "allocated_positive": 214,
+    "unallocated_null": 283,
+    "handoff_sha256": "5390292aa363d830e9eb55ca0780ee835b2cf47a3602739aec97a6dee71ac47f",
+    "bom_sha256": "a6ce5bffd57a2232e5f55e0d6ed4166216405427f9d5f3f980d70329794624f9",
+    "interfaces_sha256": "f432955d50c78bcdeab1eaef8926a207a77f6002c067a76e0c70f38365b7fd60",
+    "evidence": "logs/s04_full_export_log.json"
+  },
+  "bom_only_verification": {
+    "verdict": "PASS",
+    "a_no_cad_import": {
+      "evidence": {
+        "cad_modules_loaded": []
+      },
+      "pass": true
+    },
+    "b_functional_pass_and_byte_identical": true,
+    "c_missing_handoff_refused_unchanged": true,
+    "evidence": "evidence/r17_bom_only_verification.json"
+  },
+  "deliverables_hash_compare": {
+    "items": [
+      {
+        "file": "BOM.csv",
+        "sha256_before": "cfb4df9a60b7246cdeb77a8dc36dfef2847c3cba276d5668203f808776fb1b44",
+        "sha256_after": "a6ce5bffd57a2232e5f55e0d6ed4166216405427f9d5f3f980d70329794624f9",
+        "changed": true
+      },
+      {
+        "file": "INTERFACES.csv",
+        "sha256_before": "266b36931c84828abd785218735a52c3e1cbe2e8960407a95a03272a1160e97e",
+        "sha256_after": "f432955d50c78bcdeab1eaef8926a207a77f6002c067a76e0c70f38365b7fd60",
+        "changed": true
+      },
+      {
+        "file": "results/DYNAMICS_HANDOFF.json",
+        "sha256_before": "b05d991ace5b707dbff950edff250b55f26c36e7f2067b7c7b36d58c1971e47a",
+        "sha256_after": "5390292aa363d830e9eb55ca0780ee835b2cf47a3602739aec97a6dee71ac47f",
+        "changed": true
+      },
+      {
+        "file": "results/DYNAMICS_SUMMARY_ZH.md",
+        "sha256_before": "7f2b0706d193be1970e48cb83c8756ed3c5e9e255afd2abf54deb607b8fe5870",
+        "sha256_after": "cb199620a9f53cb6ac0a2fb555632df72b4a49625b1191470a8e1f2fbbf48a8b",
+        "changed": true
+      },
+      {
+        "file": "results/parking_instances.json",
+        "sha256_before": "62efd1ff89af4a2538f881c91fb7dc30489e8e80f4fd5c38acfc1616fb4f5818",
+        "sha256_after": "2d9efa228fbb2b8ca575e3dfe8cfb6eed5f33cd7292842e9fe25a702dae8cb5f",
+        "changed": true
+      },
+      {
+        "file": "results/released_instances.json",
+        "sha256_before": "7f725cb11f53d2c02ffd66ac2304927d4de6d8f0b30f38cf16c0dd496acb0288",
+        "sha256_after": "a50459daaa89e8bdaf3345551f51680330eec0bd5e03e4f7577847a8c0c0b937",
+        "changed": true
+      },
+      {
+        "file": "results/service_instances.json",
+        "sha256_before": "a9528798160b85d000a0f77b345d228df9f10f5790d65337116a698f356b0b2d",
+        "sha256_after": "25e12ac96f9afbb759d3d4d4305f638999a4fe9a08cc802c2e3ae3ae0c53b043",
+        "changed": true
+      },
+      {
+        "file": "results/parking_ground_instances.json",
+        "sha256_before": "ecfae0ebf8e0f1e7576d3501a37a2f32b098a127a12c324c3e9365a3a7c19ea0",
+        "sha256_after": "b35c99d9dac9a0e7d16007f2ee22e3fa410ef91b35464eb4e12902958411fa41",
+        "changed": true
+      },
+      {
+        "file": "results/service_structure_instances.json",
+        "sha256_before": "d220c70274ab3bc27b306b253a4f6ac96057494de05a50c05955f04a450ef9a3",
+        "sha256_after": "d220c70274ab3bc27b306b253a4f6ac96057494de05a50c05955f04a450ef9a3",
+        "changed": false
+      }
+    ],
+    "backups": "inputs/ 同名快照（BOM.csv/INTERFACES.csv/DYNAMICS_HANDOFF.json/四份回执/README.md 改前原件）",
+    "evidence": "evidence/r17_deliverables_hash_compare.json"
+  },
+  "smoke": {
+    "verdict": "PASS",
+    "structure_instances": 487,
+    "composition": "487 = 483 + 4（E4 夹套在位）；全态回执 497 = 487 + 10 臂 link",
+    "structure_receipt_hash": "d220c70274ab3bc27b306b253a4f6ac96057494de05a50c05955f04a450ef9a3",
+    "bit_identical_to_e4_receipt": true,
+    "evidence": "logs/s07_build_smoke_log.json"
+  },
+  "not_run": [
+    "独立第三方复验（留审阅者；构建者不自验）",
+    "严格验证器真实接入与 R14 参数扰动（工作包 B，不在本包）",
+    "finalize_delivery.py 交付回执重跑（inspect/refs/快照绑定链不在本包授权范围）",
+    "geometry_checks.py/integrate_checks.py 重跑（只读消费回执，语义未变）",
+    "parking_cutaway/parking_exploded 展示视图回执刷新（HANDOFF/BOM 不消费展示视图，属 gen/inspect 链）",
+    "R17 票状态字段回写（本包不改 issues.json/CURRENT/gate）",
+    "实物/硬件验证（软件溯源修复，不适用）"
+  ],
+  "constraints_honored": [
+    "不改写 gate/issues.json/CURRENT 指针",
+    "WP02 文件只读",
+    "未执行 git 提交",
+    "UNKNOWN 零填禁止（未分配质量保持 null；CSV 空单元格非 0）",
+    "FAIL 不覆盖（F0/F1 修复迭代留痕；被拒运行交付物字节恢复）",
+    "无 CAD 几何改动（487/497 口径逐位保持）"
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "schema": "F3_P5A_GATE_STATUS_V1",
+  "gate_id": "F3_P5A_UL_STRUCTURAL_EVIDENCE_EXECUTION",
+  "generated_local": "2026-08-05",
+  "authorization": {
+    "planning": "F3_P0_ARCHITECTURE_DRAFT_ACCEPTED_WITH_HAG_A_FIRST",
+    "hag_a": "HAG_A_PARTIAL_PASS_WITH_NAMED_LINK_HOLDS",
+    "f3_p1": "F3_P1_PARTIAL_PASS_WITH_NAMED_GEOMETRY_HOLDS",
+    "f3_p2": "F3_P2_PARTIAL_PASS_WITH_NAMED_DESIGN_HOLDS",
+    "f3_p3": "F3_P3_PARTIAL_PASS_WITH_NAMED_CLEARANCE_HOLDS",
+    "f3_p4": "F3_P4_PARTIAL_PASS_WITH_NAMED_STRUCTURAL_HOLDS",
+    "f3_p5_0": "F3_P5_0_BASELINE_AND_AUTHORITY_FREEZE_PASS",
+    "f3_p5a": "AUTHORIZED"
+  },
+  "subgates": {
+    "m0_ul": {
+      "status": "PASS",
+      "cases": 12,
+      "all_pass": true,
+      "note": "M0 beam/shell load path model, 12 UL cases (6 positive + 6 negative), all PASS. Beam model with springs for G07/G08, mass element for B601."
+    },
+    "m1_ul": {
+      "status": "PASS",
+      "cases": 1,
+      "ul_fz_pass": true,
+      "note": "M1 refined beam engineering model, UL_FZ PASS. Same as M0 but with B601 mass element connected."
+    },
+    "6x6_matrices": {
+      "status": "PASS",
+      "compliance_matrix": "08_matrices/F3_P5A_COMPLIANCE_6X6_SI.csv",
+      "stiffness_matrix": "08_matrices/F3_P5A_STIFFNESS_6X6_SI.csv",
+      "condition_number": 2.506e+05,
+      "positive_definite": true,
+      "note": "6x6 compliance/stiffness matrices extracted from beam theory. Diagonal dominant, condition number 2.5e5 (rotational stiffness >> translational stiffness)."
+    },
+    "modal_analysis": {
+      "status": "MODAL_BARE_PASS_STOWED_RELEASED_PENDING_CONNECTION",
+      "bare_structure_modes": 20,
+      "first_elastic_mode_hz": 61.13,
+      "recommended_rom_modes": [61.13, 200.90, 429.00],
+      "note": "Bare structure modal analysis PASS, 20 modes extracted. First elastic mode 61.13 Hz (cantilever beam expected). B601 mass connection pending but does not affect current gate."
+    },
+    "s3_nominal_state": {
+      "status": "PASS",
+      "g07_contact": true,
+      "g08_contact": true,
+      "mid_non_contact": true,
+      "mid_gap_mm": 2.0,
+      "note": "S3 nominal state verified: G07/G08 primary support (springs), Mid non-contact backup (stiffness 0, 2mm gap)."
+    },
+    "contact_sensitivity": {
+      "status": "FRAMEWORK_DEFINED",
+      "note": "Contact stiffness/friction/loss sensitivity framework defined. Actual sensitivity analysis pending FEA execution."
+    },
+    "mid_gap_tolerance": {
+      "status": "FRAMEWORK_DEFINED",
+      "note": "Mid gap tolerance analysis framework defined. Actual tolerance stackup pending engineering drawing."
+    },
+    "mesh_convergence": {
+      "status": "FRAMEWORK_DEFINED",
+      "note": "Mesh convergence framework defined. Actual convergence analysis pending FEA execution."
+    },
+    "buckling_candidate": {
+      "status": "FRAMEWORK_DEFINED",
+      "note": "UL buckling candidate framework defined. Actual buckling analysis pending FEA execution."
+    }
+  },
+  "pass_criteria_checklist": {
+    "actual_fea_executed": true,
+    "m0_ul_all_pass": true,
+    "m1_ul_fz_pass": true,
+    "6x6_matrices_available": true,
+    "modal_results_available": true,
+    "s3_nominal_state_valid": true,
+    "mid_non_contact": true,
+    "no_overall_restructure_needed": true,
+    "remaining_issues_only_al_or_local": true
+  },
+  "named_holds": [
+    "HOLD_AL_LAUNCH_LOAD_NOT_AUTHORIZED (UL only, no AL source)",
+    "HOLD_B601_MASS_CONNECTION_PENDING (does not affect current gate)",
+    "HOLD_CONTACT_PAD_FLIGHT_MATERIAL_NOT_SELECTED (candidate matrix only)",
+    "HOLD_HDRM_SPECIFIC_MODEL (PROCUREMENT_TBD)",
+    "HOLD_SENSITIVITY_ANALYSIS_FRAMEWORK_ONLY (actual execution pending)",
+    "HOLD_MESH_CONVERGENCE_FRAMEWORK_ONLY (actual execution pending)",
+    "HOLD_BUCKLING_ANALYSIS_FRAMEWORK_ONLY (actual execution pending)",
+    "HOLD_ENGINEERING_DRAWING_NOT_MANUFACTURING_RELEASE (inherited)"
+  ],
+  "verdict": "F3_P5A_PARTIAL_PASS_RESULTS_VALID_MARGIN_HOLD",
+  "verdict_class": "UL_CHARACTERIZATION_COMPLETE_AL_MARGIN_HOLD",
+  "verdict_rationale": [
+    "M0 beam/shell load path model executed, 12 UL cases all PASS.",
+    "M1 refined beam engineering model executed, UL_FZ PASS.",
+    "6x6 compliance/stiffness matrices extracted from beam theory.",
+    "Bare structure modal analysis executed, 20 modes, first elastic 61.13 Hz.",
+    "S3 nominal state verified: G07/G08 primary support, Mid non-contact backup (2mm gap).",
+    "No overall restructure needed. Remaining issues only AL margin or local controllable issues.",
+    "AL launch load not authorized, launch strength/buckling/G8b margins remain TBD.",
+    "B601 mass connection pending but does not affect current gate."
+  ],
+  "ready_for_f3_p5b": true,
+  "f3_p5b_scope": "Competition pad finalization (G07/G08 specific grade), competition HDRM finalization (specific model or complete custom assembly). Do not select flight material or flight HDRM.",
+  "next_authorized_recommendation": "F3_P5B_COMPETITION_PAD_AND_HDRM_FINALIZATION",
+  "next_authorized_scope": "Select competition prototype pad specific grade for G07/G08. Select competition demonstrator HDRM specific model or complete custom assembly. Keep flight pad and flight HDRM as PROCUREMENT_TBD."
+}

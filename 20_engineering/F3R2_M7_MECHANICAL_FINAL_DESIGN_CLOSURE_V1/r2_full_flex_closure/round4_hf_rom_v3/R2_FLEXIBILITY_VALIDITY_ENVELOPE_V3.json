@@ -1,0 +1,153 @@
+{
+  "schema": "R2_FLEXIBILITY_VALIDITY_ENVELOPE_V3",
+  "generated_local": "2026-08-25T16:21:57.874634+08:00",
+  "parameter_corners": {
+    "LOW": {
+      "EI": 3.333,
+      "GJ": 0.13568692307692307,
+      "k_root": 50.0,
+      "k_inter": 20.0,
+      "zeta": 0.002
+    },
+    "NOMINAL": {
+      "EI": 11.109,
+      "GJ": 1.5228243135505908,
+      "k_root": 200.0,
+      "k_inter": 100.0,
+      "zeta": 0.005
+    },
+    "HIGH": {
+      "EI": 33.327,
+      "GJ": 17.09076923076923,
+      "k_root": 800.0,
+      "k_inter": 400.0,
+      "zeta": 0.02
+    }
+  },
+  "retained_mode_frequency_envelope": {
+    "BENDING_1": {
+      "by_corner_hz": {
+        "LOW": 2.224932658980597,
+        "NOMINAL": 4.30046323263928,
+        "HIGH": 7.829875373886181
+      },
+      "min_hz": 2.224932658980597,
+      "max_hz": 7.829875373886181
+    },
+    "BENDING_2": {
+      "by_corner_hz": {
+        "LOW": 13.121038980680465,
+        "NOMINAL": 25.785014830803572,
+        "HIGH": 47.28915232010671
+      },
+      "min_hz": 13.121038980680465,
+      "max_hz": 47.28915232010671
+    },
+    "BENDING_3": {
+      "by_corner_hz": {
+        "LOW": 33.50785239526772,
+        "NOMINAL": 67.42978721838807,
+        "HIGH": 124.72684930772616
+      },
+      "min_hz": 33.50785239526772,
+      "max_hz": 124.72684930772616
+    },
+    "TORSION_1": {
+      "by_corner_hz": {
+        "LOW": 1.8681132135503258,
+        "NOMINAL": 6.258339174164938,
+        "HIGH": 20.96597194151867
+      },
+      "min_hz": 1.8681132135503258,
+      "max_hz": 20.96597194151867
+    },
+    "TORSION_2": {
+      "by_corner_hz": {
+        "LOW": 5.605620098178797,
+        "NOMINAL": 18.779307164809904,
+        "HIGH": 62.912286493482604
+      },
+      "min_hz": 5.605620098178797,
+      "max_hz": 62.912286493482604
+    },
+    "TORSION_3": {
+      "by_corner_hz": {
+        "LOW": 9.3469692263452,
+        "NOMINAL": 31.31314700020132,
+        "HIGH": 104.90172282717502
+      },
+      "min_hz": 9.3469692263452,
+      "max_hz": 104.90172282717502
+    },
+    "TORSION_4": {
+      "by_corner_hz": {
+        "LOW": 13.094724965247053,
+        "NOMINAL": 43.86844952995683,
+        "HIGH": 146.96306102417194
+      },
+      "min_hz": 13.094724965247053,
+      "max_hz": 146.96306102417194
+    }
+  },
+  "geometry": {
+    "root_y_abs_m": 0.1154,
+    "root_z_m": -0.10815,
+    "leaves_per_wing": 3
+  },
+  "quantitative_linearity_contract": {
+    "authority": "PROVISIONAL_DERIVED_SMALL_ANGLE_KINEMATIC_BOUND",
+    "qualification_credit": false,
+    "limits": {
+      "max_abs_bending_slope_rad": 0.05,
+      "max_abs_hinge_relative_rotation_rad": 0.05,
+      "max_abs_torsion_angle_rad": 0.05,
+      "max_abs_transverse_node_displacement_m": 0.030000000000000006,
+      "max_abs_tip_transverse_deflection_m": 0.030000000000000006
+    },
+    "derivation": {
+      "angle_rad": 0.05,
+      "one_minus_cos_angle": 0.0012497396050337173,
+      "relative_sine_linearisation_error": 0.0004166145864334392,
+      "deflection_limit_rule": "total deployed span (0.6 m) x angle limit"
+    },
+    "required_downstream_checks": [
+      "max(abs(R_w_nodes @ eta)) <= max_abs_transverse_node_displacement_m",
+      "max(abs(R_theta_dofs @ eta)) <= max_abs_bending_slope_rad",
+      "max(abs(R_hinge_relative @ eta)) <= max_abs_hinge_relative_rotation_rad",
+      "max(abs(R_torsion_nodes @ eta)) <= max_abs_torsion_angle_rad",
+      "max(abs(R_tip_w @ eta)) <= max_abs_tip_transverse_deflection_m"
+    ],
+    "out_of_domain_policy": "FAIL_CLOSED__NO_LINEAR_ROM_EXTRAPOLATION",
+    "replacement_trigger": "nonlinear HF correlation or as-built modal test supersedes this provisional bound"
+  },
+  "response_reconstruction": {
+    "source": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round4_hf_rom_v3/R2_SEVEN_MODE_ROM_V3.json",
+    "operators": [
+      "w_nodes",
+      "theta_dofs",
+      "torsion_nodes",
+      "hinge_relative",
+      "tip_w"
+    ],
+    "out_of_domain_policy": "FAIL_CLOSED__NO_LINEAR_ROM_EXTRAPOLATION"
+  },
+  "valid_for": [
+    "deployed-flat latched Solar R2 configuration",
+    "small linear deformation around the deployed equilibrium within the quantitative_linearity_contract",
+    "per-wing component HF/ROM use with explicit LEFT/RIGHT B matrices",
+    "deterministic LOW/NOMINAL/HIGH bounded sensitivity studies"
+  ],
+  "invalid_or_not_evaluated_for": [
+    "stowed, deployment transient, freeplay, backlash or contact",
+    "independent latch hardware stiffness outside the folded k_inter interval",
+    "nonlinear large-deflection response",
+    "any response exceeding a quantitative_linearity_contract limit",
+    "R2 coupled spacecraft-arm-target diagnostics",
+    "e15 certification inheritance or flight qualification"
+  ],
+  "r2_coupled_diagnostics": "NOT_EVALUATED",
+  "e15_inheritance": "NOT_INHERITED",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

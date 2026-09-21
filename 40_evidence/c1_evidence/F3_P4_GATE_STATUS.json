@@ -1,0 +1,83 @@
+{
+  "schema": "F3_P4_GATE_STATUS_V1",
+  "gate_id": "F3_P4_STRUCTURAL_REFINEMENT_MANUFACTURING_AND_DYNAMICS",
+  "generated_local": "2026-08-05",
+  "authorization": {
+    "planning": "F3_P0_ARCHITECTURE_DRAFT_ACCEPTED_WITH_HAG_A_FIRST",
+    "hag_a": "HAG_A_PARTIAL_PASS_WITH_NAMED_LINK_HOLDS",
+    "f3_p1": "F3_P1_PARTIAL_PASS_WITH_NAMED_GEOMETRY_HOLDS",
+    "f3_p2": "F3_P2_PARTIAL_PASS_WITH_NAMED_DESIGN_HOLDS",
+    "f3_p3": "F3_P3_PARTIAL_PASS_WITH_NAMED_CLEARANCE_HOLDS",
+    "f3_p4": "AUTHORIZED"
+  },
+  "subgates": {
+    "F3_P4A_base_adapter_load_bridge_fea": {
+      "status": "PRELIMINARY_UNIT_LOAD_AND_MODAL_CANDIDATE",
+      "deliverables": ["F3_P4A_BASE_ADAPTER_LOAD_BRIDGE_FEA.md"],
+      "note": "FEA framework defined (6-component unit load, 6x6 stiffness matrix, modal analysis). Actual FEA execution pending external tool (ANSYS/Abaqus/FreeCAD FEM)."
+    },
+    "F3_P4A_saddle_reaction_contact_pressure": {
+      "status": "PRELIMINARY_ANALYSIS_FRAMEWORK",
+      "deliverables": ["F3_P4A_SADDLE_REACTION_CONTACT_PRESSURE.md"],
+      "note": "Saddle reaction force and contact pressure analysis framework defined. Actual computation pending FEA."
+    },
+    "F3_P4B_mid_saddle_trade_study": {
+      "status": "DECISION_MID_KEEP_COMPLIANT_BACKUP",
+      "deliverables": ["F3_P4B_MID_SADDLE_TRADE_STUDY.md"],
+      "note": "S3 selected: G07 + G08 primary, Mid as non-contact backup (2mm gap). S2 (with Mid) has high over-constraint risk. S1 (no Mid) has high release reliability."
+    },
+    "F3_P4C_contact_pad_detailed_design": {
+      "status": "CANDIDATE_MATRIX_AND_PARAMETER_SENSITIVITY",
+      "deliverables": ["F3_P4C_CONTACT_PAD_DETAILED_DESIGN.md"],
+      "note": "Contact pad candidate matrix (PTFE/Disc_Spring recommended for G07, PTFE/Silicone for G08). Parameter sensitivity pending FEA. No flight material selected."
+    },
+    "F3_P4D_hdrm_structural_deepening": {
+      "status": "FUNCTIONAL_INTERFACE_CLOSED_MODEL_PROCUREMENT_TBD",
+      "deliverables": ["F3_P4D_HDRM_STRUCTURAL_DEEPENING.md"],
+      "note": "All HDRM installation interfaces closed (flange, preload, load transfer, release stroke, mechanical stop, actuator envelope, spring envelope, sensor interface, electrical, residual keepout, disassembly, failure release, manual ground unlock). Specific model remains PROCUREMENT_TBD."
+    },
+    "F3_P4E_inheritance_manufacturing_deepening": {
+      "status": "ENGINEERING_DEFINITION_DRAWING_NOT_MANUFACTURING_RELEASE",
+      "deliverables": ["F3_P4E_INHERITANCE_MANUFACTURING_DEEPENING.md"],
+      "note": "8 inherited parts manufacturing deepening completed (material, blank, datum, GD&T, surface, holes, fasteners, pins, anti-loosening, grounding, assembly, tool access, inspection, TechDraw requirements, BOM). Engineering definition only, not manufacturing release."
+    }
+  },
+  "pass_criteria_checklist": {
+    "mid_saddle_decision_made": true,
+    "contact_pad_candidate_matrix_defined": true,
+    "hdrm_interfaces_closed": true,
+    "inheritance_manufacturing_deepening_defined": true,
+    "accepted_urdf_zero_mod": true,
+    "donor_zero_mod": true,
+    "cad_mass_not_overwrite_dynamics": true,
+    "no_flight_material_selected": true,
+    "no_fea_execution_claimed": true
+  },
+  "named_holds": [
+    "HOLD_GUI_WITNESS_INTERACTIVE_NOT_PERFORMED (inherited)",
+    "HOLD_T_SM_SINGLE_ROUTE_NOT_DECIDED (dual track retained)",
+    "HOLD_MODE_B_STOW_Z_NON_COMPLIANT (inherited)",
+    "HOLD_G8B_ROBUST_CLEARANCE_MARGINS_TBD (inherited)",
+    "HOLD_CAMERA_OCCLUSION_IN_STOW (inherited)",
+    "HOLD_LAUNCH_LOAD_SPECTRUM (undefined, cannot do strength/stiffness verification)",
+    "HOLD_CONTACT_PAD_FLIGHT_MATERIAL_NOT_SELECTED (candidate matrix only)",
+    "HOLD_HDRM_SPECIFIC_MODEL (PROCUREMENT_TBD)",
+    "HOLD_FEA_EXECUTION_PENDING (framework defined, actual computation pending external tool)",
+    "HOLD_ENGINEERING_DRAWING_NOT_MANUFACTURING_RELEASE (pending formal load/material/HDRM closure)"
+  ],
+  "verdict": "F3_P4_PARTIAL_PASS_WITH_NAMED_STRUCTURAL_HOLDS",
+  "verdict_class": "STRUCTURAL_ARCHITECTURE_COMPLETE_WITH_FEA_AND_MATERIAL_HOLDS",
+  "verdict_rationale": [
+    "Mid saddle decision made: S3 (G07+G08 primary, Mid non-contact backup).",
+    "Contact pad candidate matrix defined (PTFE/Disc_Spring for G07, PTFE/Silicone for G08). No flight material selected.",
+    "HDRM installation interfaces fully closed. Specific model remains PROCUREMENT_TBD.",
+    "8 inherited parts manufacturing deepening completed. Engineering definition only, not manufacturing release.",
+    "FEA framework defined but actual execution pending external tool.",
+    "All source models and accepted URDF zero modification verified.",
+    "No flight material selected, no FEA execution claimed, no manufacturing release claimed."
+  ],
+  "ready_for_f3_p5": true,
+  "f3_p5_scope": "Control model handoff, dynamics validation, competition submission packaging. Mid saddle FEA execution, contact pad flight material selection, HDRM model procurement, engineering drawing manufacturing release.",
+  "next_authorized_recommendation": "F3_P5_CONTROL_MODEL_HANDOFF_AND_COMPETITION_SUBMISSION",
+  "next_authorized_scope": "Execute FEA for Mid saddle and base/load bridge. Select contact pad flight material. Procure HDRM model. Release engineering drawings for manufacturing. Package competition submission. Do not redesign B601 internal joints or use HIFI for mass/inertia."
+}

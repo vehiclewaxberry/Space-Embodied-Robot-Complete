@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:space-embodied-agent:comp-prot-01:physics-tool-response:v1",
+  "title": "Space Embodied Agent V1 Physics Tool Response",
+  "$comment": "STATUS=PROTOTYPE_CONTRACT; deterministic scientific response contract only; not an implemented tool and never an execution authorization.",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["FEASIBLE", "INFEASIBLE", "OUT_OF_COVERAGE", "UNKNOWN"]
+    },
+    "artifactRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "path",
+        "hash_mode",
+        "sha256",
+        "verdict_or_role",
+        "data_row_refs"
+      ],
+      "properties": {
+        "artifact_id": {"$ref": "#/$defs/identifier"},
+        "path": {"type": "string", "minLength": 1},
+        "hash_mode": {
+          "type": "string",
+          "enum": [
+            "RAW_BYTES_SHA256",
+            "CANONICAL_JSON_SHA256_V1",
+            "CANONICAL_YAML_SHA256_V1",
+            "CANONICAL_CSV_TABLE_SHA256_V1",
+            "CANONICAL_CSV_ROW_SHA256_V1"
+          ]
+        },
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "verdict_or_role": {"type": "string", "minLength": 1},
+        "data_row_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "contract_status",
+    "response_id",
+    "generated_at",
+    "valid_until",
+    "target_envelope_ref",
+    "candidate_bundle_ref",
+    "skill_contract_ref",
+    "scenario_hash",
+    "scientific_verdict",
+    "binding_reasons",
+    "evaluation",
+    "worst_case_endpoints",
+    "flex_status",
+    "provisional_flags",
+    "provenance",
+    "signature",
+    "execution_authority"
+  ],
+  "properties": {
+    "schema_version": {"const": "comp-prot-01.physics-tool-response.v1"},
+    "contract_status": {"const": "PROTOTYPE_CONTRACT"},
+    "response_id": {"$ref": "#/$defs/identifier"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": "string", "format": "date-time"},
+    "target_envelope_ref": {"$ref": "#/$defs/identifier"},
+    "candidate_bundle_ref": {"$ref": "#/$defs/identifier"},
+    "skill_contract_ref": {"$ref": "#/$defs/identifier"},
+    "scenario_hash": {"$ref": "#/$defs/sha256"},
+    "scientific_verdict": {"$ref": "#/$defs/verdict"},
+    "binding_reasons": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z0-9_:-]{1,160}$"}
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "evidence_binding",
+        "interpolation_used",
+        "in_contract_domain",
+        "endpoint_policy"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["EXACT_FROZEN_ROW", "EXACT_FROZEN_SOLVER"]
+        },
+        "evidence_binding": {"const": "EXACT"},
+        "interpolation_used": {"const": false},
+        "in_contract_domain": {"type": "boolean"},
+        "endpoint_policy": {
+          "type": "string",
+          "enum": ["EXACT_ENDPOINTS_ONLY", "NOT_APPLICABLE"]
+        }
+      }
+    },
+    "worst_case_endpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["endpoint_id", "input_ref", "verdict", "metric_refs"],
+        "properties": {
+          "endpoint_id": {"$ref": "#/$defs/identifier"},
+          "input_ref": {"$ref": "#/$defs/identifier"},
+          "verdict": {"$ref": "#/$defs/verdict"},
+          "metric_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "flex_status": {
+      "type": "string",
+      "enum": ["VALIDATED", "PROVISIONAL", "UNKNOWN_NOT_IN_CRITERIA", "NOT_APPLICABLE"]
+    },
+    "provisional_flags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z0-9_:-]{1,160}$"}
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "complete",
+        "gate_records",
+        "config_records",
+        "registry_records",
+        "source_row_refs"
+      ],
+      "properties": {
+        "complete": {"type": "boolean"},
+        "gate_records": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/artifactRecord"}
+        },
+        "config_records": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/artifactRecord"}
+        },
+        "registry_records": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/artifactRecord"}
+        },
+        "source_row_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scheme", "key_id", "signature_value"],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "enum": ["HMAC-SHA256", "DETACHED-SIGNATURE-V1"]
+        },
+        "key_id": {"$ref": "#/$defs/identifier"},
+        "signature_value": {"type": "string", "minLength": 1}
+      }
+    },
+    "execution_authority": {"const": false}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"scientific_verdict": {"const": "FEASIBLE"}},
+        "required": ["scientific_verdict"]
+      },
+      "then": {
+        "properties": {
+          "evaluation": {"properties": {"in_contract_domain": {"const": true}}},
+          "provenance": {
+            "properties": {
+              "complete": {"const": true},
+              "gate_records": {"minItems": 1},
+              "source_row_refs": {"minItems": 1}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"scientific_verdict": {"const": "OUT_OF_COVERAGE"}},
+        "required": ["scientific_verdict"]
+      },
+      "then": {
+        "properties": {
+          "evaluation": {"properties": {"in_contract_domain": {"const": false}}}
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+# sim_09 grasp evaluator -- coarse collision geometry v1 (Gate E0)
+# ------------------------------------------------------------------
+# ASSUMPTIONS (declared, v1 placeholders):
+#   A1 B601 links are modelled as CAPSULES of constant radius 0.045 m (envelope
+#      assumption over the largest link cross-section; no per-link radii yet).
+#      Capsule endpoints come from the B601Arm.fk joint-origin chain at each q:
+#         mount(T_SM origin) -> o_joint1 -> ... -> o_joint6 -> EE origin  (7 segments)
+#   A2 servicer bus = box 0.3405 x 0.2263 x 0.2263 m centered at the S origin
+#      (12U stack envelope, service_spacecraft SSOT block dims).
+#   A3 two solar panels = thin boxes 0.227 x 0.200 x 0.006 m at
+#      [-0.05675, +/-0.21315, 0] in S (flexible_appendage_v1 span/chord/thickness;
+#      panels treated RIGID for collision purposes).
+#   A4 target primitives are centered at the GEOMETRIC center of the CAD body,
+#      i.e. at -cg_T relative to the target CoM (mass_inertia_budget_v1 cg):
+#        target_debris_v0    cylinder dia 1.32 x length 2.5 m, axis +Z_T
+#        target_satellite_v0 box 0.46 x 0.626 x 0.426 m
+#   A5 ALLOWED-CONTACT ZONE: a sphere of radius 0.15 m around the grasp point;
+#      capsule sample points inside it are exempt from the TARGET keep-out check
+#      (the gripper must touch the target there). Everything else on the target
+#      is keep-out.
+#   A6 checked pairs: arm capsules vs {servicer bus, panels, target}. The
+#      capsule 0 (mount->joint1) vs servicer-bus pair is EXCLUDED (structurally
+#      attached; rest margin would be trivially negative). Servicer-bus vs
+#      target proximity is NOT checked in v1 (station-keeping standoff is part
+#      of the scene-placement rule; declared limitation).
+#   A7 distance algorithm: >=9 sample points per capsule axis, analytic
+#      point-primitive signed distance (box / cylinder SDF) minus capsule
+#      radius. Coarse by construction -- refinement is a later gate.
+version: v1
+arm_capsules:
+  radius_m: 0.045                # A1 envelope assumption
+  n_samples_per_capsule: 9       # A7 (minimum; runtime may use more)
+  chain: [mount, joint1, joint2, joint3, joint4, joint5, joint6, EE]
+  exclusions:
+    - {capsule_index: 0, primitive: servicer_body, reason: structurally attached mount}
+servicer_body:
+  type: box
+  half_extents_m: [0.17025, 0.11315, 0.11315]   # 0.3405 x 0.2263 x 0.2263
+  center_S: [0.0, 0.0, 0.0]
+panels:
+  - {type: box, half_extents_m: [0.1135, 0.100, 0.003], center_S: [-0.05675,  0.21315, 0.0]}
+  - {type: box, half_extents_m: [0.1135, 0.100, 0.003], center_S: [-0.05675, -0.21315, 0.0]}
+targets:
+  target_debris_v0:
+    type: cylinder
+    radius_m: 0.66               # dia 1.32
+    half_length_m: 1.25          # length 2.5
+    axis: +Z_T
+    center_offset: minus_cg      # geometric center = -cg_T rel. CoM (A4)
+  target_satellite_v0:
+    type: box
+    half_extents_m: [0.23, 0.313, 0.213]        # 0.46 x 0.626 x 0.426
+    center_offset: minus_cg
+grasp_allowed_zone_radius_m: 0.15   # A5

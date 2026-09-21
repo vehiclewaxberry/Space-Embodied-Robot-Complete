@@ -1,0 +1,68 @@
+schema: SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1
+generated_local: '2026-08-22T22:40:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: PASS_WITH_PROVISIONAL_COMPONENTS
+authority: ODR-23 + ODR-31 (mechanism analytical closure)
+supersedes_scope: SOLAR_R2_DEPLOYMENT_TORQUE_LEDGER_V1.yaml (absorbed here)
+
+A_deployment_torque:
+  source: SOLAR_R2_DEPLOYMENT_TORQUE_LEDGER_V1.yaml (unchanged)
+  summary: >-
+    T_available 0.05 N m/hinge candidate vs worst resisting 0.030 N m
+    mid-travel (+0.020 margin) and 0.040 N m final-5deg (+0.010 margin);
+    full angular domain sampled; MARGIN_POSITIVE_WITH_PROVISIONAL_COMPONENTS.
+    Ground-test gravity torque 0.177 N m exceeds the spring candidate ->
+    offload rig required for ground deployment test (test-config finding).
+
+B_end_stop_propagation:
+  model: sequential deployment; each hinge stop absorbs the kinetic energy
+    of the outboard sub-chain latching into it; tip speed ceiling 2.0 m/s
+    (R1 heritage); stop stroke candidate 1.0 mm elastomer/damped stop
+  per_hinge:
+    root_hinge_1:
+      absorbing_inertia_kg_m2: 0.0024   # leaf1 about root, m L^2/3
+      energy_J: 0.12
+      peak_stop_force_N: 240            # F ~ 2E/s at 1 mm stroke
+      root_bracket_reaction_Nm: 48.0    # F x L, transient candidate
+    inter_panel_hinge_2:
+      absorbing_inertia_kg_m2: 0.0192   # leaf2 + leaf3 about hinge 2
+      energy_J: 0.24                    # w = v_tip/(2L) = 5 rad/s
+      peak_stop_force_N: 480
+      note: CONTROLLING_STOP - largest energy and force of the three
+    inter_panel_hinge_3:
+      absorbing_inertia_kg_m2: 0.0024   # leaf3 about hinge 3
+      energy_J: 0.12
+      peak_stop_force_N: 240
+  verdict: >-
+    hinge-2 stop controls (0.24 J, 480 N candidate). All values
+    PROVISIONAL_DERIVED pending stop material/shape selection; they feed
+    the WP5 R2 update and the ODR-33 structural impact screen.
+
+C_latch:
+  engagement_geometry: positive end-of-travel latch per leaf, engagement
+    observable (HNG-SMS-05 semantics carried forward)
+  capture_window: final 5 deg of travel (latch engagement torque 0.01 N m
+    candidate already in the torque ledger)
+  retention_direction: against fold-back (reverse deployment direction)
+  release_direction: none on orbit (non-releasing latch candidate)
+  back_drive_condition: latch shall not back-drive under the hinge-2
+    controlling stop transient (480 N candidate) nor under first-mode wing
+    vibration at the ODR-32 stiffness band corners
+  status: PROVISIONAL_DERIVED - latch hardware not selected
+
+D_hdrm:
+  architecture: inboard-retracting tie-down rods into bus sleeves, 2
+    stations per wing (D-R2-05, frozen per ODR-31)
+  hold_where: rods through stowed stack at x [-140,-120] and [120,140],
+    z [-20,20] (engaged envelope in build report)
+  release_where: rods retract inboard, y_abs < 113.15 (sleeve slots)
+  post_release_parts: no free parts; rods captive in sleeves
+  enters_solar_sweep: NO - deployment corridor verified free of HDRM
+    hardware (55-state sweep, 0 violations)
+  flight_reliability: HOLD (FLIGHT_HDRM_QUALIFICATION)
+
+verdict:
+  R2_MECHANISM_ANALYTICAL_DESIGN: CLOSED_PASS_WITH_PROVISIONAL_COMPONENTS
+  blocking_for_gate_a: false
+  open_for_wp5_r2_update: [spring/damper selection, stop material,
+    latch hardware, HDRM preload re-derivation vs 3-leaf stack]

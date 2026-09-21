@@ -1,0 +1,96 @@
+schema_version: v2-spacecraft-configuration-baseline-v0.1
+configuration_id: SPACECRAFT_SERVICE_VEHICLE_V2_PRE_CAD
+created_on: "2026-07-24"
+status: CONFIGURATION_INPUT_BASELINED_CAD_NOT_AUTHORIZED
+
+profile:
+  profile_id: COMPETITION_DISPLAY_V0
+  body_envelope_mm_S: [340.5, 226.3, 226.3]
+  long_axis: positive_X_S
+  task_face: positive_X_S
+  claim_limit: NON_FLIGHT_DISPLAY_ONLY
+  conflicting_reference:
+    profile_id: CDS_12U_REFERENCE
+    envelope_mm: [366.0, 226.3, 226.3]
+    status: RETAINED_REFERENCE_NOT_CONSUMED
+    change_control_required: true
+
+bay_layout:
+  body_min_X_mm: -170.25
+  rear_mid_boundary_X_mm: -56.75
+  mid_front_boundary_X_mm: 56.75
+  body_max_X_mm: 170.25
+  nominal_bay_length_mm: 113.5
+  zones:
+    - bay_id: REAR_SERVICE_BAY
+      x_range_mm: [-170.25, -56.75]
+      evidence_state: DESIGN_PROPOSAL
+    - bay_id: AVIONICS_EPS_ADCS_BAY
+      x_range_mm: [-56.75, 56.75]
+      evidence_state: DESIGN_PROPOSAL
+    - bay_id: FRONT_MISSION_BAY
+      x_range_mm: [56.75, 170.25]
+      evidence_state: DESIGN_PROPOSAL
+
+frames:
+  S:
+    role: servicer_geometry_frame
+    origin: body_envelope_center
+    status: EVIDENCE_BOUND
+  M:
+    role: robot_mounting_face
+    parent: S
+    transform: T_SM
+    translation_mm_S: [185.25, 0.0, 0.0]
+    rotation_Ry_deg: 90.0
+    status: EVIDENCE_BOUND
+  A0:
+    role: B601_insertion_frame
+    parent: M
+    transform: T_MA0_identity
+    status: EVIDENCE_BOUND
+  B:
+    role: free_flyer_dynamics_base
+    parent: S
+    transform: T_SB
+    status: UNKNOWN_BLOCKED
+  E_virtual:
+    role: task_semantic_frame
+    status: EVIDENCE_BOUND
+  TCP_contact:
+    role: physical_contact_frame
+    status: UNKNOWN_BLOCKED
+
+active_configuration:
+  root: Spacecraft_Service_Vehicle_V2_0
+  modules:
+    - Primary_Structure
+    - Front_Mission_Module
+    - Avionics_EPS_ADCS_Bay
+    - Rear_Service_Module
+    - Robot_Mount_Module
+    - B601_Visual_Arm
+    - Solar_Array_Interface_Module
+    - Payload_Perception_Interface_Reference
+    - Service_Access_and_Harness_References
+
+excluded_from_active_assembly:
+  - target_satellite
+  - target_debris
+  - physical_TCP
+  - contact_geometry
+  - selected_camera_hardware
+  - selected_propulsion_hardware
+  - vendor_exact_B601_STEP
+
+required_named_configurations:
+  - STRUCTURAL_REVIEW
+  - SERVICE_ACCESS_REVIEW
+  - DEPLOYED_REFERENCE_Q0
+  - STOWED_PROPOSAL
+  - EVIDENCE_STATE_REVIEW
+
+authority:
+  create_v2_cad_now: false
+  modify_v1_cad: false
+  modify_urdf_or_geometry_ssot: false

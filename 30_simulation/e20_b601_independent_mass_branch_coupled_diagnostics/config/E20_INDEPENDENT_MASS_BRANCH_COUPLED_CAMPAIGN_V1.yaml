@@ -1,0 +1,87 @@
+schema: E20_INDEPENDENT_MASS_BRANCH_COUPLED_CAMPAIGN_V1
+generated_local: '2026-08-23T23:10:00+08:00'
+units_policy: STRICT_SI_AT_ALL_EXECUTION_BOUNDARIES
+solver_adapter: SIM11_SCOPED_REORG_IN_MEMORY_ADAPTER_UPSTREAM_UNMODIFIED
+mass_completion:
+  rule: UNIFORM_BUS_DENSITY_SCALAR_CLOSURE_SURROGATE
+  target_scenario_mass_kg: 22.0
+  legacy_A_composite_with_target_kg: 50.69555594934299
+  m3r_B_composite_with_target_kg: 51.081436764691
+  legacy_A_service_scalar_kg: 28.69555594934299
+  m3r_B_service_scalar_kg: 29.081436764691
+  branch_delta_kg_not_uncertainty: 0.3858808153480098
+  scalar_mass_closure_tolerance_kg: 1.0e-12
+  bus_only_mass_and_inertia_scaled: true
+  bus_geometry_fixed: true
+  bus_cg_fixed: true
+  bus_inertia_rule: I_bus_surrogate = I_bus_sim11 * m_bus_surrogate / m_bus_sim11
+  physical_mass_property_authority: false
+  lifecycle: LEGACY_M4_BRANCH_SENSITIVITY_TRANSITIONAL_DIAGNOSTIC
+  current_M7_design_mass_model_consumed: false
+trajectories:
+  M01:
+    path: 30_simulation/e18_b601_mission_input_branches/02_candidates/M01_HELD_STOW_TO_RELEASE_CLEAR_QUINTIC_V1.csv
+    sha256: B4CB77804E6B9FC17C8910E56A0ECB34DC63B91659337E8BCAB0FCA6189E7AA9
+    duration_s: 11.5
+    source_sample_count: 1151
+    main_output_count: 116
+    attached_target: false
+  M07_ARM_ONLY:
+    path: 30_simulation/e17_b601_mission_trajectory_candidates/results/candidates/M07_22_ARM_ONLY_QUINTIC_V1.csv
+    sha256: 8AFBE9B95E1078CA7F73A4546CE4CAE605655C413DE7AF997AA807E0C31ECBF2
+    duration_s: 4.5
+    source_sample_count: 451
+    main_output_count: 46
+    attached_target: false
+main_execution:
+  dynamics_mode: reduced_momentum
+  method: Radau
+  rtol: 1.0e-8
+  atol: 1.0e-10
+  modes_per_panel: 3
+  stiffness_case: nominal
+  zeta_modal: 0.005
+  initial_base_position_m: [0.0, 0.0, 0.0]
+  initial_base_quaternion_wxyz: [1.0, 0.0, 0.0, 0.0]
+  initial_panel_state_zero: true
+  initial_total_momentum_zero: true
+local_numerical_verification:
+  anchor_lane_id: M3R_B__M07_ARM_ONLY
+  horizon_s: 1.5
+  output_count: 31
+  method_primary: Radau
+  method_cross: BDF
+  rtol: 1.0e-8
+  atol: 1.0e-10
+  variants:
+    - baseline_m3_radau
+    - undamped_m3_radau
+    - rigid_radau
+    - m4_radau
+    - m5_radau
+    - m3_bdf
+gates:
+  trajectory_reconstruction_limit: 1.0e-11
+  mass_closure_limit_kg: 1.0e-12
+  reduced_momentum_residual_limit: 1.0e-12
+  energy_audit_relative_limit: 1.0e-8
+  quaternion_norm_error_limit: 1.0e-12
+  undamped_energy_audit_relative_limit: 1.0e-8
+  modal_m4_to_m5_relative_limit: 0.01
+  radau_bdf_relative_limit: 0.05
+  mass_matrix_min_eigenvalue_required_positive: true
+global_invariants:
+  lane_count: 4
+  branch_count: 2
+  trajectory_count: 2
+  cross_lane_chaining_allowed: false
+  branch_selection_performed: false
+  branch_averaging_performed: false
+  target_subtraction_is_algebra_only: true
+  target_attached: false
+  scene_A2_invoked: false
+  contact_window_invoked: false
+  physical_mount_frame_applied: false
+  physical_mount_transform: null
+  accepted_urdf_modification_allowed: false
+  cad_or_mesh_generation_allowed: false

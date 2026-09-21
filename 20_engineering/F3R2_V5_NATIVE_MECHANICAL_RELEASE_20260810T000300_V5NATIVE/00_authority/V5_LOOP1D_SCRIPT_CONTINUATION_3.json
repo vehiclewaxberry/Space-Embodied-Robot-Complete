@@ -1,0 +1,20 @@
+{
+  "schema": "F3R2_V5_LOOP1D_SCRIPT_CONTINUATION_V1",
+  "timestamp_utc": "2026-08-11T07:40:00.000000+00:00",
+  "run_id": "20260810T000300_V5NATIVE",
+  "previous_script_sha256": "B80C88C6C48718B74FE345600E469E96A6747574C802DA6E64EEA6D2A2142DB7",
+  "current_script_sha256": "7EB76687C586E80E708F43082FCDB7BF461FC601A167AA25471C1CE7F6DC38A0",
+  "reason": "cold-verifier resolution/extrema fix only; no mechanical/contract change. Dress rehearsal (probe V5_PROBE_LOOP1D_DRESS_REHEARSAL_20260811T065500Z.log) proved the patched live configure_document passes and exposed two cold-read-only-document behaviors: active components load lightweight (GetSuppression2()=2; ResolveAllLightWeightComponents is a no-op False on read-only; per-component SetSuppression2(1) resolves in place with the saved per-config suppression pattern and Transform2 fully preserved - probes V5_PROBE_LOOP1D_COLD_REOPEN_DIAG and V5_PROBE_LOOP1D_LIGHTWEIGHT_RESOLVE), and IBody2.GetExtremePoint must be called without explicit out VARIANTs (makepy-managed byrefs return (ok,x,y,z); explicit VT_BYREF VARIANTs raise TypeError - probe V5_PROBE_LOOP1D_EXTREME_POINT_API E1 vs E2/E3). Patch adds resolve_cold_active_components per cold configuration and rewrites assembly_brep_bbox_mm to the E1 call form. PART_SPECS/ASSEMBLY_SPECS/NON_COVERAGE/gate semantics unchanged.",
+  "evidence_logs": [
+    "99_tools/probe_logs/V5_PROBE_LOOP1D_MATE_SUPPRESSION_20260811T055940Z.log",
+    "99_tools/probe_logs/V5_PROBE_LOOP1D_COLD_REOPEN_DIAG_20260811T063000Z.log",
+    "99_tools/probe_logs/V5_PROBE_LOOP1D_DRESS_REHEARSAL_20260811T065500Z.log",
+    "99_tools/probe_logs/V5_PROBE_LOOP1D_LIGHTWEIGHT_RESOLVE_20260811T072000Z.log",
+    "99_tools/probe_logs/V5_PROBE_LOOP1D_EXTREME_POINT_API_20260811T073000Z.log"
+  ],
+  "authorization": "USER_DIRECTED_LOOP1D_MATE_SUPPRESSION_FIX_20260811",
+  "non_claims": [
+    "TARGET_FILES_UNCHANGED_VERIFIED_AGAINST_CHECKPOINTS",
+    "NO_MECHANICAL_SCHEME_CHANGE"
+  ]
+}

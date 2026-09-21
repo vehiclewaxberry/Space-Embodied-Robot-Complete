@@ -1,0 +1,71 @@
+{
+  "schema": "F3R2_V5_SOLAR_R2_REBUILD_AUTHORIZATION_V1",
+  "timestamp_utc": "2026-08-12T16:28:00.000000+00:00",
+  "scope": "V5_NATIVE_FINALIZATION/MULTI_PANEL_SOLAR_ARRAY_CANDIDATE",
+  "authority": [
+    {
+      "path": "00_authority/SOLAR_ARRAY_INTERFACE_REQUIREMENTS.md",
+      "bytes": 18542,
+      "sha256": "62DDF827056D5199CCA68FD1714874E52FFB06398D4B856175435DD576504014"
+    },
+    {
+      "path": "13_validation/V5_SOLAR_ARRAY_INTERFACE_REQUIREMENTS_FREEZE_R2.json",
+      "bytes": 5840,
+      "sha256": "B60D8C635A030B0DB49DF7129D6B7F50ACB0F5B9FC912C2E5DED4405FF6542C8"
+    },
+    {
+      "path": "00_authority/V5_SOLAR_STATE_AUTHORITY_R2.json",
+      "bytes": 5138,
+      "sha256": "63A2FBCFA324321DFA3919E0FEEF689770DBED608D2B86EA4078C8C096A46B32"
+    },
+    {
+      "path": "00_authority/SOLAR_ARRAY_CANDIDATE_BUILD_PLAN.md",
+      "bytes": 4429,
+      "sha256": "F9D23DC081EE5BB4C5615C070195F778899B6386CAD270806C3EF466A1925A05"
+    }
+  ],
+  "quarantine_evidence": [
+    {
+      "path": "13_validation/quarantine/V5_SOLAR_ARRAY_INVALID_CANDIDATE_20260812T162256.8949918Z/V5_SOLAR_ARRAY_INVALID_CANDIDATE_QUARANTINE_RECEIPT.json",
+      "bytes": 20704,
+      "sha256": "C4FDE3D4435E14FC767E714D40CDA8124C89D77B4AB0D65661694B37C02DF81E",
+      "verdict": "V5_INVALID_SOLAR_ARRAY_CANDIDATE_QUARANTINED_PASS"
+    },
+    {
+      "path": "13_validation/quarantine/V5_LOOP1E_TOP_ORPHAN_QUARANTINE_20260812T155024Z.json",
+      "sha256": "35584762A51CB29D0A5F1FFEB54AD25B7627BF9AB3BF1DCAC3C7E6B0F21018E",
+      "verdict": "V5_LOOP1E_ORPHAN_QUARANTINE_EVIDENCE_RECONCILED_PASS"
+    }
+  ],
+  "preconditions": {
+    "canonical_solar_part_file_count": 0,
+    "canonical_solar_side_assembly_file_count": 0,
+    "canonical_solar_state_register_exists": false,
+    "canonical_loop1e_top_target_exists": false,
+    "solidworks_process_count_at_authorization": 0,
+    "old_candidate_receipts_are_authority": false
+  },
+  "required_execution_sequence": [
+    "HINGE_MICROFIXTURE_SCRATCH_PROBE",
+    "SOLAR_R2_NATIVE_PART_BUILD",
+    "SOLAR_R2_SIDE_ASSEMBLY_BUILD_WITH_REAL_3R_MATES",
+    "NEW_PID_READ_ONLY_COLD_VERIFY",
+    "SOLAR_R2_TOP_INTEGRATION",
+    "LOOP3_NATIVE_CLEARANCE",
+    "LOOP4_RELEASE_EVIDENCE"
+  ],
+  "execution_holds": [
+    "PRODUCTION_SOLAR_ASSEMBLY_BUILD_HOLD_UNTIL_MICROFIXTURE_PASS",
+    "LOOP1E_EXECUTION_HOLD_UNTIL_SOLAR_R2_NEW_PID_COLD_PASS",
+    "FINAL_GATE_HOLD_UNTIL_DRAWING_BOM_PACK_AND_GO_HASH_AND_HUMAN_REVIEW"
+  ],
+  "mutation_policy": {
+    "write_once": true,
+    "resume_existing_native_target": false,
+    "overwrite": false,
+    "delete": false,
+    "staging_then_no_replace_promotion": true,
+    "exclusive_process_lock_required": true
+  },
+  "verdict": "V5_SOLAR_R2_REBUILD_AUTHORIZED_WITH_ORDERED_HOLDS"
+}

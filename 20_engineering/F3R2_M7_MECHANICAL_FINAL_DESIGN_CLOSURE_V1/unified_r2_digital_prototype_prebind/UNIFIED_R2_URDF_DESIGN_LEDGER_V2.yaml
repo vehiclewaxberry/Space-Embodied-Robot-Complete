@@ -1,0 +1,321 @@
+schema: UNIFIED_R2_URDF_DESIGN_LEDGER_V2
+generated_date_local: '2026-08-24'
+artifact_class: SOURCE_ONLY_URDF_DESIGN_LEDGER
+status: PREBIND_STATIC_CANDIDATE_WITH_EXPLICIT_HOLDS
+
+robot_metadata:
+  robot_name: unified_r2_c01_no_route_c_sim_candidate_v2
+  configuration_id: C01_DEPLOYED_NOMINAL
+  target_consumer: future Sim13 research bootstrap after an independent rebind gate
+  current_consumer_status: NOT_BOUND_NOT_LOADED_NOT_EXECUTED
+  source_of_truth_contract: future top-level zero-argument gen_urdf() Python source; emitted URDF is always a generated artifact
+  current_artifact_scope: design and source ledger only
+  unit_convention: {length: m, mass: kg, time: s, angle: rad, inertia: kg*m^2}
+  handedness: right-handed
+  root_frame: spacecraft_bus
+  root_frame_alias: S_SPACECRAFT_BUS
+  mesh_unit_convention: NOT_APPLICABLE_TO_V2_PRIMITIVE_BROADPHASE_SOURCE_CANDIDATE
+  selected_mass_mode: EXPLICIT_STRUCTURE_PLUS_RESIDUAL
+  alternate_mass_mode: AGGREGATE_BUS
+  route_c_included: false
+  route_c_exclusion_must_be_explicitly_accepted_before_generation: true
+
+authority_boundary:
+  urdf_emitted: false
+  generation_authorized: false
+  sim13_rebind_authorized: false
+  dynamics_executed: false
+  contact_authority: false
+  production_dynamics_ready: false
+  flight_qualified: false
+  owner_accepted: false
+  next_stage_authorized: false
+  release_credit: false
+
+source_authorities:
+  accepted_b601_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    use: preserve 10-link/9-joint B601 kinematic and inertial subtree
+    limitations: imported hybrid design model; not as-built or actuator capability authority
+  system_mass_properties_r2:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+    sha256: 3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB
+  bus_mass_decomposition:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_MASS_DECOMPOSITION_BRIDGE_V1.json
+    sha256: C893A55D49286AAB7E06BE0B3F0B2E1277F5724F42310559D26F341CE87758D7
+  bus_primary_structure_analytic_report:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/bus_primary_structure_candidate_v1/BUS_PRIMARY_STRUCTURE_ANALYTIC_REPORT_V1.json
+    sha256: 36CEF5BE22BF87587CA1AB2B276F8EC77F4B26A5ACF5E04252F4F58FBDDE6BF5
+  solar_root_frames:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/internal_geometry_authority_closure/SOLAR_R2_ROOT_FRAME_REGISTRATION_V1.yaml
+    sha256: 95011198263005A4CDA60FE24C1FB04583384889479C0B8E9AC20C2B411D93DC
+  B601_link_local_bounds:
+    path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/B601_CAD_MESH_FRAME_DECISION_V1.json
+    sha256: 2A99484C6CE55B402CB06380F5DCB71D5A8B4BA622A371EEF72F4EC69EF124FF
+  frame_tree_v2:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/source_only_v2/UNIFIED_R2_SYSTEM_FRAME_TREE_V2.yaml
+
+topology_modes:
+  EXPLICIT_STRUCTURE_PLUS_RESIDUAL:
+    selected: true
+    links: 19
+    physical_links: 16
+    frame_only_links: 3
+    joints: 18
+    fixed_joints: 10
+    revolute_joints: 6
+    prismatic_joints: 2
+    actuated_dof: 8
+  AGGREGATE_BUS:
+    selected: false
+    links: 18
+    physical_links: 15
+    frame_only_links: 3
+    joints: 17
+    fixed_joints: 9
+    revolute_joints: 6
+    prismatic_joints: 2
+    actuated_dof: 8
+  accepted_B601_subtree: {links: 10, joints: 9, fixed: 1, revolute: 6, prismatic: 2}
+
+mass_mode_ledger:
+  common_non_bus_mass_kg:
+    load_bridge_candidate: 0.702195458
+    m3r_lumped_link: 0.7619
+    B601_complete_arm_including_gripper: 4.695555949342986
+    solar_r2_left_c01_snapshot: 0.78
+    solar_r2_right_c01_snapshot: 0.78
+    subtotal: 7.719651407342986
+  EXPLICIT_STRUCTURE_PLUS_RESIDUAL:
+    spacecraft_bus_residual_kg: 17.26823279235072
+    bus_primary_structure_candidate_v1_kg: 6.034980607649281
+    recomposed_bus_kg: 23.3032134
+    recomposition_equation: 17.26823279235072 + 6.034980607649281 = 23.3032134
+    system_total_kg: 31.022864807342987
+  AGGREGATE_BUS:
+    spacecraft_bus_aggregate_kg: 23.3032134
+    bus_primary_structure_link_present: false
+    system_total_kg: 31.022864807342987
+  mutual_exclusion_rule: selected mode is one scalar enum; never add the explicit structure mass to the 23.3032134 kg aggregate bus
+  exclusions:
+    legacy_flange_mass_kg_not_added: 0.376019184652
+    target_satellite_kg_not_added: 22.0
+    target_debris_kg_not_added: 150.0
+    route_c_mass_not_added: true
+
+frame_only_links:
+- name: D_BUS_MATE_PHYSICAL
+  role: physical spacecraft-to-mechanism mating datum
+  frame_definition: T_S_D at [0.18525,0,0] m with R_y(+pi/2)
+  parent_joint: bus_to_D_BUS_MATE_PHYSICAL
+  inertial: intentionally_omitted_frame_only
+  visual: intentionally_omitted_frame_only
+  collision: intentionally_omitted_frame_only
+- name: M_DYNAMICS_NONPHYSICAL
+  role: nonphysical dynamics reporting/reference frame
+  frame_definition: numerically equal to T_S_D but immutable semantic identity is distinct
+  parent_joint: bus_to_M_DYNAMICS_NONPHYSICAL
+  inertial: intentionally_omitted_frame_only
+  visual: intentionally_omitted_frame_only
+  collision: intentionally_omitted_frame_only
+  alias_to_D_permitted: false
+- name: D_BUS_M6_PATTERN
+  role: physical clocked M6 pattern datum downstream of D_BUS_MATE_PHYSICAL
+  frame_definition: T_D_P has xyz [0.000086366070,0.000015994151,0] m and yaw +25 deg
+  parent_joint: D_BUS_MATE_PHYSICAL_to_D_BUS_M6_PATTERN
+  inertial: intentionally_omitted_frame_only
+  visual: intentionally_omitted_frame_only
+  collision: intentionally_omitted_frame_only
+
+link_ledger:
+- {name: spacecraft_bus, role: physical residual bus root in selected mode; aggregate bus in alternate mode, frame_definition: S spacecraft root, parent_joint: null, visual_geometry: none in residual mode; aggregate envelope box only in aggregate mode, collision_geometry: none in residual mode; primitive broadphase envelope only in aggregate mode, inertial_source: bus mass decomposition or R2 aggregate bus}
+- {name: bus_primary_structure_candidate_v1, role: physical explicit primary structure selected mode only, frame_definition: coincident with S spacecraft root, parent_joint: bus_to_bus_primary_structure_candidate_v1, visual_geometry: primitive 340.5x226.3x226.3 mm analytic-envelope candidate, collision_geometry: same primitive broadphase box only, inertial_source: BUS_PRIMARY_STRUCTURE_ANALYTIC_REPORT_V1}
+- {name: D_BUS_MATE_PHYSICAL, role: frame-only physical mating datum, frame_definition: T_S_D, parent_joint: bus_to_D_BUS_MATE_PHYSICAL, visual_geometry: omitted, collision_geometry: omitted, inertial_source: intentionally omitted}
+- {name: D_BUS_M6_PATTERN, role: frame-only clocked M6 pattern datum, frame_definition: T_D_P, parent_joint: D_BUS_MATE_PHYSICAL_to_D_BUS_M6_PATTERN, visual_geometry: omitted, collision_geometry: omitted, inertial_source: intentionally omitted}
+- {name: load_bridge_candidate, role: physical load bridge whose link frame is the Pattern datum, frame_definition: coincident with D_BUS_M6_PATTERN, parent_joint: D_BUS_M6_PATTERN_to_load_bridge_candidate, visual_geometry: primitive box candidate, collision_geometry: primitive broadphase box only, inertial_source: R2 design mass properties transformed S-to-Pattern}
+- {name: m3r_lumped_link, role: physical lumped M3R Stage-A plus Stage-B budget envelope, frame_definition: M3R root, parent_joint: load_bridge_candidate_to_m3r_lumped_link, visual_geometry: omitted pending authorized envelope, collision_geometry: omitted pending authorized envelope, inertial_source: R2 budgeted lump transformed S-to-M3R}
+- {name: base_link, role: physical B601 root, frame_definition: accepted B601 base frame, parent_joint: m3r_lumped_link_to_base_link, visual_geometry: link-local primitive broadphase box, collision_geometry: same primitive broadphase box only, inertial_source: accepted B601 URDF preserved}
+- {name: link1, role: physical B601 articulated link, frame_definition: accepted B601 child frame, parent_joint: joint1, visual_geometry: link-local primitive broadphase box, collision_geometry: same primitive broadphase box only, inertial_source: accepted B601 URDF preserved}
+- {name: link2, role: physical B601 articulated link, frame_definition: accepted B601 child frame, parent_joint: joint2, visual_geometry: link-local primitive broadphase box, collision_geometry: same primitive broadphase box only, inertial_source: accepted B601 URDF preserved}
+- {name: link3, role: physical B601 articulated link, frame_definition: accepted B601 child frame, parent_joint: joint3, visual_geometry: link-local primitive broadphase box, collision_geometry: same primitive broadphase box only, inertial_source: accepted B601 URDF preserved}
+- {name: link4, role: physical B601 articulated link, frame_definition: accepted B601 child frame, parent_joint: joint4, visual_geometry: link-local primitive broadphase box, collision_geometry: same primitive broadphase box only, inertial_source: accepted B601 URDF preserved}
+- {name: link5, role: physical B601 articulated link, frame_definition: accepted B601 child frame, parent_joint: joint5, visual_geometry: link-local primitive broadphase box, collision_geometry: same primitive broadphase box only, inertial_source: accepted B601 URDF preserved}
+- {name: link6, role: physical B601 articulated link, frame_definition: accepted B601 child frame, parent_joint: joint6, visual_geometry: link-local primitive broadphase box, collision_geometry: same primitive broadphase box only, inertial_source: accepted B601 URDF preserved}
+- {name: gripper_link, role: physical B601 gripper palm, frame_definition: accepted B601 gripper palm frame, parent_joint: gripper_joint, visual_geometry: R1 palm link-local primitive broadphase box, collision_geometry: same primitive broadphase box only, inertial_source: accepted B601 URDF preserved}
+- {name: gripper_left, role: physical B601 left gripper finger, frame_definition: accepted B601 prismatic child frame, parent_joint: gripper_joint1, visual_geometry: omitted pending child-local rebase, collision_geometry: omitted pending child-local rebase, inertial_source: accepted B601 URDF preserved}
+- {name: gripper_right, role: physical B601 right gripper finger, frame_definition: accepted B601 prismatic child frame, parent_joint: gripper_joint2, visual_geometry: omitted pending child-local rebase, collision_geometry: omitted pending child-local rebase, inertial_source: accepted B601 URDF preserved}
+- {name: M_DYNAMICS_NONPHYSICAL, role: frame-only nonphysical dynamics reference, frame_definition: numeric T_S_M equals T_S_D but semantics remain distinct, parent_joint: bus_to_M_DYNAMICS_NONPHYSICAL, visual_geometry: omitted, collision_geometry: omitted, inertial_source: intentionally omitted}
+- {name: solar_r2_left_c01_snapshot, role: physical fixed deployed Solar R2 left snapshot, frame_definition: registered left Solar R2 root, parent_joint: bus_to_solar_r2_left_c01_snapshot, visual_geometry: three primitive leaf boxes, collision_geometry: same primitive broadphase leaf boxes only, inertial_source: R2 material-derived candidate transformed S-to-root}
+- {name: solar_r2_right_c01_snapshot, role: physical fixed deployed Solar R2 right snapshot, frame_definition: registered right Solar R2 root, parent_joint: bus_to_solar_r2_right_c01_snapshot, visual_geometry: three primitive leaf boxes, collision_geometry: same primitive broadphase leaf boxes only, inertial_source: R2 material-derived candidate transformed S-to-root}
+
+joint_ledger:
+- {name: bus_to_bus_primary_structure_candidate_v1, type: fixed, parent: spacecraft_bus, child: bus_primary_structure_candidate_v1, origin_xyz_m: [0,0,0], origin_rpy_rad: [0,0,0], positive_motion: not_applicable, source: bus mass decomposition; selected mode only}
+- {name: bus_to_D_BUS_MATE_PHYSICAL, type: fixed, parent: spacecraft_bus, child: D_BUS_MATE_PHYSICAL, origin_xyz_m: [0.18525,0,0], origin_rpy_rad: [0,1.5707963267948966,0], positive_motion: not_applicable, source: bus datum contract}
+- {name: D_BUS_MATE_PHYSICAL_to_D_BUS_M6_PATTERN, type: fixed, parent: D_BUS_MATE_PHYSICAL, child: D_BUS_M6_PATTERN, origin_xyz_m: [0.000086366070,0.000015994151,0], origin_rpy_rad: [0,0,0.4363325573440537], positive_motion: not_applicable, source: M6 pattern datum contract; matrix-derived from registered transform}
+- {name: D_BUS_M6_PATTERN_to_load_bridge_candidate, type: fixed, parent: D_BUS_M6_PATTERN, child: load_bridge_candidate, origin_xyz_m: [0,0,0], origin_rpy_rad: [0,0,0], positive_motion: not_applicable, source: link-frame-is-Pattern decision}
+- {name: load_bridge_candidate_to_m3r_lumped_link, type: fixed, parent: load_bridge_candidate, child: m3r_lumped_link, origin_xyz_m: [0,0,0.02275], origin_rpy_rad: [0,0,0], positive_motion: not_applicable, source: T_P_M3R derived from registered transforms}
+- {name: m3r_lumped_link_to_base_link, type: fixed, parent: m3r_lumped_link, child: base_link, origin_xyz_m: [-0.00008503365669377021,0.00002200427555603084,0], origin_rpy_rad: [0,0,0], positive_motion: not_applicable, source: registered M3R-to-B601 transform; matrix-derived}
+- {name: joint1, type: revolute, parent: base_link, child: link1, origin_xyz_m: [-0.00008416,0,0.08465], origin_rpy_rad: [0,0,0], axis_joint_frame: [0,0,1], limits: {lower_rad: -2.8, upper_rad: 2.8, effort_model_literal: 27, velocity_model_literal_rad_s: 50}, positive_motion: mathematical positive about +Z_joint; physical description HOLD, source: accepted B601 URDF}
+- {name: joint2, type: revolute, parent: link1, child: link2, origin_xyz_m: [0.020084,0.031625,0.05555], origin_rpy_rad: [-1.5708,0,0], axis_joint_frame: [0,0,-1], limits: {lower_rad: -3.14, upper_rad: 0, effort_model_literal: 27, velocity_model_literal_rad_s: 50}, positive_motion: mathematical positive about -Z_joint; physical description HOLD, source: accepted B601 URDF}
+- {name: joint3, type: revolute, parent: link2, child: link3, origin_xyz_m: [-0.264,0,0], origin_rpy_rad: [0,0,0], axis_joint_frame: [0,0,1], limits: {lower_rad: -3.14, upper_rad: 0, effort_model_literal: 27, velocity_model_literal_rad_s: 50}, positive_motion: mathematical positive about +Z_joint; physical description HOLD, source: accepted B601 URDF}
+- {name: joint4, type: revolute, parent: link3, child: link4, origin_xyz_m: [0.2426,-0.054,-0.001625], origin_rpy_rad: [0,0,0], axis_joint_frame: [0,0,1], limits: {lower_rad: -1.87, upper_rad: 1.57, effort_model_literal: 7, velocity_model_literal_rad_s: 200}, positive_motion: mathematical positive about +Z_joint; physical description HOLD, source: accepted B601 URDF}
+- {name: joint5, type: revolute, parent: link4, child: link5, origin_xyz_m: [0.078308,-0.0375,-0.03], origin_rpy_rad: [-1.5708,0,0], axis_joint_frame: [0,0,1], limits: {lower_rad: -1.57, upper_rad: 1.57, effort_model_literal: 7, velocity_model_literal_rad_s: 200}, positive_motion: mathematical positive about +Z_joint; physical description HOLD, source: accepted B601 URDF}
+- {name: joint6, type: revolute, parent: link5, child: link6, origin_xyz_m: [0.023692,0,0.04], origin_rpy_rad: [0,1.5708,0], axis_joint_frame: [0,0,1], limits: {lower_rad: -3.14, upper_rad: 3.14, effort_model_literal: 7, velocity_model_literal_rad_s: 200}, positive_motion: mathematical positive about +Z_joint; physical description HOLD, source: accepted B601 URDF}
+- {name: gripper_joint, type: fixed, parent: link6, child: gripper_link, origin_xyz_m: [0,0,0.15971], origin_rpy_rad: [0,-1.5708,0], positive_motion: not_applicable, source: accepted B601 URDF}
+- {name: gripper_joint1, type: prismatic, parent: gripper_link, child: gripper_left, origin_xyz_m: [-0.042091,0.000027531,-0.000013031], origin_rpy_rad: [0,0,-1.5708], axis_joint_frame: [1,0,0], limits: {lower_m: 0, upper_m: 0.0715, effort_model_literal: 100, velocity_model_literal_m_s: 15}, positive_motion: mathematical translation along +X_joint; hardware motion/timing HOLD, source: accepted B601 URDF}
+- {name: gripper_joint2, type: prismatic, parent: gripper_link, child: gripper_right, origin_xyz_m: [-0.042091,-0.000027531,0.000013031], origin_rpy_rad: [0,0,1.5708], axis_joint_frame: [1,0,0], limits: {lower_m: 0, upper_m: 0.0715, effort_model_literal: 100, velocity_model_literal_m_s: 15}, positive_motion: mathematical translation along +X_joint; hardware motion/timing HOLD, source: accepted B601 URDF}
+- {name: bus_to_M_DYNAMICS_NONPHYSICAL, type: fixed, parent: spacecraft_bus, child: M_DYNAMICS_NONPHYSICAL, origin_xyz_m: [0.18525,0,0], origin_rpy_rad: [0,1.5707963267948966,0], positive_motion: not_applicable, source: nonphysical dynamics-frame contract}
+- {name: bus_to_solar_r2_left_c01_snapshot, type: fixed, parent: spacecraft_bus, child: solar_r2_left_c01_snapshot, origin_xyz_m: [0,0.1154,-0.10815], origin_rpy_rad: [0,0,3.141592653589793], positive_motion: not_applicable fixed C01 snapshot, source: Solar R2 root registration}
+- {name: bus_to_solar_r2_right_c01_snapshot, type: fixed, parent: spacecraft_bus, child: solar_r2_right_c01_snapshot, origin_xyz_m: [0,-0.1154,-0.10815], origin_rpy_rad: [0,0,0], positive_motion: not_applicable fixed C01 snapshot, source: Solar R2 root registration}
+
+geometry_ledger:
+  policy: PRIMITIVE_BROADPHASE_ONLY__NO_CONTACT_AUTHORITY
+  selected_mode_items:
+  - {link: spacecraft_bus, kind: visual_and_collision, geometry_type: none, source: residual mass has no independent geometry authority, origin_xyz_m: null, origin_rpy_rad: null, units: m}
+  - {link: bus_primary_structure_candidate_v1, kind: visual_and_collision, geometry_type: box_envelope, size_m: [0.3405,0.2263,0.2263], origin_xyz_m: [0,0,0], origin_rpy_rad: [0,0,0], source: analytic structure candidate; broadphase only, units: m}
+  - {link: load_bridge_candidate, kind: visual_and_collision, geometry_type: box, size_m: [0.160,0.160,0.01075], origin_xyz_m: [-1.272569222692219e-10,-1.072691633523576e-10,0.005375000000000074], origin_rpy_rad: [0,0,0], source: candidate envelope transformed from S into Pattern link frame; matrix-derived, units: m}
+  - {link: m3r_lumped_link, kind: visual_and_collision, geometry_type: none, source: authorized envelope absent, origin_xyz_m: null, origin_rpy_rad: null, units: m}
+  - {link: base_link, kind: visual_and_collision, geometry_type: box, size_m: [0.09200000322496146,0.09200000138696146,0.08014999389648438], origin_xyz_m: [0.00008499917997718473,-0.000021998530026736546,0.042479995727539056], origin_rpy_rad: [0,0,0], source: B601 link-local bounds, units: m}
+  - {link: link1, kind: visual_and_collision, geometry_type: box, size_m: [0.08690398244527683,0.07725002229885372,0.09854998779296875], origin_xyz_m: [0.005269996107382928,-0.00014899511224148246,0.038674981689453145], origin_rpy_rad: [0,0,0], source: B601 link-local bounds, units: m}
+  - {link: link2, kind: visual_and_collision, geometry_type: box, size_m: [0.3209999871775209,0.05700004150792364,0.0680000663026154], origin_xyz_m: [-0.13174698905284665,-0.00003600180598871752,-0.03135502280805903], origin_rpy_rad: [0,0,0], source: B601 link-local bounds, units: m}
+  - {link: link3, kind: visual_and_collision, geometry_type: box, size_m: [0.29782561327610557,0.10500002255553624,0.08025002813858524], origin_xyz_m: [0.12220718575653167,-0.028827980387596312,-0.031039077406094594], origin_rpy_rad: [0,0,0], source: B601 link-local bounds, units: m}
+  - {link: link4, kind: visual_and_collision, geometry_type: box, size_m: [0.14588395207493776,0.11595737184106639,0.06676003282946874], origin_xyz_m: [0.043413748174133196,-0.028354303942868253,-0.029989992086658663], origin_rpy_rad: [0,0,0], source: B601 link-local bounds, units: m}
+  - {link: link5, kind: visual_and_collision, geometry_type: box, size_m: [0.07000000259065592,0.07699999777302086,0.08503997558596882], origin_xyz_m: [-0.0016750223766869264,-0.00008702040021112134,0.03673899048289639], origin_rpy_rad: [0,0,0], source: B601 link-local bounds, units: m}
+  - {link: link6, kind: visual_and_collision, geometry_type: box, size_m: [0.07700004738170349,0.06350450150569048,0.06150011133261792], origin_xyz_m: [-0.000036472411839922475,0.000007391637363161202,0.026795693445186338], origin_rpy_rad: [0,0,0], source: B601 link-local bounds, units: m}
+  - {link: gripper_link, kind: visual_and_collision, geometry_type: box, size_m: [0.033099998474121095,0.18406967163085938,0.06846666717529297], origin_xyz_m: [-0.09061401748657226,0.000007431030273438721,0.00003702545166015675], origin_rpy_rad: [0,0,0], source: active gripper R1 palm bounds, units: m}
+  - {link: gripper_left, kind: visual_and_collision, geometry_type: none, source: HOLD pending finger child-local rebase, origin_xyz_m: null, origin_rpy_rad: null, units: m}
+  - {link: gripper_right, kind: visual_and_collision, geometry_type: none, source: HOLD pending finger child-local rebase, origin_xyz_m: null, origin_rpy_rad: null, units: m}
+  - link: solar_r2_left_c01_snapshot
+    kind: visual_and_collision
+    geometry_type: three_box_leaves
+    source: fixed C01 deployed snapshot primitive approximation
+    leaves:
+    - {size_m: [0.300,0.0025,0.200], origin_xyz_m: [0,-0.100,0], origin_rpy_rad: [1.5707963267948966,0,0]}
+    - {size_m: [0.300,0.0025,0.200], origin_xyz_m: [0,-0.300,-0.003], origin_rpy_rad: [1.5707963267948966,0,0]}
+    - {size_m: [0.300,0.0025,0.200], origin_xyz_m: [0,-0.500,-0.006], origin_rpy_rad: [1.5707963267948966,0,0]}
+  - link: solar_r2_right_c01_snapshot
+    kind: visual_and_collision
+    geometry_type: three_box_leaves
+    source: fixed C01 deployed snapshot primitive approximation
+    leaves:
+    - {size_m: [0.300,0.0025,0.200], origin_xyz_m: [0,-0.100,0], origin_rpy_rad: [1.5707963267948966,0,0]}
+    - {size_m: [0.300,0.0025,0.200], origin_xyz_m: [0,-0.300,-0.003], origin_rpy_rad: [1.5707963267948966,0,0]}
+    - {size_m: [0.300,0.0025,0.200], origin_xyz_m: [0,-0.500,-0.006], origin_rpy_rad: [1.5707963267948966,0,0]}
+  aggregate_mode_override:
+    spacecraft_bus: {geometry_type: box_envelope, size_m: [0.3405,0.2263,0.2263], origin_xyz_m: [0,0,0], origin_rpy_rad: [0,0,0], source: aggregate broadphase only}
+    bus_primary_structure_candidate_v1: omitted_with_link
+  frame_only_geometry_rule: D_BUS_MATE_PHYSICAL, M_DYNAMICS_NONPHYSICAL and D_BUS_M6_PATTERN carry no visual or collision elements
+
+inertial_ledger:
+- link: spacecraft_bus
+  selected_mode_mass_kg: 17.26823279235072
+  selected_mode_com_link_m: [-0.011984071178916797,-0.0000006659522079788254,0.0007839544760700856]
+  selected_mode_inertia_about_com_link_kg_m2: [[0.12235271003976697,0.00000219102407579873,-0.0008852398604710216],[0.00000219102407579873,0.23221057676128243,-0.000000010008527669029352],[-0.0008852398604710216,-0.000000010008527669029352,0.2307345506459197]]
+  alternate_aggregate_mass_kg: 23.3032134
+  alternate_aggregate_com_link_m: [-0.0007955,0,0.000587]
+  alternate_aggregate_inertia_about_com_link_kg_m2: [[0.193585,0,-0.0007228],[0,0.3485384,0],[-0.0007228,0,0.347072]]
+  source: bus mass decomposition bridge
+  confidence: design_model_not_measured
+  uncertainty: residual correlation unresolved; no standalone residual standard uncertainty is authorized
+- link: bus_primary_structure_candidate_v1
+  mass_kg: 6.034980607649281
+  com_link_m: [0.03121899421170191,0.0000019055268779790955,0.000023442970841877576]
+  inertia_about_com_link_kg_m2: [[0.07122970338863957,-0.0000016941966973078647,0.000015503826840431267],[-0.0000016941966973078647,0.10797810844743179,0.0000000012627839575954173],[0.000015503826840431267,0.0000000012627839575954173,0.10799032107524492]]
+  source: analytic primary-structure candidate
+  confidence: source_only_technical_candidate
+  project_standard_uncertainty_kg: 0.9052470911473921
+  local_GUM_diagnostic_standard_uncertainty_kg_not_project_budget: 0.05647800480105046
+- link: load_bridge_candidate
+  mass_kg: 0.702195458
+  com_link_m: [-1.272569222692219e-10,-1.072691633523576e-10,0.005375000000000074]
+  inertia_about_com_link_kg_m2: [[0.001567906972732913,3.577867169202165e-18,9.433353601271602e-22],[3.577867169202165e-18,0.001567906972732919,2.022987917607558e-21],[9.433353601271602e-22,2.022987917607558e-21,0.003122289368361704]]
+  source: R2 design mass properties transformed from S to Pattern
+  confidence: material_derived_candidate_not_manufacturing_authority
+- link: m3r_lumped_link
+  mass_kg: 0.7619
+  com_link_m: [-1.272569288182205e-10,-1.072691664294674e-10,-0.00461205511262569]
+  inertia_about_com_link_kg_m2: [[0.001808962466764922,0,0],[0,0.001808962466764922,0],[0,0,0.003594002755196379]]
+  source: R2 Stage-A plus Stage-B budget envelope transformed to M3R root
+  confidence: budgeted_lumped_not_detailed_geometry
+- {link: base_link, mass_kg: 0.8366, com_link_m: [-0.000007849,-0.0000011531,0.029841], inertia_about_com_link_kg_m2: [[0.00133040,0.00000001,0],[0.00000001,0.00213119,0],[0,0,0.00275877]], source: accepted B601 URDF, confidence: imported_hybrid_not_as_built}
+- {link: link1, mass_kg: 0.1613, com_link_m: [0.000113614552951627,-0.000616319527051323,0.0236476372671394], inertia_about_com_link_kg_m2: [[0.00025207,0,-0.00002832],[0,0.00015464,0],[-0.00002832,0,0.00023416]], source: accepted B601 URDF, confidence: imported_hybrid_not_as_built}
+- {link: link2, mass_kg: 1.3266, com_link_m: [-0.13225622308888,-0.0030617036386309,-0.0308306967030205], inertia_about_com_link_kg_m2: [[0.00073374,-0.00000043,0.00000851],[-0.00000043,0.01255987,0.00000128],[0.00000851,0.00000128,0.01281387]], source: accepted B601 URDF, confidence: imported_hybrid_not_as_built}
+- {link: link3, mass_kg: 0.8353, com_link_m: [0.121040035791843,-0.0536211076627949,-0.0310137854608077], inertia_about_com_link_kg_m2: [[0.00046807,-0.00003456,-0.00004260],[-0.00003456,0.00632695,0.00000006],[-0.00004260,0.00000006,0.00648221]], source: accepted B601 URDF, confidence: imported_hybrid_not_as_built}
+- {link: link4, mass_kg: 0.52, com_link_m: [0.0608200956293136,-0.0511711906613122,-0.030299458623927], inertia_about_com_link_kg_m2: [[0.00045986,0.00024219,-0.00000672],[0.00024219,0.00075258,-0.00000535],[-0.00000672,-0.00000535,0.00066742]], source: accepted B601 URDF, confidence: imported_hybrid_not_as_built}
+- {link: link5, mass_kg: 0.383, com_link_m: [-0.00502802058982517,0.00000173866206692364,0.0386233236326755], inertia_about_com_link_kg_m2: [[0.00019772,-0.00000062,-0.00002426],[-0.00000062,0.00021737,0.00000002],[-0.00002426,0.00000002,0.00017191]], source: accepted B601 URDF, confidence: imported_hybrid_not_as_built}
+- {link: link6, mass_kg: 0.3663, com_link_m: [0.00000376418727127126,-0.000100908819946677,0.0253308606425965], inertia_about_com_link_kg_m2: [[0.00015554,0,0],[0,0.00015554,0],[0,0,0.00013966]], source: accepted B601 URDF, confidence: imported_hybrid_not_as_built}
+- {link: gripper_link, mass_kg: 0.181800159145243, com_link_m: [-0.11400456131826,0.0000730809328589541,-0.00000008098254686284], inertia_about_com_link_kg_m2: [[0.000232385828322385,-0.000000277584025941111,-0.000000000604874349510246],[-0.000000277584025941111,0.0000585085867377427,-0.0000000115493362444215],[-0.000000000604874349510246,-0.0000000115493362444215,0.000205213535851537]], source: accepted B601 URDF, confidence: imported_hybrid_not_as_built}
+- {link: gripper_left, mass_kg: 0.0423278952416158, com_link_m: [0.00937154605945142,-0.0183514409006279,-0.00213050813223617], inertia_about_com_link_kg_m2: [[0.00000968819007445228,-0.00000114547785891207,0.0000000182410432419993],[-0.00000114547785891207,0.0000097195653452821,0.000000120737618180169],[0.0000000182410432419993,0.000000120737618180169,0.0000113638462227589]], source: accepted B601 URDF, confidence: imported_hybrid_not_as_built}
+- {link: gripper_right, mass_kg: 0.0423278949561274, com_link_m: [0.00937154599936671,0.0183514410059713,0.00213050822993754], inertia_about_com_link_kg_m2: [[0.00000968819002375832,0.00000114547786360874,-0.0000000182410118281856],[0.00000114547786360874,0.0000097195652747221,0.000000120737613592695],[-0.0000000182410118281856,0.000000120737613592695,0.0000113638461944347]], source: accepted B601 URDF, confidence: imported_hybrid_not_as_built}
+- link: solar_r2_left_c01_snapshot
+  mass_kg: 0.78
+  com_link_m: [0,-0.231153846,0.009015385]
+  inertia_about_com_link_kg_m2: [[0.030004785546499838,0,0],[0,0.004930698924865386,-0.002295028962016152],[0,-0.002295028962016152,0.03317408662163446]]
+  source: R2 material-derived candidate transformed to left root
+  confidence: candidate_not_measured
+- link: solar_r2_right_c01_snapshot
+  mass_kg: 0.78
+  com_link_m: [0,-0.231153846,0.009015385]
+  inertia_about_com_link_kg_m2: [[0.030004785546499838,0,0],[0,0.004930698924865386,-0.002295028962016152],[0,-0.002295028962016152,0.03317408662163446]]
+  source: R2 material-derived candidate transformed to right root
+  confidence: candidate_not_measured
+
+assumption_ledger:
+- assumption: the selected source candidate uses EXPLICIT_STRUCTURE_PLUS_RESIDUAL, not the aggregate bus
+  status: FROZEN_FOR_V2_SOURCE_CANDIDATE
+  consequence: aggregate and explicit bus inertials are mutually exclusive
+- assumption: D_BUS_MATE_PHYSICAL and M_DYNAMICS_NONPHYSICAL can be treated as aliases because their matrices match
+  status: REJECTED
+  consequence: names, roles and tree branches remain distinct and immutable
+- assumption: D_BUS_M6_PATTERN may be collapsed into D_BUS_MATE_PHYSICAL
+  status: REJECTED
+  consequence: clock and sub-millimetre pattern offsets remain explicit
+- assumption: primitive boxes are contact-quality geometry
+  status: REJECTED
+  consequence: all geometry is broadphase/display only and contact authority remains false
+- assumption: gripper URDF velocity literal 15.0 is measured hardware speed
+  status: REJECTED
+  consequence: physical gripper speed, closure time, contact impulse and controller limits remain HOLD
+- assumption: accepted B601 axes and limits fully document positive physical motion
+  status: REJECTED
+  consequence: mathematical sign is preserved; physical descriptions remain HOLD
+- assumption: Solar R2 fixed C01 leaves prove continuous accordion deployment
+  status: REJECTED
+  consequence: only one fixed deployed snapshot is represented
+- assumption: residual bus mass has separable geometry and independent uncertainty
+  status: REJECTED_PENDING_DECOMPOSITION_AUTHORITY
+  consequence: no residual geometry and no standalone residual uncertainty are emitted
+- assumption: structure analytic candidate is manufacturing or qualification authority
+  status: REJECTED
+  consequence: manufacturing drawings, material certificates, structural reanalysis and qualification remain HOLD
+- assumption: Route-C can be silently omitted
+  status: REJECTED
+  consequence: future generation requires explicit acceptance of the no-Route-C research candidate scope
+- assumption: targets belong in the service-spacecraft URDF mass total
+  status: REJECTED
+  consequence: 22 kg target satellite and 150 kg debris remain separate scenario bodies
+
+known_holds:
+- No URDF has been emitted from this V2 source-only package.
+- No Sim13 loader has consumed or validated this topology.
+- Route-C finite volumes and harness mass/geometry are absent.
+- M3R detailed geometry and collision envelope are absent.
+- Gripper finger child-local visual/collision geometry is absent.
+- Primitive broadphase boxes are not operational contact authority.
+- Positive physical motion descriptions and actuator capability/timing remain unverified.
+- Solar R2 is a fixed C01 snapshot, not a deployment model.
+- Primary-structure materials, tolerances, thermal distortion, fastener proof and old M4/M5/M6 structural results require reanalysis and owner review.
+- Flight release, manufacturing release, dynamics release and next-stage authorization remain false.
+
+ledger_self_checks:
+  selected_mode_link_entries: 19
+  selected_mode_joint_entries: 18
+  selected_mode_frame_only_entries: 3
+  selected_mode_physical_inertial_entries: 16
+  aggregate_mode_link_count: 18
+  aggregate_mode_joint_count: 17
+  B601_subtree_preserved: {links: 10, joints: 9, mass_kg: 4.695555949342986}
+  selected_system_mass_kg: 31.022864807342987
+  aggregate_system_mass_kg: 31.022864807342987
+  actuated_dof: 8

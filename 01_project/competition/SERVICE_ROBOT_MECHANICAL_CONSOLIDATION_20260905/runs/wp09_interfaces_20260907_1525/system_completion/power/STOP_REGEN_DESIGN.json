@@ -1,0 +1,45 @@
+{
+  "normal_sequence": [
+    "remove_new_motion_permission",
+    "keep K1 closed and brake energy path supplied",
+    "controlled deceleration using confirmed drive limits",
+    "confirm bounded residual energy and mechanical support engaged",
+    "open K1",
+    "measure post-contact bus voltage and auxiliary feedback",
+    "latch fault/stop until deliberate reset"
+  ],
+  "unexpected_input_loss": "ODrive public page gives no quantified input-loss absorption guarantee; it is not a sufficient sole energy sink",
+  "emergency_loss_of_torque": "No evidence B601 is holding-braked on all axes. Ground test requires independent physical support before any motion release.",
+  "legacy_50J_value": "requirement only, not a derived arm/target energy bound",
+  "equations": {
+    "rotation": "E=0.5*w.T*I*w",
+    "ground": "E_upper=E_kin+sum(m*g*max(0,h_start-h_catch))",
+    "resistor": "P_inst=V_bus^2/R; E_pulse<=supplier permitted pulse energy; P_average=sum(E)/T; cable and enclosure temperature checked separately"
+  },
+  "example_ground_arm_only_J_per_m": 44.129925,
+  "captured_object_regen_source": "coupled total inertia/attitude and permitted angular rates required; no use of 24kg legacy model as 705 current mass",
+  "coil_driver_screen": {
+    "rejected": "TPS1H100 direct unqualified GX11 driver",
+    "reason": "Source GX1155V back-EMF plus upstream bus and switch clamp-energy bounds must be reconciled; choosing4A rating alone does not close switching",
+    "source": {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp09_interfaces_20260907_1525\\system_completion\\sources\\power_intake\\TPS1H100_datasheet.pdf",
+      "sha256": "5f53e6a29b1fe2781483e261ebc2a9a7f62a6e80635d2d2ecdefd23c1ab7592a"
+    }
+  },
+  "watchdog_candidate": {
+    "pn": "TPS3431SDRBR",
+    "fixed_timeout_ms": [
+      170,
+      200,
+      230
+    ],
+    "SET1": "HIGH",
+    "CWD": "10kohm toVDD",
+    "ENOUT": "must participate in gate; WDO alone deasserts when EN=LOW",
+    "source": {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp09_interfaces_20260907_1525\\system_completion\\sources\\power_intake\\TPS3431_datasheet.pdf",
+      "sha256": "99bf5dbfffe06e8f85d9a86cfb777a0151e85b4a103033bc025f4897a0bdc6f3"
+    }
+  },
+  "flight_stop_regen_closed": false
+}

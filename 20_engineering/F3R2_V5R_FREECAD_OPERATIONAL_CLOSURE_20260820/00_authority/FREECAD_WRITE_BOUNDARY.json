@@ -1,0 +1,108 @@
+{
+  "schema": "FREECAD_WRITE_BOUNDARY_V1",
+  "round": "F3R2_V5R_FREECAD_OPERATIONAL_CLOSURE_20260820",
+  "owner_ruling": "FREECAD_OPERATIONAL_BASELINE_20260820",
+  "execution_mode": [
+    "ISOLATED_WRITE",
+    "NEUTRAL_CAD_OPERATIONAL_AUTHORITY",
+    "SCRIPT_FIRST",
+    "MCP_ORCHESTRATED",
+    "FAIL_CLOSED",
+    "LOW_RESOURCE",
+    "NO_SOLIDWORKS_DEPENDENCY"
+  ],
+  "timestamp_utc": "2026-08-20T16:05:00Z",
+
+  "project_root": "F:/China Graduate Future Flight Vehicle Innovation Competition",
+  "allowed_write_root": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_V5R_FREECAD_OPERATIONAL_CLOSURE_20260820",
+  "allowed_subdirectories": [
+    "00_authority", "01_toolchain", "02_inputs", "03_fcstd", "04_scripts",
+    "05_configurations", "06_validation", "07_exports", "08_drawings",
+    "09_evidence", "10_gate", "99_logs"
+  ],
+  "write_rule": "every file this round creates or modifies MUST live under allowed_write_root. Any write outside it is a HARD STOP condition.",
+
+  "reorg04_compliance": {
+    "root_domains_permitted": ["01_project","10_research","20_engineering","30_simulation","40_evidence","50_literature","70_tools","80_third_party"],
+    "this_round_is_inside": "20_engineering",
+    "creates_new_root_level_directory": false,
+    "note": "no parallel root-level sim/config/docs/results/src/pdf directory is created by this round"
+  },
+
+  "read_only_frozen_assets": [
+    {
+      "asset": "accepted B601 URDF",
+      "authority": "KINEMATICS_AND_MASS_INERTIA_SSOT",
+      "may_be_read": true,
+      "may_be_written": false,
+      "note": "10 links / 9 joints / 6 revolute / 1 fixed / 2 prismatic / total mass 4.695555949 kg. FreeCAD mesh mass must NEVER back-override this."
+    },
+    {"asset": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2_NATIVE/", "authority": "BUS_AND_PANEL_NATIVE_DONOR", "may_be_written": false},
+    {"asset": "20_engineering/F3R2_V4_COMPETITION_MECHANICAL_CANDIDATE_20260809/02_neutral_cad/", "authority": "V4_DELTA_STEP_SET_NOT_GLOBAL_GEOMETRY", "may_be_written": false},
+    {"asset": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/", "authority": "V5_NATIVE_ASSETS_49_SLDPRT_10_SLDASM_PLUS_STAGING", "may_be_written": false},
+    {"asset": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/03_top_assembly/*LOOP1E_STAGING*.SLDASM", "authority": "ISOLATED_EVIDENCE_WRITE_ONCE", "may_be_written": false, "count": 3},
+    {"asset": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/", "authority": "M3R_INTERFACE_SSOT", "may_be_written": false},
+    {"asset": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/F3R2_SPACE_EMBODIED_ROBOT_OPERATIONAL_BASELINE.step", "authority": "PREFERRED_FULL_SYSTEM_NEUTRAL_INPUT", "may_be_written": false, "expected_bytes": 125946155},
+    {"asset": "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/", "authority": "MASS_LEDGER_SSOT", "may_be_written": false},
+    {"asset": "20_engineering/config/geometry/", "authority": "GEOMETRY_SSOT", "may_be_written": false},
+    {"asset": "all existing *_gate_check.json and threshold registries", "authority": "FROZEN_ADJUDICATION", "may_be_written": false},
+    {"asset": "30_simulation/*/results/", "authority": "EXISTING_SIMULATION_RESULTS", "may_be_written": false}
+  ],
+
+  "solidworks_line_disposition": {
+    "status": "PATCH_VALIDATED / STAGING_ASSEMBLY_AVAILABLE / RESOURCE_BLOCKED / PRESERVE_AS_EVIDENCE / REMOVED_FROM_CRITICAL_PATH",
+    "preserved_untouched": [
+      "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py (sha256 8F8B3964A39BF279F242B036926488FA03D99DED99B8C891EF321670EBCBEF63)",
+      "3 isolated Loop1E staging assemblies with their write-once isolation receipts",
+      "all M9/M10 receipts in 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/"
+    ],
+    "this_round_must_not": "run SolidWorks, modify the patched script, or generate further SolidWorks failure receipts",
+    "freecad_and_solidworks_concurrent": "PROHIBITED"
+  },
+
+  "process_governance": {
+    "prohibited_command": "taskkill /IM python.exe /F",
+    "prohibited_action": "indiscriminate termination of all python processes",
+    "must_not_terminate": ["the Claude Code host process", "any process not positively identified as an idle CAE MCP server"],
+    "concurrent_limit": {"freecad_gui": 1, "freecad_mcp_server": 1, "solidworks": 0},
+    "commit_charge_is_the_binding_metric": "available physical RAM is NOT a sufficient health indicator - Attempt 3 died from commit exhaustion at 1.9 GB free RAM"
+  },
+
+  "long_path_policy": {
+    "enumeration_method": "os.walk over a \\\\?\\ extended-length prefixed path",
+    "prohibited_method": "git ls-files --others (silently skips paths over 260 chars; core.longpaths is unset on this repo)",
+    "known_long_path_count": 439,
+    "longest_observed_chars": 348
+  },
+
+  "hard_stop_conditions": [
+    "accepted URDF hash changes",
+    "donor original modified",
+    "write outside allowed_write_root",
+    "cold backup verification invalidated",
+    "authoritative full-system STEP AND all subsystem fallback inputs unreadable",
+    "FreeCAD output reopens with corrupted solids",
+    "URDF topology cannot be mapped",
+    "M3R authoritative geometry actually absent",
+    "CLASS_2 or CLASS_3 interference merged into CLASS_1",
+    "any output file is 0 bytes",
+    "filesystem corruption risk"
+  ],
+  "explicitly_not_stop_conditions": [
+    "MCP unavailable",
+    "a single FreeCAD GUI crash",
+    "SolidWorks native line not finalised",
+    "LAUNCH_STOWED still HOLD",
+    "flight loads not authorised",
+    "FEA not performed",
+    "RL code does not yet exist"
+  ],
+
+  "prohibited_claims": [
+    "FLIGHT_RELEASE", "LAUNCH_QUALIFICATION", "FULL_SOLIDWORKS_NATIVE_EQUIVALENCE",
+    "STRUCTURAL_MOS_PASS", "HDRM_RELIABILITY_PASS", "HIL_READY", "REAL_ROBOT_EXECUTION_READY"
+  ],
+
+  "review_status": "ACTIVE",
+  "verdict": "FREECAD_WRITE_BOUNDARY_ESTABLISHED"
+}

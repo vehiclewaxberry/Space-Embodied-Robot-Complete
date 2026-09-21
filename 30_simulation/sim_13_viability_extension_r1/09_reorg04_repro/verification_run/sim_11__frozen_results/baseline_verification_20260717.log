@@ -1,0 +1,24 @@
+sim_11 prerequisite baseline verification — 2026-07-17
+
+sim_05_free_floating_arm
+- command: python sim/sim_05_free_floating_arm/tests/run_all.py
+- result: TOTAL 22/22 PASS
+- momentum-conservation worst: 7.290e-17
+- frozen-path git status after run: clean
+
+sim_07_ancf_flexible acceptance benchmark
+- execution mode: read-only wrapper; result-file writes suppressed
+- static tip relative error: 1.03e-4, PASS (<1%)
+- f1 relative error: 2.14e-6; f2 relative error: 8.00e-5, PASS (<5%)
+- rigid-rotation zero strain: PASS
+- undamped energy drift at rtol 1e-10: 1.60e-9, PASS (<1e-6)
+- n_el=2/4/8/16 convergence table reproduced
+
+sim_07_ancf_flexible task-response smoke
+- command semantics: sim_07a_task_response.py --smoke
+- R1 undamped energy drift: 1.96e-9, PASS (<1e-6)
+- R3 Radau vs DOP853 tip relative difference: 2.01e-10, PASS (<1e-3)
+- frozen-path git status after run: clean
+
+Note: sim_07 has no tests/ directory. Its documented acceptance entry points are
+ancf_beam_benchmark.py and sim_07a_task_response.py --smoke; both were rerun.

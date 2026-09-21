@@ -1,0 +1,100 @@
+schema: M01_RELEASE_EVENT_AND_SWEEP_CONTRACT_V1
+generated_local: '2026-08-23T18:10:00+08:00'
+segment_id: M01
+authority_class: NON_RELEASE_DIAGNOSTIC_CANDIDATE
+released_for_mission_gate: false
+source_bindings:
+- id: urdf
+  path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  bytes: 11321
+- id: mission
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/04_mission/B601_MANDATORY_MISSION_TRAJECTORY_CONTRACT_V1.yaml
+  sha256: C06A40DE171F0517ACB34CCC14C918A9A4252F7B55A425B2CBAC95229B44A98A
+  bytes: 3835
+- id: pose_rebind
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/04_mission/B601_MISSION_POSE_AUTHORITY_REBIND_V1.yaml
+  sha256: 2954AA16DE68CE6550C0A281DD309BF14585970087EBE35663485E0E932AA62A
+  bytes: 2977
+- id: pose_validation
+  path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/11_validation/B601_NAMED_POSE_REVALIDATION_V1.json
+  sha256: 68D0356F889E5888399631E6C735D404140AC5933B7FA172AB1F9E26BA26B844
+  bytes: 12515
+- id: control
+  path: 20_engineering/config/control_scene/control_01_v0.yaml
+  sha256: 0B5EA0E60B670ACB6DBFC77998E98BB69B5511FED9FBC6611C060AEE969B3429
+  bytes: 6284
+- id: hdrm
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml
+  sha256: 1F6E2D556921C0D69A00DFC1FDAA02FD47850F5472D4A88B4B66FD1666725FB2
+  bytes: 13650
+joint_coordinate_branch:
+  from: STOW
+  to: RELEASE_CLEAR
+  q0_rad:
+  - 2.540711
+  - -2.932153
+  - -0.994838
+  - -0.718081
+  - -0.365716
+  - -0.05236
+  q1_rad:
+  - -1.570796
+  - -2.094395
+  - -2.094395
+  - -1.047198
+  - -0.523599
+  - 0.0
+  duration_s: 11.5
+  sample_period_s: 0.01
+  sample_count: 1151
+  interpolator: QUINTIC_MINIMUM_JERK_10_15_6
+  csv:
+    path: 30_simulation/e18_b601_mission_input_branches/02_candidates/M01_HELD_STOW_TO_RELEASE_CLEAR_QUINTIC_V1.csv
+    sha256: B4CB77804E6B9FC17C8910E56A0ECB34DC63B91659337E8BCAB0FCA6189E7AA9
+  provisional_speed_limits_rad_s:
+  - 0.7
+  - 0.7
+  - 0.7
+  - 0.8
+  - 0.8
+  - 1.0
+  provisional_acceleration_limits_rad_s2:
+  - 2.0
+  - 2.0
+  - 2.0
+  - 2.5
+  - 2.5
+  - 3.0
+  max_abs_speed_rad_s:
+  - 0.670354402173913
+  - 0.13659097826086958
+  - 0.17927559782608693
+  - 0.05366038043478263
+  - 0.025741793478260878
+  - 0.00853695652173913
+  max_abs_acceleration_rad_s2:
+  - 0.17949184538656643
+  - 0.03657314201516844
+  - 0.048002232523918074
+  - 0.014367923410586583
+  - 0.006892536246482684
+  - 0.0022858268329448593
+  minimum_joint_limit_margin_rad: 0.20784700000000011
+  status: NUMERIC_QSPACE_BRANCH_WELL_FORMED__PHYSICAL_STOW_AND_RELEASE_SWEEP_HOLD
+release_event_contract:
+  physical_stow_q_rad: null
+  physical_stow_status: HOLD_SOURCE_EE_INCONSISTENT_WITH_Q_567P734MM
+  hdrm_part_and_revision: null
+  release_command_definition: null
+  release_confirmed_signal_definition: null
+  release_confirmed: null
+  release_timeout_s: null
+  release_sweep_geometry_ref: null
+  arm_motion_enable_guard: release_confirmed == true
+  guard_binding_status: HOLD_UNBOUND_SIGNAL__CANDIDATE_NOT_EXECUTABLE
+prohibited_inference:
+- q-space endpoint loadability is not physical STOW identity
+- the 11.5 s candidate is not a released HDRM sweep
+- no collision, harness, Solar, release shock or hardware timing credit
+next_stage_authorized: false

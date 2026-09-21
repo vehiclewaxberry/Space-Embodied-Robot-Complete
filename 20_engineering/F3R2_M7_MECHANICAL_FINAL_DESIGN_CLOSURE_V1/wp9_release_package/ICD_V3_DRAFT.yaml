@@ -1,0 +1,166 @@
+schema: M7_WP9_ICD_V3_DRAFT
+generated_local: '2026-08-22T01:29:27+08:00'
+title: Mechanical Interface Control Document V3 (DRAFT)
+document_status: DRAFT_DESIGN_LEVEL_NOT_RELEASED
+work_package: WP9_RELEASE_PACKAGE
+claim_boundary: >-
+  Design-level interface control draft for the M7 engineering release package.
+  No manufacturing, procurement, launch, flight, or qualification authority is
+  created or claimed. Candidate values are never promoted to released values;
+  unknowns stay null + HOLD. Sibling M7 references are contract paths from
+  M7_EXECUTION_PLAN_V1.md with hashes PENDING_SIBLING_HASH until the
+  integration stage backfills 12_release/M7_CROSS_WP_REFERENCE_RECONCILIATION_V1.json.
+frame_authority:
+  ruling: ODR-01
+  root_to_m_frame: 'T_SM = [185.25, 0, 0] mm followed by Ry(90 deg)'
+  note: >-
+    Feature stations 198.0 (plate outer face), 208.0 (physical mounting face)
+    and 210.405 mm (screw end faces) are a geometric feature stack and never a
+    second dynamics frame definition.
+units: {length: mm, angle: deg, mass: kg}
+
+interfaces:
+  - interface_id: IF-01_M3R_ARM_SIDE
+    name: B601 arm base to M3R Stage A
+    status: DESIGN_DRAFT
+    mating_parts: [B601 base plate (as-built), M3R_STAGE_A_INTERFACE_RING_REVB_WORKING]
+    geometry:
+      pattern: 4x M4-class (HM4-75) on 64 x 64 mm square, clocked 25.000014 deg
+      pcd_mm: 90.509642
+      pattern_centre_yz_mm: [0.015994151, -0.086366070]
+      stage_a_od_mm: 150.0
+      stage_a_thickness_mm: 8.0   # 2.405 proud + 5.595 recessed
+      central_passage_dia_mm: 40.0
+      clearance_hole_dia_mm: 4.6
+      counterbore_dia_x_depth_mm: [7.5, 4.5]
+      stations_mm: {install_face: 208.0, screw_end_plane: 210.405}
+    sources:
+      - 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_STAGE_A_PARAMETER_TABLE.yaml
+      - 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+    design_bindings:
+      fasteners: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp4_fastener_design/M3R_FASTENER_DESIGN_V1.yaml
+      torque_preload: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp4_fastener_design/TORQUE_PRELOAD_SCHEDULE_V1.csv
+      tolerances: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/DRAWING_TOLERANCE_SCHEME_V1.csv
+      drawing: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp9_release_package/D05_STAGE_A.svg
+    retained_holds: [B601_PHYSICAL_FITUP_HOLD, FASTENER_MARGIN_CRITERIA_EXTERNAL, HARDWARE_DATUM_INSPECTION_HOLD]
+
+  - interface_id: IF-02_M3R_INTERSTAGE
+    name: M3R Stage A to Stage B
+    status: DESIGN_DRAFT
+    mating_parts: [M3R_STAGE_A_INTERFACE_RING_REVB_WORKING, M3R_STAGE_B_LOAD_ADAPTER_REVB2_WORKING]
+    geometry:
+      interstage_pattern: 8x dia 5.5 mm M5-class clearance @ R62.5 mm, start 22.5 deg
+      spigot_dia_mm: 99.6
+      skirt_inner_dia_mm: 100.6
+      pocket_od_x_id_x_depth_mm: [150.4, 100.0, 5.595]
+      clocking_dowel_candidate: {clearance_dia_mm: 4.1, blind_dia_x_depth_mm: [4.0, 5.5], centre_xy_mm: [55.0, 0.0]}
+      wc_evidence: {spigot_mm: 0.206, skirt_mm: 0.207, dowel_clocking_rad: 1.8909e-3}
+    sources:
+      - 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_STAGE_A_PARAMETER_TABLE.yaml
+      - 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_STAGE_B_PARAMETER_TABLE.yaml
+      - 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/INTERFACE_STACKUP_B601_M3R_EXECUTED_V1.yaml
+    design_bindings:
+      fasteners: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp4_fastener_design/FASTENER_SCHEDULE_V1.csv
+      tolerances: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/DRAWING_TOLERANCE_SCHEME_V1.csv
+      drawings: [20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp9_release_package/D05_STAGE_A.svg, 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp9_release_package/D06_STAGE_B.svg]
+    retained_holds: [DOWEL_FIT_INSERTION_REMOVAL_HOLD, REPRESENTATIVE_FIT_INSPECTION_HOLD]
+
+  - interface_id: IF-03_LOAD_BRIDGE
+    name: spacecraft bus to M3R Stage B via load bridge (candidate)
+    status: CANDIDATE_GEOMETRY__HARD_HOLD_RETAINED
+    mating_parts: [12U bus +X face, LOAD_BRIDGE_CANDIDATE_V1, M3R_STAGE_B_LOAD_ADAPTER_REVB2_WORKING]
+    geometry:
+      plate_mm: [160.0, 160.0, 10.75]   # R4 rounded square, x in [185.25, 196.0]
+      hole_pattern: 4x dia 6.6 mm through @ (+/-70, +/-70) local; centre dia 40.0 mm through
+      nominal_hole_edge_ligament_mm: 6.7   # nominal geometry only, NOT a worst-case margin
+      stage_b_m6_ligament_mm: 11.7         # B-018 nominal, NOT a worst-case margin
+      candidate_mass_g: 702.195458          # MATERIAL_DERIVED 6061-T6 2700 kg/m3, not hardware mass
+      bus_side_anchor_pattern: null         # HOLD - no authorized bus-side mating pattern
+    sources:
+      - 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_DATUMS_V1.yaml
+      - 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/D04_LOAD_BRIDGE_INTERFACE_DRAFT.svg
+    design_bindings:
+      geometry_authority: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step
+      fasteners: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp4_fastener_design/FASTENER_SCHEDULE_V1.csv
+      material: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1.yaml
+      drawing: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp9_release_package/D08_ASSEMBLY_STACKUP.svg
+    retained_holds: [SPACECRAFT_SIDE_ANCHOR_PATTERN_HOLD, STRUCTURAL_LOAD_PATH_CONTINUITY_HOLD,
+                     LOAD_BRIDGE_PHYSICAL_FITUP_HOLD, LEGACY_FLANGE_OWNERSHIP_HOLD]
+
+  - interface_id: IF-04_WING_ROOT_HINGE
+    name: solar wing root hinge (L/R) to bus
+    status: DESIGN_DRAFT__MECHANISM_HOLD
+    geometry:
+      panel_box_m: [0.227, 0.200, 0.006]
+      panel_mass_each_kg: 0.3483933
+      hinge_tip_sensitivity_mm_per_mrad: 0.2
+      stowed_geometry: null               # pending WP1
+    sources:
+      - 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp3_tolerance/HINGE_DEPLOYMENT_CHAIN_EXECUTED_V1.yaml
+      - 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    design_bindings:
+      mechanism_pack: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml
+      structure: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml
+      thermal_envelope: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp8_thermal/THERMO_ELASTIC_ENVELOPE_V1.csv
+    retained_holds: [MECHANISM_QUALIFICATION_TEST_HOLD, STOWED_GEOMETRY_PENDING_WP1]
+
+  - interface_id: IF-05_HDRM
+    name: arm hold-down and release mechanism
+    status: HOLD_PRODUCT_SELECTION
+    geometry: null                          # nonphysical skeleton reference only (M4/M5/M6)
+    sources:
+      - 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/03_load_authority/M5_LOAD_CASE_MIGRATION_REGISTER_V1.csv   # LC-007 hdrm_release
+    design_bindings:
+      engineering_pack: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml
+    retained_holds: [HDRM_PRODUCT_SELECTION, RELEASE_RELIABILITY_SHOCK_TEST_HOLD,
+                     GLOBAL_TRANSFORM_CLOCKING_PRODUCT_UNKNOWN]
+
+  - interface_id: IF-06_GRIPPER
+    name: gripper R1 at B601 wrist end
+    status: DESIGN_DRAFT__HARDWARE_HOLD
+    geometry:
+      stroke_mm: [0.0, 71.5]
+      neutral_sweep: 144 samples @ 0.5 mm, zero overlap, hash-bound R1 assets (PASS)
+      separated_finger_breps: null          # HARD_HOLD (diagnostic .ply only)
+    sources:
+      - 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json
+      - 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_GRIPPER_R1_LEFT_FINGER_GRIPPER_LINK_LOCAL_M.ply
+      - 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_GRIPPER_R1_RIGHT_FINGER_GRIPPER_LINK_LOCAL_M.ply
+    design_bindings:
+      engineering_pack: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+      clearances: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/TOLERANCE_CHAIN_REGISTER_V1.yaml
+    retained_holds: [FINGER_SEPARATED_BREP_HARD_HOLD, CONTACT_DATUM_METROLOGY_HOLD,
+                     MINIMUM_WALL_AUTHORIZED_VALUE_EXTERNAL, MANUFACTURING_CLEARANCE_LIMIT_EXTERNAL]
+
+  - interface_id: IF-07_CAMERA
+    name: service camera mount
+    status: HOLD_SELECTION
+    geometry: null                          # rejected candidate pose penetrated M3R; no replacement authorized
+    sources:
+      - 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MECH_RL_INTERFACE_V1.yaml
+    design_bindings:
+      keep_out: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml
+      support_candidates: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml
+    retained_holds: [CAMERA_SELECTION, MOUNT_ALIGNMENT, HAND_EYE_CALIBRATION]
+
+  - interface_id: IF-08_HARNESS
+    name: moving harness routing (bus, M3R passage, arm, wings, gripper)
+    status: DESIGN_DRAFT__SWEEP_HOLD
+    geometry:
+      central_passage_dia_mm: 40.0          # only permitted M3R penetration
+      schematic: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp9_release_package/D07_HARNESS_ROUTING_SCHEMATIC.svg   # schematic, no geometric authority
+      static_keep_out: OD9 exists (CDR CI-011)
+    design_bindings:
+      routing_authority: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/HARNESS_ROUTING_V1.yaml
+      keep_out_authority: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml
+    retained_holds: [MOVING_SWEEP_VERIFICATION_HOLD, BEND_RADIUS_STRAIN_RELIEF_TBD,
+                     WEAR_LIFE_TEST_HOLD]
+
+  - interface_id: IF-09_KEEP_OUT
+    name: system keep-out register
+    status: DESIGN_DRAFT__PENDING_WP1
+    design_bindings:
+      register: PENDING_SIBLING_HASH 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml
+    retained_holds: [PER_CONFIG_INTERFERENCE_RECORDS_PENDING_WP1_HASH]
+
+source_register: see receipt.json (SHA-256 pinned)

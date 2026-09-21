@@ -1,0 +1,192 @@
+{
+  "review": "R07_E4_INDEPENDENT_REVERIFY",
+  "script": "e4_r34_spotcheck.py",
+  "reviewed_run": "r07_e4_rear_bulkhead_20260918",
+  "checks": {
+    "S1_smoke_487_eq_483_plus_4": {
+      "pass": true,
+      "detail": {
+        "s07": {
+          "baseline_instances_e3_closed": 483,
+          "expected_instances": 487,
+          "actual_instances": 487,
+          "e4_instances": 4
+        },
+        "review_r33_build_instance_count": 487
+      }
+    },
+    "S2_coaxial_zero": {
+      "pass": true,
+      "detail": {
+        "acc_v2_pairs": 24,
+        "acc_v2_max_offset": 0.0,
+        "acc_v2_max_par": 0.0,
+        "review_r30": {
+          "exports_checked": 14,
+          "coaxial_pairs": 24,
+          "coaxial_all_zero": true,
+          "sleeves_ok": true,
+          "screws_ok": true,
+          "fit_truth_ok": true
+        }
+      }
+    },
+    "S3_registration_rows_4x4": {
+      "pass": true,
+      "detail": {
+        "dual_hole_pairs": 4,
+        "fastener_stacks": 4,
+        "mounting_surfaces": 4,
+        "tool_paths": 4
+      }
+    },
+    "S4_boolean_method_counts": {
+      "pass": true,
+      "detail": {
+        "method": "OCP BRepAlgoAPI_Common native + BRepGProp.VolumeProperties_s (E2 审阅勘误 O2 口径; 禁用 ",
+        "pairs": {
+          "A_e4_vs_other": 30,
+          "B_e4_vs_e4": 4
+        },
+        "review_r33": {
+          "pairs_bbox_total": {
+            "A_e4_vs_other": 34,
+            "B_e4_vs_e4": 4
+          },
+          "A_effective_after_E_routing": 30,
+          "candidate_pairs": {
+            "A_e4_vs_other": 30,
+            "B_e4_vs_e4": 4
+          },
+          "pair_counts_match_candidate": true,
+          "new_positives": 0,
+          "routed_to_E": 4,
+          "clearance_checks": 38,
+          "clearance_fail": 0,
+          "e4_vs_e1_bbox_pairs": 0,
+          "e4_vs_e2_bbox_pairs": 8,
+          "e4_vs_e3_bbox_pairs": 0
+        }
+      }
+    },
+    "S5_mass_delta": {
+      "pass": true,
+      "detail": {
+        "sleeve_volume_sum_mm3": 1572.241459415548,
+        "mass_recomputed_kg": 0.0042450519404219796,
+        "registered_mass_kg": 0.0042450519404219796,
+        "delta_v_per_piece_analytic": 100.53096491487338,
+        "delta_v_registered": 100.53096491487327,
+        "net_allocated": 0.0042450519404219796
+      }
+    },
+    "S6_unknown_preserved": {
+      "pass": true,
+      "detail": {
+        "param_status": "CANDIDATE_NOMINAL_GEOMETRY; material/grade/preload/locking/effective_thread_engagement/bearing_allowable/load_rating UNK",
+        "thread": "M4_UNSELECTED",
+        "sleeve_material": "AL_DENSITY_CANDIDATE 2.7e-6（E1 防压套先例：真实铝候选 CAD_ESTIMATE）；材料牌号/压溃/承压 UNKNOWN"
+      }
+    },
+    "S7_not_run_coverage": {
+      "pass": true,
+      "detail": {
+        "actual_count": 8,
+        "brief_wording": "任务书表述\"九项\"",
+        "count_discrepancy_note": "实际 8 条：任务书九项表述与实际条数差 1；语义覆盖 8 主题全到位（\"部署器对接实物验证；实物试配/装配\"合并一条），计数差异如实登记（观察项候选）",
+        "coverage": {
+          "独立复验": true,
+          "载荷夹紧": true,
+          "选型材料": true,
+          "ICD": true,
+          "制造性": true,
+          "工具回放": true,
+          "OUT_OF_SCOPE": true,
+          "实物": true
+        }
+      }
+    },
+    "S8_v1_fail_archive": {
+      "pass": true,
+      "detail": {
+        "v1_exists": true,
+        "v1_verdict": "FAIL",
+        "v1_failures": 8,
+        "v1_sidecar_valid": true,
+        "v2_verdict": "PASS",
+        "iteration_history_keys": [
+          "s05_readback_FAIL_v1",
+          "s05_readback_v2_fix",
+          "probe_v1_first_pass"
+        ]
+      }
+    },
+    "S9_tip_minus_161_bit_exact": {
+      "pass": true,
+      "detail": {
+        "r30_screw_pass": true,
+        "r32b_core": "CONFIRMED: 延长仅在头侧，8 对两车道逐位一致",
+        "git_baseline_rear_tip_max_x": {
+          "RB_end_screw_-1_-1_-1": -161.0,
+          "RB_end_screw_-1_-1_1": -161.0,
+          "RB_end_screw_-1_1_-1": -161.0,
+          "RB_end_screw_-1_1_1": -161.0
+        },
+        "git_baseline_front_tip_min_x_unique": [
+          161.0
+        ],
+        "orientation_note": "前场螺钉朝 -x，尖端在 bbox min.X=+161（头侧 max.X=+187），非 ±161 对称 bug"
+      }
+    },
+    "S10_supplier_side_untouched": {
+      "pass": true,
+      "detail": {
+        "root_structure_sha_match_snapshot": true,
+        "supplier_bboxes": {
+          "launch_interface_reserved_volume": [
+            -215.0,
+            -60.0,
+            -60.0,
+            -195.0,
+            60.0,
+            60.0
+          ],
+          "rear_vertical_rib_86": [
+            -195.0,
+            77.0,
+            -86.0,
+            -189.0,
+            95.0,
+            86.0
+          ],
+          "rear_vertical_rib_-86": [
+            -195.0,
+            -95.0,
+            -86.0,
+            -189.0,
+            -77.0,
+            86.0
+          ]
+        },
+        "constraints_count": 7,
+        "constraints": [
+          "E1/E2/E3 与 A/B 支承（rear 肋）未动",
+          "供应方侧（保留体积/窗口外段/肋）参数化未动",
+          "未改写 gate/issues.json/CURRENT 指针",
+          "WP02 文件只读",
+          "未执行 git 提交",
+          "UNKNOWN 零填禁止（材料/选型 UNKNOWN 如实登记；夹套质量为 CAD_ESTIMATE 非零填）",
+          "FAIL 不覆盖（s05 v1 FAIL 归档 evidence/acc_readback_holes_coaxial_v1_fail.json）"
+        ]
+      }
+    }
+  },
+  "failures": [],
+  "verdict": "PASS",
+  "summary": {
+    "checks": 10,
+    "passed": 10,
+    "consistency": "10/10"
+  },
+  "elapsed_s": 27.952
+}

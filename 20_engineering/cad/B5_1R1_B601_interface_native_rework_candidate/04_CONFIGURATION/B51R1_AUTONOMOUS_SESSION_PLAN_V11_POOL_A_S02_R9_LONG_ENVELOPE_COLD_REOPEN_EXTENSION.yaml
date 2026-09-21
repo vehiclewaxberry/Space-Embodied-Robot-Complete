@@ -1,0 +1,35 @@
+schema: B51R1_AUTONOMOUS_SESSION_PLAN_V11_POOL_A_S02_R9_LONG_ENVELOPE_COLD_REOPEN_EXTENSION
+generated_at: '2026-08-03T03:10:00+08:00'
+status: POOL_A_FINAL_SLOT_LONG_ENVELOPE_COLD_REOPEN_AUTHORIZED_FOR_S02_R9_ONLY
+base_plan: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V3_PHASED.yaml
+prior_extension: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V10_POOL_A_S02_R8_RAW_POSE_COLD_REOPEN_EXTENSION.yaml
+effective_pool_a_capacity: 20
+added_slot:
+  id: A20_S02_R9_LONG_ENVELOPE_FULL_COLD_REOPEN
+  envelope: S02_R9
+  substages:
+    - FRESH_VISIBLE_RESPONSIVE_DOCUMENT_EMPTY_SESSION
+    - PID_BOUND_INPUT_LOCK
+    - READ_ONLY_OPEN
+    - TEN_REBUILD_READBACK_CYCLES_ACROSS_THREE_CONFIGURATIONS
+    - NORMAL_CLOSE_AND_EXIT
+  execution_envelope_seconds: 1800
+  cad_write_allowed: false
+  save_api_allowed: false
+  force_termination_allowed: false
+trigger:
+  incident: 07_VERIFICATION/AUTONOMOUS/S02_R8/B51R1_S02_R8_EXECUTION_ENVELOPE_TIMEOUT_FAIL_CLOSED_INCIDENT.json
+  prior_slot: A19_S02_R8_RAW_POSE_FULL_COLD_REOPEN
+  prior_slot_status: FAIL_CLOSED_EXTERNAL_EXECUTION_ENVELOPE_TOO_SHORT
+repair_route:
+  verifier_logic_change: NONE
+  transform_convention: RAW_LOCAL_TO_MODEL
+  execution_envelope_seconds: 1800
+exit_rule:
+  pass: S02_R9_MASTER_SKELETON_COLD_REOPEN_PASS
+  fail: PRESERVE_ALL_OUTPUTS_AND_KEEP_S02_BLOCKED
+downstream_hold:
+  active_candidate_pointer: true
+  property_writer_qualification: true
+  s03: true
+claim_limit: FINAL_POOL_A_SLOT_ONLY_NO_S03_CREDIT_UNTIL_GATE

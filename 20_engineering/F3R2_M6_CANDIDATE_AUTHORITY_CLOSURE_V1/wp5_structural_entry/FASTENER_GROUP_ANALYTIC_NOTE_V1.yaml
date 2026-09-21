@@ -1,0 +1,64 @@
+schema: FASTENER_GROUP_ANALYTIC_NOTE_V1
+generated_local: '2026-08-21T20:34:00+08:00'
+phase: M6_CANDIDATE_AUTHORITY_CLOSURE
+work_package: WP5_STRUCTURAL_ENTRY
+status: DRAFT_PRE_AUTHORITY_ANALYTIC_ONLY
+formal_fea_run_count: 0
+
+subject: >-
+  Unit-load distribution over the B601-to-Stage-A 4x HM4-75 (M4-class) screw
+  group (64x64 mm square pattern, equivalent PCD 90.509642 mm), executed
+  numerically from the M5 analytic joint load model influence coefficients.
+
+companion_data: wp5_structural_entry/FASTENER_GROUP_ANALYTIC_UNIT_LOAD_V1.csv
+
+method:
+  measurement_model:
+    axial: N_i = Fx/n + My*z_i/sum(z^2) - Mz*y_i/sum(y^2)
+    in_plane: '[Qy_i,Qz_i] = [Fy,Fz]/n + Mx*[-z_i,y_i]/sum(r^2)'
+  pattern_geometry:
+    coordinates_yz_m: [[-0.032, -0.032], [-0.032, 0.032], [0.032, -0.032], [0.032, 0.032]]
+    fastener_count: 4
+    sum_y2_m2: 0.004096
+    sum_z2_m2: 0.004096
+    sum_r2_m2: 0.008192
+  unit_loads_applied: [Fx=1 N, Fy=1 N, Fz=1 N, Mx=1 N*m, My=1 N*m, Mz=1 N*m]
+
+key_numeric_results:
+  direct_force_fraction_per_fastener: 0.25
+  maximum_bending_axial_coefficient_per_m: 7.812500000000001
+  torsion_shear_magnitude_coefficient_per_m: 5.524271728019903
+  note: values reproduce the M5 published pattern coefficients; the CSV lists all 24 per-fastener unit responses
+
+assumptions_declared:
+  - rigid plates
+  - linear elastic load sharing
+  - equal fastener stiffness
+  - no clearance
+  - no slip
+  - no preload effect
+  - small deformation
+
+uncertainty:
+  coordinate_standard_uncertainty_m: null
+  distribution: null
+  source: digital nominal geometry only
+  status: HOLD_NO_METROLOGY_INPUT
+
+allowed_use: GEOMETRIC_WRENCH_DISTRIBUTION_SENSITIVITY_AND_SOFTWARE_VERIFICATION
+prohibited_uses:
+  - FASTENER_STRENGTH
+  - PRELOAD_MARGIN
+  - SLIP_OR_SEPARATION
+  - PLATE_STRESS
+  - FLIGHT_MOS
+prohibited_claims_this_wp:
+  - no margin-of-safety computation
+  - no strength or qualification verdict
+  - no upgrade of this analytic result to design authority
+
+source_register:
+  - path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/04_joint_load_model/M5_ANALYTIC_JOINT_LOAD_MODEL_V1.yaml
+    sha256: f4e9eb51b696b7fe02878b9c369bdcb99d84fe96181494ca33798400631a199d
+  - path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/04_joint_load_model/M5_FASTENER_GROUP_INFLUENCE_MATRIX_V1.csv
+    sha256: 8ded698118daf85480b44d95518984f8ef8df02993ba493a6a0402aa85a53574

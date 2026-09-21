@@ -1,0 +1,133 @@
+{
+  "schema": "WP10_HOTSWAP_REDUCED_TRANSIENT_V23",
+  "source_bindings": {
+    "tools/hotswap_transient_model_v23.py": "fa697f5055c8f1b910277b49032858e719a3d6557c397f0eca3319e24b55de87",
+    "tools/verify_hotswap_transient_v23.py": "8376c80d8cfc8dd34ca5259e66ab5c7269d2aa4e04eb3915d88f29d67727b113",
+    "tools/shared_battery_path.py": "24414c83ee6beefbde5bdda58f65d4219744f8b0a9c9129b8a2afb56d0da1ef4",
+    "power/SHARED_BATTERY_PATH_DEFINITION.json": "bed7ccbc917d1634eea95ebb0763e2cc58f880dceb4f0ff0ff758e8792f40961",
+    "power/POWER_LOOP_CALCULATIONS.json": "75d460c366deae08347a31a06229e8e9b299138224c0be64b7a21b0a0aa7b436",
+    "tools/integrate_power_loop.py": "3e9dc34bfabdd1bbde02fd2cdebdb85f9bf2b9eac985fcd73413ffe45aab3275",
+    "power/POWER_LOOP_PARTS.json": "5e1cbebe955a18d262a30c6a798ee3dfa0259a25b4bc322a52330092806c4f21",
+    "power/INPUT_PASSIVE_SELECTION.json": "90f4dde993d38a6dbc215e0bfff72798d56fcffa698d639f2d2b18c47dde1628",
+    "ecad/wp10_system.xml": "12ed2a88372c5509a959f43ca615ad8c2f1d3798440fcc41a74b8faaf359e098",
+    "ecad/POWER_LOOP_PIN_NET.csv": "987c9d935d035ef1dc45febc11349f73b2dec5c97c8df3ff3bab57bd863aa8c3",
+    "sources/lm5069_rev_g.pdf": "d60d8106a6e8113900ff8b9576dd959942fa7169742baf0beeb30684d4d64681",
+    "results/BRAKE_ENABLE_NATIVE_V22.json": "bdbd68667a3291083d92b42c320c55467c15a5f03acd996b00512a51164a8ee5",
+    "SYSTEM_CLOSURE_MATRIX.csv": "bb70e5447f908ecc36dd1390a810c494b6be4988c74e3115bb18d83d01cb2a97",
+    "mechanical/CAP_HARNESS_RETAINED_PLAN_V21.json": "6d2832a3dcbac517dbe97ed0e5e8d2a74fafd1f31de66fb4bb472ae6459119b6"
+  },
+  "active_electrical_native_revision": "V22_UNCHANGED",
+  "active_mechanical_revision": "V21_UNCHANGED",
+  "C201_selected_nominal_F": 1e-06,
+  "C201_nominal_tolerance": 0.1,
+  "C201_MPN_bound": false,
+  "regulated_profiles": [
+    {
+      "name": "LOW",
+      "rs": 0.0022485000000000005,
+      "rpwr": 29799.0,
+      "power_scale": 0.76,
+      "vcl": 0.0485
+    },
+    {
+      "name": "HIGH",
+      "rs": 0.0021515,
+      "rpwr": 30401.0,
+      "power_scale": 1.24,
+      "vcl": 0.0615
+    }
+  ],
+  "main_arm_allocation_W": 360,
+  "main_output_including_brake_W": 361,
+  "base_source_cases": {
+    "pack_V": [
+      20,
+      22,
+      25.2,
+      29.4
+    ],
+    "shared_contact_loop_R_ohm": [
+      0,
+      0.01,
+      0.1
+    ],
+    "shared_zero_is_diagnostic_only": true,
+    "shared_0p01_is_unmeasured_sensitivity": true,
+    "main_branch_allocations_ohm": [
+      {
+        "total": 0.04,
+        "before_MAIN_FUSED": 0.005
+      },
+      {
+        "total": 0.06,
+        "before_MAIN_FUSED": 0.02
+      }
+    ],
+    "main_branch_definition": "Explicitly excludes upstream MC35 contacts; includes fuse, Q201, shunts and main wire/PCB resistance as declared allocations. Does not inherit the ambiguous old path as a measured value.",
+    "aux_branch_R_ohm": [
+      0.018,
+      0.04
+    ],
+    "aux_R_is_unmeasured_allocation": true,
+    "main_efficiency": [
+      0.85,
+      0.9
+    ],
+    "aux_efficiency": [
+      0.8,
+      0.9
+    ],
+    "controller_input_A": 0.003,
+    "controller_input_scope": "Declared input-side controller/divider allowance at MAIN_FUSED, distinct from the 0.25W post-precharge startup bias allocation; not a measured bound.",
+    "efficiency_full_environment_guaranteed": false,
+    "main_leak_A": 0.003,
+    "main_leak_scope": "C203 max 3mA at20C after5min applied as operating-voltage scenario; not full-temperature guarantee; distinct from controller3mA and startup0.25W.",
+    "aux_branch_definition": "Total loop allocation includes F202 exactly once. 0.018 ohm is typical cold fuse alone plus ideal zero other path; 0.04 ohm includes 0.022 ohm unmeasured other path. Neither is a guaranteed hot/life resistance or installed circuit value.",
+    "aux_zero_allocation_history": "history/20260909_V14_before_fuse_coordination/power/SHARED_BATTERY_PATH_DEFINITION.json",
+    "aux_fuse_typical_cold_R_ohm": 0.018,
+    "aux_fuse_selection_source": "power/INPUT_PASSIVE_SELECTION.json:F202"
+  },
+  "voltage_step_V": 0.025,
+  "normal_model_end": "First exit from current/power regulation",
+  "precharge_load": "CHB externally held OFF for this screen. C203 3mA leakage plus primary bias 0.25A below1V /0.25W above1V, assumptions only.",
+  "resistor_accounting": "Original main total split into pre-sense R, effective shunts Rs including Kelvin error allocation, controlled block R_on=total-pre-Rs. The block includes Q201 plus unallocated wire/PCB R; this is a declared lumped electrical model, not an extracted Q201 thermal model.",
+  "effective_capacitance_scope": "C203 initial20C120Hz nominal+tolerance. Aging, low-temperature C/ESR and broadband ESR not modeled.",
+  "bias_low_voltage_model_guaranteed": false,
+  "CHB_enable_delay_proved": false,
+  "gate_charge_and_limited_loop_bandwidth_included": false,
+  "source_inductance_or_BMS_dynamics_included": false,
+  "UVLO_interruption": "Stop and classify first UVLO interruption; recovery/chatter not modeled and not credited.",
+  "short_prefix_coverage": "Only source cases meeting the cold-start rising UV threshold; warm-only UV hysteresis hold cases are not included in the short-prefix set.",
+  "parameter_scope": "Two explicitly correlated endpoint profiles and two UVLO endpoint pairs, not an exhaustive independent-corner or full-temperature proof. LM min/max transferred from48V table; Eq9 application model.",
+  "source_evidence": [
+    {
+      "url": "https://www.ti.com/lit/ds/symlink/lm5069.pdf",
+      "revision": "G",
+      "pages": [
+        5,
+        6,
+        12,
+        13,
+        14,
+        15,
+        17,
+        20,
+        21
+      ],
+      "local": "sources/lm5069_rev_g.pdf"
+    },
+    {
+      "url": "https://www.littelfuse.com/assetdocs/littelfuse-discrete-mosfets-ixt-75n10-datasheet?assetguid=ea051e16-aaa9-4983-a975-8d0c07325d72",
+      "revision": "DS100200(9/09) ADVANCE",
+      "pages": [
+        1,
+        2,
+        5
+      ],
+      "local_download": "HTTP403",
+      "SOA_digitized": false
+    }
+  ],
+  "hardware_protection_qualified": false,
+  "SOA_verified": false
+}

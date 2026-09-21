@@ -1,0 +1,56 @@
+schema: MECHANICAL_BASELINE_CHANGE_CONTROL_POLICY_V1
+status: ACTIVE_FOR_CDR_WORKSPACE
+effective_at: 2026-08-21T01:06:28.0818863+08:00
+production_baseline_id: V5R_NEUTRAL_OPERATIONAL_MECHANICAL_BASELINE_V1
+production_baseline_write_policy: IMMUTABLE_NO_DIRECT_OVERWRITE
+change_authorization:
+  requires_ecr_before_change: true
+  required_fields:
+    - ecr_id
+    - change_description
+    - reason
+    - affected_requirements
+    - affected_assets
+    - geometry_mass_frame_interface_impact
+    - verification_plan
+    - rollback_plan
+    - owner
+    - approver
+    - status
+  approval_owner: Project_Owner_or_Delegated_Chief_Engineer
+version_classes:
+  V1:
+    definition: frozen production neutral mechanical and Sim13 bootstrap baseline
+    mutable: false
+  V1_1:
+    definition: documentation or metadata correction with no geometry mass inertia frame interface collision or configuration change
+    requires_sim13_full_regression: false
+    requires_hash_and_schema_regression: true
+  V2:
+    definition: any geometry mass inertia M3R gripper tolerance HDRM stowage frame collision or accepted configuration change
+    requires_sim13_full_regression: true
+    required_outputs:
+      - MECH_RL_INTERFACE_V2.yaml
+      - SIM13_MECHANICAL_REGRESSION_GATE_V2.json
+mandatory_v2_regression:
+  - asset_hash_binding
+  - frame_tree
+  - urdf_mapping
+  - collision_loading
+  - accepted_configurations
+  - gripper_stroke
+  - keep_out
+  - 22kg_anchor
+  - 150kg_anchor
+  - unknown_fail_closed
+  - no_false_allow
+unknown_policy:
+  composite_addenda_narrow_phase: FAIL_CLOSED
+  release_by_cdr_progress_alone: false
+prohibited_actions:
+  - direct_overwrite_of_production_MECH_RL_INTERFACE_V1
+  - direct_overwrite_of_frozen_gate_or_validation_receipts
+  - silent_mass_authority_change
+  - silent_frame_or_collision_change
+  - upgrade_UNKNOWN_to_PASS_without_independent_evidence
+

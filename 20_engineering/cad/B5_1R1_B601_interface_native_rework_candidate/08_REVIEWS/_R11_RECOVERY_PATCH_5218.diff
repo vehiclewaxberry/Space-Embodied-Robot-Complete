@@ -1,0 +1,101 @@
+diff --git a/20_engineering/cad/B5_1R1_B601_interface_native_rework_candidate/08_REVIEWS/_R11_RECOVERY_WORK.ps1 b/20_engineering/cad/B5_1R1_B601_interface_native_rework_candidate/08_REVIEWS/_R11_RECOVERY_WORK.ps1
+--- a/20_engineering/cad/B5_1R1_B601_interface_native_rework_candidate/08_REVIEWS/_R11_RECOVERY_WORK.ps1
++++ b/20_engineering/cad/B5_1R1_B601_interface_native_rework_candidate/08_REVIEWS/_R11_RECOVERY_WORK.ps1
+@@ -997,2 +997,85 @@
+ 
++    Assert-File $r10FailureReceipt $r10FailureReceiptBytes $r10FailureReceiptSha256 'J01 R10 deferred-hash failure receipt'
++    Assert-File $r10FailureInputLock $r10FailureInputLockBytes $r10FailureInputLockSha256 'J01 R10 deferred-hash failure input lock'
++    Assert-File $r10FailureReadiness $r10FailureReadinessBytes $r10FailureReadinessSha256 'J01 R10 deferred-hash failure readiness'
++    Assert-File $r10FailureProgress $r10FailureProgressBytes $r10FailureProgressSha256 'J01 R10 deferred-hash failure progress'
++    Assert-File $r10PartialJ00Assembly $r10PartialJ00AssemblyBytes $r10PartialJ00AssemblySha256 'J01 R10 partial J00 assembly snapshot'
++    Assert-File $r10PredecessorStaticRelease $r10PredecessorStaticReleaseBytes $r10PredecessorStaticReleaseSha256 'J01 R10 static release predecessor'
++    Assert-File $r10PredecessorCreateActivation $r10PredecessorCreateActivationBytes $r10PredecessorCreateActivationSha256 'J01 R10 Create activation predecessor'
++    Assert-File $r10Source $r10SourceBytes $r10SourceSha256 'J01 R10 source predecessor'
++    Assert-File $r10Runner $r10RunnerBytes $r10RunnerSha256 'J01 R10 runner predecessor'
++    Assert-File $r10Binary $r10BinaryBytes $r10BinarySha256 'J01 R10 binary predecessor'
++    foreach ($path in $r10AbsentOutputs) {
++        if (Test-Path -LiteralPath $path) { throw "J01 R10 unexpectedly produced a completed output: $path" }
++    }
++    $r10Failed = Get-Content -Raw -Encoding UTF8 -LiteralPath $r10FailureReceipt | ConvertFrom-Json
++    if ($r10Failed.schema -ne 'B51R1_S05R2_J01_R10_NATIVE_PILOT_CREATE_V1' -or
++        $r10Failed.status -ne 'S05R2_J01_R10_NATIVE_1R_PILOT_CREATE_FAIL_CLOSED' -or
++        $r10Failed.gate_pass -isnot [bool] -or $r10Failed.gate_pass -ne $false -or
++        [long]$r10Failed.expected_process_id -ne 47036 -or
++        [string]$r10Failed.exception_type -ne 'System.IO.IOException' -or
++        [string]$r10Failed.exception -notmatch 'Sha256' -or
++        [string]$r10Failed.exception -notmatch 'B51R1_CARRIER_J00_ROOT_PILOT_R10\.SLDASM' -or
++        [long]$r10Failed.save_as_call_count -ne 1 -or
++        [long]$r10Failed.create_mate_data_call_count -ne 3 -or
++        [long]$r10Failed.create_mate_call_count -ne 3 -or
++        [long]$r10Failed.mate_preselection_call_count -ne 6 -or
++        [long]$r10Failed.document_count_before_new_assembly -ne 2 -or
++        [long]$r10Failed.document_count_after_new_assembly -ne 3 -or
++        [string]$r10Failed.base_hash_after_failure -ne $baseCarrierSha256 -or
++        [string]$r10Failed.link1_hash_after_failure -ne $link1CarrierSha256 -or
++        @($r10Failed.mate_api_attempts).Count -ne 3 -or
++        @($r10Failed.mate_preselection_attempts).Count -ne 6) {
++        throw 'J01 R10 deferred-hash failure boundary mismatch'
++    }
++    foreach ($field in @('save3_call_count','add_mate5_call_count','transform2_call_count',
++        'set_transform_and_solve_call_count','move_component_call_count')) {
++        if ([long]$r10Failed.$field -ne 0) { throw "J01 R10 failure crossed a prohibited action boundary at $field" }
++    }
++    foreach ($attempt in @($r10Failed.mate_api_attempts)) {
++        if ($attempt.mate_data_returned -ne $true -or $attempt.feature_returned -ne $true -or
++            [long]$attempt.create_mate_error_status -ne 1 -or
++            $attempt.definition_semantic_pair_match -ne $true) {
++            throw 'J01 R10 successful J00 semantic readback closure is invalid'
++        }
++    }
++    $r10Lock = Get-Content -Raw -Encoding UTF8 -LiteralPath $r10FailureInputLock | ConvertFrom-Json
++    $r10Ready = Get-Content -Raw -Encoding UTF8 -LiteralPath $r10FailureReadiness | ConvertFrom-Json
++    if ($r10Lock.schema -ne 'B51R1_S05R2_J01_R10_CREATE_INPUT_LOCK_V1' -or
++        $r10Lock.status -ne 'PASS_S05R2_J01_R10_CREATE_INPUTS_HASH_LOCKED' -or $r10Lock.mode -ne 'Create' -or
++        [long]$r10Lock.runtime_boundary.solidworks_process_id -ne 47036 -or
++        [long]$r10Lock.runtime_boundary.prelaunch_sldworks_process_count -ne 0 -or
++        [long]$r10Lock.runtime_boundary.persistent_use_software_ogl_before -ne 0 -or
++        [long]$r10Lock.runtime_boundary.persistent_use_software_ogl_after_launch -ne 0 -or
++        @($r10Lock.recovery_prerequisites).Count -ne 10 -or
++        $r10Lock.transaction.formal_s05_output_allowed -ne $false -or
++        $r10Lock.transaction.t005_authorized -ne $false) {
++        throw 'J01 R10 failure input-lock boundary mismatch'
++    }
++    if ($r10Ready.schema -ne 'B51R1_SR03_EXISTING_SOLIDWORKS_PROBE_V1' -or
++        $r10Ready.status -ne 'PASS_EXISTING_SINGLE_VISIBLE_RESPONSIVE_DOCUMENT_EMPTY_SESSION' -or
++        [long]$r10Ready.expected_process_id -ne 47036 -or [long]$r10Ready.observed_process_id -ne 47036 -or
++        $r10Ready.visible -ne $true -or $r10Ready.startup_process_completed -ne $true -or
++        [long]$r10Ready.document_count -ne 0 -or $r10Ready.active_document_present -ne $false) {
++        throw 'J01 R10 failure readiness receipt mismatch'
++    }
++    $r10ProgressLines = @((Get-Content -Raw -Encoding UTF8 -LiteralPath $r10FailureProgress).TrimEnd() -split '\r?\n')
++    if ($r10ProgressLines.Count -ne 2 -or
++        $r10ProgressLines[0] -notmatch '^J01_R10_CREATE_START ' -or
++        $r10ProgressLines[1] -notmatch '^J01_R10_CREATE_FAIL The process cannot access the file ') {
++        throw 'J01 R10 deferred-hash progress does not prove the locked-file failure'
++    }
++    $r10Release = Get-Content -Raw -Encoding UTF8 -LiteralPath $r10PredecessorStaticRelease | ConvertFrom-Json
++    $r10ActivationState = Get-Content -Raw -Encoding UTF8 -LiteralPath $r10PredecessorCreateActivation | ConvertFrom-Json
++    if ($r10Release.schema -ne 'B51R1_S05R2_J01_R10_NATIVE_PILOT_TOOL_STATIC_RELEASE_V1' -or
++        $r10Release.status -ne 'STATIC_RELEASE_PASS' -or $r10Release.gate_pass -ne $true -or
++        $r10Release.runtime_executed -ne $false -or [long]$r10Release.recovery_prerequisite_count -ne 10 -or
++        $r10Release.create_activation_authorized -ne $true -or
++        $r10Release.cold_verify_activation_authorized -ne $false -or
++        $r10ActivationState.activation_mode -ne 'CREATE_ONLY' -or
++        $r10ActivationState.create_authorized -ne $true -or $r10ActivationState.cold_verify_authorized -ne $false -or
++        $r10ActivationState.formal_s05_authorized -ne $false -or $r10ActivationState.t005_authorized -ne $false) {
++        throw 'J01 R10 predecessor static release/Create activation contract mismatch'
++    }
++
+     return @(
+@@ -1053,2 +1136,11 @@
+             recovery_action='COMPARE_GETDEFINITION_TO_FROZEN_ASSEMBLY_CONTEXT_SELECTION_LEDGER'
++        },
++        [ordered]@{
++            id='J01_R10_DEFERRED_ASSEMBLY_HASH_FAIL_CLOSED';path=$r10FailureReceipt
++            bytes=$r10FailureReceiptBytes;sha256=$r10FailureReceiptSha256;status=[string]$r10Failed.status
++            exception_type=[string]$r10Failed.exception_type;failed_boundary='POST_SAVEAS_SHA256_WHILE_DOCUMENT_LOCKED'
++            j00_mates_created=3;save_as_call_count=1;mechanical_outputs_partial=$true
++            partial_j00_snapshot=[ordered]@{path=$r10PartialJ00Assembly;bytes=$r10PartialJ00AssemblyBytes;sha256=$r10PartialJ00AssemblySha256}
++            mr2_hashes_stable=$true;formal_s05_output_allowed=$false;t005_authorized=$false
++            recovery_action='DEFER_ASSEMBLY_HASH_AND_CHECKPOINT_PERSISTENCE_UNTIL_NORMAL_APPLICATION_EXIT'
+         }

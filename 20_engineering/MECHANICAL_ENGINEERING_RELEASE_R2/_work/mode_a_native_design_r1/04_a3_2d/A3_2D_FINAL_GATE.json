@@ -1,0 +1,151 @@
+{
+ "schema": "A3_2D_FINAL_GATE_V1",
+ "gate": "A3_2D_HOLD_FULL_SYSTEM_EXCEEDS_NOMINAL_12U",
+ "trigger": "A3_4_REQUIRES_A3_2D_REOPTIMIZATION",
+ "objective_change": "base_link and the distal system are now inside the objective, unlike A3.2c",
+ "profile": "CDS_12U_REFERENCE",
+ "box_mm": [
+  366.0,
+  226.3,
+  226.3
+ ],
+ "protrusion_hard_mm": 6.5,
+ "headline": "the complete stowed B601 system (base_link + links1-6 + gripper_link + 2 fingers) does not fit the nominal 12U envelope under any of the 16 optimised cases; the minimax protrusion is +7.99 mm/face at 0 deg hard-limit margin and +8.67 mm/face at 2 deg, both above the 6.5 mm CDS allowance",
+ "cases_inside_box": "0 / 16",
+ "best_overall": {
+  "margin_deg": 0.0,
+  "mode": "FIT_FULL",
+  "sorted_LWH_mm": [
+   381.9834955138152,
+   242.28351328144754,
+   242.28350834341722
+  ],
+  "protrusion_mm": 7.991756640723764
+ },
+ "best_with_2deg_margin": {
+  "margin_deg": 2.0,
+  "mode": "FIT_FULL",
+  "sorted_LWH_mm": [
+   383.27011834324156,
+   243.57015406989748,
+   243.5701010401306
+  ],
+  "protrusion_mm": 8.635077034948736
+ },
+ "decolocation_hypothesis": {
+  "hypothesis": "de-colocating ROOT_BASE_BAY and DISTAL_STOW_BAY along X would recover the fit",
+  "verdict": "REFUTED",
+  "evidence": "the explicit de-colocation penalty changed nothing: root/distal axial overlap stayed at 77.1-82.8 mm in all 16 cases, with and without the penalty. The overlap is structural: links2+3 are 264.0 and 248.5 mm, so the chain must fold back over its own root inside a 366 mm envelope."
+ },
+ "subset_diagnostic": [
+  {
+   "link_set": "BASE+LINKS16 (no gripper)",
+   "margin_deg": 0.0,
+   "sorted_LWH_mm": [
+    359.1937295641353,
+    222.70018038653456,
+    200.00000298023224
+   ],
+   "protrusion_mm": -1.7999098067327282,
+   "inside": true
+  },
+  {
+   "link_set": "BASE+LINKS16 (no gripper)",
+   "margin_deg": 2.0,
+   "sorted_LWH_mm": [
+    364.2559088684649,
+    231.91364751593267,
+    200.00000298023224
+   ],
+   "protrusion_mm": 2.8068237579663275,
+   "inside": false
+  },
+  {
+   "link_set": "LINKS16+GRIPPER (no base)",
+   "margin_deg": 0.0,
+   "sorted_LWH_mm": [
+    360.0000586812539,
+    220.30249572937532,
+    220.30247915424695
+   ],
+   "protrusion_mm": -2.998752135312344,
+   "inside": true
+  },
+  {
+   "link_set": "LINKS16+GRIPPER (no base)",
+   "margin_deg": 2.0,
+   "sorted_LWH_mm": [
+    361.87120132627143,
+    222.17118333780886,
+    221.71221696332384
+   ],
+   "protrusion_mm": -2.064399336864284,
+   "inside": true
+  },
+  {
+   "link_set": "LINKS16+gripper_link only",
+   "margin_deg": 0.0,
+   "sorted_LWH_mm": [
+    352.6933096086183,
+    212.99328462126692,
+    199.27560921630138
+   ],
+   "protrusion_mm": -6.653345195690861,
+   "inside": true
+  },
+  {
+   "link_set": "LINKS16+gripper_link only",
+   "margin_deg": 2.0,
+   "sorted_LWH_mm": [
+    360.65580013692505,
+    220.95541227202196,
+    154.28467485764386
+   ],
+   "protrusion_mm": -2.672099931537474,
+   "inside": true
+  },
+  {
+   "link_set": "FULL (reference)",
+   "margin_deg": 0.0,
+   "sorted_LWH_mm": [
+    381.9834955138152,
+    242.28351328144754,
+    242.28350834341722
+   ],
+   "protrusion_mm": 7.991756640723764,
+   "inside": false
+  },
+  {
+   "link_set": "FULL (reference)",
+   "margin_deg": 2.0,
+   "sorted_LWH_mm": [
+    383.34793387117395,
+    243.64800622414973,
+    243.64800229642157
+   ],
+   "protrusion_mm": 8.674003112074857,
+   "inside": false
+  }
+ ],
+ "subset_finding": "neither the base nor the gripper breaks the fit on its own. BASE+LINKS16 fits at 0 deg (-1.80) and misses at 2 deg (+2.81). LINKS16+GRIPPER fits at both (-3.00 / -2.06). Only the combination fails (+7.99 / +8.67). They compete for the same volume around the folded root.",
+ "corridor_cost": "the links1-6 corridor thickness rises from 80.3 mm (A3.2c, links1-6 only) to 90.8-113.9 mm once base and gripper are in the objective",
+ "what_would_be_needed": "about 16 mm must come out of each of the three global dimensions (382.0 -> 366.0 and 242.3 -> 226.3)",
+ "options_not_evaluated_here": [
+  "separately stowed or detachable gripper: LINKS16+GRIPPER already fits at 2 deg, and BASE+LINKS16 nearly fits, so removing the gripper from the stowed arm bundle is the smallest geometric change - but it is NEW_MECHANISM_REQUIRED and OUT_OF_SCOPE for the current baseline",
+  "a deployer whose lateral allowance exceeds 8 mm: no such ICD exists in the repository",
+  "Mode B (12U-class free flyer without deployer constraint)",
+  "a different arm"
+ ],
+ "unchanged": {
+  "a3_3_gate": "A3_3_PASS_GENERIC_CDS_GEOMETRY (links1-6 only, unchanged)",
+  "accepted_urdf": "unmodified",
+  "joint_limits": "unmodified",
+  "link_geometry": "unmodified"
+ },
+ "SELF_COLLISION": "NOT_VALIDATED_NO_NARROW_PHASE_BACKEND",
+ "DEPLOYER_SPECIFIC_ICD": "MISSING",
+ "LAUNCH_AND_DEPLOYER_COMPLIANCE": "HOLD",
+ "SOLIDWORKS_NATIVE_VALIDATION": "NOT_EXECUTED_RESOURCE_GATED",
+ "C1B_STATUS": "C1B_GEOMETRY_OR_INTEGRATION_HOLD",
+ "owner_decision_required": true
+}

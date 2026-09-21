@@ -1,0 +1,113 @@
+# V2.2 物理架构机器构建规格（Gate 0=366.0 显示轨；全站位由 ripple 清单派生）
+# 治理：包络/翼双轨分离；V2.0/V2.1 封存；B601 只读继承（插入位移 +12.75）；
+#       H1-H9 继承；ICD 待签参数以 DISPLAY_PROPOSAL 包络表达并逐件标注。
+spec_id: B5_V22_BUILD_SPEC_V1
+gate: COMP-PROT-03-A4-B5-V2_2-PHYSICAL-ARCHITECTURE
+ruling: ../../design_inputs/v2_2_physical_architecture/gate_0_ruling_record.yaml
+
+params:
+  BUS_X_TOTAL: 366.0
+  HALF_X: 183.0
+  TASK_FACE_X: 183.0
+  REAR_FACE_X: -183.0
+  MID1_X: 61.0
+  MID2_X: -61.0
+  M_X: 198.0
+  B601_OFFSET_X: 12.75
+  HB: 113.15          # Y/Z 半宽不变
+  HIN: 98.15
+  LONG_C: 105.65
+  PANEL_SPAN_X: [-171.0, 171.0]
+  SPLIT_X: 61.0
+
+structure:          # 10_Primary_Structure
+  frames:
+    FRM_FRONT: { x: [171.0, 183.0], radial_out: 113.15 }
+    FRM_MID1:  { x: [55.0, 67.0],  radial_out: 110.15 }   # 侧板下内缩（D-V2-04 规则沿用）
+    FRM_MID2:  { x: [-67.0, -55.0], radial_out: 110.15 }
+    FRM_REAR:  { x: [-183.0, -171.0], radial_out: 113.15 }
+  longerons_x: [-183.0, 183.0]
+  decks:
+    DECK_MID2: { xc: -61.0, t: 8.0 }
+    DECK_MID1: { xc: 61.0,  t: 8.0 }
+  deck_passages:     # C1 实体开口（真实穿舱孔，doubler-intent 已登记）
+    - { deck: DECK_MID2, yc: 0.0, zc: -60.0, d: 30.0 }
+    - { deck: DECK_MID1, yc: 0.0, zc: -60.0, d: 30.0 }
+  gussets: { x: [171.0, 183.0], cells: [[90.575, 90.575], [90.575, -90.575],
+                                        [-90.575, 90.575], [-90.575, -90.575]], half: 7.575 }
+  node_pads:         # MID2 + REAR（C2/C4）
+    - { id: PAD_MID2_PY_ZP, x: [-67.0, -55.0], y: [110.15, 113.15], z: [45.0, 75.0] }
+    - { id: PAD_MID2_PY_ZN, x: [-67.0, -55.0], y: [110.15, 113.15], z: [-75.0, -45.0] }
+    - { id: PAD_MID2_NY_ZP, x: [-67.0, -55.0], y: [-113.15, -110.15], z: [45.0, 75.0] }
+    - { id: PAD_MID2_NY_ZN, x: [-67.0, -55.0], y: [-113.15, -110.15], z: [-75.0, -45.0] }
+    - { id: PAD_REAR_PY,    x: [-183.0, -171.0], y: [110.15, 113.15], z: [-15.0, 15.0] }
+    - { id: PAD_REAR_NY,    x: [-183.0, -171.0], y: [-113.15, -110.15], z: [-15.0, 15.0] }
+  panels:
+    PNL_TOP:    { face: +Z, x: [-171.0, 171.0] }
+    PNL_BOTTOM: { face: -Z, x: [-171.0, 171.0] }
+    PNL_LEFT_FWD:  { face: +Y, x: [61.0, 171.0] }
+    PNL_LEFT_AFT:  { face: +Y, x: [-171.0, 61.0] }
+    PNL_RIGHT_FWD: { face: -Y, x: [61.0, 171.0] }
+    PNL_RIGHT_AFT: { face: -Y, x: [-171.0, 61.0] }
+
+b601_interface:     # 20_B601_Interface（ICD 待签参数=DISPLAY_PROPOSAL 包络）
+  BASE_ADAPTER_RING: { x: [183.0, 198.0], od: 180.0, id_ref: 100.0, note: 圆筒过渡座含螺栓圆参考 }
+  LOAD_SPREADER:     { x: [171.0, 183.0], sq: 160.0 }
+  BOSS:              { x: [156.0, 171.0], d: 100.0 }
+  ARM_CRADLE_MAIN:   { x: [40.0, 90.0], y: [-30.0, 30.0], z: [88.0, 110.15], note: 大臂收拢支承(顶面下) }
+  ARM_CRADLE_TIP:    { x: [-150.0, -110.0], y: [-30.0, 30.0], z: [88.0, 110.15], note: 小臂末端限位座 }
+  LAUNCH_RETENTION_REF: zero_solid   # 锁紧/释放=ICD 待签
+  HARNESS_PASSTHROUGH: { at: FRM_FRONT, yc: 55.0, zc: 0.0, d: 30.0, note: C1 真实穿舱孔 }
+
+end_effector:       # 40_End_Effector_Module（候选设计；A0 链外挂显示，锚 M+臂长外推区）
+  stack_x0: 480.0   # 显示锚（B601 q0 末端外推显示位，非运动学）
+  WRIST:      { d: 60.0, len: 25.0 }
+  FT_SENSOR:  { d: 70.0, len: 30.0 }
+  CAM_RING:   { d: 80.0, len: 20.0 }
+  COMPLIANT:  { d: 55.0, len: 25.0 }
+  FINGERS:    { n: 3, w: 14.0, t: 10.0, len: 60.0, root_r: 32.0 }
+
+solar:              # 50/51（机构轨；实体机构件=DISPLAY_PROPOSAL 包络，参数仍 ICD 待签）
+  wing_deployed: { x: [-174.5, 52.5], y_abs: [113.15, 313.15], z: [-3.0, 3.0] }
+  wing_stowed:   { x: [-174.5, 52.5], y_abs: [113.15, 119.15], z: [-200.0, 0.0] }
+  wing_frame_border: 6.0     # 翼板外周边框宽（凸起 1.5）
+  cell_zone_inset: 10.0      # 电池区浅槽分区
+  ROOT_BRACKET: { base: { x: [-79.0, -43.0], y_out: 8.0, z: [-40.0, 40.0] },
+                  ears: [{ x: [-75.0, -65.0] }, { x: [-57.0, -47.0] }],
+                  ear_h: 30.0, ear_t: 10.0, note: U形双耳沿X拉开(抗扭) }
+  HINGE: { pin_d: 8.0, pin_len: 24.0, ear_sq: 20.0, spring_d: 16.0, spring_len: 18.0 }
+  HDRM: { base_sq: 24.0, base_t: 8.0, rod_d: 10.0, rod_len: 20.0,
+          stations_x: [-160.0, 40.0], note: 每侧两点(翼根侧+外侧)沿X错位(C5方向) }
+  HARD_STOP: { sq: 14.0, t: 8.0 }
+  HARNESS_LOOP_REF: zero_solid
+
+gnc_vision:         # 60（相机包络+FOV 锥线框；型号/FOV 数值=UNKNOWN）
+  NAV_CAM:   { at: [175.0, 60.0, 105.0], body: [40.0, 40.0, 60.0], axis: +X,
+               fov_cone: { len: 220.0, half_deg_display: 25.0 } }
+  RANGE_SENSOR: { at: [175.0, -60.0, 105.0], body: [35.0, 35.0, 50.0], axis: +X }
+  STAR_TRACKER: { at: [-100.0, 0.0, 105.0], body: [45.0, 45.0, 70.0], axis: +Z,
+                  fov_cone: { len: 150.0, half_deg_display: 12.0 } }
+  note: fov_cone 为线框显示提案，非标定值；boresight=UNKNOWN 登记不变
+
+propulsion:         # 70（包络级；类型/推力=未签发）
+  corner_modules:   # 4 角部模块（后端）
+    x: [-183.0, -143.0]
+    corners: [[95.0, 95.0], [95.0, -95.0], [-95.0, 95.0], [-95.0, -95.0]]
+    body_half: 16.0
+    nozzles_per: 2   # ±X 向与侧向锥形喷管
+  MAIN_THRUSTER: { at_x: -183.0, d: 40.0, len: 30.0, yc: 0.0, zc: -60.0 }
+  TANK: { xc: -117.0, d: 120.0, len: 80.0 }
+  VALVE_PLATE: { x: [-155.0, -147.0], sq: 80.0, zc: 60.0 }
+  plume_cones: wireframe_keepout   # 99 域
+
+comm:               # 80
+  SBAND_PATCH: { at: [-183.0, 40.0, -40.0], sq: 60.0, t: 6.0, face: -X }
+  GNSS_PATCH:  { at: [100.0, 0.0, 113.15], sq: 40.0, t: 6.0, face: +Z }
+
+thermal:            # 90
+  RADIATOR_Z: { face: +Z, x: [-60.0, 60.0], half_w: 80.0, t: 2.0, note: 主散热板(+Z) }
+  MLI_ZONES: named_reference_only
+
+states8: [STOWED, DEPLOYED_NOMINAL, DEPLOY_FAILED_BOTH, L_FAIL, R_FAIL, PARTIAL,
+          SERVICE, CAPTURE_SAFE]
+capture_safe_semantic: 设计提案态=DEPLOYED 几何 + 注记（扫掠/FOV/喷流验证未完成前不升级声明）

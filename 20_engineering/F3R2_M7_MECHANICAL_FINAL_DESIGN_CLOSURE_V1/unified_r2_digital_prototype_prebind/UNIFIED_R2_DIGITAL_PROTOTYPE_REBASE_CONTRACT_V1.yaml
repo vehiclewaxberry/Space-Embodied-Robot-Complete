@@ -1,0 +1,809 @@
+schema: UNIFIED_R2_DIGITAL_PROTOTYPE_REBASE_CONTRACT_V1
+generated_date_local: '2026-08-24'
+status: PREBIND_DOCUMENT_SET_COMPLETE__ENGINEERING_SPECIFICATION_INCOMPLETE__EXECUTION_HOLD
+artifact_class: DOCUMENTATION_ONLY__NOT_CAD_NOT_URDF_NOT_RELEASE
+purpose: freeze a one-shot future Unified R2 CAD/URDF/configuration/consumer reissue contract without altering current evidence
+  or authority
+predecessor_state:
+  m4_scoped_release: PASS_SCOPED_M4_DIGITAL_PROTOTYPE_AND_SIM14_DIAGNOSTIC_WITH_MANDATORY_PHYSICAL_HOLDS
+  m4_digital_prototype_token_issued: true
+  m4_must_not_be_rebuilt: true
+  m7_r1_assembly_verdict: PASS_DESIGN_FREEZE_ASSEMBLY_BUILD_WITH_EXPLICIT_HOLDS
+  solar_r2_class: ENGINEERING_CANDIDATE - not flight-qualified
+  solar_r2_is_separate_from_m7_r1_assembly: true
+future_baseline:
+  baseline_id: DESIGN_FREEZE_ASSEMBLY_R2_V1
+  reissue_policy: NEW_VERSIONED_UNIFIED_BASELINE__NO_MUTATION_OF_R1_OR_M4_HISTORY
+  geometry_authority_order:
+  - authorized parameter/source ledger
+  - native parametric model
+  - neutral STEP
+  - visual and simplified collision meshes
+  - generated system URDF/Xacro
+  - consumer interface and runtime gate
+component_rebase_matrix:
+- component: 12U bus
+  inherit: M7 R1 DISPLAY_AND_ENVELOPE_PROXY_ONLY__NOT_PHYSICAL_STRUCTURE_AUTHORITY
+  future_action: select/freeze a physical structure source, reconcile 340.5 versus 366.0 mm length, and model required internal
+    structure/openings before release
+- component: spacecraft load bridge
+  inherit: M7 candidate and frozen datums
+  future_action: resolve physical membership and load-path continuity before release
+- component: M3R
+  inherit: M3R Stage-A/Stage-B working BRep and interface datums
+  future_action: hash-bind and revalidate alignment; do not remodel from prose
+- component: B601
+  inherit: accepted URDF kinematic/inertial chain
+  future_action: replace frame/axis witness in unified CAD with valid physical link and simplified collision geometry
+- component: gripper
+  inherit: R1 palm, accepted URDF finger chain, and active V2 unit-semantics pack
+  future_action: reconcile fingers/contact/collision and close physical actuator speed/timing; never consume the 15 m/s model
+    literal as hardware capability
+- component: solar arrays
+  inherit: separate Solar R2 candidate geometry only; legacy R1 F_L/F_R transforms excluded
+  future_action: freeze new R2 left/right root frames before replacing R1 proxies; preserve candidate/qualification holds
+- component: Route-C harness/HDRM
+  inherit: no physical CAD authority
+  future_action: generate only after P01-P13, Checkpoint-B 8/8 and separate CAD authorization
+- component: targets
+  inherit: independent scenario assets
+  future_action: bind only after target identity/contact surface and T_S_target are frozen
+frame_contract:
+  canonical_root: S
+  matrix_convention: homogeneous_transform_child_coordinates_into_parent_coordinates
+  rotation_convention: columns_are_child_axes_expressed_in_parent
+  exact_alias: spacecraft_assembly_frame == S
+  forbidden_alias: M_DYNAMICS != B601_ARM_BASE_PHYSICAL
+  unknown_transform_policy: null_transform_and_action_mask
+  witness_policy: B601 q0 frame/axis witness is never physical collision geometry
+  unit_boundary: CAD mm; dynamics m; convert exactly once
+solar_r2_root_frame_reconciliation:
+  status: HOLD_PANEL_ROOT_TO_HINGE_AXIS_REGISTRATION_NOT_ESTABLISHED
+  legacy_r1_frames:
+    F_L_origin_S_mm:
+    - -56.75
+    - 113.15
+    - 0.0
+    F_R_origin_S_mm:
+    - -56.75
+    - -113.15
+    - 0.0
+    classification: LEGACY_R1_ONLY__FORBIDDEN_AS_SOLAR_R2_ROOT_TRANSFORM
+  solar_r2_candidate_hinge_line:
+    left_origin_partial_S_mm:
+    - null
+    - 115.4
+    - -108.15
+    right_origin_partial_S_mm:
+    - null
+    - -115.4
+    - -108.15
+    axis: X_S
+    x_coordinate_status: DERIVE_AND_FREEZE_FROM_AUTHORIZED_R2_GEOMETRY__NOT_INFER_FROM_R1_F_L_F_R
+  forbidden_operations:
+  - alias R2 root frames to M4 F_L/F_R
+  - copy the R1 F_L/F_R origins into the R2 assembly
+  - average R1 and R2 hinge positions
+  - claim deployed/stowed collision or mass properties before T_S_R2_ROOT_L/R are frozen
+  exit_condition: issue versioned T_S_R2_ROOT_L and T_S_R2_ROOT_R from an authorized geometry source, then independently verify
+    hinge-axis and panel-root registration
+bus_12u_geometry_authority:
+  status: HOLD_12U_PHYSICAL_STRUCTURE_AUTHORITY_AND_LENGTH_RECONCILIATION
+  current_geometry_class: DISPLAY_AND_ENVELOPE_PROXY_ONLY
+  source_solids: 6
+  composition_note: 'single compound of 6 analytic primitives: front_task_bay, mid_bus_bay, rear_bay (each 113.5 x 226.3 x
+    226.3 mm), legacy flange (15 x 140 x 140 mm at x 170.25..185.25), nozzle placeholder, antenna placeholder. It is a solid
+    envelope proxy: no internal structure, no bays, no harness voids, no access cut-outs.'
+  holds: &id001
+  - 12U_DIMENSION_VERIFICATION_HOLD
+  - INTERNAL_STRUCTURE_NOT_MODELLED
+  - LEGACY_FLANGE_OWNERSHIP_HOLD_TAGGED_REFERENCE_ODR01
+  - HOLD_NEUTRAL_PROXY_BUS_LENGTH_340P5_VS_NATIVE_V2_2_366P0_MM_UNRECONCILED
+  model_to_model_delta:
+    neutral_proxy_x_extent_mm:
+    - -170.25
+    - 170.25
+    native_V2_2_primary_structure_x_extent_mm:
+    - -183.0
+    - 183.0
+    native_V2_2_primary_structure_aabb_mm:
+    - -183.0
+    - -110.150002
+    - -110.150002
+    - 183.0
+    - 110.150002
+    - 110.150002
+    consequence: the two models agree on the y/z outer surface (+/-113.15 mm) and on the arm mount stations (198.0 / 208.0
+      mm) but not on bus length; any x coordinate near the front face must state which model it came from
+  consumption_rule: may support coarse display/envelope diagnostics only; must not be labelled physical primary structure,
+    internal layout, load path, access geometry, or manufacturing definition
+configuration_contract:
+- configuration_id: C01
+  name: DEPLOYED_NOMINAL
+  m4_release_state:
+    mass: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    center_of_mass: HOLD_ARM_PANEL_M3R_TRANSFORMS_AND_COMPONENT_COM
+    inertia: HOLD_ARM_PANEL_M3R_TRANSFORMS_AND_COMPONENT_INERTIA
+    bounding_box: HOLD_NAMED_ARM_CONFIGURATION_AND_WHOLE_ASSEMBLY_RECOMPUTATION
+    collision: HOLD_NOT_EVALUATED_IN_THIS_CONFIGURATION
+    overall: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+  m7_r2_design_model_candidate:
+    mass_kg: 31.022864807342987
+    mass_standard_uncertainty_kg: 4.594921657121637
+    center_of_mass_S_m:
+    - 0.06576423716045363
+    - -0.02658929854697676
+    - -0.01767739642752865
+    center_of_mass_standard_uncertainty_m:
+    - 0.015051690219802696
+    - 0.015051690219802696
+    - 0.015051690219802696
+    inertia_about_system_cg_S_kg_m2:
+      Ixx: 0.7321469577701156
+      Iyy: 1.0806232960449866
+      Izz: 1.472191574502519
+      Ixy: 0.26239087175248343
+      Ixz: 0.1172269606116568
+      Iyz: -0.10274858169516832
+    inertia_standard_uncertainty_components_kg_m2:
+      Ixx: 0.09573667837547098
+      Iyy: 0.11958085436805588
+      Izz: 0.11993765455937687
+      Ixy: 0.11045931205809564
+      Ixz: 0.11045931205809564
+      Iyz: 0.11046229227700201
+    authority: DESIGN_MODEL_R2
+  m7_to_m4_binding_field:
+    m4_configuration_library_name: ''
+    status: HOLD_EMPTY_SOURCE_BINDING_FIELD__IDENTITY_MATCHED_BY_ID_AND_NAME_FOR_PREBIND_ONLY
+  binding_state: PREBIND_ONLY__NOT_M4_RELEASED__NOT_SIM13_PRODUCTION_BOUND
+  required_reissue_action: recompute from the authorized unified R2 assembly, preserve uncertainty and frame S, then bind
+    through a versioned consumer interface
+- configuration_id: C02
+  name: LEFT_PANEL_FAIL
+  m4_release_state:
+    mass: HOLD_FAILURE_SEMANTICS_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    center_of_mass: HOLD_LEFT_FAILURE_TRANSFORM_ARM_M3R_AND_COMPONENT_COM
+    inertia: HOLD_LEFT_FAILURE_TRANSFORM_ARM_M3R_AND_COMPONENT_INERTIA
+    bounding_box: HOLD_LEFT_PANEL_FAILURE_GEOMETRY_AND_ARM_CONFIGURATION
+    collision: HOLD_NOT_EVALUATED_IN_FAILURE_CONFIGURATION
+    overall: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+  m7_r2_design_model_candidate:
+    mass_kg: 31.022864807342987
+    mass_standard_uncertainty_kg: 4.594921657121637
+    center_of_mass_S_m:
+    - 0.06576423716045363
+    - -0.03233925108513752
+    - -0.015691119519104162
+    center_of_mass_standard_uncertainty_m:
+    - 0.015051690219802696
+    - 0.015051690219802696
+    - 0.015051690219802696
+    inertia_about_system_cg_S_kg_m2:
+      Ixx: 0.6067929410252277
+      Iyy: 1.0777426767476184
+      Izz: 1.349718177054999
+      Ixy: 0.2506598471120182
+      Ixz: 0.12127935290548394
+      Iyz: -0.12885477736804934
+    inertia_standard_uncertainty_components_kg_m2:
+      Ixx: 0.09405170844869273
+      Iyy: 0.11847882459839368
+      Izz: 0.11854571461950834
+      Ixy: 0.10925685341248491
+      Ixz: 0.10925685341248491
+      Iyz: 0.10925836011704959
+    authority: DESIGN_MODEL_R2
+  m7_to_m4_binding_field:
+    m4_configuration_library_name: ''
+    status: HOLD_EMPTY_SOURCE_BINDING_FIELD__IDENTITY_MATCHED_BY_ID_AND_NAME_FOR_PREBIND_ONLY
+  binding_state: PREBIND_ONLY__NOT_M4_RELEASED__NOT_SIM13_PRODUCTION_BOUND
+  required_reissue_action: recompute from the authorized unified R2 assembly, preserve uncertainty and frame S, then bind
+    through a versioned consumer interface
+- configuration_id: C03
+  name: RIGHT_PANEL_FAIL
+  m4_release_state:
+    mass: HOLD_FAILURE_SEMANTICS_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    center_of_mass: HOLD_RIGHT_FAILURE_TRANSFORM_ARM_M3R_AND_COMPONENT_COM
+    inertia: HOLD_RIGHT_FAILURE_TRANSFORM_ARM_M3R_AND_COMPONENT_INERTIA
+    bounding_box: HOLD_RIGHT_PANEL_FAILURE_GEOMETRY_AND_ARM_CONFIGURATION
+    collision: HOLD_NOT_EVALUATED_IN_FAILURE_CONFIGURATION
+    overall: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+  m7_r2_design_model_candidate:
+    mass_kg: 31.022864807342987
+    mass_standard_uncertainty_kg: 4.594921657121637
+    center_of_mass_S_m:
+    - 0.06576423716045363
+    - -0.020839346008815998
+    - -0.015691119519104162
+    center_of_mass_standard_uncertainty_m:
+    - 0.015051690219802696
+    - 0.015051690219802696
+    - 0.015051690219802696
+    inertia_about_system_cg_S_kg_m2:
+      Ixx: 0.6257649373499924
+      Iyy: 1.0777426767476184
+      Izz: 1.368690173379764
+      Ixy: 0.2741218963929485
+      Ixz: 0.12127935290548396
+      Iyz: -0.07991925117521669
+    inertia_standard_uncertainty_components_kg_m2:
+      Ixx: 0.09166711139770274
+      Iyy: 0.11659488551432212
+      Izz: 0.11666285571907993
+      Ixy: 0.10721098575928756
+      Ixz: 0.10721098575928756
+      Iyz: 0.10721252121533117
+    authority: DESIGN_MODEL_R2
+  m7_to_m4_binding_field:
+    m4_configuration_library_name: ''
+    status: HOLD_EMPTY_SOURCE_BINDING_FIELD__IDENTITY_MATCHED_BY_ID_AND_NAME_FOR_PREBIND_ONLY
+  binding_state: PREBIND_ONLY__NOT_M4_RELEASED__NOT_SIM13_PRODUCTION_BOUND
+  required_reissue_action: recompute from the authorized unified R2 assembly, preserve uncertainty and frame S, then bind
+    through a versioned consumer interface
+- configuration_id: C04
+  name: BOTH_PANEL_FAIL
+  m4_release_state:
+    mass: HOLD_FAILURE_SEMANTICS_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    center_of_mass: HOLD_BOTH_FAILURE_TRANSFORMS_ARM_M3R_AND_COMPONENT_COM
+    inertia: HOLD_BOTH_FAILURE_TRANSFORMS_ARM_M3R_AND_COMPONENT_INERTIA
+    bounding_box: HOLD_BOTH_PANEL_FAILURE_GEOMETRY_AND_ARM_CONFIGURATION
+    collision: HOLD_NOT_EVALUATED_IN_FAILURE_CONFIGURATION
+    overall: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+  m7_r2_design_model_candidate:
+    mass_kg: 31.022864807342987
+    mass_standard_uncertainty_kg: 4.594921657121637
+    center_of_mass_S_m:
+    - 0.06576423716045363
+    - -0.02658929854697676
+    - -0.013704842610679677
+    center_of_mass_standard_uncertainty_m:
+    - 0.015051690219802696
+    - 0.015051690219802696
+    - 0.015051690219802696
+    inertia_about_system_cg_S_kg_m2:
+      Ixx: 0.5022174849091845
+      Iyy: 1.0746172686840558
+      Izz: 1.2482681290025188
+      Ixy: 0.2623908717524834
+      Ixz: 0.12533174519931106
+      Iyz: -0.10602544684809774
+    inertia_standard_uncertainty_components_kg_m2:
+      Ixx: 0.08977126203401913
+      Iyy: 0.11535955259254772
+      Izz: 0.11512634484516789
+      Ixy: 0.10585746909953861
+      Ixz: 0.10585746909953861
+      Iyz: 0.10585746948211575
+    authority: DESIGN_MODEL_R2
+  m7_to_m4_binding_field:
+    m4_configuration_library_name: ''
+    status: HOLD_EMPTY_SOURCE_BINDING_FIELD__IDENTITY_MATCHED_BY_ID_AND_NAME_FOR_PREBIND_ONLY
+  binding_state: PREBIND_ONLY__NOT_M4_RELEASED__NOT_SIM13_PRODUCTION_BOUND
+  required_reissue_action: recompute from the authorized unified R2 assembly, preserve uncertainty and frame S, then bind
+    through a versioned consumer interface
+- configuration_id: C05
+  name: ARM_STOWED_ONORBIT
+  m4_release_state:
+    mass: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    center_of_mass: HOLD_STOWED_JOINT_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_COM
+    inertia: HOLD_STOWED_JOINT_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_INERTIA
+    bounding_box: HOLD_STOWED_JOINT_VECTOR_AND_PANEL_STATE
+    collision: HOLD_STOWED_ARM_SUPPORT_AND_HDRM_COLLISION_NOT_EVALUATED
+    overall: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+  m7_r2_design_model_candidate:
+    mass_kg: 31.022864807342987
+    mass_standard_uncertainty_kg: 4.594921657121637
+    center_of_mass_S_m:
+    - 0.04359132187924974
+    - 0.004169312978541388
+    - 0.027575496931252677
+    center_of_mass_standard_uncertainty_m:
+    - 0.015051690219802696
+    - 0.015051690219802696
+    - 0.015051690219802696
+    inertia_about_system_cg_S_kg_m2:
+      Ixx: 0.45040492790268294
+      Iyy: 0.9066477988652344
+      Izz: 0.712776230229785
+      Ixy: -0.022407764447515577
+      Ixz: -0.13667233322274056
+      Iyz: -0.030717957109245783
+    inertia_standard_uncertainty_components_kg_m2:
+      Ixx: 0.07135208391008518
+      Iyy: 0.10179209072961011
+      Izz: 0.10138123214985995
+      Ixy: 0.0907862255657512
+      Ixz: 0.0907862255657512
+      Iyz: 0.09078622601183922
+    authority: DESIGN_MODEL_R2
+  m7_to_m4_binding_field:
+    m4_configuration_library_name: ''
+    status: HOLD_EMPTY_SOURCE_BINDING_FIELD__IDENTITY_MATCHED_BY_ID_AND_NAME_FOR_PREBIND_ONLY
+  binding_state: PREBIND_ONLY__NOT_M4_RELEASED__NOT_SIM13_PRODUCTION_BOUND
+  required_reissue_action: recompute from the authorized unified R2 assembly, preserve uncertainty and frame S, then bind
+    through a versioned consumer interface
+- configuration_id: C06
+  name: ARM_TASK_READY
+  m4_release_state:
+    mass: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    center_of_mass: HOLD_TASK_READY_JOINT_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_COM
+    inertia: HOLD_TASK_READY_JOINT_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_INERTIA
+    bounding_box: HOLD_TASK_READY_JOINT_VECTOR_AND_WHOLE_ASSEMBLY_RECOMPUTATION
+    collision: HOLD_NOT_EVALUATED_IN_TASK_READY_CONFIGURATION
+    overall: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+  m7_r2_design_model_candidate:
+    mass_kg: 31.022864807342987
+    mass_standard_uncertainty_kg: 4.594921657121637
+    center_of_mass_S_m:
+    - 0.10083454282846156
+    - 0.006478733342978543
+    - -0.0015632082179230526
+    center_of_mass_standard_uncertainty_m:
+    - 0.015051690219802696
+    - 0.015051690219802696
+    - 0.015051690219802696
+    inertia_about_system_cg_S_kg_m2:
+      Ixx: 0.4871747520492507
+      Iyy: 2.188192980093775
+      Izz: 2.4266721566845666
+      Ixy: -0.12596536117488571
+      Ixz: -0.07317473724210385
+      Iyz: -0.007797031332109003
+    inertia_standard_uncertainty_components_kg_m2:
+      Ixx: 0.12602600819385945
+      Iyy: 0.14532562046738048
+      Izz: 0.14558098581524656
+      Ixy: 0.137709381845139
+      Ixz: 0.137709381845139
+      Iyz: 0.13771177234685625
+    authority: DESIGN_MODEL_R2
+  m7_to_m4_binding_field:
+    m4_configuration_library_name: ''
+    status: HOLD_EMPTY_SOURCE_BINDING_FIELD__IDENTITY_MATCHED_BY_ID_AND_NAME_FOR_PREBIND_ONLY
+  binding_state: PREBIND_ONLY__NOT_M4_RELEASED__NOT_SIM13_PRODUCTION_BOUND
+  required_reissue_action: recompute from the authorized unified R2 assembly, preserve uncertainty and frame S, then bind
+    through a versioned consumer interface
+- configuration_id: C07
+  name: PREGRASP
+  m4_release_state:
+    mass: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    center_of_mass: HOLD_PREGRASP_ARM_GRIPPER_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_COM
+    inertia: HOLD_PREGRASP_ARM_GRIPPER_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_INERTIA
+    bounding_box: HOLD_PREGRASP_POSE_AND_WHOLE_ASSEMBLY_RECOMPUTATION
+    collision: HOLD_TARGET_AND_WHOLE_ASSEMBLY_COLLISION_NOT_EVALUATED
+    overall: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+  m7_r2_design_model_candidate:
+    mass_kg: 31.022864807342987
+    mass_standard_uncertainty_kg: 4.594921657121637
+    center_of_mass_S_m:
+    - 0.09123549790183574
+    - 4.37633035602944e-05
+    - -0.006282656311277057
+    center_of_mass_standard_uncertainty_m:
+    - 0.015051690219802696
+    - 0.015051690219802696
+    - 0.015051690219802696
+    inertia_about_system_cg_S_kg_m2:
+      Ixx: 0.4890598697082972
+      Iyy: 1.8230078766282325
+      Izz: 2.0283280319657617
+      Ixy: -0.0005788023248723302
+      Ixz: 0.043186744750097976
+      Iyz: -2.7303305627283253e-05
+    inertia_standard_uncertainty_components_kg_m2:
+      Ixx: 0.11470220682061172
+      Iyy: 0.13547414628637067
+      Izz: 0.13569946659575094
+      Ixy: 0.12734749186934957
+      Ixz: 0.12734749186934957
+      Iyz: 0.12735007687534436
+    authority: DESIGN_MODEL_R2
+  m7_to_m4_binding_field:
+    m4_configuration_library_name: ''
+    status: HOLD_EMPTY_SOURCE_BINDING_FIELD__IDENTITY_MATCHED_BY_ID_AND_NAME_FOR_PREBIND_ONLY
+  binding_state: PREBIND_ONLY__NOT_M4_RELEASED__NOT_SIM13_PRODUCTION_BOUND
+  required_reissue_action: recompute from the authorized unified R2 assembly, preserve uncertainty and frame S, then bind
+    through a versioned consumer interface
+- configuration_id: C08
+  name: TARGET_CAPTURE_22KG
+  m4_release_state:
+    mass: HOLD_TARGET_IDENTITY_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    center_of_mass: HOLD_CAPTURE_TRANSFORM_ARM_PANEL_M3R_AND_TARGET_COM
+    inertia: HOLD_CAPTURE_TRANSFORM_ARM_PANEL_M3R_AND_TARGET_INERTIA
+    bounding_box: HOLD_CAPTURED_TARGET_GEOMETRY_TRANSFORM_AND_WHOLE_ASSEMBLY_RECOMPUTATION
+    collision: HOLD_EXTERNAL_TARGET_CONTACT_AND_POST_CAPTURE_COLLISION_NOT_EVALUATED
+    overall: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+  m7_r2_design_model_candidate:
+    mass_kg: 53.022864807342984
+    mass_standard_uncertainty_kg: 8.041971464453567
+    center_of_mass_S_m:
+    - 0.5519967022412937
+    - 2.5605237566977073e-05
+    - -0.04508028764686296
+    center_of_mass_standard_uncertainty_m:
+    - 0.022537558015599014
+    - 0.022537558015599014
+    - 0.022537558015599014
+    inertia_about_system_cg_S_kg_m2:
+      Ixx: 0.8332356116353841
+      Iyy: 18.231259203708145
+      Izz: 18.39121966642366
+      Ixy: 4.675613707472159e-05
+      Ixz: 1.3791441098997737
+      Iyz: -7.997741611423179e-05
+    inertia_standard_uncertainty_components_kg_m2:
+      Ixx: 3.4942052288361363
+      Iyy: 3.497798747043331
+      Izz: 3.499207848438193
+      Ixy: 3.4967380575144844
+      Ixz: 3.4967380575144844
+      Iyz: 3.496738151658616
+    authority: DESIGN_MODEL_R2
+  m7_to_m4_binding_field:
+    m4_configuration_library_name: ''
+    status: HOLD_EMPTY_SOURCE_BINDING_FIELD__IDENTITY_MATCHED_BY_ID_AND_NAME_FOR_PREBIND_ONLY
+  binding_state: PREBIND_ONLY__NOT_M4_RELEASED__NOT_SIM13_PRODUCTION_BOUND
+  required_reissue_action: recompute from the authorized unified R2 assembly, preserve uncertainty and frame S, then bind
+    through a versioned consumer interface
+- configuration_id: C09
+  name: TARGET_CAPTURE_150KG
+  m4_release_state:
+    mass: HOLD_TARGET_IDENTITY_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    center_of_mass: HOLD_CAPTURE_TRANSFORM_ARM_PANEL_M3R_AND_TARGET_COM
+    inertia: HOLD_CAPTURE_TRANSFORM_ARM_PANEL_M3R_AND_TARGET_INERTIA
+    bounding_box: HOLD_CAPTURED_TARGET_GEOMETRY_TRANSFORM_AND_WHOLE_ASSEMBLY_RECOMPUTATION
+    collision: HOLD_EXTERNAL_TARGET_CONTACT_AND_POST_CAPTURE_COLLISION_NOT_EVALUATED
+    overall: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+  m7_r2_design_model_candidate:
+    mass_kg: 181.02286480734298
+    mass_standard_uncertainty_kg: 45.23398396156462
+    center_of_mass_S_m:
+    - 1.3494974061814204
+    - 7.499953397150376e-06
+    - -0.929583708535751
+    center_of_mass_standard_uncertainty_m:
+    - 0.04151145153819278
+    - 0.04151145153819278
+    - 0.04151145153819278
+    inertia_about_system_cg_S_kg_m2:
+      Ixx: 107.2108264320823
+      Iyy: 167.8433428368075
+      Izz: 87.89520952823788
+      Ixy: 0.0011294933750624625
+      Ixz: 43.55286755417766
+      Iyz: -0.0012808350281419967
+    inertia_standard_uncertainty_components_kg_m2:
+      Ixx: 33.099651477550445
+      Iyy: 33.10851858935804
+      Izz: 17.70306548679844
+      Ixy: 27.429226267272167
+      Ixz: 27.429226267272167
+      Iyz: 27.42922627927387
+    authority: DESIGN_MODEL_R2
+  m7_to_m4_binding_field:
+    m4_configuration_library_name: ''
+    status: HOLD_EMPTY_SOURCE_BINDING_FIELD__IDENTITY_MATCHED_BY_ID_AND_NAME_FOR_PREBIND_ONLY
+  binding_state: PREBIND_ONLY__NOT_M4_RELEASED__NOT_SIM13_PRODUCTION_BOUND
+  required_reissue_action: recompute from the authorized unified R2 assembly, preserve uncertainty and frame S, then bind
+    through a versioned consumer interface
+future_output_contract:
+  native_cad: DESIGN_FREEZE_ASSEMBLY_R2_V1.FCStd
+  neutral_cad: DESIGN_FREEZE_ASSEMBLY_R2_V1.step
+  visual_meshes: named per component/link STL
+  collision_meshes: named simplified STL with approximation/error record
+  native_glb: native GLB; no STL round-trip masquerade
+  robot_description: generated versioned explicit system URDF; Xacro optional only as an additional source form
+  supporting:
+  - source generator
+  - build report
+  - design ledger
+  - configuration library
+  - validation report
+  - snapshot package
+  - SHA-256 manifest
+  - consumer interface
+validation_contract:
+  geometry:
+  - native and STEP cold reopen
+  - BRep valid/closed/positive-volume
+  - object/solid/name/product-tree agreement
+  - no duplicate or witness collision bodies
+  interfaces:
+  - M3R-load-bridge-B601 alignment
+  - gripper/contact frames
+  - R2 root frames independently reconciled against legacy R1 F_L/F_R
+  - HDRM and finite harness volumes
+  motion_and_collision:
+  - C01-C09 static states
+  - B601 continuous sweep
+  - solar deployment/failure sweep
+  - gripper two-finger sweep
+  - clearance witnesses and fail-closed unknowns
+  mass_properties:
+  - nine configurations
+  - mass/CG/full inertia/uncertainty
+  - S frame and system-CG reference
+  - CAD-URDF-ledger reconciliation
+  visual_review:
+  - isometric
+  - opposite isometric
+  - top
+  - front
+  - local interference and failed-state views
+  consumer:
+  - system URDF validation
+  - mesh resolution
+  - Sim13 loader smoke
+  - stale-hash rejection
+  - FAIL/UNKNOWN negative controls
+  - independent production-binding Gate
+current_authority_inputs:
+  odr_gpt_07:
+    status: PENDING_OWNER_DECISION
+    selected_option: null
+    recommended_option: A_11D_FIVE_REGISTERED_WINDOWS_CANDIDATE
+  odr_gpt_08:
+    status: PENDING_OWNER_DECISION
+    selected_option: null
+    recommended_option: A_FOUR_LANE_PROTOCOL_MATCHED_COMPARATOR
+  route_c_checkpoint_b:
+    outcome: HOLD
+    admission_pass: 2
+    admission_total: 8
+    route_c_cad_authorized: false
+  route_c_registry:
+    entries_total: 13
+    value_non_null: 0
+    status_AVAILABLE: 0
+    status_HOLD: 13
+    entries_with_candidate_source: 3
+    entries_with_candidate_source_ids:
+    - P01
+    - P02
+    - P09
+    entries_without_any_candidate_source: 10
+    fabricated_values: 0
+    null_coercions: 0
+    selections_made: 0
+  bus_12u:
+    geometry_class: DISPLAY_AND_ENVELOPE_PROXY_ONLY
+    solid_count: 6
+    holds: *id001
+  gripper_velocity:
+    urdf_velocity_semantic_value_m_s: 15.0
+    urdf_velocity_source_classification: UNVALIDATED_AUTO_EXPORTED_MODEL_LIMIT
+    physical_capability_m_s: null
+    physical_uncertainty_m_s: null
+    gate_verdict: GRIPPER_URDF_UNIT_SEMANTICS_RECONCILED__PHYSICAL_ACTUATOR_SPEED_AND_CONTACT_TIMING_HOLD
+    physical_actuator_speed_authority: HOLD
+    physical_gripper_timing_ready: false
+  sim13:
+    binding_audit_verdict: CURRENT_SIM13_PRODUCTION_MECHANICAL_BINDING_INVALIDATED_BY_NEWER_M7_EVIDENCE
+    baseline_mutation_authorized: false
+    current_mechanical_interface_path: ../../../20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MECH_RL_INTERFACE_V1.yaml
+    training_success_claimed: false
+authorization_state_machine:
+  cad_urdf_execution_prerequisites:
+    current_inputs:
+      unified_r2_rebase_execution_authorization_recorded: false
+      bus_physical_authority_resolved: false
+      solar_r2_root_frames_frozen: false
+      route_c_registry_13_of_13: false
+      checkpoint_b_8_of_8: false
+      separate_route_c_cad_authority: false
+      memory_admitted_for_this_execution: false
+    rule: ALL_REQUIRED_EXACT_TRUE
+    authorized: false
+  parallel_full_flex_decision_prerequisites:
+    current_inputs:
+      odr_gpt_07_selected: false
+      odr_gpt_08_selected: false
+    rule: ALL_REQUIRED_EXACT_TRUE
+    authorized: false
+    note: these scientific decisions do not substitute for Route-C CAD admission and are not a geometry-predecessor loop
+  downstream_release_joins_after_geometry:
+    current_inputs:
+      unified_r2_geometry_and_sweeps_pass: false
+      full_flex_gate_pass: false
+      mission_harness_coverage_pass: false
+      gripper_physical_actuator_gate_pass: false
+      nine_configuration_properties_released: false
+      versioned_sim13_rebind_gate_pass: false
+      mechanical_to_embodied_handoff_pass: false
+    rule: ALL_REQUIRED_EXACT_TRUE
+    released: false
+entry_sequence:
+- Resolve 12U physical-structure authority/length and freeze the two Solar R2 root frames.
+- Close Route-C P01-P13; re-run Checkpoint-B to 8/8; then obtain separate Route-C CAD authorization.
+- Issue a separately hash-bound Unified R2 rebase execution authorization; Route-C CAD authority does not substitute for this
+  record.
+- At execution time satisfy the 6 GiB memory gate or obtain a new run-specific Owner override and risk record.
+- Execute one versioned Unified R2 CAD/mesh/URDF reissue and complete independent geometry/configuration validation.
+- In parallel, resolve ODR-GPT-07/08 for the Full-Flex/comparator validation branch; neither creates CAD authority.
+- Using the new geometry, close continuous sweeps, rated-envelope mission coverage, gripper physical actuation, nine-configuration
+  properties and Full-Flex gates.
+- Only after those joins issue a versioned consumer interface, update Sim13 loader, and pass independent production/contact/handoff
+  Gates.
+- Only then admit physics-gated RL training or production grasp claims.
+execution_record:
+  prebuild_memory_observation:
+    available_physical_gib: 1.798
+    threshold_gib: 6.0
+    memory_gate_passed: false
+    observation_date_local: '2026-08-24'
+    observation_time_local: null
+    classification: NONAUTHORITATIVE_ROUNDED_READ_ONLY_SAMPLE__NOT_EXECUTION_ADMISSION
+    observation_note: time-of-day was not recorded; no heavy process was launched; execution must remeasure
+  historical_m4_owner_override_inherited: false
+  current_owner_override_for_heavy_cad: false
+  cad_or_mesh_generation_performed: false
+  urdf_generation_performed: false
+  fea_or_simulation_performed: false
+source_pins:
+- id: M4_RELEASE_GATE
+  path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/12_release/MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_GATE_V1.json
+  bytes: 5440
+  sha256: 0C0994E3E59EDBB5FD43B1D75FC048C8414A735D28CA4FC36E8FC23E03692577
+  role: scoped M4 digital-prototype release and mandatory holds
+  verified: true
+- id: M4_CONFIGURATION_LIBRARY
+  path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/CONFIGURATION_LIBRARY_V1.yaml
+  bytes: 26528
+  sha256: DCE40C1DB8A318A077F0DD92A47F236BE55EAF2FD32B4E514D2BB67C9B19B4A2
+  role: nine-configuration identity and unreleased-property contract
+  verified: true
+- id: M4_FRAME_TREE
+  path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+  bytes: 6236
+  sha256: 67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA
+  role: canonical frame semantics and null-transform policy
+  verified: true
+- id: M7_RELEASE_GATE
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/MECHANICAL_ENGINEERING_RELEASE_GATE_V1.json
+  bytes: 48538
+  sha256: 2D9C8580701BD087A2DB52F57AE9ED23A919DEBC7476727467214411F952859E
+  role: current mechanical release authority ceiling
+  verified: true
+- id: M7_R1_ASSEMBLY_REPORT
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json
+  bytes: 29415
+  sha256: 105BCB020FAF9F535C3A18F9A37831679F89070A8CA69C5960F959A686F332C1
+  role: current valid R1 unified assembly build evidence
+  verified: true
+- id: M7_PRODUCT_STRUCTURE
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml
+  bytes: 48807
+  sha256: 0F9897EF4E41666DDB29CB0FC621DD737FDD8CCDE3F5527030E53A9D1604681A
+  role: product-tree geometry classes, including 12U envelope-proxy limitations
+  verified: true
+- id: M7_R1_ASSEMBLY_FCSTD
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.FCStd
+  bytes: 579603
+  sha256: 013DA84FE9A5C388252DB18516628411C484BB818959FA1A5CF8D950485636E7
+  role: current R1 native assembly predecessor; read-only
+  verified: true
+- id: M7_R1_ASSEMBLY_STEP
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step
+  bytes: 1373004
+  sha256: 8C85585E9C051AEBB849E48F56354B48BF4204F61103B550BD92FC77BA99EA9E
+  role: current R1 neutral assembly predecessor; read-only
+  verified: true
+- id: SOLAR_R2_REPORT
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_BUILD_REPORT_V2.json
+  bytes: 16118
+  sha256: 4286EA2BBD84FB8EC33DDADE329534DA29194650AD22429245ECF8757B9AED1C
+  role: separate Solar R2 engineering-candidate evidence
+  verified: true
+- id: SOLAR_R2_FCSTD
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_CANDIDATE_V1.FCStd
+  bytes: 23733
+  sha256: 9D4D249A5D4EED7BDD8F3C08EC96737884A19523782112B1E72AD9EA0A1B65AB
+  role: Solar R2 native candidate; separate and read-only
+  verified: true
+- id: SOLAR_R2_STEP
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_CANDIDATE_V1.step
+  bytes: 131834
+  sha256: 21FF77B882DBFAB87B3E77DD56817EFC7F321C68E30AFEDCDDBB4D79B9915795
+  role: Solar R2 neutral candidate; separate and read-only
+  verified: true
+- id: M7_R2_MASS_LEDGER
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  bytes: 223714
+  sha256: 3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB
+  role: nine-configuration R2 design-model mass properties with uncertainty
+  verified: true
+- id: M7_CAD_URDF_REGISTRATION_RECEIPT
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/receipt.json
+  bytes: 23885
+  sha256: 83E36583E370BD3A6563330C9B34E0CDB0400DC6952BFC91D9DA5C77536BCB9B
+  role: existing CAD/URDF registration audit
+  verified: true
+- id: B601_ACCEPTED_URDF
+  path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  bytes: 11321
+  sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  role: accepted imported B601 kinematic and inertial artifact
+  verified: true
+- id: GRIPPER_ACTIVE_ENGINEERING_PACK
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V2.yaml
+  bytes: 13398
+  sha256: C31938668746C6B5D3C8C6879D8F2B14BDF8FE78000274ADD8411E7FBB58CEF6
+  role: active gripper geometry and velocity-unit interpretation pack
+  verified: true
+- id: GRIPPER_ACTIVE_CONSUMPTION_POINTER
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_gripper_velocity_unit_authority/01_interface/GRIPPER_ACTIVE_CONSUMPTION_POINTER_V1.yaml
+  bytes: 1010
+  sha256: B0DDADE5F5CCD6F6CFF2A9B0E7EA23908CE7558EBA002BE26A193D4DEC38A7D8
+  role: active-versus-historical gripper consumption selector
+  verified: true
+- id: GRIPPER_VELOCITY_UNIT_GATE
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_gripper_velocity_unit_authority/02_gate/GRIPPER_VELOCITY_UNIT_GATE_V1.json
+  bytes: 2692
+  sha256: A93B08B56CB46623A0E8B96234B7FA48C1C59492F950A543BB164AD4CF4A0E7B
+  role: URDF velocity semantics and physical actuator/timing HOLD
+  verified: true
+- id: ROUTE_C_CHECKPOINT_B
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/checkpoint_b/ROUTE_C_CHECKPOINT_B_GATE_V1.json
+  bytes: 14887
+  sha256: C9E7526D790E1FB7F5522A113EDF41F5913207C15A68E12468FD9EBA157349D1
+  role: Route-C admission and CAD prohibition
+  verified: true
+- id: ROUTE_C_PHYSICAL_REGISTRY
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml
+  bytes: 19773
+  sha256: 6264A0A45F6A497787F3D96205CEF7799A19A225CD23CEA66D5AD31E335A3E8E
+  role: P01-P13 physical-input registry
+  verified: true
+- id: TERMINAL_DECISION_GATE
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/terminal_decision_pack/TERMINAL_DECISION_PACK_GATE_V1.json
+  bytes: 25452
+  sha256: 0C9DC0353630A402745B3CE5235DC75A2FC51A65B189E2580A7FA5484A5F3325
+  role: current terminal decision and execution authority
+  verified: true
+- id: ODR_GPT_07_REQUEST
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/terminal_decision_pack/P2_ROM_DIMENSION_AND_VALIDITY_DECISION_REQUEST_V1.yaml
+  bytes: 23043
+  sha256: 679DC5D2BA2B814F584379C28E47A9F487D03277F0F1EAA45DFB85D150367D25
+  role: pending ODR-GPT-07 approval request
+  verified: true
+- id: ODR_GPT_08_REQUEST
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/terminal_decision_pack/LEGACY_R1_COMPARATOR_SEMANTICS_DECISION_REQUEST_V1.yaml
+  bytes: 46441
+  sha256: 5ED037AE057F7119678DECF890C9C0E64740C1443E5E9B9682FC09B8610046F6
+  role: pending ODR-GPT-08 approval request
+  verified: true
+- id: SIM13_BINDING_AUDIT
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/09_downstream_rebind/SIM13_CURRENT_MECHANICAL_BINDING_AUDIT_GATE_V1.json
+  bytes: 6345
+  sha256: 7FD3C63AF46BE4BA3055CCF87EFD1A71C13517EC872B1F3EDC52304B070D9153
+  role: current Sim13 mechanical-binding invalidation
+  verified: true
+- id: SIM13_BOOTSTRAP_CONFIG
+  path: 30_simulation/sim_13_physics_gated_embodied_grasping/config/sim13_bootstrap.json
+  bytes: 647
+  sha256: 4624C5BA2A016A002531FCF6FB6EFD661AA488D6C9420197789263D4B0E42B8D
+  role: current V1 bootstrap binding
+  verified: true
+- id: SIM13_MECHANICAL_LOADER
+  path: 30_simulation/sim_13_physics_gated_embodied_grasping/src/mechanical_asset_loader.py
+  bytes: 23753
+  sha256: C0797E5786888E357784369F6601B380C4E94FAE76B3FBFCF4C46717A833E851
+  role: current mechanical consumer loader
+  verified: true
+authority_flags:
+  engineering_specification_complete: false
+  geometry_execution_authorized: false
+  full_flex_validation_authorized: false
+  consumer_rebind_authorized: false
+  rebase_execution_authorized: false
+  route_c_cad_authorized: false
+  heavy_solver_authorized: false
+  sim13_baseline_mutation_authorized: false
+  production_dynamics_ready: false
+  physical_contact_ready: false
+  physics_gated_rl_ready: false
+  owner_accepted: false
+  next_stage_authorized: false
+  release_credit: false
+  terminal_release_candidate_generated: false

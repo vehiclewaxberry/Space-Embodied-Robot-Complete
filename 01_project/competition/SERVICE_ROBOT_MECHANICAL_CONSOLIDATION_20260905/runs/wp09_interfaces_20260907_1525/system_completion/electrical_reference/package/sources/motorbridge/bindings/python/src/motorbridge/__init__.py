@@ -1,0 +1,70 @@
+from .abi import abi_capabilities, abi_version
+from .core import Controller, Motor
+from .damiao_registers import (
+    DAMIAO_HIGH_IMPACT_RIDS,
+    DAMIAO_PROTECTION_RIDS,
+    DAMIAO_RW_REGISTERS,
+    MODE_FORCE_POS,
+    MODE_MIT,
+    MODE_POS_VEL,
+    MODE_VEL,
+    RID_CTRL_MODE,
+    RID_ESC_ID,
+    RID_KI_APR,
+    RID_KI_ASR,
+    RID_KP_APR,
+    RID_KP_ASR,
+    RID_MST_ID,
+    RID_PMAX,
+    RID_TMAX,
+    RID_TIMEOUT,
+    RID_VMAX,
+    RegisterSpec,
+    get_damiao_register_spec,
+)
+from .dm_device_runtime import ensure_dm_device_runtime
+from .errors import AbiLoadError, CallError, MotorBridgeError
+from .models import Mode, MotorState
+from ._version import VERSION
+
+
+def get_version() -> str:
+    return VERSION
+
+
+__version__ = get_version()
+
+__all__ = [
+    "__version__",
+    "get_version",
+    "abi_version",
+    "abi_capabilities",
+    "ensure_dm_device_runtime",
+    "Controller",
+    "Motor",
+    "Mode",
+    "MotorState",
+    "RegisterSpec",
+    "DAMIAO_RW_REGISTERS",
+    "DAMIAO_HIGH_IMPACT_RIDS",
+    "DAMIAO_PROTECTION_RIDS",
+    "get_damiao_register_spec",
+    "RID_CTRL_MODE",
+    "RID_MST_ID",
+    "RID_ESC_ID",
+    "RID_TIMEOUT",
+    "RID_PMAX",
+    "RID_VMAX",
+    "RID_TMAX",
+    "RID_KP_ASR",
+    "RID_KI_ASR",
+    "RID_KP_APR",
+    "RID_KI_APR",
+    "MODE_MIT",
+    "MODE_POS_VEL",
+    "MODE_VEL",
+    "MODE_FORCE_POS",
+    "MotorBridgeError",
+    "AbiLoadError",
+    "CallError",
+]

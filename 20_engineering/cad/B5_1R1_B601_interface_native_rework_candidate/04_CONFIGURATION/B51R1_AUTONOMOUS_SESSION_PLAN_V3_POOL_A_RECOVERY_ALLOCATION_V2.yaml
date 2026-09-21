@@ -1,0 +1,30 @@
+schema: B51R1_AUTONOMOUS_SESSION_PLAN_V3_POOL_A_RECOVERY_ALLOCATION_V2
+generated_at: '2026-08-02T23:13:53+08:00'
+status: A12_RESERVE_ALLOCATED_TO_S01_CR02_RECOVERY_ENVELOPE
+supersedes_runtime_use_of: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V3_POOL_A_RECOVERY_ALLOCATION.yaml
+prior_allocation_preserved: true
+base_plan:
+  path: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V3_PHASED.yaml
+  preserved_unchanged: true
+allocation:
+  pool: POOL_A
+  base_slot: A12_RESERVE
+  recovery_envelope: S01_CR02
+  substages:
+    - S01_CR02_DIAGNOSTIC_READ_ONLY
+    - S01_CR02_APPEND_ONLY_PROPERTY_REPAIR
+  fresh_process_per_runtime_substage: true
+  failed_work_reuse_allowed: false
+  repair_source: PROTECTED_V2_ONLY
+  target: B51R1_MASTER_SKELETON_V2_R1.SLDPRT
+  additional_pool_slot_consumed_by_diagnostic_substage: false
+conditions:
+  diagnostic_gate: PASS_LEGACY_CONFIGURATION_PROPERTY_ENUMERATION_ROUTE_QUALIFIED_READ_ONLY
+  repair_requires_distinct_owner_authorization: true
+  repair_requires_fresh_pid_input_lock: true
+  s02_r1_requires_repair_pass: true
+downstream_hold:
+  s03: true
+  carrier_creation: true
+  joint_creation: true
+claim_limit: RECOVERY_ENVELOPE_ALLOCATION_ONLY_NO_REPAIR_R1_S02_R1_OR_S03_CREDIT

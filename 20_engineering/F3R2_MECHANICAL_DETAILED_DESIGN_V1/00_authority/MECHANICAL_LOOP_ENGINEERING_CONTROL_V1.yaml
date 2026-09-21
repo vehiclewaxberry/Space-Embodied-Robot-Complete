@@ -1,0 +1,63 @@
+schema: MECHANICAL_LOOP_ENGINEERING_CONTROL_V1
+loop_name: M3_CLOSED_LOOP_MECHANICAL_ENGINEERING
+baseline_in: V5R_NEUTRAL_OPERATIONAL_BASELINE
+baseline_out_candidate: V6_ENGINEERING_DETAILED_MECHANICAL_BASELINE
+current_loop_id: M3-L01
+current_loop_objective: Establish parameterized interface and gripper working models plus mass-material-tolerance authorities.
+state_machine:
+  - state: L0_INPUT_AUTHORITY_AUDIT
+    entry: OWNER_PHASE_AUTHORIZATION_PRESENT
+    outputs: [INPUT_SOURCE_REGISTER, FROZEN_INPUT_MANIFEST]
+    exit_rule: all cited inputs exist, are nonzero, and have SHA-256 hashes
+    fail_transition: HOLD_AND_OPEN_ECR
+  - state: L1_REQUIREMENTS_AND_VCD
+    entry: L0_PASS
+    outputs: [MECHANICAL_DETAIL_DESIGN_REQUIREMENTS_V1, MECHANICAL_DETAIL_DESIGN_VCD_V1]
+    exit_rule: one-to-one requirement/VCD mapping with explicit acceptance and authority
+    fail_transition: RETURN_L0_OR_HOLD
+  - state: L2_PARAMETERIZED_GEOMETRY
+    entry: L1_PASS_FOR_WORKING_SCOPE
+    outputs: [M3R_PARAMETER_TABLES, B601_INTERFACE_CONTROL, GRIPPER_R1_PARAMETER_TABLE, NEUTRAL_WORKING_MODELS]
+    exit_rule: every model parameter has value, unit, source, classification, and status; unknown design features remain unmodelled and HOLD
+    fail_transition: OPEN_ECR_AND_REBUILD
+  - state: L3_INDEPENDENT_GEOMETRY_VALIDATION
+    entry: L2_ARTIFACTS_EXIST
+    outputs: [BREP_HEALTH_RECEIPTS, INTERFACE_CROSS_CHECKS, SWEEP_VALIDATION]
+    exit_rule: files reopen, expected solids exist, shapes are valid, and frozen numerical interfaces match within declared numerical comparison tolerances
+    fail_transition: OPEN_ECR_AND_RETURN_L2
+  - state: L4_MASS_MATERIAL_TOLERANCE_CLOSURE
+    entry: L3_PASS
+    outputs: [SYSTEM_MASS_PROPERTIES_V2, MATERIAL_PROCESS_DATABASE_V1, TOLERANCE_CHAIN_V1, BOM_V2]
+    exit_rule: no required field is silently zero-filled; every unresolved input is named HOLD with owner and closure evidence
+    fail_transition: HOLD_AND_RETURN_RESPONSIBLE_WORK_PACKAGE
+  - state: L5_FEA_ENTRY_GATE
+    entry: L4_ARTIFACTS_AUDITED
+    outputs: [FEA_ENTRY_GATE]
+    exit_rule: geometry, load, boundary, contact, fastener, material allowable, mass, mesh, and acceptance authorities all PASS
+    current_expected_transition: HOLD_BECAUSE_LOADS_AND_ALLOWABLES_ARE_NOT_AUTHORIZED
+    fail_transition: DO_NOT_RUN_FORMAL_FEA
+  - state: L6_DETAIL_DESIGN_GATE
+    entry: L0_THROUGH_L5_EVALUATED
+    outputs: [MECHANICAL_DETAIL_DESIGN_GATE, NEXT_LOOP_ACTION_REGISTER]
+    exit_rule: all mandatory detail-design subgates PASS; explicitly permitted external items may remain bounded HOLD
+    fail_transition: ISSUE_HOLD_NO_PASS_TOKEN_AND_START_NEXT_LOOP
+change_control:
+  each_change_requires:
+    - ecr_id
+    - changed_parameter_or_artifact
+    - old_value_and_unit_or_null
+    - new_value_and_unit_or_null
+    - source_and_authority_class
+    - affected_requirements
+    - affected_geometry_mass_tolerance_simulation_and_validation
+    - verification_evidence
+    - disposition
+  source_files_are_immutable: true
+  output_manifest_regenerated_after_each_accepted_loop: true
+loop_metrics:
+  required_input_hash_coverage_fraction: 1.0
+  required_requirement_vcd_mapping_fraction: 1.0
+  tolerated_silent_unknown_count: 0
+  tolerated_zero_filled_unknown_count: 0
+  tolerated_untraceable_released_dimension_count: 0
+  formal_fea_run_count_until_L5_pass: 0

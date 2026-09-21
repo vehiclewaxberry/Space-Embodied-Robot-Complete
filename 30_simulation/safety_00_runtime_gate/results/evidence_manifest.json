@@ -1,0 +1,181 @@
+{
+  "schema_version": "safe00-evidence-manifest-v2",
+  "task_id": "SAFE-00",
+  "freeze_time": "2026-07-19T03:53:01+08:00",
+  "baseline_commit": "926522f199cae3b9d88ee6797089d57300fea994",
+  "source_commit": "56c57dccb9b158d5d7ef380b14cf1ed6d93b9d36",
+  "source_fix_commits": [
+    "98623f388e7c88c8dd90af42bb96c3bfec4017ec",
+    "c485fcd",
+    "56c57dc"
+  ],
+  "environment": {
+    "python_version": "3.13.9",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_version": "2.45.1.windows.1",
+    "git_core_autocrlf": false,
+    "timezone": "Asia/Shanghai",
+    "python_dont_write_bytecode": true,
+    "authorization_mode": "PUBLIC_TEST_VECTOR_NOT_PRODUCTION",
+    "authorization_key_id": "TEST_VECTOR_SAFE00_V1",
+    "minimum_hmac_key_bytes": 32
+  },
+  "commands": [
+    {
+      "id": "safe00_tests",
+      "command": "$env:PYTHONDONTWRITEBYTECODE='1'; python 30_simulation/safety_00_runtime_gate/tests/run_all.py",
+      "exit_code": 0,
+      "result": "47/47 PASS",
+      "stdout": "30_simulation/safety_00_runtime_gate/results/safety_00_tests.log",
+      "stderr": "30_simulation/safety_00_runtime_gate/results/safety_00_tests.stderr.log"
+    },
+    {
+      "id": "safe00_gate_first",
+      "command": "$env:PYTHONDONTWRITEBYTECODE='1'; python 30_simulation/safety_00_runtime_gate/src/run_gates.py",
+      "exit_code": 0,
+      "result": "PASS GS-A=true GS-B=true GS-C=true",
+      "stdout": "30_simulation/safety_00_runtime_gate/results/safety_00_gates.log",
+      "stderr": "30_simulation/safety_00_runtime_gate/results/safety_00_gates.stderr.log"
+    },
+    {
+      "id": "safe00_gate_repeat",
+      "command": "python 30_simulation/safety_00_runtime_gate/src/run_gates.py",
+      "exit_code": 0,
+      "result": "RAW_BYTES_SHA256_EQUAL_TO_FIRST_RUN"
+    },
+    {
+      "id": "latency_diagnostic",
+      "command": "python 30_simulation/safety_00_runtime_gate/src/run_diagnostics.py",
+      "exit_code": 0,
+      "result": "NON_GATE_DIAGNOSTIC_ONLY",
+      "output": "30_simulation/safety_00_runtime_gate/results/safety_00_latency_diagnostic.json"
+    }
+  ],
+  "test_summary": {
+    "safe00": {
+      "passed": 47,
+      "total": 47
+    },
+    "existing_baseline": {
+      "passed": 58,
+      "total": 58,
+      "modules": {
+        "sim05": "22/22 PASS",
+        "sim10": "6/6 PASS",
+        "sim11": "27/27 PASS",
+        "sim12": "3/3 PASS"
+      },
+      "evidence": "30_simulation/safety_00_runtime_gate/baseline_reproduction.json",
+      "rerun_for_this_freeze": false,
+      "frozen_log_hashes_reverified": true
+    },
+    "preregistered_gate_cases": {
+      "passed": 16,
+      "total": 16,
+      "normal": 2,
+      "bypass": 12,
+      "degradation": 2
+    }
+  },
+  "gate_reproduction": {
+    "first_raw_sha256": "7a352fe3d511804da3c182ee6380e3c86003173796ab912f5390ec43bb66836c",
+    "second_raw_sha256": "7a352fe3d511804da3c182ee6380e3c86003173796ab912f5390ec43bb66836c",
+    "bytewise_equal": true,
+    "contains_perf_counter_latency": false
+  },
+  "hash_semantics": {
+    "gate_json_provenance": "CANONICAL_JSON_SHA256_V1",
+    "candidate_table": "CANONICAL_CSV_TABLE_SHA256_V1",
+    "candidate_row": "CANONICAL_CSV_ROW_SHA256_V1",
+    "candidate_yaml": "CANONICAL_YAML_SHA256_V1",
+    "threshold_registry": "RAW_BYTES_SHA256_FROZEN",
+    "manifest_artifacts": "RAW_BYTES_SHA256",
+    "source_tree": "PATH_NUL_SHA256_LF_MAP_V1"
+  },
+  "tracked_inventory": {
+    "owned_roots": [
+      "20_engineering/config/safety_gate",
+      "30_simulation/safety_00_runtime_gate"
+    ],
+    "tracked_owned_artifact_count": 35,
+    "hashed_artifact_count": 33,
+    "excluded_artifact_count": 2,
+    "coverage_complete": true,
+    "exclusions": [
+      {
+        "path": "30_simulation/safety_00_runtime_gate/results/evidence_manifest.json",
+        "reason": "SELF_REFERENTIAL_MANIFEST_CANNOT_HASH_ITSELF",
+        "handling": "ACCOUNTED_IN_TRACKED_COUNT_WITHOUT_SELF_HASH"
+      },
+      {
+        "path": "30_simulation/safety_00_runtime_gate/results/safety_00_latency_diagnostic.json",
+        "reason": "NONDETERMINISTIC_PERF_COUNTER_DIAGNOSTIC",
+        "handling": "TRACKED_BUT_EXCLUDED_FROM_FROZEN_GATE_EVIDENCE"
+      }
+    ]
+  },
+  "source_tree": {
+    "algorithm": "SHA256 of sorted UTF-8 entries path + NUL + raw_file_sha256 + LF",
+    "path_count": 18,
+    "sha256": "60e83fe39ef812bead73fe9b3dd446450e003b381287829befc82aa67b75ec61",
+    "paths": [
+      "20_engineering/config/safety_gate/evidence_bundle.schema.json",
+      "20_engineering/config/safety_gate/experiment_matrix_v1.yaml",
+      "20_engineering/config/safety_gate/safety_policy_v1.yaml",
+      "20_engineering/config/safety_gate/safety_request.schema.json",
+      "20_engineering/config/safety_gate/safety_response.schema.json",
+      "30_simulation/safety_00_runtime_gate/.gitignore",
+      "30_simulation/safety_00_runtime_gate/README.md",
+      "30_simulation/safety_00_runtime_gate/docs/safety_gate_contract.md",
+      "30_simulation/safety_00_runtime_gate/docs/safety_gate_design.md",
+      "30_simulation/safety_00_runtime_gate/src/__init__.py",
+      "30_simulation/safety_00_runtime_gate/src/case_factory.py",
+      "30_simulation/safety_00_runtime_gate/src/run_diagnostics.py",
+      "30_simulation/safety_00_runtime_gate/src/run_gates.py",
+      "30_simulation/safety_00_runtime_gate/src/safety_core.py",
+      "30_simulation/safety_00_runtime_gate/tests/run_all.py",
+      "30_simulation/safety_00_runtime_gate/tests/test_bypass.py",
+      "30_simulation/safety_00_runtime_gate/tests/test_contract.py",
+      "30_simulation/safety_00_runtime_gate/tests/test_core.py"
+    ]
+  },
+  "artifacts_sha256": {
+    "20_engineering/config/safety_gate/evidence_bundle.schema.json": "4e630aecc4efca1c57090a076302874a2a3274b86c632b2a5abb669204cb6b93",
+    "20_engineering/config/safety_gate/experiment_matrix_v1.yaml": "2b88662f6dc2c53c7249d145438ac94b5c64a7ac8e03f361d33166fb14303857",
+    "20_engineering/config/safety_gate/safety_policy_v1.yaml": "9e42b8212002e29aea980b8dd6a578c926cc7c63f1ecf94879875e64f3c72de5",
+    "20_engineering/config/safety_gate/safety_request.schema.json": "cafb85993462a984d2db26ec93bbabef964515ea259bf897b0787cf1f4732af1",
+    "20_engineering/config/safety_gate/safety_response.schema.json": "262209728cf23ae34f5408c1dd2474dbde4a3c3950cd91b1ff8526e8fb1d1628",
+    "30_simulation/safety_00_runtime_gate/.gitignore": "a3b4f0cac9838afc2730f26182fa1442fad16d89766011f905aeca418779c41b",
+    "30_simulation/safety_00_runtime_gate/README.md": "c217b62e882baf11147b70e0e7152ae16ed01f4e89aa446b7f992680b0ec4212",
+    "30_simulation/safety_00_runtime_gate/baseline_reproduction.json": "49a4478b6c55a39b7d5183b935c2bb2a766f3346cea174b3491c98f4461cb849",
+    "30_simulation/safety_00_runtime_gate/docs/safety_gate_contract.md": "b02dd573bb7f788c9c42115e5b2020814861ca6dd5f013e41f81632463b6210a",
+    "30_simulation/safety_00_runtime_gate/docs/safety_gate_design.md": "d9cec78155ba64dc6808aae25525b2f3642e3069d8be9bb3b483619c01d7c3d0",
+    "30_simulation/safety_00_runtime_gate/results/baseline_sim05.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "30_simulation/safety_00_runtime_gate/results/baseline_sim05.stdout.log": "fbcbca136b2c77dea09d9e0110008bbcb80698b9cc6e7d66b1329ec09e3dc7e0",
+    "30_simulation/safety_00_runtime_gate/results/baseline_sim10.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "30_simulation/safety_00_runtime_gate/results/baseline_sim10.stdout.log": "5ecc7852b5136904c3e38aec6be3a1a2de2a639e8075f75c71be5e571a6a2886",
+    "30_simulation/safety_00_runtime_gate/results/baseline_sim11.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "30_simulation/safety_00_runtime_gate/results/baseline_sim11.stdout.log": "066103874eebad8f6eb22a215ee64bf55044cb565e49ad9b11f77636b8997923",
+    "30_simulation/safety_00_runtime_gate/results/baseline_sim12.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "30_simulation/safety_00_runtime_gate/results/baseline_sim12.stdout.log": "ee75eb96601c92365ab132cebdf2578e2fb422aacc0f660eedf9b4be322ef568",
+    "30_simulation/safety_00_runtime_gate/results/safety_00_gate_check.json": "7a352fe3d511804da3c182ee6380e3c86003173796ab912f5390ec43bb66836c",
+    "30_simulation/safety_00_runtime_gate/results/safety_00_gates.log": "d4fe3a00d8dc0b0aedc66b5bbab85c891eedf2295cf1905b681cd48de087a7ea",
+    "30_simulation/safety_00_runtime_gate/results/safety_00_gates.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "30_simulation/safety_00_runtime_gate/results/safety_00_tests.log": "b63d0d44262fc9d3ca1c0082c6d559ab35bf39d13519768433b73032c522730f",
+    "30_simulation/safety_00_runtime_gate/results/safety_00_tests.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "30_simulation/safety_00_runtime_gate/src/__init__.py": "2b1ff5a7c095ba33f6b6286361e4aeca7ee15d2fa289125987135f4597ed4b4d",
+    "30_simulation/safety_00_runtime_gate/src/case_factory.py": "f10069a4b969692ae0073f16ac623824d1adce15cd202a7d2b1d18f29bfee086",
+    "30_simulation/safety_00_runtime_gate/src/run_diagnostics.py": "062a57f6d25a881a1b5b64e46b29e3174172040fdeb5944716a9e4822da13555",
+    "30_simulation/safety_00_runtime_gate/src/run_gates.py": "025e4fdce666cca9bbe6eee8f4d82f704542e772621a7c2e8436163379a11ca3",
+    "30_simulation/safety_00_runtime_gate/src/safety_core.py": "90a282cd637e8adc675e000359ec77296f388632a263c7f05bd5f9c78a475f63",
+    "30_simulation/safety_00_runtime_gate/task_current_state.md": "70d6500a9ccf611c1454bf7ea79d2d0e69fc50dc4f120aa9045b051ea8033c3c",
+    "30_simulation/safety_00_runtime_gate/tests/run_all.py": "7a75154fb41312ab7ee1685450dbae0e8a918f8ee0c133d37b87f8fc79ad1d28",
+    "30_simulation/safety_00_runtime_gate/tests/test_bypass.py": "40e0406be1c770b04cd29088093e07ed8259b566c0398d514ed76c26132652a4",
+    "30_simulation/safety_00_runtime_gate/tests/test_contract.py": "8d35fff4b92b224a3701ffc42d7ea7fa31ca4ca96463b0fcf15fd5f727b96dad",
+    "30_simulation/safety_00_runtime_gate/tests/test_core.py": "d1ef9f25b0ed7f68e5f589a37a56fd5044b3fac77680bd891536a2b574ead005"
+  },
+  "machine_gate_verdict": "PASS",
+  "review_status": "PENDING_REVIEW",
+  "next_stage_authorized": false,
+  "thresholds_widened": false
+}

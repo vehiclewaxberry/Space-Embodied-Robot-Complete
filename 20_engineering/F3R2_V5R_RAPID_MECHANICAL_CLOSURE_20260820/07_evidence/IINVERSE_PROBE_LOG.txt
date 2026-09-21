@@ -1,0 +1,147 @@
+IINVERSE ATTACH-ONLY PROBE EVIDENCE AGGREGATION LOG
+Generated UTC: 2026-08-20T15:03:53.9111637Z
+Generation mode: existing-receipt aggregation; no live COM rerun
+SolidWorks started or attached during this aggregation: false
+
+OWNER OVERRIDE STATE
+owner_ruling_in_effect=AUTHORIZE_LOW_MEMORY_EXECUTION_WITH_BOUNDED_NATIVE_ATTEMPTS_20260820
+memory_gate_status=OWNER_OVERRIDE_LOW_MEMORY
+memory_gate_passed=false
+owner_override_used=true
+execution_authorized=true
+This log does not claim MEMORY_GATE_PASS, TOOLING_GATE_PASS, or AVAILABLE_MEMORY_GE_6_GIB.
+
+SOURCE RECEIPTS
+ROUND1  04_validation/LOOP1E_IINVERSE_PROBE_RECEIPT.json
+        SHA256 3C51D25108A78FA69B8BAF052E2540278BEE2D7E55C70FF1E55F5164AA26C77E
+ROUND2  04_validation/LOOP1E_IINVERSE_PROBE_ROUND2_RECEIPT.json
+        SHA256 83CBD16D00598A14759CFD57A5E14B0A8751BD4D83CD93EB3A93F168CCE86A18
+ISOLATE 04_validation/LOOP1E_STEP_ISOLATION_RECEIPT.json
+        SHA256 1A834775296A3D2F1E509B94796D6218F3A5ADE91F403C771767526E5C11F4D2
+ORDER   04_validation/LOOP1E_CORRECTED_ORDER_RECEIPT.json
+        SHA256 FF9DACBFC746EA066174CCAA2F632B2FFF750C90EF010E6744397149262982B8
+PATCH   04_validation/LOOP1E_PATCH_RECEIPT.json
+        SHA256 8EC4EBB47AB3F9E4AC5CDEA02A48C664BF8B74BAAF3F72DE4DA64453366FF4C4
+
+ROUND 1: SIX NOMINAL CANDIDATES
+Probe timestamp: 2026-08-20T08:13:06Z
+SolidWorks revision: 32.5.0
+document_count_at_probe=0 attach_only=true documents_opened_by_probe=0
+
+C1 static IInverse, DISPID 10
+  reported=FAIL HRESULT=-2147352567 SW_ERROR=61836
+  elapsed_ms=null reason=ROUND1 did not time candidates
+  return_type=null reason=direct IInverse exception before return
+  ArrayData=null reason=no inverse object returned
+  residual=null reason=exception before validation
+
+C2 static Inverse, DISPID 9
+  reported=FAIL HRESULT=-2147352567 SW_ERROR=61836
+  elapsed_ms=null reason=ROUND1 did not time candidates
+  return_type=null reason=ROUND1 did not record the intermediate result
+  ArrayData=null reason=ROUND1 did not record intermediate inverse ArrayData
+  residual=null reason=shared IMultiply validation raised 61836
+  correction=FALSE NEGATIVE; STEP_ISOLATION S12 proved Inverse returned CDispatch
+
+C3 late-bound IInverse, DISPID 10
+  reported=FAIL HRESULT=-2147352567 SW_ERROR=61836
+  elapsed_ms=null reason=ROUND1 did not time candidates
+  return_type=null reason=exception before return
+  ArrayData=null reason=no inverse object returned
+  residual=null reason=exception before validation
+
+C4 late-bound Inverse, nominal DISPID 9
+  reported=FAIL HRESULT=-2147352573 DISP_E_MEMBERNOTFOUND
+  elapsed_ms=null reason=ROUND1 did not time candidates
+  return_type=null reason=late-bound name lookup failed
+  ArrayData=null reason=no inverse object returned
+  residual=null reason=name lookup failed before validation
+
+C5 raw InvokeTypes METHOD, DISPID 10
+  reported=FAIL HRESULT=-2147352567 SW_ERROR=61836
+  elapsed_ms=null reason=ROUND1 did not time candidates
+  return_type=null reason=exception before return
+  ArrayData=null reason=no inverse object returned
+  residual=null reason=exception before validation
+  correction=NOT DISTINCT; DISPATCH_METHOD is 1 and duplicates C1/makepy wFlags=1
+
+C6 raw InvokeTypes METHOD, DISPID 9
+  reported=FAIL HRESULT=-2147352567 SW_ERROR=61836
+  elapsed_ms=null reason=ROUND1 did not time candidates
+  return_type=null reason=ROUND1 did not record the intermediate result
+  ArrayData=null reason=ROUND1 did not record intermediate inverse ArrayData
+  residual=null reason=shared IMultiply validation raised 61836
+  correction=FALSE NEGATIVE AND NOT DISTINCT; duplicates C2
+
+ROUND 1 DEFECT RETENTION
+The historical receipt's working_candidate_count=0 and recommended_candidate=null are preserved.
+They are not accepted as inverse-member attribution. Every candidate envelope called
+inv.IMultiply(T), and direct isolation later proved IMultiply itself raises 61836.
+The six nominal candidates also represent only four distinct paths because C5/C6 duplicate C1/C2.
+
+ROUND 2
+Probe timestamp: 2026-08-20T08:21:42Z
+SolidWorks revision: 32.5.0
+document_count_at_probe=0 attach_only=true documents_opened_by_probe=0
+
+D1 InvokeTypes PROPERTYGET DISPID10: reported FAIL 61836; elapsed_ms/return_type/ArrayData/residual=null (not recorded; combined envelope failed)
+D2 InvokeTypes PROPERTYGET DISPID9:  reported FAIL 61836; elapsed_ms/return_type/ArrayData/residual=null (not recorded; combined envelope failed)
+D3 InvokeTypes METHOD|PROPERTYGET DISPID10: reported FAIL 61836; elapsed_ms/return_type/ArrayData/residual=null (not recorded; combined envelope failed)
+D4 InvokeTypes METHOD|PROPERTYGET DISPID9:  reported FAIL 61836; elapsed_ms/return_type/ArrayData/residual=null (not recorded; combined envelope failed)
+D5 raw Invoke PROPERTYGET DISPID9: reported FAIL 61836; elapsed_ms/return_type/ArrayData/residual=null (not recorded; combined envelope failed)
+D6a numerical inverse convention A: reported FAIL 61836; DISPID=null because no inverse COM member was invoked; elapsed_ms/return_type/ArrayData/residual=null (not recorded; IMultiply validation failed)
+D6b numerical inverse convention B: reported FAIL 61836; DISPID=null because no inverse COM member was invoked; elapsed_ms/return_type/ArrayData/residual=null (not recorded; IMultiply validation failed)
+
+ROUND 2 DECISIVE DIAGNOSTIC
+D6a and D6b never called IInverse or Inverse but still raised 61836. This exposed the
+shared IMultiply validation call as a second broken member and invalidated the premise
+that every ROUND1/ROUND2 envelope failure was caused by its candidate inverse path.
+
+STEP ISOLATION
+Probe timestamp: 2026-08-20T08:23:59Z
+SolidWorks revision: 32.5.0
+document_count_at_probe=0 attach_only=true documents_opened_by_probe=0
+
+S1  CreateTransform source                         PASS CDispatch
+S2  wrap source QueryInterface                    PASS IMathTransform
+S3  read source ArrayData                         PASS list
+S4  CreateTransform identity                       PASS CDispatch
+S5  wrap identity                                  PASS IMathTransform
+S6  read identity ArrayData                        PASS list
+S7  IMultiply wrapped argument, DISPID 2           FAIL HRESULT=-2147352567 SW_ERROR=61836
+S8  IMultiply raw argument, DISPID 2               FAIL HRESULT=-2147352567 SW_ERROR=61836
+S9  Multiply wrapped argument, DISPID 1            PASS CDispatch
+S10 IMultiply identity argument, DISPID 2          FAIL HRESULT=-2147352567 SW_ERROR=61836
+S11 IInverse, DISPID 10                            FAIL HRESULT=-2147352567 SW_ERROR=61836
+S12 Inverse, DISPID 9                              PASS CDispatch
+S13 IGetData2 decomposition                        FAIL TypeError; HRESULT=null because this was not a COM HRESULT
+
+CORRECTED ORDER VALIDATION
+Probe timestamp: 2026-08-20T08:29:47Z
+SolidWorks revision: 32.5.0
+document_count_at_probe=0 attach_only=true documents_opened_by_probe=0
+Observed semantics: X.Multiply(Y) == M_Y x M_X
+Intended quantity: A^-1 B
+Selected production call: second_transform.Multiply(inverse_of_first)
+Pair A_B residual=1.1102230246251565e-16 shape_guard=true
+Pair B_C residual=0.0 shape_guard=true
+Pair C_A residual=0.0 shape_guard=true
+all_pairs_pass=true
+
+SELECTED PATH
+Inverse member: Inverse, DISPID 9, call first_transform.Inverse()
+Multiply member: Multiply, DISPID 1, call second_transform.Multiply(inverse)
+Receiver swap required: true
+Reason: Multiply composes in the opposite receiver order from the intended IMultiply expression.
+A name-only swap to inverse.Multiply(second_transform) would silently compute B A^-1.
+
+PATCH HASH BINDING
+Loop1E PRE  SHA256=1F8E83AC067A2C4218BCECADBD192A68D55D09A2DC2C4B896E1BD475141B0419 bytes=242313
+Loop1E POST SHA256=0D66FCDE114F40E3A339692FA93F2DACE426740952AA362EE73C2B983F61072A bytes=243627
+BASE_HELPER root SHA256=E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906
+BASE_HELPER run  SHA256=E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906
+base_helper_unchanged=true
+
+FINAL VERDICT
+IINVERSE_PATH_SELECTED_SEMANTICS_VERIFIED_PATCH_HASH_BOUND
+Selected route: Inverse/DISPID 9 + Multiply/DISPID 1 + receiver swap.

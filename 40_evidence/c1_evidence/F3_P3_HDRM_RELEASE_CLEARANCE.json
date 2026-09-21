@@ -1,0 +1,52 @@
+{
+  "schema": "F3_P3_HDRM_RELEASE_CLEARANCE_V1",
+  "generated_utc": "2026-08-05T16:32:00Z",
+  "hdrm_envelope": {
+    "latch": "mechanical_lock_pin",
+    "release_actuator": "functional_envelope_not_flight_model",
+    "preload_spring": "10_N_per_mm",
+    "status_sensor": "position_switch_plus_release_switch",
+    "mechanical_stop": "hard_stop"
+  },
+  "release_sequence": [
+    {"state": "LOCKED", "clearance_mm": 0.0},
+    {"state": "PRELOADED", "clearance_mm": 0.0},
+    {"state": "RELEASE_COMMANDED", "clearance_mm": 0.0},
+    {"state": "RELEASE_START", "clearance_mm": 0.0},
+    {"state": "RELEASE_CONFIRMED", "clearance_mm": 0.0},
+    {"state": "ARM_CLEAR_OF_G07", "clearance_mm": 10.0},
+    {"state": "ARM_CLEAR_OF_G08", "clearance_mm": 20.0},
+    {"state": "ARM_CLEAR_OF_MID", "clearance_mm": 20.0},
+    {"state": "ARM_CLEAR_OF_ALL_RESTRAINTS", "clearance_mm": 50.0}
+  ],
+  "release_parameters": {
+    "release_stroke_mm": 5.0,
+    "initial_liftoff_mm": 10.0,
+    "release_time_s": 1.0,
+    "partial_release_threshold_mm": 2.0
+  },
+  "residual_keepout": {
+    "latch_retracted": true,
+    "actuator_retracted": true,
+    "spring_released": true,
+    "max_residual_protrusion_mm": 2.0
+  },
+  "failure_modes": {
+    "release_failed": {
+      "min_clearance_mm": 5.0,
+      "max_interference_mm": 0.0,
+      "safe": true
+    },
+    "partial_release": {
+      "min_clearance_mm": 2.0,
+      "max_interference_mm": 0.0,
+      "safe": true
+    }
+  },
+  "friction_check": {
+    "g07_friction_stick": false,
+    "g08_friction_stick": false,
+    "note": "Contact pad provides finite compliance; no friction stick expected after preload release"
+  },
+  "status": "PASS"
+}

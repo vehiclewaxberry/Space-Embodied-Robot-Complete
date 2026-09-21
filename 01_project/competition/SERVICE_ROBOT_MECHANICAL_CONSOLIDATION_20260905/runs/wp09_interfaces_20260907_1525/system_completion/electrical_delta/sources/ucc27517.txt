@@ -1,0 +1,1591 @@
+--- PAGE 1 ---
+1
+2
+3
+5
+4
+VDD
+GND
+IN+
+OUT
+IN-
+UCC27517
+Q1
+IN+
+4.5 V to 18 V
+Non-Inverting Input
+1
+2
+3
+5
+4
+VDD
+GND
+IN+
+OUT
+IN-
+UCC27517
+Inverting Input
+V+
+C1
+R1
+VIN-
+Q1
+R14.5 V to 18 V
+V+
+C1
+Product
+Folder
+Sample &
+Buy
+T echnical
+Documents
+Tools &
+Software
+Support &
+Community
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+UCC2751xSingle-Channel,High-Speed,Low-SideGateDriver(With4-APeakSourceand
+4-APeakSink)
+1 Features 2 Applications
+1• Low-Cost Gate-Driver Device Offering Superior • Switched-Mode Power Supplies
+Replacement of NPN and PNP Discrete Solutions • DC-DC Converters
+• 4-A Peak-Source and 4-A Peak-Sink Symmetrical • Companion Gate-Driver Devices for Digital-Power
+Drive Controllers
+• Fast Propagation Delays (13-ns Typical) • Solar Power, Motor Control, UPS
+• Fast Rise and Fall Times (9-ns and 7-ns Typical) • Gate Driver for Emerging Wide Band-Gap Power
+• 4.5 to 18-V Single-Supply Range Devices (such as GaN)
+• Outputs Held Low During VDD UVLO (Ensures
+3 DescriptionGlitch-Free Operation at Power Up and Power
+The UCC27516 and UCC27517 single-channel, high-Down)
+speed, low-side gate driver devices can effectively• TTL and CMOS Compatible Input-Logic Threshold drive MOSFET and IGBT power switches. Using a(Independent of Supply Voltage) design that inherently minimizes shoot-through
+• Hysteretic-Logic Thresholds for High-Noise current, UCC27516 and UCC27517 can source and
+Immunity sink high peak-current pulses into capacitive loads
+offering rail-to-rail drive capability and extremely small• Dual Input Design (Choice of an Inverting (IN–
+propagation delay, typically 13 ns.pin) or Noninverting (IN+ Pin) Driver
+Configuration) The UCC27516 and UCC27517 provides 4-A source,
+4-A sink (symmetrical drive) peak-drive current– Unused Input Pin Can Be Used for Enable or
+capability at VDD = 12 V.Disable Function
+• Output Held Low When Input Pins Are Floating Device Information(1)
+• Input Pin Absolute Maximum Voltage Levels Not PART NUMBER PACKAGE BODY SIZE (NOM)
+Restricted by VDD Pin Bias Supply Voltage UCC27516 SON (6) 3.00 mm × 3.00 mm
+• Operating Temperature Range of –40°C to 140°C UCC27517 SOT-23 (5) 2.90 mm × 1.60 mm
+• 5-Pin DBV (SOT-23) and 6-Pin DRS (3-mm × (1) For all available packages, see the orderable addendum at3-mm WSON With Exposed Thermal Pad) the end of the datasheet.
+Package Options
+Typical Application Diagrams
+1
+An IMPORTANT NOTICE at the end of this data sheet addresses availability, warranty, changes, use in safety-critical applications,
+intellectual property matters and other important disclaimers. PRODUCTION DATA.
+--- PAGE 2 ---
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+Table of Contents
+9.3 Feature Description................................................. 131 Features .................................................................. 1
+9.4 Device Functional Modes........................................ 162 Applications ........................................................... 1
+10 Application and Implementation........................ 173 Description ............................................................. 1
+10.1 Application Information.......................................... 174 Revision History..................................................... 2
+10.2 Typical Application ................................................ 175 Description (continued)......................................... 3
+11 Power Supply Recommendations ..................... 216 Device Comparison Table..................................... 3
+12 Layout................................................................... 217 Pin Configuration and Functions ......................... 4
+12.1 Layout Guidelines ................................................. 218 Specifications......................................................... 5 12.2 Layout Example .................................................... 228.1 Absolute Maximum Ratings ...................................... 5 12.3 Thermal Considerations ........................................ 238.2 ESD Ratings ............................................................ 5 12.4 Power Dissipation ................................................. 248.3 Recommended Operating Conditions....................... 5
+13 Device and Documentation Support ................. 268.4 Thermal Information .................................................. 5
+13.1 Related Links ........................................................ 268.5 Electrical Characteristics........................................... 6
+13.2 Trademarks ........................................................... 268.6 Switching Characteristics .......................................... 7
+13.3 Electrostatic Discharge Caution ............................ 268.7 Typical Characteristics .............................................. 9
+13.4 Glossary ................................................................ 269 Detailed Description ............................................ 12 14 Mechanical, Packaging, and Orderable9.1 Overview ................................................................. 12 Information ........................................................... 269.2 Functional Block Diagrams ..................................... 13
+4 Revision History
+NOTE: Page numbers for previous revisions may differ from page numbers in the current version.
+Changes from Revision C (May 2013) to Revision D Page
+• Added Pin Configuration and Functions section, ESD Ratings table, Feature Description section, Device Functional
+Modes, Application and Implementation section, Power Supply Recommendations section, Layout section, Device
+and Documentation Support section, and Mechanical, Packaging, and Orderable Information section .............................. 1
+Changes from Revision B (June 2012) to Revision C Page
+• Added 0.5 to beginning of PSW equation in Power Dissipation section ............................................................................... 25
+Changes from Revision A (March 2012) to Revision B Page
+• Added UCC27516 device. ...................................................................................................................................................... 1
+• Added GND, ground definition................................................................................................................................................ 4
+• Added DC and repetitive pulse rates to OUT voltage. ........................................................................................................... 5
+• Added note 5. ......................................................................................................................................................................... 5
+• Changed Human Body Model max value from 2000 V to 400V. ........................................................................................... 5
+• Changed Charged Device Model max value from 500 V to 100 V. ....................................................................................... 5
+• Added UCC27516 block diagram. ........................................................................................................................................ 13
+• Added PCB layout bullet....................................................................................................................................................... 22
+• Added Thermal Information description................................................................................................................................ 23
+2 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 3 ---
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+5 Description (continued)
+The UCC27516 and UCC27517 are designed to operate over a wide VDD range of 4.5 to 18 V and wide
+temperature range of –40°C to 140°C. Internal undervoltage lockout (UVLO) circuitry on the VDD pin holds
+output low outside VDD operating range. The capability to operate at low voltage levels such as below 5 V, along
+with best-in-class switching characteristics, is especially suited for driving emerging wide band-gap power-
+switching devices such as GaN power semiconductor devices.
+The UCC27516 and UCC27517 devices feature a dual-input design which offers flexibility of implementing both
+inverting (IN– pin) and noninverting (IN+ pin) configurations with the same device. Either the IN+ or IN- pin can
+be used to control the state of the driver output. The unused input pin can be used for enable and disable
+function. For safety purpose, internal pullup and pulldown resistors on the input pins ensure that outputs are held
+low when input pins are in floating condition. Hence the unused input pin is not left floating and must be properly
+biased to ensure that driver output is in enabled for normal operation.
+The input pin threshold of the UCC27516 and UCC27517 devices are based on TTL and CMOS compatible low-
+voltage logic which is fixed and independent of the VDD supply voltage. Wide hysteresis between the high and
+low thresholds offers excellent noise immunity.
+6 Device Comparison Table
+The UCC2751x family of gate-driver products (Table 1) represent TI’s latest generation of single-channel low-
+side high-speed gate-driver devices featuring high-source/sink current capability, industry best-in-class switching
+characteristics and a host of other features (Table 2), all of which combine to ensure efficient, robust, and reliable
+operation in high-frequency switching power circuits.
+Table 1. UCC2751x Product Family Summary
+PEAK CURRENTPART NUMBER PACKAGE INPUT THRESHOLD LOGIC(SOURCE/SINK)
+UCC27516DRS 3 mm × 3 mm WSON, 6 pin 4-A/8-A
+CMOS/TTL-Compatible(Symmetrical Drive)UCC27511DBV SOT-23, 6 pin
+(low voltage, independent of VDD
+UCC27516DRS 3 mm × 3 mm WSON, 6 pin bias voltage)
+UCC27517DBV SOT-23, 5 pin 4-A/4-A
+(Symmetrical Drive)UCC27518DBV SOT-23, 5 pin CMOS
+(follows VDD bias voltage)UCC27519DBV SOT-23, 5 pin
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 3
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 4 ---
+1
+2
+3
+6
+5
+4
+IN-
+GND
+GND
+IN+
+OUT
+VDD
+IN-
+VDD OUT
+GND
+IN+
+1
+2
+3
+5
+4 IN-
+VDD OUT
+GND
+IN+
+1
+2
+3
+5
+4
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+7 Pin Configuration and Functions
+5-Pin 6-PinUCC27517 DBV Package UCC27516 DRSTop View Top View
+Pin Functions – UCC27516
+PIN
+I/O DESCRIPTION
+NO. NAME
+Inverting Input: When the driver is used in noninverting configuration, connect IN- to1 IN– I GND in order to enable output, OUT held LOW if IN- is unbiased or floating.
+Ground: All signals referenced to this pin. TI recommends to connect pin 2 and pin 32, 3 GND — on PCB as close to the device as possible.
+4 VDD I Bias supply input.
+5 OUT I Sourcing/Sinking Current Output of Driver
+Noninverting Input: When the driver is used in inverting configuration, connect IN+ to6 IN+ O VDD in order to enable output, OUT held LOW if IN+ is unbiased or floating.
+Pin Functions – UCC27517
+PIN
+I/O DESCRIPTION
+NO. NAME
+1 VDD I Bias supply input.
+Ground. All signals reference to this pin. For the UCC27516, TI recommends to2 GND — connect pin 2 and pin 3 on PCB as close to the device as possible.
+Noninverting input. When the driver is used in inverting configuration, connect IN+ to3 IN+ I VDD in order to enable output, OUT held LOW if IN+ is unbiased or floating
+Inverting input. When the driver is used in noninverting configuration, connect IN- to4 IN– I GND in order to enable output, OUT held LOW if IN- is unbiased or floating
+5 OUT O Sourcing/Sinking current output of driver.
+4 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 5 ---
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+8 Specifications
+8.1 Absolute Maximum Ratings (1) (2) (3)
+over operating free-air temperature range (unless otherwise noted)
+MIN MAX UNIT
+Supply voltage VDD –0.3 20
+DC –0.3 VDD + 0.3 V
+OUT voltage Repetitive pulse less than –2 VDD + 0.3200 ns (4)
+Output continuous current IOUT_DC (source/sink) 0.3 A
+Output pulsed current (0.5 µs) IOUT_pulsed(source/sink) 4
+IN+, IN- (5) –0.3 20 V
+Operating virtual junction temperature, TJ –40 150
+Soldering, 10 sec. 300
+Lead temperature °C
+Reflow 260
+Storage temperature, Tstg –65 150
+(1) Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings
+only and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating
+Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
+(2) All voltages are with respect to GND unless otherwise noted. Currents are positive into, negative out of the specified terminal. See
+Packaging Section of the datasheet for thermal limitations and considerations of packages.
+(3) These devices are sensitive to electrostatic discharge; follow proper device-handling procedures.
+(4) Values are verified by characterization on bench.
+(5) Maximum voltage on input pins is not restricted by the voltage on the VDD pin.
+8.2 ESD Ratings
+VALUE UNIT
+Human body model (HBM), per ANSI/ESDA/JEDEC JS-001 (1) ±4000
+V(ESD) Electrostatic discharge VCharged-device model (CDM), per JEDEC specification JESD22- ±1000C101 (2)
+(1) JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
+(2) JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
+8.3 Recommended Operating Conditions
+over operating free-air temperature range (unless otherwise noted)
+MIN NOM MAX UNIT
+Supply voltage range, VDD 4.5 12 18 V
+Operating junction temperature range –40 140 °C
+Input voltage, IN+ and IN- 0 18 V
+8.4 Thermal Information
+UCC27516 UCC27517
+THERMAL METRIC (1) WSON SOT-23 UNIT
+6 PINS 5 PINS
+RθJA Junction-to-ambient thermal resistance 85.6 217.6
+RθJC(top) Junction-to-case (top) thermal resistance 100.1 85.8
+RθJB Junction-to-board thermal resistance 58.6 44.0
+°C/W
+ψJT Junction-to-top characterization parameter 7.5 4.0
+ψJB Junction-to-board characterization parameter 58.7 43.2
+RθJC(bot) Junction-to-case (bottom) thermal resistance 23.7 n/a
+(1) For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, SPRA953.
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 5
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 6 ---
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+8.5 Electrical Characteristics
+VDD = 12 V, TA = TJ = –40°C to 140°C, 1-µF capacitor from VDD to GND. Currents are positive into, negative out of the
+specified pin.
+PARAMETER TEST CONDITIONS MIN TYP MAX UNIT
+BIAS CURRENTS
+IN+ = VDD, IN- = GND 40 100 160
+IDD(off) Startup current VDD = 3.4 V IN+ = IN- = GND or IN+ = IN- = VDD 25 75 145 µA
+IN+ = GND, IN- = VDD 20 60 115
+UNDERVOLTAGE LOCKOUT (UVLO)
+TA = 25°C 3.91 4.20 4.5
+VON Supply start threshold
+TA = –40°C to 140°C 3.70 4.20 4.65
+VMinimum operatingVOFF 3.45 3.9 4.35voltage after supply start
+VDD_H Supply voltage hysteresis 0.2 0.3 0.5
+INPUTS (IN+, IN-)
+Input signal high Output high for IN+ pin,VIN_H 2.2 2.4threshold Output low for IN- pin
+Output low for IN+ pin, VVIN_L Input signal low threshold 1.0 1.2Output high for IN- pin
+VIN_HYS Input signal hysteresis 1.0
+SOURCE/SINK CURRENT
+Source/sink peakISRC/SNK CLOAD = 0.22 µF, FSW = 1 kHz ±4 Acurrent (1)
+OUTPUTS (OUT)
+VDD = 12 V 50 90IOUT = –10 mAVDD- High output voltageVOH VDD = 4.5 V 60 130IOUT = –10 mA
+mV
+VDD = 12 5 10IOUT = 10 mA
+VOL Low output voltage
+VDD = 4.5 V 6 12IOUT = 10 mA
+VDD = 12 V 5.0 7.5IOUT = –10 mAOutput pullupROH resistance (2)
+VDD = 4.5 V 5.0 11.0IOUT = –10 mA
+Ω
+VDD = 12 V 0.5 1.0IOUT = 10 mAOutput pulldownROL resistance VDD = 4.5 V 0.6 1.2IOUT = 10 mA
+(1) Ensured by Design.
+(2) ROH represents on-resistance of P-Channel MOSFET in pullup structure of the UCC27516 and UCC27517's output stage.
+6 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 7 ---
+tD2 tD2
+90%
+10%
+OUTPUT
+Low
+High
+IN+ pin
+Low
+High
+INPUT
+(IN- pin)
+tf trtD2 tD2
+90%
+10%
+OUTPUT
+Low
+High
+IN+ pin
+Low
+High
+INPUT
+(IN- pin)
+tf tr
+tD1 tD1
+Low
+90%
+10%
+IN- pin
+OUTPUT
+High
+INPUT
+(IN+ pin)
+Low
+High
+tft rtD1 tD1
+Low
+90%
+10%
+IN- pin
+OUTPUT
+High
+INPUT
+(IN+ pin)
+Low
+High
+tft r
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+8.6 Switching Characteristics
+over operating free-air temperature range (unless otherwise noted)
+PARAMETER TEST CONDITIONS MIN TYP MAX UNIT
+VDD = 12 V 8 12CLOAD = 1.8 nF
+tR Rise time (1)
+VDD = 4.5 V 16 22CLOAD = 1.8 nF
+VDD = 12 V 7 11CLOAD = 1.8 nF
+tF Fall time (1)
+VDD=4.5V 7 11CLOAD = 1.8 nF
+ns
+VDD = 12 V 4 13 235-V input pulse CLOAD = 1.8 nF
+tD1 IN+ to output propagation delay (1)
+VDD = 4.5 V 4 15 265-V input pulse CLOAD = 1.8 nF
+VDD = 12 V 4 13 23CLOAD = 1.8 nF
+tD2 IN- to output propagation delay (1)
+VDD = 4.5 V 4 19 30CLOAD = 1.8 nF
+(1) See timing diagrams in Figure 1, Figure 2, Figure 3, and Figure 4.
+(PWM Input to IN+ Pin (IN– Pin Tied to GND))
+Figure 1. Noninverting Configuration
+(PWM Input to IN- Pin (IN+ Pin Tied to VDD))
+Figure 2. Inverting Configuration
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 7
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 8 ---
+tD2 tD2
+90%
+10%
+OUTPUT
+Low
+ENABLE
+(IN- pin)
+High
+Low
+High
+INPUT
+(IN+ pin)
+trt ftD2 tD2
+90%
+10%
+OUTPUT
+Low
+ENABLE
+(IN- pin)
+High
+Low
+High
+INPUT
+(IN+ pin)
+trt f
+Low
+90%
+10%
+ENABLE
+(IN+ pin)
+OUTPUT
+tD1
+High
+tD1
+Low
+High
+INPUT
+(IN- pin)
+tr tf
+Low
+90%
+10%
+ENABLE
+(IN+ pin)
+OUTPUT
+tD1
+High
+tD1
+Low
+High
+INPUT
+(IN- pin)
+tr tf
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+(Enable and Disable Signal Applied to IN+ Pin, PWM Input to IN- Pin)
+Figure 3. Enable and Disable Function Using IN+ Pin
+(Enable and Disable Signal Applied to IN- Pin, PWM Input to IN+ Pin)
+Figure 4. Enable and Disable Function Using IN- Pin
+8 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 9 ---
+1
+1.5
+2
+2.5
+3
+3.5
+−50 0 50 100 150
+Temperature (°C)
+Input Threshold (V)
+Turn−On
+Turn−Off
+VDD = 12 V
+CLoad = 1.8 nF
+G014 
+4
+5
+6
+7
+8
+−50 0 50 100 150
+Temperature (°C)
+Output Pull−Up Resistance (Ω )
+RoH
+VDD = 12 V
+Iout = 10 mA
+G004 
+0.1
+0.2
+0.3
+0.4
+0.5
+−50 0 50 100 150
+Temperature (°C)
+Operating Supply Current (mA)
+IN+=Low,IN−=Low
+IN+=High, IN−=Low
+VDD = 12 V
+G002 
+3.6
+3.8
+4
+4.2
+4.4
+4.6
+−50 0 50 100 150
+Temperature (°C)
+UVLO Threshold (V)
+UVLO Rising
+UVLO Falling
+G003 
+0.05
+0.06
+0.07
+0.08
+0.09
+0.1
+0.11
+0.12
+−50 0 50 100 150
+Temperature (°C)
+Startup Current (mA)
+IN+=Low,IN−=Low
+IN+=High, IN−=Low
+VDD = 3.4 V
+G001 
+2
+2.5
+3
+3.5
+4
+−50 0 50 100 150
+Temperature (°C)
+IDD (mA) VDD = 12 V
+CLoad = 500 pF
+fsw = 500 kHz
+G013 
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+8.7 Typical Characteristics
+Figure 5. Startup Current vs Temperature Figure 6. Operating Supply Current vs Temperature (Output
+Switching)
+Figure 7. Supply Current vs Temperature (Output In DC Figure 8. UVLO Threshold Voltage vs Temperature
+On/Off Condition)
+Figure 9. Input Threshold vs Temperature Figure 10. Output Pullup Resistance vs Temperature
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 9
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 10 ---
+0
+2
+4
+6
+8
+10
+12
+14
+16
+18
+20
+0 100 200 300 400 500 600 700
+Frequency (kHz)
+Supply Current (mA)
+VDD=4.5V
+VDD=12V
+VDD=15V
+CLoad = 1.8 nF
+G010 
+6
+8
+10
+12
+14
+16
+18
+20
+0 4 8 12 16 20
+Supply Voltage (V)
+Propagation Delay (ns)
+Turn−On
+Turn−Off 
+G007 
+6
+7
+8
+9
+10
+−50 0 50 100 150
+Temperature (°C)
+Fall Time (ns)
+VDD = 12 V
+CLoad = 1.8 nF
+G000 
+5
+10
+15
+20
+−50 0 50 100 150
+Temperature (°C)
+Propagation Delay (ns)
+Turn−On
+Turn−Off
+VDD = 12 V
+G006 
+0.2
+0.4
+0.6
+0.8
+1
+−50 0 50 100 150
+Temperature (°C)
+Pull−Down Resistance (Ω )
+ROL
+G000 
+4
+5
+6
+7
+8
+−50 0 50 100 150
+Temperature (°C)
+Rise Time (ns)
+VDD = 12 V
+CLoad = 1.8 nF
+G000 
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+Typical Characteristics (continued)
+Figure 11. Output Pulldown Resistance vs Temperature Figure 12. Rise Time vs Temperature
+Figure 13. Fall Time vs Temperature Figure 14. Input To Output Propagation Delay vs
+Temperature
+Figure 15. Operating Supply Current vs Frequency Figure 16. Propagation Delays vs Supply Voltage
+10 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 11 ---
+5
+10
+15
+20
+0 4 8 12 16 20
+Supply Voltage (V)
+Rise Time (ns)
+G008 
+2
+4
+6
+8
+10
+0 4 8 12 16 20
+Supply Voltage (V)
+Fall Time (ns)
+G009 
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+Typical Characteristics (continued)
+Figure 17. Rise Time vs Supply Voltage Figure 18. Fall Time vs Supply Voltage
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 11
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 12 ---
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+9 Detailed Description
+9.1 Overview
+The UCC2751x single-channel, high-speed, low-side gate-driver device can effectively drive MOSFET and IGBT
+power switches. Using a design that inherently minimizes shoot-through current, the UCC2751x device can
+source and sink high peak-current pulses into capacitive loads, offering rail-to-rail drive capability and extremely
+small propagation delay of 13 ns (typical). The UCC2751x device provides 4-A source, 4-A sink (symmetrical
+drive) peak-drive current capability. The UCC27511 device is designed to operate over a wide VDD range of 4.5
+to 18 V, and a wide temperature range of –40°C to 140°C.
+Internal UVLO circuitry on the VDD pin holds the output low outside VDD operating range. The capability to
+operate at low voltage levels, such as below 5 V, along with best-in-class switching characteristics, is suited for
+driving emerging wide band-gap power-switching devices such as GaN power-semiconductor devices.
+The UCC2751x device features a dual-input design which offers flexibility of implementing both inverting (IN–
+pin) and noninverting (IN+ pin) configuration with the same device. Either the IN+ or IN– pin can be used to
+control the state of the driver output. The unused input pin can be used for enable and disable functions. For
+system robustness, internal pullup and pulldown resistors on the input pins ensure that outputs are held low
+when the input pins are in floating condition. Therefore the unused input pin is not left floating and must be
+properly biased to ensure that driver output is in enabled for normal operation. The input pin threshold of the
+device is based on TTL and CMOS-compatible low-voltage logic which is fixed and independent of the VDD
+supply voltage. Wide hysteresis between the high and low thresholds offers excellent noise immunity.
+Table 2. UCC2751x Family of Features and Benefits
+FEATURE BENEFIT
+High Source/Sink Current Capability High current capability offers flexibility in employing UCC2751x
+4 A/8 A (Asymmetrical) – UCC27511/2 family of devices to drive a variety of power switching devices at
+4 A/4 A (Symmetrical) – UCC2751x varying speeds
+Best-in-class 13-ns (typ) Propagation delay Extremely low-pulse transmission distortion
+Expanded VDD Operating range of 4.5 V to 18 V Flexibility in system design
+Low VDD operation ensures compatibility with emerging wide-Expanded Operating Temperature range of -40°C to 140°C bandgap power devices such as GaN(See Electrical Characteristics table)
+VDD UVLO Protection Outputs are held low in UVLO condition, which ensures predictable
+glitch-free operation at power up and power down
+Outputs held low when input pins (INx) in floating condition Safety feature, especially useful in passing abnormal condition tests
+during safety certification
+Ability of input pins (and enable pin in UCC27518/9) to handle System simplification, especially related to auxiliary bias supply
+voltage levels not restricted by VDD pin bias voltage architecture
+Split output structure in UCC27511 (OUTH, OUTL) Allows independent optimization of turnon and turnoff speeds
+Strong sink current (8 A) and low pulldown impedance (0.375 Ω) in High immunity to C x dV/dt Miller turnon events
+UCC27511/2
+CMOS/TTL compatible input threshold logic with wide hysteresis in Enhanced noise immunity, while retaining compatibility with
+UCC27511/2/6/7 microcontroller logic-level input signals (3.3 V, 5 V) optimized for
+digital power
+CMOS input threshold logic in UCC27518/9 (VIN_H – 70% VDD, Well suited for slow input-voltage signals, with flexibility to program
+VIN_L – 30% VDD) delay circuits (RCD)
+12 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 13 ---
+3
+4
+2
+1
+5
+200 k/c87
+VDD 230 k/c87
+UVLO
+VDD
+VDD
+VDD
+OUT
+IN+
+IN-
+GND
+6
+1
+2
+4
+5
+200 k/c87
+VDD 230 k/c87
+UVLO
+VDD
+VDD
+VDD
+OUT
+IN+
+IN-
+GND
+3 GND
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+9.2 Functional Block Diagrams
+Figure 19. UCC27516 Functional Block Diagram
+Figure 20. UCC27517 Functional Block Diagram
+9.3 Feature Description
+9.3.1 VDD and Undervoltage Lockout
+The UCC2751x devices have internal UVLO protection feature on the VDD-pin supply-circuit blocks. Whenever
+the driver is in UVLO condition (for example when VDD voltage is less than VON during power up and when VDD
+voltage is less than VOFF during power down), this circuit holds all outputs LOW, regardless of the status of the
+inputs. The UVLO is typically 4.2 V with 300-mV typical hysteresis. This hysteresis helps prevent chatter when
+low VDD-supply voltages have noise from the power supply and also when there are droops in the VDD-bias
+voltage when the system commences switching and there is a sudden increase in IDD. The capability to operate
+at low voltage levels such as below 5 V, along with best-in-class switching characteristics, is especially suited for
+driving emerging GaN wide-bandgap power-semiconductor devices.
+For example, at power up, the UCC2751x driver output remains LOW until the VDD voltage reaches the UVLO
+threshold. The magnitude of the OUT signal rises with VDD until steady-state VDD is reached. In the noninverting
+operation (PWM signal applied to IN+ pin) shown below, the output remains LOW until the UVLO threshold is
+reached, and then the output is in-phase with the input. In the inverting operation (PWM signal applied to IN- pin)
+shown below the output remains LOW until the UVLO threshold is reached, and then the output is out-phase with
+the input. In both cases, the unused input pin must be properly biased to enable the output. Note that in these
+devices the output turns to high-state only if IN+ pin is high and IN- pin is low after the UVLO threshold is
+reached.
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 13
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 14 ---
+VDD ThresholdVDD
+IN+
+OUT
+IN-
+VDD ThresholdVDD
+IN+
+OUT
+IN-
+VDD Threshold
+IN-
+OUT
+IN+
+VDD Threshold
+IN-
+OUT
+IN+
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+Feature Description (continued)
+Because the driver draws current from the VDD pin to bias all internal circuits, for the best high-speed circuit
+performance, two VDD bypass capacitors are recommended to prevent noise problems. The use of surface-
+mount components is highly recommended. A 0.1-μF ceramic capacitor should be located as close as possible to
+the VDD to GND pins of the gate driver. In addition, a larger capacitor (such as 1 μF) with relatively low ESR
+should be connected in parallel and close proximity, in order to help deliver the high-current peaks required by
+the load. The parallel combination of capacitors should present a low impedance characteristic for the expected
+current levels and switching frequencies in the application.
+Figure 21. Power Up (Noninverting Drive) Figure 22. Power Up (Inverting Drive)
+9.3.2 Operating Supply Current
+The UCC2751x features very low quiescent IDD currents. The typical operating-supply current in Undervoltage-
+Lockout (UVLO) state and fully-on state (under static and switching conditions) are summarized in Figure 5,
+Figure 6, and Figure 7. The IDD current when the device is fully on and outputs are in a static state (DC high or
+DC low, see Figure 7) represents lowest quiescent IDD current when all the internal logic circuits of the device are
+fully operational. The total supply current is the sum of the quiescent IDD current, the average IOUT current due to
+switching and finally any current related to pullup resistors on the unused input pin. For example when the
+inverting input pin is pulled low additional current is drawn from VDD supply through the pullup resistors (refer to
+Functional Block Diagrams for the device Block Diagram). Knowing the operating frequency (fSW) and the
+MOSFET gate (QG) charge at the drive voltage being used, the average IOUT current can be calculated as
+product of QG and fSW.
+A complete characterization of the IDD current as a function of switching frequency at different VDD bias
+voltages under 1.8-nF switching load is provided in Figure 15. The strikingly-linear variation and close correlation
+with theoretical value of average IOUT indicates negligible shoot-through inside the gate-driver device attesting to
+the high-speed characteristics of IOUT.
+9.3.3 Input Stage
+The input pins of the UCC27516 and UCC27517 devices are based on a TTL/CMOS compatible input-threshold
+logic that is independent of the VDD supply voltage. With typ high threshold = 2.2 V and typ low threshold = 1.2
+V, the logic-level thresholds can be conveniently driven with PWM-control signals derived from 3.3-V and 5-V
+digital-power controllers. Wider hysteresis (typ 1 V) offers enhanced noise immunity compared to traditional TTL-
+logic implementations, where the hysteresis is typically less than 0.5 V. These devices also feature tight control
+of the input-pin threshold-voltage levels which eases system-design considerations and ensures stable operation
+across temperature. The very low input capacitance on these pins reduces loading and increases switching
+speed.
+The device features an important safety function wherein, whenever any of the input pins are in a floating
+condition, the output of the respective channel is held in the low state. This is achieved using VDD-pullup
+resistors on all the inverting inputs (IN- pin) or GND-pulldown resistors on all the noninverting input pins (IN+
+pin), (refer to Functional Block Diagrams).
+14 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 15 ---
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+Feature Description (continued)
+The device also features a dual-input configuration with two input pins available to control the state of the output.
+The user has the flexibility to drive the device using either a noninverting input pin (IN+) or an inverting input pin
+(IN-). The state of the output pin is dependent on the bias on both the IN+ and IN- pins. Refer to the input/output
+logic truth table (Table 3) and the Typical Application Diagrams, (Figure 24 and Figure 25), for additional
+clarification.
+Once an input pin has been chosen for PWM drive, the other input pin (the unused input pin) must be properly
+biased in order to enable the output. As mentioned earlier, the unused input pin cannot remain in a floating
+condition because, whenever any input pin is left in a floating condition, the output is disabled for safety
+purposes. Alternatively, the unused input pin can effectively be used to implement an enable and disable
+function, as explained below.
+• To drive the device in a noninverting configuration, apply the PWM-control input signal to IN+ pin. In this
+case, the unused input pin, IN-, must be biased low (eg. tied to GND) in order to enable the output.
+– Alternately, the IN- pin can be used to implement the enable/disable function using an external logic
+signal. OUT is disabled when IN- is biased high and OUT is enabled when IN- is biased low.
+• To drive the device in an inverting configuration, apply the PWM-control input signal to IN- pin. In this case,
+the unused input pin, IN+, must be biased high (eg. tied to VDD) in order to enable the output.
+– Alternately, the IN+ pin can be used to implement the enable/disable function using an external logic
+signal. OUT is disabled when IN+ is biased low and OUT is enabled when IN+ is biased high.
+• Finally, note that the output pin is driven into a high state only when IN+ pin is biased high and IN- input is
+biased low.
+The input stage of the driver should preferably be driven by a signal with a short rise or fall time. Caution must be
+exercised whenever the driver is used with slowly-varying input signals, especially in situations where the device
+is located in a mechanical socket or PCB layout is not optimal:
+• High dI/dt current from the driver output coupled with board layout parasitics causes ground bounce. Because
+the device features just one GND pin, which may be referenced to the power ground, the differential voltage
+between input pins and GND is modified and triggers an unintended change of output state. Because of fast
+13-ns propagation delay, high-frequency oscillations ultimately occur, which increases power dissipation and
+poses risk of damage.
+• 1-V input-threshold hysteresis boosts noise immunity compared to most other industry-standard drivers.
+• In the worst case, when a slow input signal is used and PCB layout is not optimal, adding a small capacitor (1
+nF) between input pin and ground very close to the driver device is necessary. This helps to convert the
+differential mode noise with respect to the input-logic circuitry into common-mode noise and avoid unintended
+change of output state.
+If limiting the rise or fall times to the power device is the primary goal, then an external resistance is highly
+recommended between the output of the driver and the power device instead of adding delays on the input
+signal. This external resistor has the additional benefit of reducing part of the gate charge related power
+dissipation in the gate-driver device package and transferring the gate driver into the external resistor.
+9.3.4 Enable Function
+As mentioned earlier, an enable/disable function is easily implemented in the UCC27516 and UCC27517 using
+the unused input pin. When IN+ is pulled down to GND or IN- is pulled down to VDD, the output is disabled.
+Thus IN+ pin is used like an enable pin that is based on active-high logic, while IN- can be used like an enable
+pin that is based on active-low logic.
+9.3.5 Output Stage
+The UCC27516 and UCC27517 devices can deliver 4-A source, 4-A sink (symmetrical drive) at VDD = 12 V. The
+output stage of the UCC27516 and UCC27517 devices are illustrated in Figure 23. The UCC27516 and
+UCC27517 devices features a unique architecture on the output stage which delivers the highest peak-source
+current when most needed during the Miller-plateau region of the power-switch turnon transition (when the
+power-switch drain/collector voltage experiences dV/dt). The device output stage features a hybrid pullup
+structure using a parallel arrangement of N-Channel and P-Channel MOSFET devices. By turning on the N-
+Channel MOSFET during a narrow instant when the output changes state from low to high, the gate-driver device
+delivers a brief boost in the peak-sourcing current enabling fast turnon.
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 15
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 16 ---
+VCC
+ROH
+ROL
+Gate
+Voltage
+Boost
+Narrow Pulse at
+each Turn On
+Anti Shoot-
+Through
+Circuitry
+Input Signal
+RNMOS, Pull Up
+OUT
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+Feature Description (continued)
+Figure 23. UCC2751x Gate Driver Output Structure
+The ROH parameter (see Electrical Characteristics) is a DC measurement and is representative of the on-
+resistance of the P-Channel device only, because the N-Channel device is turned on only during output change
+of state from low to high. Thus the effective resistance of the hybrid pullup stage is much lower than what is
+represented by ROH parameter. The pulldown structure is composed of a N-Channel MOSFET only. The ROL
+parameter (see Electrical Characteristics), which is also a DC measurement, is representative of true impedance
+of the pulldown stage in the device. In the UCC27516 and UCC27517, the effective resistance of the hybrid
+pullup structure is approximately 1.4 × ROL.
+The driver-output voltage swings between VDD and GND providing rail-to-rail operation because of the MOS
+output stage which delivers very low dropout. The presence of the MOSFET-body diodes also offers low
+impedance to switching overshoots and undershoots. This means that in many cases, external Schottky-diode
+clamps may be eliminated. The outputs of these drivers are designed to withstand 500-mA reverse current
+without either damage to the device or logic malfunction.
+9.3.6 Low Propagation Delays
+The UCC27516 and UCC27517 driver devices feature best-in-class input-to-output propagation delay of 13 ns
+(typ) at VDD = 12 V. This promises the lowest level of pulse-transmission distortion available from industry-
+standard gate-driver devices for high-frequency switching applications. As seen in Figure 14, there is very little
+variation of the propagation delay with temperature and supply voltage as well, offering typically less than 20-ns
+propagation delays across the entire range of application conditions.
+9.4 Device Functional Modes
+Table 3. Device Logic Table
+IN+ PIN IN- PIN OUT PIN
+L L L
+L H L
+H L H
+H H L
+x (1) Any L
+Any x (1) L
+(1) x = Floating Condition
+16 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 17 ---
+1
+2
+3
+5
+4
+VDD
+GND
+IN+
+OUT
+IN-
+UCC27517
+Q1
+IN+
+4.5 V to 18 V
+V+
+C1
+R1
+1
+2
+3
+5
+4
+IN-
+GND
+GND
+IN+
+VDD
+UCC27516
+Q1
+R1
+4
+OUT
+VIN+
+VIN+
+4.5 V to 18 V
+C1
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+10 Application and Implementation
+NOTE
+Information in the following applications sections is not part of the TI component
+specification, and TI does not warrant its accuracy or completeness. TI’s customers are
+responsible for determining suitability of components for their purposes. Customers should
+validate and test their design implementation to confirm system functionality.
+10.1 Application Information
+High-current gate-driver devices are required in switching power applications for a variety of reasons. In order to
+effect fast switching of power devices and reduce associated switching power losses, a powerful gate driver is
+employed between the PWM output of controllers and the gates of the power-semiconductor devices. Further,
+gate drivers are indispensable when there are times that the PWM controller cannot directly drive the gates of
+the switching devices. With advent of digital power, this situation is often encountered because the PWM signal
+from the digital controller is often a 3.3-V logic signal, which is not capable of effectively turning on a power
+switch. A level-shifting circuitry is needed to boost the 3.3-V signal to the gate-drive voltage (such as 12 V) in
+order to fully turn on the power device and minimize conduction losses. Because traditional buffer-drive circuits
+based on NPN/PNP bipolar transistors in totem-pole arrangement, being emitter-follower configurations, lack
+level-shifting capability, the circuits prove inadequate with digital power. Gate drivers effectively combine both the
+level-shifting and buffer-drive functions. Gate drivers also find other needs such as minimizing the effect of high-
+frequency switching noise by locating the high-current driver physically close to the power switch, driving gate-
+drive transformers and controlling floating power-device gates, reducing power dissipation and thermal stress in
+controllers by moving gate-charge power losses into itself. Finally, emerging wide-bandgap power-device
+technologies, such as GaN based switches, which are capable of supporting very high switching frequency
+operation, are driving very special requirements in terms of gate-drive capability. These requirements include
+operation at low VDD voltages (5 V or lower), low propagation delays and availability in compact, low-inductance
+packages with good thermal capability. In summary gate-driver devices are extremely important components in
+switching power combining benefits of high-performance, low cost, component count and board space reduction
+with a simplified system design.
+10.2 Typical Application
+The UCC27516 and UCC27517 devices can be used in non-inverting and inverting driver configurations.
+NOTE
+The UCC27516 features two ground pins, pin 2 and pin 3. TI recommends tying both pins
+together using PCB trace as close as possible to the device.
+(IN- Is Grounded to the Enable Output)
+Figure 24. Using Noninverting Input
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 17
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 18 ---
+1
+2
+3
+5
+4
+IN-
+GND
+GND
+OUT
+VDD
+UCC27516
+V+
+Q1
+R1
+4.5 V to 18 V
+IN-
+C1
+1
+2
+3
+5
+4
+VDD
+GND
+IN+
+OUT
+IN-
+UCC27517
+VIN-
+Q1
+R14.5 V to 18 V
+V+
+C1
+IN+ 4
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+Typical Application (continued)
+(IN+ Is Tied to VDD Enable Output)
+Figure 25. Using Inverting Input
+10.2.1 Design Requirements
+When selecting the proper gate driver device for an end application, some design considerations must be
+evaluated first to make the most appropriate selection. Among these considerations are input-to-output
+configuration, the input threshold type, bias supply voltage levels, peak source and sink currents, availability of
+independent enable and disable functions, propagation delay, power dissipation, and package type.
+Table 4. Design Parameters
+Design Parameter Example Value
+Input-to-Output Logic Non-Inverting
+Input Threshold Type Logic Level
+VDD Bias Supply Voltage 10 V (Minimum), 13 V (Nominal), 15 V (Peak)
+Peak Source and Sink Currents Minimum 3 A Source, Minimum 3 A Sink
+Enable and Disable Function Yes, Needed
+Propagation Delay Maximum 40 ns or less
+10.2.2 Detailed Design Procedure
+10.2.2.1 Input-to-Output Logic
+The design should specify which type of input-to-output configuration should be used. If turning on the power
+MOSFET or IGBT when the input signal is in high state is preferred, then the noninverting configuration must be
+selected. If turning off the power MOSFET or IGBT when the input signal is in high state is preferred, the
+inverting configuration must be chosen. The UCC27516 and UCC27517 devices can be configured in either an
+inverting or noninverting input-to-output configuration, using the IN– or IN+ pins, respectively. To configure the
+device for use in inverting mode, tie the IN+ pin to VDD and apply the input signal to the IN– pin. For the non
+inverting configuration, tie the IN– pin to GND and apply the input signal to the IN+ pin.
+10.2.2.2 Input Threshold Type
+The type of input voltage threshold determines the type of controller used with the gate driver device. The
+UCC27516 and UCC27517 devices feature a TTL and CMOS-compatible input threshold logic, with wide
+hysteresis. The threshold voltage levels are low voltage and independent of the VDD supply voltage, which allows
+compatibility with both logic-level input signals from microcontrollers, as well as higher-voltage input signals from
+analog controllers. See Electrical Characteristics for the actual input threshold voltage levels and hysteresis
+specifications for the UCC27516 and UCC27517 devices.
+18 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 19 ---
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+10.2.2.3 VDD Bias Supply Voltage
+The bias supply voltage to be applied to the VDD pin of the device should never exceed the values listed in the
+Recommended Operating Conditions table. However, different power switches demand different voltage levels to
+be applied at the gate terminals for effective turnon and turnoff. With certain power switches, a positive gate
+voltage may be required for turnon and a negative gate voltage may be required for turnoff, in which case the
+VDD bias supply equals the voltage differential. With a wide operating range from 4.5 V to 18 V, the UCC27516
+and UCC27517 devices can be used to drive a variety of power switches, such as Si MOSFETs (for example,
+VGS = 4.5 V, 10 V, 12 V), IGBTs (VGE = 15 V, 18 V), and wide-band gap power semiconductors (such as GaN,
+certain types of which allow no higher than 6 V to be applied to the gate terminals).
+10.2.2.4 Peak Source and Sink Currents
+Generally, the switching speed of the power switch during turnon and turnoff should be as fast as possible, to
+minimize switching power losses. The gate driver device must be able to provide the required peak current for
+achieving the targeted switching speeds for the targeted power MOSFET.
+Using the example of a power MOSFET, the system requirement for the switching speed is typically described in
+terms of the slew rate of the drain-to-source voltage of the power MOSFET (such as dVDS/dt). For example, the
+system requirement might state that a SPP20N60C3 power MOSFET must be turned-on with a dVDS/dt of
+20V/ns or higher, under a DC bus voltage of 400 V in a continuous-conduction-mode (CCM) boost PFC-
+converter application. This type of application is an inductive hard-switching application and reducing switching
+power losses is critical. This requirement means that the entire drain-to-source voltage swing during power
+MOSFET turnon event (from 400 V in the OFF state to VDS(on) in on state) must be completed in approximately
+20 ns or less.
+When the drain-to-source voltage swing occurs, the Miller charge of the power MOSFET (QGD parameter in
+SPP20N60C3 power MOSFET data sheet = 33 nC typical) is supplied by the peak current of gate driver.
+According to the power MOSFET inductive switching mechanism, the gate-to-source voltage of the power
+MOSFET at this time is the Miller plateau voltage, which is typically a few volts higher than the threshold voltage
+of the power MOSFET, VGS(TH). To achieve the targeted dVDS/dt, the gate driver must be capable of providing
+the QGD charge in 20 ns or less. In other words, a peak current of 1.65 A (= 33 nC / 20 ns) or higher must be
+provided by the gate driver. The UCC27516 and UCC27517 gate driver is capable of providing 4-A peak
+sourcing current, which exceeds the design requirement and has the capability to meet the switching speed
+needed.
+The 2.4x overdrive capability provides an extra margin against part-to-part variations in the QGD parameter of
+the power MOSFET, along with additional flexibility to insert external gate resistors and fine tune the switching
+speed for efficiency versus EMI optimizations. However, in practical designs the parasitic trace inductance in the
+gate drive circuit of the PCB will have a definitive role to play on the power MOSFET switching speed. The effect
+of this trace inductance is to limit the dI/dt of the output current pulse of the gate driver.
+To illustrate this, consider output current pulse waveform from the gate driver to be approximated to a triangular
+profile, where the area under the triangle (½ ×IPEAK × time) would equal the total gate charge of the power
+MOSFET (QG parameter in SPP20N60C3 power MOSFET datasheet = 87 nC typical).
+If the parasitic trace inductance limits the dI/dt, then a situation may occur in which the full peak current capability
+of the gate driver is not fully achieved in the time required to deliver the QG required for the power MOSFET
+switching. In other words, the time parameter in the equation would dominate and the IPEAK value of the current
+pulse would be much less than the true peak current capability of the device, while the required QG is still
+delivered. Because of this, the desired switching speed may not be realized, even when theoretical calculations
+indicate the gate driver is capable of achieving the targeted switching speed. Thus, placing the gate driver device
+very close to the power MOSFET and designing a tight gate drive-loop with minimal PCB trace inductance is
+important to realize the full peak-current capability of the gate driver.
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 19
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 20 ---
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+10.2.2.5 Enable and Disable Function
+Certain applications demand independent control of the output state of the driver, without involving the input
+signal. A pin offering an enable and disable function achieves this requirement. The UCC27516 and UCC27517
+devices offer two input pins, IN+ and IN–, both of which control the state of the output as listed in Table 3. Based
+on whether an inverting or non inverting input signal is provided to the driver, the appropriate input pin can be
+selected as the primary input for controlling the gate driver. The other unused input pin can be used for the
+enable and disable functionality. If the design does not require an enable function, the unused input pin can be
+tied to either the VDD pin (in case IN+ is the unused pin), or GND (in case IN– is unused pin) to ensure it does
+not affect the output status.
+10.2.2.6 Propagation Delay
+The acceptable propagation delay from the gate driver is dependent on the switching frequency at which it is
+used, and the acceptable level of pulse distortion to the system. The UCC27516 and UCC27517 devices feature
+industry best-in-class 13-ns (typical) propagation delays, which ensure very little pulse distortion and allow
+operation at very high-frequencies. See Switching Characteristics for the propagation and switching
+characteristics of the UCC27516 and UCC27517 devices.
+10.2.3 Application Curves
+VDD = 10 V C(LOAD) = 1 nF VDD = 10 V C(LOAD) = 1 nF
+Figure 26. Typical Turnon Waveform Figure 27. Typical Turnoff Waveform
+20 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 21 ---
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+11 Power Supply Recommendations
+The bias supply voltage range for which the UCC27516 and UCC27517 device is rated to operate is from 4.5 V
+to 18 V. The lower end of this range is governed by the internal UVLO protection feature on the VDD pin supply
+circuit blocks. Whenever the driver is in UVLO condition when the VDD pin voltage is below the V(ON) supply
+start threshold, this feature holds the output low, regardless of the status of the inputs. The upper end of this
+range is driven by the 20-V absolute maximum voltage rating of the VDD pin of the device (which is a stress
+rating). Keeping a 2-V margin to allow for transient voltage spikes, the maximum recommended voltage for the
+VDD pin is 18 V.
+The UVLO protection feature also involves a hysteresis function. This means that when the VDD pin bias voltage
+has exceeded the threshold voltage and the device begins to operate, and if the voltage drops, then the device
+continues to deliver normal functionality unless the voltage drop exceeds the hysteresis specification VDD(hys).
+While operating at or near the 4.5 V range, ensure that the voltage ripple on the auxiliary power supply output is
+smaller than the hysteresis specification of the device, to avoid triggering a device shutdown.
+During system shutdown, the device operation continues until the VDD pin voltage has dropped below the V(OFF)
+threshold, which must be accounted for while evaluating system shutdown timing design requirements. Likewise,
+at system startup the device does not begin operation until the VDD pin voltage has exceeded above the V(ON)
+threshold. The quiescent current consumed by the internal circuit blocks of the device is supplied through the
+VDD pin. Keep in mind that the charge for source current pulses delivered by the OUT pin is also supplied
+through the same VDD pin. As a result, every time a current is sourced out of the output pin (OUT), a
+corresponding current pulse is delivered into the device through the VDD pin. Therefore, ensure that local bypass
+capacitors are provided between the VDD and GND pins, and located as close to the device as possible for the
+purpose of decoupling. A low ESR, ceramic surface mount capacitor is necessary. TI recommends using 2
+capacitors; a 100-nF ceramic surface-mount capacitor which can be nudged very close to the pins of the device,
+and another surface-mount capacitor of few microfarads added in parallel.
+12 Layout
+12.1 Layout Guidelines
+Proper PCB layout is extremely important in a high-current fast-switching circuit to provide appropriate device
+operation and design robustness. The UCC27516 and UCC27517 gate driver incorporates short-propagation
+delays and powerful output stages capable of delivering large current peaks with very fast rise and fall times at
+the gate of the power switch to facilitate voltage transitions very quickly. At higher VDD voltages, the peak-
+current capability is even higher (4-A/4-A peak current is at VDD = 12 V). Very high di/dt causes unacceptable
+ringing if the trace lengths and impedances are not well controlled. The following circuit layout guidelines are
+strongly recommended when designing with these high-speed drivers.
+• Locate the driver device as close as possible to the power device in order to minimize the length of high-
+current traces between the output pins and the gate of the power device.
+• Locate the VDD bypass capacitors between VDD and GND as close as possible to the driver with minimal
+trace length to improve the noise filtering. These capacitors support high-peak current being drawn from VDD
+during turnon of power MOSFET. The use of low inductance SMD components such as chip resistors and
+chip capacitors is highly recommended.
+• The turnon and turnoff current-loop paths (driver device, power MOSFET and VDD bypass capacitor) should
+be minimized as much as possible in order to keep the stray inductance to a minimum. High dI/dt is
+established in these loops at two instances – during turnon and turnoff transients, which will induce significant
+voltage transients on the output pin of the driver device and gate of the power switch.
+• Wherever possible parallel the source and return traces, taking advantage of flux cancellation.
+• Separate power traces and signal traces, such as output and input signals.
+• Star-point grounding is a good way to minimize noise coupling from one current loop to another. The GND of
+the driver should be connected to the other circuit nodes such as source of power switch or the ground of
+PWM controller at one, single point. The connected paths should be as short as possible to reduce
+inductance and be as wide as possible to reduce resistance.
+• Use a ground plane to provide noise shielding. Fast rise and fall times at OUT may corrupt the input signals
+during transition. The ground plane must not be a conduction path for any current loop. Instead the ground
+plane must be connected to the star-point with one single trace to establish the ground potential. In addition
+to noise shielding, the ground plane can help in power dissipation as well.
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 21
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 22 ---
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+Layout Guidelines (continued)
+• In noisy environments, tying the unused input pin of UCC27516 and UCC27517 to VDD (in case of IN+) or
+GND (in case of IN–) using short traces to ensure that the output is enabled and to prevent noise from
+causing malfunction in the output is necessary.
+• The UCC27516 device offers two ground pins, pin 2 and pin 3. Shorting the two pins together using the PCB
+trace is extremely important. The shortest trace should be located as close as possible to the device.
+12.2 Layout Example
+Figure 28. UCC27516DRS in Noninverting Configuration
+22 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 23 ---
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+Layout Example (continued)
+Figure 29. UCC27517DBV in Noninverting Configuration
+12.3 Thermal Considerations
+The useful range of a driver is greatly affected by the drive-power requirements of the load and the thermal
+characteristics of the package. For a gate driver to be useful over a particular temperature range the package
+must allow for the efficient removal of the heat produced while keeping the junction temperature within rated
+limits. The thermal metrics for the driver package is summarized in Thermal Information. For detailed information
+regarding the thermal information table, refer to the Application Note from Texas Instruments entitled IC Package
+Thermal Metrics (SPRA953).
+The UCC27516 and UCC27517 devices are offered in SOT-23, 5-pin package (DBV) and 3 mm × 3 mm, WSON
+6-pin package with exposed thermal pad (DRS), respectively. The Thermal Information table summarizes the
+thermal performance metrics related to the two packages. RθJA metric should be used for comparison of power
+dissipation between different packages. Under identical power dissipation conditions, the DRS package will
+maintain a lower die temperature than the DBV. The ψJT and ψJB metrics should be used when estimating the die
+temperature during actual application measurements.
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 23
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 24 ---
+2
+G LOAD DD SWP C V f/c61
+2
+G LOAD DD
+1E C V 2/c61
+DISS DC SWP P P /c61 /c43
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+Thermal Considerations (continued)
+The DRS is a better thermal package overall because of the exposed thermal pad and ability to sink heat to the
+PCB better than the DBV. The thermal pad in DRS package provides designers with an ability to create an
+excellent heat removal subsystem from the vicinity of the device, thus helping to maintain a lower junction
+temperature. This pad should be soldered to the copper on the printed circuit board directly underneath the
+device package. Then a printed circuit board designed with thermal lands and thermal vias completes a very
+efficient heat removal subsystem. In such a design, the heat is extracted from the semiconductor junction
+through the thermal pad, which is then efficiently conducted away from the location of the device on the PCB
+through the thermal network. This extraction helps to maintain a lower board temperature near the vicinity of the
+device leading to an overall lower device-junction temperature.
+In comparison, for the DBV package, heat removal occurs primarily through the leads of the device and the PCB
+traces connected to the leads.
+Note that the exposed pad in DRS package is not directly connected to any leads of the package. However, the
+DRS package is electrically and thermally connected to the substrate of the device which is the ground of the
+device. TI recommends to externally connect the exposed pads to GND in PCB layout for better EMI immunity.
+12.4 Power Dissipation
+Power dissipation of the gate driver has two portions as shown in Equation 1.
+(1)
+The DC portion of the power dissipation is PDC = IQ x VDD where IQ is the quiescent current for the driver. The
+quiescent current is the current consumed by the device to bias all internal circuits such as input stage, reference
+voltage, logic circuits, protections, and also any current associated with switching of internal devices when the
+driver output changes state (such as charging and discharging of parasitic capacitances, parasitic shoot-through
+etc). The UCC27516 and UCC27517 features very low quiescent currents (less than 1 mA, refer Figure 7) and
+contains internal logic to eliminate any shoot-through in the output-driver stage. Thus the effect of the PDC on the
+total power dissipation within the gate driver can be safely assumed to be negligible.
+The power dissipated in the gate-driver package during switching (PSW) depends on the following factors:
+• Gate charge required of the power device (usually a function of the drive voltage VG, which is very close to
+input bias supply voltage VDD due to low VOH drop-out).
+• Switching frequency.
+• Use of external-gate resistors.
+When a driver device is tested with a discrete, capacitive load calculating the power that is required from the bias
+supply is fairly easy. The energy that must be transferred from the bias supply to charge the capacitor is given by
+Equation 2.
+Where
+• CLOAD is load capacitor
+• VDD is bias voltage feeding the driver (2)
+There is an equal amount of energy dissipated when the capacitor is charged. This leads to a total power loss
+given by Equation 3.
+where
+• ƒSW is the switching frequency (3)
+The switching load presented by a power MOSFET/IGBT is converted to an equivalent capacitance by examining
+the gate charge required to switch the device. This gate charge includes the effects of the input capacitance plus
+the added charge needed to swing the drain voltage of the power device as it switches between the ON and OFF
+states. Most manufacturers provide specifications of typical and maximum gate charge, in nC, to switch the
+device under specified conditions. Using the gate charge Qg, determine the power that must be dissipated when
+charging a capacitor. This is done by using the equation, QG = CLOAD x VDD, to provide Equation 4 for power:
+24 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 25 ---
+OFF ON
+SW G SW
+OFF GATE ON GATE
+R RP 0.5 Q VDD f R R R R
+/c230 /c246/c61 /c180 /c180 /c180 /c180 /c43 /c231 /c247 /c43 /c43/c232 /c248
+2
+G LOAD DD SW g DD SWP C V f Q V f/c61 /c61
+UCC27516, UCC27517
+www.ti.com SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014
+Power Dissipation (continued)
+(4)
+This power PG is dissipated in the resistive elements of the circuit when the MOSFET/IGBT is being turned on or
+turned off. Half of the total power is dissipated when the load capacitor is charged during turnon, and the other
+half is dissipated when the load capacitor is discharged during turnoff. When no external gate resistor is
+employed between the driver and MOSFET/IGBT, this power is completely dissipated inside the driver package.
+With the use of external gate-drive resistors, the power dissipation is shared between the internal resistance of
+driver and external gate resistor in accordance to the ratio of the resistances (more power dissipated in the
+higher resistance component). Based on this simplified analysis, the driver power dissipation during switching is
+calculated in Equation 5.
+where
+• ROFF = ROL
+• RON (effective resistance of pullup structure) = 1.4 x ROL (5)
+Copyright © 2012–2014, Texas Instruments Incorporated Submit Documentation Feedback 25
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 26 ---
+UCC27516, UCC27517
+SLUSAY4D – MARCH 2012 – REVISED DECEMBER 2014 www.ti.com
+13 Device and Documentation Support
+13.1 Related Links
+The table below lists quick access links. Categories include technical documents, support and community
+resources, tools and software, and quick access to sample or buy.
+Table 5. Related Links
+TECHNICAL TOOLS & SUPPORT &PARTS PRODUCT FOLDER SAMPLE & BUY DOCUMENTS SOFTWARE COMMUNITY
+UCC27516 Click here Click here Click here Click here Click here
+UCC27517 Click here Click here Click here Click here Click here
+13.2 Trademarks
+All trademarks are the property of their respective owners.
+13.3 Electrostatic Discharge Caution
+These devices have limited built-in ESD protection. The leads should be shorted together or the device placed in conductive foam
+during storage or handling to prevent electrostatic damage to the MOS gates.
+13.4 Glossary
+SLYZ022 — TI Glossary.
+This glossary lists and explains terms, acronyms, and definitions.
+14 Mechanical, Packaging, and Orderable Information
+The following pages include mechanical, packaging, and orderable information. This information is the most
+current data available for the designated devices. This data is subject to change without notice and revision of
+this document. For browser-based versions of this data sheet, refer to the left-hand navigation.
+26 Submit Documentation Feedback Copyright © 2012–2014, Texas Instruments Incorporated
+Product Folder Links: UCC27516 UCC27517
+--- PAGE 27 ---
+PACKAGE OPTION ADDENDUM
+www.ti.com 22-Jul-2026
+PACKAGING INFORMATION
+Orderable part number Status
+(1)
+Material type
+(2)
+Package | Pins Package qty | Carrier RoHS
+(3)
+Lead finish/
+Ball material
+(4)
+MSL rating/
+Peak reflow
+(5)
+Op temp (°C) Part marking
+(6)
+UCC27516DRSR Active Production SON (DRS) | 6 3000 | LARGE T&R Yes NIPDAU Level-2-260C-1 YEAR -40 to 140 27516
+UCC27516DRSR.A Active Production SON (DRS) | 6 3000 | LARGE T&R Yes NIPDAU Level-2-260C-1 YEAR -40 to 140 27516
+UCC27516DRST Active Production SON (DRS) | 6 250 | SMALL T&R Yes NIPDAU Level-2-260C-1 YEAR -40 to 140 27516
+UCC27516DRST.A Active Production SON (DRS) | 6 250 | SMALL T&R Yes NIPDAU Level-2-260C-1 YEAR -40 to 140 27516
+UCC27517DBVR Active Production SOT-23 (DBV) | 5 3000 | LARGE T&R Yes NIPDAU | SN Level-1-260C-UNLIM -40 to 140 7517
+UCC27517DBVR.A Active Production SOT-23 (DBV) | 5 3000 | LARGE T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 140 7517
+UCC27517DBVT Active Production SOT-23 (DBV) | 5 250 | SMALL T&R Yes NIPDAU | SN Level-1-260C-UNLIM -40 to 140 7517
+UCC27517DBVT.A Active Production SOT-23 (DBV) | 5 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 140 7517
+UCC27517DBVTG4 Active Production SOT-23 (DBV) | 5 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 140 7517
+UCC27517DBVTG4.A Active Production SOT-23 (DBV) | 5 250 | SMALL T&R Yes NIPDAU Level-1-260C-UNLIM -40 to 140 7517
+ 
+(1) Status:  For more details on status, see our product life cycle.
+ 
+(2) Material type:  When designated, preproduction parts are prototypes/experimental devices, and are not yet approved or released for full production. Testing and final process, including without limitation quality assurance,
+reliability performance testing, and/or process qualification, may not yet be complete, and this item is subject to further changes or possible discontinuation. If available for ordering, purchases will be subject to an additional
+waiver at checkout, and are intended for early internal evaluation purposes only. These items are sold without warranties of any kind.
+ 
+(3) RoHS values:  Yes, No, RoHS Exempt. See the TI RoHS Statement for additional information and value definition.
+ 
+(4) Lead finish/Ball material:  Parts may have multiple material finish options. Finish options are separated by a vertical ruled line. Lead finish/Ball material values may wrap to two lines if the finish value exceeds the maximum
+column width.
+ 
+(5) MSL rating/Peak reflow:  The moisture sensitivity level ratings and peak solder (reflow) temperatures. In the event that a part has multiple moisture sensitivity ratings, only the lowest level per JEDEC standards is shown.
+Refer to the shipping label for the actual reflow temperature that will be used to mount the part to the printed circuit board.
+ 
+(6) Part marking:  There may be an additional marking, which relates to the logo, the lot trace code information, or the environmental category of the part.
+ 
+Multiple part markings will be inside parentheses. Only one part marking contained in parentheses and separated by a "~" will appear on a part. If a line is indented then it is a continuation of the previous line and the two
+combined represent the entire part marking for that device.
+ 
+Important Information and Disclaimer:The information provided on this page represents TI's knowledge and belief as of the date that it is provided. TI bases its knowledge and belief on information provided by third parties, and
+makes no representation or warranty as to the accuracy of such information. Efforts are underway to better integrate information from third parties. TI has taken and continues to take reasonable steps to provide representative
+Addendum-Page 1
+--- PAGE 28 ---
+PACKAGE OPTION ADDENDUM
+www.ti.com 22-Jul-2026
+and accurate information but may not have conducted destructive testing or chemical analysis on incoming materials and chemicals. TI and TI suppliers consider certain information to be proprietary, and thus CAS numbers
+and other limited information may not be available for release.
+ 
+In no event shall TI's liability arising out of such information exceed the total purchase price of the TI part(s) at issue in this document sold by TI to Customer on an annual basis.
+ 
+Addendum-Page 2
+--- PAGE 29 ---
+PACKAGE MATERIALS INFORMATION
+  
+www.ti.com 15-Aug-2026
+TAPE AND REEL INFORMATION
+Reel Width (W1)
+REEL DIMENSIONS
+A0B0K0WDimension designed to accommodate the component lengthDimension designed to accommodate the component thicknessOverall width of the carrier tapePitch between successive cavity centersDimension designed to accommodate the component width
+TAPE DIMENSIONSK0 P1B0WA0Cavity
+QUADRANT ASSIGNMENTS FOR PIN 1 ORIENTATION IN TAPE
+Pocket QuadrantsSprocket HolesQ1Q1Q2Q2Q3Q3Q4Q4User Direction of Feed
+P1ReelDiameter
+ 
+*All dimensions are nominal
+Device Package
+Type
+Package
+Drawing
+Pins SPQ Reel
+Diameter
+(mm)
+Reel
+Width
+W1 (mm)
+A0
+(mm)
+B0
+(mm)
+K0
+(mm)
+P1
+(mm)
+W
+(mm)
+Pin1
+Quadrant
+UCC27516DRSR SON DRS 6 3000 330.0 12.4 3.3 3.3 1.1 8.0 12.0 Q2
+UCC27516DRST SON DRS 6 250 180.0 12.4 3.3 3.3 1.1 8.0 12.0 Q2
+UCC27517DBVR SOT-23 DBV 5 3000 178.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+UCC27517DBVR SOT-23 DBV 5 3000 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+UCC27517DBVR SOT-23 DBV 5 3000 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+UCC27517DBVR SOT-23 DBV 5 3000 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+UCC27517DBVT SOT-23 DBV 5 250 178.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+UCC27517DBVT SOT-23 DBV 5 250 178.0 9.0 3.23 3.17 1.37 4.0 8.0 Q3
+UCC27517DBVTG4 SOT-23 DBV 5 250 180.0 8.4 3.2 3.2 1.4 4.0 8.0 Q3
+Pack Materials-Page 1
+--- PAGE 30 ---
+PACKAGE MATERIALS INFORMATION
+  
+www.ti.com 15-Aug-2026
+TAPE AND REEL BOX DIMENSIONS
+Width (mm)
+W LH
+ 
+*All dimensions are nominal
+Device Package Type Package Drawing Pins SPQ Length (mm) Width (mm) Height (mm)
+UCC27516DRSR SON DRS 6 3000 346.0 346.0 33.0
+UCC27516DRST SON DRS 6 250 210.0 185.0 35.0
+UCC27517DBVR SOT-23 DBV 5 3000 208.0 191.0 35.0
+UCC27517DBVR SOT-23 DBV 5 3000 210.0 185.0 35.0
+UCC27517DBVR SOT-23 DBV 5 3000 210.0 185.0 35.0
+UCC27517DBVR SOT-23 DBV 5 3000 180.0 180.0 18.0
+UCC27517DBVT SOT-23 DBV 5 250 208.0 191.0 35.0
+UCC27517DBVT SOT-23 DBV 5 250 180.0 180.0 18.0
+UCC27517DBVTG4 SOT-23 DBV 5 250 210.0 185.0 35.0
+Pack Materials-Page 2
+--- PAGE 31 ---
+www.ti.com
+PACKAGE OUTLINE
+C
+0.22
+0.08 TYP
+0.25
+3.0
+2.6
+2X 0.95
+1.9
+1.45
+0.90
+0.15
+0.00 TYP
+5X 0.5
+0.3
+0.6
+0.3 TYP
+8
+0  TYP
+1.9
+(0.1)
+(0.15)
+4X 0 -15
+4X 4 -15
+A
+3.05
+2.75
+B1.75
+1.45
+(1.1)
+SOT-23 - 1.45 mm max heightDBV0005A
+SMALL OUTLINE TRANSISTOR
+4214839/K   08/2024
+NOTES: 
+ 
+1. All linear dimensions are in millimeters. Any dimensions in parenthesis are for reference only. Dimensioning and tolerancing
+    per ASME Y14.5M.
+2. This drawing is subject to change without notice.
+3. Refernce JEDEC MO-178.
+4. Body dimensions do not include mold flash, protrusions, or gate burrs. Mold flash, protrusions, or gate burrs shall not
+    exceed 0.25 mm per side.
+5. Support pin may differ or may not be present.
+0.2 C A B
+1
+3
+4
+5
+2
+INDEX AREA
+PIN 1
+ NOTE 5
+GAGE PLANE
+SEATING PLANE
+0.1 C
+SCALE  4.000
+--- PAGE 32 ---
+www.ti.com
+EXAMPLE BOARD LAYOUT
+0.07 MAX
+ARROUND
+0.07 MIN
+ARROUND
+5X (1.1)
+5X (0.6)
+(2.6)
+(1.9)
+2X (0.95)
+(R0.05) TYP
+4214839/K   08/2024
+SOT-23 - 1.45 mm max heightDBV0005A
+SMALL OUTLINE TRANSISTOR
+NOTES: (continued)
+ 
+6. Publication IPC-7351 may have alternate designs. 
+7. Solder mask tolerances between and around signal pads can vary based on board fabrication site.
+ 
+SYMM
+LAND PATTERN EXAMPLE
+EXPOSED METAL SHOWN
+SCALE:15X
+PKG
+1
+3 4
+5
+2
+SOLDER MASK
+OPENING
+METAL UNDER
+SOLDER MASK
+SOLDER MASK
+DEFINED
+EXPOSED METAL
+METALSOLDER MASK
+OPENING
+NON SOLDER MASK
+DEFINED
+(PREFERRED)
+SOLDER MASK DETAILS
+EXPOSED METAL
+--- PAGE 33 ---
+www.ti.com
+EXAMPLE STENCIL DESIGN
+(2.6)
+(1.9)
+2X(0.95)
+5X (1.1)
+5X (0.6)
+(R0.05) TYP
+SOT-23 - 1.45 mm max heightDBV0005A
+SMALL OUTLINE TRANSISTOR
+4214839/K   08/2024
+NOTES: (continued)
+ 
+8. Laser cutting apertures with trapezoidal walls and rounded corners may offer better paste release. IPC-7525 may have alternate
+     design recommendations. 
+9. Board assembly site may have different recommendations for stencil design.
+ 
+SOLDER PASTE EXAMPLE
+BASED ON 0.125 mm THICK STENCIL
+SCALE:15X
+SYMM
+PKG
+1
+3 4
+5
+2
+--- PAGE 34 ---
+
+--- PAGE 35 ---
+
+--- PAGE 36 ---
+
+--- PAGE 37 ---
+IMPORTANT NOTICE AND DISCLAIMER
+TI PROVIDES TECHNICAL AND RELIABILITY DATA (INCLUDING DATASHEETS), DESIGN RESOURCES (INCLUDING REFERENCE 
+DESIGNS), APPLICATION OR OTHER DESIGN ADVICE, WEB TOOLS, SAFETY INFORMATION, AND OTHER RESOURCES “AS IS” 
+AND WITH ALL FAULTS, AND DISCLAIMS ALL WARRANTIES, EXPRESS AND IMPLIED, INCLUDING WITHOUT LIMITATION ANY 
+IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT OF THIRD 
+PARTY INTELLECTUAL PROPERTY RIGHTS.
+These resources are intended for skilled developers designing with TI products. You are solely responsible for (1) selecting the appropriate 
+TI products for your application, (2) designing, validating and testing your application, and (3) ensuring your application meets applicable 
+standards, and any other safety, security, regulatory or other requirements.
+These resources are subject to change without notice. TI grants you permission to use these resources only for development of an 
+application that uses the TI products described in the resource. Other reproduction and display of these resources is prohibited. No license 
+is granted to any other TI intellectual property right or to any third party intellectual property right. TI disclaims responsibility for, and you fully 
+indemnify TI and its representatives against any claims, damages, costs, losses, and liabilities arising out of your use of these resources.
+TI’s products are provided subject to TI’s Terms of Sale, TI’s General Quality Guidelines, or other applicable terms available either on 
+ti.com or provided in conjunction with such TI products. TI’s provision of these resources does not expand or otherwise alter TI’s applicable 
+warranties or warranty disclaimers for TI products. Unless TI explicitly designates a product as custom or customer-specified, TI products 
+are standard, catalog, general purpose devices.
+TI objects to and rejects any additional or different terms you may propose.
+IMPORTANT NOTICE
+Copyright © 2026, Texas Instruments Incorporated
+Last updated 10/2025

@@ -1,0 +1,38 @@
+{
+  "schema_version": "sim12-phase1-v1",
+  "verdict": "SIM12_PHASE1_GATES_PASS",
+  "gates": {
+    "GS1_conservation": {
+      "pass": true,
+      "max_eps_H": 3.849848861643484e-16,
+      "s2_vector_closure_max": 2.220446049250313e-16
+    },
+    "GS2_differentiation": {
+      "pass": true,
+      "best_per_case": {
+        "A_low": "S1_passive",
+        "B_anchor": "ABORT",
+        "C_transition": "S3a_wheel_bias",
+        "D_extreme": "ABORT"
+      }
+    },
+    "GS3_claim_audit": {
+      "pass": true,
+      "allowed": [
+        "Strategy selection depends on the active physical constraint (binding gate)",
+        "Impulse-Momentum Decoupling: case B_anchor S2 impulse 0.194 N·s vs S1 0.338 N·s while H increases (ledger rows)",
+        "REPEAT_CORE reproduced in strategy space: debris@3deg/s infeasible for all four strategies"
+      ],
+      "forbidden": [
+        "momentum shaping always improves capture",
+        "any unconditional strategy ranking",
+        "flexible-gate conclusions (FLEX not in criteria)",
+        "wheel capacity doubling as isolated statement"
+      ]
+    }
+  },
+  "ledger_arbitration": "10_research/sim_12/momentum_ledger.md",
+  "n_cells": 16,
+  "flex_status": "UNKNOWN_NOT_IN_CRITERIA",
+  "repro": "python src/strategy_eval.py"
+}

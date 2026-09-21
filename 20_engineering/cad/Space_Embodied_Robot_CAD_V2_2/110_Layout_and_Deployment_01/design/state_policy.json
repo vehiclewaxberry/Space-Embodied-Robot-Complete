@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "V22_LAYOUT_AND_DEPLOYMENT_01_STATE_POLICY",
+  "state_count": 7,
+  "representation_invariant": "Never resolve B601 HIFI and q0 proxy simultaneously; never suppress both in a state that claims an arm representation.",
+  "states": [
+    {
+      "id": "STOWED",
+      "solar_left_deg": 0.0,
+      "solar_right_deg": 0.0,
+      "b601_representation": "HIFI_REQUIRED_NOT_AVAILABLE",
+      "geometry_binding": "staging/state_STOWED_HOLD_B601_HIFI.step",
+      "status": "HOLD_B601_HIFI_ABSENT",
+      "claim_limit": "Solar stow and physical support layout only; no stowed arm geometry claim."
+    },
+    {
+      "id": "DEPLOYED_NOMINAL",
+      "solar_left_deg": 90.0,
+      "solar_right_deg": 90.0,
+      "b601_representation": "Q0_CONSERVATIVE_PROXY",
+      "geometry_binding": "staging/state_DEPLOYED_NOMINAL_Q0.step",
+      "status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "Named static pose only; not global workspace or continuous-clearance proof."
+    },
+    {
+      "id": "DEPLOY_FAILED_BOTH",
+      "solar_left_deg": 0.0,
+      "solar_right_deg": 0.0,
+      "b601_representation": "Q0_CONSERVATIVE_PROXY",
+      "geometry_binding": "staging/state_DEPLOY_FAILED_BOTH_Q0.step",
+      "status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "Static failure scene; no failure probability or recovery authority."
+    },
+    {
+      "id": "L_FAIL",
+      "solar_left_deg": 0.0,
+      "solar_right_deg": 90.0,
+      "b601_representation": "Q0_CONSERVATIVE_PROXY",
+      "geometry_binding": "staging/state_L_FAIL_Q0.step",
+      "status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "Static asymmetric scene only."
+    },
+    {
+      "id": "R_FAIL",
+      "solar_left_deg": 90.0,
+      "solar_right_deg": 0.0,
+      "b601_representation": "Q0_CONSERVATIVE_PROXY",
+      "geometry_binding": "staging/state_R_FAIL_Q0.step",
+      "status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "Static asymmetric scene only."
+    },
+    {
+      "id": "PARTIAL",
+      "solar_left_deg": null,
+      "solar_right_deg": null,
+      "b601_representation": "Q0_OR_TASK_PROXY_PENDING_POSE_DEFINITION",
+      "geometry_binding": null,
+      "status": "UNKNOWN_HOLD",
+      "claim_limit": "The 5/15/30/60 degree samples do not define PARTIAL."
+    },
+    {
+      "id": "SERVICE",
+      "solar_left_deg": null,
+      "solar_right_deg": null,
+      "b601_representation": "PENDING_HUMAN_RATIFICATION",
+      "geometry_binding": null,
+      "status": "PENDING_RATIFICATION_HOLD",
+      "claim_limit": "No access sequence, service joint vector, or native configuration is authorised."
+    }
+  ],
+  "diagnostic_pose_samples_deg": [0.0, 5.0, 15.0, 30.0, 60.0, 90.0],
+  "diagnostic_samples_define_partial": false,
+  "native_solidworks": {
+    "configurations": "NONE",
+    "component_suppression_readback": "NONE",
+    "mass_exclusion_readback": "NONE",
+    "bom_exclusion_readback": "NONE"
+  }
+}

@@ -1,0 +1,175 @@
+{
+ "schema": "SIM13R_P_JOINT_CONVENTION_RECONCILIATION_V1",
+ "program": "RESEARCH_COUPLED_CLOSURE_R1 / RC1-MR1",
+ "generated_date_local": "2026-08-29",
+ "review_status": "PENDING_OWNER_REVIEW",
+ "sources": {
+  "accepted_urdf": {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+   "presence": "PRESENT",
+   "bytes": 11321,
+   "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164"
+  },
+  "gripper_cad_validation": {
+   "path": "20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/04_validation/GRIPPER_R1_GEOMETRY_VALIDATION.json",
+   "presence": "PRESENT",
+   "bytes": 117402,
+   "sha256": "7BC0DF784B36159624A8A89B67207C54C5C9C780B103CB38658DE2D6BA845F47"
+  }
+ },
+ "verdict": {
+  "prior_reported_conflict": "URDF declares both prismatic joints axis (1,0,0) over [0, 0.0715] m with no left/right sign asymmetry, while CAD declares axis [0,1,0] in LINK6_LOCAL with left 0..-71.5 mm and right 0..+71.5 mm.",
+  "root_cause": "The URDF encodes the left/right asymmetry in the JOINT ORIGIN rpy, not in the axis vector: gripper_joint1 rpy = (0,0,-1.5708) and gripper_joint2 rpy = (0,0,+1.5708). Rotating the common child-frame axis (1,0,0) by Rz(-90) and Rz(+90) yields (0,-1,0) and (0,+1,0) in the gripper_link frame. The fixed gripper_joint (rpy 0,-1.5708,0) preserves the Y direction between link6 and gripper_link, so LINK6_LOCAL Y and gripper_link Y are the same physical line.",
+  "R_link6_to_gripper_link_preserves_Y": 1.0,
+  "verdict": "NO_PHYSICAL_CONFLICT__APPARENT_ONLY__FULLY_EXPLAINED_BY_LOCAL_FRAME_ROTATION",
+  "resolved_convention": {
+   "gripper_joint1": "LEFT finger travels along -Y of gripper_link (= -Y of LINK6_LOCAL)",
+   "gripper_joint2": "RIGHT finger travels along +Y of gripper_link (= +Y of LINK6_LOCAL)",
+   "opening_sense": "both q increase => fingers SEPARATE (aperture increases)",
+   "q_CAD_mm": "q_CAD = A_q * q_URDF + b_q, with A_q = -1000 (left) / +1000 (right), b_q = 0"
+  },
+  "millimetre_to_metre_scale_verified": true,
+  "status": "VERIFIED"
+ },
+ "per_joint": {
+  "gripper_joint1": {
+   "side": "LEFT",
+   "urdf_axis_in_child_frame": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "urdf_origin_rpy_rad": [
+    0.0,
+    0.0,
+    -1.5708
+   ],
+   "urdf_axis_in_gripper_link_frame": [
+    -3.673205e-06,
+    -0.999999999993,
+    0.0
+   ],
+   "urdf_axis_in_link6_frame": [
+    1.3e-11,
+    -0.999999999993,
+    -3.673205e-06
+   ],
+   "cad_declared_frame": "LINK6_LOCAL",
+   "cad_declared_axis": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "cad_declared_travel_mm": [
+    0.0,
+    -71.5
+   ],
+   "cad_signed_direction_in_link6_frame": [
+    -0.0,
+    -1.0,
+    -0.0
+   ],
+   "axis_direction_cosine_urdf_vs_cad": 0.999999999993,
+   "axis_agreement": true,
+   "A_q_mm_per_m": -999.999999993,
+   "b_q_mm": 0.0,
+   "urdf_range_m": [
+    0.0,
+    0.0715
+   ],
+   "cad_range_mm": [
+    0.0,
+    -71.5
+   ],
+   "scale_factor_mm_per_m": 1000.0,
+   "scale_exact_1000": true
+  },
+  "gripper_joint2": {
+   "side": "RIGHT",
+   "urdf_axis_in_child_frame": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "urdf_origin_rpy_rad": [
+    0.0,
+    0.0,
+    1.5708
+   ],
+   "urdf_axis_in_gripper_link_frame": [
+    -3.673205e-06,
+    0.999999999993,
+    0.0
+   ],
+   "urdf_axis_in_link6_frame": [
+    1.3e-11,
+    0.999999999993,
+    -3.673205e-06
+   ],
+   "cad_declared_frame": "LINK6_LOCAL",
+   "cad_declared_axis": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "cad_declared_travel_mm": [
+    0.0,
+    71.5
+   ],
+   "cad_signed_direction_in_link6_frame": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "axis_direction_cosine_urdf_vs_cad": 0.999999999993,
+   "axis_agreement": true,
+   "A_q_mm_per_m": 999.999999993,
+   "b_q_mm": 0.0,
+   "urdf_range_m": [
+    0.0,
+    0.0715
+   ],
+   "cad_range_mm": [
+    0.0,
+    71.5
+   ],
+   "scale_factor_mm_per_m": 1000.0,
+   "scale_exact_1000": true
+  }
+ },
+ "jaw_geometry_q0": {
+  "left": {
+   "contact_face_y_m": -0.01071406,
+   "contact_point_palm_m": [
+    -0.04094601802,
+    -0.010773456001,
+    0.001531282032
+   ],
+   "tip_point_palm_m": [
+    -0.000704531845,
+    2.7379407e-05,
+    2.9539263e-05
+   ],
+   "face_vertex_count": 61
+  },
+  "right": {
+   "contact_face_y_m": 0.01071406,
+   "contact_point_palm_m": [
+    -0.04094601802,
+    0.010773456001,
+    -0.001531282032
+   ],
+   "tip_point_palm_m": [
+    -0.000704531845,
+    -2.7379407e-05,
+    -2.9539263e-05
+   ],
+   "face_vertex_count": 61
+  },
+  "aperture_closed_m": 0.02142812,
+  "aperture_open_m": 0.164546912,
+  "derivation": "collision-mesh jaw slice; PROVISIONAL_MESH_DERIVED"
+ },
+ "max_witness_position_residual_m": 2.6263416488858545e-07,
+ "tolerance_position_m": 2.8889758138302397e-07
+}

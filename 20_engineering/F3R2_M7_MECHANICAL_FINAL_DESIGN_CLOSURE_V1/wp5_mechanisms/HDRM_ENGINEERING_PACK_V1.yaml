@@ -1,0 +1,280 @@
+schema: HDRM_ENGINEERING_PACK_V1
+generated_local: '2026-08-21T16:55:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP5_MECHANISMS
+mechanism: ARM_HDRM
+release_level: PROTOTYPE_DESIGN_ONLY
+overall_status: DESIGN_CANDIDATE_ANALYTIC_CLOSED_PROTOTYPE_AND_FLIGHT_RELEASE_HOLD
+
+standards_frame:
+  reference: ECSS-E-ST-33-01C
+  use: DRD structure template only (SMS requirements / MDD design description /
+    MAV analytical verification / MUM operation-user constraints)
+  controlled_copy_held: false
+  status: STANDARD_COPY_NOT_HELD_HOLD
+
+classification_legend:
+  DESIGN_TARGET_CANDIDATE: design-level target set by this pack; verifiable at
+    prototype stage; not a flight requirement
+  DERIVED: computed from pinned contract/baseline inputs under declared
+    assumptions; research-bound
+  HOLD: physical, environmental, or external authority input absent; no
+    zero-fill; value stays null
+
+# ---------------------------------------------------------------------------
+# SMS-style requirements (values are design target candidates)
+# ---------------------------------------------------------------------------
+sms_requirements:
+  - req_id: HDRM-SMS-01
+    title: restraint preload
+    value: 50.0
+    unit: N
+    classification: DESIGN_TARGET_CANDIDATE
+    basis: V5_HDRM working_preload_candidate_N=50.0 adopted as candidate
+      (PROVISIONAL class in CDR AUTHORIZED_MECHANICAL_LOADS_V1 hdrm_release)
+    verification: MVR-012 (test) / MAV-01 (analytic)
+  - req_id: HDRM-SMS-02
+    title: release stroke
+    value: 6.0
+    unit: mm
+    classification: DESIGN_TARGET_CANDIDATE
+    basis: V5_HDRM release_stroke_candidate_mm=6.0 (same PROVISIONAL source)
+    verification: MVR-013
+  - req_id: HDRM-SMS-03
+    title: release energy budget
+    value: 0.15
+    unit: J
+    classification: DERIVED
+    basis: E = 0.5 * preload * stroke = 0.5*50.0*0.006 (quasi-static elastic
+      store model, candidate)
+    verification: MVR-016
+  - req_id: HDRM-SMS-04
+    title: release time
+    value_max: 0.5
+    unit: s
+    classification: DESIGN_TARGET_CANDIDATE
+    basis: non-pyrotechnic thermal/mechanical release class upper bound;
+      to be trimmed after architecture hardware data exists
+    verification: MVR-013 / MVR-014
+  - req_id: HDRM-SMS-05
+    title: release shock
+    value: null
+    unit: SRS
+    classification: HOLD
+    basis: no release-shock SRS authority; CDR hdrm_release.release_shock_srs
+      is null; low-shock architecture selection is the mitigation
+    verification: MVR-016 (TEST_REQUIRED_HOLD)
+  - req_id: HDRM-SMS-06
+    title: redundancy
+    value: dual independent release initiation paths, either path sufficient
+    classification: DESIGN_TARGET_CANDIDATE
+    basis: single-point-failure exposure criterion of the M4 architecture
+      trade; no release-reliability claim is made
+    verification: MVR-017
+  - req_id: HDRM-SMS-07
+    title: reset / re-lock policy
+    value: ground-resettable after every release; on-orbit re-lock not
+      required (one on-orbit release event)
+    classification: DESIGN_TARGET_CANDIDATE
+    verification: MVR-013 (ground demonstration), HDRM-V03
+  - req_id: HDRM-SMS-08
+    title: failure-to-release (refusal) disposition
+    value: on refusal, arm stays restrained; spacecraft remains safe in
+      stowed configuration; arm operation inhibited until release confirmed
+    classification: DESIGN_TARGET_CANDIDATE
+    verification: MVR-017
+  - req_id: HDRM-SMS-09
+    title: inadvertent release protection
+    value: two independent command enables plus arm-operations inhibit until
+      on-orbit phase entry; restrained state is the power-off safe state
+    classification: DESIGN_TARGET_CANDIDATE
+    verification: MVR-017 / HDRM-V08
+  - req_id: HDRM-SMS-10
+    title: operating temperature range
+    value: null
+    unit: degC
+    classification: HOLD
+    basis: no mission thermal environment authority (CDR thermal_gradient
+      HOLD); candidate range deliberately not invented
+    verification: MVR-014 (TEST_REQUIRED_HOLD)
+  - req_id: HDRM-SMS-11
+    title: cycle count
+    value_ground: 50
+    value_flight: 1
+    unit: cycle
+    classification: DESIGN_TARGET_CANDIDATE
+    basis: 1 on-orbit release plus ground qualification/acceptance margin;
+      qualified_cycle_count remains a test outcome, not a claim
+    verification: HDRM-V06 (TEST_REQUIRED_HOLD)
+  - req_id: HDRM-SMS-12
+    title: restraint load cases
+    launch_restraint_sizing: null
+    operational_disturbance_check: see MAV-01
+    classification: HOLD_PARTIAL
+    basis: launch/separation load authority absent (no launcher ICD,
+      ODR-06 retained hold); only on-orbit operational classes are
+      analyzable this loop
+    verification: MVR-015 (TEST_REQUIRED_HOLD)
+
+# ---------------------------------------------------------------------------
+# MDD-style design description (architecture trade)
+# ---------------------------------------------------------------------------
+mdd_design_description:
+  function: restrain the B601 arm (4.695555949342986 kg, ACCEPTED_URDF L0)
+    against the M3R/interface stack during launch and transport, and release
+    it on orbit for operation
+  architecture_trade:
+    candidates:
+      - candidate_id: HDRM-N01
+        family: NON_PYRO_SHAPE_MEMORY_RELEASE
+        trade_notes: resettable; low shock; slow release (~0.1-1 s class);
+          temperature-sensitive; power/thermal burden during actuation
+      - candidate_id: HDRM-N02
+        family: NON_PYRO_BURN_WIRE_FUSE
+        trade_notes: simple; low shock; low parts count; one-shot per wire,
+          resettable by re-wiring on ground; well-matched to single on-orbit
+          release
+      - candidate_id: HDRM-N03
+        family: NON_PYRO_ELECTROMAGNETIC_LATCH
+        trade_notes: fully resettable and testable; continuous holding power
+          or permanent-magnet bias needed; mass and power penalty
+      - candidate_id: HDRM-P01
+        family: PYRO_SEPARATION_NUT_OR_FRANGIBLE
+        trade_notes: flight-heritage class; high shock and debris; not
+          ground-resettable; contamination controls required
+    trade_criteria: [restraint_stiffness_and_preload_stability,
+      release_reliability_and_single_point_failure_exposure,
+      shock_impulse_and_contamination, power_energy_thermal_burden,
+      resetability_and_ground_operations, mass_envelope_and_interface,
+      vacuum_temperature_life_evidence]
+    selection:
+      selected_candidate: HDRM-N02
+      selection_level: DESIGN_CANDIDATE_PROTOTYPE_LEVEL
+      rationale: single on-orbit release event makes one-shot burn-wire
+        acceptable; ground rewiring gives full pre-flight testability; lowest
+        shock/debris burden protects adjacent optics and solar panels; no
+        holding power in restrained state (power-off safe, HDRM-SMS-09)
+      retained_alternates:
+        - HDRM-N01 (if release-time or temperature evidence favors SMA)
+        - HDRM-P01 (if restraint stiffness requirement from a future launcher
+          ICD exceeds non-pyro capability)
+      open_items: [release_time_vs_temperature_characterization,
+        wire_material_and_derating_evidence, redundancy_physical_layout,
+        released_sweep_keep_out_geometry_vs_WP1]
+  interface_definition:
+    restrained_side: M3R Stage stack / arm base region per M-frame authority
+      T_SM=[185.25,0,0] mm + Ry(90deg) (ODR-01)
+    mating_pattern_mm: null
+    locator_and_clocking: M3R central spigot plus one asymmetric dowel
+      candidate (M4 register; locator part geometry HOLD, owned outside WP5)
+    keep_out_semantic: ARM_HDRM_RELEASE_SWEEP_KEEP_OUT (STATIC_SEMANTIC_ONLY)
+    harness_separation: null
+    status: HOLD_INTERFACE_GEOMETRY_NOT_RELEASED
+
+# ---------------------------------------------------------------------------
+# MAV-style analytical verification
+# ---------------------------------------------------------------------------
+mav_analytical_verification:
+  checks:
+  - check_id: MAV-01
+    title: restraint preload demand vs candidate quasi-static levels
+    method: F_demand = m_arm * a, m_arm = 4.695555949342986 kg (ACCEPTED_URDF,
+      L0, never overridden); candidate accelerations 1 g and 5 g for
+      sensitivity only (no launch authority)
+    results:
+      demand_1g_N: 46.05
+      preload_margin_1g: 1.086
+      demand_5g_N: 230.24
+      preload_margin_5g: 0.217
+    verdict: CANDIDATE_PRELOAD_50N_COVERS_SUB_1G_OPERATIONAL_DISTURBANCE_ONLY
+    finding: >-
+      The 50 N candidate preload does NOT restrain the arm against
+      multi-g quasi-static levels (margin 0.217 at 5 g). Launch restraint
+      sizing is therefore explicitly HOLD_NO_LAUNCHER_ICD; when a launcher
+      ICD arrives, preload and restraint section must be resized, not
+      grandfathered. No margin-of-safety claim is made at any level.
+  - check_id: MAV-02
+    title: preload distribution over interface fastener groups (Stage chain)
+    method: M5 analytic joint load model influence coefficients (rigid
+      plates, equal stiffness, no slip, no preload effect); direct axial
+      share = F/n; bending axial coefficient per metre as published
+    results:
+      B601_to_StageA_4xM4_64mm:
+        direct_share_per_fastener_1g_N: 11.51
+        direct_force_fraction: 0.25
+        max_bending_axial_coeff_per_m: 7.8125
+      StageA_to_StageB_8xM5_R62p5:
+        direct_share_per_fastener_1g_N: 5.756
+        direct_force_fraction: 0.125
+        max_bending_axial_coeff_per_m: 4.0
+    limits_of_use: geometric wrench distribution sensitivity only;
+      fastener strength / preload margin / slip remain with WP4 and stay
+      HOLD_NO_METROLOGY_INPUT
+    verdict: ANALYTIC_CLOSED_AT_DESIGN_LEVEL
+  - check_id: MAV-03
+    title: wing-root (solar hinge root) reference loads for co-mounted
+      restraint design
+    method: panel 0.3483933 kg, span 0.200 m; root shear = m*a, root moment
+      = m*a*L/2 under candidate 1 g reference
+    results:
+      root_shear_1g_N: 3.417
+      root_moment_1g_Nm: 0.3417
+    verdict: DERIVED reference values for interface bookkeeping only; panel
+      deployment stop loads are carried in SOLAR_HINGE_DEPLOYMENT_PACK_V1
+  - check_id: MAV-04
+    title: release energy and time feasibility
+    method: elastic store E = 0.5*F*s on candidate preload/stroke
+    results:
+      release_energy_J: 0.15
+      release_time_class_s: 0.1_to_0.5_non_pyro_estimate
+    verdict: CONSISTENT_WITH_HDRM-N02_CLASS; release shock SRS remains HOLD
+  formal_fea_credit: NONE (operational FEA for HDRM interface belongs to
+    WP7 under ODR-06; launch FEA stays HOLD)
+  prohibited_claims: [NO_RELEASE_RELIABILITY_CLAIM, NO_SHOCK_QUALIFICATION,
+    NO_FLIGHT_MARGIN, NO_TEST_COMPLETION_CLAIM]
+
+# ---------------------------------------------------------------------------
+# MUM-style operation / user constraints
+# ---------------------------------------------------------------------------
+mum_operation_user_constraints:
+  - restrained state is the default power-off safe state; release requires
+    dual command enable (HDRM-SMS-09)
+  - after on-orbit release, no re-lock attempt; arm operation inhibited
+    until release confirmation sensing (sensor selection HOLD, MVR-013/017)
+  - 'ground operations: release device must be resettable/re-wireable without
+    disassembling the M3R stack; ground cycle budget 50 (HDRM-SMS-11)'
+  - release sweep volume ARM_HDRM_RELEASE_SWEEP_KEEP_OUT must stay clear of
+    harness routing (WP1 KEEP_OUT_REGISTER_V1 interface, PENDING_SIBLING_HASH)
+  - no handling loads case exists; transport/launch restraint sizing is HOLD
+    pending launcher ICD (ODR-06)
+  - thermal operating range is not yet a requirement; do not quote any
+    temperature range until mission thermal authority exists (HDRM-SMS-10)
+
+retained_holds:
+  - LAUNCH_RESTRAINT_SIZING_HOLD_NO_LAUNCHER_ICD
+  - RELEASE_SHOCK_SRS_HOLD
+  - OPERATING_TEMPERATURE_RANGE_HOLD
+  - RELEASE_RELIABILITY_AND_LIFE_TEST_HOLD
+  - INTERFACE_GEOMETRY_AND_MATING_PATTERN_HOLD
+  - PROTOTYPE_AND_FLIGHT_RELEASE_HOLD
+
+verification_crossref: 'wp5_mechanisms/MECHANISM_VERIFICATION_CROSSREF_V1.csv (MVR-012..MVR-017)'
+
+source_register:
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    sha256: AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/06_mechanism/HDRM_PROTOTYPE_CLOSURE_PLAN_V1.yaml
+    sha256: C6E812BAF9617C7E74112DF831562864E735344BCA3D3EE021E57618E121204A
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/06_mechanism/MECHANISM_STATUS_REGISTER_V1.yaml
+    sha256: 307A205460D746AD8B4FA3561157CA63FBAAD2EC6153D63A6FA733E695236FC9
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/AUTHORIZED_MECHANICAL_LOADS_V1.yaml
+    sha256: 82E331239D6EB86EE4B617145022E62133F5D837403119CDAD2ADD83BCB78797
+  - path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/04_joint_load_model/M5_ANALYTIC_JOINT_LOAD_MODEL_V1.yaml
+    sha256: F4E9EB51B696B7FE02878B9C369BDCB99D84FE96181494CA33798400631A199D
+  - path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp5_structural_entry/FASTENER_GROUP_ANALYTIC_NOTE_V1.yaml
+    sha256: A1FB4C7842191EECDAFD1CB0ED5EF306950FE0CEE533534CF065F5201738E4C5
+  - path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164

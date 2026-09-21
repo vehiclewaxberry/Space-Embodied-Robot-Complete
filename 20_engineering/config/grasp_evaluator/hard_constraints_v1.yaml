@@ -1,0 +1,27 @@
+# sim_09 grasp evaluator -- hard admissibility constraints v1 (Gate E0)
+# Screening philosophy (Gate E0 ruling): hard constraints -> per-metric values
+# -> Pareto front. NO aggregated score.
+# Every threshold below states its source or is explicitly declared PLACEHOLDER.
+version: v1
+constraints:
+  collision_margin_min_m: 0.02
+    # source: coarse-geometry safety pad on top of the 0.045 m capsule envelope
+    # (collision_geometry_v1 A1/A7); PLACEHOLDER pending geometry refinement.
+  condition_number_max: 1.0e4
+    # source: task-Jacobian conditioning gate; beyond ~1e4 the DLS solution is
+    # numerically singular (probe: on-axis wrist singularity gives 2-3e4 while
+    # regular capture configs give ~20-30). PLACEHOLDER engineering value.
+  post_capture_rate_max_dps: 2.0
+    # source: sim_04/sim_06 POST_CAP_BUDGET = 2.0 deg/s (combined-body rate a
+    # small servicer can detumble; sim_04_capture_corridor.py line 31).
+  wheel_momentum_max_Nms: 5.475
+    # source: 3.65 N*m*s (sim_08 debris @3 deg/s |H_c|, actuator_budget_sweep)
+    # x 1.5 margin = upper bound EXAMPLE of the sim_08 thruster-couple scheme.
+    # PLACEHOLDER until a COTS thruster/propellant allocation is frozen.
+  flexible_energy_max_J: 1.0e-3
+    # source: ~40x the sim_07a nominal 6DOF rigid-lock panel energy
+    # (U_max = 2.34e-5 J, task_response_summary.csv). PLACEHOLDER order-of-
+    # magnitude gate; to be replaced by a structural/pointing requirement.
+  joint_limit_margin_min_rad: 0.05
+    # source: control-margin placeholder (~3 deg) away from URDF hard stops
+    # (arm_b601_v1.urdf limits). PLACEHOLDER engineering value.

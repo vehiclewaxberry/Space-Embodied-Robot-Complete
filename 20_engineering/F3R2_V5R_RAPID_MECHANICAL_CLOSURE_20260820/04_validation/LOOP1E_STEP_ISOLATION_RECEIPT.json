@@ -1,0 +1,127 @@
+{
+ "schema": "V5R_LOOP1E_STEP_ISOLATION_RECEIPT_V1",
+ "timestamp_utc": "2026-08-20T08:23:59Z",
+ "purpose": "attribute COM error 61836 to a specific member by isolating every call",
+ "solidworks_revision": "32.5.0",
+ "document_count_at_probe": 0,
+ "attach_only": true,
+ "documents_opened_by_probe": 0,
+ "steps_total": 13,
+ "steps_failed": 5,
+ "steps_raising_61836": [
+  "S7_IMultiply_wrapped_arg",
+  "S8_IMultiply_raw_arg",
+  "S10_IMultiply_identity_arg",
+  "S11_IInverse_dispid10"
+ ],
+ "steps_ok": [
+  "S1_CreateTransform_source",
+  "S2_wrap_source_QueryInterface",
+  "S3_read_source_ArrayData",
+  "S4_CreateTransform_identity",
+  "S5_wrap_identity_and_read_ArrayData",
+  "S6_read_identity_ArrayData",
+  "S9_Multiply_dispid1_wrapped",
+  "S12_Inverse_dispid9"
+ ],
+ "retired_unverified_claim": "LOOP1E_IINVERSE_PATCH_DESIGN.json asserted IMultiply 'WORKS - called successfully at line 2617'. That was inferred from source, never observed, and cannot be true because production raised at line 2613. This receipt supersedes that claim with direct per-call observation.",
+ "steps": [
+  {
+   "step": "S1_CreateTransform_source",
+   "note": "known to work in round 1/2",
+   "ok": true,
+   "result_repr": "CDispatch",
+   "is_none": false
+  },
+  {
+   "step": "S2_wrap_source_QueryInterface",
+   "note": "QueryInterface to IMathTransform",
+   "ok": true,
+   "result_repr": "IMathTransform",
+   "is_none": false
+  },
+  {
+   "step": "S3_read_source_ArrayData",
+   "note": "does ArrayData work on this object?",
+   "ok": true,
+   "result_repr": "list",
+   "is_none": false
+  },
+  {
+   "step": "S4_CreateTransform_identity",
+   "note": "second CreateTransform call in same session",
+   "ok": true,
+   "result_repr": "CDispatch",
+   "is_none": false
+  },
+  {
+   "step": "S5_wrap_identity_and_read_ArrayData",
+   "note": "ArrayData on a SECOND created transform",
+   "ok": true,
+   "result_repr": "IMathTransform",
+   "is_none": false
+  },
+  {
+   "step": "S6_read_identity_ArrayData",
+   "note": "confirm second object is readable",
+   "ok": true,
+   "result_repr": "list",
+   "is_none": false
+  },
+  {
+   "step": "S7_IMultiply_wrapped_arg",
+   "note": "T.IMultiply(T) with a makepy-wrapped argument",
+   "ok": false,
+   "error_type": "com_error",
+   "error": "(-2147352567, '发生意外。', (61836, 'SOLIDWORKS', '无法读只写属性。', 'F:\\\\Windows_profile\\\\solidworks\\\\SOLIDWORKS\\\\lang\\\\chinese-simplified\\\\sldworks.chm', 455052, 0), None)",
+   "is_61836": true
+  },
+  {
+   "step": "S8_IMultiply_raw_arg",
+   "note": "T.IMultiply(t_raw) with the raw dispatch argument",
+   "ok": false,
+   "error_type": "com_error",
+   "error": "(-2147352567, '发生意外。', (61836, 'SOLIDWORKS', '无法读只写属性。', 'F:\\\\Windows_profile\\\\solidworks\\\\SOLIDWORKS\\\\lang\\\\chinese-simplified\\\\sldworks.chm', 455052, 0), None)",
+   "is_61836": true
+  },
+  {
+   "step": "S9_Multiply_dispid1_wrapped",
+   "note": "non-I variant Multiply (dispid 1), wrapped arg",
+   "ok": true,
+   "result_repr": "CDispatch",
+   "is_none": false
+  },
+  {
+   "step": "S10_IMultiply_identity_arg",
+   "note": "T.IMultiply(identity) - different argument object",
+   "ok": false,
+   "error_type": "com_error",
+   "error": "(-2147352567, '发生意外。', (61836, 'SOLIDWORKS', '无法读只写属性。', 'F:\\\\Windows_profile\\\\solidworks\\\\SOLIDWORKS\\\\lang\\\\chinese-simplified\\\\sldworks.chm', 455052, 0), None)",
+   "is_61836": true
+  },
+  {
+   "step": "S11_IInverse_dispid10",
+   "note": "the originally blamed call",
+   "ok": false,
+   "error_type": "com_error",
+   "error": "(-2147352567, '发生意外。', (61836, 'SOLIDWORKS', '无法读只写属性。', 'F:\\\\Windows_profile\\\\solidworks\\\\SOLIDWORKS\\\\lang\\\\chinese-simplified\\\\sldworks.chm', 455052, 0), None)",
+   "is_61836": true
+  },
+  {
+   "step": "S12_Inverse_dispid9",
+   "note": "sibling inverse member",
+   "ok": true,
+   "result_repr": "CDispatch",
+   "is_none": false
+  },
+  {
+   "step": "S13_IGetData2_decomposition",
+   "note": "axis/translation decomposition as an alternative route",
+   "ok": false,
+   "error_type": "TypeError",
+   "error": "The Python instance can not be converted to a COM object",
+   "is_61836": false
+  }
+ ],
+ "verdict": "STEP_ISOLATION_COMPLETE"
+}

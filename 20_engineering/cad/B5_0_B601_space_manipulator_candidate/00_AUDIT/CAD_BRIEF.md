@@ -1,0 +1,62 @@
+# CAD Brief — B5.0 B601 Space Manipulator
+
+- Model: isolated B601 engineering manipulator, spacecraft adapter, stowage restraint, provisional capture tool, sensor package and spacecraft reference assembly.
+- Task type: new native SolidWorks parts and assemblies with STEP/STL exports and later candidate robot-description outputs.
+- Inputs:
+  - accepted `arm_b601_v1.urdf` and its ten meshes;
+  - pinned vendor `reBot_B601_DM_v1.1_20260425.step`;
+  - frozen V2.2/V2.2_NATIVE layout, mount and stow-support evidence;
+  - O13 stow vector only as a `CANDIDATE_HOLD` comparator.
+- Units:
+  - SolidWorks/native CAD: millimetres;
+  - URDF: metres, kilograms, radians and SI inertia.
+- Coordinate convention:
+  - spacecraft S frame follows the current project frame contract;
+  - B601 link and joint frames are copied exactly from the accepted URDF;
+  - joint axes are expressed in each accepted joint frame;
+  - no visual-mesh frame is allowed to replace a link frame.
+- Spacecraft visual reference:
+  - display-track body length 366 mm;
+  - cross-section 226.3 × 226.3 mm;
+  - `T_SM=185.25 mm` remains the dynamics/PDR track;
+  - `MOUNT_FACE_X=198 mm` is a candidate native-display interface and is not written back to L0.
+- B601 geometry:
+  - six primary revolute joint modules;
+  - accepted fixed/auxiliary and two gripper-prismatic joints retained in the model map;
+  - joint housings represented by cylindrical shells, bearing/output-flange zones, access covers, harness ports and limit envelopes;
+  - links represented by thin-wall or tube/box candidate shells with end flanges, ribs, access/lightening regions and harness corridors;
+  - unknown internal motors, reducers, bearings, materials and fasteners are functional envelopes.
+- Spacecraft integration:
+  - fresh native bus-reference geometry; no external production reference into V2.x;
+  - base adapter and load-path members terminate at primary frame/deck references;
+  - base remains primary support;
+  - wrist/end support remains a secondary restraint with HDRM and contact qualification `TBD`.
+- End effector:
+  - accepted gripper topology retained for L0;
+  - L1 may add a modular flange, F/T envelope, camera bracket and self-centring capture candidate;
+  - physical TCP and generic target-capture claims remain `UNKNOWN/HOLD`.
+- Positioning/mating:
+  - local origins on accepted link frames;
+  - named joint axes and mounting datums;
+  - source-defined component transforms;
+  - revolute and prismatic semantics preserved;
+  - no manual drag or body move may define a released state.
+- Primary output paths:
+  - `03_CAD/native/`
+  - `03_CAD/exports/`
+  - `03_CAD/meshes/`
+  - `03_CAD/drawings/`
+- Validation targets:
+  - 10 links and 9 joints, including 6 revolute, 1 fixed and 2 prismatic;
+  - accepted link/joint names, parent-child, axes, origins and limits unchanged;
+  - accepted model mass exactly `4.695555949342986 kg` in the L0 ledger;
+  - every major visible arm link represented by more than one engineering feature or functional sub-body, not one whole-arm box;
+  - generated STEP facts/planes/positioning inspection;
+  - mandatory multi-view snapshots;
+  - no production external references;
+  - cold-reopen and configuration readback.
+- Assumptions:
+  - joint internal hardware is a provisional functional envelope;
+  - candidate materials are not assigned as authority;
+  - thread geometry may be suppressed;
+  - the 25° clock and O13 stow vector remain comparator candidates until a separate interface ruling.

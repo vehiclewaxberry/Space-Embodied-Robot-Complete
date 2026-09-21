@@ -1,0 +1,1338 @@
+
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ODrive Regen Clamp Datasheet — ODrive Documentation 0.6.12 documentation</title>
+<link href="../_static/pygments.css?v=80d5e7a1" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/theme.css?v=9edc463e" rel="stylesheet" type="text/css"/>
+<link href="../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../_static/sphinx-codeautolink.css?v=b2176991" rel="stylesheet" type="text/css"/>
+<link href="../_static/sphinx-dropdown.css?v=995e94df" rel="stylesheet" type="text/css"/>
+<link href="../_static/panels-bootstrap.min.css?v=21c0b90a" rel="stylesheet" type="text/css"/>
+<link href="https://docs.odriverobotics.com/docsInject.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/custom.css?v=22ceefb2" rel="stylesheet" type="text/css"/>
+<link href="../_static/favicon.ico" rel="shortcut icon"/>
+<script src="../_static/jquery.js?v=5d32c60e"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ae8e97e3"></script>
+<script src="../_static/doctools.js?v=888ff710"></script>
+<script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+<script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../_static/copybutton.js?v=2c21a7a3"></script>
+<script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://docs.odriverobotics.com/docsInject.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="usb-can-datasheet.html" rel="next" title="ODrive USB-CAN Adapter Datasheet"/>
+<link href="oa1-datasheet.html" rel="prev" title="ODrive OA1 Datasheet"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a href="../index.html">
+<img alt="Logo" class="logo" src="../_static/logo.png"/>
+</a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">GUIDES</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/getting-started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/getting-started.html#wire-up-the-odrive">Wire up the ODrive</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/getting-started.html#hardware-requirements">Hardware Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/getting-started.html#connections">Connections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/getting-started.html#safety-power-up">Safety &amp; Power Up</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/getting-started.html#status-led">Status LED</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/getting-started.html#connecting-to-the-odrive">Connecting to the ODrive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/getting-started.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/odrivetool-setup.html">odrivetool Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/odrivetool-setup.html#configure-power-supply">Configure Power Supply</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/odrivetool-setup.html#motor-configuration">Motor Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/odrivetool-setup.html#setting-the-limits">Setting the Limits</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/odrivetool-setup.html#encoder-configuration">Encoder Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/odrivetool-setup.html#viewing-encoder-feedback">Viewing Encoder Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/odrivetool-setup.html#position-control">Position Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/odrivetool-setup.html#other-control-modes">Other Control Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/odrivetool-setup.html#what-s-next">What’s Next?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/firmware-update.html">Firmware Update</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/firmware-update.html#quick-summary">Quick Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/firmware-update.html#specifications">Specifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/firmware-update.html#updating-firmware-from-the-command-line">Updating firmware from the command line</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/firmware-update.html#other-options">Other Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/firmware-update.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/firmware-update.html#updating-firmware-over-can">Updating firmware over CAN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/firmware-update.html#limitations">Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/firmware-update.html#recovering-from-a-failed-update">Recovering from a failed update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/firmware-update.html#recovering-from-unbootable-firmware">Recovering from unbootable firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/firmware-update.html#odrive-updater">ODrive Updater</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/firmware-update.html#firmware-channels">Firmware Channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/firmware-update.html#how-to-migrate-from-the-legacy-dfu-system">How to migrate from the legacy DFU system</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/legacy-dfu.html">Legacy Firmware Update</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/legacy-dfu.html#other-options">Other Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/legacy-dfu.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/legacy-dfu.html#flashing-with-an-stlink">Flashing with an STLink</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/tuning.html">Tuning the Controller</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/tuning.html#other-parameters-to-tweak">Other Parameters to Tweak</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/can-guide.html">CAN Bus Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/can-guide.html#hardware-setup">Hardware Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/can-guide.html#setting-up-the-host">Setting up the Host</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/can-guide.html#enable-can-hat">Enable CAN Hat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/can-guide.html#enable-can-interface">Enable CAN interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/can-guide.html#setting-up-the-odrive-via-usb">Setting up the ODrive (via USB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/can-guide.html#setting-up-the-odrive-can-only">Setting up the ODrive (CAN only)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/can-guide.html#bootstrapping-can-communication-via-can">Bootstrapping CAN communication via CAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/can-guide.html#writing-configuration">Writing configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/can-guide.html#running-calibration">Running calibration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/can-guide.html#verifying-communication">Verifying Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/can-guide.html#code-examples">Code Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/can-guide.html#intro-read-heartbeat">Intro: Read Heartbeat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/can-guide.html#closed-loop-control">Closed Loop Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/can-guide.html#arbitrary-parameter-access">Arbitrary Parameter Access</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/can-guide.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/python-package.html">Python Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/python-package.html#system-requirements">System Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/python-package.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/python-package.html#basic-example">Basic Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/python-package.html#async-usage">Async Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/python-package.html#discovery-use-cases">Discovery Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/python-package.html#interfaces">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/python-package.html#connection-livecycle">Connection Livecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/python-package.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/python-package.html#reference">Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#module-odrive">odrive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#module-odrive.utils">odrive.utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#module-odrive.device_manager">odrive.device_manager</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/python-package.html#changelog">Changelog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#id2">[0.6.11] - 2026-05-05</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#id3">[0.6.10] - 2025-04-15</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#id4">[0.6.9] - 2024-05-17</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#id5">[0.6.8] - 2024-01-11</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#id6">[0.6.7] - 2023-07-13</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#id7">[0.6.5] - 2023-03-13</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#id8">[0.6.3] - 2022-08-22</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#id9">[0.6.1] - 2022-06-17</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/python-package.html#id10">[0.6.0] - 2021-09-30</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/arduino-uart-guide.html">Arduino UART Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-uart-guide.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-uart-guide.html#connecting-the-arduino-to-the-odrive">Connecting the Arduino to the ODrive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-uart-guide.html#configuring-the-odrive">Configuring the ODrive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-uart-guide.html#setting-up-odrive-for-uart">Setting Up ODrive for UART</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-uart-guide.html#installing-the-odrivearduino-library">Installing the ODriveArduino Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-uart-guide.html#example-sketch">Example Sketch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-uart-guide.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/arduino-uart-guide.html#arduino-hangs-at-waiting-for-odrive">Arduino hangs at <code class="code docutils literal notranslate"><span class="pre">Waiting</span> <span class="pre">for</span> <span class="pre">ODrive...</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/arduino-uart-guide.html#arduino-hangs-at-enabling-closed-loop-control">Arduino hangs at <code class="code docutils literal notranslate"><span class="pre">Enabling</span> <span class="pre">closed</span> <span class="pre">loop</span> <span class="pre">control...</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/arduino-uart-guide.html#motor-makes-humming-noise-while-moving">Motor makes “humming” noise while moving</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-uart-guide.html#arduino-library-reference">Arduino Library Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/arduino-can-guide.html">Arduino CAN Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-can-guide.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-can-guide.html#connecting-the-arduino-to-the-odrive">Connecting the Arduino to the ODrive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-can-guide.html#configuring-the-odrive">Configuring the ODrive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-can-guide.html#installing-the-odrivearduino-library">Installing the ODriveArduino Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-can-guide.html#example-sketch">Example Sketch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-can-guide.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/arduino-can-guide.html#arduino-hangs-at-waiting-for-odrive">Arduino hangs at <code class="code docutils literal notranslate"><span class="pre">Waiting</span> <span class="pre">for</span> <span class="pre">ODrive...</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/arduino-can-guide.html#arduino-hangs-at-enabling-closed-loop-control">Arduino hangs at <code class="code docutils literal notranslate"><span class="pre">Enabling</span> <span class="pre">closed</span> <span class="pre">loop</span> <span class="pre">control...</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/arduino-can-guide.html#arduino-library-reference">Arduino Library Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/ros-package.html">ROS2 CAN Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/ros-package.html#setting-up-the-odrive">Setting Up the ODrive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/ros-package.html#installing-the-ros-odrive-package">Installing the <code class="docutils literal notranslate"><span class="pre">ros_odrive</span></code> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/ros-package.html#inspection">Inspection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/applications.html">Common Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/applications.html#rc-pwm">RC PWM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/anticogging.html">Anticogging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/anticogging.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/anticogging.html#preparation">Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/anticogging.html#how-to-enable-anticogging">How to enable anticogging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/anticogging.html#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/anticogging.html#known-issues">Known issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/s1-kit.html">S1 M8325S Kit Build Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/s1-kit.html#what-s-in-the-box">What’s in the box</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/s1-kit.html#what-you-ll-need">What you’ll need</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/s1-kit.html#hardware-setup">Hardware Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/s1-kit.html#apply-thermal-pad">Apply Thermal Pad</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/s1-kit.html#attach-to-heat-spreader">Attach to Heat Spreader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/s1-kit.html#attach-motor-to-mounting-plate">Attach Motor to Mounting Plate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/s1-kit.html#attach-odrive-to-motor">Attach ODrive to Motor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/s1-kit.html#wiring">Wiring</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/s1-kit.html#software-setup">Software Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/botwheel-explorer.html">BotWheel Explorer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/botwheel-explorer.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/botwheel-explorer.html#hardware-electrical-build">Hardware &amp; Electrical Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/botwheel-explorer.html#electrical-schematic">Electrical Schematic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/botwheel-explorer.html#odrive-configuration">ODrive Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/botwheel-explorer.html#raspberry-pi-setup">Raspberry Pi Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/botwheel-explorer.html#running-the-example">Running the example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/botwheel-explorer.html#running-the-example-on-startup">Running the example on startup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/botwheel-explorer.html#next-steps">Next Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/botwheel-explorer.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">HARDWARE</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../hardware.html">Supported Motors/Encoders</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../hardware.html#hardware-compatibility">Hardware Compatibility</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../hardware.html#motors">Motors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware.html#encoders">Encoders</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pro-datasheet.html">ODrive Pro Datasheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pro-datasheet.html#electromechanical-specifications">Electromechanical Specifications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pro-datasheet.html#electrical">Electrical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pro-datasheet.html#physical">Physical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pro-datasheet.html#connectors">Connectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pro-datasheet.html#environmental">Environmental</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pro-datasheet.html#cad">CAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pro-datasheet.html#pinout">Pinout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pro-datasheet.html#power-pads">Power Pads</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pro-datasheet.html#logic-pins">Logic Pins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pro-datasheet.html#gpio-properties">GPIO Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pro-datasheet.html#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="s1-datasheet.html">ODrive S1 Datasheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="s1-datasheet.html#electromechanical-specifications">Electromechanical Specifications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="s1-datasheet.html#electrical">Electrical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="s1-datasheet.html#connectors">Connectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="s1-datasheet.html#environmental">Environmental</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="s1-datasheet.html#cad">CAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="s1-datasheet.html#pinout">Pinout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="s1-datasheet.html#power-pads">Power Pads</a></li>
+<li class="toctree-l3"><a class="reference internal" href="s1-datasheet.html#logic-pins">Logic Pins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="s1-datasheet.html#gpio-properties">GPIO Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="s1-datasheet.html#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="micro-datasheet.html">ODrive Micro Datasheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="micro-datasheet.html#electromechanical-specifications">Electromechanical Specifications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="micro-datasheet.html#electrical">Electrical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro-datasheet.html#physical">Physical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro-datasheet.html#connectors">Connectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro-datasheet.html#environmental">Environmental</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="micro-datasheet.html#cad">CAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="micro-datasheet.html#pinout">Pinout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="micro-datasheet.html#power-pads">Power Pads</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro-datasheet.html#logic-pins">Logic Pins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro-datasheet.html#gpio-properties">GPIO Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro-datasheet.html#notes">Notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="micro-datasheet.html#can-termination-and-power">CAN Termination and Power</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="oa1-datasheet.html">ODrive OA1 Datasheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="oa1-datasheet.html#electromechanical-specifications">Electromechanical Specifications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="oa1-datasheet.html#cad">CAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="oa1-datasheet.html#electrical">Electrical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="oa1-datasheet.html#mechanical">Mechanical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="oa1-datasheet.html#environmental">Environmental</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="oa1-datasheet.html#led-colors">LED Colors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oa1-datasheet.html#pinout">Pinout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oa1-datasheet.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oa1-datasheet.html#magnet-mounting">Magnet Mounting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oa1-datasheet.html#communications-protocol">Communications Protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ODrive Regen Clamp Datasheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#electromechanical-specifications">Electromechanical Specifications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cad">CAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#electrical">Electrical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#physical">Physical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connectors">Connectors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pinout">Pinout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#power-pads">Power Pads</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage-wiring">Usage &amp; Wiring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#status-leds">Status LEDs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overtemperature-protection">Overtemperature Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brake-resistor-selection">Brake Resistor Selection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usb-can-datasheet.html">ODrive USB-CAN Adapter Datasheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usb-can-datasheet.html#electromechanical-specifications">Electromechanical Specifications</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usb-can-datasheet.html#cad">CAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usb-can-datasheet.html#electrical">Electrical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usb-can-datasheet.html#mechanical">Mechanical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usb-can-datasheet.html#environmental">Environmental</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usb-can-datasheet.html#interface">Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usb-can-datasheet.html#pinout">Pinout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-can-datasheet.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-can-datasheet.html#wiring-and-isolation">Wiring and Isolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-can-datasheet.html#power">Power</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-can-datasheet.html#usage-compatibility">Usage &amp; Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usb-can-datasheet.html#unbinding-from-socketcan-on-linux">Unbinding from SocketCAN on Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="odrive-comparison.html">ODrive Comparison Table</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="odrive-comparison.html#electrical-specifications">Electrical Specifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="odrive-comparison.html#feedback-interfaces">Feedback Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="odrive-comparison.html#control-interfaces">Control Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="odrive-comparison.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="odrive-comparison.html#mechanical-specifications">Mechanical Specifications</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="odrive-motors.html">ODrive Motors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="odrive-motors.html#motor-characteristics">Motor Characteristics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="odrive-motors.html#m8325s-100kv">M8325s 100KV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="odrive-motors.html#d6374-150kv">D6374 150KV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="odrive-motors.html#d5065-270kv">D5065 270KV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="odrive-motors.html#d5312s-330kv">D5312s 330KV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="odrive-motors.html#nema-34-servomotor-w-16384-cpr-absolute-encoder">NEMA 34 Servomotor w/ 16384 CPR Absolute Encoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="odrive-motors.html#odrive-botwheel">ODrive Botwheel</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="odrive-motors.html#torque-speed-curves">Torque-Speed Curves</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">MANUAL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../manual/overview.html">ODrive Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../manual/overview.html#system-status-led">System Status LED</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/overview.html#per-axis-commands">Per-Axis Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/overview.html#state-machine">State Machine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/overview.html#startup-procedure">Startup Procedure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/overview.html#control-mode">Control Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/overview.html#system-monitoring-commands">System Monitoring Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/overview.html#encoder-position-and-velocity">Encoder Position and Velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/overview.html#motor-current-and-torque-estimation">Motor Current and Torque Estimation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/overview.html#general-system-commands">General System Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/overview.html#saving-the-configuration">Saving the Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/overview.html#diagnostics">Diagnostics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/overview.html#user-storage">User Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../manual/hardware-config.html">Hardware Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../manual/hardware-config.html#power-system">Power System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#trip-levels">Trip Levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#active-power-limit">Active Power Limit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#regenerated-power">Regenerated Power</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#brake-resistors-s1-only">Brake Resistors (S1 Only)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#voltage-feedback-s1-only">Voltage Feedback (S1 Only)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/hardware-config.html#temperature-regulation">Temperature Regulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#thermistors">Thermistors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#fans-odrive-pro-only">Fans (ODrive Pro Only)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/hardware-config.html#encoders">Encoders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#onboard-encoder">Onboard Encoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#incremental-encoders">Incremental Encoders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#rs-485-encoders">RS-485 Encoders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#hall-effect-encoders">Hall Effect Encoders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#spi-encoders">SPI Encoders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#sensorless">Sensorless</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/hardware-config.html#gearbox-configuration">Gearbox Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#single-encoder">Single-Encoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#dual-encoder">Dual-Encoder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/hardware-config.html#gains">Gains</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/hardware-config.html#calibration-backup">Calibration Backup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/hardware-config.html#harmonic-compensation">Harmonic Compensation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../manual/control.html">Controller</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../manual/control.html#structure">Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#position-control-loop">Position Control loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#velocity-control-loop">Velocity Control Loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#current-control-loop">Current Control Loop</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/control.html#control-modes">Control Modes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#filtered-position-control">Filtered Position Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#trajectory-control">Trajectory Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#circular-position-control">Circular Position Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#velocity-control">Velocity Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#ramped-velocity-control">Ramped Velocity Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#torque-control">Torque Control</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/control.html#position-reference-frame">Position Reference Frame</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#startup-relative-reference-frame">Startup-Relative Reference Frame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#homed-reference-frame">Homed Reference Frame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#custom-user-reference-frame">Custom User Reference Frame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#absolute-encoder-reference-frame">Absolute Encoder Reference Frame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#absolute-encoder-reference-frame-circular">Absolute Encoder Reference Frame (circular)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/control.html#index-based-reference-frame">Index-based Reference Frame</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/control.html#spinout-detection">Spinout Detection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../manual/application-interfaces.html">Application Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../manual/usb.html">USB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/uart.html">UART Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/uart.html#connection">Connection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/uart.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/ascii-protocol.html">ASCII Protocol</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/ascii-protocol.html#sending-commands">Sending Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/ascii-protocol.html#command-format">Command Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/ascii-protocol.html#command-reference">Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/ascii-protocol.html#parameter-reading-writing">Parameter Reading/Writing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/ascii-protocol.html#system-commands">System Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/protocol.html">ODrive Communication Protocol</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/protocol.html#packet-format">Packet Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/protocol.html#stream-format">Stream Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/protocol.html#crc-algorithms">CRC Algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/can-protocol.html">CAN Protocol</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/can-protocol.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/can-protocol.html#cyclic-messages">Cyclic Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/can-protocol.html#watchdog">Watchdog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/can-protocol.html#baudrate-autobaud">Baudrate &amp; Autobaud</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/can-protocol.html#can-fd">CAN-FD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/can-protocol.html#broadcast">Broadcast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/can-protocol.html#discovery-addressing">Discovery &amp; Addressing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/can-protocol.html#bus-off-handling">Bus-off handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/can-protocol.html#dbc-files">DBC Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/can-protocol.html#interoperability-with-canopen">Interoperability with CANopen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/can-protocol.html#messages">Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/analog-input.html">Analog Input</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/analog-input.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/analog-input.html#endpoint-mapping">Endpoint Mapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/analog-input.html#velocity-control-example">Velocity Control Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/pwm-input.html">PWM Input</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/pwm-input.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/pwm-input.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/pwm-input.html#position-control-example">Position Control Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/step-direction.html">Step/Direction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/step-direction.html#pinout">Pinout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/step-direction.html#how-to-configure">How to Configure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/error-enable.html">Error/Enable</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/error-enable.html#error-output">Error Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/error-enable.html#enable-input">Enable Input</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manual/endstops.html">Endstops/Homing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manual/endstops.html#endstop-configuration">Endstop Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/endstops.html#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/endstops.html#homing">Homing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../manual/endstops.html#e-stop">E-Stop</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html">ODrive API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive"><code class="docutils literal notranslate"><span class="pre">ODrive</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.test_function"><code class="docutils literal notranslate"><span class="pre">ODrive.test_function()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.get_adc_voltage"><code class="docutils literal notranslate"><span class="pre">ODrive.get_adc_voltage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.save_configuration"><code class="docutils literal notranslate"><span class="pre">ODrive.save_configuration()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.erase_configuration"><code class="docutils literal notranslate"><span class="pre">ODrive.erase_configuration()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.reboot"><code class="docutils literal notranslate"><span class="pre">ODrive.reboot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.enter_dfu_mode"><code class="docutils literal notranslate"><span class="pre">ODrive.enter_dfu_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.enter_dfu_mode2"><code class="docutils literal notranslate"><span class="pre">ODrive.enter_dfu_mode2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.disable_bootloader"><code class="docutils literal notranslate"><span class="pre">ODrive.disable_bootloader()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.identify_once"><code class="docutils literal notranslate"><span class="pre">ODrive.identify_once()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.get_interrupt_status"><code class="docutils literal notranslate"><span class="pre">ODrive.get_interrupt_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.get_dma_status"><code class="docutils literal notranslate"><span class="pre">ODrive.get_dma_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.get_gpio_states"><code class="docutils literal notranslate"><span class="pre">ODrive.get_gpio_states()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.set_gpio"><code class="docutils literal notranslate"><span class="pre">ODrive.set_gpio()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.get_drv_fault"><code class="docutils literal notranslate"><span class="pre">ODrive.get_drv_fault()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.clear_errors"><code class="docutils literal notranslate"><span class="pre">ODrive.clear_errors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.get_raw_8"><code class="docutils literal notranslate"><span class="pre">ODrive.get_raw_8()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.get_raw"><code class="docutils literal notranslate"><span class="pre">ODrive.get_raw()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.get_raw_32"><code class="docutils literal notranslate"><span class="pre">ODrive.get_raw_32()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.get_raw_256"><code class="docutils literal notranslate"><span class="pre">ODrive.get_raw_256()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.vbus_voltage"><code class="docutils literal notranslate"><span class="pre">ODrive.vbus_voltage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.ibus"><code class="docutils literal notranslate"><span class="pre">ODrive.ibus</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.ibus_report_filter_k"><code class="docutils literal notranslate"><span class="pre">ODrive.ibus_report_filter_k</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.control_loop_hz"><code class="docutils literal notranslate"><span class="pre">ODrive.control_loop_hz</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.serial_number"><code class="docutils literal notranslate"><span class="pre">ODrive.serial_number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.hw_version_major"><code class="docutils literal notranslate"><span class="pre">ODrive.hw_version_major</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.hw_version_minor"><code class="docutils literal notranslate"><span class="pre">ODrive.hw_version_minor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.hw_version_variant"><code class="docutils literal notranslate"><span class="pre">ODrive.hw_version_variant</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.hw_version_revision"><code class="docutils literal notranslate"><span class="pre">ODrive.hw_version_revision</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.fw_version_major"><code class="docutils literal notranslate"><span class="pre">ODrive.fw_version_major</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.fw_version_minor"><code class="docutils literal notranslate"><span class="pre">ODrive.fw_version_minor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.fw_version_revision"><code class="docutils literal notranslate"><span class="pre">ODrive.fw_version_revision</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.commit_hash"><code class="docutils literal notranslate"><span class="pre">ODrive.commit_hash</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.fw_version_unreleased"><code class="docutils literal notranslate"><span class="pre">ODrive.fw_version_unreleased</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.bootloader_version"><code class="docutils literal notranslate"><span class="pre">ODrive.bootloader_version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.n_evt_sampling"><code class="docutils literal notranslate"><span class="pre">ODrive.n_evt_sampling</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.n_evt_control_loop"><code class="docutils literal notranslate"><span class="pre">ODrive.n_evt_control_loop</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.task_timers_armed"><code class="docutils literal notranslate"><span class="pre">ODrive.task_timers_armed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.task_times"><code class="docutils literal notranslate"><span class="pre">ODrive.task_times</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.system_stats"><code class="docutils literal notranslate"><span class="pre">ODrive.system_stats</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.user_config_loaded"><code class="docutils literal notranslate"><span class="pre">ODrive.user_config_loaded</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.misconfigured"><code class="docutils literal notranslate"><span class="pre">ODrive.misconfigured</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.oscilloscope"><code class="docutils literal notranslate"><span class="pre">ODrive.oscilloscope</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.debug"><code class="docutils literal notranslate"><span class="pre">ODrive.debug</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.can"><code class="docutils literal notranslate"><span class="pre">ODrive.can</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.test_property"><code class="docutils literal notranslate"><span class="pre">ODrive.test_property</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.identify"><code class="docutils literal notranslate"><span class="pre">ODrive.identify</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.reboot_required"><code class="docutils literal notranslate"><span class="pre">ODrive.reboot_required</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.issues"><code class="docutils literal notranslate"><span class="pre">ODrive.issues</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.auth"><code class="docutils literal notranslate"><span class="pre">ODrive.auth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.TaskTimes"><code class="docutils literal notranslate"><span class="pre">ODrive.TaskTimes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.SystemStats"><code class="docutils literal notranslate"><span class="pre">ODrive.SystemStats</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Issues"><code class="docutils literal notranslate"><span class="pre">ODrive.Issues</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Auth"><code class="docutils literal notranslate"><span class="pre">ODrive.Auth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.HistogramLogger"><code class="docutils literal notranslate"><span class="pre">ODrive.HistogramLogger</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.CircularLog"><code class="docutils literal notranslate"><span class="pre">ODrive.CircularLog</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Config"><code class="docutils literal notranslate"><span class="pre">ODrive.Config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Can"><code class="docutils literal notranslate"><span class="pre">ODrive.Can</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Endpoint"><code class="docutils literal notranslate"><span class="pre">ODrive.Endpoint</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Axis"><code class="docutils literal notranslate"><span class="pre">ODrive.Axis</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.BuiltinMotorAxis"><code class="docutils literal notranslate"><span class="pre">ODrive.BuiltinMotorAxis</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.ExternalMotorAxis"><code class="docutils literal notranslate"><span class="pre">ODrive.ExternalMotorAxis</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.AnticoggingConfig"><code class="docutils literal notranslate"><span class="pre">ODrive.AnticoggingConfig</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.HarmonicCompensation"><code class="docutils literal notranslate"><span class="pre">ODrive.HarmonicCompensation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.BrakeResistor"><code class="docutils literal notranslate"><span class="pre">ODrive.BrakeResistor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.BrakeResistorConfig"><code class="docutils literal notranslate"><span class="pre">ODrive.BrakeResistorConfig</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Motor"><code class="docutils literal notranslate"><span class="pre">ODrive.Motor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.BuiltinMotor"><code class="docutils literal notranslate"><span class="pre">ODrive.BuiltinMotor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.ExternalMotor"><code class="docutils literal notranslate"><span class="pre">ODrive.ExternalMotor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Mapper"><code class="docutils literal notranslate"><span class="pre">ODrive.Mapper</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.OnboardEncoder"><code class="docutils literal notranslate"><span class="pre">ODrive.OnboardEncoder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Rs485Encoder"><code class="docutils literal notranslate"><span class="pre">ODrive.Rs485Encoder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.IncrementalEncoder"><code class="docutils literal notranslate"><span class="pre">ODrive.IncrementalEncoder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.HallEncoder"><code class="docutils literal notranslate"><span class="pre">ODrive.HallEncoder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.SpiEncoder"><code class="docutils literal notranslate"><span class="pre">ODrive.SpiEncoder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.EncoderEstimator"><code class="docutils literal notranslate"><span class="pre">ODrive.EncoderEstimator</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Interpolator"><code class="docutils literal notranslate"><span class="pre">ODrive.Interpolator</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.OnboardThermalCurrentLimiter"><code class="docutils literal notranslate"><span class="pre">ODrive.OnboardThermalCurrentLimiter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.BuiltinThermalCurrentLimiter"><code class="docutils literal notranslate"><span class="pre">ODrive.BuiltinThermalCurrentLimiter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.OffboardThermistorCurrentLimiter"><code class="docutils literal notranslate"><span class="pre">ODrive.OffboardThermistorCurrentLimiter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.AlphaBetaFrameController"><code class="docutils literal notranslate"><span class="pre">ODrive.AlphaBetaFrameController</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.FieldOrientedController"><code class="docutils literal notranslate"><span class="pre">ODrive.FieldOrientedController</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Oscilloscope"><code class="docutils literal notranslate"><span class="pre">ODrive.Oscilloscope</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Debug"><code class="docutils literal notranslate"><span class="pre">ODrive.Debug</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.AcimEstimator"><code class="docutils literal notranslate"><span class="pre">ODrive.AcimEstimator</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Controller"><code class="docutils literal notranslate"><span class="pre">ODrive.Controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.SensorlessEstimator"><code class="docutils literal notranslate"><span class="pre">ODrive.SensorlessEstimator</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.TrapezoidalTrajectory"><code class="docutils literal notranslate"><span class="pre">ODrive.TrapezoidalTrajectory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.SwitchInput"><code class="docutils literal notranslate"><span class="pre">ODrive.SwitchInput</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.MechanicalBrake"><code class="docutils literal notranslate"><span class="pre">ODrive.MechanicalBrake</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.TaskTimer"><code class="docutils literal notranslate"><span class="pre">ODrive.TaskTimer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.InverterConfig"><code class="docutils literal notranslate"><span class="pre">ODrive.InverterConfig</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.GpioMode"><code class="docutils literal notranslate"><span class="pre">ODrive.GpioMode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.StreamProtocolType"><code class="docutils literal notranslate"><span class="pre">ODrive.StreamProtocolType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.EncoderFieldStatus"><code class="docutils literal notranslate"><span class="pre">ODrive.EncoderFieldStatus</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.FieldStrengthMonitoring"><code class="docutils literal notranslate"><span class="pre">ODrive.FieldStrengthMonitoring</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.ComponentStatus"><code class="docutils literal notranslate"><span class="pre">ODrive.ComponentStatus</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Error"><code class="docutils literal notranslate"><span class="pre">ODrive.Error</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.ProcedureResult"><code class="docutils literal notranslate"><span class="pre">ODrive.ProcedureResult</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.EncoderId"><code class="docutils literal notranslate"><span class="pre">ODrive.EncoderId</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.SpiEncoderMode"><code class="docutils literal notranslate"><span class="pre">ODrive.SpiEncoderMode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.IncrementalEncoderFilter"><code class="docutils literal notranslate"><span class="pre">ODrive.IncrementalEncoderFilter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.Rs485EncoderMode"><code class="docutils literal notranslate"><span class="pre">ODrive.Rs485EncoderMode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.MotorType"><code class="docutils literal notranslate"><span class="pre">ODrive.MotorType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fibre_types/com_odriverobotics_ODrive.html#ODrive.ThermistorMode"><code class="docutils literal notranslate"><span class="pre">ODrive.ThermistorMode</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">USER INTERFACES</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../interfaces/odrivetool.html"><code class="code docutils literal notranslate"><span class="pre">odrivetool</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/odrivetool.html#system-requirements">System Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/odrivetool.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/odrivetool.html#start-odrivetool">Start <code class="code docutils literal notranslate"><span class="pre">odrivetool</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/odrivetool.html#using-odrivetool-via-can">Using <code class="code docutils literal notranslate"><span class="pre">odrivetool</span></code> via CAN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/odrivetool.html#which-baudrate-to-select">Which baudrate to select?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/odrivetool.html#commands-and-objects">Commands and Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/odrivetool.html#multiple-odrives">Multiple ODrives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/odrivetool.html#liveplotter">Liveplotter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/odrivetool.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/odrivetool.html#high-rate-capture">High Rate Capture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/odrivetool.html#id3">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/odrivetool.html#things-to-know">Things to know</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/odrivetool.html#firmware-update">Firmware Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/odrivetool.html#configuration-backup">Configuration Backup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/odrivetool.html#changelog">Changelog</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../interfaces/gui.html">Web GUI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/gui.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/gui.html#frequent-issues">Frequent Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/gui.html#gather-more-info">Gather more info</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/gui.html#usb-can-adapter-on-linux">USB-CAN Adapter on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/gui.html#data-collection-and-analytics">Data collection and analytics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">TROUBLESHOOTING</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/troubleshooting.html">Error Codes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting/troubleshooting.html#attributeerror">AttributeError</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/troubleshooting.html#usb-connectivity-issues">USB Connectivity Issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting/troubleshooting.html#uninstall-zadig-drivers-windows-only">Uninstall Zadig Drivers (Windows Only)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/troubleshooting.html#encoder-noise">Encoder Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/troubleshooting.html#miscellaneous">Miscellaneous</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/troubleshooting.html#disable-browser-notifications">Disable Browser Notifications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ARTICLES</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../articles/component-selection.html">Component Selection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../articles/component-selection.html#power-supply">Power Supply</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../articles/component-selection.html#voltage">Voltage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/component-selection.html#power">Power</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/component-selection.html#other-considerations">Other Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/component-selection.html#motor">Motor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../articles/component-selection.html#kv-number-torque-constant">Kv-number / Torque Constant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/component-selection.html#current">Current</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/component-selection.html#id1">Other considerations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../articles/ground-loops.html">Ground Loops</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../articles/ground-loops.html#the-problem">The Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/ground-loops.html#solutions">Solutions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../articles/ground-loops.html#reduce-power-wire">Reduce Power Wire</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/ground-loops.html#isolation">Isolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/ground-loops.html#current-limiting">Current Limiting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../articles/magnetic-encoders.html">Magnetic Encoders</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../articles/magnetic-encoders.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/magnetic-encoders.html#quick-reference">Quick Reference:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/magnetic-encoders.html#primer">Primer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../articles/magnetic-encoders.html#what-are-we-working-with">What are we working with?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/magnetic-encoders.html#basic-theory">Basic Theory</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/magnetic-encoders.html#design-consideration">Design Consideration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../articles/magnetic-encoders.html#magnet-choice">Magnet Choice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/magnetic-encoders.html#magnet-mounting">Magnet Mounting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/magnetic-encoders.html#materials">Materials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/magnetic-encoders.html#alignment">Alignment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/magnetic-encoders.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../articles/magnetic-encoders.html#harmonic-compensation">Harmonic Compensation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/magnetic-encoders.html#validation">Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../articles/magnetic-encoders.html#s1-pro-micro">S1/Pro/Micro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/magnetic-encoders.html#oa1">OA1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/magnetic-encoders.html#mounting-examples-and-pitfalls">Mounting Examples and Pitfalls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/magnetic-encoders.html#resources">Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../articles/motor-parameters.html">Motor Calibration Parameters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../articles/motor-parameters.html#quick-summary">Quick Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/motor-parameters.html#what-does-calibration-do">What does calibration do?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../articles/motor-parameters.html#resistance-calibration">Resistance Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/motor-parameters.html#inductance-calibration">Inductance Calibration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/motor-parameters.html#picking-values">Picking Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/motor-parameters.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../articles/motor-parameters.html#id1">Resistance Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../articles/motor-parameters.html#id2">Inductance Calibration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../articles/motor-parameters.html#calibration-lock-in-lock-in-spin-current">Calibration lock-in / Lock-in spin current</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CHANGELOG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.6.12-1] - 2026-07-29</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">[0.6.12] - 2026-05-05</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#added">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#changed">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#api-migration-notes">API migration notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">[0.6.11-1] - 2025-06-05</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id6">[0.6.11] - 2025-04-14</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id7">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id8">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id9">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id10">[0.6.10] - 2024-08-27</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id11">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id12">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id13">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id14">API migration notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#known-issues">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id15">[0.6.9-1] - 2024-02-08</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id16">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id17">[0.6.9] - 2024-01-31</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id18">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id19">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id20">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id21">API migration notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id22">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id23">[0.6.8] - 2023-09-12</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id24">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id25">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id26">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id27">API migration notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id28">[0.6.7] - 2023-07-13</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id29">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id30">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id31">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id32">[0.6.6] - 2023-04-12</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id33">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id34">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id35">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id36">API migration notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id37">[0.6.5] - 2023-01-25</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id38">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id39">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id40">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id41">API migration notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id42">[0.6.4-1] - 2022-12-12</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id43">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id44">[0.6.4] - 2022-10-31</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id45">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id46">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id47">[0.6.3] - 2022-08-19</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id48">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id49">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id50">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#api-migration-guide">API Migration Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id51">[0.6.2] - 2022-08-09</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id52">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id53">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id54">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id55">API Migration Guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id56">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id57">[0.6.1] - 2022-06-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id58">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id59">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id60">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id61">API Migration Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id62">[0.6.0] - 2022-02-21</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id63">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id64">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id65">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id66">API Migration Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#and-older">[0.5.4] and older</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">ODrive Documentation</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content style-external-links">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="../index.html"></a></li>
+<li class="breadcrumb-item active">ODrive Regen Clamp Datasheet</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<section id="odrive-regen-clamp-datasheet">
+<span id="regen-clamp-datasheet"></span><h1>ODrive Regen Clamp Datasheet<a class="headerlink" href="#odrive-regen-clamp-datasheet" title="Permalink to this heading"></a></h1>
+<a class="reference internal image-reference" href="../_images/regen_clamp_pic.jpg"><img alt="../_images/regen_clamp_pic.jpg" class="align-right" src="../_images/regen_clamp_pic.jpg" style="width: 300.0px; height: 300.0px;"/></a>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#electromechanical-specifications" id="id1">Electromechanical Specifications</a></p>
+<ul>
+<li><p><a class="reference internal" href="#cad" id="id2">CAD</a></p></li>
+<li><p><a class="reference internal" href="#electrical" id="id3">Electrical</a></p></li>
+<li><p><a class="reference internal" href="#physical" id="id4">Physical</a></p></li>
+<li><p><a class="reference internal" href="#connectors" id="id5">Connectors</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#pinout" id="id6">Pinout</a></p>
+<ul>
+<li><p><a class="reference internal" href="#power-pads" id="id7">Power Pads</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#usage-wiring" id="id8">Usage &amp; Wiring</a></p></li>
+<li><p><a class="reference internal" href="#status-leds" id="id9">Status LEDs</a></p></li>
+<li><p><a class="reference internal" href="#overtemperature-protection" id="id10">Overtemperature Protection</a></p></li>
+<li><p><a class="reference internal" href="#brake-resistor-selection" id="id11">Brake Resistor Selection</a></p>
+<ul>
+<li><p><a class="reference internal" href="#example" id="id12">Example</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<br style="clear:both;"/><p>The ODrive Regen Clamp provides a high-performance braking energy management solution for ODrives without an external brake resistor. It automatically detects power regeneration from downstream motor drives, and diverts excess energy to an external brake resistor.</p>
+<p>It incorporates a high-performance ideal diode circuit to allow current to flow to downstream ODrives and devices, while detecting and blocking regenerated current, dissipating it through an external resistor.</p>
+<p>The Regen Clamp additionally has a connector for an optional PT1000 RTD temperature sensor, to allow for overtemperature protection of the external brake resistor.</p>
+<p>The Regen Clamp is compatible with the <a class="reference external" href="https://shop.odriverobotics.com/products/heat-spreader-plate-for-odrive-s1">S1 heatspreader plate</a>.</p>
+<section id="electromechanical-specifications">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Electromechanical Specifications</a><a class="headerlink" href="#electromechanical-specifications" title="Permalink to this heading"></a></h2>
+<section id="cad">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">CAD</a><a class="headerlink" href="#cad" title="Permalink to this heading"></a></h3>
+<p>The Regen Clamp CAD model is available <a class="reference external" href="https://cad.onshape.com/publications/1537355bede051fc9bfff9ee/w/36621dac210ffc747d2f2693/e/92fb605ed06ad43abfe83e8c?configuration=List_y5t0JFEWQzoHmO%3DDefault&amp;renderMode=0&amp;uiState=65ada0276128364ae6c4736f">here</a>.</p>
+<a class="reference internal image-reference" href="../_images/regen_clamp_cad.jpg"><img alt="../_images/regen_clamp_cad.jpg" class="align-center" src="../_images/regen_clamp_cad.jpg" style="width: 274.8px; height: 152.4px;"/></a>
+</section>
+<section id="electrical">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Electrical</a><a class="headerlink" href="#electrical" title="Permalink to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All specifications are in 0◦C ≤ T<sub>A</sub>≤ 40◦C unless otherwise noted.</p>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Specification</p></th>
+<th class="head"><p>Min.</p></th>
+<th class="head"><p>Typ.</p></th>
+<th class="head"><p>Max.</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Conditions and Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>DC Voltage</p></td>
+<td><p>10</p></td>
+<td></td>
+<td><p>58</p></td>
+<td><p>V</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Forward Current</p></td>
+<td></td>
+<td></td>
+<td><p>20</p>
+<p>40</p>
+<p>80</p>
+<p>120</p>
+</td>
+<td><p>A</p></td>
+<td><p>Free air (T<sub>A</sub> 25°C)</p>
+<p>With heatspreader plate</p>
+<p>Active cooling</p>
+<p>Peak (3 second max)</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Brake Current</p></td>
+<td></td>
+<td></td>
+<td><p>20</p>
+<p>40</p>
+<p>80</p>
+</td>
+<td><p>A</p></td>
+<td><p>Free air (T<sub>A</sub> 25°C)</p>
+<p>With heatspreader plate</p>
+<p>Peak (3 second max)</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Brake Activation Voltage</p></td>
+<td></td>
+<td><p>2.35</p></td>
+<td><p>2.50</p></td>
+<td><p>V</p></td>
+<td><p>V<sub>out</sub> over V<sub>in</sub></p></td>
+</tr>
+<tr class="row-even"><td><p>Brake Deactivation Voltage</p></td>
+<td><p>0.5</p></td>
+<td><p>0.75</p></td>
+<td></td>
+<td><p>V</p></td>
+<td><p>V<sub>out</sub> over V<sub>in</sub></p></td>
+</tr>
+<tr class="row-odd"><td><p>Onboard Capacitance</p></td>
+<td></td>
+<td><p>800</p></td>
+<td></td>
+<td><p>uF</p></td>
+<td><p>Low ESL/ESR</p></td>
+</tr>
+<tr class="row-even"><td><p>Forward Voltage Drop</p></td>
+<td><p>10</p></td>
+<td><p>25</p></td>
+<td><p>125</p></td>
+<td><p>mV</p></td>
+<td><p>Under 55mV up to 53A I <sub>fwd</sub></p></td>
+</tr>
+<tr class="row-odd"><td><p>Switching Frequency</p></td>
+<td><p>0</p></td>
+<td></td>
+<td><p>15</p></td>
+<td><p>kHz</p></td>
+<td><p>Dependent on R<sub>brake</sub> and I<sub>regen</sub></p></td>
+</tr>
+<tr class="row-even"><td><p>ESD Protection</p></td>
+<td></td>
+<td><p>±30</p>
+<p>±2</p>
+</td>
+<td></td>
+<td><p>kV</p></td>
+<td><p>Power Lines, IEC 61000-4-2</p>
+<p>PT1000 Input, HBM</p>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="physical">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Physical</a><a class="headerlink" href="#physical" title="Permalink to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Specification</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Mass</p></td>
+<td><p>28</p>
+<p>47</p>
+<p>79</p>
+</td>
+<td><p>g</p></td>
+<td><p>Bare Board (solder pads)</p>
+<p>w/ Screw Terminals</p>
+<p>w/ Heat Spreader</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Width</p>
+<p>Length</p>
+<p>Height</p>
+</td>
+<td><p>66</p>
+<p>50</p>
+<p>15.3</p>
+</td>
+<td><p>mm</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Mounting</p></td>
+<td colspan="2"><p>PCB</p>
+<p>Heat Spreader</p>
+</td>
+<td><p>4x M3, 60mm x 44mm pattern (horizontal, vertical)</p>
+<p>4x M4, 70mm x 70mm pattern</p>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="connectors">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Connectors</a><a class="headerlink" href="#connectors" title="Permalink to this heading"></a></h3>
+<p>Connector mating receptacles and crimps.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Connector</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Connector P/N</p></th>
+<th class="head"><p>Mating Receptacle</p></th>
+<th class="head"><p>Mating Crimp</p></th>
+<th class="head"><p>Precrimped Wire P/N</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Power</p></td>
+<td><p>Optional Screw Terminal</p></td>
+<td><p>TB005-762-06BE</p></td>
+<td><p>N/A</p></td>
+<td><p>N/A</p></td>
+<td><p>N/A</p></td>
+</tr>
+<tr class="row-odd"><td><p>J11</p></td>
+<td><p>PT1000 RTD Connector</p></td>
+<td><p>530480210</p></td>
+<td><p>0510210200</p></td>
+<td><p>0501258000</p></td>
+<td><p>2149211214</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="pinout">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Pinout</a><a class="headerlink" href="#pinout" title="Permalink to this heading"></a></h2>
+<section id="power-pads">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Power Pads</a><a class="headerlink" href="#power-pads" title="Permalink to this heading"></a></h3>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>IN+-/OUT+- cannot tolerate reversed polarity, verify all power pad connections before energizing.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Do not connect multiple Regen Clamps to a single brake resistor! Each Regen Clamp must utilize its own separate brake resistor.</p>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Pad</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>R-</p></td>
+<td><p>Brake resistor output</p></td>
+</tr>
+<tr class="row-odd"><td><p>R+</p></td>
+<td><p>Brake resistor output</p></td>
+</tr>
+<tr class="row-even"><td><p>OUT+</p></td>
+<td><p>Power output, to motor drivers</p></td>
+</tr>
+<tr class="row-odd"><td><p>OUT-</p></td>
+<td><p>Power ground</p></td>
+</tr>
+<tr class="row-even"><td><p>IN-</p></td>
+<td><p>Power ground</p></td>
+</tr>
+<tr class="row-odd"><td><p>IN+</p></td>
+<td><p>Power input, from supply</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="usage-wiring">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Usage &amp; Wiring</a><a class="headerlink" href="#usage-wiring" title="Permalink to this heading"></a></h2>
+<p>The Regen Clamp is designed to sit between a “upstream” power source, such as DC power supply, and one or more “downstream” devices that may regenerate energy (such as ODrives without brake resistors, and other motor drivers). It monitors the direction of current between the supply and the downstream devices - if the downstream devices are drawing power from the supply, it will pass this current as normal. However, if it senses that the downstream devices are regenerating power back to the supply, it will divert all excess regenerated energy to the external brake resistor.</p>
+<p>This enables any (sufficiently powerful) DC power supply to be used with all ODrives and motor drivers, even those without brake resistors.</p>
+<p>Typical usage of the Regen Clamp only requires the input power supply to be wired to the IN+/IN- terminals, one or more downstream devices to be wired to the OUT+/OUT- terminals, and a suitable brake resistor  (see <a class="reference internal" href="#regen-clamp-resistor-selection"><span class="std std-ref">brake resistor selection</span></a>) to be wired to the R+/R- terminals.</p>
+<p>Optionally, an external temperature sensor can be used to protect the brake resistor from overheating. See <a class="reference internal" href="#regen-clamp-otp"><span class="std std-ref">Overtemperature Protection</span></a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The Regen Clamp has a large amount of onboard capacitance. Connecting it directly to a powered battery or supply can result in large inrush currents, causing sparking and possible damage to the Regen Clamp, downstream devices, or power supply or battery. Only wire to a DC supply while it is powered off, and wire to batteries using an antispark connector, NTC inrush limiter, or other inrush current limiting device.</p>
+</div>
+<p>Example wiring:</p>
+<a class="reference internal image-reference" href="../_images/regen_clamp_wiring.png"><img alt="../_images/regen_clamp_wiring.png" class="align-center" src="../_images/regen_clamp_wiring.png" style="width: 590.4px; height: 266.4px;"/></a>
+</section>
+<section id="status-leds">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Status LEDs</a><a class="headerlink" href="#status-leds" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>LED</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Green</p></td>
+<td><p>The Regen Clamp is powered</p></td>
+</tr>
+<tr class="row-odd"><td><p>Blue</p></td>
+<td><p>Regenerated energy is being dissipated across the brake resistor</p></td>
+</tr>
+<tr class="row-even"><td><p>Red</p></td>
+<td><p>The RTD sensor / brake resistor is over the temperature threshold</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="overtemperature-protection">
+<span id="regen-clamp-otp"></span><h2><a class="toc-backref" href="#id10" role="doc-backlink">Overtemperature Protection</a><a class="headerlink" href="#overtemperature-protection" title="Permalink to this heading"></a></h2>
+<p>The Regen Clamp supports an external PT1000 RTD temperature sensor to sense the brake resistor’s temperature and implement overtemperature protection (OTP). Multiple OTP trip thresholds are available, from 120°C to 475°C. The PT1000 should be thermally bonded to the brake resistor, using a suitably rated thermal grease or adhesive. Note that only specifically PT1000 RTD sensors are supported, and not thermistors or thermocouples.</p>
+<p>In the event the sensed temperature reaches the OTP threshold, the red LED will turn on, and the Regen Clamp will disable itself until the temperature falls 10°C below the OTP threshold. That is to say, if the OTP threshold is set to 325°C (S1=ON, S2=OFF, S3=ON), and the brake resistor/PT1000 RTD sensor passes 325°C, the Regen Clamp will disable until the sensed temperature falls below 315°C.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Please ensure that both the PT1000 RTD sensor and your brake resistor of choice are rated to the selected overtemperature trip threshold</p>
+</div>
+<p>The overtemperature protection (OTP) is enabled and configured using the DIP switch array in the upper left corner of the top of the board.</p>
+<p>To enable OTP, slide the topmost switch, labeled “OTP EN” to the “ON” side (and slide to the “OFF” side to disable).</p>
+<p>The three other switches, labeled S1, S2, and S3, are used for setting the OTP trip threshold.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>S1 Setting</p></th>
+<th class="head"><p>S2 Setting</p></th>
+<th class="head"><p>S3 Setting</p></th>
+<th class="head"><p>OTP Threshold</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>OFF</p></td>
+<td><p>OFF</p></td>
+<td><p>OFF</p></td>
+<td><p>120°C</p></td>
+</tr>
+<tr class="row-odd"><td><p>ON</p></td>
+<td><p>OFF</p></td>
+<td><p>OFF</p></td>
+<td><p>150°C</p></td>
+</tr>
+<tr class="row-even"><td><p>OFF</p></td>
+<td><p>ON</p></td>
+<td><p>OFF</p></td>
+<td><p>180°C</p></td>
+</tr>
+<tr class="row-odd"><td><p>ON</p></td>
+<td><p>ON</p></td>
+<td><p>OFF</p></td>
+<td><p>220°C</p></td>
+</tr>
+<tr class="row-even"><td><p>OFF</p></td>
+<td><p>OFF</p></td>
+<td><p>ON</p></td>
+<td><p>265°C</p></td>
+</tr>
+<tr class="row-odd"><td><p>ON</p></td>
+<td><p>OFF</p></td>
+<td><p>ON</p></td>
+<td><p>325°C</p></td>
+</tr>
+<tr class="row-even"><td><p>OFF</p></td>
+<td><p>ON</p></td>
+<td><p>ON</p></td>
+<td><p>385°C</p></td>
+</tr>
+<tr class="row-odd"><td><p>ON</p></td>
+<td><p>ON</p></td>
+<td><p>ON</p></td>
+<td><p>475°C</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="brake-resistor-selection">
+<span id="regen-clamp-resistor-selection"></span><h2><a class="toc-backref" href="#id11" role="doc-backlink">Brake Resistor Selection</a><a class="headerlink" href="#brake-resistor-selection" title="Permalink to this heading"></a></h2>
+<p>To select an optimal brake resistor value, a few constraints must be obeyed:</p>
+<p>Let <span class="math notranslate nohighlight">\(V\)</span> be the nominal bus voltage, and <span class="math notranslate nohighlight">\(R_{brake}\)</span> be the brake resistor resistance.</p>
+<ul class="simple">
+<li><p>First, the maximum current through the Regen Clamp’s brake driver must stay under 80A peak:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\frac{V}{R_{brake}} \leq 80A\]</div>
+<ul class="simple">
+<li><p>Second, the brake resistor must be able to dissipate all regenerated current from the motor. Regenerated current can be estimated by dividing the maximum motor power by the bus voltage. Maximum motor power can be calculated with:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[P_{motor} = I_{max} \cdot \frac{8.27}{Kv} \cdot \omega_{max} \cdot \frac{2\pi}{60}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(I_{max}\)</span> is the motor’s current_soft_max, and <span class="math notranslate nohighlight">\(\omega_{max}\)</span> is the 60*vel_limit (i.e. max velocity in RPM).</p>
+<ul class="simple">
+<li><p>Maximum regenerated current can be found with:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[I_{regen} = \frac{P_{motor}}{V}\]</div>
+<ul class="simple">
+<li><p>In order to ensure all regenerated power can be dissipated, the resistor must dissipate more than the maximum regenerated current at the bus voltage:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\frac{V}{R_{brake}} \geq I_{regen}\]</div>
+<ul class="simple">
+<li><p>Given these two constraints, an available brake resistor can be selected. Note that the average regenerated power must be lower than the brake resistor’s power rating, or dangerous overtemperature can occur (without <a class="reference internal" href="#regen-clamp-otp"><span class="std std-ref">overtemperature protection</span></a>).</p></li>
+</ul>
+<section id="example">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Example</a><a class="headerlink" href="#example" title="Permalink to this heading"></a></h3>
+<p>Let’s say we have 24V power supply, with a M8325s 100Kv motor. The ODrive is configured with a current_soft_max of 50A, and a vel_limit of 30 rev/s (1800 RPM).</p>
+<p>First, we can calculate the lowest resistance brake resistor value in order to not exceed the 80A current limit on the Regen Clamp’s brake driver:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}&amp; \frac{V}{R_{brake}} \leq 80A \\
+&amp; \Rightarrow R_{brake} \geq \frac{24V}{80A}\\
+&amp; \Rightarrow R_{brake} \geq 0.3 \Omega\end{split}\]</div>
+<p>Next, we calculate our motor’s maximum regenerated power:</p>
+<div class="math notranslate nohighlight">
+\[P_{motor} = 50 \cdot \frac{8.27}{100} \cdot (30 \cdot 60) \cdot \frac{2\pi}{60} = 779W\]</div>
+<p>If we’re operating on a 24V bus, then this means we will regenerate a theoretical maximum of:</p>
+<div class="math notranslate nohighlight">
+\[I_{regen} = \frac{P_{motor}}{V} = \frac{779}{24} = 32.45A\]</div>
+<p>Now we can find the highest resistance brake resistor value needed to dissipate the full 32.45A.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}&amp; \frac{V}{R_{brake}} \geq I_{regen} \\
+&amp; \Rightarrow R_{brake} \leq \frac{24V}{32.45A} \\
+&amp; \Rightarrow R_{brake} \leq 0.74 \Omega\end{split}\]</div>
+<p>So now we know <span class="math notranslate nohighlight">\(0.3 \Omega \leq R_{brake} \leq 0.74 \Omega\)</span>. From here, we could select a standard, commonly available value in this range - for instance, 0.5 ohm power resistors are quite common.</p>
+<p>Consideration must be given to the brake resistor’s power rating - most applications don’t require constant regeneration, and so a lower rated (e.g. 25W or 100W rated) resistor would likely be adequate for this application, depending on the regeneration duty cycle. If you think your brake resistor may get hot, make sure to utilize <a class="reference internal" href="#regen-clamp-otp"><span class="std std-ref">overtemperature protection</span></a>.</p>
+</section>
+</section>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="oa1-datasheet.html" rel="prev" title="ODrive OA1 Datasheet"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="usb-can-datasheet.html" rel="next" title="ODrive USB-CAN Adapter Datasheet">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2026, ODrive Robotics.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+<!-- Theme Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TWPQGKWK7K"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-TWPQGKWK7K', {
+          'anonymize_ip': false,
+      });
+    </script>
+</body>
+</html>

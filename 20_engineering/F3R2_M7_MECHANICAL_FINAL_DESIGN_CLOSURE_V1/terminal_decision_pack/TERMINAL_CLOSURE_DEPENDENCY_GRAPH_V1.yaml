@@ -1,0 +1,284 @@
+schema: TERMINAL_CLOSURE_DEPENDENCY_GRAPH_V1
+generated_local: '2026-08-24T02:43:50+08:00'
+status: EXECUTABLE_GRAPH_FROZEN__OWNER_AND_EXTERNAL_INPUTS_PENDING
+active_mechanical_design: true
+heavy_solver_authorized_now: false
+terminal_release_candidate_generated: false
+owner_accepted: false
+next_stage_authorized: false
+release_credit: false
+incoming_edge_semantics_default: ALL_REQUIRED
+decision_edge_semantics: an Owner signature is not sufficient by itself; the selected option and any separately required execution
+  authority must exactly match the edge condition
+release_target_if_all_terminal_criteria_close_including_mission_evidence_and_route_c_when_required_by_ODR_GPT_04: MECHANICAL_ENGINEERING_DESIGN_RELEASED_FOR_OPERATIONAL_DIGITAL_TWIN_AND_EMBODIED_CONTROL_WITH_FLIGHT_QUALIFICATION_HOLD
+release_root: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_V1/
+decision_branches:
+  ODR-GPT-07:
+    A_B_C: may feed N03 only when the direct Owner record selects that exact option and explicitly authorizes its isolated
+      Round4 component build
+    D: TERMINAL_HOLD; no model execution
+    E: isolated research-only branch N02E; no edge to the M7 release path
+    F_G: revise/reject; no execution edge
+  ODR-GPT-08:
+    A: may feed N05 only when the direct Owner record selects A and explicitly authorizes the bounded four-lane comparator
+      run
+    B: feed N04B scope-change contract reissue only; old E22 G17 remains FAIL and no comparator credit is fabricated
+    C: TERMINAL_HOLD under the current same-scope requirement
+    D_E: revise/reject; no execution edge
+nodes:
+- id: N01_M4_INHERITANCE
+  status: COMPLETE_SCOPED
+  class: FROZEN_BASELINE
+  action: inherit; do not rebuild
+- id: N02_P2_OWNER_DECISION
+  status: PENDING
+  class: OWNER_AUTHORITY
+  request: P2_ROM_DIMENSION_AND_VALIDITY_DECISION_REQUEST_V1.yaml
+- id: N02E_P2_NONMODAL_RESEARCH
+  status: NOT_AUTHORIZED
+  class: ISOLATED_RESEARCH_ONLY
+  release_path: false
+- id: N03_ROUND4_P2_COMPONENT
+  status: NOT_AUTHORIZED
+  class: MODEL_BUILD
+  join_policy: ALL_REQUIRED
+- id: N04_G17_OWNER_DECISION
+  status: PENDING
+  class: OWNER_AUTHORITY
+  request: LEGACY_R1_COMPARATOR_SEMANTICS_DECISION_REQUEST_V1.yaml
+- id: N04B_G17_SCOPE_CHANGE_CONTRACT_REISSUE
+  status: NOT_AUTHORIZED
+  class: CONTRACT_CHANGE
+  old_G17_disposition: PRESERVE_FAIL
+- id: N05_R1_COMPARATOR_PREP
+  status: NOT_AUTHORIZED
+  class: COUNTERFACTUAL_ASSEMBLY_AND_NEGATIVE_CONTROLS
+- id: N05B_FOUR_LANE_COMPARATOR
+  status: WAIT_ROUND4_AND_R1_PREP
+  class: COUPLED_DIAGNOSTIC
+  join_policy: ALL_REQUIRED
+- id: N05C_G17_RESOLUTION_GATE
+  status: WAIT_OWNER_BRANCH
+  class: GATE
+  join_policy: ONE_OF_MUTUALLY_EXCLUSIVE
+  eligible_predecessors:
+  - N05B_FOUR_LANE_COMPARATOR
+  - N04B_G17_SCOPE_CHANGE_CONTRACT_REISSUE
+- id: N06_E22_V2_OR_E23
+  status: NOT_AUTHORIZED
+  class: COUPLED_GATE
+  join_policy: ALL_REQUIRED
+- id: N07_E15_R2_RECERT
+  status: WAIT_UPSTREAM
+  class: CROSS_SOLVER_GATE
+- id: N08_A07_A09_TECHNICAL_SUBGATE_REISSUE
+  status: WAIT_UPSTREAM
+  class: DERIVED_TECHNICAL_SUBGATE
+  scope: A07-A09 only; does not alter or PASS the complete Checkpoint-A
+- id: N09_ROUTE_C_PHYSICAL_INPUTS
+  status: PENDING_EXTERNAL
+  class: TRACEABLE_PHYSICAL_DATA
+  fields: 0/13 non-null
+- id: N10_CHECKPOINT_B_RERUN
+  status: HOLD
+  class: CHECKPOINT
+  current: 2/8 admission PASS; CAD false
+- id: N11_ROUTE_C_CAD_AND_SWEEP
+  status: PROHIBITED
+  class: CAD_AND_HARNESS
+- id: N11B_RATED_MISSION_ENVELOPE_PROOF
+  status: FALSIFIED_TERMINAL_FROZEN
+  class: FROZEN_NEGATIVE_BRANCH_EVIDENCE
+  current: registered evidence is 0/10 mandatory states SAFE, 0/8 trajectories released and Mission Coverage FAIL; Route-B
+    reopening is NONE_PERMITTED
+  evidence:
+    id: odr_gpt04_falsifier_gate
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/16_odr_gpt04_frozen_route_b_branch_falsifier/ODR_GPT_04_FROZEN_ROUTE_B_BRANCH_GATE_V1.json
+    bytes: 3537
+    sha256: F6F2DD8F163EB31FA8E24385F1CF8293BEF694AFDC5CD6AE3285008DB1AA0EB6
+  release_path: false
+  reopen_allowed: false
+  global_q_no_go_claim: false
+  reactivation_rule: NONE for frozen Route-B; any new centerline/predicate requires separate direct Owner authorization, a
+    new ECR and a new graph version
+- id: N10C_A11_ROUTE_C_OR_DEFERMENT_RESOLUTION
+  status: WAIT_ROUTE_C
+  class: CHECKPOINT_CRITERION_RESOLUTION
+  legacy_id_note: ID retained for history; current eligible path is Route-C only
+  join_policy: ALL_REQUIRED
+  eligible_predecessors:
+  - N10_CHECKPOINT_B_RERUN
+  current_eligible_path: ROUTE_C_ONLY
+- id: N12_MISSION_HARNESS_GATE
+  status: FAIL
+  class: MISSION_GATE
+  current: 0/10 key states SAFE; 0/8 segments released
+  join_policy: ALL_REQUIRED
+  eligible_predecessors:
+  - N11_ROUTE_C_CAD_AND_SWEEP
+- id: N13_INTERFACE_CONTRACT_REBIND
+  status: WAIT_UPSTREAM
+  class: DIGITAL_THREAD
+  join_policy: ALL_REQUIRED
+- id: N14_SIM13_LOADER_RUNTIME_GATE
+  status: INVALIDATED
+  class: DOWNSTREAM_CONSUMER
+- id: N15_HANDOFF
+  status: HOLD_11_OF_12_G12
+  class: HANDOFF_GATE
+- id: N15B_CHECKPOINT_A_FULL_REISSUE
+  status: WAIT_ALL_A01_A12
+  class: CHECKPOINT
+  join_policy: ALL_REQUIRED
+  required_outcome: 12/12 PASS
+- id: N16_FINAL_RELEASE_CANDIDATE_CM_STAGING
+  status: WAIT_TECHNICAL_CLOSURE
+  class: ASSEMBLY_DRAWING_BOM_RELEASE_STAGING
+  join_policy: ALL_REQUIRED
+  scope: stage release items 00-22; no release credit
+- id: N17_TERMINAL_RED_TEAM
+  status: NOT_REACHED
+  class: ADVERSARIAL_AUDIT
+  required_output: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_V1/23_RED_TEAM/
+- id: N18_FINDING_FALSIFIER
+  status: NOT_REACHED
+  class: FALSIFIER
+  required_output: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_V1/24_FALSIFIER/
+- id: N19_FINAL_SEVEN_GATE_AGGREGATION
+  status: NOT_REACHED
+  class: TERMINAL_GATE_AGGREGATION
+  required_gates:
+  - TMG-1
+  - TMG-2
+  - TMG-3
+  - TMG-4
+  - TMG-5
+  - TMG-6
+  - TMG-7
+- id: N20_RELEASE_MANIFEST_HASH_AUDIT
+  status: NOT_REACHED
+  class: CONFIGURATION_MANAGEMENT
+  required_output: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_V1/25_RELEASE_SHA256.csv
+- id: N21_CHECKPOINT_C_TERMINAL
+  status: NOT_REACHED
+  class: TERMINAL_GATE
+edges:
+- from: N02_P2_OWNER_DECISION
+  to: N03_ROUND4_P2_COMPONENT
+  condition: direct Owner record selects exactly P2 Option A, B or C AND explicitly authorizes the selected isolated Round4
+    component build
+- from: N02_P2_OWNER_DECISION
+  to: N02E_P2_NONMODAL_RESEARCH
+  condition: direct Owner record selects exactly P2 Option E AND a new isolated research contract is issued; this node has
+    no outgoing release edge
+- from: N04_G17_OWNER_DECISION
+  to: N05_R1_COMPARATOR_PREP
+  condition: direct Owner record selects exactly A_FOUR_LANE_PROTOCOL_MATCHED_COMPARATOR AND explicitly authorizes the bounded
+    comparator run
+- from: N04_G17_OWNER_DECISION
+  to: N04B_G17_SCOPE_CHANGE_CONTRACT_REISSUE
+  condition: direct Owner record selects exactly B_REMOVE_LEGACY_NUMERICAL_G17_RETAIN_HISTORICAL_NARRATIVE AND a versioned
+    scope-change contract is issued
+- from: N05_R1_COMPARATOR_PREP
+  to: N05B_FOUR_LANE_COMPARATOR
+  condition: R1 assembly, source isolation and negative controls PASS
+- from: N03_ROUND4_P2_COMPONENT
+  to: N05B_FOUR_LANE_COMPARATOR
+  condition: final ODR-GPT-07-approved Round4 R2 ROM hash and component Gate PASS available
+- from: N05B_FOUR_LANE_COMPARATOR
+  to: N05C_G17_RESOLUTION_GATE
+  condition: Option-A four-lane two-scenario protocol completeness Gate PASS
+- from: N04B_G17_SCOPE_CHANGE_CONTRACT_REISSUE
+  to: N05C_G17_RESOLUTION_GATE
+  condition: Option-B new scope Gate PASS; old E22-V1 G17 remains FAIL and is not relabelled
+- from: N03_ROUND4_P2_COMPONENT
+  to: N06_E22_V2_OR_E23
+  condition: Round4 component, independent recompute, determinism, negative controls and red-team PASS
+- from: N05C_G17_RESOLUTION_GATE
+  to: N06_E22_V2_OR_E23
+  condition: exactly one mutually exclusive G17-resolution branch PASS
+- from: N06_E22_V2_OR_E23
+  to: N07_E15_R2_RECERT
+  condition: G11 and G17 closed without weakened criteria
+- from: N07_E15_R2_RECERT
+  to: N08_A07_A09_TECHNICAL_SUBGATE_REISSUE
+  condition: A07, A08 and A09 each PASS with versioned evidence; complete Checkpoint-A remains unchanged
+- from: N09_ROUTE_C_PHYSICAL_INPUTS
+  to: N10_CHECKPOINT_B_RERUN
+  condition: P01-P13 traceable values, units, uncertainty and authority
+- from: N10_CHECKPOINT_B_RERUN
+  to: N11_ROUTE_C_CAD_AND_SWEEP
+  condition: 8/8 admission PASS plus separately recorded CAD authorization
+- from: N11_ROUTE_C_CAD_AND_SWEEP
+  to: N12_MISSION_HARNESS_GATE
+  condition: full required trajectory sweep and rated-envelope proof
+- from: N10_CHECKPOINT_B_RERUN
+  to: N10C_A11_ROUTE_C_OR_DEFERMENT_RESOLUTION
+  condition: Route-C C2 registry and CAD admission PASS
+- from: N08_A07_A09_TECHNICAL_SUBGATE_REISSUE
+  to: N13_INTERFACE_CONTRACT_REBIND
+  condition: A07-A09 technical subgate PASS
+- from: N12_MISSION_HARNESS_GATE
+  to: N13_INTERFACE_CONTRACT_REBIND
+  condition: mission harness coverage PASS under PASS_FULL_RANGE or PASS_HARNESS_RATED_MISSION_ENVELOPE; no unsafe required
+    trajectory
+- from: N13_INTERFACE_CONTRACT_REBIND
+  to: N14_SIM13_LOADER_RUNTIME_GATE
+  condition: versioned interface and fail-closed runtime harness field
+- from: N14_SIM13_LOADER_RUNTIME_GATE
+  to: N15_HANDOFF
+  condition: independent negative controls and production-binding audit PASS
+- from: N08_A07_A09_TECHNICAL_SUBGATE_REISSUE
+  to: N15B_CHECKPOINT_A_FULL_REISSUE
+  condition: A07-A09 technical results PASS
+- from: N10C_A11_ROUTE_C_OR_DEFERMENT_RESOLUTION
+  to: N15B_CHECKPOINT_A_FULL_REISSUE
+  condition: A11 is resolved by Route-C C2 registry and CAD admission PASS; the frozen Route-B ODR-GPT-04 branch is terminal-negative
+    and cannot satisfy A11
+- from: N12_MISSION_HARNESS_GATE
+  to: N15B_CHECKPOINT_A_FULL_REISSUE
+  condition: A10 mission harness coverage PASS
+- from: N15_HANDOFF
+  to: N15B_CHECKPOINT_A_FULL_REISSUE
+  condition: A12 handoff 12/12 PASS
+- from: N15B_CHECKPOINT_A_FULL_REISSUE
+  to: N16_FINAL_RELEASE_CANDIDATE_CM_STAGING
+  condition: complete Checkpoint-A A01-A12 is independently refreshed and 12/12 PASS
+- from: N01_M4_INHERITANCE
+  to: N16_FINAL_RELEASE_CANDIDATE_CM_STAGING
+  condition: inherit accepted M4 geometry and schemas; reissue only controlled R2 deltas
+- from: N16_FINAL_RELEASE_CANDIDATE_CM_STAGING
+  to: N17_TERMINAL_RED_TEAM
+  condition: unified R2 candidate items 00-22, nine-config collision, drawings/BOM and hashes are staged with no release credit
+- from: N17_TERMINAL_RED_TEAM
+  to: N18_FINDING_FALSIFIER
+  condition: full-scope adversarial findings register emitted over Route-C, harness, flexibility, interfaces, Sim13 and final
+    CM candidate
+- from: N18_FINDING_FALSIFIER
+  to: N19_FINAL_SEVEN_GATE_AGGREGATION
+  condition: every finding has an executable falsifier and HIGH=0; unresolved finding is HOLD
+- from: N19_FINAL_SEVEN_GATE_AGGREGATION
+  to: N20_RELEASE_MANIFEST_HASH_AUDIT
+  condition: TMG-1 through TMG-7 PASS; internal design HOLD=0; hash mismatch=0; unexplained interference=0; empty comparison
+    set=0
+- from: N20_RELEASE_MANIFEST_HASH_AUDIT
+  to: N21_CHECKPOINT_C_TERMINAL
+  condition: complete items 00-25 exist; 25_RELEASE_SHA256.csv validates every release artifact and self-reference policy
+parallelizable_after_authority:
+- - N03_ROUND4_P2_COMPONENT
+  - N05_R1_COMPARATOR_PREP
+  - N09_ROUTE_C_PHYSICAL_INPUTS
+- - N16_FINAL_RELEASE_CANDIDATE_CM_STAGING
+current_internal_owner_decisions_needed:
+- ODR-GPT-07
+- ODR-GPT-08
+current_harness_resolution_needed: close Route-C P01-P13, Checkpoint-B, separate CAD authority, new physical sweep and mandatory
+  mission coverage; the current frozen Route-B ODR-GPT-04 path is machine-falsified
+current_route_c_physical_inputs_if_route_c_required: Route-C P01-P13 controlled registry closure (required on the current
+  graph)
+nonclaims:
+- this graph does not authorize any currently blocked node
+- flight qualification, manufacturing release and as-built correlation remain HOLD after the design-release target
+- five discrete windows do not establish a continuous 5-to-100ms validity interval
+- the frozen Route-B no-go does not prove every external harness topology physically impossible
+- no new Route-B2 or alternate-centerline release edge exists without a separate Owner-authorized ECR and graph revision

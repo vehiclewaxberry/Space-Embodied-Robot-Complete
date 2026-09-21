@@ -1,0 +1,74 @@
+{
+  "schema": "SIM13_V4B4E_SYNTHETIC_SOLVER_RUN_SPEC_V1",
+  "scope": "POST_FREEZE_BOUNDED_SYNTHETIC_NUMERICAL_EXECUTION_ONLY",
+  "upstream_contract_semantics_unchanged": true,
+  "trigger_runs": [
+    {"run_id": "rk4_coarse", "method": "rk4", "step_s": 0.001},
+    {"run_id": "rk4_fine", "method": "rk4", "step_s": 0.0005},
+    {"run_id": "rk4_reference", "method": "rk4", "step_s": 0.00025},
+    {"run_id": "midpoint_coarse", "method": "midpoint", "step_s": 0.0005},
+    {"run_id": "midpoint_fine", "method": "midpoint", "step_s": 0.00025},
+    {"run_id": "midpoint_reference", "method": "midpoint", "step_s": 0.000125}
+  ],
+  "primary_run_id": "rk4_reference",
+  "independent_reference_run_id": "midpoint_reference",
+  "primary_trigger_input": "HASH_BOUND_B3_REFERENCE_RECORD_205",
+  "all_other_trigger_inputs": "RERUN_B3_FROM_HASH_BOUND_INITIAL_STATE_AND_SELECT_EACH_RUNS_OWN_FIRST_QUALIFYING_SAMPLE",
+  "active_propagation": {
+    "end_time_s": 0.08,
+    "end_time_source": "frozen B3 audited trajectory duration",
+    "classification": "BOUNDED_NUMERICAL_SEARCH_HORIZON_NOT_PHYSICAL_RETENTION_OR_RELEASE_DURATION",
+    "service_bias_difference_step_s": 2e-6,
+    "embedding_directional_difference_step_s": 2e-6,
+    "difference_step_audit_s": [1e-6, 2e-6, 4e-6],
+    "contact_kernel_active": false,
+    "external_force_and_torque": "zero"
+  },
+  "continuous_clearance_certification": {
+    "interpolant": "piecewise cubic Hermite gap using each endpoint gap and native gap-rate",
+    "root_policy": "enumerate all real roots in every segment for g_i-g_clearance_min and gdot_i+v_reentry_tol, partition the segment, classify every open cell and boundary, then merge only touching certified-good intervals",
+    "earliest_rule": "first merged certified-good interval at or after t_a+minimum_active_dwell whose duration is at least clearance_dwell",
+    "sample_endpoint_only_check_forbidden": true,
+    "root_coefficient_relative_trim_dimensionless": 1e-14,
+    "root_imaginary_tolerance_dimensionless": 1e-10,
+    "root_domain_tolerance_dimensionless": 1e-12,
+    "gap_classification_margin_m": 0.0,
+    "gap_rate_classification_margin_m_s": 0.0,
+    "time_interval_merge_tolerance_s": 1e-12,
+    "tolerance_classification": "ALGORITHMIC_NUMERICAL_TOLERANCES_NOT_HARDWARE_SPECIFICATIONS_OR_MEASUREMENT_UNCERTAINTY"
+  },
+  "synthetic_removal_transition": {
+    "state_at_removal": "exact event-time state reconstructed from the accepted active integrator interval; nearest-sample rounding forbidden",
+    "mapping": "expand z_before=L(q_r)eta_r and copy every native component to z_after",
+    "post_release_state": "independent 29D service plus 13D target zero-external free flight",
+    "post_release_observation_s": 0.005,
+    "contact_kernel_enabled": false,
+    "continuous_reentry_policy": "any interval containing gap below 1e-6 m or gap-rate below -1e-6 m fails closed",
+    "synthetic_fixture_pre_acquisition_P_coordinate_offset_m": -0.00002,
+    "synthetic_fixture_pre_acquisition_P_velocity_m_s": 0.02,
+    "synthetic_fixture_active_end_time_s": 0.06,
+    "fixture_state_mutation_after_acquisition_forbidden": true,
+    "fixture_clearance_must_come_from_same_active_state_trajectory": true,
+    "fixture_removal_event_must_be_off_sample_grid": true,
+    "fixture_must_execute_propagate_active_finite_event_branch": true,
+    "fixture_satisfies_main_b3_soft_capture_trigger": false,
+    "fixture_receives_physical_or_main_trigger_credit": false,
+    "fixture_contact_points_and_potentials_must_be_recomputed_from_perturbed_state": true,
+    "fixture_values_are_hardware_specifications": false,
+    "main_branch_credit_requires_real_finite_event_and_complete_post_release_pass": true
+  },
+  "horizon_exhaustion_semantics": {
+    "status": "DIAGNOSTIC_INCONCLUSIVE_HORIZON_EXHAUSTED_NO_REMOVAL_OBSERVED",
+    "equivalent_to_global_empty_eligibility_set": false,
+    "equivalent_to_DIAGNOSTIC_FAIL_CLOSED_NO_REMOVAL_EVENT": false,
+    "synthetic_removal_executed": false,
+    "release_or_retention_claim": false,
+    "required_action": "retain fail-closed HOLD; extend a separately preregistered search domain or supply an analytic reachability proof before any global no-event statement"
+  },
+  "cross_integrator": {
+    "acquisition_event_time_tolerance_s": 0.00025,
+    "removal_event_time_tolerance_s": 0.00025,
+    "forced_shared_event_time_forbidden": true,
+    "both_horizon_exhausted_classification_match_is_not_removal_event_pass": true
+  }
+}

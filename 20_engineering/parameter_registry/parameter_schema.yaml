@@ -1,0 +1,39 @@
+schema_version: parameter_registry_template_v1
+registry_role: DERIVED_AUDIT_ONLY_NOT_CONFIG_SSOT
+
+required_fields:
+  parameter_id: stable semantic identifier
+  value: scalar list or expression copied from the owning source
+  unit: SI or explicit dimensionless marker
+  role: model_anchor hardware_model target_model flexible_model mission_gate actuator_tier or derived_budget
+  status: FROZEN_MODEL_ANCHOR FROZEN_PLACEHOLDER_MODEL_ANCHOR PROVISIONAL LOW_CONFIDENCE MISSION_ASSUMPTION or DERIVED
+  verification_status: exact status from source or conservative audit label
+  source_path: repository-relative owning path
+  source_locator: YAML key field or equation
+  consumers: modules that consume or inherit the parameter
+  modifiable_now: false unless a separate task explicitly authorizes the owning config
+  unlock_trigger: evidence or decision required before status upgrade
+  notes: interpretation boundary
+
+rules:
+  - the registry never overrides the source file
+  - changing a value requires a new task and invalidation analysis for every consumer
+  - derived quantities must name their root parameters
+  - values with similar names but different contracts must remain separate
+  - frozen means result binding not physical certification
+  - Gate and result files remain read-only
+
+example:
+  parameter_id: example_parameter
+  value: 0.0
+  unit: dimensionless
+  role: model_anchor
+  status: PROVISIONAL
+  verification_status: UNVERIFIED
+  source_path: path/to/owning_config.yaml
+  source_locator: section.key
+  consumers: [module_a]
+  modifiable_now: false
+  unlock_trigger: obtain a traceable measurement or requirement
+  notes: do not use this example as a project value
+

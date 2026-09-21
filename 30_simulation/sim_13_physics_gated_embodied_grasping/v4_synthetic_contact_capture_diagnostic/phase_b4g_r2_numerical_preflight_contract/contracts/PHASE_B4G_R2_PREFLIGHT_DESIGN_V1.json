@@ -1,0 +1,252 @@
+{
+  "schema": "SIM13_V4B4G_R2_PREFLIGHT_DESIGN_V1",
+  "scope": "PROSPECTIVE_NUMERICAL_PREFLIGHT_CONTRACT_ONLY_NO_EXECUTION",
+  "design_class": "DETERMINISTIC_BLOCKED_THREE_TRACK_FRESH_ACQUISITION_FRESH_G12_AND_COMMON_PROPAGATION_PREFLIGHT",
+  "execution_unit": "one registered deterministic case; saved samples within one trajectory are not independent replicates",
+  "matrix_field_applicability": {
+    "null_values_forbidden": true,
+    "A0_alpha_enum": "NOT_APPLICABLE_A0",
+    "A0_command_duration_enum": "NOT_APPLICABLE_A0",
+    "A1_sentinel_enum": "NOT_APPLICABLE_A1",
+    "A0_sentinel_allowed_values": ["PRE", "POST"],
+    "A1_alpha_must_be_finite_positive_number": true,
+    "A1_command_duration_s_must_be_finite_positive_number": true,
+    "applicability_validation_required_before_matrix_hash": true
+  },
+  "quaternion_metric_contract": {
+    "rule_id": "B4G_R2_STABLE_SIGN_INVARIANT_QUATERNION_GEODESIC_V1",
+    "component_order": "wxyz",
+    "input_shape_exact": 4,
+    "all_components_finite_required": true,
+    "unit_norm_absolute_tolerance": 1e-12,
+    "unit_norm_boundary_inclusive": true,
+    "normalization_policy": "if and only if abs(norm(q)-1)<=1e-12, divide q by its norm before comparison; zero norm or a value outside tolerance is invalid",
+    "sign_selection": "after normalization choose s=+1 when dot(q1,q2)>=0, otherwise s=-1; at dot==0 choose +1",
+    "formula": "d_rad=4*atan2(norm(q1-s*q2),norm(q1+s*q2))",
+    "range_rad_inclusive": [0.0, 3.141592653589793],
+    "comparison_boundary": "d_rad<=registered_channel_limit_rad",
+    "invalid_input_action": "FAIL_CHANNEL_AND_CASE_BEFORE_DISTANCE_OR_CONVERGENCE_EVALUATION",
+    "unit": "rad"
+  },
+  "lane_grid": [
+    {"lane_id": "RK4_H_MS_0P25", "method": "rk4", "step_s": 0.00025, "step_ms": 0.25, "fresh_reference": false},
+    {"lane_id": "RK4_H_MS_0P125", "method": "rk4", "step_s": 0.000125, "step_ms": 0.125, "fresh_reference": false},
+    {"lane_id": "RK4_H_MS_0P0625", "method": "rk4", "step_s": 0.0000625, "step_ms": 0.0625, "fresh_reference": true},
+    {"lane_id": "MIDPOINT_H_MS_0P25", "method": "midpoint", "step_s": 0.00025, "step_ms": 0.25, "fresh_reference": false},
+    {"lane_id": "MIDPOINT_H_MS_0P125", "method": "midpoint", "step_s": 0.000125, "step_ms": 0.125, "fresh_reference": false},
+    {"lane_id": "MIDPOINT_H_MS_0P0625", "method": "midpoint", "step_s": 0.0000625, "step_ms": 0.0625, "fresh_reference": true}
+  ],
+  "tracks": {
+    "fresh_lane_acquisition_convergence": {
+      "track_id": "FRESH_ACQ",
+      "purpose": "measure first-qualifying B3 acquisition convergence without forcing a common event or state",
+      "observation_case_per_lane": "fresh alpha=16, command_duration=10_ms case; only its pre-command acquisition segment is consumed",
+      "technical_repeat_cases_per_lane": ["fresh alpha=16 command_duration=5_ms", "fresh alpha=16 command_duration=20_ms"],
+      "technical_repeat_identity_projection": {
+        "rule_id": "B4G_R2_FRESH_ACQUISITION_SEGMENT_IDENTITY_V1",
+        "source_json_pointer": "/event_provenance/acquisition_certificate_payload",
+        "allowed_different_json_pointers_exact": [
+          "/case_id",
+          "/event/run_id",
+          "/acquisition/run_id"
+        ],
+        "allowed_different_value_contract": "all three values are strings and must each equal the registered case_id for that case",
+        "projection_transform": "deep-copy the complete source object and replace the value at each exact allowed-different pointer with the string CASE_IDENTITY_EXCLUDED_V1; delete nothing",
+        "required_equal_pointer_set": "every JSON pointer, key set, array length, JSON type and value other than the three exact allowed-different pointers",
+        "canonicalization": "UTF-8 json.dumps(projected_complete_object,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False), no terminal LF",
+        "per_lane_reference": "the alpha16/10ms projected canonical bytes and SHA256",
+        "technical_repeat_acceptance": "the alpha16/5ms and alpha16/20ms projected canonical bytes and SHA256 must each exactly equal the same-lane 10ms reference",
+        "unlisted_difference_action": "FAIL_FRESH_ACQ_TECHNICAL_REPEAT_IDENTITY",
+        "technical_repeats_are_independent_replicates": false,
+        "preserved_raw_read_only_rule_sanity_anchor": {
+          "basenames": [
+            "062__RK4_REFERENCE__A1__ALPHA_16__TCMD_MS_5.json",
+            "052__RK4_REFERENCE__A1__ALPHA_16__TCMD_MS_10.json",
+            "054__RK4_REFERENCE__A1__ALPHA_16__TCMD_MS_20.json"
+          ],
+          "projected_canonical_bytes_each": 31050,
+          "projected_sha256_each": "29DFA8D35BBBA4E615B583B09EBB1B32144C0FE39B740898F1A0EB7ED838511C",
+          "new_preflight_execution_credit": false
+        }
+      },
+      "step_ladders_s": {
+        "rk4": [0.00025, 0.000125, 0.0000625],
+        "midpoint": [0.00025, 0.000125, 0.0000625]
+      },
+      "comparison_definitions": {
+        "D_CF": "distance(coarse_0.25ms,fine_0.125ms)",
+        "D_FR": "distance(fine_0.125ms,reference_0.0625ms)",
+        "scalar_or_vector_distance": "per registered native channel Linf; quaternion uses stable sign-invariant geodesic distance",
+        "acquisition_time_rule": "D_FR<=6.25e-5_s+1e-15_s AND D_FR<=0.60*D_CF+1e-15_s",
+        "native_channel_rule": "for every registered channel D_FR<=0.60*D_CF+that_channel_floor"
+      },
+      "registered_channels_and_floors": {
+        "service_position_m": {"metric": "Linf", "floor": 1e-12, "unit": "m"},
+        "service_quaternion": {"metric": "stable_geodesic", "floor": 1e-12, "unit": "rad"},
+        "R_joint_coordinates_rad": {"metric": "Linf", "floor": 1e-12, "unit": "rad"},
+        "P_joint_coordinates_m": {"metric": "Linf", "floor": 1e-12, "unit": "m"},
+        "service_base_linear_velocity_m_s": {"metric": "Linf", "floor": 1e-12, "unit": "m/s"},
+        "service_base_angular_velocity_rad_s": {"metric": "Linf", "floor": 1e-12, "unit": "rad/s"},
+        "R_joint_velocity_rad_s": {"metric": "Linf", "floor": 1e-12, "unit": "rad/s"},
+        "P_joint_velocity_m_s": {"metric": "Linf", "floor": 1e-12, "unit": "m/s"},
+        "target_position_m": {"metric": "Linf", "floor": 1e-12, "unit": "m"},
+        "target_quaternion": {"metric": "stable_geodesic", "floor": 1e-12, "unit": "rad"},
+        "target_linear_velocity_m_s": {"metric": "Linf", "floor": 1e-12, "unit": "m/s"},
+        "target_angular_velocity_rad_s": {"metric": "Linf", "floor": 1e-12, "unit": "rad/s"},
+        "linear_momentum_native": {"metric": "Linf", "floor": 1e-12, "unit": "kg*m/s"},
+        "angular_momentum_native": {"metric": "Linf", "floor": 1e-12, "unit": "kg*m^2/s"},
+        "D_B3_minus_J": {"metric": "absolute", "floor": 2e-12, "unit": "J"},
+        "switch_energy_identity_J": {"metric": "absolute", "floor": 2e-12, "unit": "J"}
+      },
+      "certificates": {
+        "fresh_B3_reconstruction_required_per_case": true,
+        "valid_and_unique_per_case_required": true,
+        "certificate_hash_convergence_required": false,
+        "shared_or_forced_event_credit": false
+      },
+      "observation_count": 6
+    },
+    "fresh_reference_g12_and_alpha16_propagation": {
+      "track_id": "FRESH_REFERENCE_G12",
+      "freshness": "every case independently reruns B3 acquisition, propagation, removal search and any post-release path; no event/state cache",
+      "alpha16_refinement_domain": {
+        "alpha": 16.0,
+        "command_duration_s_levels": [0.005, 0.01, 0.02],
+        "all_six_lanes": true,
+        "case_count": 18
+      },
+      "g12_reference_domain": {
+        "alpha_levels": [0.5, 1.0, 2.0, 4.0, 8.0, 16.0],
+        "command_duration_s_levels": [0.005, 0.01, 0.02],
+        "reference_lanes": ["RK4_H_MS_0P0625", "MIDPOINT_H_MS_0P0625"],
+        "paired_level_count": 18,
+        "case_count": 36
+      },
+      "a0_bookends": {
+        "pre_and_post_per_fresh_lane": 2,
+        "lane_count": 6,
+        "case_count": 12,
+        "numeric_match_after_identity_exclusions": "byte_exact",
+        "Q_and_W_exact_zero": true
+      },
+      "fresh_unique_case_count": 60
+    },
+    "common_initial_state_propagation_convergence": {
+      "track_id": "COMMON_PROP",
+      "purpose": "isolate post-acquisition propagation error on one byte/hash-bound donor; never replace fresh G12 provenance",
+      "common_initial_state_fixture": {
+        "donor_raw_path": "30_simulation/sim_13_physics_gated_embodied_grasping/v4_synthetic_contact_capture_diagnostic/phase_b4g_post_freeze_synthetic_jaw_retraction_execution/evidence/raw_cases/052__RK4_REFERENCE__A1__ALPHA_16__TCMD_MS_10.json",
+        "donor_raw_bytes": 69249,
+        "donor_raw_sha256": "5DF0C19A71180E1BD91816235AAD50108613C2BC0F99F950018D786119CF9D4F",
+        "payload_json_pointer": "/event_provenance/acquisition_certificate_payload",
+        "payload_canonical_bytes": 31092,
+        "payload_and_certificate_sha256": "DA3E10D7D30DFD9BABFB71BF055D62A1BD06CF8DE3023E463A649FF92A952D15",
+        "common_initial_state_group_payload_schema": "B4G_R2_COMMON_INITIAL_STATE_GROUP_V1",
+        "common_initial_state_group_field_map": {
+          "/schema": "constant B4G_R2_COMMON_INITIAL_STATE_GROUP_V1",
+          "/donor_acquisition_certificate_sha256": "raw /event_provenance/acquisition_certificate_sha256",
+          "/acquisition_time_s": "payload /acquisition/acquisition_time_s",
+          "/service/base_position_inertial_m": "payload /event/service/base_position_inertial_m",
+          "/service/base_quaternion_body_to_inertial_wxyz": "payload /event/service/base_quaternion_body_to_inertial_wxyz",
+          "/service/joint_coordinates_mixed": "payload /event/service/joint_coordinates_mixed",
+          "/service/post_acquisition_eta_mixed": "payload /acquisition/z_plus_reduced[0:14]",
+          "/target/position_inertial_m": "payload /event/target/position_inertial_m",
+          "/target/quaternion_body_to_inertial_wxyz": "payload /event/target/quaternion_body_to_inertial_wxyz",
+          "/target/post_acquisition_twist_inertial_mixed": "payload /acquisition/z_plus_reduced[14:20]"
+        },
+        "common_initial_state_group_canonicalization": "UTF-8 json.dumps(group_payload,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False), no terminal LF",
+        "common_initial_state_group_canonical_bytes": 1317,
+        "common_initial_state_group_sha256": "396A903DA584765FDA03B867F2F3F27B910CED9383D34BC5064A01B33D4F6444",
+        "donor_lane_id": "RK4_REFERENCE",
+        "donor_method": "rk4",
+        "donor_step_s": 0.00025,
+        "donor_case_id": "RK4_REFERENCE__A1__ALPHA_16__TCMD_MS_10",
+        "selection_status": "INDEPENDENT_REVIEW_FROZEN_FOR_CONTRACT_ONLY"
+      },
+      "rehydrator_and_roundtrip_behavior_contract": {
+        "duplicate_json_keys_rejected": true,
+        "nonfinite_numbers_rejected": true,
+        "every_payload_primitive_and_list_shape_consumed": true,
+        "configuration_truth_source": "event positions, quaternions and joint coordinates",
+        "post_acquisition_velocity_source": "acquisition.z_plus_reduced; event pre-impact velocities are forbidden",
+        "eta_plus_exactly_equals_z_plus_reduced_first_14": true,
+        "service_initial_layout": "event service configuration followed by z_plus_reduced[0:14]",
+        "target_initial_layout": "event target configuration followed by z_plus_reduced[14:20]",
+        "roundtrip_requirement": "rehydrate typed EventInput and AcquisitionResult, serialize the complete include-matrices payload, then require canonical bytes and SHA256 exact match to the bound donor",
+        "per_case_object_isolation": "each COMMON_PROP case receives a fresh deep copy made only after exact donor roundtrip; mutable object identity may not cross cases",
+        "donor_immutability_check": "the complete canonical payload and derived initial-state group hashes must equal the bound donor both immediately before and immediately after every case",
+        "silent_partial_JSON_reconstruction_forbidden": true,
+        "implementation_in_this_contract_package": false,
+        "roundtrip_verified_in_this_contract_package": false
+      },
+      "domain": {
+        "alpha": 16.0,
+        "command_duration_s_levels": [0.005, 0.01, 0.02],
+        "all_six_lanes": true,
+        "case_count": 18,
+        "comparison_interval": "closed acquisition-relative active interval [0,T_cmd] only",
+        "comparison_grid": "exact common acquisition-relative sample times; interpolation and nearest-sample rounding forbidden"
+      },
+      "comparison_channels_and_floors": {
+        "service_position_m": {"metric": "Linf", "floor": 1e-12, "unit": "m"},
+        "service_quaternion_body_to_inertial_wxyz": {"metric": "B4G_R2_STABLE_SIGN_INVARIANT_QUATERNION_GEODESIC_V1", "floor": 1e-12, "unit": "rad"},
+        "R_joint_coordinates_rad": {"metric": "Linf", "floor": 1e-12, "unit": "rad"},
+        "P_joint_coordinates_m": {"metric": "Linf", "floor": 1e-12, "unit": "m"},
+        "service_base_linear_velocity_m_s": {"metric": "Linf", "floor": 1e-12, "unit": "m/s"},
+        "service_base_angular_velocity_rad_s": {"metric": "Linf", "floor": 1e-12, "unit": "rad/s"},
+        "R_joint_velocity_rad_s": {"metric": "Linf", "floor": 1e-12, "unit": "rad/s"},
+        "P_joint_velocity_m_s": {"metric": "Linf", "floor": 1e-12, "unit": "m/s"},
+        "target_position_m": {"metric": "Linf", "floor": 1e-12, "unit": "m"},
+        "target_quaternion_body_to_inertial_wxyz": {"metric": "B4G_R2_STABLE_SIGN_INVARIANT_QUATERNION_GEODESIC_V1", "floor": 1e-12, "unit": "rad"},
+        "target_linear_velocity_m_s": {"metric": "Linf", "floor": 1e-12, "unit": "m/s"},
+        "target_angular_velocity_rad_s": {"metric": "Linf", "floor": 1e-12, "unit": "rad/s"},
+        "total_linear_momentum_kg_m_s": {"metric": "Linf", "floor": 1e-12, "unit": "kg*m/s"},
+        "total_angular_momentum_kg_m2_s": {"metric": "Linf", "floor": 1e-12, "unit": "kg*m^2/s"},
+        "total_kinetic_energy_J": {"metric": "absolute", "floor": 2e-12, "unit": "J"},
+        "energy_minus_work_residual_J": {"metric": "absolute", "floor": 2e-12, "unit": "J"}
+      },
+      "fixture_use_boundary": {
+        "numerical_propagation_isolation_only": true,
+        "shared_event_scientific_credit": false,
+        "fresh_acquisition_credit": false,
+        "G12_credit_for_every_descendant": false,
+        "selector_input_for_every_descendant": false,
+        "shared_removal_comparison_or_credit": false
+      },
+      "execution_readiness_status": "HOLD_R2_PREFLIGHT_EXECUTION_NO_IMPLEMENTED_REHYDRATOR_OR_R2_SOURCE_FREEZE"
+    }
+  },
+  "matrix_overlap_and_independence": {
+    "fresh_and_common_case_id_overlap_forbidden": true,
+    "fresh_and_common_certificate_reuse_forbidden": true,
+    "fresh_60_cross_case_certificate_uniqueness_required": true,
+    "common_18_shared_donor_certificate_and_group_hash_required": true,
+    "common_18_per_case_mutable_object_identity_reuse_forbidden": true,
+    "fresh_common_case_id_and_new_evidence_path_reuse_forbidden": true,
+    "declared_fresh_analysis_view_overlap": "the six finest alpha16 fresh cases belong to the 36-case G12 view; the two finest alpha16/10ms acquisition segments are also two of the six ACQ observations; these are one execution unit each and never counted as independent replicates",
+    "undeclared_analysis_role_overlap_forbidden": true
+  },
+  "fixed_matrix": {
+    "fresh_a0_case_count": 12,
+    "fresh_alpha16_case_count": 18,
+    "fresh_reference_additional_nonalpha16_case_count": 30,
+    "fresh_unique_case_count": 60,
+    "common_prop_case_count": 18,
+    "total_unique_case_count": 78,
+    "canonical_expanded_matrix_sha256": "D7B23B92DA46A6F9E96CF856914C7D5AECAD26240141C7F2B637A2AF119B7BEB"
+  },
+  "scientific_matrix_review": {
+    "status": "INDEPENDENT_REVIEW_FROZEN_FOR_CONTRACT_ONLY",
+    "all_design_fields_complete": true,
+    "matrix_may_be_executed_under_this_contract_package": false,
+    "future_change_requires_new_version": true
+  },
+  "prospective_only": true,
+  "r2_source_freeze_issued": false,
+  "rehydrator_implemented": false,
+  "rehydrator_roundtrip_verified": false,
+  "new_preflight_executed": false,
+  "solver_implemented": false,
+  "full_campaign_authorized": false,
+  "execution_readiness_status_exact": "HOLD_R2_PREFLIGHT_EXECUTION_NO_IMPLEMENTED_REHYDRATOR_OR_R2_SOURCE_FREEZE"
+}

@@ -1,0 +1,147 @@
+schema_version: comp-prot-03-digital-body-method-gate-v0.1
+gate_id: DIGITAL-BODY-METHOD-G0
+phase: COMP-PROT-03-A3-G0-DIGITAL-BODY-METHOD
+evaluated_on: "2026-07-23"
+gate_scope: DOCUMENT_AND_DATA_CONTRACT_ONLY
+scientific_gate: false
+
+verdict:
+  method_contract: METHOD_CONTRACT_READY
+  candidate_instance: PARTIAL_WITH_EXPLICIT_UNKNOWNS
+  combined: METHOD_CONTRACT_READY_CANDIDATE_INSTANCE_PARTIAL
+  cad_entry: CAD_ENTRY_BLOCKED_BY_EVIDENCE
+  a3_authorized: false
+  automatic_transition: false
+
+packet_snapshot:
+  hash_algorithm: SHA-256
+  hash_mode: RAW_BYTES
+  records:
+    - record_id: method_document
+      path: digital_body_construction_method.md
+      sha256: aabd23f5aa2a074560682ebbceca5faa6e162f34a849e13cf6280b325c776a61
+    - record_id: method_contract
+      path: digital_body_method_contract.yaml
+      sha256: 5b903426d704dbd6c9497b46db2058acdcf82b0230b9e2a03fa09eccb19a2aa4
+    - record_id: instance_schema
+      path: digital_body_record.schema.json
+      sha256: eb221afbe65b59642f01ffa01e2566c4470c31a85ee64636c0c3199630cfbbae
+    - record_id: candidate_instance
+      path: candidate_12u_b601_digital_body_v0_1.yaml
+      sha256: 7eb0f299a273255f3ddcfe19389d4fccdeefe2537be508d96ee63e60c305375d
+    - record_id: claim_evidence_ledger
+      path: claim_evidence_traceability.yaml
+      sha256: 11581f152c3b8a895ed001729df60488ea4e064a183fb168af27dc9231893cb0
+
+method_checks:
+  - check_id: DBM-G0-01
+    requirement: four_required_layers_exist
+    result: PASS
+    evidence:
+      - digital_body_record.schema.json#required
+      - candidate_12u_b601_digital_body_v0_1.yaml
+  - check_id: DBM-G0-02
+    requirement: every_non_unknown_fact_has_source_reference
+    result: PASS
+    evidence:
+      - candidate_12u_b601_digital_body_v0_1.yaml#evidence_layer
+  - check_id: DBM-G0-03
+    requirement: unknown_values_are_null_and_block_named_consumers
+    result: PASS
+    evidence:
+      - digital_body_record.schema.json#propertyRecord
+      - candidate_12u_b601_digital_body_v0_1.yaml#unknown_register
+  - check_id: DBM-G0-04
+    requirement: geometry_physical_semantic_and_evidence_refs_are_cross_linked
+    result: PASS
+    evidence:
+      - candidate_12u_b601_digital_body_v0_1.yaml#cross_layer_bindings
+  - check_id: DBM-G0-05
+    requirement: active_mass_components_have_unique_owner_records
+    result: PASS
+    evidence:
+      - candidate_12u_b601_digital_body_v0_1.yaml#mass_ownership
+  - check_id: DBM-G0-06
+    requirement: exclusive_mass_representations_are_exactly_one
+    result: PASS
+    evidence:
+      - candidate_12u_b601_digital_body_v0_1.yaml#representation_groups
+  - check_id: DBM-G0-07
+    requirement: semantic_features_have_geometry_owners
+    result: PASS
+    evidence:
+      - candidate_12u_b601_digital_body_v0_1.yaml#semantic_layer
+  - check_id: DBM-G0-08
+    requirement: claim_wording_is_bounded_by_evidence_and_limitations
+    result: PASS
+    evidence:
+      - claim_evidence_traceability.yaml
+  - check_id: DBM-G0-09
+    requirement: existing_A2_packet_hashes_are_unchanged
+    result: PASS
+    evidence:
+      - digital_body_method_contract.yaml#a2_packet_binding
+  - check_id: DBM-G0-10
+    requirement: no_CAD_URDF_simulation_or_execution_authority_is_created
+    result: PASS
+    evidence:
+      - digital_body_method_contract.yaml#authority
+      - candidate_12u_b601_digital_body_v0_1.yaml#authority
+
+candidate_consistency_snapshot:
+  geometry_entities: 7
+  frames: 11
+  physical_properties: 9
+  mass_owner_components: 5
+  semantic_features: 8
+  evidence_sources: 7
+  cross_layer_bindings: 3
+  explicit_unknowns: 10
+  servicer_split_sum_kg_source_decimal: "24.0000000"
+  b601_full_urdf_sum_kg_source_decimal: "4.6955559493429862"
+  candidate_total_kg_source_decimal: "29.8955559493429862"
+  candidate_total_label: PROVISIONAL_DESIGN_LEDGER_TOTAL
+  aggregate_com: UNKNOWN
+  aggregate_inertia: UNKNOWN
+
+a2_blocker_snapshot:
+  blocker_denominator: 15
+  design_state_counts:
+    CLOSED_BY_DESIGN: 4
+    CLOSED_BY_EVIDENCE: 1
+    ISOLATED_FROM_SCOPE: 4
+    OPEN_BLOCKING: 6
+  project_evidence_closed_count: 1
+  project_evidence_open_or_limited_count: 14
+  all_blockers_addressed_in_ledger: true
+  all_blockers_closed_with_evidence: false
+  method_changes_blocker_state: false
+
+cad_entry_hold:
+  preserved_gate: CAD-SKELETON-G0
+  preserved_verdict: CAD_ENTRY_BLOCKED_BY_EVIDENCE
+  mandatory_pre_a3_evidence_items_not_closed_by_this_method:
+    - DB-BLK-001
+    - DB-BLK-002
+    - DB-BLK-008
+    - DB-BLK-009
+    - DB-BLK-010
+    - DB-BLK-012
+    - DB-BLK-013
+    - DB-BLK-014
+  method_packet_may_satisfy_cad_entry: false
+  separate_human_signoff_required: true
+
+forbidden_interpretations:
+  - method_gate_PASS_means_scientific_model_PASS
+  - four_layer_instance_means_integrated_digital_prototype
+  - explicit_unknown_means_closed_blocker
+  - candidate_total_is_final_or_measured_mass
+  - candidate_patch_is_qualified_grasp_interface
+  - schema_validation_authorizes_CAD_URDF_or_simulation
+
+next_transition:
+  required_gate: COMP-PROT-03-A3-G0-EVIDENCE-CLOSURE
+  target_state: CAD_ENTRY_REVIEW_READY_TO_REQUEST_A3
+  target_state_not_achieved: true
+  after_target_state_requires_new_human_A3_authorization: true

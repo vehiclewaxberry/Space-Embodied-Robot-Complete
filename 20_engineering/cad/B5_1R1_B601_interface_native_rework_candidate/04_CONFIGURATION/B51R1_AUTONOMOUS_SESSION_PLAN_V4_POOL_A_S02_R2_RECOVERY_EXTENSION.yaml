@@ -1,0 +1,27 @@
+schema: B51R1_AUTONOMOUS_SESSION_PLAN_V4_POOL_A_S02_R2_RECOVERY_EXTENSION
+generated_at: '2026-08-02T23:42:44+08:00'
+status: POOL_A_ONE_SLOT_RECOVERY_EXTENSION_AUTHORIZED_FOR_S02_R2_ONLY
+base_plan: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V3_PHASED.yaml
+prior_recovery_allocation: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V3_POOL_A_RECOVERY_ALLOCATION_V2.yaml
+effective_pool_a_capacity: 13
+added_slot:
+  id: A13_S02_R2_RECOVERY
+  envelope: S02_R2
+  substages:
+    - CONFIGURATION_ACTIVATION_DIAGNOSTIC_READ_ONLY
+    - COLD_REOPEN_RETRY_READ_ONLY
+  additional_slots_added: 1
+  additional_slots_beyond_a13: 0
+  cad_write_allowed: false
+  save_api_allowed: false
+  active_candidate_pointer_allowed: CONDITIONAL_ON_S02_R2_COLD_REOPEN_PASS
+trigger:
+  incident_sha256: 878795ECA08BFB8EAC8F22ADE3C0712411381934FDA8345D2447FF7FAD7F6F4F
+  prior_slot: A02_S02_R1
+  prior_slot_status: FAIL_CLOSED_CONFIGURATION_ACTIVATION_COM_HANG
+downstream_hold:
+  property_writer_qualification: true
+  s03: true
+  carrier_creation: true
+  joint_creation: true
+claim_limit: SINGLE_RECOVERY_SLOT_EXTENSION_ONLY_NO_DIAGNOSTIC_COLD_REOPEN_OR_S03_CREDIT

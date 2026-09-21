@@ -1,0 +1,115 @@
+schema: F3R2_M3_GRIPPER_R1_ENGINEERING_MODEL_DEFINITION_V1
+model_id: B601_GRIPPER_R1_M3_WORKING_MODEL
+status: PARAMETERIZED_CONTROL_SHELL_AROUND_FROZEN_NEUTRAL_BREP
+release_class: ENGINEERING_WORKING_MODEL_NOT_FLIGHT_NOT_MANUFACTURING
+purpose:
+  - Preserve the verified R1 neutral rail-slot correction as a traceable design input.
+  - Separate geometric clearance evidence from manufacturing, contact, strength, and qualification evidence.
+  - Drive a repeatable loop-engineering closure without converting unknowns to zero.
+authoritative_geometry:
+  palm_r1_step: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/gripper_r1/B601_GRIPPER_PALM_RAIL_SLOT_R1.step
+  left_full_stroke_envelope_step: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/gripper_r1/LEFT_RAIL_FULL_STROKE_SWEPT_VOLUME.step
+  right_full_stroke_envelope_step: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/gripper_r1/RIGHT_RAIL_FULL_STROKE_SWEPT_VOLUME.step
+  authority_scope: NEUTRAL_DERIVATIVE_FOR_V5R_AND_SIM13_ONLY
+  prohibited_claim: Native V5 repair, topology equivalence, flight release, or manufacturing release.
+frames:
+  - frame_id: LINK6_LOCAL
+    role: Geometric and motion authority for this working model.
+    transform_to_spacecraft: null
+    transform_uncertainty: null
+    status: HOLD_NO_PHASE_M3_FRAME_CHAIN_BOUND_HERE
+degrees_of_freedom:
+  - dof_id: JAW_SYMMETRIC_TRANSLATION
+    type: prismatic_pair
+    generalized_coordinate: q
+    generalized_coordinate_unit: mm
+    digital_domain: [0.0, 71.5]
+    left_translation_expression: [0.0, -q, 0.0]
+    right_translation_expression: [0.0, q, 0.0]
+    expression_frame: LINK6_LOCAL
+    coupling_status: DERIVED_VALIDATION_CONSTRAINT_NOT_HARDWARE_COUPLING_AUTHORITY
+    drive_architecture: null
+    end_stop_definition: null
+    backlash: null
+    repeatability: null
+    status: GEOMETRY_ACTIVE_MECHANISM_HOLD
+pose_registry:
+  - pose: CLOSED
+    q_mm: 0.0
+    authority: M3R_V2_CONTACT
+    use_limit: Digital coordinate origin only.
+  - pose: PARTIAL_WITNESS
+    q_mm: 35.75
+    authority: DERIVED_MID_STROKE_WITNESS_NOT_ACCEPTED_CONFIGURATION
+    use_limit: Boolean witness only.
+  - pose: PREGRASP
+    q_mm: 55.0
+    authority: M3R_V2
+    use_limit: Digital configuration, not target-object fit authority.
+  - pose: OPEN
+    q_mm: 71.5
+    authority: M3R_V2
+    use_limit: Digital configuration, not physical end-stop acceptance.
+geometry_validation_contract:
+  analytic_method: CONSERVATIVE_AABB_MINKOWSKI_ENVELOPE_ANALYTIC_PROOF
+  sampled_witness:
+    sample_count: 144
+    sample_step_mm: 0.5
+    domain_mm: [0.0, 71.5]
+    false_rows: 0
+    positive_overlap_rows: 0
+  four_pose_r1_boolean_complete: true
+  original_reference_boolean_complete: false
+  verified_claim: Zero positive rail-palm overlap for the R1 corrected target palm geometry in the neutral derivative scope.
+  excluded_claims:
+    - Native V5 reintegration
+    - Finger-object contact compatibility
+    - Manufacturing fit under tolerances and thermal distortion
+    - Strength, stiffness, fatigue, wear, or life
+    - Flight-load or qualification capability
+model_layers:
+  - layer: L0_INPUT_AUTHORITY
+    state: PASS
+    exit_criteria: Source hashes bound and no source modification.
+  - layer: L1_NEUTRAL_GEOMETRY_AND_SWEEP
+    state: PASS_NEUTRAL_ONLY
+    exit_criteria: Reopen readable; analytic sweep and four-pose corrected-palm booleans pass.
+  - layer: L2_DATUM_AND_TOLERANCE
+    state: HOLD
+    exit_criteria: Released datums, dimensions, process capability, thermal terms, uncertainty budget, and conformity decision rule.
+  - layer: L3_CONTACT_AND_ACTUATION_LOADS
+    state: HOLD
+    exit_criteria: Target object, friction evidence, grasp envelope, load cases, actuator force-speed duty cycle, and retention criteria authorized.
+  - layer: L4_MATERIAL_AND_PROCESS
+    state: HOLD
+    exit_criteria: Part-level material specifications, allowables, coatings, lubrication, compatibility, and traceability approved.
+  - layer: L5_MASS_AND_INERTIA
+    state: HOLD
+    exit_criteria: R1 measured or controlled production mass and inertia reconciled to the system ledger.
+  - layer: L6_STRUCTURAL_ANALYSIS
+    state: HOLD_NOT_AUTHORIZED
+    exit_criteria: L2 through L5 closed and analysis plan/load cases approved.
+  - layer: L7_PROTOTYPE_VERIFICATION
+    state: HOLD
+    exit_criteria: Inspection, full-stroke cycling, thermal-vacuum tribology, load, and life evidence per approved qualification plan.
+  - layer: L8_RELEASE
+    state: HOLD
+    exit_criteria: All above evidence accepted with configuration-controlled drawings and BOM.
+change_control:
+  invalidate_L1_when:
+    - Any source STEP hash changes.
+    - Travel domain, frame, target palm bodies, or jaw geometry changes.
+    - Envelope generation method changes.
+  require_new_tolerance_analysis_when:
+    - Material, coating, lubricant, datum scheme, manufacturing process, or temperature range changes.
+  require_new_contact_and_strength_cycle_when:
+    - Target-object geometry, object mass/inertia, friction, closing speed, clamping force, retention load, or failure criterion changes.
+next_iteration:
+  name: GRIPPER_R1_M3_LOOP_02_TOLERANCE_AND_CONTACT_INPUT_CLOSURE
+  entry_actions:
+    - Create dimensioned datum scheme for palm slots and moving rail surfaces.
+    - Obtain manufacturing process capability and inspection uncertainty for each stack term.
+    - Bind target-object contact geometry and approved load cases.
+    - Select material/coating/lubrication specifications with environment-compatible evidence.
+  prohibited_shortcut: Do not infer manufacturing clearance, force, friction, wall thickness, or uncertainty from the neutral overlap result.
+

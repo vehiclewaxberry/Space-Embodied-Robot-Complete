@@ -1,0 +1,181 @@
+schema_version: KB-B-02-INTERFACE-ARM-BUS-v1
+document_status: STRUCTURE_CONFIG_ISSUE_B601_STOW_Z
+generated_on: "2026-07-28"
+
+authority:
+  physical_interface_released: false
+  structural_loads_released: false
+  stiffness_released: false
+  first_mode_requirement_released: false
+  stow_vector_released: false
+  launch_lock_qualified: false
+
+frames:
+  spacecraft_frame: S
+  arm_root_frame: A0
+  mount_frame: M
+  rotation_rpy_rad:
+    existing_dynamics_model:
+      value: [0.0, 1.5707963, 0.0]
+      status: CONFIRMED_FOR_EXISTING_MODEL_CONTRACT_ONLY
+    physical_flight:
+      value: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+      status: UNSOURCED_BLOCKED
+  mount_tracks:
+    dynamics_PDR:
+      xyz_mm: [185.25, 0.0, 0.0]
+      status: CONFIRMED_FOR_EXISTING_MODEL_CONTRACT_ONLY
+    display:
+      xyz_mm: [198.0, 0.0, 0.0]
+      status: CONFIRMED_FOR_EXISTING_DISPLAY_CAD_ONLY
+    physical_flight:
+      xyz_mm: [PLACEHOLDER, 0.0, 0.0]
+      status: UNSOURCED_BLOCKED
+  adjudication: CORRECTED_MODEL_AND_PHYSICAL_TRACKS_NO_SILENT_MERGE
+
+mount_connection:
+  interface_ids: [IF-RM-001, IF-RM-002]
+  bolt_distribution:
+    count: PLACEHOLDER
+    bolt_circle_or_pattern_mm: PLACEHOLDER
+    hole_diameter_thread_fit: PLACEHOLDER
+    preload_N: PLACEHOLDER
+    fastener_grade: PLACEHOLDER
+    locking_method: PLACEHOLDER
+    status: UNSOURCED_BLOCKED
+    required_source: released_B601_base_ICD_and_joint_design
+  locating_features:
+    pins_count: PLACEHOLDER
+    pin_positions_mm: PLACEHOLDER
+    fit_and_tolerance: PLACEHOLDER
+    repeatability: PLACEHOLDER
+    status: UNSOURCED_BLOCKED
+  adapter_reference_envelopes:
+    upper_flange_mm: [160.0, 160.0, 15.0]
+    spreader_plate_mm: [160.0, 160.0, 12.0]
+    primary_boss: {diameter_mm: 100.0, length_mm: 15.0}
+    status: CONFIRMED_AS_DESIGN_PROPOSAL_REFERENCE_ENVELOPE_ONLY
+    physical_claim: false
+  mount_stiffness:
+    translational_N_per_m: PLACEHOLDER
+    rotational_Nm_per_rad: PLACEHOLDER
+    status: UNSOURCED_BLOCKED
+
+load_path:
+  topology:
+    - B601_A0
+    - upper_flange_reference
+    - spreader_plate_reference
+    - primary_boss_reference
+    - task_face_load_spreading_region
+    - front_transverse_frame
+    - four_longitudinal_primary_members
+    - selected_deployer_or_external_support_interface
+  adjudication: CONFIRMED_TOPOLOGY_ONLY
+  sections_materials_joints: UNSOURCED_BLOCKED
+  launch_boundary: UNSOURCED_BLOCKED
+
+stowed_configuration:
+  q0:
+    joint_angles_deg: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    status: REFERENCE_ONLY_NOT_STOWED
+  o13_candidate:
+    clock_deg: 25.0
+    joint_angles_deg: [145.572, -168.0, -57.0, -41.143, -20.954, -3.0]
+    status: CANDIDATE_HOLD
+    evidence:
+      lateral_max_abs_y_mm: 107.87
+      lateral_project_limit_mm: 113.15
+      movable_structure_clearance_mm: 15.56
+      max_z_mm: 359.02
+      height_above_project_bus_top_mm: 245.87
+      released_trajectory: false
+      full_continuous_sweep: false
+  accepted_stow_vector:
+    joint_angles_deg: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER, PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    status: UNSOURCED_BLOCKED
+  containment_ruling:
+    lateral_project_envelope: CANDIDATE_PASS_ONLY
+    vertical_current_project_bus_containment: CONFIG_ISSUE
+    current_CDS_compliance: UNSOURCED_BLOCKED
+    can_fully_stow_inside_current_project_bus: false
+    can_fully_stow_inside_current_12U_CDS_or_selected_deployer: UNSOURCED_BLOCKED
+    reason: >-
+      The only candidate vector remains CANDIDATE_HOLD and extends above the
+      current project bus envelope. A current dispenser-qualified external
+      envelope is also absent.
+  other_negative_evidence:
+    stowed_solar_package_relation: "238.3 mm > 226.3 mm"
+    solar_root_lower_bound_width_mm: 302.3
+    status: CONFIG_ISSUE_PRESERVED
+
+launch_lock:
+  reducer_load_bypass_required: true
+  harmonic_or_QDD_reducer_may_carry_launch_load: false
+  architecture:
+    primary_support:
+      location: base_adapter_to_primary_task_face_load_spreading_region
+      role: direct_root_load_bypass
+      exact_coordinates_mm: PLACEHOLDER
+    auxiliary_support:
+      location: distal_or_wrist_saddle_tied_to_primary_cross_member
+      role: suppress_arm_bending_and_bypass_joint_reducers
+      exact_coordinates_mm: PLACEHOLDER
+    intermediate_support_pads:
+      location: O13_candidate_saddle_regions
+      role: distributed_contact_candidate_only
+      exact_contact_and_preload: PLACEHOLDER
+  release_device_trade:
+    selected_candidate: SEPARATION_NUT
+    status: DESIGN_ONLY_UNSOURCED_BLOCKED
+    reason: >-
+      It can create a direct positive launch-load path at named hardpoints.
+      Product, count, preload, release shock, redundancy, and qualification
+      remain open; burn-wire and SMA options are retained as unselected
+      alternatives.
+  unlock_sequence:
+    - verify_launch_separation_and_attitude_control
+    - complete_solar_release_and_confirm_deployment
+    - verify_B601_power_data_and_joint_brakes_safe
+    - clear_release_inhibits_per_approved_ICD
+    - command_and_verify_primary_and_auxiliary_HDRM_release
+    - execute_bounded_first_motion_clearance_check
+    - authorize_full_arm_deployment_only_after_clearance_confirmation
+  timing_values: PLACEHOLDER
+  status: DESIGN_ONLY
+
+root_reaction_wrench:
+  Fx_N: PLACEHOLDER
+  Fy_N: PLACEHOLDER
+  Fz_N: PLACEHOLDER
+  Mx_Nm: PLACEHOLDER
+  My_Nm: PLACEHOLDER
+  Mz_Nm: PLACEHOLDER
+  order_of_magnitude: UNSOURCED_BLOCKED
+  reason: >-
+    The existing PDR wrench contract is null and sim_05 is a kinematic
+    momentum-reaction model that explicitly computes no joint torques.
+    Simulation output may not be promoted to a structural design load.
+  required_cases:
+    - nominal_arm_operation
+    - emergency_stop
+    - capture_transient
+    - launch_locked
+    - ground_handling
+
+first_mode_requirement:
+  stowed_target_Hz: PLACEHOLDER
+  boundary_condition: selected_deployer_and_adapter
+  basis_document: structure/DOC_ACQUISITION.md#doc-dep-01
+  status: UNSOURCED_BLOCKED
+
+downstream_rules:
+  angular_momentum_budget:
+    allowed_inputs: qualified_reaction_wheel_datasheet_and_configuration
+    blocked_fields: [momentum_capacity_Nms, max_torque_Nm]
+  GJM:
+    allowed_mount_transform: named_track_with_explicit_scope
+    physical_track_status: UNSOURCED_BLOCKED
+  simulation:
+    structural_wrench_consumption_allowed: false
+    candidate_stow_may_be_used_as_accepted_launch_state: false

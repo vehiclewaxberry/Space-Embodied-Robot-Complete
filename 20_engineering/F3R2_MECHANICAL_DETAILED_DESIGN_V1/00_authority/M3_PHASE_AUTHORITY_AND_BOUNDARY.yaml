@@ -1,0 +1,76 @@
+schema: M3_PHASE_AUTHORITY_AND_BOUNDARY_V1
+generated_local: '2026-08-21T00:00:00+08:00'
+phase_id: M3_MECHANICAL_DETAILED_DESIGN_CLOSURE
+phase_workspace: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1
+predecessor_baseline: V5R_NEUTRAL_OPERATIONAL_BASELINE
+target_working_baseline: V6_ENGINEERING_DETAILED_MECHANICAL_BASELINE
+release_claim: WORKING_ENGINEERING_BASELINE_ONLY
+owner_authorization:
+  evidence_path: C:/Users/stude/.codex/attachments/787a450f-adfb-47ad-9d57-3e8faf59455a/pasted-text.txt
+  evidence_role: OWNER_PHASE_RULING
+  ruling: ENTER_MECHANICAL_DETAILED_DESIGN_CLOSURE
+  authorized_priority_scope:
+    - M3R_PARAMETERIZED_DETAILED_DESIGN
+    - B601_INSTALLATION_INTERFACE_DEFINITION
+    - GRIPPER_R1_ENGINEERING_DEFINITION
+    - SYSTEM_MASS_AND_INERTIA_V2_WORKING_AUTHORITY
+  first_loop_fea_rule: DO_NOT_RUN_FEA
+limited_override:
+  override_id: M3-OVR-001
+  predecessor_restriction_source: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/04_gates/MECHANICAL_CDR_PHASE1_GATE.json
+  predecessor_restriction: critical_native_part_model_build_authorized=false
+  new_authority: neutral_parameterized_critical_part_working_model_build_authorized=true
+  rationale: Owner explicitly authorized Phase M3 detailed design after the predecessor gate.
+  does_not_override:
+    - formal_strength_mos_fea_authorized=false
+    - formal_buckling_fea_authorized=false
+    - formal_modal_response_fea_authorized=false
+    - formal_random_vibration_or_shock_analysis_authorized=false
+    - native_solidworks_top_assembly_work_authorized=false
+    - qualification_test_level_definition_authorized=false
+    - manufacturing_release_authorized=false
+    - flight_release_authorized=false
+allowed_actions:
+  - CREATE_PARAMETER_TABLES_WITH_TRACEABLE_SOURCES
+  - BUILD_FREECAD_OR_STEP_NEUTRAL_WORKING_MODELS_FROM_FROZEN_PARAMETERS
+  - RUN_READ_ONLY_BREP_HEALTH_VOLUME_BOUNDING_BOX_AND_INTERFERENCE_CHECKS
+  - DEFINE_MATERIAL_AND_PROCESS_CANDIDATES_WITHOUT_APPROVAL_CLAIMS
+  - BUILD_SYMBOLIC_TOLERANCE_CHAINS_WITH_UNKNOWN_INPUTS_LEFT_NULL
+  - PREPARE_NON_EXECUTING_FEA_MODEL_AND_ENTRY_CRITERIA
+  - PREPARE_SIM13_V2_CHANGESET_WITHOUT_MUTATING_PRODUCTION_V1
+prohibited_actions_and_claims:
+  - RUN_OR_CREDIT_FORMAL_FEA_WITH_UNAUTHORIZED_LOADS_OR_ALLOWABLES
+  - REPORT_MARGIN_OF_SAFETY_OR_QUALIFICATION_MARGIN
+  - TREAT_CAD_DERIVED_OR_BUDGETED_MASS_AS_MEASURED
+  - REPLACE_UNKNOWN_MASS_INERTIA_TOLERANCE_OR_UNCERTAINTY_WITH_ZERO
+  - RELEASE_DRAWINGS_FOR_MANUFACTURE
+  - CLAIM_MECHANICAL_CDR_PASS
+  - CLAIM_FLIGHT_OR_QUALIFICATION_READINESS
+  - USE_SOLIDWORKS_AS_THE_CRITICAL_PATH
+authority_order_high_to_low:
+  - OWNER_SIGNED_OR_FORMALLY_RELEASED_PROJECT_INPUT
+  - APPROVED_OEM_ICD_OR_DRAWING
+  - HASH_BOUND_ACCEPTED_DIGITAL_MODEL
+  - READ_ONLY_ANALYTIC_BREP_MEASUREMENT
+  - CAD_DERIVED_VALUE_WITH_DECLARED_MATERIAL
+  - ENGINEERING_BUDGET
+  - PROVISIONAL_ASSUMPTION
+classification_vocabulary:
+  geometry: [FROZEN, DERIVED, CANDIDATE, UNKNOWN]
+  mass: [MEASURED, CAD_DERIVED, MATERIAL_DERIVED, BUDGETED, PROVISIONAL, UNKNOWN]
+  material_process: [APPROVED, CANDIDATE, UNKNOWN]
+uncertainty_policy:
+  units_required_at_input_and_output: true
+  measurement_claim_requires_traceable_method_and_uncertainty: true
+  bare_plus_minus_forbidden: true
+  unknown_uncertainty_value: null
+  unknown_uncertainty_disposition: HOLD
+  zero_fill_forbidden: true
+current_external_holds:
+  launcher_deployer_separation_icd: HOLD
+  flight_load_authority: HOLD
+  system_configuration_mass_properties: HOLD
+  material_allowables: HOLD
+  qualification_program: HOLD
+  hdrm_certification: HOLD
+  environmental_test: HOLD

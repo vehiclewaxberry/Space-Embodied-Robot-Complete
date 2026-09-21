@@ -1,0 +1,430 @@
+schema: SIM13R_JOINT_ZERO_SIGN_LIMIT_REGISTER_V1
+program: RESEARCH_COUPLED_CLOSURE_R1 / RC1-MR1
+generated_date_local: '2026-08-29'
+review_status: PENDING_OWNER_REVIEW
+l0_authority:
+  path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  presence: PRESENT
+  bytes: 11321
+  sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+l0_mutation: false
+convention:
+  urdf_origin_semantics: joint origin is expressed in the parent-link frame; the child-link frame coincides
+    with the joint frame
+  rpy: fixed-axis XYZ extrinsic, R = Rz(yaw) Ry(pitch) Rx(roll)
+  control_positive_direction: adopted identical to URDF axis in child frame; no re-signing is applied
+    to the L0 model
+joint2_sign_finding:
+  urdf_axis_in_child_frame:
+  - 0.0
+  - 0.0
+  - -1.0
+  urdf_axis_in_parent_link1_frame:
+  - 0.0
+  - -0.999999999993
+  - 3.673205e-06
+  joint3_axis_in_link2_frame:
+  - 0.0
+  - 0.0
+  - 1.0
+  dot_product_joint2_joint3_axes_in_link2: -1.0
+  geometric_relation: ANTIPARALLEL_ABOUT_THE_SAME_PHYSICAL_LINE
+  ruling: NOT_A_TYPO__DELIBERATE_OPPOSED_POSITIVE_SENSE
+  rationale: joint2 and joint3 are the shoulder-pitch / elbow-pitch pair and share the link2 Z line. joint2
+    declares -Z, joint3 declares +Z, and both carry the one-sided limit interval [-3.14, 0]. Opposed positive
+    sense with matching one-sided limits is the vendor convention that folds the arm inward; a uniform
+    +Z assumption would drive joint2 out of its admissible interval.
+  control_hazard: A controller that assumes a uniform +Z sense for joints 2 and 3 will command joint2
+    in the wrong direction and immediately violate [-3.14, 0].
+  mitigation: sign_multiplier recorded per joint; no re-signing applied to L0
+  status: VERIFIED
+joints:
+- joint: joint1
+  type: revolute
+  parent_link: base_link
+  child_link: link1
+  origin_xyz_m:
+  - -8.416e-05
+  - 0.0
+  - 0.08465
+  origin_rpy_rad:
+  - 0.0
+  - 0.0
+  - 0.0
+  axis_in_child_frame:
+  - 0.0
+  - 0.0
+  - 1.0
+  axis_in_parent_frame:
+  - 0.0
+  - 0.0
+  - 1.0
+  axis_in_link6_frame:
+  - 0.999999999966
+  - 7.34641e-06
+  - 3.673205e-06
+  axis_in_gripper_link_frame:
+  - 0.0
+  - 7.34641e-06
+  - -0.999999999973
+  zero_configuration: URDF_q_EQUALS_ZERO__CHILD_FRAME_COINCIDES_WITH_JOINT_FRAME
+  position_offset_b_q: 0.0
+  sign_multiplier_urdf_to_control: 1
+  control_positive_direction: SAME_AS_URDF_AXIS_IN_CHILD_FRAME (adopted convention, no re-signing)
+  unit: rad
+  continuous: false
+  source: ACCEPTED_B601_URDF
+  source_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  position_lower_limit: -2.8
+  position_upper_limit: 2.8
+  urdf_effort_limit: 27.0
+  urdf_velocity_limit: 50.0
+  urdf_velocity_limit_status: PLACEHOLDER_CEILING__NOT_OPERATIONAL_TRUTH__SEE_M4
+  verification_status: VERIFIED
+  confidence: HIGH_GEOMETRY_FROM_ACCEPTED_URDF
+- joint: joint2
+  type: revolute
+  parent_link: link1
+  child_link: link2
+  origin_xyz_m:
+  - 0.020084
+  - 0.031625
+  - 0.05555
+  origin_rpy_rad:
+  - -1.5708
+  - 0.0
+  - 0.0
+  axis_in_child_frame:
+  - 0.0
+  - 0.0
+  - -1.0
+  axis_in_parent_frame:
+  - 0.0
+  - -0.999999999993
+  - 3.673205e-06
+  axis_in_link6_frame:
+  - -3.673205e-06
+  - 0.999999999993
+  - -1.3e-11
+  axis_in_gripper_link_frame:
+  - 0.0
+  - 0.999999999993
+  - 3.673205e-06
+  zero_configuration: URDF_q_EQUALS_ZERO__CHILD_FRAME_COINCIDES_WITH_JOINT_FRAME
+  position_offset_b_q: 0.0
+  sign_multiplier_urdf_to_control: 1
+  control_positive_direction: SAME_AS_URDF_AXIS_IN_CHILD_FRAME (adopted convention, no re-signing)
+  unit: rad
+  continuous: false
+  source: ACCEPTED_B601_URDF
+  source_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  position_lower_limit: -3.14
+  position_upper_limit: 0.0
+  urdf_effort_limit: 27.0
+  urdf_velocity_limit: 50.0
+  urdf_velocity_limit_status: PLACEHOLDER_CEILING__NOT_OPERATIONAL_TRUTH__SEE_M4
+  verification_status: VERIFIED
+  confidence: HIGH_GEOMETRY_FROM_ACCEPTED_URDF
+- joint: joint3
+  type: revolute
+  parent_link: link2
+  child_link: link3
+  origin_xyz_m:
+  - -0.264
+  - 0.0
+  - 0.0
+  origin_rpy_rad:
+  - 0.0
+  - 0.0
+  - 0.0
+  axis_in_child_frame:
+  - 0.0
+  - 0.0
+  - 1.0
+  axis_in_parent_frame:
+  - 0.0
+  - 0.0
+  - 1.0
+  axis_in_link6_frame:
+  - 3.673205e-06
+  - -0.999999999993
+  - 1.3e-11
+  axis_in_gripper_link_frame:
+  - 0.0
+  - -0.999999999993
+  - -3.673205e-06
+  zero_configuration: URDF_q_EQUALS_ZERO__CHILD_FRAME_COINCIDES_WITH_JOINT_FRAME
+  position_offset_b_q: 0.0
+  sign_multiplier_urdf_to_control: 1
+  control_positive_direction: SAME_AS_URDF_AXIS_IN_CHILD_FRAME (adopted convention, no re-signing)
+  unit: rad
+  continuous: false
+  source: ACCEPTED_B601_URDF
+  source_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  position_lower_limit: -3.14
+  position_upper_limit: 0.0
+  urdf_effort_limit: 27.0
+  urdf_velocity_limit: 50.0
+  urdf_velocity_limit_status: PLACEHOLDER_CEILING__NOT_OPERATIONAL_TRUTH__SEE_M4
+  verification_status: VERIFIED
+  confidence: HIGH_GEOMETRY_FROM_ACCEPTED_URDF
+- joint: joint4
+  type: revolute
+  parent_link: link3
+  child_link: link4
+  origin_xyz_m:
+  - 0.2426
+  - -0.054
+  - -0.001625
+  origin_rpy_rad:
+  - 0.0
+  - 0.0
+  - 0.0
+  axis_in_child_frame:
+  - 0.0
+  - 0.0
+  - 1.0
+  axis_in_parent_frame:
+  - 0.0
+  - 0.0
+  - 1.0
+  axis_in_link6_frame:
+  - 3.673205e-06
+  - -0.999999999993
+  - 1.3e-11
+  axis_in_gripper_link_frame:
+  - 0.0
+  - -0.999999999993
+  - -3.673205e-06
+  zero_configuration: URDF_q_EQUALS_ZERO__CHILD_FRAME_COINCIDES_WITH_JOINT_FRAME
+  position_offset_b_q: 0.0
+  sign_multiplier_urdf_to_control: 1
+  control_positive_direction: SAME_AS_URDF_AXIS_IN_CHILD_FRAME (adopted convention, no re-signing)
+  unit: rad
+  continuous: false
+  source: ACCEPTED_B601_URDF
+  source_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  position_lower_limit: -1.87
+  position_upper_limit: 1.57
+  urdf_effort_limit: 7.0
+  urdf_velocity_limit: 200.0
+  urdf_velocity_limit_status: PLACEHOLDER_CEILING__NOT_OPERATIONAL_TRUTH__SEE_M4
+  verification_status: VERIFIED
+  confidence: HIGH_GEOMETRY_FROM_ACCEPTED_URDF
+- joint: joint5
+  type: revolute
+  parent_link: link4
+  child_link: link5
+  origin_xyz_m:
+  - 0.078308
+  - -0.0375
+  - -0.03
+  origin_rpy_rad:
+  - -1.5708
+  - 0.0
+  - 0.0
+  axis_in_child_frame:
+  - 0.0
+  - 0.0
+  - 1.0
+  axis_in_parent_frame:
+  - 0.0
+  - 0.999999999993
+  - -3.673205e-06
+  axis_in_link6_frame:
+  - -0.999999999993
+  - 0.0
+  - -3.673205e-06
+  axis_in_gripper_link_frame:
+  - 0.0
+  - 0.0
+  - 1.0
+  zero_configuration: URDF_q_EQUALS_ZERO__CHILD_FRAME_COINCIDES_WITH_JOINT_FRAME
+  position_offset_b_q: 0.0
+  sign_multiplier_urdf_to_control: 1
+  control_positive_direction: SAME_AS_URDF_AXIS_IN_CHILD_FRAME (adopted convention, no re-signing)
+  unit: rad
+  continuous: false
+  source: ACCEPTED_B601_URDF
+  source_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  position_lower_limit: -1.57
+  position_upper_limit: 1.57
+  urdf_effort_limit: 7.0
+  urdf_velocity_limit: 200.0
+  urdf_velocity_limit_status: PLACEHOLDER_CEILING__NOT_OPERATIONAL_TRUTH__SEE_M4
+  verification_status: VERIFIED
+  confidence: HIGH_GEOMETRY_FROM_ACCEPTED_URDF
+- joint: joint6
+  type: revolute
+  parent_link: link5
+  child_link: link6
+  origin_xyz_m:
+  - 0.023692
+  - 0.0
+  - 0.04
+  origin_rpy_rad:
+  - 0.0
+  - 1.5708
+  - 0.0
+  axis_in_child_frame:
+  - 0.0
+  - 0.0
+  - 1.0
+  axis_in_parent_frame:
+  - 0.999999999993
+  - 0.0
+  - -3.673205e-06
+  axis_in_link6_frame:
+  - 0.0
+  - 0.0
+  - 1.0
+  axis_in_gripper_link_frame:
+  - 0.999999999993
+  - 0.0
+  - -3.673205e-06
+  zero_configuration: URDF_q_EQUALS_ZERO__CHILD_FRAME_COINCIDES_WITH_JOINT_FRAME
+  position_offset_b_q: 0.0
+  sign_multiplier_urdf_to_control: 1
+  control_positive_direction: SAME_AS_URDF_AXIS_IN_CHILD_FRAME (adopted convention, no re-signing)
+  unit: rad
+  continuous: false
+  source: ACCEPTED_B601_URDF
+  source_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  position_lower_limit: -3.14
+  position_upper_limit: 3.14
+  urdf_effort_limit: 7.0
+  urdf_velocity_limit: 200.0
+  urdf_velocity_limit_status: PLACEHOLDER_CEILING__NOT_OPERATIONAL_TRUTH__SEE_M4
+  verification_status: VERIFIED
+  confidence: HIGH_GEOMETRY_FROM_ACCEPTED_URDF
+- joint: gripper_joint
+  type: fixed
+  parent_link: link6
+  child_link: gripper_link
+  origin_xyz_m:
+  - 0.0
+  - 0.0
+  - 0.15971
+  origin_rpy_rad:
+  - 0.0
+  - -1.5708
+  - 0.0
+  axis_in_child_frame:
+  - 0.0
+  - 0.0
+  - 0.0
+  axis_in_parent_frame:
+  - 0.0
+  - 0.0
+  - 0.0
+  axis_in_link6_frame:
+  - 0.0
+  - 0.0
+  - 0.0
+  axis_in_gripper_link_frame:
+  - 0.0
+  - 0.0
+  - 0.0
+  zero_configuration: URDF_q_EQUALS_ZERO__CHILD_FRAME_COINCIDES_WITH_JOINT_FRAME
+  position_offset_b_q: 0.0
+  sign_multiplier_urdf_to_control: 1
+  control_positive_direction: SAME_AS_URDF_AXIS_IN_CHILD_FRAME (adopted convention, no re-signing)
+  unit: n/a
+  continuous: false
+  source: ACCEPTED_B601_URDF
+  source_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  position_lower_limit: null
+  position_upper_limit: null
+  urdf_effort_limit: null
+  urdf_velocity_limit: null
+  urdf_velocity_limit_status: NOT_APPLICABLE_FIXED_JOINT
+  verification_status: VERIFIED_FIXED
+  confidence: HIGH_GEOMETRY_FROM_ACCEPTED_URDF
+- joint: gripper_joint1
+  type: prismatic
+  parent_link: gripper_link
+  child_link: gripper_left
+  origin_xyz_m:
+  - -0.042091
+  - 2.7531e-05
+  - -1.3031e-05
+  origin_rpy_rad:
+  - 0.0
+  - 0.0
+  - -1.5708
+  axis_in_child_frame:
+  - 1.0
+  - 0.0
+  - 0.0
+  axis_in_parent_frame:
+  - -3.673205e-06
+  - -0.999999999993
+  - 0.0
+  axis_in_link6_frame:
+  - 1.3e-11
+  - -0.999999999993
+  - -3.673205e-06
+  axis_in_gripper_link_frame:
+  - -3.673205e-06
+  - -0.999999999993
+  - 0.0
+  zero_configuration: URDF_q_EQUALS_ZERO__CHILD_FRAME_COINCIDES_WITH_JOINT_FRAME
+  position_offset_b_q: 0.0
+  sign_multiplier_urdf_to_control: 1
+  control_positive_direction: SAME_AS_URDF_AXIS_IN_CHILD_FRAME (adopted convention, no re-signing)
+  unit: m
+  continuous: false
+  source: ACCEPTED_B601_URDF
+  source_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  position_lower_limit: 0.0
+  position_upper_limit: 0.0715
+  urdf_effort_limit: 100.0
+  urdf_velocity_limit: 15.0
+  urdf_velocity_limit_status: PLACEHOLDER_CEILING__NOT_OPERATIONAL_TRUTH__SEE_M4
+  verification_status: VERIFIED
+  confidence: HIGH_GEOMETRY_FROM_ACCEPTED_URDF
+- joint: gripper_joint2
+  type: prismatic
+  parent_link: gripper_link
+  child_link: gripper_right
+  origin_xyz_m:
+  - -0.042091
+  - -2.7531e-05
+  - 1.3031e-05
+  origin_rpy_rad:
+  - 0.0
+  - 0.0
+  - 1.5708
+  axis_in_child_frame:
+  - 1.0
+  - 0.0
+  - 0.0
+  axis_in_parent_frame:
+  - -3.673205e-06
+  - 0.999999999993
+  - 0.0
+  axis_in_link6_frame:
+  - 1.3e-11
+  - 0.999999999993
+  - -3.673205e-06
+  axis_in_gripper_link_frame:
+  - -3.673205e-06
+  - 0.999999999993
+  - 0.0
+  zero_configuration: URDF_q_EQUALS_ZERO__CHILD_FRAME_COINCIDES_WITH_JOINT_FRAME
+  position_offset_b_q: 0.0
+  sign_multiplier_urdf_to_control: 1
+  control_positive_direction: SAME_AS_URDF_AXIS_IN_CHILD_FRAME (adopted convention, no re-signing)
+  unit: m
+  continuous: false
+  source: ACCEPTED_B601_URDF
+  source_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  position_lower_limit: 0.0
+  position_upper_limit: 0.0715
+  urdf_effort_limit: 100.0
+  urdf_velocity_limit: 15.0
+  urdf_velocity_limit_status: PLACEHOLDER_CEILING__NOT_OPERATIONAL_TRUTH__SEE_M4
+  verification_status: VERIFIED
+  confidence: HIGH_GEOMETRY_FROM_ACCEPTED_URDF
+velocity_limit_warning: urdf_velocity_limit values (50 / 200 rad/s, 15 m/s) are placeholder ceilings.
+  They must NOT be used as CTRL-03 operational constraints. See M4 / SIM13R_JOINT_CONTROL_ENVELOPE_V1.csv.

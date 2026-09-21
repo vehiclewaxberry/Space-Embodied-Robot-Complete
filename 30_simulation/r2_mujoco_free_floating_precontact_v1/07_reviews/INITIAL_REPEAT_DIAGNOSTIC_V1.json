@@ -1,0 +1,35 @@
+{
+  "schema": "R2_MUJOCO_INITIAL_REPEAT_DIAGNOSTIC_V1",
+  "execution_date": "2026-08-27",
+  "historical_gate": {
+    "path": "30_simulation/r2_mujoco_free_floating_precontact_v1/results/R2_MUJOCO_FREE_FLOATING_PRECONTACT_GATE_V1.json",
+    "bytes_before_corrective_rebuild": 3129,
+    "sha256_before_corrective_rebuild": "942F43D49C587712B9A9E3F6E81E0F0B7EB915722E4153F0D83B47FD7E2831A8",
+    "gate_pass": false,
+    "groups_passed": 4,
+    "groups_total": 6,
+    "achieved_claim": "R2_MUJOCO_FREE_FLOATING_PRECONTACT_CROSS_SOLVER_DIAGNOSTIC_ATTEMPTED_REPEAT_REQUIRED__NO_AUTHORITY_UPGRADE"
+  },
+  "failed_atomic_checks": {
+    "MJ_G2_joint_acceleration_cross": {
+      "observed_max_abs_mixed": 2.1910842917804985e-08,
+      "threshold": 2e-08
+    },
+    "MJ_G2_zero_velocity_full_acceleration_cross": {
+      "observed_max_abs_mixed": 2.1923460713502152e-08,
+      "threshold": 2e-08
+    },
+    "MJ_G5_collision_affinity_negative_control": {
+      "observed_caught": false
+    }
+  },
+  "root_cause_and_correction": {
+    "inertia": "MuJoCo compiler-side diagonalization of fullinertia lost approximately 2.17e-9 kg*m^2 for the nearly repeated principal inertias of link2 and link3. The correction keeps the threshold unchanged and deterministically pre-diagonalizes each URDF body tensor with pinned NumPy eigh, emitting diaginertia plus a canonical right-handed quaternion. An in-memory probe reduced the full mass-matrix maximum difference from 2.4889065183830716e-9 to 3.552713678800501e-15.",
+    "negative_control": "NC08 accidentally mutated the default geom rather than a named worldbody geom. The correction selects a named emitted geom; the production model remains contact-disabled and unchanged in authority."
+  },
+  "threshold_changed": false,
+  "historical_parent_gate_changed": false,
+  "authority_upgrade": false,
+  "next_stage_authorized": false,
+  "release_credit": false
+}

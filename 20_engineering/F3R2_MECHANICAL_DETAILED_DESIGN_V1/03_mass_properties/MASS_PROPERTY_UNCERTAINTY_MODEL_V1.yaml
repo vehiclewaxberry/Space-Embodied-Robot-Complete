@@ -1,0 +1,77 @@
+schema_version: MASS_PROPERTY_UNCERTAINTY_MODEL_V1
+generated_local: '2026-08-21T13:50:00+08:00'
+status: STRUCTURE_DEFINED_NUMERICAL_BUDGET_HOLD
+applicability: mass center-of-mass and inertia measurements defined by the M3 measurement plan
+
+governing_rules:
+  units_attached_at_input_and_output: true
+  model_written_before_calculation: true
+  corrections_with_zero_estimate_retained: true
+  each_input_requires: [estimate, standard_uncertainty, distribution, degrees_of_freedom, source]
+  correlation_identification_required: true
+  combined_standard_uncertainty_model: u_c_squared_y = J * U_x * transpose(J)
+  sensitivity_coefficients_required: true
+  nonlinear_validation: GUM_LINEARIZED_PLUS_MONTE_CARLO
+  coverage_factor_policy: derive from effective degrees of freedom; k=2 is not assumed
+  reporting_policy: round uncertainty first then round value to same decimal place
+  bare_plus_minus_forbidden: true
+  conformity_policy: no pass claim until a documented decision rule includes measurement uncertainty
+
+budget_templates:
+  mass:
+    measurand_unit: kg
+    measurement_model: m_article = m_indication - m_tare + delta_zero + delta_drift + delta_buoyancy + delta_fixture
+    components:
+      - {id: m_indication_repeatability, type: A, estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, sensitivity: 1.0, source: null, status: HOLD}
+      - {id: balance_calibration, type: B, estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, sensitivity: 1.0, source: null, status: HOLD}
+      - {id: balance_resolution, type: B, estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, sensitivity: 1.0, source: null, status: HOLD}
+      - {id: tare_repeatability, type: A, estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, sensitivity: -1.0, source: null, status: HOLD}
+      - {id: zero_and_drift, type: B, estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, sensitivity: 1.0, source: null, status: HOLD}
+      - {id: air_buoyancy, type: B, estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, sensitivity: 1.0, source: null, status: HOLD}
+      - {id: fixture_correction, type: B, estimate_kg: null, standard_uncertainty_kg: null, distribution: null, degrees_of_freedom: null, sensitivity: 1.0, source: null, status: HOLD}
+  center_of_mass_one_axis:
+    measurand_unit: m
+    measurement_model: x_com = x_A + L_AB*R_B/(R_A+R_B) + delta_level + delta_fixture + delta_datum
+    nonlinear: true
+    covariance_review_required_for: [R_A_R_B_COMMON_CALIBRATION, x_A_L_AB_COMMON_LENGTH_STANDARD, REPEATED_ORIENTATION_DATA]
+    estimates_complete: false
+    uncertainties_complete: false
+    distributions_complete: false
+    degrees_of_freedom_complete: false
+    status: HOLD
+  inertia_one_axis:
+    measurand_unit: kg*m^2
+    measurement_model: I_article = m_total*g_local*D^2*T^2/(16*pi^2*L) - I_fixture - m_article*e^2
+    nonlinear: true
+    covariance_review_required_for: [m_total_m_article, D_e_COMMON_DATUM, PERIOD_RUNS_SHARED_TIMING_STANDARD]
+    estimates_complete: false
+    uncertainties_complete: false
+    distributions_complete: false
+    degrees_of_freedom_complete: false
+    status: HOLD
+
+monte_carlo_contract:
+  required: true
+  trigger_reasons: [SQUARED_DIMENSIONS, SQUARED_PERIOD, RATIO_OF_REACTION_FORCES, POSSIBLE_NON_NORMAL_TYPE_B_INPUTS]
+  sample_count: null
+  random_seed: null
+  numerical_tolerance: null
+  shortest_coverage_interval_required_if_asymmetric: true
+  gum_validation_rule: compare endpoints using a predeclared numerical tolerance
+  status: HOLD_SAMPLE_COUNT_SEED_AND_INPUT_DISTRIBUTIONS_NOT_APPROVED
+
+current_numeric_uncertainty_authority:
+  b601_mass_standard_uncertainty_kg: null
+  m3r_mass_standard_uncertainty_kg: null
+  system_configuration_mass_standard_uncertainty_kg: null
+  system_configuration_com_standard_uncertainty_m: null
+  system_configuration_inertia_standard_uncertainty_kg_m2: null
+  disposition: HOLD_NO_TRACEABLE_PHYSICAL_MEASUREMENT_DATA
+
+prohibited_substitutions:
+  - DO_NOT_USE_CAD_OR_URDF_NUMERICAL_PRECISION_AS_MEASUREMENT_UNCERTAINTY
+  - DO_NOT_USE_DISPLAY_ROUNDING_AS_INSTRUMENT_RESOLUTION
+  - DO_NOT_ASSUME_RECTANGULAR_DISTRIBUTIONS_WITHOUT_A_SOURCE_STATEMENT
+  - DO_NOT_ASSIGN_INFINITE_DEGREES_OF_FREEDOM_WITHOUT_JUSTIFICATION
+  - DO_NOT_REPORT_EXPANDED_UNCERTAINTY_UNTIL_K_AND_COVERAGE_PROBABILITY_ARE_STATED
+  - DO_NOT_ZERO_FILL_AN_UNKNOWN_CONTRIBUTION

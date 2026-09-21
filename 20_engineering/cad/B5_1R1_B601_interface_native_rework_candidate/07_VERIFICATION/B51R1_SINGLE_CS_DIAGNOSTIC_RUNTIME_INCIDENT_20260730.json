@@ -1,0 +1,107 @@
+{
+  "schema": "B51R1_SINGLE_CS_DIAGNOSTIC_RUNTIME_INCIDENT_V1",
+  "incident_id": "B51R1-SINGLE-CS-RUNTIME-20260730-001",
+  "generated_at_utc": "2026-07-29T18:34:49.2115613Z",
+  "status": "CLOSED_AS_EVIDENCE_INCIDENT_WITH_DIAGNOSTIC_GATE_HOLD",
+  "overall_effect": "PARTIAL_PASS_EVIDENCE_HOLD_COLD_REOPEN_PENDING",
+  "full_single_cs_diagnostic_pass": false,
+  "native_authoring_release": false,
+  "affected_runtime": {
+    "solidworks_version": "SOLIDWORKS Premium 2024 SP5.0",
+    "solidworks_process_id_during_execution": 3308,
+    "diagnostic_target": "00_BASELINE\\DIAGNOSTIC_ONLY\\B51R1_SINGLE_CS_DIAGNOSTIC_COPY.SLDPRT",
+    "protected_stage_a": "02_MASTER_SKELETON\\B51R1_MASTER_SKELETON_V2_STAGE_A_RECOVERY.SLDPRT"
+  },
+  "chronology": [
+    {
+      "sequence": 1,
+      "event": "FIRST_LAUNCH_CREATE_SAVE_CLOSE",
+      "result": "FAIL_CLOSED_FIRST_LAUNCH",
+      "details": "Exactly one coordinate system was created, named, transformed, checked for zero external references, and saved with zero errors and zero warnings. The original tool then failed its session-empty assertion after CloseDoc.",
+      "evidence": "07_VERIFICATION\\B51R1_SINGLE_CS_DIAGNOSTIC_FIRST_LAUNCH_RECEIPT.json",
+      "evidence_sha256": "20666BD9B09B5DD6480E4D9ABE25934813524BCA90FA76656C724E9CEFCDAFC4"
+    },
+    {
+      "sequence": 2,
+      "event": "POSTSAVE_RECOVERY_ATTEMPT_001",
+      "result": "FAIL_CLOSED_POSTSAVE_RECOVERY",
+      "details": "Attach-only recovery failed with TYPE_E_ELEMENTNOTFOUND before transform recovery.",
+      "error_type": "System.Runtime.InteropServices.COMException",
+      "error_hresult": "0x8002802B",
+      "evidence": "07_VERIFICATION\\B51R1_SINGLE_CS_DIAGNOSTIC_POSTSAVE_RECOVERY_FAIL_CLOSED.json",
+      "evidence_sha256": "C90DE72AD2809E21A098A631BEAE40167DA0E18581EC025DBE8BD2892CF0B989"
+    },
+    {
+      "sequence": 3,
+      "event": "POSTSAVE_RECOVERY_ATTEMPT_002",
+      "result": "EVIDENCE_RECOVERED_BUT_PASS_RECEIPT_FAILED",
+      "details": "Strong-typed recovery confirmed the single CoordSys, identity transform, zero external references, current-title CloseDoc, target hash, unchanged Stage A, empty document state, ExitApp invocation, and completion of WaitForExit.",
+      "transform_evidence": "07_VERIFICATION\\B51R1_SINGLE_CS_DIAGNOSTIC_TRANSFORM_FIRST_LAUNCH.json",
+      "transform_evidence_sha256": "CE593DD8F9937EEBA9295D602855B99C4075AA8F8859691B38C25935CA8449CC"
+    },
+    {
+      "sequence": 4,
+      "event": "EXTERNAL_PROCESS_EXIT_CODE_READ",
+      "result": "FAIL_CLOSED_POSTSAVE_RECOVERY_ATTEMPT_002",
+      "details": "After WaitForExit returned, the recovery tool attempted to read ExitCode from a Process object that had attached to, but had not started, SolidWorks.",
+      "error_type": "System.InvalidOperationException",
+      "error_message": "进程不是由此对象启动的，因此无法确定所请求的信息。",
+      "error_hresult": "0x80131509",
+      "exit_code": "UNAVAILABLE",
+      "normal_recovery_pass_receipt_present": false,
+      "evidence": "07_VERIFICATION\\B51R1_SINGLE_CS_DIAGNOSTIC_POSTSAVE_RECOVERY_ATTEMPT_002_FAIL_CLOSED.json",
+      "evidence_sha256": "366349154B2E7FFACD7F825F897CC7E108020AA686FE5743039BA9FC2DDD659B"
+    },
+    {
+      "sequence": 5,
+      "event": "POST_INCIDENT_PROCESS_CHECK",
+      "result": "NO_SOLIDWORKS_PROCESS_PRESENT",
+      "checked_at_utc": "2026-07-29T18:34:36.6511826Z",
+      "solidworks_process_count": 0,
+      "forced_process_termination_used": false
+    }
+  ],
+  "technical_adjudication": {
+    "cad_coordinate_system_failure": false,
+    "save_failure": false,
+    "document_close_failure_after_recovery": false,
+    "solidworks_process_remained_running": false,
+    "evidence_tool_exit_code_assumption_failure": true,
+    "root_cause": "The recovery tool treated Process.ExitCode as readable for an externally attached process. On this runtime, the Process object was not the launcher and raised InvalidOperationException even after WaitForExit completed.",
+    "why_full_pass_is_withheld": [
+      "The immutable first-launch receipt is FAIL_CLOSED_FIRST_LAUNCH.",
+      "No normal recovery PASS receipt was produced.",
+      "The required cold-process reopen was not run and was not authorized.",
+      "No project-file screenshots were produced."
+    ]
+  },
+  "integrity": {
+    "diagnostic_target_bytes": 49233,
+    "diagnostic_target_sha256": "6B571B49D440BBDC723566FA97224C69AFABCBA6BAC34DCF4036A5F4037E120C",
+    "protected_stage_a_bytes": 511198,
+    "protected_stage_a_sha256_before": "5DEBE5AF52A896CDC3818ADD645725A8E758DB4E5D76F46E3067F9FAA7B5C76B",
+    "protected_stage_a_sha256_after": "5DEBE5AF52A896CDC3818ADD645725A8E758DB4E5D76F46E3067F9FAA7B5C76B",
+    "protected_stage_a_unchanged": true,
+    "original_first_launch_receipt_unchanged": true
+  },
+  "screen_capture_adjudication": {
+    "screenshots_seen_in_codex_task_ui": true,
+    "screenshots_saved_as_project_files": false,
+    "gate_credit": false
+  },
+  "corrective_action_for_future_authorized_cold_reopen": {
+    "authorization_required": true,
+    "status": "NOT_RUN",
+    "tool_change": "Use process disappearance or HasExited as the normal-exit evidence for an externally attached SolidWorks process; record ExitCode as UNAVAILABLE when the runtime does not expose it, and never convert that unavailable metadata alone into a CAD diagnostic failure.",
+    "required_runtime_evidence": [
+      "Fresh visible SolidWorks process identity",
+      "Cold open of the fixed target",
+      "Exactly one CS_DIAGNOSTIC_ONLY of type CoordSys",
+      "Identity transform persistence",
+      "Zero external references",
+      "Clean close and process disappearance",
+      "Immutable cold-reopen receipt"
+    ]
+  },
+  "claim_limit": "INCIDENT CONSOLIDATION ONLY; NO FULL SINGLE-CS DIAGNOSTIC PASS, NATIVE AUTHORING RELEASE, H10, T005, CONTROL RELEASE, COMPLETE, MANUFACTURING, FLIGHT, OR LAUNCH QUALIFICATION CREDIT"
+}

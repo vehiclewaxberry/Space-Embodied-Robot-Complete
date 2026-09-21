@@ -1,0 +1,87 @@
+schema: MECHANICAL_DETAIL_DESIGN_REQUIREMENTS_V1
+document_status: CONTROLLED_WORKING_BASELINE
+phase: M3_MECHANICAL_DETAILED_DESIGN_CLOSURE
+units_policy: SI outputs; millimetres permitted for part and interface geometry when explicitly labelled
+claim_boundary: NOT_CDR_NOT_MANUFACTURING_RELEASED_NOT_FLIGHT_RELEASED
+verification_methods: {A: Analysis, I: Inspection, T: Test, D: Demonstration, R: Review}
+requirements:
+  - id: M3-GOV-001
+    text: The M3 workspace shall state the bounded working-model authority and shall not claim CDR, manufacturing, qualification, or flight release.
+    verification: [I, R]
+    acceptance: Boundary flags are explicit and no prohibited pass token is issued.
+    status: PASS_BOUNDARY_CONTROLLED
+  - id: M3-AUT-001
+    text: Every design input used by M3 shall be path-, size-, and SHA-256-bound before credit.
+    verification: [I, D]
+    acceptance: Frozen manifest missing=0, zero_byte=0, hash_drift=0.
+    status: PASS_42_INPUTS_HASH_BOUND_ZERO_DRIFT
+  - id: M3-PAR-001
+    text: M3R Stage A shall have a parameter table covering all modelled interface and load-path geometry with unit, source, authority class, and status.
+    verification: [I, R]
+    acceptance: Every model-driving Stage A parameter is mapped exactly once and unknown manufacturing tolerances remain null/HOLD.
+    status: PASS_WORKING_PARAMETER_TABLE
+  - id: M3-PAR-002
+    text: M3R Stage B shall have a parameter table covering all modelled interface and load-path geometry with unit, source, authority class, and status.
+    verification: [I, R]
+    acceptance: Every model-driving Stage B parameter is mapped exactly once and unverified spacecraft mating geometry remains HOLD.
+    status: PASS_WORKING_PARAMETER_TABLE
+  - id: M3-INT-001
+    text: The B601 mounting interface shall retain the hash-bound four-axis 64 mm by 64 mm square pattern and distinguish mathematical B-rep residual from manufacturing tolerance.
+    verification: [A, I, R]
+    acceptance: Four unique axes; equivalent PCD 90.509641772 mm; maximum analytic radial residual 0.000023493 mm; manufacturing position tolerance null/HOLD.
+    status: PASS_WORKING_COMPETITION_INTERFACE_TOLERANCE_HOLD
+  - id: M3-PAR-003
+    text: The M3R interface assembly working model shall be reproducible from controlled parameters in the neutral FreeCAD/STEP mainline.
+    verification: [I, D, R]
+    acceptance: Builder completes; outputs reopen; each required part is a valid solid; assembly contact has no positive overlap beyond the declared numerical threshold.
+    status: PASS_WORKING_PARAMETERIZED_MODEL_RELEASE_HOLD
+  - id: M3-GRP-001
+    text: Gripper R1 engineering geometry shall preserve the validated 0 mm3 target rail-palm positive overlap over the 0.0 mm to 71.5 mm travel domain.
+    verification: [A, I, D, R]
+    acceptance: 144 samples at 0.5 mm spacing remain present and the conservative analytic sweep plus required pose checks pass within their stated scope.
+    status: PASS_NEUTRAL_SCOPE_NATIVE_REINTEGRATION_HOLD
+  - id: M3-GRP-002
+    text: Gripper material, finish, lubrication, contact, force, wall, and assembly-clearance inputs shall be explicitly controlled before structural or manufacturing credit.
+    verification: [I, R]
+    acceptance: Every field has approved evidence or remains null/HOLD with owner and closure method; geometry existence alone does not close engineering performance.
+    status: HOLD_INPUTS_MISSING
+  - id: M3-MAS-001
+    text: Component mass properties shall distinguish measured, CAD-derived, material-derived, budgeted, provisional, and unknown evidence classes.
+    verification: [A, I, R]
+    acceptance: B601 remains 4.695555949342986 kg from accepted URDF and M3R remains 0.7619 kg Owner budget unless superseded by traceable evidence; neither is called measured.
+    status: PASS_DIGITAL_WORKING_AUTHORITY_PHYSICAL_CLOSURE_HOLD
+  - id: M3-MAS-002
+    text: Nine operational configurations shall contain complete mass, CoM, inertia tensor, frame, joint state, and uncertainty authority before system dynamic credit.
+    verification: [A, I, R]
+    acceptance: Complete configuration count=9 and unresolved/null required field count=0.
+    status: HOLD_MASS_PROPERTY_AUTHORITIES_MISSING
+  - id: M3-MAT-001
+    text: Every detailed-design item shall have controlled material form, condition, process, finish, density, structural allowable source, and environmental applicability.
+    verification: [I, R]
+    acceptance: Released-item completeness=100 percent; candidate data are not promoted to approved allowables.
+    status: HOLD_APPROVED_MATERIAL_PROCESS_ALLOWABLES
+  - id: M3-TOL-001
+    text: B601-M3R, gripper rail-palm, solar hinge, and other critical chains shall have datum-based worst-case and statistical models with traceable input uncertainties.
+    verification: [A, I, R]
+    acceptance: Required chains exist and no unknown tolerance or thermal input is replaced by zero; functional pass requires authorized limits.
+    status: HOLD_TOLERANCE_AUTHORITIES_MISSING
+  - id: M3-BOM-001
+    text: The engineering BOM shall identify every modelled part, fastener, locator, finish, source, quantity, mass class, and release status.
+    verification: [I, R]
+    acceptance: Geometry items have no missing source or quantity; unresolved fasteners, locator, harness, material, and process fields are named HOLD.
+    status: PASS_ENGINEERING_BOM_WITH_SPECIFICATION_HOLDS
+  - id: M3-FEA-001
+    text: Formal FEA shall not run until geometry, loads, boundary conditions, contacts, joints, fasteners, materials, mass properties, mesh convergence, and acceptance criteria are authorized.
+    verification: [I, R]
+    acceptance: FEA entry gate PASS is required; while HOLD, formal analysis run count and MoS claim count both equal zero.
+    status: HOLD_ENTRY_INPUTS_MISSING
+  - id: M3-RL-001
+    text: The mechanical-to-Sim13 interface shall export only evidence-classified mass, inertia, joint, contact, collision, and flexible-body fields and shall fail closed on unknown safety-critical inputs.
+    verification: [I, D, R]
+    acceptance: Schema validation passes; unknown contact force, friction, torque, or flex parameters remain null and block the dependent capability.
+    status: PASS_WORKING_CHANGESET_PRODUCTION_RELEASE_HOLD
+  - id: M3-VER-001
+    text: The M3 gate shall be generated from independent artifact validation and shall issue no pass token unless every mandatory subgate passes.
+    verification: [I, D, R]
+    acceptance: Validator errors=0 for artifact integrity and gate logic; mandatory HOLD count greater than zero forces overall HOLD and pass_token_issued=false.
+    status: PASS_GATE_LOGIC_DETAIL_DESIGN_RELEASE_HOLD

@@ -1,0 +1,46 @@
+schema: PREBIND_SENSITIVITY_PLANT_V1
+base_plant: ACCEPTED_PLANT.yaml
+status: PLANNED
+not_executed_in_phase0: true
+overlays:
+- id: TARGET_22KG
+  parameter: mass
+  nominal: 22.0
+  unit: kg
+  authority: LOW_CONFIDENCE_PROVISIONAL
+  source: 20_engineering/config/geometry/target_models_v1.yaml
+- id: TARGET_150KG
+  parameter: mass
+  nominal: 150.0
+  standard_uncertainty: 45.0
+  unit: kg
+  distribution: NOT_DECLARED
+  authority: PROVISIONAL
+  source: 20_engineering/config/geometry/target_models_v1.yaml
+- id: CONTACT_STIFFNESS
+  parameter: normal_stiffness
+  nominal: 1000000.0
+  lower: 100000.0
+  upper: 10000000.0
+  unit: N/m
+  distribution: BOUNDED_NOT_PROBABILISTIC
+  authority: BOUNDED_PROVISIONAL
+  source: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/loop_b/DESIGN_CONTACT_MODEL_V1.yaml
+- id: CONTACT_WINDOW
+  parameter: contact_window
+  nominal: 0.02
+  lower: 0.005
+  upper: 0.1
+  unit: s
+  distribution: BOUNDED_NOT_PROBABILISTIC
+  authority: PROVISIONAL_SIM11
+  source: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/loop_b/DESIGN_CONTACT_MODEL_V1.yaml
+- id: FLEX_ROM
+  parameter: basis
+  value: B1_B3_T1_T4_7D
+  unit: dimensionless_basis_id
+  authority: PASS_WITH_DECLARED_PROVISIONAL_PHYSICS
+  source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round4_hf_rom_v3/R2_SEVEN_MODE_ROM_V3.json
+correlation_policy: NO_CORRELATION_INVENTED; absent covariance remains UNKNOWN
+zero_fill_forbidden: true
+formal_performance_credit: false

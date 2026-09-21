@@ -1,0 +1,71 @@
+
+schema: ROUTE_C_VENDOR_RFI_REQUIREMENTS_V1
+generated_local: '2026-08-23T15:20:00+08:00'
+generated_clock_source: LATEST_BOUND_PRODUCT_INPUT_VALIDATION_TIMESTAMP
+record_type: SUPPLIER_AND_PROJECT_DATA_REQUEST__NOT_PURCHASE_OR_SELECTION
+authority: C1_INPUT_FREEZE_PREPARATION_ONLY
+applies_to_candidates: [RFI-A, RFI-B, RFI-C, RFI-D]
+submission_contract:
+  units_required: true
+  exact_part_number_and_revision_required: true
+  source_or_test_record_required: true
+  uncertainty_or_bounded_tolerance_required: true
+  null_policy: NULL_OR_TBD_REMAINS_UNKNOWN_AND_CANNOT_CLOSE_A_GATE
+  typical_value_policy: TYPICAL_WITHOUT_CONTROLLED_SOURCE_IS_INFORMATIONAL_ONLY
+project_owner_inputs:
+  - request_id: PRJ-01
+    owner_role: B601_ELECTRICAL_OWNER
+    subject: per-function power and load map
+    required_fields: [function, bus_voltage_V, nominal_current_A, rms_current_A, peak_current_A, peak_duration_s, simultaneity_case, allowable_voltage_drop_V, derating_rule, source_revision]
+  - request_id: PRJ-02
+    owner_role: B601_AVIONICS_OWNER
+    subject: protocol and EMC definition
+    required_fields: [protocol, data_rate_bit_per_s, topology, impedance_ohm, pair_count, shield_bond, redundancy, EMC_separation, source_revision]
+  - request_id: PRJ-03
+    owner_role: HARNESS_ELECTRICAL_OWNER
+    subject: circuit, pin and conductor map
+    required_fields: [circuit_id, from_pin, to_pin, conductor_part_number, contact_part_number, gauge, shield_termination, spare_policy, voltage_drop_check]
+  - request_id: PRJ-04
+    owner_role: MECHANICAL_INTERFACE_OWNER
+    subject: HN-00 through HN-03 and J1 through J6 installation ICD
+    required_fields: [frame, xyz_mm, orientation, datum_scheme, connector_face, passage_or_guide_geometry, clamp_fastener_interface, installation_access, tolerance_mm, source_revision]
+  - request_id: PRJ-05
+    owner_role: SYSTEMS_AND_QUALIFICATION_OWNER
+    subject: mission-life and qualification allocation
+    required_fields: [segment_id, joint_motion_cycles, angle_range_rad, rate_rad_per_s, temperature_degC, vacuum_condition, qualification_factor, acceptance_factor, combined_bend_torsion_spectrum, source_revision]
+  - request_id: PRJ-06
+    owner_role: MECHANICAL_DYNAMICS_AND_CONTROL_OWNERS
+    subject: allowable harness restoring-load allocation by joint and mission segment
+    required_fields: [joint_id, segment_id, angle_rad, rate_rad_per_s, temperature_degC, allowable_force_N, allowable_torque_Nm, margin_rule, actuator_or_control_budget_source, uncertainty]
+supplier_rfi_packages:
+  - request_id: RFI-01
+    subject: exact configuration and drawing
+    required_fields: [exact_part_number, revision, controlled_drawing, conductor_construction, shield_construction, jacket_material, connector, contact, backshell, strain_relief, keying]
+  - request_id: RFI-02
+    subject: finished geometry and installation envelope
+    required_fields: [finished_OD_mm, OD_tolerance_mm, ovalization_limit_mm, connector_envelope_mm, backshell_envelope_mm, minimum_static_bend_radius_mm, applicable_temperature_degC]
+  - request_id: RFI-03
+    subject: dynamic bend and torsion capability
+    required_fields: [minimum_dynamic_bend_radius_mm, bend_angle_deg, torsion_deg_per_m, motion_speed_rad_per_s, temperature_degC, vacuum_condition, cycles, failure_criterion]
+  - request_id: RFI-04
+    subject: mass properties
+    required_fields: [cable_linear_mass_g_per_m, cable_mass_tolerance, connector_mass_g, backshell_mass_g, clamp_mass_g, protection_mass_g_per_m, slack_allowance_definition]
+  - request_id: RFI-05
+    subject: restoring-load characterization
+    required_fields: [article_configuration, angle_rad, rate_rad_per_s, temperature_degC, accumulated_cycles, force_N, torque_Nm, hysteresis_definition, uncertainty, raw_data_hash]
+  - request_id: RFI-06
+    subject: electrical derating and EMC
+    required_fields: [voltage_rating_V, current_derating_A_vs_temperature, temperature_rise_degC, dc_resistance_ohm_per_m, allowable_parallel_contacts, impedance_ohm, insertion_loss_dB, crosstalk_dB, shield_transfer_impedance, bond_scheme]
+  - request_id: RFI-07
+    subject: environment and materials
+    required_fields: [temperature_range_degC, TML_percent, CVCM_percent, TVAC_condition, radiation_dose_krad, atomic_oxygen_evidence, abrasion_evidence, particulate_evidence, material_and_process_list]
+  - request_id: RFI-08
+    subject: post-flex acceptance performance
+    required_fields: [continuity_limit_ohm, insulation_resistance_ohm, dielectric_test_V, shield_check, pull_test_N, impedance_change_percent, resistance_change_percent, visual_failure_criteria]
+  - request_id: RFI-09
+    subject: procurement and authority
+    required_fields: [exact_part_number, current_availability, lead_time_week, MOQ, lot_traceability, certificate_of_conformance, agency_or_owner_approval_path, export_or_handling_constraints]
+acceptance_rule:
+  C2_entry: PRJ-01..PRJ-05 plus RFI-01..RFI-04 must be configuration-controlled and MPI-01..MPI-08 must all be CONTROLLED by named owners.
+  later_release: PRJ-06 plus RFI-05..RFI-08 must close allowable and measured restoring-load, life, environment and post-install verification evidence.
+  no_automatic_selection: A complete RFI response permits a trade review only; it does not select or release hardware.

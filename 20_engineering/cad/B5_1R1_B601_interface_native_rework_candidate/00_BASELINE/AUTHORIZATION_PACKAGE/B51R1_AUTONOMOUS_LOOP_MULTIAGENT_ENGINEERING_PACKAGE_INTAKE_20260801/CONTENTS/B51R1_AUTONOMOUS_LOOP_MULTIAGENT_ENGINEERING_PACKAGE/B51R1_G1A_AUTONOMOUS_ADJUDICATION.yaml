@@ -1,0 +1,132 @@
+schema: B51R1_G1A_AUTONOMOUS_ADJUDICATION_V1
+status: DELEGATED_MACHINE_RATIFICATION_CANDIDATE
+authority_basis: B51R1_AUTONOMOUS_ENGINEERING_CHARTER_V1
+
+datum_decision:
+  longeron_center_axis_abs_yz_mm: 101.65
+  primary_load_bearing_surface_abs_yz_mm: 110.15
+  removable_panel_outer_surface_abs_yz_mm: 113.15
+  signed_instance_rule: APPLY_PLUS_AND_MINUS_TO_Y_AND_Z_PER_V2_DATUM_REGISTER
+  historical_105_65_mm:
+    preserve_source_unchanged: true
+    semantic: HISTORICAL_SEMANTIC_UNRESOLVED
+    may_drive_native_geometry: false
+    may_receive_load_path_credit: false
+  controlling_contract:
+    path: 02_MASTER_SKELETON/B51R1_MASTER_SKELETON_V2_DATUM_REGISTER.yaml
+    sha256: 41A769163D7FE9066DDAC0A6E36E33A22AC9D33823F8CC47151515E8AC0FBC6E
+
+feature_naming_decision:
+  scheme_id: JOINT_SIDE_EXPLICIT_V2
+  rationale: >
+    The pending CS_PARENT_JOINT/CS_CHILD_JOINT scheme is internally consistent
+    but counterintuitive because the token names describe link relationship
+    rather than physical joint side. No native Carrier exists yet, so refreezing
+    now reduces API and maintenance risk without migration of CAD features.
+  native_tokens:
+    link_frame: "CS_LINK_<LINK>"
+    joint_parent_side_frame: "CS_JOINT_<JOINT>_PARENT_SIDE"
+    joint_child_side_frame: "CS_JOINT_<JOINT>_CHILD_SIDE"
+    moving_axis: "AXIS_<JOINT>"
+    zero_plane: "PLANE_ZERO_<JOINT>"
+    visual_mount: "CS_VISUAL_MOUNT_<LINK>"
+  ownership:
+    parent_carrier_owns: JOINT_PARENT_SIDE_FRAME
+    child_carrier_owns:
+      - JOINT_CHILD_SIDE_FRAME
+      - MOVING_AXIS_FOR_REVOLUTE_OR_PRISMATIC
+      - ZERO_PLANE_FOR_REVOLUTE_OR_PRISMATIC
+    fixed_joint:
+      parent_carrier_owns: JOINT_PARENT_SIDE_FRAME
+      child_carrier_owns:
+        - JOINT_CHILD_SIDE_FRAME
+        - GFIX_PLN_X
+        - GFIX_PLN_Y
+        - GFIX_PLN_Z
+      moving_driver: NONE
+    gripper_branch:
+      gripper_link_owns:
+        - CS_JOINT_gripper_joint1_PARENT_SIDE
+        - CS_JOINT_gripper_joint2_PARENT_SIDE
+      gripper_left_owns:
+        - CS_JOINT_gripper_joint1_CHILD_SIDE
+        - AXIS_gripper_joint1
+        - PLANE_ZERO_gripper_joint1
+      gripper_right_owns:
+        - CS_JOINT_gripper_joint2_CHILD_SIDE
+        - AXIS_gripper_joint2
+        - PLANE_ZERO_gripper_joint2
+  alias_policy:
+    old_names_preserved_in_read_only_alias_register: true
+    alias_allowed_for_API_lookup: false
+    duplicate_native_features: false
+  mandatory_refreeze_before_S01:
+    - expanded_native_feature_register
+    - carrier_register
+    - URDF_carrier_frame_mapping
+    - native_joint_register
+    - native_driver_mapping
+    - expected_artifact_manifest
+    - input_lock_V2
+
+acceptance_tolerance_decision:
+  purpose: CAD_URDF_NUMERICAL_CONSISTENCY_ONLY
+  nominal:
+    coordinate_system_translation_readback_m: 1.0e-8
+    coordinate_system_rotation_readback_rad: 1.0e-8
+    fk_link_origin_translation_m: 5.0e-6
+    fk_link_rotation_rad: 5.0e-6
+    revolute_joint_readback_rad: 1.0e-6
+    prismatic_joint_readback_m: 1.0e-6
+    q0_reset_revolute_rad: 1.0e-6
+    q0_reset_prismatic_m: 1.0e-6
+    same_document_return_q0_translation_m: 5.0e-6
+    same_document_return_q0_rotation_rad: 5.0e-6
+    cold_reopen_revolute_rad: 1.0e-6
+    cold_reopen_prismatic_m: 1.0e-6
+    limit_revolute_readback_rad: 1.0e-6
+    limit_prismatic_readback_m: 1.0e-6
+  metrics:
+    translation: L2_NORM
+    rotation: SO3_GEODESIC_ANGLE_ACOS_CLAMP_TRACE
+    bounded_revolute: ABSOLUTE_UNWRAPPED_COORDINATE_DIFFERENCE_WITH_BRANCH_INDEX
+    prismatic: ABSOLUTE_LINEAR_DIFFERENCE
+  repeatability_fallback:
+    first_failure_preserved: true
+    samples: 10
+    conditional_authoring_only_ceiling:
+      coordinate_system_translation_m: 1.0e-7
+      coordinate_system_rotation_rad: 1.0e-7
+      fk_translation_m: 2.0e-5
+      fk_rotation_rad: 2.0e-5
+      revolute_scalar_rad: 5.0e-6
+      prismatic_scalar_m: 5.0e-6
+    conditional_status: PASS_WITH_MEASURED_REPEATABILITY_BOUND_AUTHORING_ONLY
+    may_release_formal_T005_or_control_model: false
+    exceeds_ceiling_action: FAIL_CLOSED
+
+stage_a_lockfile_decision:
+  observed_file: "~$B51R1_MASTER_SKELETON_V2_STAGE_A_RECOVERY.SLDPRT"
+  action: HASH_AND_QUARANTINE_NOT_DELETE
+  prerequisites:
+    - SolidWorks_process_count_equals_0
+    - exact_file_bytes_equals_6
+    - exact_file_sha256_equals_0D477825E5F9D305044B3EADCCAFFB403858E766BDC2E4BBD94A728DA79A4F47
+  quarantine_root: 00_BASELINE/QUARANTINE/STAGE_A_STALE_LOCKFILES
+  postconditions:
+    - Stage_A_hash_unchanged
+    - original_lock_path_absent
+    - quarantine_copy_hash_matches
+    - receipt_generated
+
+protected_input_policy:
+  filesystem_readonly_attribute_change: NOT_REQUIRED
+  policy_read_only: true
+  hash_guard: mandatory
+  claim: POLICY_READ_ONLY_WITH_HASH_GUARD_NOT_OS_READONLY
+
+H9_policy:
+  autonomous_final_downselect: prohibited_without_launcher_or_deployer_ICD
+  active_strategy: DUAL_BRANCH_MODE_A_MODE_B
+  common_geometry_may_progress: true
+  branch_specific_geometry_must_be_configuration_scoped: true

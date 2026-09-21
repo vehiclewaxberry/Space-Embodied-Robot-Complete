@@ -1,0 +1,2287 @@
+schema: EMBODIED_MECHANICAL_CONTRACT_R2
+generated_local: '2026-08-23T01:52:52.452856+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP13_EMBODIED_CONTRACT
+role: A0_MECHANICAL_CHIEF
+authority_basis:
+- ODR-15
+- ODR-10 option O2-A
+- ODR-02
+- ODR-01
+- ODR-07
+- ECR-SOLAR-ARRAY-R2 (ODR-19..ODR-34)
+lineage:
+  forked_from: EMBODIED_MECHANICAL_CONTRACT_V1.yaml
+  v1_file_modified: false
+  v1_remains: FROZEN_R1_CONTRACT_OF_RECORD
+  r2_scope: solar array, system mass model and flexibility rebound under ECR-SOLAR-ARRAY-R2; everything
+    else carried from V1 with unchanged semantics
+  unchanged_frozen_bindings:
+  - B601 accepted URDF (L0 kinematics/mass authority)
+  - M3R (ODR-01 M frame + ODR-05 design budget)
+  - gripper engineering pack
+  - 'FEA main load path (R2 structural impact screen: WITHIN_ACCEPTED_ENVELOPE, not reopened)'
+  - B601 CAD-URDF calibration D_i
+purpose: the single machine-readable mechanical interface consumed by dynamics -> control -> safety shield
+  -> RL, R2 binding.  It does not restate the Gate A criteria and it grants no release authority.
+consumer_contract:
+  required_acknowledgement: I_ACKNOWLEDGE_THESE_ARE_DESIGN_LEVEL_MECHANICAL_VALUES_WITH_DECLARED_UNCERTAINTY_NOT_MEASURED_HARDWARE_AND_NOT_FLIGHT_QUALIFIED
+  every_quantity_carries:
+  - source
+  - authority_level
+  - confidence
+  - nominal
+  - uncertainty
+  - calibration_required
+  bare_nominal_forbidden: true
+  unknown_is_fail_closed: true
+  domain_randomisation_rule: randomise using the uncertainty declared HERE.  An RL engineer who invents
+    a range is overriding mechanical engineering.
+  null_means: a physical or external input is genuinely absent.  null is never a zero and never a default.
+authority_hierarchy:
+  kinematics: ACCEPTED_URDF (L0)
+  mass_and_inertia_of_the_arm: ACCEPTED_URDF (L0), never overridden
+  system_mass_configurations: WP2 V3_R2 DESIGN model with declared uncertainty
+  solar_flexibility: FLEXIBLE_APPENDAGE_R2 (PROVISIONAL_DERIVED, ODR-21)
+  physical_geometry: M7 CAD + SOLAR_ARRAY_R2_CANDIDATE_V1 (ENGINEERING_CANDIDATE)
+  bridge: B601_CAD_URDF_GEOMETRY_CALIBRATION_V1 (D_i)
+  ruling: ODR-10 option O2-A + ECR-SOLAR-ARRAY-R2
+kinematics:
+  robot:
+    name: arm_b601_v1
+  authority_statement: 'ODR-10 option O2-A: the accepted URDF is the KINEMATICS authority. The M7 CAD
+    arm has dead joints and is articulated BY URDF forward kinematics, so no competing CAD kinematic definition
+    exists.'
+  topology:
+    links: 10
+    joints: 9
+    revolute: 6
+    fixed: 1
+    prismatic: 2
+    verified: counted from the URDF at build time, not asserted
+  link_order:
+  - base_link
+  - link1
+  - link2
+  - link3
+  - link4
+  - link5
+  - link6
+  - gripper_link
+  - gripper_left
+  - gripper_right
+  joints:
+    joint1:
+      type: revolute
+      parent: base_link
+      child: link1
+      origin_xyz_m:
+      - -8.416e-05
+      - 0.0
+      - 0.08465
+      origin_rpy_rad:
+      - 0.0
+      - 0.0
+      - 0.0
+      axis:
+      - 0.0
+      - 0.0
+      - 1.0
+      limit:
+        lower: -2.8
+        upper: 2.8
+        unit: rad
+        effort: 27.0
+        effort_unit: N*m
+        velocity: 50.0
+        velocity_unit_declared_in_urdf: null
+      mechanical_stop:
+        value: null
+        status: HOLD_NO_HARD_STOP_GEOMETRY_AUTHORITY
+        note: the URDF limit is a MODEL limit.  No vendor hard-stop drawing or measured over-travel exists,
+          so software limit != mechanical stop.
+    joint2:
+      type: revolute
+      parent: link1
+      child: link2
+      origin_xyz_m:
+      - 0.020084
+      - 0.031625
+      - 0.05555
+      origin_rpy_rad:
+      - -1.5708
+      - 0.0
+      - 0.0
+      axis:
+      - 0.0
+      - 0.0
+      - -1.0
+      limit:
+        lower: -3.14
+        upper: 0.0
+        unit: rad
+        effort: 27.0
+        effort_unit: N*m
+        velocity: 50.0
+        velocity_unit_declared_in_urdf: null
+      mechanical_stop:
+        value: null
+        status: HOLD_NO_HARD_STOP_GEOMETRY_AUTHORITY
+        note: the URDF limit is a MODEL limit.  No vendor hard-stop drawing or measured over-travel exists,
+          so software limit != mechanical stop.
+    joint3:
+      type: revolute
+      parent: link2
+      child: link3
+      origin_xyz_m:
+      - -0.264
+      - 0.0
+      - 0.0
+      origin_rpy_rad:
+      - 0.0
+      - 0.0
+      - 0.0
+      axis:
+      - 0.0
+      - 0.0
+      - 1.0
+      limit:
+        lower: -3.14
+        upper: 0.0
+        unit: rad
+        effort: 27.0
+        effort_unit: N*m
+        velocity: 50.0
+        velocity_unit_declared_in_urdf: null
+      mechanical_stop:
+        value: null
+        status: HOLD_NO_HARD_STOP_GEOMETRY_AUTHORITY
+        note: the URDF limit is a MODEL limit.  No vendor hard-stop drawing or measured over-travel exists,
+          so software limit != mechanical stop.
+    joint4:
+      type: revolute
+      parent: link3
+      child: link4
+      origin_xyz_m:
+      - 0.2426
+      - -0.054
+      - -0.001625
+      origin_rpy_rad:
+      - 0.0
+      - 0.0
+      - 0.0
+      axis:
+      - 0.0
+      - 0.0
+      - 1.0
+      limit:
+        lower: -1.87
+        upper: 1.57
+        unit: rad
+        effort: 7.0
+        effort_unit: N*m
+        velocity: 200.0
+        velocity_unit_declared_in_urdf: null
+      mechanical_stop:
+        value: null
+        status: HOLD_NO_HARD_STOP_GEOMETRY_AUTHORITY
+        note: the URDF limit is a MODEL limit.  No vendor hard-stop drawing or measured over-travel exists,
+          so software limit != mechanical stop.
+    joint5:
+      type: revolute
+      parent: link4
+      child: link5
+      origin_xyz_m:
+      - 0.078308
+      - -0.0375
+      - -0.03
+      origin_rpy_rad:
+      - -1.5708
+      - 0.0
+      - 0.0
+      axis:
+      - 0.0
+      - 0.0
+      - 1.0
+      limit:
+        lower: -1.57
+        upper: 1.57
+        unit: rad
+        effort: 7.0
+        effort_unit: N*m
+        velocity: 200.0
+        velocity_unit_declared_in_urdf: null
+      mechanical_stop:
+        value: null
+        status: HOLD_NO_HARD_STOP_GEOMETRY_AUTHORITY
+        note: the URDF limit is a MODEL limit.  No vendor hard-stop drawing or measured over-travel exists,
+          so software limit != mechanical stop.
+    joint6:
+      type: revolute
+      parent: link5
+      child: link6
+      origin_xyz_m:
+      - 0.023692
+      - 0.0
+      - 0.04
+      origin_rpy_rad:
+      - 0.0
+      - 1.5708
+      - 0.0
+      axis:
+      - 0.0
+      - 0.0
+      - 1.0
+      limit:
+        lower: -3.14
+        upper: 3.14
+        unit: rad
+        effort: 7.0
+        effort_unit: N*m
+        velocity: 200.0
+        velocity_unit_declared_in_urdf: null
+      mechanical_stop:
+        value: null
+        status: HOLD_NO_HARD_STOP_GEOMETRY_AUTHORITY
+        note: the URDF limit is a MODEL limit.  No vendor hard-stop drawing or measured over-travel exists,
+          so software limit != mechanical stop.
+    gripper_joint:
+      type: fixed
+      parent: link6
+      child: gripper_link
+      origin_xyz_m:
+      - 0.0
+      - 0.0
+      - 0.15971
+      origin_rpy_rad:
+      - 0.0
+      - -1.5708
+      - 0.0
+      axis:
+      - 0.0
+      - 0.0
+      - 0.0
+      limit: null
+      mechanical_stop:
+        value: null
+        status: HOLD_NO_HARD_STOP_GEOMETRY_AUTHORITY
+        note: the URDF limit is a MODEL limit.  No vendor hard-stop drawing or measured over-travel exists,
+          so software limit != mechanical stop.
+    gripper_joint1:
+      type: prismatic
+      parent: gripper_link
+      child: gripper_left
+      origin_xyz_m:
+      - -0.042091
+      - 2.7531e-05
+      - -1.3031e-05
+      origin_rpy_rad:
+      - 0.0
+      - 0.0
+      - -1.5708
+      axis:
+      - 1.0
+      - 0.0
+      - 0.0
+      limit:
+        lower: 0.0
+        upper: 0.0715
+        unit: m
+        effort: 100.0
+        effort_unit: N
+        velocity: 15.0
+        velocity_unit_declared_in_urdf: null
+      mechanical_stop:
+        value: null
+        status: HOLD_NO_HARD_STOP_GEOMETRY_AUTHORITY
+        note: the URDF limit is a MODEL limit.  No vendor hard-stop drawing or measured over-travel exists,
+          so software limit != mechanical stop.
+    gripper_joint2:
+      type: prismatic
+      parent: gripper_link
+      child: gripper_right
+      origin_xyz_m:
+      - -0.042091
+      - -2.7531e-05
+      - 1.3031e-05
+      origin_rpy_rad:
+      - 0.0
+      - 0.0
+      - 1.5708
+      axis:
+      - 1.0
+      - 0.0
+      - 0.0
+      limit:
+        lower: 0.0
+        upper: 0.0715
+        unit: m
+        effort: 100.0
+        effort_unit: N
+        velocity: 15.0
+        velocity_unit_declared_in_urdf: null
+      mechanical_stop:
+        value: null
+        status: HOLD_NO_HARD_STOP_GEOMETRY_AUTHORITY
+        note: the URDF limit is a MODEL limit.  No vendor hard-stop drawing or measured over-travel exists,
+          so software limit != mechanical stop.
+  actuated_dof:
+    arm: 6
+    gripper: 2
+    rl_action_space_recommendation: 6 arm revolute + 1 gripper command (the two prismatic finger joints
+      are mechanically symmetric and driven by a single motor candidate - see grasp.actuation - so exposing
+      2 independent finger DOF to RL would model a mechanism that does not exist
+  acceleration_limit:
+    value: null
+    status: HOLD_NO_ACTUATOR_DYNAMICS_AUTHORITY
+    note: the URDF carries no acceleration limit and no actuator model. CTRL-02 already recorded L0 hardware
+      effective stability as NOT_EVALUATED_NO_ACTUATOR_DYNAMICS for exactly this reason.
+  velocity_limit_unit_caveat:
+    finding: URDF_VELOCITY_LIMIT_UNIT_UNDECLARED
+    observed_values:
+    - 15.0
+    - 50.0
+    - 200.0
+    why_it_matters: joints 1-3 carry 50 and joints 4-6 carry 200.  Read as rad/s these are 2865 deg/s
+      and 11459 deg/s, which is not a physical manipulator.  Read as deg/s they are plausible.  URDF does
+      not declare the unit and no vendor datasheet is held.
+    contract_ruling: the velocity limit is exported as a MODEL_LIMIT with an UNDECLARED unit.  A consumer
+      MUST NOT use it as a physical rate bound.  Rate limiting for Sim16/RL must come from an explicit
+      controller-side limit, declared by the controls owner.
+    authority_level: MODEL_LIMIT_UNIT_UNRESOLVED
+    calibration_required: true
+    trigger: ECR-M3 (RL/controller discovers mechanical infeasibility)
+dynamics:
+  mass_authority:
+    arm:
+      nominal: 4.695555949342986
+      source: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+      authority_level: ACCEPTED_URDF_L0
+      confidence: A
+      uncertainty:
+        standard_uncertainty_kg: null
+        status: L0_PINNED_VALUE_NO_UNCERTAINTY_DECLARED
+      calibration_required: false
+      rule: never overridden by CAD or design values
+      rebuilt_sum_from_urdf_kg: 4.695555949342986
+      sum_matches_pin: true
+    solar:
+      design_nominal_per_wing_kg:
+        nominal: 0.78
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_kg: 0.15600000000000003
+          left_equals_right: true
+          basis: 'MATERIAL_DERIVED_CANDIDATE: areal-density 3.0 kg/m2 model (ODR-20/ODR-21); NOT measured'
+        calibration_required: true
+      design_nominal_both_wings_kg:
+        nominal: 1.56
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          recomputed_as: solar_array_r2_left + solar_array_r2_right of V3_R2 C01 composition
+        calibration_required: true
+      dynamics_legacy_per_panel_kg:
+        nominal: 0.3483933
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp10_mech_rl_v4/MECH_DYNAMICS_INTERFACE_V5_R2.yaml
+        authority_level: LEGACY_SIM11_PROVISIONAL
+        confidence: C
+        uncertainty:
+          status: R1 single-plate placeholder (panel_box 0.227 x 0.200 x 0.006 m).  Retained for historical
+            sim_11 / flexible_appendage_v1 REPRODUCTION ONLY; forbidden as an input to any new R2-coupled
+            dynamics run.
+        calibration_required: true
+      as_built_kg:
+        nominal: null
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: HOLD_AS_BUILT_MEASUREMENT_PENDING
+        confidence: null
+        uncertainty:
+          status: MEASUREMENT_PENDING - no R2 wing or leaf hardware has been weighed; AS_BUILT_MASS_CORRELATION_HOLD
+            carried
+        calibration_required: true
+    system_configurations: see dynamics.configurations - R2 DESIGN model (WP2 V3_R2), uncertainty declared
+  link_inertia:
+    values:
+      base_link:
+        mass_kg: 0.8366
+        com_xyz_m:
+        - -7.849e-06
+        - -1.1531e-06
+        - 0.029841
+        inertia_kg_m2:
+          ixx: 0.0013304
+          ixy: 1.0e-08
+          ixz: 0.0
+          iyy: 0.00213119
+          iyz: 0.0
+          izz: 0.00275877
+      link1:
+        mass_kg: 0.1613
+        com_xyz_m:
+        - 0.000113614552951627
+        - -0.000616319527051323
+        - 0.0236476372671394
+        inertia_kg_m2:
+          ixx: 0.00025207
+          ixy: 0.0
+          ixz: -2.832e-05
+          iyy: 0.00015464
+          iyz: 0.0
+          izz: 0.00023416
+      link2:
+        mass_kg: 1.3266
+        com_xyz_m:
+        - -0.13225622308888
+        - -0.0030617036386309
+        - -0.0308306967030205
+        inertia_kg_m2:
+          ixx: 0.00073374
+          ixy: -4.3e-07
+          ixz: 8.51e-06
+          iyy: 0.01255987
+          iyz: 1.28e-06
+          izz: 0.01281387
+      link3:
+        mass_kg: 0.8353
+        com_xyz_m:
+        - 0.121040035791843
+        - -0.0536211076627949
+        - -0.0310137854608077
+        inertia_kg_m2:
+          ixx: 0.00046807
+          ixy: -3.456e-05
+          ixz: -4.26e-05
+          iyy: 0.00632695
+          iyz: 6.0e-08
+          izz: 0.00648221
+      link4:
+        mass_kg: 0.52
+        com_xyz_m:
+        - 0.0608200956293136
+        - -0.0511711906613122
+        - -0.030299458623927
+        inertia_kg_m2:
+          ixx: 0.00045986
+          ixy: 0.00024219
+          ixz: -6.72e-06
+          iyy: 0.00075258
+          iyz: -5.35e-06
+          izz: 0.00066742
+      link5:
+        mass_kg: 0.383
+        com_xyz_m:
+        - -0.00502802058982517
+        - 1.73866206692364e-06
+        - 0.0386233236326755
+        inertia_kg_m2:
+          ixx: 0.00019772
+          ixy: -6.2e-07
+          ixz: -2.426e-05
+          iyy: 0.00021737
+          iyz: 2.0e-08
+          izz: 0.00017191
+      link6:
+        mass_kg: 0.3663
+        com_xyz_m:
+        - 3.76418727127126e-06
+        - -0.000100908819946677
+        - 0.0253308606425965
+        inertia_kg_m2:
+          ixx: 0.00015554
+          ixy: -0.0
+          ixz: -0.0
+          iyy: 0.00015554
+          iyz: -0.0
+          izz: 0.00013966
+      gripper_link:
+        mass_kg: 0.181800159145243
+        com_xyz_m:
+        - -0.11400456131826
+        - 7.30809328589541e-05
+        - -8.098254686284e-08
+        inertia_kg_m2:
+          ixx: 0.000232385828322385
+          ixy: -2.77584025941111e-07
+          ixz: -6.04874349510246e-10
+          iyy: 5.85085867377427e-05
+          iyz: -1.15493362444215e-08
+          izz: 0.000205213535851537
+      gripper_left:
+        mass_kg: 0.0423278952416158
+        com_xyz_m:
+        - 0.00937154605945142
+        - -0.0183514409006279
+        - -0.00213050813223617
+        inertia_kg_m2:
+          ixx: 9.68819007445228e-06
+          ixy: -1.14547785891207e-06
+          ixz: 1.82410432419993e-08
+          iyy: 9.7195653452821e-06
+          iyz: 1.20737618180169e-07
+          izz: 1.13638462227589e-05
+      gripper_right:
+        mass_kg: 0.0423278949561274
+        com_xyz_m:
+        - 0.00937154599936671
+        - 0.0183514410059713
+        - 0.00213050822993754
+        inertia_kg_m2:
+          ixx: 9.68819002375832e-06
+          ixy: 1.14547786360874e-06
+          ixz: -1.82410118281856e-08
+          iyy: 9.7195652747221e-06
+          iyz: 1.20737613592695e-07
+          izz: 1.13638461944347e-05
+    authority_level: ACCEPTED_URDF_L0
+    confidence: A_FOR_THE_MODEL_NOT_FOR_THE_HARDWARE
+    uncertainty:
+      value: null
+      status: HOLD_NO_AS_BUILT_ARM_METROLOGY
+      note: the URDF inertias are vendor/model values.  No hardware was weighed or swung.  AS_BUILT_ARM_METROLOGY_HOLD
+        is carried.
+    calibration_required: true
+  configurations:
+    C01:
+      name: DEPLOYED_NOMINAL
+      semantics: null
+      mass:
+        nominal: 31.022864807342987
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_kg: 4.594921657121637
+          relative: null
+          distribution: declared standard uncertainty (GUM), not a bound
+        calibration_required: true
+      center_of_mass:
+        nominal:
+        - 0.06576423716045363
+        - -0.02658929854697676
+        - -0.01767739642752865
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_xyz_m:
+          - 0.015051690219802696
+          - 0.015051690219802696
+          - 0.015051690219802696
+        calibration_required: true
+        reference_frame: S
+      inertia:
+        nominal:
+          Ixx: 0.7321469577701156
+          Iyy: 1.0806232960449866
+          Izz: 1.472191574502519
+          Ixy: 0.26239087175248343
+          Ixz: 0.1172269606116568
+          Iyz: -0.10274858169516832
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          component_standard_uncertainty_kg_m2:
+            Ixx: 0.09573667837547098
+            Iyy: 0.11958085436805588
+            Izz: 0.11993765455937687
+            Ixy: 0.11045931205809564
+            Ixz: 0.11045931205809564
+            Iyz: 0.11046229227700201
+          covariance: null
+          covariance_semantics: 'ODR-07: off-diagonal covariance entries MAY be negative; reported per-component
+            sigma = sqrt(C[i,i]) and is non-negative by construction.  The 3x3 ''standard uncertainty
+            matrix'' layout is NOT a covariance and is labelled as such in the source.'
+        calibration_required: true
+        reference_frame: S
+        reference_point: system_center_of_mass
+    C02:
+      name: LEFT_PANEL_FAIL
+      semantics: null
+      mass:
+        nominal: 31.022864807342987
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_kg: 4.594921657121637
+          relative: null
+          distribution: declared standard uncertainty (GUM), not a bound
+        calibration_required: true
+      center_of_mass:
+        nominal:
+        - 0.06576423716045363
+        - -0.03233925108513752
+        - -0.015691119519104162
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_xyz_m:
+          - 0.015051690219802696
+          - 0.015051690219802696
+          - 0.015051690219802696
+        calibration_required: true
+        reference_frame: S
+      inertia:
+        nominal:
+          Ixx: 0.6067929410252277
+          Iyy: 1.0777426767476184
+          Izz: 1.349718177054999
+          Ixy: 0.2506598471120182
+          Ixz: 0.12127935290548394
+          Iyz: -0.12885477736804934
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          component_standard_uncertainty_kg_m2:
+            Ixx: 0.09405170844869273
+            Iyy: 0.11847882459839368
+            Izz: 0.11854571461950834
+            Ixy: 0.10925685341248491
+            Ixz: 0.10925685341248491
+            Iyz: 0.10925836011704959
+          covariance: null
+          covariance_semantics: 'ODR-07: off-diagonal covariance entries MAY be negative; reported per-component
+            sigma = sqrt(C[i,i]) and is non-negative by construction.  The 3x3 ''standard uncertainty
+            matrix'' layout is NOT a covariance and is labelled as such in the source.'
+        calibration_required: true
+        reference_frame: S
+        reference_point: system_center_of_mass
+    C03:
+      name: RIGHT_PANEL_FAIL
+      semantics: null
+      mass:
+        nominal: 31.022864807342987
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_kg: 4.594921657121637
+          relative: null
+          distribution: declared standard uncertainty (GUM), not a bound
+        calibration_required: true
+      center_of_mass:
+        nominal:
+        - 0.06576423716045363
+        - -0.020839346008815998
+        - -0.015691119519104162
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_xyz_m:
+          - 0.015051690219802696
+          - 0.015051690219802696
+          - 0.015051690219802696
+        calibration_required: true
+        reference_frame: S
+      inertia:
+        nominal:
+          Ixx: 0.6257649373499924
+          Iyy: 1.0777426767476184
+          Izz: 1.368690173379764
+          Ixy: 0.2741218963929485
+          Ixz: 0.12127935290548396
+          Iyz: -0.07991925117521669
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          component_standard_uncertainty_kg_m2:
+            Ixx: 0.09166711139770274
+            Iyy: 0.11659488551432212
+            Izz: 0.11666285571907993
+            Ixy: 0.10721098575928756
+            Ixz: 0.10721098575928756
+            Iyz: 0.10721252121533117
+          covariance: null
+          covariance_semantics: 'ODR-07: off-diagonal covariance entries MAY be negative; reported per-component
+            sigma = sqrt(C[i,i]) and is non-negative by construction.  The 3x3 ''standard uncertainty
+            matrix'' layout is NOT a covariance and is labelled as such in the source.'
+        calibration_required: true
+        reference_frame: S
+        reference_point: system_center_of_mass
+    C04:
+      name: BOTH_PANEL_FAIL
+      semantics: null
+      mass:
+        nominal: 31.022864807342987
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_kg: 4.594921657121637
+          relative: null
+          distribution: declared standard uncertainty (GUM), not a bound
+        calibration_required: true
+      center_of_mass:
+        nominal:
+        - 0.06576423716045363
+        - -0.02658929854697676
+        - -0.013704842610679677
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_xyz_m:
+          - 0.015051690219802696
+          - 0.015051690219802696
+          - 0.015051690219802696
+        calibration_required: true
+        reference_frame: S
+      inertia:
+        nominal:
+          Ixx: 0.5022174849091845
+          Iyy: 1.0746172686840558
+          Izz: 1.2482681290025188
+          Ixy: 0.2623908717524834
+          Ixz: 0.12533174519931106
+          Iyz: -0.10602544684809774
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          component_standard_uncertainty_kg_m2:
+            Ixx: 0.08977126203401913
+            Iyy: 0.11535955259254772
+            Izz: 0.11512634484516789
+            Ixy: 0.10585746909953861
+            Ixz: 0.10585746909953861
+            Iyz: 0.10585746948211575
+          covariance: null
+          covariance_semantics: 'ODR-07: off-diagonal covariance entries MAY be negative; reported per-component
+            sigma = sqrt(C[i,i]) and is non-negative by construction.  The 3x3 ''standard uncertainty
+            matrix'' layout is NOT a covariance and is labelled as such in the source.'
+        calibration_required: true
+        reference_frame: S
+        reference_point: system_center_of_mass
+    C05:
+      name: ARM_STOWED_ONORBIT
+      semantics: null
+      mass:
+        nominal: 31.022864807342987
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_kg: 4.594921657121637
+          relative: null
+          distribution: declared standard uncertainty (GUM), not a bound
+        calibration_required: true
+      center_of_mass:
+        nominal:
+        - 0.04359132187924974
+        - 0.004169312978541388
+        - 0.027575496931252677
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_xyz_m:
+          - 0.015051690219802696
+          - 0.015051690219802696
+          - 0.015051690219802696
+        calibration_required: true
+        reference_frame: S
+      inertia:
+        nominal:
+          Ixx: 0.45040492790268294
+          Iyy: 0.9066477988652344
+          Izz: 0.712776230229785
+          Ixy: -0.022407764447515577
+          Ixz: -0.13667233322274056
+          Iyz: -0.030717957109245783
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          component_standard_uncertainty_kg_m2:
+            Ixx: 0.07135208391008518
+            Iyy: 0.10179209072961011
+            Izz: 0.10138123214985995
+            Ixy: 0.0907862255657512
+            Ixz: 0.0907862255657512
+            Iyz: 0.09078622601183922
+          covariance: null
+          covariance_semantics: 'ODR-07: off-diagonal covariance entries MAY be negative; reported per-component
+            sigma = sqrt(C[i,i]) and is non-negative by construction.  The 3x3 ''standard uncertainty
+            matrix'' layout is NOT a covariance and is labelled as such in the source.'
+        calibration_required: true
+        reference_frame: S
+        reference_point: system_center_of_mass
+    C06:
+      name: ARM_TASK_READY
+      semantics: null
+      mass:
+        nominal: 31.022864807342987
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_kg: 4.594921657121637
+          relative: null
+          distribution: declared standard uncertainty (GUM), not a bound
+        calibration_required: true
+      center_of_mass:
+        nominal:
+        - 0.10083454282846156
+        - 0.006478733342978543
+        - -0.0015632082179230526
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_xyz_m:
+          - 0.015051690219802696
+          - 0.015051690219802696
+          - 0.015051690219802696
+        calibration_required: true
+        reference_frame: S
+      inertia:
+        nominal:
+          Ixx: 0.4871747520492507
+          Iyy: 2.188192980093775
+          Izz: 2.4266721566845666
+          Ixy: -0.12596536117488571
+          Ixz: -0.07317473724210385
+          Iyz: -0.007797031332109003
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          component_standard_uncertainty_kg_m2:
+            Ixx: 0.12602600819385945
+            Iyy: 0.14532562046738048
+            Izz: 0.14558098581524656
+            Ixy: 0.137709381845139
+            Ixz: 0.137709381845139
+            Iyz: 0.13771177234685625
+          covariance: null
+          covariance_semantics: 'ODR-07: off-diagonal covariance entries MAY be negative; reported per-component
+            sigma = sqrt(C[i,i]) and is non-negative by construction.  The 3x3 ''standard uncertainty
+            matrix'' layout is NOT a covariance and is labelled as such in the source.'
+        calibration_required: true
+        reference_frame: S
+        reference_point: system_center_of_mass
+    C07:
+      name: PREGRASP
+      semantics: null
+      mass:
+        nominal: 31.022864807342987
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_kg: 4.594921657121637
+          relative: null
+          distribution: declared standard uncertainty (GUM), not a bound
+        calibration_required: true
+      center_of_mass:
+        nominal:
+        - 0.09123549790183574
+        - 4.37633035602944e-05
+        - -0.006282656311277057
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_xyz_m:
+          - 0.015051690219802696
+          - 0.015051690219802696
+          - 0.015051690219802696
+        calibration_required: true
+        reference_frame: S
+      inertia:
+        nominal:
+          Ixx: 0.4890598697082972
+          Iyy: 1.8230078766282325
+          Izz: 2.0283280319657617
+          Ixy: -0.0005788023248723302
+          Ixz: 0.043186744750097976
+          Iyz: -2.7303305627283253e-05
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          component_standard_uncertainty_kg_m2:
+            Ixx: 0.11470220682061172
+            Iyy: 0.13547414628637067
+            Izz: 0.13569946659575094
+            Ixy: 0.12734749186934957
+            Ixz: 0.12734749186934957
+            Iyz: 0.12735007687534436
+          covariance: null
+          covariance_semantics: 'ODR-07: off-diagonal covariance entries MAY be negative; reported per-component
+            sigma = sqrt(C[i,i]) and is non-negative by construction.  The 3x3 ''standard uncertainty
+            matrix'' layout is NOT a covariance and is labelled as such in the source.'
+        calibration_required: true
+        reference_frame: S
+        reference_point: system_center_of_mass
+    C08:
+      name: TARGET_CAPTURE_22KG
+      semantics: null
+      mass:
+        nominal: 53.022864807342984
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_kg: 8.041971464453567
+          relative: null
+          distribution: declared standard uncertainty (GUM), not a bound
+        calibration_required: true
+      center_of_mass:
+        nominal:
+        - 0.5519967022412937
+        - 2.5605237566977073e-05
+        - -0.04508028764686296
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_xyz_m:
+          - 0.022537558015599014
+          - 0.022537558015599014
+          - 0.022537558015599014
+        calibration_required: true
+        reference_frame: S
+      inertia:
+        nominal:
+          Ixx: 0.8332356116353841
+          Iyy: 18.231259203708145
+          Izz: 18.39121966642366
+          Ixy: 4.675613707472159e-05
+          Ixz: 1.3791441098997737
+          Iyz: -7.997741611423179e-05
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          component_standard_uncertainty_kg_m2:
+            Ixx: 3.4942052288361363
+            Iyy: 3.497798747043331
+            Izz: 3.499207848438193
+            Ixy: 3.4967380575144844
+            Ixz: 3.4967380575144844
+            Iyz: 3.496738151658616
+          covariance: null
+          covariance_semantics: 'ODR-07: off-diagonal covariance entries MAY be negative; reported per-component
+            sigma = sqrt(C[i,i]) and is non-negative by construction.  The 3x3 ''standard uncertainty
+            matrix'' layout is NOT a covariance and is labelled as such in the source.'
+        calibration_required: true
+        reference_frame: S
+        reference_point: system_center_of_mass
+    C09:
+      name: TARGET_CAPTURE_150KG
+      semantics: null
+      mass:
+        nominal: 181.02286480734298
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_kg: 45.23398396156462
+          relative: null
+          distribution: declared standard uncertainty (GUM), not a bound
+        calibration_required: true
+      center_of_mass:
+        nominal:
+        - 1.3494974061814204
+        - 7.499953397150376e-06
+        - -0.929583708535751
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          standard_uncertainty_xyz_m:
+          - 0.04151145153819278
+          - 0.04151145153819278
+          - 0.04151145153819278
+        calibration_required: true
+        reference_frame: S
+      inertia:
+        nominal:
+          Ixx: 107.2108264320823
+          Iyy: 167.8433428368075
+          Izz: 87.89520952823788
+          Ixy: 0.0011294933750624625
+          Ixz: 43.55286755417766
+          Iyz: -0.0012808350281419967
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+        authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+        confidence: B
+        uncertainty:
+          component_standard_uncertainty_kg_m2:
+            Ixx: 33.099651477550445
+            Iyy: 33.10851858935804
+            Izz: 17.70306548679844
+            Ixy: 27.429226267272167
+            Ixz: 27.429226267272167
+            Iyz: 27.42922627927387
+          covariance: null
+          covariance_semantics: 'ODR-07: off-diagonal covariance entries MAY be negative; reported per-component
+            sigma = sqrt(C[i,i]) and is non-negative by construction.  The 3x3 ''standard uncertainty
+            matrix'' layout is NOT a covariance and is labelled as such in the source.'
+        calibration_required: true
+        reference_frame: S
+        reference_point: system_center_of_mass
+  base_coupling:
+    free_floating: true
+    evidence:
+      sim_05_peak_base_attitude_disturbance_deg: 19.2
+      sim_05_momentum_conservation: 7.3e-17
+      meaning: arm motion reacts into the base.  Any RL policy that treats the base as inertially fixed
+        is modelling a different vehicle.
+    authority_level: SIMULATION_EVIDENCE_RIGID_BODY
+    calibration_required: false
+  mounting:
+    M3R:
+      dynamics_frame:
+        nominal:
+          T_SM_mm:
+          - 185.25
+          - 0
+          - 0
+          rotation: RY_PLUS_90_DEG
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+        authority_level: OWNER_DECISION_ODR_01
+        confidence: A
+        uncertainty:
+          value: null
+          status: EXACT_BY_DEFINITION
+        calibration_required: false
+        warning: 185.25 mm is the DYNAMICS frame and has no solid face. 198.0 / 208.0 / 210.405 mm are
+          a geometric feature stack and MUST NOT become a second dynamics frame.
+      mass:
+        nominal: 0.7619
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+        authority_level: DESIGN_BUDGET
+        confidence: B
+        uncertainty:
+          value: null
+          status: M3R_AS_BUILT_MEASUREMENT_OPEN
+          forbidden_field: measured_mass
+        calibration_required: true
+      stiffness:
+        nominal: null
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp10_mech_rl_v4/MECH_DYNAMICS_INTERFACE_V5_R2.yaml
+        authority_level: HOLD_NO_JOINT_STIFFNESS_AUTHORITY
+        confidence: null
+        uncertainty:
+          value: null
+          status: PENDING_WP4_STIFFNESS_DERIVATION_AND_TEST
+        calibration_required: true
+        note: 'WP4 delivered fastener preload/torque design, not an interface stiffness matrix.  V5_R2
+          carries stiffness_values: null.  A consumer that needs a compliant mount must declare its own
+          assumption.'
+      compliance:
+        value: null
+        status: HOLD_SEE_STIFFNESS
+        fea_bound_note: WP7 used a z=0 encastre boundary condition, declared as a STIFF BOUND and explicitly
+          not an authority (BC_BUS_001_INTERFACE_STIFFNESS_HOLD).
+collision:
+  authority_statement: 'ODR-10 O2-A: the M7 CAD is the PHYSICAL GEOMETRY authority and the accepted URDF
+    is the kinematics authority.  Collision geometry is consumed THROUGH the calibration D_i, never by
+    naive mesh substitution in either direction.'
+  meshes:
+    base_link:
+      visual_mesh: meshes_b601_gripper/base_link.STL
+      collision_mesh: meshes_b601_gripper/base_link.STL
+    link1:
+      visual_mesh: meshes_b601_gripper/link1.STL
+      collision_mesh: meshes_b601_gripper/link1.STL
+    link2:
+      visual_mesh: meshes_b601_gripper/link2.STL
+      collision_mesh: meshes_b601_gripper/link2.STL
+    link3:
+      visual_mesh: meshes_b601_gripper/link3.STL
+      collision_mesh: meshes_b601_gripper/link3.STL
+    link4:
+      visual_mesh: meshes_b601_gripper/link4.STL
+      collision_mesh: meshes_b601_gripper/link4.STL
+    link5:
+      visual_mesh: meshes_b601_gripper/link5.STL
+      collision_mesh: meshes_b601_gripper/link5.STL
+    link6:
+      visual_mesh: meshes_b601_gripper/link6.STL
+      collision_mesh: meshes_b601_gripper/link6.STL
+    gripper_link:
+      visual_mesh: meshes_b601_gripper/gripper_link.STL
+      collision_mesh: meshes_b601_gripper/gripper_link.STL
+    gripper_left:
+      visual_mesh: meshes_b601_gripper/gripper_left.STL
+      collision_mesh: meshes_b601_gripper/gripper_left.STL
+    gripper_right:
+      visual_mesh: meshes_b601_gripper/gripper_right.STL
+      collision_mesh: meshes_b601_gripper/gripper_right.STL
+  CRITICAL_visual_equals_collision:
+    finding: NO_SIMPLIFIED_COLLISION_GEOMETRY_EXISTS
+    links_where_visual_mesh_is_the_collision_mesh:
+    - base_link
+    - link1
+    - link2
+    - link3
+    - link4
+    - link5
+    - link6
+    - gripper_link
+    - gripper_left
+    - gripper_right
+    count: 10
+    consequence_for_rl: every collision query runs against the full-resolution visual tessellation.  This
+      is correct but slow, and it means any artifact in the visual mesh IS an artifact in the collision
+      model.  See the phantom base plate below.
+  CRITICAL_phantom_base_plate:
+    finding: WP11-F-01_ACCEPTED_URDF_BASE_LINK_COLLISION_MESH_CONTAINS_A_DELETED_PART
+    part: vendor solid 01_BASE_Plate (desktop base plate, 140 x 200 x 14.5 mm) present in the accepted-URDF
+      base_link collision mesh, absent from the flight-side CAD
+    magnitude: 48.1% of the URDF base_link mesh volume; 34.25% of its surface; 100% of the non-coincident
+      surface attributed at 0.5 mm box dilation
+    authority_that_deleted_it: 用户裁决表 2026-07-27, base_classification.json
+    consequence: loading base_link.STL as the operational collision mesh imports a 140 x 200 x 14.5 mm
+      desktop base plate as a phantom collision slab at the arm root.  Sim16 / RL MUST NOT do this.
+    required_action_before_rl: re-export the operational collision meshes through D_i with the vendor
+      desktop base plate removed.  Until that re-export exists, the collision contract is DECLARED OPEN.
+    status: OPEN_DECLARED
+    trigger: ECR-M2 (collision or reachability defect)
+  cad_urdf_calibration:
+    map:
+      base_link:
+        D_i_translation_mm:
+        - -0.05732750272995675
+        - -0.03253727084589079
+        - 0.05006764302725364
+        D_i_rotation: IDENTITY
+        D_i_translation_norm_mm: 0.08277611637215504
+      link1:
+        D_i_translation_mm:
+        - -0.2895478576888231
+        - 0.1526793079462422
+        - -3.8957677522070404
+        D_i_rotation: IDENTITY
+        D_i_translation_norm_mm: 3.909495531664338
+      link2:
+        D_i_translation_mm:
+        - -0.32485525192192577
+        - 0.05674317813140584
+        - 0.06553089811299043
+        D_i_rotation: IDENTITY
+        D_i_translation_norm_mm: 0.3362216851620452
+      link3:
+        D_i_translation_mm:
+        - 0.025261953313863442
+        - -1.1647747617269926
+        - -0.08329298499497297
+        D_i_rotation: IDENTITY
+        D_i_translation_norm_mm: 1.1680223170773651
+      link4:
+        D_i_translation_mm:
+        - 1.471097998758072
+        - -1.692867554401522
+        - -0.02328679547815263
+        D_i_rotation: IDENTITY
+        D_i_translation_norm_mm: 2.2428714081594237
+      link5:
+        D_i_translation_mm:
+        - -1.1649631578700426
+        - 0.07977190961354959
+        - -1.2096733424135466
+        D_i_rotation: IDENTITY
+        D_i_translation_norm_mm: 1.6813126752938894
+      link6:
+        D_i_translation_mm:
+        - 0.03852329987594306
+        - -0.0011448375572261137
+        - -0.08814447225370395
+        D_i_rotation: IDENTITY
+        D_i_translation_norm_mm: 0.0962018881064621
+    definition: inv(T_URDF_i) * T_CAD_i
+    model: pure translation; rotation identity (tested and rejected)
+    authority_level: DESIGN_CALIBRATION_NOT_METROLOGY_NOT_FLIGHT
+    confidence: B
+    validation:
+      whole_arm_fraction_within_0p5mm: 0.98796
+      whole_arm_median_mm: 0.0207384085003617
+      whole_arm_p95_mm: 0.09267107835802942
+      worst_cross_configuration_pose_residual_mm: 0.0001629909138996286
+      source_tessellation_deflection_mm: 0.5
+    not_a_metrology_claim: true
+    calibration_required: false
+    note: this calibration is CAD-to-CAD.  No hardware was measured; AS_BUILT_ARM_METROLOGY_HOLD is carried.
+  self_collision:
+    policy: ENABLE_ALL_EXCEPT_ADJACENT_LINK_PAIRS
+    adjacent_pairs_excluded:
+    - - base_link
+      - link1
+    - - link1
+      - link2
+    - - link2
+      - link3
+    - - link3
+      - link4
+    - - link4
+      - link5
+    - - link5
+      - link6
+    - - link6
+      - gripper_link
+    - - gripper_link
+      - gripper_left
+    - - gripper_link
+      - gripper_right
+    finger_pair:
+      pair:
+      - gripper_left
+      - gripper_right
+      self_collision: MUST_REMAIN_ENABLED
+      evidence: the two fingers are real, separate, mirror-paired B-rep bodies (24/24 solids, volumes
+        equal to the last digit).  They do NOT touch at OPEN 82.23 mm or PREGRASP 50.50 mm; the 67.3 mm
+        'crossing' reported from group AABBs is a fork-shaped bounding-box artifact.
+      authority_level: MEASURED_FROM_BREP_AT_DISCRETE_STATES
+      uncertainty:
+        status: CONTINUOUS_STROKE_FINGER_TO_FINGER_SWEEP_NOT_COMPUTED
+        what_was_swept: the validated 144-sample continuous sweep is RAIL-to-PALM overlap (0 positive
+          overlaps), NOT finger-to-finger
+      calibration_required: true
+  allowed_contact:
+    declaration: contact pairs that are INTENDED and must not be scored as a collision failure by a shield
+      or reward function
+    pairs:
+      finger_target:
+        bodies:
+        - gripper_left
+        - gripper_right
+        - <target>
+        intended: true
+        contact_model: null
+        status: HOLD_CONTACT_AUTHORITIES
+      palm_target:
+        bodies:
+        - gripper_link
+        - <target>
+        intended: true
+        contact_model: null
+        status: HOLD_CONTACT_AUTHORITIES
+    everything_else: TREAT_AS_COLLISION
+    why_this_section_exists: without an explicit allowed-contact set, an RL agent is penalised for the
+      one contact the mission requires.
+  keep_out:
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml
+    launcher_keep_out:
+      value: null
+      status: HOLD_NO_LAUNCHER_ICD
+      non_blocking_for_operational_twin: true
+    note: the operational baseline is the post-release deployed on-orbit state, which consumes no launcher
+      keep-out.
+grasp:
+  frames:
+    grasp_frame:
+      definition: gripper_link frame from the accepted URDF
+      parent: link6
+      origin_xyz_m:
+      - 0.0
+      - 0.0
+      - 0.15971
+      origin_rpy_rad:
+      - 0.0
+      - -1.5708
+      - 0.0
+      authority_level: ACCEPTED_URDF_L0
+      calibration_required: false
+    contact_left:
+      definition: gripper_left link frame
+      prismatic_axis:
+      - 1.0
+      - 0.0
+      - 0.0
+      contact_patch_geometry: null
+      status: HOLD_NO_CONTACT_PATCH_OR_NORMAL_AUTHORITY
+    contact_right:
+      definition: gripper_right link frame
+      prismatic_axis:
+      - 1.0
+      - 0.0
+      - 0.0
+      contact_patch_geometry: null
+      status: HOLD_NO_CONTACT_PATCH_OR_NORMAL_AUTHORITY
+  actuation:
+    architecture: single motor with symmetric transmission to both fingers; self-locking transmission
+      candidate for power-off retention
+    independent_finger_dof: false
+    authority_level: DESIGN_CANDIDATE
+    open_items:
+    - actuator selection
+    - force-speed curve
+    - duty cycle
+    - fault response
+    - holding brake data
+  states:
+    _declaration: 'seven mechanical states.  Observability is stated per state: a state the hardware cannot
+      report is not a state a shield can trust.'
+    OPEN:
+      jaw_travel_mm: 0.0
+      meaning: fully retracted, maximum aperture
+      observable_by: jaw position sensing (GRP-SMS-10, required)
+      target_engaged: false
+    PARTIAL:
+      jaw_travel_mm:
+      - 0.0
+      - 55.0
+      meaning: transiting, no target contact expected
+      observable_by: jaw position sensing
+      target_engaged: false
+    PREGRASP:
+      jaw_travel_mm: 55.0
+      meaning: staged at capture standoff, ready to close
+      observable_by: jaw position sensing
+      target_engaged: false
+      speed_limit_applies_from_here_mm_s: 5.0
+    CONTACT:
+      jaw_travel_mm:
+      - 55.0
+      - 71.5
+      meaning: first contact through closing onto the target
+      observable_by:
+        position: 'yes'
+        force: CANDIDATE ONLY - force sensing is not committed (GRP-SMS-10); without it CONTACT is inferred,
+          not measured
+      target_engaged: true
+      governing_load_case: CAPTURE_CONTACT_EVENT (centripetal demands are two orders below contact-event
+        demands)
+    LOCK:
+      meaning: retention achieved; normal force >= retention demand
+      retention_demand_per_finger_N: 22.59
+      observable_by:
+        value: null
+        status: HOLD_NO_LOCK_CONFIRMATION_SENSOR_DEFINED
+        consequence: LOCK cannot currently be CONFIRMED by hardware.  A shield must treat LOCK as INFERRED
+          and keep the abort path armed.
+      target_engaged: true
+    RELEASE:
+      meaning: commanded opening back toward OPEN
+      precondition: arm-held target support, or safe mode.  Safe-mode mechanical state is undefined (CDR
+        HOLD).
+      power_off_behaviour: grasp RETAINED, not released (fail-closed)
+      target_engaged: transitioning
+    FAIL:
+      meaning: jam, slip, or un-commanded state change
+      sub_states:
+        JAM:
+          detection: null
+          status: HOLD_NO_JAM_DETECTION_DEFINED
+          design_mitigation: symmetric drive with compliance per finger; rail-palm clearance guarded by
+            V5R-validated neutral geometry (0 overlaps in 144 samples)
+        SLIP:
+          trigger: retention demand exceeded or mu below candidate
+          detection: null
+          status: HOLD_MVR_019_RETAINED_TRANSFORM_SLIP_TEST_REQUIRED
+      shield_policy: FAIL_CLOSED_ABORT
+    transition_matrix:
+      OPEN:
+      - PARTIAL
+      PARTIAL:
+      - OPEN
+      - PREGRASP
+      PREGRASP:
+      - PARTIAL
+      - CONTACT
+      CONTACT:
+      - LOCK
+      - FAIL
+      - RELEASE
+      LOCK:
+      - RELEASE
+      - FAIL
+      RELEASE:
+      - PARTIAL
+      - FAIL
+      FAIL:
+      - RELEASE
+    unknown_is_fail_closed: true
+  limits:
+    stroke_mm:
+      nominal:
+      - 0.0
+      - 71.5
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+      authority_level: DERIVED_NEUTRAL_R1_GEOMETRY
+      confidence: B
+      uncertainty:
+        continuous_validation_samples: 144
+        step_mm: 0.5
+        positive_rail_palm_overlap_count: 0
+      calibration_required: false
+      urdf_cross_check_m:
+        gripper_joint1:
+          stroke_m:
+          - 0.0
+          - 0.0715
+          effort_N: 100.0
+          velocity: 15.0
+        gripper_joint2:
+          stroke_m:
+          - 0.0
+          - 0.0715
+          effort_N: 100.0
+          velocity: 15.0
+    closing_force_per_finger_N:
+      nominal: 25.0
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+      authority_level: DESIGN_TARGET_CANDIDATE
+      confidence: C
+      uncertainty:
+        demand_covered_N: 22.59
+        status: NOT_MEASURED_MVR_002_BENCH_TEST_REQUIRED
+      calibration_required: true
+    max_force_model_limit_N:
+      nominal: 100.0
+      source: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+      authority_level: MODEL_LIMIT_NOT_DESIGN_OR_QUALIFICATION_LOAD
+      confidence: A_FOR_THE_MODEL
+      uncertainty:
+        status: NOT_A_PHYSICAL_ACTUATOR_CAPABILITY
+      calibration_required: true
+    friction_coefficient:
+      nominal: null
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+      authority_level: HOLD
+      confidence: null
+      uncertainty:
+        candidate_used_in_MAV_01: 0.3
+        status: GRP-SMS-08 HOLD - unmeasured; 0.3 is a declared candidate, not data
+        rl_guidance: domain-randomise mu.  Do NOT randomise around 0.3 as if it were a measured mean -
+          there is no measured mean.
+      calibration_required: true
+    allowable_contact_pressure_MPa:
+      nominal: null
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+      authority_level: HOLD
+      confidence: null
+      uncertainty:
+        status: GRP-SMS-09 HOLD - no target surface/damage authority
+      calibration_required: true
+    closing_speed_at_first_contact_mm_s:
+      nominal: 5.0
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+      authority_level: DESIGN_TARGET_CANDIDATE
+      confidence: C
+      uncertainty:
+        status: NOT_MEASURED
+      calibration_required: true
+    contact_window_ms:
+      nominal: 20.0
+      source: 20_engineering/config/coupled_scene/scene_A2_capture.yaml
+      authority_level: PROVISIONAL
+      confidence: C
+      uncertainty:
+        swept_range_ms:
+        - 5
+        - 100
+        swept_by: sim_11 v1.1 finite contact window study
+        status: PLACEHOLDER pending the B601 gripper closing-time hardware measurement (project standing
+          todo 2)
+        rl_guidance: domain-randomise across the swept 5-100 ms band, not around the 20 ms placeholder
+      calibration_required: true
+    max_payload:
+      nominal: null
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+      authority_level: HOLD
+      confidence: null
+      uncertainty:
+        status: no payload rating exists.  22 kg and 150 kg are SCENARIO MASS ANCHORS from the research
+          load envelope, not a gripper capacity.
+      calibration_required: true
+  retention_analysis:
+    required_normal_per_finger_N: 22.59
+    worst_lateral_eq_N: 13.553
+    governing_case: CAPTURE_CONTACT_EVENT (centripetal demands are two orders below contact-event demands)
+    drive_margin_vs_model_limit: 3.85
+    authority_level: ANALYTIC_DESIGN_LEVEL_WITH_CANDIDATE_MU
+    critical_caveat: F_eq = J/dt with dt in {0.05, 0.1} s DECLARED CANDIDATES.  No contact-duration authority
+      exists.  Every force number in this block scales as 1/dt and is an envelope estimate, not a load.
+    calibration_required: true
+  power_off_behaviour:
+    candidate: self-locking transmission retains the grasp (fail-closed)
+    authority_level: DESIGN_TARGET_CANDIDATE
+    verification: MVR-003 TEST_REQUIRED_HOLD
+    safety_shield_note: fail-closed on power loss means an un-commanded release is NOT an expected failure
+      mode; the shield should treat a detected release without command as an anomaly, not a normal transition.
+flexibility:
+  solar_panel:
+    architecture_r2:
+      wings: 2
+      leaves_per_wing: 3
+      leaf_box_m:
+      - 0.3
+      - 0.2
+      - 0.0025
+      leaf_mass_kg: 0.18
+      construction_candidate: 2 x 0.2 mm CFRP faces (E = 70 GPa quasi-iso) over 2.1 mm core, total 2.5
+        mm; areal density candidate 3.0 kg/m2
+      hinge_axes: all parallel to X_S (root + 2 inter-panel per wing)
+      standoff_m: 0.001
+      stowed_stack_m: 0.0085
+      reduced_model: 3 DOF per wing (relative hinge rotations about the deployed flat config); hinge-dominated,
+        NOT a cantilever-plate model
+    mode_count:
+      nominal: 3
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json
+      authority_level: PROVISIONAL_DERIVED
+      confidence: C
+      uncertainty:
+        per_wing: true
+        declared_in_source: first 3 per wing (matches ODR-21 3-5 band)
+        status: ODR-21 3-5 band satisfied at the low end; no convergence sweep exists yet for the R2 chain
+          model
+      calibration_required: true
+    frequency_hz:
+      nominal: 6.97
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json
+      authority_level: PROVISIONAL_DERIVED
+      confidence: C
+      uncertainty:
+        envelope_hz:
+        - 3.33
+        - 13.95
+        envelope_semantics: first deployed-latched wing mode at the all-low / all-high ktheta band corners
+          (root {50,200,800} + inter {20,100,400} N*m/rad), ODR-32
+        higher_modes_hz:
+        - 39.3586
+        - 98.0042
+        higher_modes_envelope_hz:
+        - - 18.2952
+          - 44.1763
+        - - 78.7172
+          - 196.0085
+        rl_guidance: 'randomise across the 3.33-13.95 Hz first-mode envelope.  The envelope IS the mechanical
+          uncertainty statement; do not invent a tighter one.  Note this is an order of magnitude above
+          the R1 plate placeholder (0.7-1.3 Hz): R1-tuned flexible assumptions do NOT transfer.'
+      calibration_required: true
+    damping_zeta:
+      nominal: 0.01
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml
+      authority_level: PROVISIONAL_DERIVED_TBD_CITE_LITERATURE
+      confidence: C
+      uncertainty:
+        status_in_source: TBD_cite_literature
+        modal_damping_only: true
+        note: single modal zeta candidate for the R2 wing chain; no measured damping exists.  Unlike the
+          R1 contract there is exactly ONE on-disk placeholder for the R2 model, so the V1 TWO_CONFLICTING_PLACEHOLDER_VALUES
+          finding does not apply to the R2 binding (it still applies to the frozen R1 documents).
+      calibration_required: true
+    legacy_r1_card_finding:
+      CONTRACT_FINDING: R1_FLEXIBILITY_BINDING_SUPERSEDED_FOR_NEW_RUNS
+      r1_panel_box_m:
+      - 0.227
+      - 0.2
+      - 0.006
+      r1_first_mode_envelope_hz:
+      - 0.7
+      - 1.3
+      r1_areal_density_finding: the R1 plate was a uniform-density placeholder (heavier per unit area
+        than a typical deployable); the R2 leaf uses an areal-density 3.0 kg/m2 candidate inside the typical
+        2-5 kg/m2 band, closing the V1 mass-placeholder severity finding at CANDIDATE level (still not
+        measured)
+      rule: the frozen R1 card (flexible_appendage_v1.yaml) serves historical sim_11 reproduction only;
+        new R2-coupled runs must quote FLEXIBLE_APPENDAGE_R2 with its bands
+    evidence:
+      sim_07_point_capture_vs_rigid_lock_ratio: 92
+      sim_07_ring_down_s:
+      - 37
+      - 75
+      sim_11_panel_ringing_mm: 2.1
+      sim_11_panel_ringing_hz: 1.0005
+      evidence_scope_warning: 'all flexible evidence cited here was computed with the R1 single-plate
+        placeholder.  Under ECR-SOLAR-ARRAY-R2 it is LEGACY evidence: an R2-coupled rerun is required
+        before any flexible conclusion is quoted against the R2 design, and the e15 ANCF certification
+        gate (REPEAT_ANCF_CERTIFICATION) applies to that new model.'
+    harness:
+      solar_r2_harness_gate: PASS_GEOMETRY
+      b601_harness_gate_q0_witness_scope: PASS_GEOMETRY_WITH_PROVISIONAL_SCOPE
+      vendor_holds_carried:
+      - HOLD_VENDOR_MINIMUM_BEND_RADIUS_ABSENT
+      - HOLD_CONNECTOR_PART_NUMBER_AND_SHELL_ABSENT
+      - HOLD_STRAIN_RELIEF_HARDWARE_NOT_SELECTED
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_R2_FUNCTIONAL_GATES_V1.json
+      b601_full_fk_sweep_R2_HRN_04:
+        source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V1.json
+        verdict: FAIL
+        verdict_rule: FAIL if any penetration beyond tolerance, any bend below the class limit, any pinch
+          <= 0, or any empty comparison set; else PASS_WITH_PROVISIONAL_SCOPE (vendor HOLDs outstanding;
+          full PASS unreachable while cable vendor data is absent)
+        failing_subchecks:
+          collision_pass: false
+          min_clearance_mm: -11.9938
+          bend_pass_vs_class: false
+          min_bend_radius_mm: 1.199
+          pinch_pass: false
+        contract_consequence: 'R2-HRN-04 closure attempt FAILED: the routed B601 harness candidate penetrates
+          geometry, violates the bend class and pinches.  The harness routing must be redesigned and re-gated;
+          this contract carries the FAIL openly and the ARM_RELEASE interlock stays fail-closed regardless.'
+  hinge:
+    root_ktheta_Nm_per_rad:
+      nominal: 200
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml
+      authority_level: PROVISIONAL_DERIVED
+      confidence: C
+      uncertainty:
+        band_Nm_per_rad:
+        - 50
+        - 800
+        deployed_latched_semantics: 'ODR-32: the wing modal evidence is computed AT the deployed latched
+          state, so this band IS the deployed latch stiffness candidate'
+        status: no measurement source; WP5 R2 hardware selection/test pending
+      calibration_required: true
+    inter_panel_ktheta_Nm_per_rad:
+      nominal: 100
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml
+      authority_level: PROVISIONAL_DERIVED
+      confidence: C
+      uncertainty:
+        band_Nm_per_rad:
+        - 20
+        - 400
+        count_per_wing: 2
+        latch_compliance_folded_in: true
+        status: no measurement source; WP5 R2 hardware selection/test pending
+      calibration_required: true
+    deployment_torque_budget:
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1.yaml
+      summary: T_available 0.05 N m/hinge candidate vs worst resisting 0.030 N m mid-travel (+0.020 margin)
+        and 0.040 N m final-5deg (+0.010 margin); full angular domain sampled; MARGIN_POSITIVE_WITH_PROVISIONAL_COMPONENTS.
+        Ground-test gravity torque 0.177 N m exceeds the spring candidate -> offload rig required for
+        ground deployment test (test-config finding).
+      class: PASS_WITH_PROVISIONAL_COMPONENTS
+    end_stop_controlling_case:
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1.yaml
+      controlling_stop: inter_panel_hinge_2
+      energy_J: 0.24
+      peak_stop_force_N_candidate: 480
+      status: PROVISIONAL_DERIVED pending stop material/shape selection
+    latch: positive end-of-travel latch per leaf, engagement observable (HNG-SMS-05 semantics carried);
+      non-releasing on orbit; PROVISIONAL_DERIVED - latch hardware not selected
+    freeplay_mm:
+      nominal: null
+      source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1.yaml
+      authority_level: HOLD
+      confidence: null
+      uncertainty:
+        status: FREEPLAY_LIMITS_HOLD_NO_PIN_BORE_AUTHORITY
+      calibration_required: true
+  certification_caveat:
+    e15_status: REPEAT_ANCF_CERTIFICATION
+    meaning: the ANCF cross-solver certification failed at 5.64% > 5%.  Any NEW fully-coupled flexible
+      model (including the R2 wing chain) must re-pass that gate before its flexible results carry weight.
+failure_states:
+  _semantics:
+    panel_failure: ATTACHED_STUCK
+    jettison_forbidden: true
+    authority: ODR-02
+    mass_model_consequence: failed panel mass and inertia remain in the system model
+    r2_fail_state_pose_convention: Under SOLAR_ARRAY_R2 the failed wing is modelled at the STOWED pose
+      (partial-deploy stuck states are bounded by the stowed/deployed values) - convention of SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json,
+      carried into WP2 V3_R2.
+  LEFT_PANEL_FAIL:
+    configuration_id: C02
+    geometry: 'R2: failed wing attached but stuck; candidate model places it at the STOWED pose (partial-deploy
+      stuck states are bounded by the stowed/deployed values)'
+    mass_change_kg: 0.0
+    mass_change_is_zero_because: ATTACHED_STUCK - the failed panel stays on the vehicle, so system mass
+      is unchanged.  An RL environment that removes the panel mass on failure is modelling a jettison
+      that ODR-02 forbids.
+    com_change_m:
+    - 0.0
+    - -0.005749952538160762
+    - 0.001986276908424487
+    inertia_changes: true
+    collision_change: panel swept volume differs; keep-out must be re-evaluated
+  RIGHT_PANEL_FAIL:
+    configuration_id: C03
+    geometry: 'R2: failed wing attached but stuck; candidate model places it at the STOWED pose (partial-deploy
+      stuck states are bounded by the stowed/deployed values)'
+    mass_change_kg: 0.0
+    mass_change_is_zero_because: ATTACHED_STUCK - the failed panel stays on the vehicle, so system mass
+      is unchanged.  An RL environment that removes the panel mass on failure is modelling a jettison
+      that ODR-02 forbids.
+    com_change_m:
+    - 0.0
+    - 0.005749952538160762
+    - 0.001986276908424487
+    inertia_changes: true
+    collision_change: panel swept volume differs; keep-out must be re-evaluated
+  BOTH_PANEL_FAIL:
+    configuration_id: C04
+    geometry: 'R2: failed wing attached but stuck; candidate model places it at the STOWED pose (partial-deploy
+      stuck states are bounded by the stowed/deployed values)'
+    mass_change_kg: 0.0
+    mass_change_is_zero_because: ATTACHED_STUCK - the failed panel stays on the vehicle, so system mass
+      is unchanged.  An RL environment that removes the panel mass on failure is modelling a jettison
+      that ODR-02 forbids.
+    com_change_m:
+    - 0.0
+    - 0.0
+    - 0.003972553816848972
+    inertia_changes: true
+    collision_change: panel swept volume differs; keep-out must be re-evaluated
+  GRIPPER_JAM:
+    trigger: jaw motion arrested away from a commanded end state
+    detection: null
+    detection_status: HOLD_NO_JAM_DETECTION_DEFINED
+    allowed_action:
+    - HOLD_POSITION
+    - COMMANDED_RELEASE_IF_SUPPORTED
+    - ABORT
+    forbidden_action:
+    - FORCE_THROUGH
+    - REPEATED_CLOSE_RETRY_WITHOUT_DIAGNOSIS
+  CONTACT_ABORT:
+    trigger: contact detected outside the allowed_contact set, or contact before PREGRASP, or closing
+      speed above GRP-SMS-06 at first contact
+    action: FAIL_CLOSED_ABORT
+    shield_binding: 'SAFE-00 runtime safety gate: UNKNOWN never ALLOW; masked action substitutes abort'
+  JOINT_LIMIT:
+    software_limits: URDF joint limits (see kinematics.joints[*].limit)
+    mechanical_stop: null
+    mechanical_stop_status: HOLD_NO_HARD_STOP_GEOMETRY_AUTHORITY
+    consequence: software limit != mechanical stop.  A policy trained to ride the URDF limit is riding
+      an unverified boundary.
+  ARM_EMERGENCY_STOP:
+    modelled_as: quasi-static load case ARM_ESTOP_QS in WP7
+    is_it_the_governing_structural_case: false
+    governing_case_instead: CAPTURE_150KG_QS
+    evidence: WP7 FEA1B layer-3
+  SOLAR_STOWED_LOCKED:
+    meaning: wing(s) stowed in the 8.5 mm stack, HDRM tie-down rods engaged
+    hdrm_state: inboard-retracting tie-down rods into bus sleeves, 2 stations per wing (D-R2-05, frozen
+      per ODR-31)
+    observable_by: HDRM engagement indication (design candidate)
+    arm_release_permitted: false
+  SOLAR_HDRM_RELEASE_COMMAND:
+    meaning: release of the inboard-retracting tie-down rods commanded
+    release_kinematics: rods retract inboard, y_abs < 113.15 (sleeve slots)
+    post_release_parts: no free parts; rods captive in sleeves
+    arm_release_permitted: false
+  SOLAR_HDRM_RELEASE_CONFIRMED:
+    meaning: rods confirmed captive in sleeves, deployment corridor free
+    evidence: NO - deployment corridor verified free of HDRM hardware (55-state sweep, 0 violations)
+    arm_release_permitted: false
+  SOLAR_LEAF1_DEPLOY:
+    meaning: root hinge rotation 0->90 deg (leaf1 unfolds from the stack)
+    driving_torque_candidate: T_available 0.05 N m/hinge candidate vs worst resisting 0.030 N m mid-travel
+      (+0.020 margin) and 0.040 N m final-5deg (+0.010 margin); full angular domain sampled; MARGIN_POSITIVE_WITH_PROVISIONAL_COMPONENTS.
+      Ground-test gravity torque 0.177 N m exceeds the spring candidate -> offload rig required for ground
+      deployment test (test-config finding).
+    arm_release_permitted: false
+  SOLAR_LEAF2_UNFOLD:
+    meaning: inter-panel hinge 2 rotation 0->180 deg
+    controlling_stop_candidate: 0.24 J / 480 N at hinge-2 (PROVISIONAL_DERIVED)
+    arm_release_permitted: false
+  SOLAR_LEAF3_UNFOLD:
+    meaning: inter-panel hinge 3 rotation 0->180 deg, wing reaching flat
+    arm_release_permitted: false
+  SOLAR_DEPLOYED_LATCHED:
+    meaning: all three leaves deployed and the end-of-travel latches engaged
+    latch_semantics: positive end-of-travel latch per leaf, engagement observable (HNG-SMS-05 semantics
+      carried forward)
+    latch_status: PROVISIONAL_DERIVED - latch hardware not selected
+    only_state_where: ARM_RELEASE may be permitted (per wing)
+    arm_release_permitted: REQUIRED_ON_BOTH_WINGS_FOR_ARM_RELEASE
+  SOLAR_DEPLOY_FAILED_LEFT:
+    meaning: left wing failed to reach SOLAR_DEPLOYED_LATCHED
+    mass_model_consequence: C02 LEFT_PANEL_FAIL (ATTACHED_STUCK, ODR-02)
+    arm_release_permitted: false
+  SOLAR_DEPLOY_FAILED_RIGHT:
+    meaning: right wing failed to reach SOLAR_DEPLOYED_LATCHED
+    mass_model_consequence: C03 RIGHT_PANEL_FAIL (ATTACHED_STUCK, ODR-02)
+    arm_release_permitted: false
+  SOLAR_DEPLOY_FAILED_BOTH:
+    meaning: neither wing reached SOLAR_DEPLOYED_LATCHED
+    mass_model_consequence: C04 BOTH_PANEL_FAIL (ATTACHED_STUCK, ODR-02)
+    arm_release_permitted: false
+  SOLAR_STATE_UNKNOWN:
+    meaning: deployment state cannot be determined from available telemetry
+    treated_as: NOT_LATCHED (fail-closed)
+    arm_release_permitted: false
+  solar_deployment_interlock:
+    rule_id: R2-ILK-01
+    type: MACHINE_READABLE_INTERLOCK
+    if:
+      left_wing_state_not: SOLAR_DEPLOYED_LATCHED
+      or_right_wing_state_not: SOLAR_DEPLOYED_LATCHED
+    then:
+      ARM_RELEASE: FORBIDDEN
+    unknown_state_treated_as: NOT_LATCHED
+    fail_closed: true
+    rationale: the stowed/partially-deployed wing stack sits in the arm workspace; the continuous clearance
+      evidence (55 deployment states, 0 empty comparison sets) is computed with the B601 held at the q0
+      witness - see SOLAR_ARRAY_R2_CONTINUOUS_CLEARANCE_V1 sweep.arm_state
+    evidence_source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_CONTINUOUS_CLEARANCE_V1.json
+    authority: ECR-SOLAR-ARRAY-R2 (ODR-19 item 10 / ODR-31)
+  solar_deployment_nominal_sequence:
+  - SOLAR_STOWED_LOCKED
+  - SOLAR_HDRM_RELEASE_COMMAND
+  - SOLAR_HDRM_RELEASE_CONFIRMED
+  - SOLAR_LEAF1_DEPLOY
+  - SOLAR_LEAF2_UNFOLD
+  - SOLAR_LEAF3_UNFOLD
+  - SOLAR_DEPLOYED_LATCHED
+  solar_deployment_unknown_is_fail_closed: true
+authority_and_uncertainty:
+  role: machine-readable roll-up of every enveloped quantity, so a consumer can refuse to run on anything
+    below a declared authority floor
+  quantity_count: 49
+  by_authority_level:
+    ACCEPTED_URDF_L0: 1
+    DERIVED_NEUTRAL_R1_GEOMETRY: 1
+    DESIGN_BUDGET: 1
+    DESIGN_MODEL_R2_NOT_MEASURED: 29
+    DESIGN_TARGET_CANDIDATE: 2
+    HOLD: 4
+    HOLD_AS_BUILT_MEASUREMENT_PENDING: 1
+    HOLD_NO_JOINT_STIFFNESS_AUTHORITY: 1
+    LEGACY_SIM11_PROVISIONAL: 1
+    MODEL_LIMIT_NOT_DESIGN_OR_QUALIFICATION_LOAD: 1
+    OWNER_DECISION_ODR_01: 1
+    PROVISIONAL: 1
+    PROVISIONAL_DERIVED: 4
+    PROVISIONAL_DERIVED_TBD_CITE_LITERATURE: 1
+  null_nominal_count: 6
+  calibration_required_count: 46
+  authority_floor_recommendation:
+    for_sim16_kinematics_and_collision: ACCEPTED_URDF_L0 or DESIGN_CALIBRATION
+    for_physics_gated_rl_contact: 'REFUSE TO RUN: every contact quantity (friction, contact pressure,
+      contact duration, jam detection, lock confirmation) is HOLD or PROVISIONAL.  Physics-gated RL on
+      contact must run as domain randomisation over declared ignorance, never as a calibrated contact
+      model.'
+    for_r2_flexible_coupling: PROVISIONAL_DERIVED bands only (FLEXIBLE_APPENDAGE_R2).  An R2-coupled flexible
+      run must re-pass the e15 ANCF certification gate before its flexible results carry weight.
+  ledger:
+  - quantity: dynamics.mass_authority.arm
+    authority_level: ACCEPTED_URDF_L0
+    confidence: A
+    nominal_is_null: false
+    calibration_required: false
+    source: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  - quantity: dynamics.mass_authority.solar.design_nominal_per_wing_kg
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.mass_authority.solar.design_nominal_both_wings_kg
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.mass_authority.solar.dynamics_legacy_per_panel_kg
+    authority_level: LEGACY_SIM11_PROVISIONAL
+    confidence: C
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp10_mech_rl_v4/MECH_DYNAMICS_INTERFACE_V5_R2.yaml
+  - quantity: dynamics.mass_authority.solar.as_built_kg
+    authority_level: HOLD_AS_BUILT_MEASUREMENT_PENDING
+    confidence: null
+    nominal_is_null: true
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C01.mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C01.center_of_mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C01.inertia
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C02.mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C02.center_of_mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C02.inertia
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C03.mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C03.center_of_mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C03.inertia
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C04.mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C04.center_of_mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C04.inertia
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C05.mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C05.center_of_mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C05.inertia
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C06.mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C06.center_of_mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C06.inertia
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C07.mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C07.center_of_mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C07.inertia
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C08.mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C08.center_of_mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C08.inertia
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C09.mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C09.center_of_mass
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.configurations.C09.inertia
+    authority_level: DESIGN_MODEL_R2_NOT_MEASURED
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  - quantity: dynamics.mounting.M3R.dynamics_frame
+    authority_level: OWNER_DECISION_ODR_01
+    confidence: A
+    nominal_is_null: false
+    calibration_required: false
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+  - quantity: dynamics.mounting.M3R.mass
+    authority_level: DESIGN_BUDGET
+    confidence: B
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+  - quantity: dynamics.mounting.M3R.stiffness
+    authority_level: HOLD_NO_JOINT_STIFFNESS_AUTHORITY
+    confidence: null
+    nominal_is_null: true
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp10_mech_rl_v4/MECH_DYNAMICS_INTERFACE_V5_R2.yaml
+  - quantity: grasp.limits.stroke_mm
+    authority_level: DERIVED_NEUTRAL_R1_GEOMETRY
+    confidence: B
+    nominal_is_null: false
+    calibration_required: false
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+  - quantity: grasp.limits.closing_force_per_finger_N
+    authority_level: DESIGN_TARGET_CANDIDATE
+    confidence: C
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+  - quantity: grasp.limits.max_force_model_limit_N
+    authority_level: MODEL_LIMIT_NOT_DESIGN_OR_QUALIFICATION_LOAD
+    confidence: A_FOR_THE_MODEL
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  - quantity: grasp.limits.friction_coefficient
+    authority_level: HOLD
+    confidence: null
+    nominal_is_null: true
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+  - quantity: grasp.limits.allowable_contact_pressure_MPa
+    authority_level: HOLD
+    confidence: null
+    nominal_is_null: true
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+  - quantity: grasp.limits.closing_speed_at_first_contact_mm_s
+    authority_level: DESIGN_TARGET_CANDIDATE
+    confidence: C
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+  - quantity: grasp.limits.contact_window_ms
+    authority_level: PROVISIONAL
+    confidence: C
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/config/coupled_scene/scene_A2_capture.yaml
+  - quantity: grasp.limits.max_payload
+    authority_level: HOLD
+    confidence: null
+    nominal_is_null: true
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+  - quantity: flexibility.solar_panel.mode_count
+    authority_level: PROVISIONAL_DERIVED
+    confidence: C
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json
+  - quantity: flexibility.solar_panel.frequency_hz
+    authority_level: PROVISIONAL_DERIVED
+    confidence: C
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json
+  - quantity: flexibility.solar_panel.damping_zeta
+    authority_level: PROVISIONAL_DERIVED_TBD_CITE_LITERATURE
+    confidence: C
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml
+  - quantity: flexibility.hinge.root_ktheta_Nm_per_rad
+    authority_level: PROVISIONAL_DERIVED
+    confidence: C
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml
+  - quantity: flexibility.hinge.inter_panel_ktheta_Nm_per_rad
+    authority_level: PROVISIONAL_DERIVED
+    confidence: C
+    nominal_is_null: false
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml
+  - quantity: flexibility.hinge.freeplay_mm
+    authority_level: HOLD
+    confidence: null
+    nominal_is_null: true
+    calibration_required: true
+    source: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1.yaml
+retained_holds:
+- FLIGHT_QUALIFICATION_HOLD
+- LAUNCHER_AND_SEPARATION_LOAD_HOLD
+- AS_BUILT_MASS_CORRELATION_HOLD
+- AS_BUILT_ARM_METROLOGY_HOLD
+- FLIGHT_MATERIAL_ALLOWABLE_HOLD
+- QUALIFICATION_TEST_HOLD
+- CONTACT_MODEL_AUTHORITY_HOLD
+- MECH_RL_COLLISION_MESH_CALIBRATION_APPLICATION_OPEN
+- R2_WING_AS_BUILT_MEASUREMENT_PENDING_HOLD
+- R2_HINGE_STIFFNESS_WP5_HARDWARE_SELECTION_HOLD
+- R2_B601_HARNESS_ROUTING_REDESIGN_REQUIRED (R2-HRN-04 full-FK sweep FAIL)
+prohibitions_honored:
+- L0 accepted-URDF masses not overridden
+- no candidate promoted to authority
+- no PROVISIONAL promoted to AUTHORITY
+- no zero-fill of unknowns
+- no flight / launcher / manufacturing-release / qualification claim
+- no measured_mass field anywhere
+- frozen V1 contract / V4 interface / URDF / calibration not modified
+- legacy R1 panel mass not used in the R2 binding
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+source_register:
+- role: calib
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/B601_CAD_URDF_GEOMETRY_CALIBRATION_V1.yaml
+  sha256: 7463C1309C3530A42BB32CB4A661FFA56575691DFB7A4BE801AAE9094BEB51E1
+  bytes: 36293
+- role: capture_scene
+  path: 20_engineering/config/coupled_scene/scene_A2_capture.yaml
+  sha256: 4B979A1DFD183AD938D79D6EB05A8FB0D4164C0E075A5391B467CC50E173A707
+  bytes: 2784
+- role: fea
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/FEA1B_ELEMENT_FORMULATION_EVIDENCE_V1.json
+  sha256: 58E420C0AA966BCE44DCBF249D509551F5987E84E0E6B39DEC7C6C1F1F6B74E7
+  bytes: 405706
+- role: flex_r2
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml
+  sha256: A04ACFE440C636BB095585C74F71E3563FD35F6678FCFAA39355383A9BF6B3FD
+  bytes: 2707
+- role: flex_r2_modes
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json
+  sha256: E068DE078A0DC680A44807516733FDF018DD720B5F65636BB2B8D21E557593B6
+  bytes: 1345
+- role: gripper
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+  sha256: 8FB36EFC856E55398B9F91A126C8B0C4421206281108544F84244987DF7CE6D2
+  bytes: 12293
+- role: harness_b601_full_fk_sweep
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_B601_FULL_FK_SWEEP_V1.json
+  sha256: 1E3DF357EA11DCB17C2A30344360134DC3E976390D93FA82173B340BBBC270C3
+  bytes: 13556
+- role: harness_r2_gates
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/HARNESS_R2_FUNCTIONAL_GATES_V1.json
+  sha256: E0B6468E08A0022D121D9488D1DA5140AA10A4D5866681E34D3CBB045279CABA
+  bytes: 2186
+- role: keepout
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml
+  sha256: AC446D4C685AED21A35AE5BEFAE804A8FE8C49D6103D87509ED7EC9B7EDEDB6D
+  bytes: 36933
+- role: legacy_coupled_scene
+  path: 20_engineering/config/coupled_scene/coupled_model_v0.yaml
+  sha256: 67A532FB29C7EF66229CB41D6D3882946A8454FF37EDD9CF5933E4C91C2663EB
+  bytes: 3396
+- role: mass
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  sha256: 3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB
+  bytes: 223714
+- role: mass_policy
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/DESIGN_MASS_UNCERTAINTY_POLICY_V2.yaml
+  sha256: B27C80BDEFF2679240A43E90D37E464F4150CB5B16BAD951DC698A87CFAF8B37
+  bytes: 18067
+- role: o2
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/O2_DISPOSITION_RULING_V1.yaml
+  sha256: AD7AAD0E84789CE523710DF4E9F6E516A082AF24BA4CD1ABD7806930A3B1F315
+  bytes: 9563
+- role: odr
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+  sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+  bytes: 3531
+- role: solar_hdrm_latch_r2
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_HDRM_LATCH_DESIGN_V1.yaml
+  sha256: BF8F76E654C56D31E2B9539B8239ED68CA0D8F513F5ECD1410AA7530ADDC06A5
+  bytes: 3445
+- role: solar_mechanism_r2
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1.yaml
+  sha256: 11D58525859717AB1A10F9FE7DEDB5E6F4C87AB8DC2DAE8B04F2077F156A7D57
+  bytes: 3355
+- role: solar_r2_build_report
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_BUILD_REPORT_V1.json
+  sha256: 6160C1D0970B7EA19075B4A83C988C16CA2F1AFCA782BCAD90A89B14F17E6586
+  bytes: 11019
+- role: solar_r2_candidate_fcstd
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_CANDIDATE_V1.FCStd
+  sha256: 9D4D249A5D4EED7BDD8F3C08EC96737884A19523782112B1E72AD9EA0A1B65AB
+  bytes: 23733
+- role: solar_r2_candidate_step
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_CANDIDATE_V1.step
+  sha256: 21FF77B882DBFAB87B3E77DD56817EFC7F321C68E30AFEDCDDBB4D79B9915795
+  bytes: 131834
+- role: solar_r2_clearance_margins
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/CLEARANCE_MARGIN_LEDGER_R2_V1.json
+  sha256: 360DA33F502BAECD698DD86781E9FA510C6E76B7F212E7D38F5F94BF2573E03C
+  bytes: 2732
+- role: solar_r2_continuous_clearance
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_CONTINUOUS_CLEARANCE_V1.json
+  sha256: 1D47618310CF9435C5EE963240A76C02E7EF69C9B63068A2C48F945C1429A5EF
+  bytes: 168113
+- role: solar_r2_impact_screen
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_R2_STRUCTURAL_IMPACT_SCREEN_V1.yaml
+  sha256: 04B6E23AFF16CB6D184249611EB66BE96CBDB9C79401FD5CD591A47656BF5AD7
+  bytes: 1723
+- role: solar_r2_mass_properties
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json
+  sha256: D5B7DD16532FE7117D27ECC09EFB29ECC570F51928BDBDF3B27BB96C3CF12C5E
+  bytes: 11775
+- role: terminal
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml
+  sha256: 5602CB6FC3DC983681F60D8FA94B432FBA4D432830F5B2362049DB4C1B849BF7
+  bytes: 19133
+- role: urdf
+  path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  bytes: 11321
+- role: v5
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp10_mech_rl_v4/MECH_DYNAMICS_INTERFACE_V5_R2.yaml
+  sha256: 9B6D8025D3318A66AB7DD9BD15F7EEE2CDE31DD7A0A9A4FDB5CE4AEB60DE8203
+  bytes: 18869

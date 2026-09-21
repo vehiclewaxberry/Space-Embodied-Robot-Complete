@@ -1,0 +1,115 @@
+schema_version: v2-mechanical-interface-register-v0.1
+register_id: V2_PRE_CAD_MECHANICAL_INTERFACES
+created_on: "2026-07-24"
+status: INTERFACE_IDENTITIES_BASELINED_PHYSICAL_FIELDS_OPEN
+
+interfaces:
+  - interface_id: IF-RM-001
+    parent: primary_structure_front_task_face
+    child: robot_mount_adapter
+    frame_id: M
+    transform_ref: T_SM
+    evidence_state: EVIDENCE_BOUND
+    bound_geometry:
+      T_SM_translation_mm_S: [185.25, 0.0, 0.0]
+      T_SM_rotation_Ry_deg: 90.0
+      servicer_flange_mm: [160.0, 160.0, 15.0]
+      adapter_plate_mm: [160.0, 160.0, 12.0]
+      adapter_boss_diameter_height_mm: [100.0, 15.0]
+    unknown_fields:
+      - bolt_pattern
+      - locating_features
+      - fit_and_tolerance
+      - fastener_and_preload
+      - material_and_surface
+      - force_F_M
+      - moment_M_M
+      - stiffness_strength_modal_targets
+    physical_qualification: false
+
+  - interface_id: IF-RM-002
+    parent: robot_mount_adapter
+    child: accepted_B601_base
+    frame_id: A0
+    transform_ref: T_MA0_identity
+    evidence_state: EVIDENCE_BOUND
+    topology_ref: accepted_10_link_9_joint
+    unknown_fields:
+      - physical_mating_stackup
+      - tolerance
+      - fasteners
+      - electrical_and_thermal_bonding
+    urdf_change_allowed: false
+
+  - interface_id: IF-SA-L
+    parent: primary_structure
+    child: solar_array_left
+    frame_id: F_L
+    origin_mm_S: [-56.75, 113.15, 0.0]
+    evidence_state: EVIDENCE_BOUND
+    unknown_fields: [hinge, release, lock, drive, harness, stowed_envelope, deployment_loads]
+
+  - interface_id: IF-SA-R
+    parent: primary_structure
+    child: solar_array_right
+    frame_id: F_R
+    origin_mm_S: [-56.75, -113.15, 0.0]
+    evidence_state: EVIDENCE_BOUND
+    unknown_fields: [hinge, release, lock, drive, harness, stowed_envelope, deployment_loads]
+
+  - interface_id: IF-PL-001
+    parent: front_mission_module
+    child: future_perception_payload
+    frame_id: T_SC_future
+    evidence_state: UNKNOWN_BLOCKED
+    geometry: null
+    allowed_now: [reserve_mount_region, reserve_cable_passage, define_occlusion_review_owner]
+    forbidden_now: [camera_model, numeric_FOV, calibration, mass, BOM]
+
+  - interface_id: IF-EE-001
+    parent: B601_existing_gripper
+    child: future_capture_tool_or_contact
+    frame_id: TCP_contact
+    evidence_state: UNKNOWN_BLOCKED
+    transform_ref: T_E_TCP
+    geometry: null
+    allowed_now: [preserve_G, preserve_E_virtual, reserve_future_interface]
+    forbidden_now: [physical_TCP, contact_patch, force_sensor, compliant_finger_claim]
+
+  - interface_id: IF-AV-001
+    parent: primary_structure_middle_bay
+    child: avionics_EPS_ADCS_volume_owners
+    frame_id: S
+    evidence_state: DESIGN_PROPOSAL
+    geometry: null
+    required_future_fields: [mount_plane, service_direction, harness_entry, thermal_interface]
+
+  - interface_id: IF-SV-001
+    parent: primary_structure_rear_bay
+    child: propulsion_comm_thermal_service_volume_owners
+    frame_id: S
+    evidence_state: DESIGN_PROPOSAL
+    geometry: null
+    required_future_fields: [mount_plane, plume_keepout, antenna_keepout, radiator_area, service_access]
+
+  - interface_id: IF-MA-001
+    parent: primary_and_secondary_structure
+    child: service_access_operations
+    frame_id: S
+    evidence_state: DESIGN_PROPOSAL
+    geometry: null
+    required_future_fields: [panel_removal, tray_extraction, tool_clearance, assembly_sequence]
+
+  - interface_id: IF-TG-001
+    parent: servicer
+    child: target_or_debris
+    frame_id: T_ST_or_T_SD
+    evidence_state: EXCLUDED
+    active_assembly: false
+    contact_or_mate_allowed: false
+
+global_rules:
+  mechanical_mount_transform: T_SM
+  T_SB_use: free_flyer_base_only
+  default_material_or_mass_authority: false
+  cad_authoring_authorized: false

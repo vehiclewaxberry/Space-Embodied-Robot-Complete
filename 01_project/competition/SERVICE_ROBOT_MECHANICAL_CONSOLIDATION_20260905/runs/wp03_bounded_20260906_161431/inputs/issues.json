@@ -1,0 +1,2017 @@
+{
+  "schema": "WP03_LOOP0_SHARED_ISSUES_V1",
+  "mode": "REVIEW_AND_PLAN",
+  "baseline_sha256": "11bd80a667505fc5fd0cf9bc79f7a892bcab5424ae16997de4fd0f163f53a2e9",
+  "not_a_project_release_gate": true,
+  "issue_count": 17,
+  "issues": [
+    {
+      "id": "R01",
+      "title": "上下甲板各两处安装孔与避让边口连通",
+      "severity": "P1",
+      "status": "PATCH_PROPOSED",
+      "seed_evidence_level": "DOCUMENTED_NOT_CAD_REPLAYED",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "完整孔承载假设",
+        "对应甲板/角材加工放行"
+      ],
+      "next_action": "联合修订孔位/边口/角材/垫圈承压面，保持立柱避让和工具空间。",
+      "acceptance": "实体读回能区分闭孔或经设计的开放槽；对偶一致；边距/承压依据明确；相关静态和装配路径无新增冲突。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/a2_a3/STRUCTURE_MECHANISM_REVIEW.json"
+      ],
+      "owner": "A2/A3 /root/wp01_design_inputs",
+      "local_review": {
+        "id": "R01",
+        "status": "LOCAL_SOURCE_CONFIRMED_PATCH_PROPOSED_NOT_BUILT",
+        "evidence_class": "STATIC_SOURCE_ANALYSIS_PLUS_EXISTING_DOCUMENTATION",
+        "source_locations": [
+          "spacecraft_model.py:125-136",
+          "ASSEMBLY_SEQUENCE.md:A06/A08"
+        ],
+        "local_evidence": {
+          "deck_size_mm": [
+            344,
+            196.3,
+            3
+          ],
+          "deck_z_mm": [
+            -99.65,
+            -10
+          ],
+          "notch_centers_xy_mm": [
+            [
+              20,
+              -94.15
+            ],
+            [
+              20,
+              94.15
+            ],
+            [
+              160,
+              -94.15
+            ],
+            [
+              160,
+              94.15
+            ]
+          ],
+          "edge_notch_width_depth_mm": [
+            17,
+            12.5
+          ],
+          "x160_notch_left_edge_mm": 151.5,
+          "old_x150_hole_right_edge_mm": 151.7,
+          "hole_notch_overlap_mm": 0.2,
+          "closed_holes_per_deck": 6,
+          "broken_edge_holes_per_deck": 2,
+          "old_Y89_hole_to_angle_inner_edge_material_mm": 0.15,
+          "angle_horizontal_Y_positive_side_interval_mm": [
+            87.15,
+            98.15
+          ],
+          "angle_mating_holes_generated": false,
+          "deck_fasteners_generated": false
+        },
+        "interpretation": "只修X150两孔不补角材孔/紧固件与Y承压区不能关闭甲板连接。见first_candidate_ticket。"
+      },
+      "next_ticket": {
+        "ticket_id": "R01_DECK_ANGLE_FASTENER_MINIMUM_PROPOSAL_R1",
+        "status": "PATCH_PROPOSED_NOT_BUILT_NOT_AUTHORIZED_AS_PRODUCTION_CHANGE",
+        "purpose": "同时修复甲板破边孔、角材承压区及甲板→角材→剪力板对偶连接。",
+        "preserve": [
+          "甲板344×196.3×3及Z位置",
+          "柱位置与17宽12.5深边避口",
+          "八段角材外形及分段X[-167,11.5]/[28.5,151.5]",
+          "B601根/既有运动路径参数"
+        ],
+        "deck_and_horizontal_angle_holes": {
+          "X_S_mm": [
+            -150,
+            -50,
+            50,
+            140
+          ],
+          "Y_S_mm": [
+            -92.65,
+            92.65
+          ],
+          "diameter_mm": 3.4,
+          "axis_S": [
+            0,
+            0,
+            1
+          ],
+          "hole_count_each_deck": 8,
+          "same_axes_in_angles": true,
+          "nominal_min_hole_material_to_angle_Y_edges_mm": 3.8,
+          "x140_hole_material_to_x160_notch_mm": 9.8
+        },
+        "deck_fastener_envelopes": {
+          "quantity_sets": 16,
+          "thread_candidate": "M3_UNSELECTED",
+          "underhead_length_mm": 12,
+          "nominal_grip_mm": 6,
+          "head_diameter_mm": 5.5,
+          "washer_outer_diameter_max_mm": 6,
+          "direction": "头位于甲板+Z，螺母在角材水平腿下；设备装入前装配",
+          "actual_grade_thread_engagement_preload_locking": null,
+          "scope": "几何候选，未选供应件，非强度或最小边距标准。"
+        },
+        "angle_to_shear_web_holes": {
+          "X_S_mm_by_segment": [
+            [
+              -130,
+              -70
+            ],
+            [
+              60,
+              130
+            ]
+          ],
+          "Z_S_mm_by_deck": {
+            "lower": -94.15,
+            "upper": -18.5
+          },
+          "diameter_mm": 3.4,
+          "axis": "S_Y，正负两侧对偶",
+          "quantity_pairs": 16,
+          "fastener_candidate": "M3x10_THREADLESS_ENVELOPE_NOT_SELECTED",
+          "nominal_grip_mm": 5,
+          "head_and_tool_approach": "从剪力板外侧向内，侧盖安装前；真实螺母/工具包络需回放"
+        },
+        "affected_existing_instances": [
+          "lower_equipment_deck",
+          "upper_equipment_deck",
+          "lower_deck_angle_-1_0",
+          "lower_deck_angle_-1_1",
+          "lower_deck_angle_1_0",
+          "lower_deck_angle_1_1",
+          "upper_deck_angle_-1_0",
+          "upper_deck_angle_-1_1",
+          "upper_deck_angle_1_0",
+          "upper_deck_angle_1_1",
+          "shear_web_-1",
+          "shear_web_1"
+        ],
+        "affected_existing_instance_count": 12,
+        "new_fastener_set_count": 32,
+        "acceptance_criteria": [
+          "两甲板各8个闭孔，读回形状确认总16闭孔，不把开放槽重命名为闭孔。",
+          "甲板/角材与角材/剪力板对偶轴线一致，孔尺寸/基准可独立检查。",
+          "头/垫圈/螺母承压实体完整，柱避口保持；所列3.8/9.8是候选解析余量，最终允许边距须绑定材料/载荷。",
+          "螺纹有效啮合、夹层、预紧/防松与轴向防脱明确；未选项目仍unknown。",
+          "全部32组候选紧固件、上下设备及侧盖/工具包络纳入受影响静态与装配路径检查；未完成不得标通过。",
+          "输入同源且必需对象不删减，旧R01反例消失，相关回归无新增阻断。",
+          "零件/BOM/质量增量与来源记录同步，R07未闭合连接不随本票自动关闭。"
+        ],
+        "not_yet_executed": [
+          "候选CAD生成",
+          "实体孔/装配干涉复核",
+          "工具路径/供应件选型",
+          "承压/剪切/拉脱/疲劳/预紧计算",
+          "实物试配"
+        ]
+      }
+    },
+    {
+      "id": "R02",
+      "title": "179非臂静态检查不能覆盖完整机械臂和所有机构",
+      "severity": "P1",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "DOCUMENTED_SCOPE_LIMIT",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "完整整星无碰撞声明"
+      ],
+      "next_action": "建立同配置对象—配对—状态覆盖矩阵并补齐臂、指、铰链、线束及功能件。",
+      "acceptance": "每项必需配对有准确表示/方法/结果；未查保持UNKNOWN；正常接触局部白名单。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/INPUT_BINDING.json"
+      ],
+      "owner": "A0/A5 /root",
+      "local_review": {
+        "scope_readback": [
+          {
+            "state": "parking",
+            "physical_instances": 179,
+            "pair_count": 15931,
+            "positive_or_error_pairs": 0,
+            "invalid_or_open": []
+          },
+          {
+            "state": "released",
+            "physical_instances": 179,
+            "pair_count": 15931,
+            "positive_or_error_pairs": 0,
+            "invalid_or_open": []
+          },
+          {
+            "state": "service",
+            "physical_instances": 179,
+            "pair_count": 15931,
+            "positive_or_error_pairs": 0,
+            "invalid_or_open": []
+          }
+        ],
+        "scope_not_extended": true,
+        "source_record": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\service_robot_wp03_spacecraft_body_r1\\results\\GEOMETRY_CHECK.json"
+      }
+    },
+    {
+      "id": "R03",
+      "title": "保持器驱动、导向端部、防脱、止挡和退出后保持未完整",
+      "severity": "P1",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "DOCUMENTED_OPEN_INTERFACE",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "在轨可执行释放",
+        "实物负载释放试验"
+      ],
+      "next_action": "沿EPS到驱动到销/盖/下鞋/折退到状态确认逐项建立真实连接或受约束候选。",
+      "acceptance": "载荷/行程/安装/功耗与确认判据同一配置，未知不自动许可；不得用关键帧替代驱动。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/a2_a3/STRUCTURE_MECHANISM_REVIEW.json"
+      ],
+      "owner": "A2/A3 /root/wp01_design_inputs",
+      "local_review": {
+        "id": "R03",
+        "status": "LOCAL_SOURCE_CONFIRMED_OPEN_INTERFACES",
+        "evidence_class": "STATIC_SOURCE_ANALYSIS_PLUS_EXISTING_DOCUMENTATION",
+        "source_locations": [
+          "spacecraft_model.py:198-258",
+          "ASSEMBLY_SEQUENCE.md:A10/A11/A15及机载释放接口"
+        ],
+        "active_geometry_requirements": {
+          "pin_diameter_length_mm": [
+            4,
+            24
+          ],
+          "pin_negative_local_X_travel_mm": 26,
+          "shoe_negative_local_Z_travel_mm": 80,
+          "guide_diameter_length_mm": [
+            4,
+            150
+          ],
+          "cap_open_deg": 100,
+          "mast_fold_deg": 90,
+          "pivot_z_S_mm": 135.15
+        },
+        "missing_connections_or_definitions": [
+          "锁销仅圆柱实体，captured注释未形成俘获头/环/导向端止挡。",
+          "四根导杆X±10、Y0的上下端未见连接桅杆的座/夹头。",
+          "盖轴和主枢轴未建轴向防脱；100°/90°止挡与退出后正向锁止未定义。",
+          "cap_tie到open_cap、latch_clevis到saddle是独立接触零件，接合工艺/紧固未定义。",
+          "固定EPS分支到固定释放盒边界；固定盒到随动拔销器的机械/电气线缆连接未形成。",
+          "鞋释放/扭簧/各确认功能包络没有实选安装、靶标、线路与动作阈值。"
+        ],
+        "candidate_next_detail": [
+          "双端导杆座/夹持与止动肩",
+          "销俘获结构与实际拉拔连接",
+          "盖/枢轴防脱与实心止挡/终位锁闩",
+          "确认支架/有效靶标和固定侧到随动侧线束接口"
+        ],
+        "required_inputs": [
+          "力-行程和在载可释放性",
+          "实选/受约束执行器尺寸与安装",
+          "预紧/接触载荷及驱动功耗能量",
+          "信号有效条件与故障响应"
+        ],
+        "fault_contract_to_implement_and_test": [
+          "单站未释放",
+          "销未退出",
+          "盖开而下接触未解除",
+          "确认矛盾或unknown",
+          "失电",
+          "线缆受限",
+          "退出后回弹"
+        ],
+        "acceptance": "同一配置的机械连接、行程、载荷、能源和确认闭合；上述故障不得自动许可臂首动。不继承WP02 GSE状态机为机载有效性。"
+      }
+    },
+    {
+      "id": "R04",
+      "title": "六种功能包络与22种纯物理OBB候选未完全归因",
+      "severity": "P1",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "DOCUMENTED_UNRESOLVED_NOT_CONFIRMED_MATERIAL_COLLISION",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "保持器完整路径通过"
+      ],
+      "next_action": "逐对精化空腔和真实或选型包络；保存责任件、姿态、方法与错误状态。",
+      "acceptance": "0.256 mm SAT候选不得写成实体穿透；每对解决或有明确选型限制，不能整类过滤。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/a2_a3/STRUCTURE_MECHANISM_REVIEW.json"
+      ],
+      "owner": "A2/A3 /root/wp01_design_inputs",
+      "local_review": {
+        "id": "R04",
+        "status": "EXACT_PAIRS_EXTRACTED_REMAIN_UNRESOLVED",
+        "evidence_class": "EXISTING_RAW_RECORD_EXTRACTION_NOT_GEOMETRY_REPLAY",
+        "source_json_pointer": "INTEGRATE_CHECKS.json#/retention_key_sequence/states",
+        "new_functional_pair_count": 6,
+        "physical_baseline_pair_count": 22,
+        "new_functional_pairs": [
+          {
+            "ids": [
+              "hold_latch_pin_0",
+              "hold_latch_puller_0"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_latch_pin_0": "PHYSICAL_GEOMETRY",
+              "hold_latch_puller_0": "FUNCTIONAL_ENVELOPE"
+            },
+            "first_state": {
+              "stage": "PIN_WITHDRAW",
+              "pin_negative_x_mm": 13.0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 12.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 70,
+            "observed_stages": [
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION"
+          },
+          {
+            "ids": [
+              "hold_latch_pin_1",
+              "hold_latch_puller_1"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_latch_pin_1": "PHYSICAL_GEOMETRY",
+              "hold_latch_puller_1": "FUNCTIONAL_ENVELOPE"
+            },
+            "first_state": {
+              "stage": "PIN_WITHDRAW",
+              "pin_negative_x_mm": 13.0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 12.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 70,
+            "observed_stages": [
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION"
+          },
+          {
+            "ids": [
+              "hold_electric_release_0",
+              "hold_fold_mast_0"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_0": "PHYSICAL_GEOMETRY",
+              "hold_electric_release_0": "FUNCTIONAL_ENVELOPE"
+            },
+            "first_state": {
+              "stage": "MAST_FOLD",
+              "pin_negative_x_mm": 26.0,
+              "cap_open_deg": 100.0,
+              "lower_drop_mm": 80.0,
+              "mast_fold_deg": 5.0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 1.7436863461682037,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 44,
+            "observed_stages": [
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION"
+          },
+          {
+            "ids": [
+              "hold_electric_release_1",
+              "hold_fold_mast_1"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_1": "PHYSICAL_GEOMETRY",
+              "hold_electric_release_1": "FUNCTIONAL_ENVELOPE"
+            },
+            "first_state": {
+              "stage": "MAST_FOLD",
+              "pin_negative_x_mm": 26.0,
+              "cap_open_deg": 100.0,
+              "lower_drop_mm": 80.0,
+              "mast_fold_deg": 5.0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 1.7436863461682073,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 44,
+            "observed_stages": [
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION"
+          },
+          {
+            "ids": [
+              "hold_electric_release_1",
+              "hold_shoe_guide_1_-10"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_shoe_guide_1_-10": "PHYSICAL_GEOMETRY",
+              "hold_electric_release_1": "FUNCTIONAL_ENVELOPE"
+            },
+            "first_state": {
+              "stage": "MAST_FOLD",
+              "pin_negative_x_mm": 26.0,
+              "cap_open_deg": 100.0,
+              "lower_drop_mm": 80.0,
+              "mast_fold_deg": 50.0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 0.255973038849163,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 1,
+            "observed_stages": [
+              "MAST_FOLD"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION"
+          },
+          {
+            "ids": [
+              "hold_electric_release_1",
+              "hold_shoe_guide_1_10"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_shoe_guide_1_10": "PHYSICAL_GEOMETRY",
+              "hold_electric_release_1": "FUNCTIONAL_ENVELOPE"
+            },
+            "first_state": {
+              "stage": "MAST_FOLD",
+              "pin_negative_x_mm": 26.0,
+              "cap_open_deg": 100.0,
+              "lower_drop_mm": 80.0,
+              "mast_fold_deg": 50.0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 0.255973038849163,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 1,
+            "observed_stages": [
+              "MAST_FOLD"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION"
+          }
+        ],
+        "physical_baseline_pairs": [
+          {
+            "ids": [
+              "hold_fold_mast_0",
+              "hold_pivot_clevis_0"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_0": "PHYSICAL_GEOMETRY",
+              "hold_pivot_clevis_0": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 23.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "枢轴Ø8/孔Ø8.4与下叉槽/桅杆boss；需局部轴孔、槽及允许承载接触分区精化。"
+          },
+          {
+            "ids": [
+              "hold_fold_mast_0",
+              "hold_pivot_pin_0"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_0": "PHYSICAL_GEOMETRY",
+              "hold_pivot_pin_0": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 14.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "枢轴Ø8/孔Ø8.4与下叉槽/桅杆boss；需局部轴孔、槽及允许承载接触分区精化。"
+          },
+          {
+            "ids": [
+              "hold_fold_mast_1",
+              "hold_pivot_clevis_1"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_1": "PHYSICAL_GEOMETRY",
+              "hold_pivot_clevis_1": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 23.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "枢轴Ø8/孔Ø8.4与下叉槽/桅杆boss；需局部轴孔、槽及允许承载接触分区精化。"
+          },
+          {
+            "ids": [
+              "hold_fold_mast_1",
+              "hold_pivot_pin_1"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_1": "PHYSICAL_GEOMETRY",
+              "hold_pivot_pin_1": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 14.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "枢轴Ø8/孔Ø8.4与下叉槽/桅杆boss；需局部轴孔、槽及允许承载接触分区精化。"
+          },
+          {
+            "ids": [
+              "hold_fold_mast_0",
+              "hold_saddle_0"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_0": "PHYSICAL_GEOMETRY",
+              "hold_saddle_0": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 24.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "12×20桅杆与12.6×20.6 collar孔；需扣除孔、验证装配误差与全行程。"
+          },
+          {
+            "ids": [
+              "hold_fold_mast_0",
+              "hold_open_cap_0"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_0": "PHYSICAL_GEOMETRY",
+              "hold_open_cap_0": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 18.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "外双耳、上盖根与Ø6盖轴/Ø6.4孔；需实体空腔、轴向间隙和局部接触分区。"
+          },
+          {
+            "ids": [
+              "hold_cap_pin_0",
+              "hold_fold_mast_0"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_0": "PHYSICAL_GEOMETRY",
+              "hold_cap_pin_0": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 13.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "外双耳、上盖根与Ø6盖轴/Ø6.4孔；需实体空腔、轴向间隙和局部接触分区。"
+          },
+          {
+            "ids": [
+              "hold_saddle_0",
+              "hold_shoe_guide_0_-10"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_saddle_0": "PHYSICAL_GEOMETRY",
+              "hold_shoe_guide_0_-10": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 6.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "导杆Ø4/鞋孔Ø4.4；需实际孔长、导向间隙与全行程端部约束。"
+          },
+          {
+            "ids": [
+              "hold_saddle_0",
+              "hold_shoe_guide_0_10"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_saddle_0": "PHYSICAL_GEOMETRY",
+              "hold_shoe_guide_0_10": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 6.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "导杆Ø4/鞋孔Ø4.4；需实际孔长、导向间隙与全行程端部约束。"
+          },
+          {
+            "ids": [
+              "hold_cap_pin_0",
+              "hold_open_cap_0"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_open_cap_0": "PHYSICAL_GEOMETRY",
+              "hold_cap_pin_0": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 11.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "外双耳、上盖根与Ø6盖轴/Ø6.4孔；需实体空腔、轴向间隙和局部接触分区。"
+          },
+          {
+            "ids": [
+              "hold_cap_tie_0",
+              "hold_latch_clevis_0"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_cap_tie_0": "PHYSICAL_GEOMETRY",
+              "hold_latch_clevis_0": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 12.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 5,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "6宽锁带与7宽叉槽；需分离锁止局部允许接触与叉壁材质。"
+          },
+          {
+            "ids": [
+              "hold_cap_tie_0",
+              "hold_latch_pin_0"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_cap_tie_0": "PHYSICAL_GEOMETRY",
+              "hold_latch_pin_0": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 6.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 2,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "Ø4锁销与Ø4.4锁带/锁叉孔；锁位可允许局部接触，退销过程仍逐态检查。"
+          },
+          {
+            "ids": [
+              "hold_latch_clevis_0",
+              "hold_latch_pin_0"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_latch_clevis_0": "PHYSICAL_GEOMETRY",
+              "hold_latch_pin_0": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 10.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 2,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "Ø4锁销与Ø4.4锁带/锁叉孔；锁位可允许局部接触，退销过程仍逐态检查。"
+          },
+          {
+            "ids": [
+              "hold_fold_mast_1",
+              "hold_saddle_1"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_1": "PHYSICAL_GEOMETRY",
+              "hold_saddle_1": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 24.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "12×20桅杆与12.6×20.6 collar孔；需扣除孔、验证装配误差与全行程。"
+          },
+          {
+            "ids": [
+              "hold_fold_mast_1",
+              "hold_open_cap_1"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_1": "PHYSICAL_GEOMETRY",
+              "hold_open_cap_1": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 18.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "外双耳、上盖根与Ø6盖轴/Ø6.4孔；需实体空腔、轴向间隙和局部接触分区。"
+          },
+          {
+            "ids": [
+              "hold_cap_pin_1",
+              "hold_fold_mast_1"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_fold_mast_1": "PHYSICAL_GEOMETRY",
+              "hold_cap_pin_1": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 13.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "外双耳、上盖根与Ø6盖轴/Ø6.4孔；需实体空腔、轴向间隙和局部接触分区。"
+          },
+          {
+            "ids": [
+              "hold_saddle_1",
+              "hold_shoe_guide_1_-10"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_saddle_1": "PHYSICAL_GEOMETRY",
+              "hold_shoe_guide_1_-10": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 6.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "导杆Ø4/鞋孔Ø4.4；需实际孔长、导向间隙与全行程端部约束。"
+          },
+          {
+            "ids": [
+              "hold_saddle_1",
+              "hold_shoe_guide_1_10"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_saddle_1": "PHYSICAL_GEOMETRY",
+              "hold_shoe_guide_1_10": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 6.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "导杆Ø4/鞋孔Ø4.4；需实际孔长、导向间隙与全行程端部约束。"
+          },
+          {
+            "ids": [
+              "hold_cap_pin_1",
+              "hold_open_cap_1"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_open_cap_1": "PHYSICAL_GEOMETRY",
+              "hold_cap_pin_1": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 11.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 71,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN",
+              "LOWER_RELEASE",
+              "MAST_FOLD",
+              "ARM_FIRST_MOTION"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "外双耳、上盖根与Ø6盖轴/Ø6.4孔；需实体空腔、轴向间隙和局部接触分区。"
+          },
+          {
+            "ids": [
+              "hold_cap_tie_1",
+              "hold_latch_clevis_1"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_cap_tie_1": "PHYSICAL_GEOMETRY",
+              "hold_latch_clevis_1": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 12.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 4,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW",
+              "CAP_OPEN"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "6宽锁带与7宽叉槽；需分离锁止局部允许接触与叉壁材质。"
+          },
+          {
+            "ids": [
+              "hold_cap_tie_1",
+              "hold_latch_pin_1"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_cap_tie_1": "PHYSICAL_GEOMETRY",
+              "hold_latch_pin_1": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 6.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 2,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "Ø4锁销与Ø4.4锁带/锁叉孔；锁位可允许局部接触，退销过程仍逐态检查。"
+          },
+          {
+            "ids": [
+              "hold_latch_clevis_1",
+              "hold_latch_pin_1"
+            ],
+            "representation_roles_by_record_order": {
+              "hold_latch_clevis_1": "PHYSICAL_GEOMETRY",
+              "hold_latch_pin_1": "PHYSICAL_GEOMETRY"
+            },
+            "first_state": {
+              "stage": "PARKING_BASELINE",
+              "pin_negative_x_mm": 0,
+              "cap_open_deg": 0,
+              "lower_drop_mm": 0,
+              "mast_fold_deg": 0,
+              "arm_path_fraction": null,
+              "q_deg": [
+                0,
+                -30,
+                -60,
+                40,
+                0,
+                0
+              ]
+            },
+            "recorded_relation": "OBB_INTERIOR_OVERLAP_CANDIDATE",
+            "first_minimum_axis_overlap_mm": 10.0,
+            "actual_material_overlap_volume_mm3": null,
+            "state_occurrence_count": 2,
+            "observed_stages": [
+              "PARKING_BASELINE",
+              "PIN_WITHDRAW"
+            ],
+            "status": "UNRESOLVED_OBB_CANDIDATE_NOT_CONFIRMED_MATERIAL_COLLISION",
+            "source_geometry_interpretation_not_resolution": "Ø4锁销与Ø4.4锁带/锁叉孔；锁位可允许局部接触，退销过程仍逐态检查。"
+          }
+        ],
+        "acceptance": "逐对对真实孔/槽/轴空腔、工作面接触分区或受约束选型包络精化；保存状态/方法/异常，禁止整类过滤。0.255973mm是SAT轴重叠而非实体穿透深度。"
+      }
+    },
+    {
+      "id": "R05",
+      "title": "71机构样点和91翼样点不是完整连续展开证据",
+      "severity": "P1",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "DOCUMENTED_SCOPE_LIMIT",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "完整连续展开通过",
+        "实物联动放行"
+      ],
+      "next_action": "锁定同一动作链和部件清单，补关键接触转换/硬件/线束，选择能覆盖样点间隔的方法。",
+      "acceptance": "采样与连续结论分开；误差预算来源明确；新增对象不降低覆盖；旧30 mm反例仍保留。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/INPUT_BINDING.json"
+      ],
+      "owner": "A0/A5 /root",
+      "local_review": {
+        "retention_samples": 71,
+        "wing_leaf_samples": 91,
+        "continuous_proof": null,
+        "whole_spacecraft_geometric_proof": null,
+        "basis": "Existing JSON readback only"
+      }
+    },
+    {
+      "id": "R06",
+      "title": "发射收拢、供应方接口与载荷未建立",
+      "severity": "P1",
+      "status": "INPUT_BLOCKED",
+      "seed_evidence_level": "DOCUMENTED_MISSING_REQUIREMENTS",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "发射姿态定型",
+        "部署器/分离接口适配",
+        "相应强度环境合格"
+      ],
+      "next_action": "分别定义工作/开放停放/发射需求；读取真实任务和供应方输入，仅参数化未定义部分。",
+      "acceptance": "不能把366核心尺寸当整星包络、不能将OPEN_PARKING改名通过；无输入时只阻塞相关结论。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/INPUT_BINDING.json"
+      ],
+      "owner": "A0/A5 /root",
+      "missing_inputs": [
+        "Launch/separation supplier ICD and full-system stow envelope",
+        "Provider environmental loads and boundary conditions"
+      ]
+    },
+    {
+      "id": "R07",
+      "title": "结构连接与保持载荷分配仍有实物和力学缺口",
+      "severity": "P1",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "DOCUMENTED_OPEN_INTERFACE",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "承载验证",
+        "关键结构制造发布"
+      ],
+      "next_action": "建立根部到主框到接口的实体连接图、逐接头约束/预紧/工具路径；支承反力用实际刚度分析。",
+      "acceptance": "不得把接触零距离或理想固定梁算例当载荷路径证明；不凭未选安全系数或载荷宣称强度通过。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/a2_a3/STRUCTURE_MECHANISM_REVIEW.json"
+      ],
+      "owner": "A2/A3 /root/wp01_design_inputs",
+      "local_review": {
+        "id": "R07",
+        "status": "LOCAL_SOURCE_CONFIRMED_LOAD_PATH_GAPS",
+        "evidence_class": "STATIC_SOURCE_ANALYSIS_PLUS_EXISTING_DOCUMENTATION",
+        "source_locations": [
+          "root_structure.py:build_root",
+          "spacecraft_model.py:81-114",
+          "spacecraft_model.py:137-144",
+          "spacecraft_model.py:198-208",
+          "ASSEMBLY_SEQUENCE.md:A02/A03/A05/A11/A15"
+        ],
+        "connection_edges": [
+          {
+            "edge": "桥/上下横梁→主纵梁",
+            "facts": "横梁/桥Y端面±101.15与纵梁内面贴合；柱贯通杆Y±94.15、M6位Y±70，不穿纵梁；未生成X20/160跨接锚固孔/件。",
+            "status": "POSITIVE_CONNECTION_UNDEFINED"
+          },
+          {
+            "edge": "纵梁→端塞",
+            "facts": "端塞7.8对内孔8；X±164的竖向Ø4.5梁/塞对偶孔已存在，未见穿孔紧固件。端面M4轴向螺钉不替代该正向连接。",
+            "status": "TRANSVERSE_RETENTION_UNDEFINED"
+          },
+          {
+            "edge": "端框→后发射保留隔框",
+            "facts": "隔框Ø8窗口与M4端框接口尚未形成新的连接/夹紧堆栈。",
+            "status": "ADAPTER_CONNECTION_REDESIGN"
+          },
+          {
+            "edge": "保持横梁→纵梁",
+            "facts": "仅TOP_LONGERON_HOLD_CLIPS符号挂靠，横梁端面贴合，未生成夹接件/紧固。",
+            "status": "POSITIVE_CONNECTION_UNDEFINED"
+          },
+          {
+            "edge": "保持足叉→屋顶耳座",
+            "facts": "耳座有竖Ø4.5孔，足叉只钻横向Ø8.4枢轴孔，缺脚座匹配孔/紧固。",
+            "status": "POSITIVE_CONNECTION_UNDEFINED"
+          },
+          {
+            "edge": "A/B支承约束与反力",
+            "facts": "两站相同collar/双导杆尚未形成明确A主定位/柔顺与B沿X浮动，接触区/内部承压依据和刚度未定。",
+            "status": "CONSTRAINT_AND_LOAD_SHARE_UNKNOWN"
+          }
+        ],
+        "acceptance": "逐边登记安装面、对偶孔、约束方向、轴向保持、防转、螺纹/啮合、防松/预紧及工具路径；再以实际连接/接触刚度与声明工况求反力。不将公共体积0、parent名称或理想固定梁筛查当载荷链证明。"
+      }
+    },
+    {
+      "id": "R08",
+      "title": "pose_screen依赖WP01参数与WP02动态导入，不能当当前整星验证入口",
+      "severity": "P1",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "STATIC_CODE_CONFIRMED",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "当前配置验证继承",
+        "删除/移动WP01或WP02"
+      ],
+      "next_action": "区分历史限定筛查与WP03同配置检查；绑定来源哈希、参数、实例集合和预期影响。",
+      "acceptance": "同名旧参数改变不能无声影响/不影响错对象；已声明无效参数需被schema提示或拒绝。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/a4/SOURCE_AND_RECORD_AUDIT.json"
+      ],
+      "owner": "A4 /root/assembly_validation_plan",
+      "local_review": "CONFIRMED_ACTIVE_WP01_WP02_DEPENDENCIES_AND_LIMITED_SCOPE; current two reference q/finger values checked, no whole-WP03 inference"
+    },
+    {
+      "id": "R09",
+      "title": "历史自表面标签设置未在该代码段内验证旧结果与同源状态",
+      "severity": "P1",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "STATIC_CODE_RISK_NOT_PROVEN_FALSE_HISTORICAL_RESULT",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "历史结果无条件继承"
+      ],
+      "next_action": "核查旧receipt本身结果和q/指位/mesh/hash/工具条件；错源、碰撞旧结果、缺结果均拒绝继承。",
+      "acceptance": "历史结果复用需要明确等价性；共同刚体根变换不改变臂自交但会改变臂与星体关系；两者范围分开。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/a4/SOURCE_AND_RECORD_AUDIT.json"
+      ],
+      "owner": "A4 /root/assembly_validation_plan",
+      "local_review": "CONFIRMED_UNCONDITIONAL_LABEL_SETTING; current saved historical records agree for exact 35-pair body scope, so no evidence that historical geometry result is false"
+    },
+    {
+      "id": "R10",
+      "title": "自表面状态分支只按35条计数而非配对身份验收",
+      "severity": "P1",
+      "status": "REPRODUCED",
+      "seed_evidence_level": "STATIC_CODE_AND_SYNTHETIC_EXPRESSION_PROBE",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "验证器稳健性",
+        "自动收口标签可靠性"
+      ],
+      "next_action": "按拓扑生成预期唯一配对集合，核对重复/缺失/额外记录与worker结束、输入快照和错误状态。",
+      "acceptance": "本包重复配对/错误ID/未完成等负控被拒绝；正常限定范围仍可报告表面结果；不冒充实体或完整自碰撞。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/a4/SOURCE_AND_RECORD_AUDIT.json",
+        "runs/loop0_20260905/a4/STATUS_BRANCH_PROBE_CURRENT.json",
+        "runs/loop0_20260905/a4/STRICT_AGGREGATOR_CONTROLS.json",
+        "runs/loop0_20260905/a0_a5/INDEPENDENT_RECHECK.json"
+      ],
+      "owner": "A4 /root/assembly_validation_plan",
+      "local_review": "REPRODUCED_BY_SIX_SYNTHETIC_STATUS_EXPRESSION_CASES; no geometry rerun",
+      "software_counterexample_replayed": true,
+      "prototype_scope": "Isolated aggregator only; original pose_screen unchanged; old five geometric records not invalidated by this defect."
+    },
+    {
+      "id": "R11",
+      "title": "可见save逻辑覆盖固定结果名，且父子进程无显式同快照锁",
+      "severity": "P1",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "STATIC_CODE_WORKFLOW_RISK",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "运行证据追溯",
+        "多Agent并发读写可靠性"
+      ],
+      "next_action": "在派生检查器采用独立run目录、输入前后hash和只读快照；串行重任务；保留中断与失败。",
+      "acceptance": "不能混用旧代码执行与新脚本hash；已有收据不覆盖；任何输入漂移为不完整。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/a4/SOURCE_AND_RECORD_AUDIT.json"
+      ],
+      "owner": "A4 /root/assembly_validation_plan",
+      "local_review": "CONFIRMED_FIXED_OUTPUT_OVERWRITE_AND_NO_PARENT_WORKER_SNAPSHOT_PROTOCOL_IN_SOURCE; current saved error is reported separately"
+    },
+    {
+      "id": "R12",
+      "title": "已分配质量、预算设备与历史控制能力不可混用",
+      "severity": "P1",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "DOCUMENTED_MODEL_SCOPE_LIMIT",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "完整飞行质量声明",
+        "新构型继承旧控制PASS"
+      ],
+      "next_action": "重新绑定逐link与随星原子质量/惯性owner；未知区间有来源；核查轮组、推力、TCP与自由体边界。",
+      "acceptance": "守恒/单位/参考点/平行轴检验；同物料状态质量一致；不将预算变化称为实测减重。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/INPUT_BINDING.json",
+        "runs/loop0_20260905/a0_a5/INDEPENDENT_RECHECK.json"
+      ],
+      "owner": "A0/A5 /root",
+      "local_review": {
+        "independent_ledger_arithmetic": "runs/loop0_20260905/a0_a5/INDEPENDENT_RECHECK.json",
+        "new_dynamics_simulation": false,
+        "unknowns_preserved": true,
+        "old_control_gate_transfer": false
+      }
+    },
+    {
+      "id": "R13",
+      "title": "完整臂源六处拓扑缺陷与双指/闭体包含仍开放",
+      "severity": "P1",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "DOCUMENTED_SOURCE_LIMIT",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "完整机械制造发布",
+        "对应几何的实体判据"
+      ],
+      "next_action": "按是否影响接口和碰撞分优先级，在派生副本定点修复或取得供应源；建立表示注册。",
+      "acceptance": "不删除缺陷实体、不用名义BRep指间距代替accepted STL；修复前后关键几何及来源可追溯。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/INPUT_BINDING.json"
+      ],
+      "owner": "A0/A5 /root",
+      "local_review": {
+        "invalid_topology_count_documented_in_original": 6,
+        "original_record": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\service_robot_wp03_spacecraft_body_r1\\results\\servicer_service_validate.json",
+        "BRep_repairs_performed": false,
+        "fingers_and_containment_complete": false
+      }
+    },
+    {
+      "id": "R14",
+      "title": "CAD手册中的参数化不等于所有参数均驱动几何",
+      "severity": "P1",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "DOCUMENTED_AND_STATIC_CODE_CONFIRMED",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "参数扫描有效性",
+        "可重建单一来源"
+      ],
+      "next_action": "列有效参数/硬编码字段/遗留字段，并定向扰动测预期受影响对象。",
+      "acceptance": "改有效参数后规定几何与接口发生预期变化；遗留字段有明确提示；不得凭JSON已改就通过。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/INPUT_BINDING.json"
+      ],
+      "owner": "A0/A5 /root",
+      "local_review": {
+        "static_parameter_findings": "See CURRENT_candidate.md and dependency inventory; wing_source and several local root/structure/material fields are declarations, not drivers. State versus retention angle inputs are duplicated.",
+        "parameter_perturbation_CAD_replay_performed": false
+      }
+    },
+    {
+      "id": "R15",
+      "title": "爆炸示意不得进入物理构型或动力学",
+      "severity": "P2",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "STATIC_CODE_CONFIRMED_PRESENT_WARNING",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "由爆炸视图推算包络/质量惯量/干涉"
+      ],
+      "next_action": "将展示角色写入导出收据并让物理消费者按契约拒绝。",
+      "acceptance": "VIEW_ONLY负控不能进入物理检查；不是当前已发现误用。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/a4/SOURCE_AND_RECORD_AUDIT.json"
+      ],
+      "owner": "A4 /root/assembly_validation_plan",
+      "local_review": "CONFIRMED_DISPLAY_ONLY_SOURCE_WARNING_AND_ARTIFICIAL_OFFSETS; no observed misuse; proposed guard tested separately",
+      "isolated_prototype_rejects_actual_exploded_receipt": true
+    },
+    {
+      "id": "R16",
+      "title": "展开后折退保持架的结构代价尚需量化",
+      "severity": "P2",
+      "status": "EVIDENCE_BOUND",
+      "seed_evidence_level": "ENGINEERING_HYPOTHESIS_NOT_CONFIRMED_DEFECT",
+      "seed_preserved_in": "runs/loop0_20260905/inputs/package/issue_register_seed.json",
+      "blocks": [
+        "总体轻量化/刚度/视场完整结论"
+      ],
+      "next_action": "量化随星保持件质量、偏心惯量、退出后约束、悬臂柔度、遮挡和扫掠，再比较一个合理替代方案。",
+      "acceptance": "不得凭截图删除或认定不合理；仅在功能和误差预算同时满足时比较代价。",
+      "hardware_verified": false,
+      "original_geometry_replayed_this_round": false,
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "evidence": [
+        "runs/loop0_20260905/a2_a3/STRUCTURE_MECHANISM_REVIEW.json"
+      ],
+      "owner": "A2/A3 /root/wp01_design_inputs",
+      "local_review": {
+        "id": "R16",
+        "status": "ENGINEERING_HYPOTHESIS_COST_PARTIALLY_QUANTIFIED_NOT_DEFECT",
+        "evidence_class": "ARITHMETIC_OF_EXISTING_MASS_LEDGER_NOT_CAD_OR_HARDWARE_REPLAY",
+        "source_json_pointer": "DYNAMICS_HANDOFF.json#/states/*/groups/ONBOARD_CANDIDATE",
+        "selection": "mass_atoms.parent_assembly == ONBOARD_RETENTION；同名unknown_mass_instances单列",
+        "states": [
+          {
+            "state": "parking",
+            "positive_mass_owners": 28,
+            "known_subset_mass_kg": 1.1593997193227394,
+            "center_of_mass_S_mm": [
+              -76.69110828841066,
+              -42.8930522275175,
+              287.71091733792764
+            ],
+            "inertia_about_S_origin_diagonal_S_kg_m2": [
+              0.1309416238225565,
+              0.1323306635436589,
+              0.015619591740570598
+            ],
+            "unknown_instance_count": 22,
+            "unknown_ids": [
+              "hold_contact_pad_0_0",
+              "hold_contact_pad_0_1",
+              "hold_upper_pad_0",
+              "hold_latch_puller_0",
+              "hold_shoe_spring_release_0",
+              "hold_electric_release_0",
+              "hold_torsion_spring_0",
+              "hold_position_sensor_0",
+              "hold_confirm_latch_0",
+              "hold_confirm_cap_0",
+              "hold_confirm_shoe_0",
+              "hold_contact_pad_1_0",
+              "hold_contact_pad_1_1",
+              "hold_upper_pad_1",
+              "hold_latch_puller_1",
+              "hold_shoe_spring_release_1",
+              "hold_electric_release_1",
+              "hold_torsion_spring_1",
+              "hold_position_sensor_1",
+              "hold_confirm_latch_1",
+              "hold_confirm_cap_1",
+              "hold_confirm_shoe_1"
+            ]
+          },
+          {
+            "state": "released",
+            "positive_mass_owners": 28,
+            "known_subset_mass_kg": 1.1593997193227399,
+            "center_of_mass_S_mm": [
+              -76.79729273677906,
+              -242.21900608637185,
+              144.2306342471002
+            ],
+            "inertia_about_S_origin_diagonal_S_kg_m2": [
+              0.14500258198102975,
+              0.03558537425246787,
+              0.12647040508974267
+            ],
+            "unknown_instance_count": 22,
+            "unknown_ids": [
+              "hold_contact_pad_0_0",
+              "hold_contact_pad_0_1",
+              "hold_upper_pad_0",
+              "hold_latch_puller_0",
+              "hold_shoe_spring_release_0",
+              "hold_electric_release_0",
+              "hold_torsion_spring_0",
+              "hold_position_sensor_0",
+              "hold_confirm_latch_0",
+              "hold_confirm_cap_0",
+              "hold_confirm_shoe_0",
+              "hold_contact_pad_1_0",
+              "hold_contact_pad_1_1",
+              "hold_upper_pad_1",
+              "hold_latch_puller_1",
+              "hold_shoe_spring_release_1",
+              "hold_electric_release_1",
+              "hold_torsion_spring_1",
+              "hold_position_sensor_1",
+              "hold_confirm_latch_1",
+              "hold_confirm_cap_1",
+              "hold_confirm_shoe_1"
+            ]
+          },
+          {
+            "state": "service",
+            "positive_mass_owners": 28,
+            "known_subset_mass_kg": 1.1593997193227399,
+            "center_of_mass_S_mm": [
+              -76.79729273677906,
+              -242.21900608637185,
+              144.2306342471002
+            ],
+            "inertia_about_S_origin_diagonal_S_kg_m2": [
+              0.14500258198102975,
+              0.03558537425246787,
+              0.12647040508974267
+            ],
+            "unknown_instance_count": 22,
+            "unknown_ids": [
+              "hold_contact_pad_0_0",
+              "hold_contact_pad_0_1",
+              "hold_upper_pad_0",
+              "hold_latch_puller_0",
+              "hold_shoe_spring_release_0",
+              "hold_electric_release_0",
+              "hold_torsion_spring_0",
+              "hold_position_sensor_0",
+              "hold_confirm_latch_0",
+              "hold_confirm_cap_0",
+              "hold_confirm_shoe_0",
+              "hold_contact_pad_1_0",
+              "hold_contact_pad_1_1",
+              "hold_upper_pad_1",
+              "hold_latch_puller_1",
+              "hold_shoe_spring_release_1",
+              "hold_electric_release_1",
+              "hold_torsion_spring_1",
+              "hold_position_sensor_1",
+              "hold_confirm_latch_1",
+              "hold_confirm_cap_1",
+              "hold_confirm_shoe_1"
+            ]
+          }
+        ],
+        "formulas": {
+          "mass": "M=sum(m_i)",
+          "COM": "c=sum(m_i*c_i)/M",
+          "I_about_S_diagonal": "I_S[j,j]=sum(I_Ci[j,j]+m_i*sum(c_i[k]^2 for k!=j)); input kg,m,kg*m^2"
+        },
+        "limitations": [
+          "28个已知质量owner与22个unknown实例，不是完整保持器实测质量，也不是22个缺失实物件。",
+          "没有终位锁止刚度/真实执行器与线缆质量、六分量载荷及视场/喷流禁区，未计算可信悬臂柔度/遮挡/完整扫掠。",
+          "不能凭外观删双站或将此小计与另一不同scope配置作减重结论。"
+        ],
+        "one_comparison_candidate": "同两站接触点/行程下，比较现折退架与加入明确终位锁止/近根承托版本；先绑定相同功能、载荷和误差预算，再量化质量/惯量/柔度回弹/遮挡，不预判优劣。"
+      }
+    },
+    {
+      "id": "R17",
+      "title": "BOM交接来源未校验且重建顺序可能保留旧质量分配",
+      "severity": "P1",
+      "status": "PATCH_PROPOSED",
+      "owner": "A4 /root/assembly_validation_plan",
+      "evidence_level": "STATIC_CODE_WORKFLOW_RISK; CURRENT_BOM_ARITHMETIC_MATCHES",
+      "evidence": [
+        "runs/loop0_20260905/a4/BOM_INPUT_BINDING_PROPOSAL.md",
+        "runs/loop0_20260905/a0_a5/INDEPENDENT_RECHECK.json"
+      ],
+      "acceptance": "Reject stale/missing required input hashes and instance/owner mismatch before writing output; export BOM after dynamics; keep initial unallocated values null.",
+      "production_fix_applied": false,
+      "engineering_issue_closed": false,
+      "hardware_verified": false,
+      "current_BOM_is_proven_stale": false
+    }
+  ],
+  "next_minimum_ticket_id": "R01_DECK_ANGLE_FASTENER_MINIMUM_PROPOSAL_R1",
+  "actual_CAD_builder_executed": false,
+  "first_ticket": {
+    "ticket_id": "R01_DECK_ANGLE_FASTENER_MINIMUM_PROPOSAL_R1",
+    "status": "PATCH_PROPOSED_NOT_BUILT_NOT_AUTHORIZED_AS_PRODUCTION_CHANGE",
+    "purpose": "同时修复甲板破边孔、角材承压区及甲板→角材→剪力板对偶连接。",
+    "preserve": [
+      "甲板344×196.3×3及Z位置",
+      "柱位置与17宽12.5深边避口",
+      "八段角材外形及分段X[-167,11.5]/[28.5,151.5]",
+      "B601根/既有运动路径参数"
+    ],
+    "deck_and_horizontal_angle_holes": {
+      "X_S_mm": [
+        -150,
+        -50,
+        50,
+        140
+      ],
+      "Y_S_mm": [
+        -92.65,
+        92.65
+      ],
+      "diameter_mm": 3.4,
+      "axis_S": [
+        0,
+        0,
+        1
+      ],
+      "hole_count_each_deck": 8,
+      "same_axes_in_angles": true,
+      "nominal_min_hole_material_to_angle_Y_edges_mm": 3.8,
+      "x140_hole_material_to_x160_notch_mm": 9.8
+    },
+    "deck_fastener_envelopes": {
+      "quantity_sets": 16,
+      "thread_candidate": "M3_UNSELECTED",
+      "underhead_length_mm": 12,
+      "nominal_grip_mm": 6,
+      "head_diameter_mm": 5.5,
+      "washer_outer_diameter_max_mm": 6,
+      "direction": "头位于甲板+Z，螺母在角材水平腿下；设备装入前装配",
+      "actual_grade_thread_engagement_preload_locking": null,
+      "scope": "几何候选，未选供应件，非强度或最小边距标准。"
+    },
+    "angle_to_shear_web_holes": {
+      "X_S_mm_by_segment": [
+        [
+          -130,
+          -70
+        ],
+        [
+          60,
+          130
+        ]
+      ],
+      "Z_S_mm_by_deck": {
+        "lower": -94.15,
+        "upper": -18.5
+      },
+      "diameter_mm": 3.4,
+      "axis": "S_Y，正负两侧对偶",
+      "quantity_pairs": 16,
+      "fastener_candidate": "M3x10_THREADLESS_ENVELOPE_NOT_SELECTED",
+      "nominal_grip_mm": 5,
+      "head_and_tool_approach": "从剪力板外侧向内，侧盖安装前；真实螺母/工具包络需回放"
+    },
+    "affected_existing_instances": [
+      "lower_equipment_deck",
+      "upper_equipment_deck",
+      "lower_deck_angle_-1_0",
+      "lower_deck_angle_-1_1",
+      "lower_deck_angle_1_0",
+      "lower_deck_angle_1_1",
+      "upper_deck_angle_-1_0",
+      "upper_deck_angle_-1_1",
+      "upper_deck_angle_1_0",
+      "upper_deck_angle_1_1",
+      "shear_web_-1",
+      "shear_web_1"
+    ],
+    "affected_existing_instance_count": 12,
+    "new_fastener_set_count": 32,
+    "acceptance_criteria": [
+      "两甲板各8个闭孔，读回形状确认总16闭孔，不把开放槽重命名为闭孔。",
+      "甲板/角材与角材/剪力板对偶轴线一致，孔尺寸/基准可独立检查。",
+      "头/垫圈/螺母承压实体完整，柱避口保持；所列3.8/9.8是候选解析余量，最终允许边距须绑定材料/载荷。",
+      "螺纹有效啮合、夹层、预紧/防松与轴向防脱明确；未选项目仍unknown。",
+      "全部32组候选紧固件、上下设备及侧盖/工具包络纳入受影响静态与装配路径检查；未完成不得标通过。",
+      "输入同源且必需对象不删减，旧R01反例消失，相关回归无新增阻断。",
+      "零件/BOM/质量增量与来源记录同步，R07未闭合连接不随本票自动关闭。"
+    ],
+    "not_yet_executed": [
+      "候选CAD生成",
+      "实体孔/装配干涉复核",
+      "工具路径/供应件选型",
+      "承压/剪切/拉脱/疲劳/预紧计算",
+      "实物试配"
+    ]
+  }
+}

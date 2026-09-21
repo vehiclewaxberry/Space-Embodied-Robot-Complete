@@ -1,0 +1,389 @@
+{
+  "schema": "M7_WP12_SECONDARY_STRUCTURE_ADJUDICATION_RECEIPT_V1",
+  "generated_local": "2026-08-22T03:20:48+08:00",
+  "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+  "work_package": "WP12_SECONDARY_STRUCTURE_ADJUDICATION",
+  "role": "A1_PRODUCT_CAD",
+  "status": "WP12_COMPLETE_THREE_RULINGS_ISSUED_WITH_REPRODUCIBLE_GEOMETRY_EVIDENCE",
+  "verdict": "ADJUDICATED. FINDING 1: G07 = NO_INTERFERENCE_IN_AUTHORITY_BASELINE (the 0.425611 mm is a measurement-window overrun; 4 of the 5 driving vertices lie 4.10-4.62 mm outside the part in x; 0 of 920536 arm triangles have an AABB overlapping the Aft_Saddle solid; the declared pad face is 13.593469977 mm above the assembly z-max). G08 = SUPERSEDED_NATIVE_ONLY_ARTIFACT (a real 2.254534 mm overlap exists, but only between the native V1 Fwd_Saddle and the native stowed arm at the unratified Q_STOW pose, 251.8x smaller than that pose's 567.734 mm FK residual; the declared 208.4929 mm pad station is a single isolated mesh vertex with no reproducible provenance). MID_SUPPORT = NO_INTERFERENCE_IN_AUTHORITY_BASELINE (0 AABB overlaps; declared 2.000 mm gap reproduced to 3.0e-05 mm; independent clearance to existing hardware 2.99893 mm). unexplained_positive_interference_count = 0, carried with an explicit statement of the six coverage limits. FINDING 2: the hinge axis is corroborated by a real native Oe8 pin; the panel box is a mass/envelope proxy never registered to it; hinge interface geometry declared DEFINED_NOT_MODELLED + HOLD; KO-03 defined analytically in two forms (fail-closed unconditional, and design-intent sector with 27.0 mm bus clearance); deployment-clearance verification stays HOLD. FINDING 3: x = 215.0 mm is a genuinely unmodelled feature on a real part - it lies inside the L0 accepted-URDF base_link body (x 208.0 to 290.65 mm, 514 triangles cross that plane); WP1's stated conflict is a datum-side category error. TC-13 = NON_BLOCKING_EXTERNAL_EQUIPMENT_INTEGRATION_HOLD (all five ODR-13 conditions verified). TC-14 = NON_BLOCKING_FLIGHT_QUALIFICATION_HOLD (all four ODR-13 blocker probes negative on mechanism-identity evidence). Gate B remains HOLD.",
+  "findings_adjudicated": {
+    "FINDING_1_G07": "NO_INTERFERENCE_IN_AUTHORITY_BASELINE",
+    "FINDING_1_G08": "SUPERSEDED_NATIVE_ONLY_ARTIFACT",
+    "FINDING_1_MID_SUPPORT": "NO_INTERFERENCE_IN_AUTHORITY_BASELINE",
+    "FINDING_2_SOLAR_HINGE": "PANEL_PROXY_IS_A_MASS_AND_ENVELOPE_PROXY__HINGE_INTERFACE_DEFINED_NOT_MODELLED__KEEP_OUT_DEFINED_ANALYTICALLY__SWEEP_CLEARANCE_HELD",
+    "FINDING_3_HARNESS_DATUM": "GENUINELY_UNMODELLED_FEATURE_ON_A_REAL_PART__NOT_STALE_NOT_A_WRONG_DATUM",
+    "TC_13": "NON_BLOCKING_EXTERNAL_EQUIPMENT_INTEGRATION_HOLD",
+    "TC_14": "NON_BLOCKING_FLIGHT_QUALIFICATION_HOLD"
+  },
+  "terminal_release_condition_contribution": {
+    "unexplained_positive_interference_count": 0,
+    "high_severity_open_findings_raised_by_wp12": 0,
+    "internal_holds_raised_by_wp12": 0,
+    "non_blocking_holds_raised_by_wp12": 8,
+    "hash_mismatch_count": 0,
+    "hash_verification_note": "all six WP1 artifact hashes pinned in wp1_structure_cad/receipt.json were independently recomputed with hashlib and match bit-for-bit: PRODUCT_STRUCTURE_V1.yaml, HARNESS_ROUTING_V1.yaml, KEEP_OUT_REGISTER_V1.yaml, SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml, DESIGN_FREEZE_ASSEMBLY_V1.step and DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json"
+  },
+  "independent_reproduction_performed": {
+    "wp1_native_mesh_measurements_reproduced": 7,
+    "wp1_measurements_that_failed_to_reproduce": 0,
+    "new_conservative_tests_added": [
+      "triangle-AABB overlap of all 920536 arm triangles against each exact saddle box union",
+      "exact-bit connected-component decomposition of the arm tessellation (344 bodies)",
+      "STEP text re-count of MANIFOLD_SOLID_BREP / CLOSED_SHELL / ADVANCED_FACE",
+      "STEP control-point occupancy test of the three support head volumes and the three full support columns",
+      "triangle-for-triangle decomposition of 04_ARM_STOW_SUPPORT.stl",
+      "plane-straddling triangle cross-section of the L0 base_link at five stations",
+      "closed-form solve of the hinge axis implied by the native stowed/deployed panel box pair"
+    ]
+  },
+  "wp1_corrections_required_in_terminal_round_2": [
+    "SUP-OPEN-G07-01: downgrade DESIGN_BLOCKING to DEFINITION_INCOMPLETE_HEAD_CENTRING_UNSTATED",
+    "SUP-OPEN-G07-02: the 'effectively hard contact 0.004 mm' statement is scoped wrong; the correct native relationship is a 0.990844 mm prong clearance",
+    "SUP-OPEN-G08-01: uphold as a declaration defect, reclassify as NATIVE_LINE_DECLARATION_DEFECT_NOT_A_GATE_A_BLOCKER, and do not adopt the proposed relief region because it is defined relative to the unreproducible pad face",
+    "SUP-OPEN-MID-01: uphold with the circularity qualification and add the 2.99893 mm independent clearance",
+    "HARNESS_ROUTING_V1.yaml arm exit_point: replace the 'conflict' text with the datum-side statement given in SOLAR_HINGE_AND_HARNESS_DATUM_RULING_V1.yaml",
+    "receipt.json retained_holds: HOLD_HDRM_ARCHITECTURE_NOT_SELECTED is stale - WP5 selected HDRM-N02 at candidate level; the accurate hold is HOLD_INTERFACE_GEOMETRY_NOT_RELEASED",
+    "KEEP_OUT_REGISTER_V1.yaml KO-03: adopt the two analytic envelope definitions and the DEFINED_NOT_MODELLED hinge interface declaration"
+  ],
+  "prohibitions_honored": {
+    "wp1_files_edited": false,
+    "sibling_wp_files_edited": false,
+    "authority_files_edited": false,
+    "freecad_launched": false,
+    "solidworks_launched": false,
+    "abaqus_launched": false,
+    "design_freeze_geometry_rebuilt": false,
+    "formal_fea_run_count": 0,
+    "zero_fill_of_unknowns": false,
+    "l0_urdf_masses_overridden": false,
+    "baseline_files_modified": false,
+    "files_written_outside_wp12_secondary_structure_adjudication": false,
+    "candidate_promoted_to_manufacturing_authority": false,
+    "flight_launcher_or_qualification_claimed": false,
+    "next_stage_authorized": false,
+    "m8_or_m9_planning_artifact_created": false,
+    "gate_b_remains_hold": true,
+    "voting_used": false,
+    "owner_escalation_required": false
+  },
+  "memory_gate": {
+    "available_physical_gib": 2.53759,
+    "total_physical_gib": 15.210205,
+    "threshold_gib": 6.0,
+    "memory_gate_passed": false,
+    "measurement_status": "MEASURED",
+    "declaration": "the 6 GiB memory gate is FAILED on this host and stays declared as failed. This work package launched no CAD kernel, no FEA and no boolean operation - only chunked binary-STL streaming, STEP text parsing and numpy/scipy analysis."
+  },
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "gate_b": "MECHANICAL_FLIGHT_QUALIFICATION_RELEASED remains HOLD",
+  "produced_files": [
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/SECONDARY_STRUCTURE_INTERFERENCE_RULING_V1.json",
+      "sha256": "D4A6AD1D27FEA0A11AC888CCB7147DB56CDF101CDA222EAB4EB560F6FFDCFBB4",
+      "bytes": 47714
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/SOLAR_HINGE_AND_HARNESS_DATUM_RULING_V1.yaml",
+      "sha256": "76FC87A30A2E0150BCFEA9856F2A400CE84D33BDB3EE3DADD6CA972C9A3220D9",
+      "bytes": 38570
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/TC13_TC14_BLOCKING_CLASSIFICATION_V1.yaml",
+      "sha256": "D71803386BA23D91FCB8FB0456ABBCBD30484C5020C4811B018106EAB0081C4E",
+      "bytes": 35177
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/compute_derived.py",
+      "sha256": "D2BA572C110C43982AA5F920715BD6A5A329D64A8E4E7ED4F86AA93EDC997384",
+      "bytes": 11133
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/inject_and_receipt.py",
+      "sha256": "DE02F7E980AD3845606EBD5332E2DF1BD581B296521BDA51250581B5411C96FF",
+      "bytes": 10553
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/read_saddles.py",
+      "sha256": "6ABCA7898F1F8F3C8B5440C3A1CED5B01B0B13956A853159C1E5C08C7E16B813",
+      "bytes": 1556
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/arm_probe.py",
+      "sha256": "E2CB1E6B16EB1DEB6825E1DFCAC83C38373F1B5BE60B485EB0885B109386368B",
+      "bytes": 4763
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/g08_forensic.py",
+      "sha256": "4988196794D9861DDCC0CF4E5B154D5AA6682E9AB69585ABF539F99806D65E94",
+      "bytes": 2770
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/body_attrib.py",
+      "sha256": "2C8BC1BF34A36231B384755760A9928CBD2D5A2E48F1A0F09A1020D2F810F9E0",
+      "bytes": 3488
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/refine.py",
+      "sha256": "EF6E1BFED236D4F8ABB820E166CB3C0B03CDE4CB1C54A04D3677E0D98A10FC3C",
+      "bytes": 3368
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/step_probe.py",
+      "sha256": "AD5EFEA8A09ED5166B6B618EF06EF2537089E42F205AE22792456E5B0198AD53",
+      "bytes": 2071
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f2_f3.py",
+      "sha256": "093911E0C845583B8009588448D0181FCC593CFE71F4125529EA028E6E91C2BC",
+      "bytes": 4341
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f3_section.py",
+      "sha256": "D574683FC3B8DCF4CAB35A01CEDA8F2A5086C59A6A473D2496D73CABC0E2016B",
+      "bytes": 1127
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/group_check.py",
+      "sha256": "51DEDBEAEC2C7280D57E46A3588CED2DA8505E1382E9067E4BE93EC24A67A53E",
+      "bytes": 1033
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/derived.json",
+      "sha256": "B3A8066190470F17264C91170A9BB092743BD7384BAE2658E69BFC20BA5414E1",
+      "bytes": 17719
+    },
+    {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/arm_probe_result.json",
+      "sha256": "A2CFCC36C8B955862491B97504173384AB8EAAACBBE0CFDB4DFB6A52BAA31E59",
+      "bytes": 1784
+    }
+  ],
+  "source_register": {
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml",
+      "sha256": "F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6",
+      "bytes": 3531
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+      "sha256": "5602CB6FC3DC983681F60D8FA94B432FBA4D432830F5B2362049DB4C1B849BF7",
+      "bytes": 19133
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md",
+      "sha256": "AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B",
+      "bytes": 4931
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml",
+      "sha256": "0F9897EF4E41666DDB29CB0FC621DD737FDD8CCDE3F5527030E53A9D1604681A",
+      "bytes": 48807
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml",
+      "sha256": "AC446D4C685AED21A35AE5BEFAE804A8FE8C49D6103D87509ED7EC9B7EDEDB6D",
+      "bytes": 36933
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml",
+      "sha256": "10106444309B6E835D9C87EF41A0FF78FF4CFDAC8C773C7B9B158FC3C0DA1B05",
+      "bytes": 51418
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/HARNESS_ROUTING_V1.yaml": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/HARNESS_ROUTING_V1.yaml",
+      "sha256": "E54594FB51C5EC7A1BFE5180870C544BDABA315870DF7451B8B1B0235449DBAC",
+      "bytes": 52036
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/receipt.json": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/receipt.json",
+      "sha256": "E2F7EF70F242BB52554F1E534B2ABCA9F7D678A16197E9CDDD29CF7117B3B4FF",
+      "bytes": 28709
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json",
+      "sha256": "105BCB020FAF9F535C3A18F9A37831679F89070A8CA69C5960F959A686F332C1",
+      "bytes": 29415
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step",
+      "sha256": "8C85585E9C051AEBB849E48F56354B48BF4204F61103B550BD92FC77BA99EA9E",
+      "bytes": 1373004
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V1.yaml",
+      "sha256": "F20BC2E97FE12AF5D3CFE48B4EDA8B82FA38BE9B3187C59C07FDAA259233786B",
+      "bytes": 125365
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/TOLERANCE_CHAIN_REGISTER_V1.yaml": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/TOLERANCE_CHAIN_REGISTER_V1.yaml",
+      "sha256": "3E3D596EF65490B68EE875E3ECE0D1F8E6209DB75EBDC31F7E585570C68ED016",
+      "bytes": 23782
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/HDRM_ENGINEERING_PACK_V1.yaml",
+      "sha256": "1F6E2D556921C0D69A00DFC1FDAA02FD47850F5472D4A88B4B66FD1666725FB2",
+      "bytes": 13650
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml",
+      "sha256": "1DEC46C6691E5B4BFA2258F6AA6DA9341CA86DF35F8B73354280D28F4AC305FE",
+      "bytes": 11002
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/06_supports/F3R2_SUPPORT_V2_DEFINITION.json": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/06_supports/F3R2_SUPPORT_V2_DEFINITION.json",
+      "sha256": "7CA4BD5B0F83212492DE2200334D35D4F02830C0FD4164DC6C888CF354C94432",
+      "bytes": 17229
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json",
+      "sha256": "07618B5CFE2C2F1D2391B5D845CB82AD7ECFBBCC6371EEADF931289C8F2902D6",
+      "bytes": 5727
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml",
+      "sha256": "172F3603E458F670323925E644BC68623EE9C85FCA7AF1200FAE2576EB43C68B",
+      "bytes": 1246
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_B601_ARTICULATED_ENGINEERING_ARM_STOWED_O13V.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_B601_ARTICULATED_ENGINEERING_ARM_STOWED_O13V.stl",
+      "sha256": "A134EE269689D888E8D05AA60AE05A9014FA3C139AFEF4F1E0429D8628EF57A2",
+      "bytes": 46026884
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Aft_Saddle.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Aft_Saddle.stl",
+      "sha256": "01E997CE8BCBB92486F256A55536576333A905D0BD4A770009A072217CA71C30",
+      "bytes": 1484
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Fwd_Saddle.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Fwd_Saddle.stl",
+      "sha256": "0ECDF0059EAB1C10FA80FB405FDDE8E7131F7F9FA41EAE3220FB56D1F009D9D6",
+      "bytes": 1484
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Mid_Saddle.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Mid_Saddle.stl",
+      "sha256": "AA6E7F59F2CC980A9AACC19E57811E0F5D32BFB896A54A09BD09FF53C84AC5FD",
+      "bytes": 1484
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/04_ARM_STOW_SUPPORT.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/04_ARM_STOW_SUPPORT.stl",
+      "sha256": "1C4DE2BCBE27A0278EE901E40F46542E075002ABFF99B6216F6EEC7D183FE5CD",
+      "bytes": 6084
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Release_Clearance_Envelope.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Release_Clearance_Envelope.stl",
+      "sha256": "79EE616884401A4EB06A076451F75D487DB67F29234170220BE94CBF183ECB8B",
+      "bytes": 684
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Launch_Lock_Interface_Reference.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Launch_Lock_Interface_Reference.stl",
+      "sha256": "D431EF8D9A20F0DE6A60789D6D100324061CA77188DD3A9C3459DC0A9C72B148",
+      "bytes": 2484
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Left.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Left.stl",
+      "sha256": "0D6AA3A2778041143B37E2B4C3B756309F189D07D7598E6337EBCD13ADD263A2",
+      "bytes": 7084
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Right.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hinge_Pin_Right.stl",
+      "sha256": "56D39CEA1163F6FB146A10260BDD35201146C9D409E7CBD9DA352126802D937C",
+      "bytes": 7084
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Left.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Left.stl",
+      "sha256": "F5160C9FDDD58E55D3275DDB539EF8E424BAB1F912B0AEF70452894B5E84B4EB",
+      "bytes": 684
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Right.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/Hard_Stop_Right.stl",
+      "sha256": "435741BD32334372949DFA656868A5B7CD15E3320C755211C6CCD60F7D792055",
+      "bytes": 684
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_L_STOWED.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/WING_L_STOWED.stl",
+      "sha256": "02BE7F6BFA149FBC78834E7476767D5319AB0C8CEF44DB8A03E560901CED91B7",
+      "bytes": 684
+    },
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_L_DEPLOYED.stl": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/WING_L_DEPLOYED.stl",
+      "sha256": "F5EC27D88EAE75D3033DA5718E4C5165B8F475917D126730B69B4D02773BBE78",
+      "bytes": 684
+    },
+    "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf": {
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+      "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+      "bytes": 11321
+    },
+    "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL": {
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL",
+      "sha256": "22641C079014FE968702393F61E7F7F1A8F80C6C1DF45A61E31545F6EAFF3B65",
+      "bytes": 3898684
+    },
+    "30_simulation/sim_13_physics_gated_embodied_grasping/assets/BOOTSTRAP_TEST_FRAME_TREE.json": {
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/assets/BOOTSTRAP_TEST_FRAME_TREE.json",
+      "sha256": "2FBA01A21C856CBC87C3A32D72485E340239A722E1A8F107DEC8FCAC9C3720D1",
+      "bytes": 1335
+    },
+    "30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json": {
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/evidence/SIM13_ENVIRONMENT_BOOTSTRAP_GATE.json",
+      "sha256": "C224853EABBD00C9C14C812922E3B2A7E406AF43A81CF7CA6A307860A951466C",
+      "bytes": 4196
+    },
+    "30_simulation/sim_13_physics_gated_embodied_grasping/src/mechanical_asset_loader.py": {
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/src/mechanical_asset_loader.py",
+      "sha256": "C0797E5786888E357784369F6601B380C4E94FAE76B3FBFCF4C46717A833E851",
+      "bytes": 23753
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/read_saddles.py": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/read_saddles.py",
+      "sha256": "6ABCA7898F1F8F3C8B5440C3A1CED5B01B0B13956A853159C1E5C08C7E16B813",
+      "bytes": 1556
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/arm_probe.py": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/arm_probe.py",
+      "sha256": "E2CB1E6B16EB1DEB6825E1DFCAC83C38373F1B5BE60B485EB0885B109386368B",
+      "bytes": 4763
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/g08_forensic.py": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/g08_forensic.py",
+      "sha256": "4988196794D9861DDCC0CF4E5B154D5AA6682E9AB69585ABF539F99806D65E94",
+      "bytes": 2770
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/body_attrib.py": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/body_attrib.py",
+      "sha256": "2C8BC1BF34A36231B384755760A9928CBD2D5A2E48F1A0F09A1020D2F810F9E0",
+      "bytes": 3488
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/refine.py": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/refine.py",
+      "sha256": "EF6E1BFED236D4F8ABB820E166CB3C0B03CDE4CB1C54A04D3677E0D98A10FC3C",
+      "bytes": 3368
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/step_probe.py": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/step_probe.py",
+      "sha256": "AD5EFEA8A09ED5166B6B618EF06EF2537089E42F205AE22792456E5B0198AD53",
+      "bytes": 2071
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f2_f3.py": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f2_f3.py",
+      "sha256": "093911E0C845583B8009588448D0181FCC593CFE71F4125529EA028E6E91C2BC",
+      "bytes": 4341
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f3_section.py": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/f3_section.py",
+      "sha256": "D574683FC3B8DCF4CAB35A01CEDA8F2A5086C59A6A473D2496D73CABC0E2016B",
+      "bytes": 1127
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/group_check.py": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/group_check.py",
+      "sha256": "51DEDBEAEC2C7280D57E46A3588CED2DA8505E1382E9067E4BE93EC24A67A53E",
+      "bytes": 1033
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/compute_derived.py": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp12_secondary_structure_adjudication/probe/compute_derived.py",
+      "sha256": "D2BA572C110C43982AA5F920715BD6A5A329D64A8E4E7ED4F86AA93EDC997384",
+      "bytes": 11133
+    }
+  }
+}

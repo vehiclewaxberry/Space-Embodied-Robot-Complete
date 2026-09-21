@@ -1,0 +1,33 @@
+{
+  "adjudication_id": "MASS_SURROGATE_EVIDENCE_ADJUDICATION_01",
+  "adjudication_utc": "2026-07-27T18:45:10.0066440Z",
+  "subject_file": "evidence/stage2_b601_three_rep/mass_surrogate_readback.json",
+  "subject_sha256": "3F427301C6162746BEBD8517010D941658A0C092DE21A837548E72237BB23238",
+  "original_status": "PASS",
+  "adjudicated_status": "INVALID_PASS_DOWNGRADED_TO_HOLD",
+  "current_subject_facts": {
+    "reported_total_mass_kg": 4.695555949342987,
+    "accepted_urdf_target_kg": 4.695555949342986,
+    "reported_absolute_error_kg": 8.881784197001252e-16,
+    "reported_tolerance_1e9_met": true,
+    "mass_method": "VOLUME_SIZED_CUBE_AT_DEFAULT_DENSITY",
+    "com_inertia_note": "COM and inertia stored in custom properties only"
+  },
+  "reason": [
+    "The reported mass numerically matches the URDF only because each cube volume was sized against a default density. This is geometry fitting, not a native SolidWorks mass-property override.",
+    "Center of mass and inertia tensor were stored only as custom property strings (com_inertia_note: 'COM and inertia stored in custom properties only'), not as IMassPropertyOverrideOptions native overrides. SolidWorks does not use custom properties for dynamics calculations.",
+    "No native override flags, setter return values, center-of-mass readback, moment-of-inertia readback, or cold-reopen persistence evidence is bound to the subject file.",
+    "The numerical mass tolerance therefore cannot qualify this representation as the accepted mass-property authority."
+  ],
+  "defects": {
+    "mass_method_not_native_override": true,
+    "com_not_native_override": true,
+    "inertia_not_native_override": true,
+    "native_override_flags_read_back": false,
+    "cold_reopen_persistence_proven": false,
+    "mass_numerical_match_is_geometry_dependent": true
+  },
+  "correction_note": "An earlier transient observation of 0.005000000000000002 kg was not bound to the current subject SHA256 and is not asserted as the current subject readback.",
+  "disposition": "Preserve the raw subject file unchanged as execution evidence, but do not consume its PASS field. Recovery requires a new, independently named readback using IMassProperty2 native overrides with full setter/getter, flag, value, save-close, and cold-reopen audit.",
+  "recovery_directive": "NATIVE-MECH-REAL-01_STAGE_2"
+}

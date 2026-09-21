@@ -1,0 +1,383 @@
+schema: DESIGN_MATERIAL_SELECTION_V1
+generated_local: '2026-08-22T00:48:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+work_package: WP6_MATERIAL_SELECTION
+authority_basis:
+  - M7_OWNER_DECISION_REGISTER_V1 ODR-01..ODR-06 (no ODR grants material flight authority; this WP closes the DESIGN-level material-selection HOLD per Gate A mapping 'materials selected -> WP6')
+  - M7_EXECUTION_PLAN_V1 WP6 output contract (wp6_material_selection/)
+overall_status: DESIGN_SELECTIONS_MADE_6_FAMILIES_ZERO_FLIGHT_ALLOWABLES_ZERO_QUALIFICATION_CLAIMS
+purpose: >-
+  Convert the M6 WP4 candidate screening matrix (4 families, 12 retained candidates, 0 selections)
+  into per-component-family DESIGN_APPROVED material baselines for the M7 final design closure.
+  Every selection is a design trade decision binding for design documentation, mass modeling,
+  drawings and BOM V3; it creates NO flight, qualification, procurement-release, or allowable
+  authority.
+
+units:
+  density: kg/m^3
+  strength: MPa
+  young_modulus: GPa
+  coefficient_of_thermal_expansion: 1/K
+
+governing_rules:
+  design_selection_is_not_flight_approval: true
+  typical_or_minimum_source_values_are_not_design_allowables: true
+  flight_allowable_status_is_hold_for_every_family: true
+  no_zero_fill_of_unknowns: true
+  fiber_or_prepreg_value_is_not_laminate_value: true
+  equivalent_isotropic_laminate_property_prohibited: true
+  specification_citation_is_not_procurement_selection_or_qualification: true
+  controlled_handbook_values_such_as_mmpds_not_used: true
+  property_standard_uncertainty_unknown_value: null
+  environment_authority: HOLD_ENVIRONMENT_NOT_AUTHORIZED
+
+source_register:
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/README.md
+    sha256: abec61622bf7429ced1b0466fd9beb5b4d1fe0e53b01275214ba6eaf784824f7
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+    sha256: f5b1572c0cfcec35c40f262a3d7386afa91dec09da94fe31fd03f5c04956f8b6
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+    sha256: ad406aca2ab12fdc794e8bbab8b32ad33ab1ece6fee3bf332049de3951d8c68b
+  - path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml
+    sha256: 53dd6e9139675d49d1295e20c05832ba3618325e4f0ba6e47ea8ff9361716f50
+  - path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/MATERIAL_SELECTION_TRADE_V1.yaml
+    sha256: fa043bd7cb8dde1e924c02ddf8b33af069c497885e2e834e779a03f9ce9f3461
+  - path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/MATERIAL_SOURCE_REGISTER_V2.csv
+    sha256: fe8ed860cecc1cae9c508e3de6f5b87c76cdf62754005ccf58951b7a8fb3e8c5
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/04_material_database/PROTOTYPE_MATERIAL_LIBRARY_V1.yaml
+    sha256: c9b20a50c3f3f71b7c119d9405d9743577e1383f853c01e54b085c95ebf4a306
+    note: ORIGIN_OF_LOCAL_M3_AL7075_T6_LABEL_MAPPING_WARNING_CARRIED_VERBATIM_INTO_V2
+
+web_source_additions_this_wp:
+  - organization: Victrex plc
+    title: VICTREX PEEK 450G Polymer datasheet (density ISO 1183; tensile ISO 527; CLTE ISO 11359)
+    url: https://www.victrex.com/en/downloads/datasheets/victrex-peek-450g
+    retrieved_on: '2026-08-22'
+    source_sha256: null
+    source_status: PRIMARY_PRODUCER_PUBLIC_PAGE_NOT_LOCALLY_HASH_ARCHIVED
+  - organization: DuPont
+    title: DuPont Kapton 500HN-IV Polyimide Film Data Sheet EI-10143
+    url: https://www.dupont.com/content/dam/dupont/amer/us/en/ei-transformation/public/documents/en/EI-10143-Kapton-500HN-IV-Data-Sheet.pdf
+    retrieved_on: '2026-08-22'
+    source_sha256: null
+    source_status: PRIMARY_PRODUCER_PUBLIC_PDF_NOT_LOCALLY_HASH_ARCHIVED
+  - organization: MIT (course materials page quoting DuPont Kapton General Specifications Bulletin GS-96-7)
+    title: Polyimide material properties (density 1.42 g/cc; tensile strength 231 MPa at 23 degC)
+    url: https://www.mit.edu/~6.777/matprops/polyimide.htm
+    retrieved_on: '2026-08-22'
+    source_sha256: null
+    source_status: SECONDARY_PUBLIC_PAGE_QUOTING_PRODUCER_BULLETIN_NOT_LOCALLY_HASH_ARCHIVED
+
+new_material_records_this_wp:
+  - material_id: PMAT-PEEK-450G-STOCK-SHAPE
+    candidate_name: VICTREX PEEK 450G unfilled polyetheretherketone stock shape (machined insulators, shims, washers)
+    intended_design_scope: [NON_STRUCTURAL_INSULATION_SHIMS, DIELECTRIC_SPACERS, HARNESS_ISOLATION_PADS]
+    exact_procurement_specification: null
+    product_form: UNFILLED_STOCK_SHAPE_ROD_SHEET_MACHINED
+    properties:
+      density:
+        estimate_kg_m3: 1300.0
+        value_kind: TYPICAL_CRYSTALLINE_DENSITY_ISO_1183_PER_PRODUCER_DATASHEET
+        standard_uncertainty_kg_m3: null
+      young_modulus:
+        estimate_GPa: 3.7
+        value_kind: TYPICAL_TENSILE_MODULUS_AT_23_DEGC_ISO_527_PER_PRODUCER_DATASHEET
+        standard_uncertainty_GPa: null
+      yield_strength:
+        estimate_MPa: 100.0
+        value_kind: TYPICAL_TENSILE_STRESS_AT_YIELD_23_DEGC_ISO_527_PER_PRODUCER_DATASHEET
+        standard_uncertainty_MPa: null
+      linear_cte:
+        estimate_per_K: 0.000055
+        value_kind: TYPICAL_AVERAGE_CLTE_BELOW_TG_ISO_11359_55_PPM_PER_K_ALONG_FLOW_BELOW_TG_45_PPM_PER_K
+        standard_uncertainty_per_K: null
+      thermal_reference:
+        glass_transition_degC: 143.0
+        melting_degC: 343.0
+        continuous_service_reference_degC: 260.0
+        value_kind: PRODUCER_TYPICAL_REFERENCE_VALUES_NOT_A_SERVICE_QUALIFICATION
+      vacuum_outgassing:
+        estimate: null
+        value_kind: NOT_REPORTED_IN_CITED_PUBLIC_SOURCES_ASTM_E595_DATA_NOT_CITED
+      project_design_temperature_range_degC: null
+      project_temperature_range_status: HOLD_ENVIRONMENT_NOT_AUTHORIZED
+    classification: PROTOTYPE_CANDIDATE
+    space_compatibility_status: CANDIDATE_ONLY_OUTGASSING_UV_AND_RADIATION_SCREENING_HOLD
+    confidence: MEDIUM_PUBLIC_SOURCE_SCOPE_ONLY
+    status: DESIGN_APPROVED_FOR_NON_STRUCTURAL_DESIGN_USE_FLIGHT_ALLOWABLES_HOLD
+  - material_id: PMAT-PI-KAPTON-500HN-FILM
+    candidate_name: DuPont Kapton 500HN all-polyimide film (dielectric film, wrap, film washers)
+    intended_design_scope: [DIELECTRIC_FILM_INSULATION, HARNESS_WRAP_LAYER, FILM_WASHERS]
+    exact_procurement_specification: null
+    product_form: ALL_POLYIMIDE_FILM
+    properties:
+      density:
+        estimate_kg_m3: 1420.0
+        value_kind: TYPICAL_PER_PRODUCER_GENERAL_SPECIFICATIONS_AS_QUOTED_IN_SECONDARY_PUBLIC_PAGE
+        standard_uncertainty_kg_m3: null
+      ultimate_tensile_strength:
+        estimate_MPa: 231.0
+        value_kind: TYPICAL_AT_23_DEGC_PER_PRODUCER_GENERAL_SPECIFICATIONS_AS_QUOTED_IN_SECONDARY_PUBLIC_PAGE
+        standard_uncertainty_MPa: null
+      linear_cte:
+        estimate_per_K: null
+        value_kind: NOT_REPORTED_IN_CITED_PUBLIC_SOURCES_FOR_THIS_RECORD
+        standard_uncertainty_per_K: null
+      thermal_reference:
+        service_range_reference_degC: [-269.0, 400.0]
+        value_kind: PRODUCER_APPLICATION_RANGE_CLAIM_NOT_A_QUALIFICATION
+      vacuum_outgassing:
+        estimate: null
+        value_kind: NOT_REPORTED_IN_CITED_PUBLIC_SOURCES_ASTM_E595_DATA_NOT_CITED
+      project_design_temperature_range_degC: null
+      project_temperature_range_status: HOLD_ENVIRONMENT_NOT_AUTHORIZED
+    classification: PROTOTYPE_CANDIDATE
+    space_compatibility_status: CANDIDATE_ONLY_OUTGASSING_UV_AND_ATOMIC_OXYGEN_SCREENING_HOLD
+    confidence: MEDIUM_MIXED_REFERENCE_SCOPE_ONLY
+    status: RETAINED_ALTERNATE_DESIGN_CANDIDATE_FLIGHT_ALLOWABLES_HOLD
+
+component_families:
+  - family_id: M3R_PRIMARY_STRUCTURE_STAGE_A_B
+    scope_note: >-
+      M3R Stage A / Stage B primary load-path plates and brackets; 4x HM4-75/M4-class
+      mounting pattern on 64x64 mm square (PCD 90.509642 mm); Stage B ligament 6.7 mm
+      (M7 execution plan contract values).
+    selected_design_baseline:
+      material_id: PMAT-AL7075-T651-SHEET-PLATE
+      selection_status: DESIGN_APPROVED
+      design_selection_basis: DESIGN_TRADE_FROM_M6_CANDIDATE_SCREENING_MATRIX
+      key_candidate_properties:
+        density_kg_m3: {value: 2800.0, value_kind: NOMINAL_AT_20_DEGC}
+        young_modulus_GPa: {value: 71.0, value_kind: TYPICAL_AT_20_DEGC}
+        yield_strength_MPa: {value: 503.0, value_kind: TYPICAL_0P2_PERCENT_YIELD_FOR_T651_AT_20_DEGC}
+        linear_cte_per_K: {value: 0.0000234, value_kind: TYPICAL_MEAN_20_TO_100_DEGC_SOURCE_INTERVAL}
+      rationale:
+        - Primary load path is strength/stiffness driven; 7075-T651 typical yield 503 MPa is about 1.8x 6061-T6 typical 276 MPa at only about 4 percent density penalty (2800 vs 2700 kg/m^3), and typical modulus 71.0 vs 68.3 GPa.
+        - Stage B ligament of 6.7 mm and the M3R capture-interface load path favor the higher-strength alloy for section efficiency in the design model.
+        - Machining is good for both alloys; the fusion-weldability and wider process-coverage advantage of 6061 is not exercised on these machined plates/brackets.
+      condition_difference_deviation_note: >-
+        Local M3 lineage material label was 'AL7075-T6' (mapping_warning in the M4 V1
+        library, preserved verbatim in the M6 V2 library record). This selection is for
+        7075-T651 plate per the Kaiser 7075 datasheet record. T6 and T651 are different
+        tempers (T651 adds stress relief by stretching); the M3-era T6 label is NOT
+        silently replaced. Any reuse of M3-era T6-labeled hardware requires
+        re-verification of temper before it may inherit this design baseline.
+      source:
+        material_record: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml#PMAT-AL7075-T651-SHEET-PLATE
+        material_record_sha256: 53dd6e9139675d49d1295e20c05832ba3618325e4f0ba6e47ea8ff9361716f50
+        mapping_warning_origin: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/04_material_database/PROTOTYPE_MATERIAL_LIBRARY_V1.yaml#PMAT-AL7075-T651-SHEET-PLATE
+        mapping_warning_origin_sha256: c9b20a50c3f3f71b7c119d9405d9743577e1383f853c01e54b085c95ebf4a306
+        trade_matrix: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/MATERIAL_SELECTION_TRADE_V1.yaml#M3R_PRIMARY_STRUCTURE_STAGE_A_B
+      property_use_rule: TYPICAL_VALUES_FOR_DESIGN_TRADE_AND_DOCUMENTATION_ONLY_NOT_ALLOWABLES
+      flight_allowable_status: HOLD_FLIGHT_ALLOWABLES_NOT_ESTABLISHED
+    alternates_retained:
+      - material_id: PMAT-AL6061-T6-SHEET-PLATE
+        role: PROCESS_FALLBACK_ALTERNATE_WELDABILITY_AND_PROCESS_COVERAGE
+      - material_id: PMAT-TI6AL4V-ANNEALED-SHEET-PLATE
+        role: NOT_SELECTED_ABOUT_64_PERCENT_DENSITY_PENALTY_AND_DIFFICULT_MACHINING_RETAINED_AS_TRADE_REFERENCE
+    unresolved_holds:
+      - HOLD_STRESS_CORROSION_AND_FRACTURE_SCREENING_7075
+      - HOLD_EXACT_PROCUREMENT_SPEC_AMS_4045_CANDIDATE_NOT_SELECTED
+      - HOLD_ENVIRONMENT_AUTHORITY_AND_PROPERTY_EXTRAPOLATION
+      - HOLD_PROPERTY_UNCERTAINTY_NULL
+
+  - family_id: GENERAL_BRACKETS_CAMERA_BRACKET_LOAD_BRIDGE
+    scope_note: >-
+      General secondary brackets, camera bracket, and the spacecraft-to-M3R load bridge
+      (bridge candidate 160x160x10.75 mm, candidate mass 702.195458 g MATERIAL_DERIVED
+      with 6061-T6 2700 kg/m^3 per M7 execution plan contract value).
+    selected_design_baseline:
+      material_id: PMAT-AL6061-T6-SHEET-PLATE
+      selection_status: DESIGN_APPROVED
+      design_selection_basis: DESIGN_TRADE_FROM_M6_CANDIDATE_SCREENING_MATRIX
+      key_candidate_properties:
+        density_kg_m3: {value: 2700.0, value_kind: NOMINAL_AT_20_DEGC}
+        young_modulus_GPa: {value: 68.3, value_kind: TYPICAL_AT_20_DEGC}
+        yield_strength_MPa: {value: 276.0, value_kind: TYPICAL_0P2_PERCENT_YIELD_FOR_T6_T651_AT_20_DEGC}
+        linear_cte_per_K: {value: 0.0000236, value_kind: TYPICAL_MEAN_20_TO_100_DEGC_SOURCE_INTERVAL}
+      rationale:
+        - Secondary structure: lowest density of the metallic candidates (2700 kg/m^3 nominal), best machinability and weldability, and the widest process candidate coverage (MIL-A-8625 anodize, MIL-DTL-5541 chem film).
+        - Selecting 6061-T6 for the load bridge keeps the M7 contract bridge candidate mass (702.195458 g, MATERIAL_DERIVED at 2700 kg/m^3) consistent; a denser alloy would invalidate that pinned value.
+        - Electrical bonding across the bridge interface routes to the MIL-DTL-5541 Class 3 chem film candidate (see PROCESS_AND_FINISH_REGISTER_V1.csv), which 6061 accepts.
+      source:
+        material_record: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml#PMAT-AL6061-T6-SHEET-PLATE
+        material_record_sha256: 53dd6e9139675d49d1295e20c05832ba3618325e4f0ba6e47ea8ff9361716f50
+        trade_matrix: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/MATERIAL_SELECTION_TRADE_V1.yaml#LOAD_BRIDGE_SPACECRAFT_TO_M3R
+        sibling_bridge_record: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/
+      property_use_rule: TYPICAL_VALUES_FOR_DESIGN_TRADE_AND_DOCUMENTATION_ONLY_NOT_ALLOWABLES
+      flight_allowable_status: HOLD_FLIGHT_ALLOWABLES_NOT_ESTABLISHED
+    alternates_retained:
+      - material_id: PMAT-AL7075-T651-SHEET-PLATE
+        role: STIFFNESS_CRITICAL_BRACKET_ALTERNATE
+      - material_id: PMAT-TI6AL4V-ANNEALED-SHEET-PLATE
+        role: NOT_SELECTED_FOR_SECONDARY_STRUCTURE_RETAINED_AS_TRADE_REFERENCE
+    unresolved_holds:
+      - HOLD_EXACT_PROCUREMENT_SPEC_AMS_4027_QQ_A_250_11F_CANDIDATES_NOT_SELECTED
+      - HOLD_ENVIRONMENT_AUTHORITY_AND_PROPERTY_EXTRAPOLATION
+      - HOLD_PROPERTY_UNCERTAINTY_NULL
+
+  - family_id: HIGH_LOAD_FASTENERS_M3R_MOUNTING
+    scope_note: >-
+      4x HM4-75/M4-class M3R mounting screws and high-load connector hardware
+      (gripper/hinge hardware candidate scope carried from M6).
+    selected_design_baseline:
+      material_id: PMAT-A286-AMS5737-BAR-FASTENER
+      selection_status: DESIGN_APPROVED
+      design_selection_basis: DESIGN_TRADE_FROM_M6_CANDIDATE_SCREENING_MATRIX
+      specification_candidate: AMS 5737 (1650 F / 899 C solution and precipitation heat treated condition); CANDIDATE_NOT_SELECTED_SPEC_TEXT_PAYWALLED_NO_SPEC_VALUES_CLAIMED
+      key_candidate_properties:
+        density_kg_m3: {value: 7916.5, value_kind: TYPICAL_SOURCE_VALUE_0P2860_LB_PER_IN3_UNIT_CONVERTED}
+        yield_strength_MPa: {value: 655.0, value_kind: MINIMUM_0P2_PERCENT_PROOF_STRESS_PER_PUBLIC_DISTRIBUTOR_REFERENCE_95_KSI}
+        ultimate_tensile_strength_MPa: {value: 965.0, value_kind: MINIMUM_PER_PUBLIC_DISTRIBUTOR_REFERENCE_140_KSI}
+        linear_cte_per_K: {value: null, value_kind: NOT_REPORTED_IN_CITED_PUBLIC_SOURCES}
+      rationale:
+        - High-load M3R mounting fasteners are strength driven; A286 minimum proof stress 655 MPa is about 2.4x the 6061-T6 typical yield, giving joint design headroom at M4-class size.
+        - Age-hardenable iron-nickel-chromium alloy retains strength over a wider temperature span than aluminum fastener candidates; corrosion resistant without plating.
+        - 300-series CRES is retained only for general secondary fasteners: its cold-worked fastener properties are diameter dependent and unresolved (HOLD), so it is not selected for the high-load M3R pattern.
+      galling_control: >-
+        A286 threads carry a galling risk; anti-seize route is the MIL-PRF-46010 dry film
+        lubricant candidate (PROCESS_AND_FINISH_REGISTER_V1.csv). Wear life, vacuum
+        compatibility and torque-preload scatter remain HOLD; no preload margin may be
+        computed from candidate values. WP4 fastener design consumes this selection;
+        sibling output wp4_fastener_design/ hash PENDING_SIBLING_HASH.
+      source:
+        material_record: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml#PMAT-A286-AMS5737-BAR-FASTENER
+        material_record_sha256: 53dd6e9139675d49d1295e20c05832ba3618325e4f0ba6e47ea8ff9361716f50
+        trade_matrix: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/MATERIAL_SELECTION_TRADE_V1.yaml#FASTENERS_M3R_MOUNTING_GRIPPER_HINGE
+      property_use_rule: MINIMUM_DISTRIBUTOR_REFERENCE_VALUES_FOR_DESIGN_TRADE_ONLY_NOT_ALLOWABLES
+      flight_allowable_status: HOLD_FLIGHT_ALLOWABLES_NOT_ESTABLISHED
+    alternates_retained:
+      - material_id: PMAT-CRES-300-SERIES-SCREW-STOCK
+        role: GENERAL_SECONDARY_FASTENERS_ONLY_CW_DIAMETER_DEPENDENT_PROPERTIES_HOLD
+      - material_id: PMAT-TI6AL4V-ANNEALED-SHEET-PLATE
+        role: NOT_A_THREADED_FASTENER_SPEC_RECORD_NOT_SELECTED
+    unresolved_holds:
+      - HOLD_EXACT_SPEC_PRODUCT_FORM_LOT_AND_AMS_5737_SPEC_TEXT_PAYWALLED
+      - HOLD_GALLING_TRIBOLOGY_WEAR_LIFE_AND_VACUUM_COMPATIBILITY
+      - HOLD_CTE_UNKNOWN_THERMO_ELASTIC_PRELOAD_SCREENING_QUALITATIVE_ONLY
+      - HOLD_PROPERTY_UNCERTAINTY_NULL
+
+  - family_id: GRIPPER_SLIDING_PAIR
+    scope_note: >-
+      Gripper R1 rail/palm sliding pair (stroke 0-71.5 mm, neutral 0-overlap PASS per M7
+      execution plan contract values); wear-resistant metallic pair selection plus
+      lubrication route.
+    selected_design_baseline:
+      material_id: PMAT-METALLIC-WEAR-PAIR-AL-HARDANODIZE-VS-CRES-A286-WITH-MIL-PRF-46010
+      selection_status: DESIGN_APPROVED
+      design_selection_basis: DESIGN_TRADE_FROM_M6_CANDIDATE_SCREENING_MATRIX_AND_PROCESS_CANDIDATES
+      pair_definition:
+        rail_side: Aluminum structure per FAMILY GENERAL_BRACKETS selection (6061-T6) with MIL-A-8625 Type III Class 1 hardcoat candidate on sliding tracks (dimensional growth and fatigue debit on thin sections HOLD)
+        slider_side: Corrosion-resistant metallic elements (A286 per HIGH_LOAD_FASTENERS selection, or 300-series CRES for secondary elements)
+        lubricant: MIL-PRF-46010 heat-cured solid film lubricant candidate on sliding contact surfaces and threaded anti-galling stations
+      rationale:
+        - M6 process candidate register already scopes MIL-PRF-46010 to the gripper rail sliding interface; pairing hard-coated aluminum against CRES/A286 avoids same-metal adhesive wear and is consistent with the fastener anti-galling route.
+        - An all-polymer or unlubricated aluminum pair was screened out at concept level: galling and wear-life risk without a cited wear record.
+      source:
+        process_register: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml#PPROC-DRY-FILM-LUBE-MIL-PRF-46010
+        material_record_sha256: 53dd6e9139675d49d1295e20c05832ba3618325e4f0ba6e47ea8ff9361716f50
+        trade_matrix: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/MATERIAL_SELECTION_TRADE_V1.yaml#FASTENERS_M3R_MOUNTING_GRIPPER_HINGE
+      property_use_rule: NO_WEAR_LIFE_OR_FRICTION_VALUE_CITED_PAIR_SELECTION_IS_CONCEPT_LEVEL_DESIGN
+      flight_allowable_status: HOLD_FLIGHT_ALLOWABLES_NOT_ESTABLISHED
+    alternates_retained:
+      - material_id: PMAT-TI6AL4V-ANNEALED-SHEET-PLATE
+        role: ALTERNATE_GRIPPER_HARDWARE_REFERENCE_GALLING_PRONE_DRY_FILM_REQUIRED
+    unresolved_holds:
+      - HOLD_VACUUM_OUTGASSING_WEAR_LIFE_FILM_THICKNESS_CURE_AND_QUALIFICATION
+      - HOLD_HARDCOAT_DIMENSIONAL_GROWTH_AND_FATIGUE_DEBIT_ON_THIN_SECTIONS
+      - HOLD_PAIR_FRICTION_COEFFICIENT_AND_STROKE_LIFE_TEST_DATA_ABSENT
+      - HOLD_WP5_GRIPPER_ENGINEERING_PACK_SIBLING_HASH_PENDING_SIBLING_HASH
+
+  - family_id: SOLAR_ARRAY_PANEL_PRIMARY_STRUCTURE
+    scope_note: >-
+      Solar array primary panel laminate (panel each 0.3483933 kg, panel box
+      0.227x0.200x0.006 m per M7 execution plan contract values); laminate design
+      authority remains open.
+    selected_design_baseline:
+      material_id: PMAT-CFRP-T700S-HEXPLY8552-PREPREG-SYSTEM
+      selection_status: DESIGN_APPROVED
+      design_selection_basis: DESIGN_TRADE_FROM_M6_CANDIDATE_SCREENING_MATRIX_MATERIAL_SYSTEM_LEVEL_ONLY
+      key_candidate_properties:
+        laminate_density_kg_m3: {value: null, value_kind: LAMINATE_DENSITY_UNKNOWN_FIBER_1800_AND_NEAT_RESIN_1301_REFERENCES_NOT_SUBSTITUTED}
+        laminate_modulus_GPa: {value: null, value_kind: LAMINATE_MODULUS_UNKNOWN_REQUIRES_STACK_AND_FIBER_VOLUME_FRACTION}
+        laminate_strength_MPa: {value: null, value_kind: LAMINATE_STRENGTH_UNKNOWN_FIBER_OR_COUPON_VALUE_NOT_SUBSTITUTED}
+        laminate_cte_per_K: {value: null, value_kind: LAMINATE_CTE_UNKNOWN_FIBER_VALUE_MINUS_0P38E-6_NOT_SUBSTITUTED}
+      rationale:
+        - CFRP route offers fiber-level stiffness potential for the mass-sensitive panel; the T700S/HexPly 8552 system has producer-published prepreg process logistics (177 degC cure, tack/out/shelf life) enabling a manufacturable design baseline at material-system level.
+        - Selection is at prepreg-system level only: no laminate stack, fiber volume fraction, or cure qualification is released here, and no laminate-level property is asserted.
+      laminate_property_prohibition: >-
+        Every laminate-level property (density, modulus, strength, CTE) is null. No fiber,
+        coupon, or neat-resin value may be substituted, and no equivalent isotropic
+        laminate property may be computed or applied (M6 V2 library governing rule,
+        restated here as binding).
+      source:
+        material_record: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml#PMAT-CFRP-T700S-HEXPLY8552-PREPREG-SYSTEM
+        material_record_sha256: 53dd6e9139675d49d1295e20c05832ba3618325e4f0ba6e47ea8ff9361716f50
+        trade_matrix: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/MATERIAL_SELECTION_TRADE_V1.yaml#SOLAR_ARRAY_PANEL
+      property_use_rule: FIBER_AND_RESIN_REFERENCES_FOR_TRADE_CONTEXT_ONLY_NOT_LAMINATE_VALUES
+      flight_allowable_status: HOLD_FLIGHT_ALLOWABLES_NOT_ESTABLISHED
+    alternates_retained:
+      - material_id: PMAT-AL6061-T6-SHEET-PLATE
+        role: METALLIC_FALLBACK_CANDIDATE_CONVENTIONAL_FABRICATION_HEAVIER_PANEL_TRADE
+      - material_id: PMAT-T700S-EPOXY-60VF-COUPON-REFERENCE
+        role: COUPON_REFERENCE_ONLY_NOT_A_RELEASED_LAMINATE
+    unresolved_holds:
+      - HOLD_LAMINATE_STACK_FVF_RESIN_CONTENT_AND_CURE_QUALIFICATION
+      - HOLD_VACUUM_OUTGASSING_UV_ATOMIC_OXYGEN_AND_HINGE_INSERT_INTERFACE_SCREENING
+      - HOLD_CTE_MISMATCH_PANEL_TO_HINGE_TO_STRUCTURE_LAMINATE_CTE_NULL
+      - HOLD_ENVIRONMENT_AUTHORITY_NEAT_RESIN_SERVICE_LIMIT_REFERENCE_121P1_DEGC_COVERS_ONLY_PART_OF_ASSUMPTION_BANDS
+      - HOLD_PROPERTY_UNCERTAINTY_NULL
+
+  - family_id: NON_STRUCTURAL_INSULATION_SHIM_POLYMER
+    scope_note: >-
+      Non-load-bearing dielectric insulation, shims, washers, and harness isolation pads;
+      new polymer candidate class added this WP (no such family existed in the M6 V2 library).
+    selected_design_baseline:
+      material_id: PMAT-PEEK-450G-STOCK-SHAPE
+      selection_status: DESIGN_APPROVED
+      design_selection_basis: NEW_DESIGN_CANDIDATE_RECORD_PUBLIC_PRODUCER_VALUES
+      key_candidate_properties:
+        density_kg_m3: {value: 1300.0, value_kind: TYPICAL_CRYSTALLINE_DENSITY_ISO_1183}
+        young_modulus_GPa: {value: 3.7, value_kind: TYPICAL_TENSILE_MODULUS_23_DEGC_ISO_527}
+        yield_strength_MPa: {value: 100.0, value_kind: TYPICAL_TENSILE_YIELD_23_DEGC_ISO_527}
+        linear_cte_per_K: {value: 0.000055, value_kind: TYPICAL_AVERAGE_CLTE_BELOW_TG_ISO_11359}
+      rationale:
+        - PEEK 450G is a machinable, unfilled, high-temperature thermoplastic suited to machined shims/insulators; producer datasheet typical values are publicly citable, and its typical service reference (Tg 143 degC, continuous 260 degC) brackets the M6 ASSUMPTION thermal bands better than commodity plastics.
+        - Non-structural scope only: the selection carries no load-path role, so typical-value screening is sufficient at design level.
+        - Kapton 500HN film is retained as the alternate for film-form dielectric needs (wrap, film washers) where a stock shape cannot serve.
+      source:
+        material_record: DESIGN_MATERIAL_SELECTION_V1.yaml#PMAT-PEEK-450G-STOCK-SHAPE (new record this WP)
+        web_sources: web_source_additions_this_wp (Victrex 450G datasheet page)
+      property_use_rule: TYPICAL_VALUES_FOR_DESIGN_TRADE_AND_DOCUMENTATION_ONLY_NOT_ALLOWABLES
+      flight_allowable_status: HOLD_FLIGHT_ALLOWABLES_NOT_ESTABLISHED
+    alternates_retained:
+      - material_id: PMAT-PI-KAPTON-500HN-FILM
+        role: FILM_FORM_DIELECTRIC_ALTERNATE
+    unresolved_holds:
+      - HOLD_VACUUM_OUTGASSING_ASTM_E595_DATA_NOT_CITED_SPACE_COMPATIBILITY_CANDIDATE_ONLY
+      - HOLD_UV_AND_RADIATION_SCREENING
+      - HOLD_CREEP_AND_THERMAL_CYCLING_BEHAVIOR_NOT_SCREENED
+      - HOLD_PROPERTY_UNCERTAINTY_NULL
+
+selection_summary:
+  families_decided: 6
+  selections_made: 6
+  selection_level: DESIGN_APPROVED
+  new_material_records_created: 2
+  flight_approved: false
+  flight_allowables_established: 0
+  environment_authority: HOLD
+  property_uncertainty_records: 0
+  laminate_properties_asserted: 0
+  mmpds_or_controlled_handbook_values_used: false
+
+release_prohibitions_restated:
+  - NO_FLIGHT_OR_LAUNCHER_OR_MANUFACTURING_RELEASE_CLAIMS
+  - NO_PUBLIC_TYPICAL_PROPERTY_AS_FLIGHT_DESIGN_ALLOWABLE
+  - NO_ZERO_FILL_OF_UNKNOWNS
+  - NO_FIBER_OR_PREPREG_VALUE_AS_LAMINATE_VALUE
+  - NO_EQUIVALENT_ISOTROPIC_LAMINATE_VALUES
+  - NO_CONTROLLED_HANDBOOK_VALUE_SUCH_AS_MMPDS_AS_PUBLIC_SOURCE
+  - NO_SPECIFICATION_CITATION_AS_PROCUREMENT_SELECTION_OR_QUALIFICATION
+  - NO_SILENT_REPLACEMENT_OF_M3_ERA_AL7075_T6_CONDITION

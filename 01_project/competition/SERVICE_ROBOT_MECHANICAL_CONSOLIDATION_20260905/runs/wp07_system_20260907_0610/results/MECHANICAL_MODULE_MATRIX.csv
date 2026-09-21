@@ -1,0 +1,17 @@
+﻿module_id,functional_module,actual_instance_or_group,current_representation_and_evidence,remaining_mechanical_design,decisive_missing_input,next_executable_work,source_entry
+M01,总体构型外界,13 CAD parent groups;3 states;launch_interface_reserved_volume,整星候选/发射接口包络,合并WP06八替换+四删除+十六新增；同源三态与模块边界,发射ICD仅阻塞飞行适配,先完成597预期实例接入并实核,WP04+WP05+WP06
+M02,主次结构连接,ROOT_STRUCTURE;PRIMARY_STRUCTURE;R01_FASTENERS;R07_ROOT_CONNECTIONS;COVERS,已有局部几何通过；大部分旧紧固件代理,rear_vertical_rib_±86/rear_horizontal_rib_±86到rear_launch_bulkhead缺正向连接；盖板固定/装入,材料/公差/地面载荷,后肋连接实体及对应紧固/工具工序；不重做WP06,"WP04 spacecraft_model.py,r01_design.py,r07_design.py"
+M03,B601/夹爪,"B601_base_link,link1..6,gripper_link,left,right",10聚合实体；WP05 4FAIL+6INCOMPLETE,按HOLD索引修复/匹配并注册根板、双指及实际版本,DM/RS实装批次/允许支承区/根孔测量,先用已有厂家小STEP定点对拍；不换accepted动力学源,WP05 GEOMETRY_HOLD_REGISTER;WP02 vendor_reference
+M04,保持释放,ONBOARD_RETENTION 50;R07_HOLD_*,34实体+16功能包络,可拆下抱座键槽承压/止转、17件每站STEP及初装与逆序拆卸路径；原驱动、销/帽、支承接触、连续折叠释放仍OPEN；原2mm壁开槽后1.5mm强度未知。,载荷/材料公差/实际执行器及接触区,WP07 C02：上耳一体、下端前后可拆键式抱座，现有M3x12目录紧固；先验证封闭鞍座从下方过pivot的首装，再抱座/硬件/导杆的连续条件路径。150mm为原杆圆柱段，耳间净距137.8mm；80mm行程端余隙41/8.8mm待实测。C01固定上下耳导致初装受阻，仅源码草案已归档。,RETENTION_DESIGN_CONTRACT.json
+M05,太阳翼,wing_leaf/edge_frame/hinge_pin/root_fork;release_budget,6叶预算+28实体+4包络,叶片边框连接、销轴防脱、HDRM/锁闩及线束,实际叶质量、铰链/释放/锁止选型,复用运动学；旧R2 HDRM只为架构并未建锁闩实体,WP04 wing_kinematics;Solar R2 V3 HDRM yaml
+M06,EPS供配电,equipment_power_distribution;adapter/connector/thermal_interface,设备预算箱/连接器包络；适配板候选,设备真实孔系到适配板/甲板与维护路径,型号/外形孔系/端接/热面,型号确认前保留预算，不造假EPS内件,WP04 equipment list
+M07,电池组件,equipment_battery;adapter_battery;battery_thermal_link,预算电池箱+候选适配板/热连接代理,电池箱定位夹持、端接和热带两端固定,实际电池组件/允许夹持/热接口,参数化载体与连接接口；实配待绑定,WP04 equipment battery
+M08,OBC任务计算,equipment_compute_communications;equipment_arm_drive,共享预算设备，不按功能重复质量,板卡/计算机安装载体与拆装,真实板卡/设备外形孔系端口,先注册共享设备owner再细化安装,WP04 equipment
+M09,背板卡笼,无独立backplane/card_cage实例；六adapter非卡笼,DESIGN_OPEN,导轨、支柱、压紧、连接器定位与接地导热,板卡集合/标准/堆叠尺寸,建立受约束载体方案，不虚构现成卡笼,WP04 EQUIPMENT_BAY
+M10,ADCS,equipment_adcs_propulsion_allocation;navigation_electronics,合并预算箱,真实轮组/惯性/星敏安装轴、质心及隔振/接口,器件选型/安装规范,拆功能注册不拆重复实体；绑定轴向基准,WP04 equipment
+M11,通信天线,compute_communications;antenna_mount;communications_antenna,共享预算箱+天线代理+支架实体,支架到主结构连接、馈线与维护,真实天线孔系/馈线/安装面,完成机械安装及线束出口，质量唯一owner,WP04 EXTERNAL_INTERFACES
+M12,任务感知,navigation_camera_bracket/camera/lens;navigation_electronics,支架实体+相机/镜头代理,相机固定、光轴标定基准、连接器/维护,真实相机/镜头/安装基准,可查厂家D435_Gemini2_Mount；先核是否已集成,vendor reBot_B601_DM/3D_Printed_Parts
+M13,全星线束连接器,HARNESS17;connector_*;wing_harness_budget,8夹持实体+线路/端口包络,夹座固定、实际端接、固定到随动侧、活动自由段,OD/动态弯曲半径/扭转/端型,复用WP02定长曲线及厂家线夹；未知仍保留,WP02 HARNESS_ANALYSIS;WP04 HARNESS
+M14,热控EMC接口,thermal_interface_*;radiator_spreader;battery_thermal_link,7实体候选+1热带代理,散热板安装耳、热带端接、压紧与导电搭接/绝缘,热耗/接触材料/接地与表面处理,补正向机械连接及接口字段,WP04 THERMAL
+M15,任务平移推进,equipment_adcs_propulsion_allocation,共享预算箱，无独立推力器/储箱/管路,推进方案安装/管路/喷流保留与结构载荷,推进架构和器件实际输入,先功能/质量所有权登记，不造假推力硬件,WP04 equipment
+M16,装调工装维护,GSE_AIT_base;GSE_AIT_pedestal_*;C02支承条件,已有底板支脚；机械臂卸载及C02工装未建模,真实定位夹持、卸载、紧固工具与设备/盖板装入,样机重量/支承允许区/工装载荷,先设计有明确接触/防滑防倾覆的地面支承；不计随星质量,WP04 ground view;WP06 C02

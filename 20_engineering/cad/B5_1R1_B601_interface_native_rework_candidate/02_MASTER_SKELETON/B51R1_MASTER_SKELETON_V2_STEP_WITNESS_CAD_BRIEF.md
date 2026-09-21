@@ -1,0 +1,28 @@
+# B51R1 Master Skeleton V2 STEP Witness CAD Brief
+
+- Model: source-bound neutral STEP construction witness for Master Skeleton V2.
+- Task type: new datum/control-geometry assembly; not a native SolidWorks mechanism.
+- Units: millimetres.
+- Coordinate convention: `CS_S` at the global origin; +X longitudinal, +Y/+Z transverse.
+- Accepted control values:
+  - task face: `X = 183.0`
+  - dynamics/PDR mount rail: `X = 185.25`
+  - V2.2 display rail: `X = 198.0`
+  - B601 mount witness: `160 x 160`, central keep-out `diameter 100`
+  - longeron axes: `Y/Z = +/-101.65`
+  - primary structure outer datum: `Y/Z = +/-110.15`
+  - removable-panel outer datum: `Y/Z = +/-113.15`
+  - A0 installation clock candidate: `25 deg` about +X
+- Functional features: four longeron-axis rods, three axial datum frames, one holed interface-plane witness, coordinate triads, and a 25-degree A0 clock triad.
+- H9 handling: `MODE_A_EVALUATION` and `MODE_B_EVALUATION` remain unselected; no branch-specific keep-out geometry is invented.
+- Source authority: `B51R1_DURABLE_DATUM_MEASUREMENT_FINAL.json`, SHA-256 `94400C1E282A9B35084E68B7A1B53DCC41BF33113D908C7895D0B73C672904FB`.
+- Output:
+  - generator: `B51R1_MASTER_SKELETON_V2_STEP_WITNESS.py`
+  - STEP: `B51R1_MASTER_SKELETON_V2_STEP_WITNESS.step`
+- Validation targets:
+  - labels and occurrence structure survive STEP export;
+  - mount witness spans 160 x 160 mm and contains a 100 mm central through keep-out;
+  - longeron rods are centred at all four `Y/Z = +/-101.65 mm` combinations;
+  - task, dynamics, and display frames remain distinct at X = 183.0, 185.25, and 198.0 mm;
+  - deterministic refs/facts/planes/positioning plus snapshot review.
+- Claim limit: construction/datum visualisation only. No material, mass, inertia, stiffness, load-path, attachment, tolerance, manufacturing, qualification, native-mate, or flight credit.

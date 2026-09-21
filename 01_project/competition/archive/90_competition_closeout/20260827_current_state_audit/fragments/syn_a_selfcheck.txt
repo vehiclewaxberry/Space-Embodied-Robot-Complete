@@ -1,0 +1,16 @@
+=== SYN-A 自检（2026-08-27 只读审计综合）===
+
+03_CURRENT_GATE_MATRIX.csv: data_rows=205 (期望 52+26+20+28+22+21+36=205), cols_all_17=True, status_enum_violations=[], sorted_by(domain,item)=True, source_rows_missing=0, no_summary_row=True, sha256_12=abc7202e8e34, bytes=159108
+07_NEGATIVE_RESULT_REGISTER.csv: data_rows=97 (期望 19+14+21+12+10+12+9=97), cols_all_9=True, empty_retained_as=[], sorted_by(domain,id)=True, source_rows_missing=0, sha256_12=226492f68b62, bytes=46295
+08 header: ['id', 'domain', 'release_domain', 'gap', 'category', 'evidence_path', 'impact', 'next_minimum_action', 'external_input_required']
+08_FORMAL_RELEASE_BLOCKERS.csv: data_rows=39 (期望 39), cols_all_9=True, all_category_P2=True, release_domain_dist={'control': 5, 'deliverables': 1, 'dynamics': 5, 'embodied': 4, 'mechanical': 16, 'memory': 1, 'sim13': 7}, sorted_by(release_domain,id)=True, source_P2_missing=0, sha256_12=09549074706a, bytes=19893
+15_SOURCE_AND_HASH_MANIFEST.csv: data_rows=243, unique_paths_covered=243, source_paths_uncovered=0, dup_paths=[], cols_all_5=True, sorted_by_path=True, HASH_CONFLICT_INVESTIGATE_rows=[], spot_checks={'20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/07_release/MECHANICAL_TO_EMBODIED_HANDOFF_GATE_V2.json': '13722965d5c5', '30_simulation/sim_13_physics_gated_embodied_grasping/v4_runtime_guard_diagnostic/results/SIM13_V4_RUNTIME_GUARD_DIAGNOSTIC_GATE_V1.json': '104d6d25d1c4', '40_evidence/artifacts/competition_convergence/competition_mission_intelligence_demo.mp4': '7043d026cef6', '40_evidence/artifacts/competition_convergence/competition_mission_intelligence_demo.pptx': '9deff92b539c'}, sha256_12=4d0063e59839, bytes=49457
+01_REPOSITORY_AND_SECURITY_SNAPSHOT.json: parse_ok=True, top_keys=['generated_at', 'generator', 'repo_root', 'evidence_primary', 'git', 'security', 'audit_scope'], head=5c5addea00dd..., branch=publication/stage3-integrity-closure, status_total=141, remotes=[], sha256_12=924739f14e0c, bytes=6604
+
+合并规则记录：
+- 03: (domain,item,authority_path) 去重——实际 0 组重复；current_status 枚举=10 值全集（HOLD/VERIFIED/PROVISIONAL/SUPERSEDED/PLANNED/LIMITED/PENDING_REVIEW/REPEAT/UNKNOWN/BLOCKED_EXTERNAL）全部合法；排序 (domain,item)；末尾无汇总行。
+- 07: (domain,description,authority_path) 去重——实际 0 组重复；retained_as 全 97 行非空，未删除任何 REPEAT/HOLD/负结果；排序 (domain,id)。
+- 08: 仅收 category=P2_FORMAL_RELEASE_BLOCKER 的 39 行（mech16/dyn5/ctrl5/sim13 7/embodied4/compdeliv1/memory1）；release_domain 插入为第 3 列（domain 之后）；P0(7)/P1(16)/P3(10) 共 33 行按任务书不入本文件；排序 (release_domain,id)。
+- 15: 310 源行→243 唯一 path；同 path 多行时保留含真实 sha256（64 位十六进制）且字段更全的一行，drop 67 行均为同 sha 重复或空/not_hashed_* 占位行；无两组不同真实 sha256 冲突，故 HASH_CONFLICT_INVESTIGATE 追加 0 处；排序 path。
+- 01: 字段以 compdeliv fragment findings.md(sha256_12=6ae1ba74eefb) §C.1-C.3 与 gate_rows.csv(8039ca35d8ad) 为准；不确定字段填 null/UNKNOWN 并附 note（github claim_source_in_repo=null）。
+- 只读合规：未修改 fragments/源码/CAD/Gate；仅写入本目录 5 个最终文件与本自检文件。

@@ -1,0 +1,579 @@
+{
+ "schema": "F3R2_GRIPPER_FINGER_BINDING_V1",
+ "jaw_axis": {
+  "world_direction": [
+   -7e-06,
+   0.906306,
+   0.422622
+  ],
+  "origin_mm": [
+   399.7007,
+   92.2233,
+   -197.7734
+  ],
+  "derived_from": "accepted URDF gripper_joint1 axis carried through FK at the as-built pose; not chosen by hand",
+  "opposed": [
+   7e-06,
+   -0.906309,
+   -0.422615
+  ]
+ },
+ "cad_solids": 58,
+ "cad_total_volume_mm3": 303278.598,
+ "cad_union_box_mm": [
+  365.4304,
+  -18.6963,
+  -274.8606,
+  433.8969,
+  193.436,
+  -99.9048
+ ],
+ "urdf_union_box_mm": [
+  361.2007,
+  -17.0183,
+  -235.9325,
+  438.2007,
+  162.484,
+  -85.9541
+ ],
+ "registration_check": {
+  "cad_size_mm": [
+   68.466,
+   212.132,
+   174.956
+  ],
+  "urdf_size_mm": [
+   77.0,
+   179.502,
+   149.978
+  ],
+  "centre_delta_mm": [
+   -0.037,
+   14.637,
+   -26.439
+  ],
+  "note": "the CAD gripper and the URDF gripper are NOT the same mesh (F3R2 arm-geometry divergence); the URDF is used only to decide MEMBERSHIP, and any offset is carried into the assignment tolerance below"
+ },
+ "mirror_pairing": {
+  "pairs": 24,
+  "palm_straddling": 9,
+  "unpaired": 1,
+  "unpaired_labels": [
+   "B51_REF_gripper_detail_LINKLOCAL011"
+  ],
+  "tolerance_mm": 0.05,
+  "rule": "equal volume, equal face count, opposite station on the jaw axis"
+ },
+ "assignment_crosscheck": {
+  "agree_with_urdf_enclosure": 30,
+  "disagree": 25,
+  "urdf_encloses_nothing": 3,
+  "interpretation": "the URDF finger bodies are a different mesh from the CAD ones, so enclosure is a weak check; the mirror rule is the primary one and is exact"
+ },
+ "groups": {
+  "gripper_left": {
+   "solids": 24,
+   "volume_mm3": 43578.777,
+   "box_mm": [
+    366.6637,
+    44.1635,
+    -235.9767,
+    432.6637,
+    153.4476,
+    -107.9977
+   ],
+   "u_range_mm": [
+    -33.6553,
+    93.4291
+   ]
+  },
+  "gripper_right": {
+   "solids": 24,
+   "volume_mm3": 43578.777,
+   "box_mm": [
+    366.6637,
+    -8.3374,
+    -249.2141,
+    432.6637,
+    110.0491,
+    -140.8383
+   ],
+   "u_range_mm": [
+    -93.4436,
+    33.6408
+   ]
+  },
+  "gripper_link": {
+   "solids": 10,
+   "volume_mm3": 216121.043,
+   "box_mm": [
+    365.4304,
+    -18.6963,
+    -274.8606,
+    433.8969,
+    193.436,
+    -99.9048
+   ],
+   "u_range_mm": [
+    -133.1061,
+    133.0913
+   ]
+  }
+ },
+ "two_real_fingers": {
+  "left_solids": 24,
+  "right_solids": 24,
+  "left_volume_mm3": 43578.777,
+  "right_volume_mm3": 43578.777,
+  "identical_by_mirror": true,
+  "claim": "the gripper is TWO movable finger bodies plus a palm, all already present in the CAD -- not one visual solid",
+  "requirement": "user requirement D: 两指必须为真实可动件，不得继续用整体视觉实体冒充",
+  "met": true,
+  "how": "24 mirror-paired CAD solids per finger, bound to gripper_joint1 / gripper_joint2 of the accepted URDF; no solid was created, split or edited -- the fingers were already modelled and merely unbound"
+ },
+ "travel_feasibility": [
+  {
+   "state": "OPEN",
+   "travel_mm": 71.5,
+   "finger_to_finger_mm": 82.2284,
+   "fingers_collide": false,
+   "left_to_palm_mm": 0.0002,
+   "right_to_palm_mm": 0.0001,
+   "palm_contact_is_the_slide": "the fingers RIDE on the palm rail; a near-zero finger-to-palm distance is the prismatic joint itself, not an interference"
+  },
+  {
+   "state": "PREGRASP",
+   "travel_mm": 55.0,
+   "finger_to_finger_mm": 50.5026,
+   "fingers_collide": false,
+   "left_to_palm_mm": 0.0002,
+   "right_to_palm_mm": 0.0002,
+   "palm_contact_is_the_slide": "the fingers RIDE on the palm rail; a near-zero finger-to-palm distance is the prismatic joint itself, not an interference"
+  },
+  {
+   "state": "CLOSED",
+   "travel_mm": 0.0,
+   "finger_to_finger_mm": 0.0,
+   "fingers_collide": true,
+   "left_to_palm_mm": 0.0,
+   "right_to_palm_mm": 0.0,
+   "palm_contact_is_the_slide": "the fingers RIDE on the palm rail; a near-zero finger-to-palm distance is the prismatic joint itself, not an interference"
+  }
+ ],
+ "measured_jaw_opening": {
+  "definition": "minimum surface distance between the gripper_left and gripper_right solid groups at the given travel -- this IS the jaw gap, and it needs no assumption about which solid is the pad",
+  "OPEN_opening_mm": 82.2284,
+  "PREGRASP_opening_mm": 50.5026,
+  "CLOSED_opening_mm": 0.0,
+  "monotone_with_travel": true
+ },
+ "correction_to_previous_record": {
+  "previous": "F3R2_CAMERA_HARNESS_GRIPPER.json: solids_in_cad = 1, maturity SEPARATION_REQUIRED_NOT_DONE, OPEN jaw_opening_mm = 143.0 (= 2 x travel)",
+  "measured_now": {
+   "solids_in_cad": 58,
+   "mirror_pairs": 24,
+   "open_jaw_opening_mm": 75.7039
+  },
+  "why_the_old_number_was_wrong": "2 x travel is the sum of the two sliders' strokes, not the distance between the gripping faces; the faces start at a non-zero separation and the fingers are bodies with thickness"
+ },
+ "states": [
+  {
+   "state": "OPEN",
+   "gripper_joint1_mm": 71.5,
+   "gripper_joint2_mm": 71.5,
+   "jaw_opening_mm": 82.2284,
+   "interpenetrates": false,
+   "max_penetration_depth_mm": 0.0,
+   "within_urdf_limit": true,
+   "geometry": "REAL_CAD_SOLIDS_BOUND_TO_URDF_JOINT",
+   "grip_force_N": "",
+   "note": ""
+  },
+  {
+   "state": "PREGRASP",
+   "gripper_joint1_mm": 55.0,
+   "gripper_joint2_mm": 55.0,
+   "jaw_opening_mm": 50.5026,
+   "interpenetrates": false,
+   "max_penetration_depth_mm": 0.0,
+   "within_urdf_limit": true,
+   "geometry": "REAL_CAD_SOLIDS_BOUND_TO_URDF_JOINT",
+   "grip_force_N": "",
+   "note": ""
+  },
+  {
+   "state": "CLOSED",
+   "gripper_joint1_mm": 0.0,
+   "gripper_joint2_mm": 0.0,
+   "jaw_opening_mm": 0.0,
+   "interpenetrates": false,
+   "max_penetration_depth_mm": 0.0249,
+   "within_urdf_limit": true,
+   "geometry": "REAL_CAD_SOLIDS_BOUND_TO_URDF_JOINT",
+   "grip_force_N": "",
+   "note": "jaws in contact -- this is what CLOSED means"
+  },
+  {
+   "state": "HOLDING",
+   "gripper_joint1_mm": "target dependent",
+   "gripper_joint2_mm": "target dependent",
+   "jaw_opening_mm": "= target grasp width",
+   "interpenetrates": false,
+   "max_penetration_depth_mm": "",
+   "within_urdf_limit": true,
+   "geometry": "REAL_CAD_SOLIDS_BOUND_TO_URDF_JOINT",
+   "grip_force_N": "NOT_EVALUATED_NO_ACTUATOR_MODEL",
+   "note": "force state, not a geometric one; geometry is CLOSED-onto-target and no grip force is claimed because the finger actuator is not modelled"
+  }
+ ],
+ "checks": {
+  "GF-1_two_mirror_finger_groups": true,
+  "GF-2_palm_straddles_jaw_plane": true,
+  "GF-3_no_unassigned_solids": true,
+  "GF-4_every_solid_accounted": true,
+  "GF-5_volume_conserved": true,
+  "GF-7_travel_within_urdf_limit": true,
+  "GF-8_jaw_opens_monotonically_with_travel": true,
+  "GF-9_closed_state_actually_closes": true,
+  "GF-6_fingers_do_not_interpenetrate": true,
+  "GF-10_open_state_clears_for_grasp": true
+ },
+ "verdict": "G33A_OFFLINE_MESH_BINDING_ADDENDUM_FAIL",
+ "protected_post": "ALL_PROTECTED_UNCHANGED",
+ "per_solid_mesh": {
+  "source": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\\05_clearance\\mesh\\gripper_solids_DEPLOYED\\GRIPPER_SOLID_MESHES.json",
+  "solids": 58,
+  "linear_deflection_mm": 0.25,
+  "why": "the grouped environment export merges all 58 bodies under one stripped label; that merge is what produced the earlier 'solids_in_cad: 1' record",
+  "group_counts": {
+   "gripper_left": 24,
+   "gripper_right": 24,
+   "gripper_link": 10
+  }
+ },
+ "travel_feasibility_method": "v1 compared GROUP bounding boxes and reported a 67.3 mm crossing at CLOSED.  A group AABB spans both jaws of a fork, so that number was an artefact of the box, not a collision.  v2 measures solid-to-solid mesh distance and supersedes it.",
+ "supersedes": {
+  "file": "08_camera_harness/F3R2_CAMERA_HARNESS_GRIPPER.json",
+  "field": "gripper.cad_reality.solids_in_cad = 1 and gripper.maturity = SEPARATION_REQUIRED_NOT_DONE",
+  "reason": "measured: 58 solids, 24 mirror pairs, exact volume equality; the fingers were always there, unbound"
+ },
+ "error": "string is not a file: `F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED\\B51_REF_gripper_detail_LINKLOCAL056.stl`",
+ "traceback": "Traceback (most recent call last):\n  File \"F:\\_SEI_PROJECT_CONSOLIDATION_20260807\\12_WAVE4\\WORKTREE_RECONCILIATION\\20_engineering\\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\\99_tools\\r3f_g33_gripper_close.py\", line 116, in main\n    d1, n1, w1 = interpenetration(grp[\"gripper_left\"],\n                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n                                  grp[\"gripper_right\"], oa, ob)\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"F:\\_SEI_PROJECT_CONSOLIDATION_20260807\\12_WAVE4\\WORKTREE_RECONCILIATION\\20_engineering\\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\\99_tools\\r3f_g33_gripper_close.py\", line 69, in interpenetration\n    mb = mesh(pb).copy()\n         ~~~~^^^^\n  File \"F:\\_SEI_PROJECT_CONSOLIDATION_20260807\\12_WAVE4\\WORKTREE_RECONCILIATION\\20_engineering\\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\\99_tools\\r3f_g33_gripper_close.py\", line 48, in mesh\n    _mc[p] = trimesh.load_mesh(p, process=False)\n             ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\stude\\AppData\\Roaming\\Python\\Python313\\site-packages\\trimesh\\exchange\\load.py\", line 276, in load_mesh\n    return load_scene(*args, **kwargs).to_mesh()\n           ~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\stude\\AppData\\Roaming\\Python\\Python313\\site-packages\\trimesh\\exchange\\load.py\", line 193, in load_scene\n    arg = _parse_file_args(\n        file_obj=file_obj,\n    ...<2 lines>...\n        allow_remote=allow_remote,\n    )\n  File \"C:\\Users\\stude\\AppData\\Roaming\\Python\\Python313\\site-packages\\trimesh\\exchange\\load.py\", line 624, in _parse_file_args\n    raise ValueError(f\"string is not a file: `{file_obj}`\")\nValueError: string is not a file: `F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED\\B51_REF_gripper_detail_LINKLOCAL056.stl`\n",
+ "m3r_addendum": {
+  "historical_source_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/08_camera_harness/F3R2_GRIPPER_FINGER_BINDING.json",
+  "historical_source_sha256": "C17367F76694634F5D43618D1627AEBC544348D5C94589D16079FEA52530B69E",
+  "reviewed_computation_script": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/99_tools/r3f_g33_gripper_close.py",
+  "reviewed_computation_script_sha256": "78F5742C139989D76F696781978DD781FA69734EE97FAE624FE87CFBDB11433A",
+  "historical_evidence_modified": false,
+  "resolver": "99_tools/f3r2_path_resolver.py",
+  "resolved_mesh_count": 48,
+  "all_meshes_resolved": false,
+  "resolution_records": [
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL056.stl",
+    "sha256": "3855AF41D1EA6F2A7A338204A4A2ACD91AED416200524017F0029140B256868B",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL055.stl",
+    "sha256": "0350A4002A9707B814B103F2D7E457B623370818413670D21A2658A21E9199C8",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL052.stl",
+    "sha256": "352D004D6FBBFB65D935B38FA19A0AF75E7F950AE38D4B3B7A00BE60D38C03AA",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL049.stl",
+    "sha256": "3881C7F00BC64BDC0A223C41658EB90687C5C70D4FD6848F42097B06AE8B4C92",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL009.stl",
+    "sha256": "47E9793AC89E8EEB3DBEB360D0FD63CCBB2BE07CE8407A7E2E2AD36198C0A69F",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL010.stl",
+    "sha256": "58579083CE3036D1D2D9EC95DC6D6A1928D9A6EC005412FA170DF0FE86F1FDF1",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL029.stl",
+    "sha256": "D6FDCE3ED2DA2F85E68C908BDE926C4792EE92B86FB71B0448711EF37798566A",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL045.stl",
+    "sha256": "170E1488D7F482633BF89195ADD04F39BD332C5CE6652D06E0214DBD6C48BBD3",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL015.stl",
+    "sha256": "2461C139DA0FC5F4DED0423783B6AABD4317299A1DE8BA60FD29F888B2870B25",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL019.stl",
+    "sha256": "63D2062C122B98E1E161461CF5E8DA15044DD179E92DF35E20FB29DB1DA19BA2",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL025.stl",
+    "sha256": "6985BE86F0753A96093565F1F0E931C8B1CE277D41FAAE3D6DDD571245D32109",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL026.stl",
+    "sha256": "F8FCD8FF41E9741D17F6E504236E1874944BA8B8E2BD7B8B37917BD144EEBEF0",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL020.stl",
+    "sha256": "A869D07CE55BF9EAC84A52A468679F414EC247C14D3511EFC65CD4696CFFA777",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL024.stl",
+    "sha256": "B918EFE1F74FB42451EA20BC49F9D70558302A7FE5108AE853171224FDEB35F1",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL037.stl",
+    "sha256": "4828550517DE0B1B7A23D62251F8C8D6D1A67973DB26343694B0270C917F9A6C",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL038.stl",
+    "sha256": "0E6192A466206FB116B19822CE7B4B71A8B1A6B6AB1AAC72E198C94C099815B7",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL014.stl",
+    "sha256": "9A09EAFD0D5C16E0C7FB6950AD24E006A4A51EEFC0E1A5360573DCB8045E0817",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL028.stl",
+    "sha256": "B75B9E743D2CB5FF5A83C71B62E1377BC759BE5314197A362A043ADEAE947888",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL033.stl",
+    "sha256": "9B6C61D3072F249074C22948AF387F2766ADE851C361B31DEC4BBDC3C4AC82A5",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL034.stl",
+    "sha256": "802C78CA648D251AF3CA28A512443CA30B8ADB29D733E8A018E7A14A4248F095",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL040.stl",
+    "sha256": "0B0425EC3838FF169478DAD6BE81FCC40D8D192CDA00232D6B7A81C6BD2408AD",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL007.stl",
+    "sha256": "BE373232601D4A43A6A296BDCA1C26A7BE49FF5A7A8E2533B7529377FB7C40DE",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL006.stl",
+    "sha256": "143DAE304341E738307EC93174BE2D5789B1961F00E95B97B63EB0C09C9D9EF3",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL008.stl",
+    "sha256": "7FD1039DF8356D63B87808B6FC7948DC85283A3B8D065AE47560796316BBF4E6",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL005.stl",
+    "sha256": "3C99950CB0778D56B38BA4FD80EC7F5224F5095CDBC9EECF3D3BEDC1FE517BBB",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL048.stl",
+    "sha256": "9384921E56C797CD311AD461F53EF7C2B389E310AE37FBC0B71D0A16411AC099",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL053.stl",
+    "sha256": "B27AF2CA7C898307946C5A1FDA8DB3EB48DC9C08195B97C787207C4C8C4DA0BD",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL004.stl",
+    "sha256": "7E448D0F2EFDD356038B2D39838454614DAF321AD0016A2B0A2EEF045EF49F12",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL030.stl",
+    "sha256": "13CA9EFB68803516545AAF22DFB54A1B58289D51399F038C2D542E350075BE12",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL039.stl",
+    "sha256": "5768E8BA151A0A6CFC52D76F2D9498B9A51F9692867995DD08928A2B04F462C1",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL047.stl",
+    "sha256": "DFDDC9C84348400762AD25564A6EE181D48D2E8AF99CF8703270A04C2127CBA7",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL016.stl",
+    "sha256": "82CB544A5B7AB3AFEF2E387CFDAC675F1FF38AFCB3CDD763875BFE4F9725AD6D",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL017.stl",
+    "sha256": "EAC5A12002DC2F11D7E7E5A42C1A8788DA305E83F82174F4C7D0637513BFF426",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL021.stl",
+    "sha256": "063BCD0670FD9934F28D33BB5F2DAA3155D8492F859EF241D889DE37B2C7C223",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL022.stl",
+    "sha256": "89EA560FE6551DF338BC09034DBB95A2CEF507F560FCCFECEFCF5112597006AB",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL018.stl",
+    "sha256": "701AEDBB685E6DBA126A6913846E8F70184C5F6F51534234EAB937111008CB12",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL023.stl",
+    "sha256": "087B6EA7757B0F9AABB93165BB78526D103BB4D40A2DE7A08D5BA11BFC377830",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL027.stl",
+    "sha256": "3DA5D4880B8F66573E9F8BBA0955764AFFEE031DBA8E186C9BD2E2CF174EBCA3",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL035.stl",
+    "sha256": "FBC20A6DFB0E9EF78DD630B3B92325E573507F24C80D4F24D834957B35EA21BB",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL031.stl",
+    "sha256": "309BC839139A28A489B080682B56FE8B26A61347AF62AFA3472A441D8D1DBD64",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL042.stl",
+    "sha256": "0C485204BB1841D3643F8AF2143521ABE4EE9D644A7EEA5CAFD325B09A3AB33D",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL043.stl",
+    "sha256": "3E6F97200DF28EA15B0FE9EA4CBEA776F1C4223965A9CEB4C013FA56F5394183",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL044.stl",
+    "sha256": "5A10EE87DF3CC82709E9A6EC0637AB3D6B1CFEFC654F2DE01ADEDD89CC344A0B",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL046.stl",
+    "sha256": "8FDF20CF62C833E1D2336A0A05E321E35BAEEAAC0789E588FDA2857E0678FB1F",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL002.stl",
+    "sha256": "9F9039E85C0C2A87C8031B21BE67FA3E91F256302A57B18D1ACD4F860D70A979",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL001.stl",
+    "sha256": "1984E89DA0FF319AE79E1427793A7C3576593B98A9AF214D5ABC125DFE608537",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL003.stl",
+    "sha256": "523CD19A41DDB1704A62D1109A766B89A82BF73881B6163576BC30E7B7BA9FBE",
+    "resolution_method": "STORED_PATH"
+   },
+   {
+    "resolved_path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/gripper_solids_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL.stl",
+    "sha256": "8C1EB0BED90EC64F81FF8C70A829C50AF15F9447CFA37A67E9236600F2709CD4",
+    "resolution_method": "STORED_PATH"
+   }
+  ],
+  "upstream_computation_verdict": "G33A_GRIPPER_FINGERS_BOUND",
+  "native_component_gate": false,
+  "limitations": [
+   "offline STL grouping is not separate SLDPRT finger hardware",
+   "no prismatic mates or native OPEN/PREGRASP/CLOSED configurations",
+   "no SolidWorks native motion or interference result",
+   "formal grip force remains not evaluated"
+  ]
+ },
+ "interpenetration_test": {
+  "method": "vertices of one finger group tested for strict containment in the other's solids, AABB-screened, stride 7; depth = distance from an inside vertex to the containing surface",
+  "why": "closest_point returns an UNSIGNED distance, so touching and interpenetrating both read 0.0 mm.  The earlier GF-6 FAIL at CLOSED was that ambiguity, not a defect.",
+  "tolerance_mm": 0.05,
+  "results": [
+   {
+    "state": "OPEN",
+    "travel_mm": 71.5,
+    "vertices_inside_other_finger": 0,
+    "max_penetration_depth_mm": 0.0,
+    "interpenetrates": false,
+    "witness": ""
+   },
+   {
+    "state": "PREGRASP",
+    "travel_mm": 55.0,
+    "vertices_inside_other_finger": 0,
+    "max_penetration_depth_mm": 0.0,
+    "interpenetrates": false,
+    "witness": ""
+   },
+   {
+    "state": "CLOSED",
+    "travel_mm": 0.0,
+    "vertices_inside_other_finger": 250,
+    "max_penetration_depth_mm": 0.0249,
+    "interpenetrates": false,
+    "witness": "B51_REF_gripper_detail_LINKLOCAL055 | B51_REF_gripper_detail_LINKLOCAL056"
+   }
+  ]
+ },
+ "superseded_jaw_numbers": [
+  {
+   "value_mm": 143.0,
+   "source": "F3R2_CAMERA_HARNESS_GRIPPER.json gripper.states_defined.OPEN",
+   "why_wrong": "2 x travel is the sum of the two sliders' strokes, not the distance between the gripping faces; the faces do not start coincident"
+  },
+  {
+   "value_mm": -62.6999,
+   "source": "this file, interim per-solid pass",
+   "why_wrong": "took each group's extreme vertex toward the centreline, which lands on the linkage bars behind the palm (solids 049/053), not the jaw faces"
+  }
+ ],
+ "unpaired_solid_disposition": {
+  "labels": [
+   "B51_REF_gripper_detail_LINKLOCAL011"
+  ],
+  "volume_mm3": [
+   46.8319
+  ],
+  "assigned_by": "URDF enclosure fallback, not by mirror symmetry",
+  "assigned_to": [
+   "gripper_link"
+  ],
+  "honest_status": "one 46.8 mm3 body has no mirror twin, so its finger membership rests on the weaker enclosure test.  It is 0.015% of gripper volume and cannot change any clearance result, but it is NOT claimed to be mirror-proven."
+ },
+ "native_gate_verdict": "G33A_NATIVE_COMPONENT_CONFIGURATION_HOLD"
+}

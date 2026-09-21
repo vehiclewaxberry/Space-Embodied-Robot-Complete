@@ -1,0 +1,178 @@
+{
+  "schema": "CF1_PCB_VALIDATION",
+  "passed": false,
+  "checks_run": 23,
+  "failed": [
+    "forward_current_density_le_35_including_Q201_pad_entry_necks",
+    "SPEC_4_2_F201_land_width_ge_10mm",
+    "SPEC_4_3_parallel_copper_at_F201_and_R201_R202_ends",
+    "SPEC_4_4_TIM_pours_return_plus_forward_ge_2400mm2"
+  ],
+  "checks": [
+    {
+      "name": "parent_V32_ecad_bytes_unchanged",
+      "passed": true,
+      "files": 58,
+      "drift": []
+    },
+    {
+      "name": "board_sha256_matches_build_receipt",
+      "passed": true
+    },
+    {
+      "name": "pad_geometry_and_net_fingerprint_identical_to_parent",
+      "passed": true,
+      "footprints": 43,
+      "covers": "reference, library name, position, angle, jumper flag, pad number/net/xy/size/drill/shape/layers",
+      "not_covered_but_changed_by_the_build": {
+        "footprint_type_attributes_set": 12,
+        "courtyards_added": 8,
+        "library_files_rewritten": 10
+      },
+      "note": "43 footprints = 35 component references + MH1-4 + 4 PORT_* embedded footprints"
+    },
+    {
+      "name": "kelvin_internal_connection_attributes_retained",
+      "passed": true
+    },
+    {
+      "name": "stackup_3oz_both_outer_layers_persisted",
+      "passed": true,
+      "note": "text-level guard; current_density_cf1.py reads the same stackup block and asserts it"
+    },
+    {
+      "name": "copper_rectangles_match_build_table",
+      "passed": true,
+      "count": 10
+    },
+    {
+      "name": "forward_bands_width_ge_8mm",
+      "passed": true,
+      "bands": 5,
+      "spec_deviation": "DESIGN_SPEC_CF1.md 4.2 asked for a 10 mm F201 land connection; delivered bands are 8 mm (plan corridor y 8-16)"
+    },
+    {
+      "name": "parallel_copper_strip_with_via_array",
+      "passed": true,
+      "vias_inside": 20,
+      "vias_total": 47,
+      "threshold": 12,
+      "spec_deviation": "DESIGN_SPEC_CF1.md 4.3 asked for B.Cu parallel copper at both ends of F201 and of R201/R202; the B.Cu under those bands is the return pour, so one strip on WP10_PRECHARGED_PLUS was built instead (see README_CF1.md section 3 deviations)"
+    },
+    {
+      "name": "return_TIM_contact_zone_filled",
+      "passed": true,
+      "filled_area_mm2": 703.984522120362,
+      "spec_deviation": "DESIGN_SPEC_CF1.md 4.4 asked for return + forward pours totalling >= 60x40 mm with forward thermal vias; delivered is the return pour only, 704 mm2 outline"
+    },
+    {
+      "name": "footprint_type_attributes_set",
+      "passed": true
+    },
+    {
+      "name": "every_footprint_has_courtyard",
+      "passed": true,
+      "missing": []
+    },
+    {
+      "name": "native_DRC_clean_all_rule_severities_enabled",
+      "passed": true,
+      "kicad": "10.0.6",
+      "ignored": [],
+      "note": "severity statement: footprint_filters_mismatch is evaluated by the schematic-parity provider, which could not run (see parity check)"
+    },
+    {
+      "name": "system_ERC_no_violations",
+      "passed": true,
+      "sheets": 13,
+      "default_ignored_checks": [
+        "single_global_label",
+        "four_way_junction",
+        "simulation_model_issue",
+        "footprint_filter"
+      ],
+      "note": "wp10_system.kicad_pro is an empty project, so ERC ran with KiCad default severities (4 checks ignored by default)"
+    },
+    {
+      "name": "schematic_parity_refusal_recorded_for_delivered_board",
+      "passed": true,
+      "status": "NOT_EXECUTABLE_SCHEMATIC_NOT_FULLY_ANNOTATED",
+      "receipt_date": "2026-09-17T06:25:32",
+      "board_sha256": "c2b52d2cb59cf69a0e1e10561cba30b274b2ad7f863b1a2d997639f166f40c79",
+      "note": "kicad-cli pcb drc --schematic-parity on the delivered board: refusal text captured in MAIN_INPUT_DRC_PARITY.log; same limit as V32"
+    },
+    {
+      "name": "stackup_copper_thickness_read_by_density_model",
+      "passed": true
+    },
+    {
+      "name": "forward_band_current_density_le_35",
+      "passed": true,
+      "worst_band_A_mm2": 29.0952380952381
+    },
+    {
+      "name": "forward_current_density_le_35_including_Q201_pad_entry_necks",
+      "passed": false,
+      "worst_neck_A_mm2": 62.90862290862299,
+      "note": "The TO-247 pad entry (3.7 / 4.2 mm wide, 0.5 mm long, 105 um) carries the full main current; on F.Cu alone it cannot meet 35 A/mm2 without a wider footprint or thicker copper. The parent V29 booked the same necks at 2.6 mm width (134 A/mm2 at 70 um). No part or footprint substitution is allowed in CF1, so this is an OPEN item, not a silent pass."
+    },
+    {
+      "name": "copper_loss_reduction_ge_40pct_same_path_definition_as_V29",
+      "passed": true,
+      "cf1_R20_mohm": 3.817961540814895,
+      "parent_R20_mohm": 8.577963976092049,
+      "cf1_loss_20A_100C_W": 2.007331459698839,
+      "reduction": 0.554936333981553,
+      "reduction_bands_only_model": 0.5743964142137663
+    },
+    {
+      "name": "density_model_controls",
+      "passed": true
+    },
+    {
+      "name": "layout_negative_controls_detected",
+      "passed": true,
+      "cases": [
+        [
+          "negative_no_via_array",
+          true
+        ],
+        [
+          "negative_no_drain_stub",
+          true
+        ],
+        [
+          "negative_via_in_return_pour",
+          true
+        ]
+      ],
+      "note": "the DESIGN_SPEC wrong-net-via case is replaced by a via moved into the return pour (KiCad net propagation makes a persistent wrong-net via inexpressible)"
+    },
+    {
+      "name": "SPEC_4_2_F201_land_width_ge_10mm",
+      "passed": false,
+      "delivered_mm": [
+        8.0
+      ],
+      "spec_conformance": true
+    },
+    {
+      "name": "SPEC_4_3_parallel_copper_at_F201_and_R201_R202_ends",
+      "passed": false,
+      "delivered_bcu_nets": [],
+      "spec_conformance": true
+    },
+    {
+      "name": "SPEC_4_4_TIM_pours_return_plus_forward_ge_2400mm2",
+      "passed": false,
+      "delivered_return_mm2": 703.984522120362,
+      "delivered_forward_pours": 0,
+      "spec_conformance": true
+    }
+  ],
+  "scope": "EDA layout increment on the V32 parent (Kelvin-corrected). No fabrication, ampacity, SOA, assembly or energization credit.",
+  "parent_board_sha256": "6cd2d3fa1f0fcfcee35f004460193e773ace4e298bc48c86218f8d68eafe7633",
+  "board_sha256": "c2b52d2cb59cf69a0e1e10561cba30b274b2ad7f863b1a2d997639f166f40c79",
+  "hardware_tests": 0,
+  "whole_design_complete": false
+}

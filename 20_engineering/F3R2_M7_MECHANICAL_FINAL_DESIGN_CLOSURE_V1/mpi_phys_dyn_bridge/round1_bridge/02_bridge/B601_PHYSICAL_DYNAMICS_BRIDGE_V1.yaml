@@ -1,0 +1,274 @@
+schema: B601_PHYSICAL_DYNAMICS_BRIDGE_V1
+generated_local: '2026-08-23T18:30:00+08:00'
+generator: KIMI M7 Wave-2a AGENT-1 MPI-FB-02 (pure python/numpy; no CAD/FEA process)
+status: FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION_AND_MPI_FB08_GATE
+authority_basis:
+  ODR-43: 'B601_ARM_PLACEMENT_RULE: DUAL_FRAME_EXPLICIT_BRIDGE - unique explicit T_PHYSICAL_TO_DYNAMIC; no selection, no per-module mixing, no averaging, delta is not uncertainty, no silent substitution'
+  ODR-44: APPROVE_BOUNDED_DETAILED_DESIGN - accepted URDF / Solar R2 / M3R / Gripper R1 / M7 FEA frozen; no Route-C CAD before MPI-FB-01..08 all closed
+frame_semantics:
+  convention: 'row-major 4x4 homogeneous T_parent_child: p_parent = T_parent_child @ p_child; rotation columns = child axes expressed in parent'
+  T_S_A0_dynamics:
+    meaning: ODR-01 T_SM dynamics mounting reference (M frame); A0 = URDF base_link
+    transform_S_A0_rows_m:
+    - - 0.0
+      - 0.0
+      - 1.0
+      - 0.18525
+    - - 0.0
+      - 1.0
+      - 0.0
+      - 0.0
+    - - -1.0
+      - 0.0
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0
+      - 1.0
+    source: 30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/00_authority/E21_AUTHORITY_CONTRACT_V1.yaml placement_hypotheses.ODR01_DYNAMICS_T_SM
+  T_S_A0_physical:
+    meaning: WP11 physical installation context (PHYSICAL_INSTALLATION_AUTHORITY per ODR-43)
+    transform_S_A0_rows_m:
+    - - 0.0
+      - 0.0
+      - 1.0
+      - 0.208
+    - - 0.422618483193
+      - 0.906307683772
+      - 0.0
+      - 0.0
+    - - -0.906307683772
+      - 0.422618483193
+      - 0.0
+      - 0.0
+    - - 0.0
+      - 0.0
+      - 0.0
+      - 1.0
+    source: 30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/00_authority/E21_AUTHORITY_CONTRACT_V1.yaml placement_hypotheses.WP11_PHYSICAL_GEOMETRY_CONTEXT
+bridge_constant_ruling:
+  unique_bridge_clocking_deg: 25.000014
+  clocking_source: M3R measured clocking_about_spacecraft_x_deg / pattern_clocking_about_x_deg (M3R_TSM_PHYSICAL_STACK.yaml, sha 172F3603E458); identical full-precision spelling in M4 frame tree, WP11 calibration,
+    e21 authority contract
+  contract_matrix_derived_angle_deg: 25.000013999964253
+  contract_spelling_note: the e21 authority contract carries sin/cos to 12 decimal places; the derived matrix angle differs from the 25.000014 deg constant only at the 12-decimal input-rounding noise level
+    (see known_deviation_register entry CONTRACT_12DP_TRIG_TRUNCATION for the exact figures). The stored bridge matrix below is derived from the hash-pinned contract matrices, NOT re-synthesized from theta,
+    so the bridge stays bit-consistent with the authority sources. round0's derivation reported 25.000013999932 deg vs this derivation's 25.000013999964 deg; the 3.2e-11 deg gap is one input-ulp of the
+    12-dp contract spelling (computation-path noise), not a content difference.
+  bridge_translation_m: 0.02275
+  bridge_translation_note: 208.0 - 185.25 = 22.75 mm along +X_S, expressed in A0-dyn as +z (+0.02275 m); NOT 12.75 mm (adapter face) and NOT 2.405 mm (fastener plane) - stack-internal station distances
+    are forbidden as bridge translation
+T_PHYSICAL_TO_DYNAMIC:
+  definition: 'B = inv(T_S_A0_dyn) @ T_S_A0_phys; maps A0 coordinates expressed under the physical installation convention into A0 coordinates under the dynamics convention: p_A0dyn = B @ p_A0phys. Equivalently
+    T_S_A0_dyn @ B = T_S_A0_phys (closure max_abs = 0.000e+00).'
+  closed_form: B = Trans(z_A0, +0.02275 m) . Rot(z_A0, +25.000014 deg) - pure z screw, no x/y component
+  translation_m:
+  - 0.0
+  - 0.0
+  - 0.022749999999999992
+  quaternion_wxyz:
+  - 0.9762959806769003
+  - 0.0
+  - 0.0
+  - 0.21643973321488344
+  rotation_matrix:
+  - - 0.906307683772
+    - -0.422618483193
+    - 0.0
+  - - 0.422618483193
+    - 0.906307683772
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 1.0
+  homogeneous_4x4:
+  - - 0.906307683772
+    - -0.422618483193
+    - 0.0
+    - 0.0
+  - - 0.422618483193
+    - 0.906307683772
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 1.0
+    - 0.022749999999999992
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  rotation_angle_deg_derived: 25.000013999964253
+  rotation_axis_in_A0_dynamics:
+  - 0.0
+  - 0.0
+  - 1.0
+T_DYNAMIC_TO_PHYSICAL_inverse_bridge:
+  definition: inv(B) = Trans(z_A0, -0.02275 m) . Rot(z_A0, -25.000014 deg); p_A0phys = inv(B) @ p_A0dyn
+  translation_m:
+  - 0.0
+  - 0.0
+  - -0.022749999999999992
+  rotation_matrix:
+  - - 0.906307683772
+    - 0.422618483193
+    - 0.0
+  - - -0.422618483193
+    - 0.906307683772
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 1.0
+  homogeneous_4x4:
+  - - 0.906307683772
+    - 0.422618483193
+    - 0.0
+    - 0.0
+  - - -0.422618483193
+    - 0.906307683772
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 1.0
+    - -0.022749999999999992
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  independent_dense_inverse_max_abs_vs_rigid_inverse: 4.709566070459914e-13
+S_frame_conjugate_for_S_expressed_quantities:
+  definition: for quantities already expressed in S (e.g. WP2 ledger arm CG/inertia consumed under the physical rail), re-expression between consumption semantics uses the S-frame conjugate C_S = T_S_A0_dyn
+    @ inv(T_S_A0_phys) = Trans_S([-0.02275,0,0] m) . Rot_S(x, -25.000014 deg); p_S|dyn_consumption = C_S @ p_S|phys_consumption; I|dyn = R(C_S) @ I|phys @ R(C_S).T
+  C_S_homogeneous_4x4:
+  - - 1.0
+    - 0.0
+    - 0.0
+    - -0.022749999999999992
+  - - 0.0
+    - 0.906307683772
+    - 0.422618483193
+    - 0.0
+  - - 0.0
+    - -0.422618483193
+    - 0.906307683772
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  C_S_inverse_homogeneous_4x4:
+  - - 1.0
+    - 0.0
+    - 0.0
+    - 0.022749999999999992
+  - - 0.0
+    - 0.906307683772
+    - -0.422618483193
+    - 0.0
+  - - 0.0
+    - 0.422618483193
+    - 0.906307683772
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+numerical_health:
+  det_R_B: 1.0000000000005196
+  max_abs_RtR_minus_I: 5.195843755245733e-13
+  roundtrip_invB_at_B_minus_I_max_abs: 5.195843755245733e-13
+  T_dyn_at_B_minus_T_phys_max_abs: 0.0
+  derivation_pathA_rigid_inv_vs_pathB_dense_inv_max_abs: 0.0
+  closed_form_vs_derived_max_abs: 2.354783035229957e-13
+  physical_rotation_equals_RxS_theta_at_R_dyn_residual: 2.354783035229957e-13
+known_deviation_register:
+- id: WP11-F-03_ROUNDED_CLOCK_SPELLING
+  spelling: sin/cos written 0.422618/0.906308 (= 24.999981252 deg) in F3R2_ARM_INITIAL_POSE.yaml, V5R SYSTEM_FRAME_TREE.yaml and the M5 mesh-localization chain
+  authoritative_spelling_deg: 25.000014
+  witness: arm CG displacement ~1.1e-4 mm at C01 (e21 audit ledger residual 0.00011314150166020904 mm; round0 end-to-end witness 1.1314e-4 mm)
+  witness_recomputed_this_round_m_on_c01_arm_cg: 1.1314152027209831e-07
+  recomputation_method: r_A0 = inv(T_phys_rounded) @ ledger_C01_arm_CG_S; ||T_phys_full @ r_A0 - T_phys_rounded @ r_A0|| (V3_R2 C01 arm row, hash-pinned)
+  disposition: REGISTERED KNOWN DEVIATION - forbidden to silently mix spellings; ledger C01..C06 arm rows carry the rounded spelling and are re-expressed in MPI-FB-06 through this bridge with the residual
+    documented, never zeroed
+  matrix_max_abs_vs_bridge: 5.180141831595542e-07
+- id: CONTRACT_12DP_TRIG_TRUNCATION
+  spelling: e21 authority contract sin/cos at 12 decimal places
+  derived_angle_deg: 25.000013999964253
+  angle_gap_vs_25_000014_deg: 3.574740503609064e-11
+  matrix_max_abs_exact_theta_vs_bridge: 4.991562718714704e-13
+  positional_effect_m_at_0p76m_lever: 4.741715368620758e-13
+  disposition: stored bridge uses the hash-pinned contract matrices; exact-theta synthesis kept as witness only (red-team ATK-11 dual-version control)
+- id: EXACT_25DEG_REFERENCE_ONLY
+  spelling: sin/cos(25.000000 deg) full precision
+  disposition: reference witness only, NOT the bridge (red-team ATK-11 dual-version control)
+  matrix_max_abs_vs_bridge: 2.2145230055281573e-07
+m3r_flange_json_composition_pin:
+  naive_T_dyn_mm_at_T_json_origin_mm:
+  - 185.16363393
+  - 0.015994151
+  - -25.155
+  m4_M3R_LOCAL_origin_mm:
+  - 208.0
+  - 0.015994151
+  - -0.08636607
+  misplacement_vector_mm:
+  - -22.836366069999997
+  - 0.0
+  - -25.06863393
+  misplacement_z_component_mm: 25.06863393
+  misplacement_norm_mm: 33.910706604248084
+  correct_composition: 'translation_xyz_mm is expressed along the stack axis in S axes at the M origin: datum_origin_S_mm = [185.25,0,0] + translation_xyz_mm = [210.405, 0.015994151, -0.08636607]; datum_orientation_S
+    = Rx_S(25.000014deg) . Ry(90deg) (= M4 M3R_LOCAL rows). The JSON rotation_matrix (pure Rx) and its translation are NOT a standard T_M_child block.'
+  as_built_datum_210p405_in_bridge: false
+  flange_json_in_bridge: false
+  datum_origin_S_mm_reconstructed:
+  - 210.405
+  - 0.015994151
+  - -0.08636607
+  datum_origin_matches_m4_fastener_end_plane: true
+explicitly_not_in_bridge:
+- M3R as-built datum 210.405 mm (B601_FASTENER_END_PLANE) and its yz pattern offsets [0.015994151, -0.086366070] mm - GEOMETRY rail only; dynamics entry requires a separate ruling
+- M3R_TSM_FRAME_TO_FLANGE_TRANSFORM.json - composition convention pinned above; not consumed by this bridge
+- ADAPTER_PLATE_EXTERNAL_FACE 198.0 mm - stack station, not a mount plane
+- link-level D_i calibration (B601_CAD_URDF_GEOMETRY_CALIBRATION_V1) - composes with this mount-level bridge, never substitutes it
+forbidden:
+- selecting one of the two frames and discarding the other
+- per-module mixing of the two frames
+- averaging the frames or their outputs (the 0.36889 deg branch delta is NOT an uncertainty)
+- treating the branch delta as standard uncertainty (standard_uncertainty remains null)
+- silent coordinate substitution; any consumer must cite this file and its sha256
+- using stack-internal station distances (12.75 / 10.0 / 2.405 / 25.155 mm) as bridge translation
+source_register:
+- path: 30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/00_authority/E21_AUTHORITY_CONTRACT_V1.yaml
+  sha256: 7D2E0792B3FF6BAB9BD9AE11A605341B20BAAB821961A7BA8E119996D1515D81
+  role: BRIDGE_DERIVATION_AUTHORITY_BOTH_TRANSFORMS
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+  sha256: F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6
+  role: ODR-01_DYNAMICS_FRAME_AUTHORITY
+- path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+  sha256: 67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA
+  role: FROZEN_FRAME_TREE_CROSSCHECK
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/B601_CAD_URDF_GEOMETRY_CALIBRATION_V1.yaml
+  sha256: 7463C1309C3530A42BB32CB4A661FFA56575691DFB7A4BE801AAE9094BEB51E1
+  role: WP11_PHYSICAL_MOUNT_CONTEXT_CROSSCHECK
+- path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+  sha256: 172F3603E458F670323925E644BC68623EE9C85FCA7AF1200FAE2576EB43C68B
+  role: CLOCKING_25_000014_MEASURED_SOURCE
+- path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_FRAME_TO_FLANGE_TRANSFORM.json
+  sha256: 29303BA65DFD7473F2E0DBB7BFD16CF269C87EF1A336575AE054594B57BBD6CA
+  role: COMPOSITION_CONVENTION_PINNED_NOT_IN_BRIDGE
+- path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/04_configurations/F3R2_ARM_INITIAL_POSE.yaml
+  sha256: D6E33CB5993BA056E1368F72487B4972E4316E83655FB5AF33035FCC1761AAE2
+  role: ROUNDED_SPELLING_PROVENANCE_WP11_F03
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  sha256: 3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB
+  role: C01_ARM_CG_LEVER_FOR_SPELLING_WITNESS
+self_hash_policy: SELF_REFERENCE_EXCLUDED - this file carries no hash of itself; downstream consumers pin its sha256 after emission (same policy as e21/V5 manifests)
+next_stage_authorized: false
+release_credit: false
+nonclaims:
+- this bridge does not select or average the two placement hypotheses; it connects them
+- this bridge grants no production, manufacturing, qualification, launcher or flight authority
+- M3R as-built datum usage in dynamics is a separate ruling, not implied here

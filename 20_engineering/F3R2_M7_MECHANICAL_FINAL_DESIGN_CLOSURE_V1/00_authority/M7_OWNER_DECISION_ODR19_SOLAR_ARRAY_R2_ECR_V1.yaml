@@ -1,0 +1,129 @@
+schema: M7_OWNER_DECISION_ODR19_SOLAR_ARRAY_R2_ECR_V1
+generated_local: '2026-08-22T20:10:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: OWNER_DECISION_REGISTER_ENTRY
+id: ODR-19
+extends: M7_OWNER_DECISION_REGISTER_V1.yaml
+amends: M7_OWNER_DECISION_ODR18_SOLAR_HARNESS_ECR_V1.yaml
+authority: OWNER_DIRECTIVE_2026-08-22_ECR_SOLAR_ARRAY_R2
+review_status: RECORDED_AS_DIRECTED
+next_stage_authorized: false
+
+subject: SOLAR_ARRAY_R2_ARCHITECTURE_ECR_REPLACES_SINGLE_LEAF_TERMINAL_DESIGN
+
+ruling_summary: >-
+  The legacy single-leaf 227 x 200 x 6 mm solar wing is no longer the
+  terminal mechanical design; it is preserved as LEGACY_R1 evidence only.
+  The terminal engineering candidate is SOLAR_ARRAY_R2: two symmetric wings,
+  three deployable leaves per wing, 300 x 200 mm leaf planform candidate,
+  all hinge axes parallel to X_S, passive deployment + latch. This is an
+  O3-class architecture change executed as a NARROW ECR: M7 is not rerun
+  and no M8/M9 artifact may be created.
+
+relationship_to_odr18:
+  superseded:
+    - item 6/7 planform retention-or-resize question (architecture change
+      makes the single-leaf planform question moot; the item-5 axis audit
+      factual finding - 227 mm is longitudinal along X_S - remains VALID
+      and is the basis for keeping all hinge axes parallel to X_S)
+    - item 8 single-panel-per-side book-style architecture limit
+  carried_forward_unchanged:
+    - item 1/2: Gate A not signed; only the named chain reopens
+    - item 4: dual envelope semantics (MODE_OP vs MODE_LAUNCH/flight HOLD);
+      340.5 mm is PROJECT_OPERATIONAL_ENVELOPE, never universal 12U flight
+      authority
+    - item 9: B601 harness service loop >= 347.49 mm redesign (unchanged)
+    - item 10: continuous non-empty clearance evidence requirement
+    - item 11: downstream regeneration requirement
+    - item 12: B601 accepted URDF and M3R frozen authority untouched
+    - items 13/14/15: closure conditions, release wording, post-release freeze
+    - solar mass semantics: no area-proportional rescale may be written as
+      real mass; 0.3483933 kg stays LEGACY_SIM11_PROVISIONAL; R2 mass is a
+      NEW CAD/material-derived value
+    - fail-closed arm-release interlock principle
+
+architecture_ruling:
+  wings: 2 (symmetric, LEFT/RIGHT)
+  leaves_per_wing: 3
+  leaf_planform_candidate_mm: [300, 200]
+  hinge_axes:
+    root_hinge: parallel to X_S (unchanged from R1 axis authority)
+    inter_panel_hinge_1: parallel to X_S
+    inter_panel_hinge_2: parallel to X_S
+  fold_style: accordion/book interlocking stack
+  deployment: PASSIVE + hard stop + latch (terminal baseline)
+  sada: >-
+    No active sun-tracking drive in this release. Reserve
+    OPTIONAL_SADA_INTERFACE at the root only.
+  geometric_area_m2_per_wing: 0.180
+  deployed_lateral_span_mm_per_wing: ~600
+  chord_fit: >-
+    300 mm chord along X_S leaves ~40.5 mm total longitudinal margin on the
+    340.5 mm MODE_OP body and is also compatible with a 366 mm MODE_FLIGHT
+    envelope; this fit is geometric only and confers no flight authority.
+
+engineering_targets_not_freeze_values:
+  leaf_total_assembly_thickness_mm: 2.0-2.5 (target; 6 mm single plate is
+    reclassified LEGACY_EQUIVALENT_COLLISION_THICKNESS, not a real leaf)
+  stowed_stack_mm: '<= 9 (target, via recessed cassette 2.5-3 mm as needed)'
+  wing_mass_kg: '<= 0.8 per wing (design target; CAD/material-derived mass
+    required; 3 x 0.3483933 kg arithmetic is FORBIDDEN as a design value)'
+  power_estimate_note: >-
+    First-order estimate only (1367 W/m2, ~30% cells, 70-80% packing, 0.85
+    derate): ~44-50 W/wing, ~88-100 W/pair. This is an ENGINEERING ESTIMATE
+    for sizing rationale, NOT a verified power budget truth.
+
+deployment_state_machine:
+  states:
+    - SOLAR_STOWED_LOCKED
+    - SOLAR_HDRM_RELEASE_COMMAND
+    - SOLAR_HDRM_RELEASE_CONFIRMED
+    - SOLAR_LEAF1_DEPLOY
+    - SOLAR_LEAF2_UNFOLD
+    - SOLAR_LEAF3_UNFOLD
+    - SOLAR_DEPLOYED_LATCHED
+    - SOLAR_DEPLOY_FAILED_LEFT
+    - SOLAR_DEPLOY_FAILED_RIGHT
+    - SOLAR_DEPLOY_FAILED_BOTH
+    - SOLAR_STATE_UNKNOWN
+  arm_interlock: >-
+    if left_wing != SOLAR_DEPLOYED_LATCHED or right_wing !=
+    SOLAR_DEPLOYED_LATCHED then ARM_RELEASE = FORBIDDEN. Fail-closed;
+    an unconfirmed wing never releases B601.
+
+reopen_freeze_table:
+  FROZEN:
+    - B601_KINEMATICS_AND_ACCEPTED_URDF
+    - M3R_INTERFACE
+    - GRIPPER_R1
+    - STAGE_A_B_OPERATIONAL_FEA_MAIN_LOAD_PATH
+  REOPEN:
+    - SOLAR_GEOMETRY (stowed stack + deployed R2)
+    - HDRM_AND_LATCH (solar wing restraint/release)
+    - SOLAR_HARNESS (per-hinge flex jumpers + root service loop)
+  REGENERATE:
+    - NINE_CONFIG_MASS_CG_INERTIA
+    - FLEXIBLE_APPENDAGE_PARAMETER_CARD_R2 (new card; legacy sim_11 card
+      must not be overwritten)
+    - COLLISION_KEEPOUT_ASSETS
+  RECHECK: [THERMAL_CLEARANCE_SENSITIVITY]
+  REBIND: [MECH_RL_CONTRACT, EMBODIED_MECHANICAL_CONTRACT]
+  RERUN: [MECHANICAL_TO_EMBODIED_HANDOFF_GATE_11_OF_11]
+
+closure_conditions:
+  - unexplained_interference = 0
+  - empty_comparison_set = 0
+  - internal_mechanical_HOLD = 0
+  - HIGH_red_team = 0
+  - handoff_gate = 11/11 PASS
+  on_pass: >-
+    issue MECHANICAL_ENGINEERING_DESIGN_RELEASED_
+    FOR_OPERATIONAL_DIGITAL_TWIN_AND_EMBODIED_CONTROL
+    WITH_FLIGHT_QUALIFICATION_HOLD, then freeze active mechanical design;
+    all later changes require ECR.
+
+prohibition: >-
+  L6 remains the terminus. No M8/M9 planning artifact may be created.
+  Nothing here grants flight, launcher, manufacturing-release or
+  qualification authority. MODE_FLIGHT / dispenser compatibility remains
+  HOLD pending actual launcher/deployer ICD.

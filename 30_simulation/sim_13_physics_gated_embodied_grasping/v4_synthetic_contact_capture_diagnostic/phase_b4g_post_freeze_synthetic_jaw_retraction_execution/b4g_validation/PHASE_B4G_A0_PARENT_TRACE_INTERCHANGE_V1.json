@@ -1,0 +1,49 @@
+{
+  "schema": "SIM13_V4B4G_A0_PARENT_TRACE_INTERCHANGE_V1",
+  "manifest_path": "evidence/SIM13_V4B4G_A0_PARENT_REFERENCE_TRACES_V1.json",
+  "manifest_required_fields": ["schema", "fresh_generation", "source_bindings", "trace_count", "traces", "claim_boundary"],
+  "source_bindings_required": {
+    "b4e_solver_sha256": "7AAF83E067019B3CA69FF78E61CADBC25BF9FAEC94699E7EA388859D8144295D",
+    "b4e_run_spec_sha256": "4C4A6708A0784DCAD5004CF657D22D372DE2C5269EE33401B55A3441A7F9E76B",
+    "b4e_audited_gate_sha256": "8F644E69F626793989488C8D8FF3803F9F1354C6D637E1E237044A55421C896E",
+    "b4e_terminal_sha256": "09047EF1B605BBE288545564EC1BF71D0184A330FAABDA11D8A1B123584D60A6"
+  },
+  "trace_count": 6,
+  "trace_required_fields": ["lane_id", "method", "step_s", "fresh_b3_reconstruction", "fresh_b4e_reference_propagation", "acquisition_time_s", "common_absolute_end_time_s", "event_certificate_sha256", "acquisition_certificate_payload", "fixed_template_comparison_audit", "npz_path", "npz_bytes", "npz_sha256", "numeric_payload_sha256"],
+  "acquisition_certificate_payload_exact_fields": ["lane_id", "case_id", "event", "acquisition"],
+  "fixed_template_comparison_audit": {
+    "exact_fields": ["fixed_source_bindings", "allowed_pointer_differences", "dissipation_comparisons", "all_other_pointers_exact", "passed"],
+    "fixed_source_binding_exact_fields": ["path", "bytes", "sha256"],
+    "allowed_pointer_differences": ["/event/run_id", "/acquisition/run_id", "/event/source", "/event/b3_dissipation_J", "/acquisition/energy_audit/D_B3_minus_J"],
+    "dissipation_comparison_exact_fields": ["fixed", "fresh", "ulp_distance", "maximum_ulp"],
+    "maximum_ulp": 2,
+    "fresh_internal_rule": "event.b3_dissipation_J and acquisition.energy_audit.D_B3_minus_J are binary64-bit exact equal",
+    "source_rule": "fresh event.source is INDEPENDENT_B3_RERUN_FIRST_QUALIFYING_SAMPLE; fixed template source may already be that value or HASH_BOUND_B3_REFERENCE_RECORD_205",
+    "all_other_rule": "after normalizing only the five allowed pointers to fixed values, event and compact acquisition canonical bytes are exactly equal to their hash-bound fixed templates"
+  },
+  "npz_arrays": {
+    "time_s": "float64[N]",
+    "service_position_m": "float64[N,3]",
+    "service_quaternion_wxyz": "float64[N,4]",
+    "R_joint_coordinates_rad": "float64[N,6]",
+    "P_joint_coordinates_m": "float64[N,2]",
+    "base_linear_m_s": "float64[N,3]",
+    "base_angular_rad_s": "float64[N,3]",
+    "R_joint_rad_s": "float64[N,6]",
+    "P_joint_m_s": "float64[N,2]",
+    "left_gap_m": "float64[N]",
+    "right_gap_m": "float64[N]",
+    "left_gap_rate_m_s": "float64[N]",
+    "right_gap_rate_m_s": "float64[N]"
+  },
+  "comparison": {
+    "time_grid": "A0 raw samples with absolute time <=0.08 s must equal parent time_s exactly",
+    "quaternion": "independent geodesic 2*acos(abs(dot(q1,q2)))",
+    "ten_frozen_channels": ["service_position_m", "service_quaternion_geodesic_rad", "R_joint_coordinates_rad", "P_joint_coordinates_m", "base_linear_m_s", "base_angular_rad_s", "R_joint_rad_s", "P_joint_m_s", "left_right_gap_m", "left_right_gap_rate_m_s"],
+    "absolute_tolerance_each": 1e-12,
+    "metadata_comparison_is_authoritative": false,
+    "case_metadata_channel_maxima_and_tolerance_key_set": "exactly the ten_frozen_channels; no per-side expansion or extra self-reported channels",
+    "summary_lane_pair_required_binding": "parent_trace_sha256 must equal the lane parent NPZ sha256"
+  },
+  "claim_boundary": "fresh hash-bound parent reference for independent A0 replay only; no new release or physical credit"
+}

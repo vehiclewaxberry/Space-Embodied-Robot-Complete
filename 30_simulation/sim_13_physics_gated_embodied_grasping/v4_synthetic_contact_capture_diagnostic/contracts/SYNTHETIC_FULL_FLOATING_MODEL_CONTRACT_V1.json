@@ -1,0 +1,80 @@
+{
+  "schema": "SIM13_V4A_SYNTHETIC_FULL_FLOATING_MODEL_CONTRACT_V1",
+  "artifact_class": "SYNTHETIC_ANALOGUE_ALGORITHM_DIAGNOSTIC_ONLY",
+  "topology": {
+    "service_base_dof": 6,
+    "serial_joint_sequence": ["R", "R", "R", "R", "R", "R", "P", "P"],
+    "service_generalized_velocity": "nu_s=[v_b_inertial(3),omega_b_inertial(3),qdot_R(6),qdot_P(2)]",
+    "target_dof": 6,
+    "target_state": "position_inertial(3)+quaternion_body_to_inertial_wxyz(4)+velocity_inertial(3)+omega_inertial(3)",
+    "contact_dof": 0
+  },
+  "units": {
+    "base_linear_rate": "m/s",
+    "base_angular_rate": "rad/s",
+    "revolute_coordinate": "rad",
+    "revolute_rate": "rad/s",
+    "revolute_effort": "N*m",
+    "prismatic_coordinate": "m",
+    "prismatic_rate": "m/s",
+    "prismatic_effort": "N",
+    "full_mass_matrix_single_unit": null,
+    "linear_momentum": "N*s",
+    "angular_momentum": "N*m*s",
+    "kinetic_energy": "J"
+  },
+  "equations": {
+    "service": "M(q) nu_dot + h(q,nu) = 0",
+    "mass_matrix": "sum_i m_i Jv_i^T Jv_i + Jw_i^T I_i^I Jw_i",
+    "bias": "sum_i Jv_i^T m_i Jv_dot_i nu + Jw_i^T (I_i^I Jw_dot_i nu + omega_i cross I_i^I omega_i)",
+    "gravity": "ZERO",
+    "external_wrench": "ZERO",
+    "joint_effort": "ZERO",
+    "base_attitude_representation": "UNIT_QUATERNION_NOT_EULER_ANGLES",
+    "integration": "FIXED_STEP_RK4_WITH_QUATERNION_RENORMALIZATION",
+    "contact": "NOT_IMPLEMENTED_PHASE_A"
+  },
+  "momentum_reporting": {
+    "reference_origin": "COMMON_INERTIAL_ORIGIN",
+    "linear_and_angular_separate": true,
+    "heterogeneous_six_norm_prohibited": true,
+    "service_and_target_separate_in_no_contact": true,
+    "combined_total_reported_separately": true
+  },
+  "independent_equation_audit": {
+    "primary_bias_effort_callable": false,
+    "primary_acceleration_source": "HASH_BOUND_VALIDATOR_LEDGER",
+    "mass_matrix_reconstruction": "FIVE_POINT_FINITE_DIFFERENCE_BODY_KINEMATICS",
+    "joint_residual": "r_j=[M_fd*a_primary]_(6+j)+[Mdot*nu]_(6+j)-0.5*nu^T*(dM/dq_j)*nu",
+    "R_residual_unit": "N*m",
+    "P_residual_unit": "N",
+    "outer_epsilon_R_rad": [5e-7, 1e-6, 2e-6],
+    "outer_epsilon_P_m": [5e-7, 1e-6, 2e-6],
+    "frozen_state_count": 6,
+    "state_registry": "SIX_EXPLICIT_NONZERO_VELOCITY_STATES_NO_RNG_V1",
+    "diagnostic_scaling": {
+      "R": "scaled_by_reference_1_N_m",
+      "P": "scaled_by_reference_1_N",
+      "is_physical_normalization": false
+    }
+  },
+  "nullspace_wrong_ode_control": {
+    "actual_integration_required": true,
+    "integrator": "RK4",
+    "coarse_step_s": 0.001,
+    "fine_step_s": 0.0005,
+    "common_duration_s": 0.04,
+    "required_outcome": "SELF_CONVERGES_AND_LEGACY_P_H_E_ACCEPTS_BUT_EL_REJECTS"
+  },
+  "stress_registry": {
+    "construction": "TEN_EXPLICIT_ARRAYS_NO_RNG",
+    "case_count": 10,
+    "covered_link_indices": [0, 1, 2, 3, 4, 5, 6, 7]
+  },
+  "identity_boundary": {
+    "actual_b601": false,
+    "unified_r2": false,
+    "flight_model": false,
+    "synthetic_analogue": true
+  }
+}

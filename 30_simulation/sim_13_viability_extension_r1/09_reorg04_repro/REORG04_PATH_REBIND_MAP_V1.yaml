@@ -1,0 +1,78 @@
+schema: REORG04_PATH_REBIND_MAP_V1
+authorization: AUTHORIZE_REORG04_PATH_AND_HASH_REBIND_WITH_SCIENTIFIC_FIELDS_FROZEN
+generated_date_local: '2026-08-30'
+review_status: PENDING_OWNER_REVIEW
+reorg04_commit: 284c882
+scope_permitted:
+- file path strings
+- raw SHA-256
+- normalized-LF SHA-256
+- migration receipt
+- current-tree reproducibility binding
+scope_forbidden:
+- numeric thresholds
+- boolean criteria
+- Gate structure
+- verdict text
+- PASS/HOLD/REPEAT
+- controller parameters
+- dynamics parameters
+- accepted URDF
+- simulation output numbers
+runtime_path_repairs:
+- file: 30_simulation/sim_05_free_floating_arm/b601_model.py
+  old_fragment: '"..", "..", "cad", "spacecraft_layout"'
+  new_fragment: '"..", "..", "20_engineering", "cad", "spacecraft_layout"'
+  resolves_to: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+- file: 30_simulation/common/rigid_body.py
+  old_fragment: '"..", "..", "docs", "stage1_spacecraft_layout"'
+  new_fragment: '"..", "..", "20_engineering", "stage1_spacecraft_layout"'
+  resolves_to: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+frozen_input_rebind:
+  threshold_registry:
+    old_path: e15_core_coverage/config/threshold_registry_core_v1.yaml
+    new_path: 30_simulation/e15_core_coverage/config/threshold_registry_core_v1.yaml
+    classification: MIGRATION_ONLY
+  sim08_assumptions:
+    old_path: sim/sim_08_detumble_actuator_budget/assumptions.yaml
+    new_path: 30_simulation/sim_08_detumble_actuator_budget/assumptions.yaml
+    classification: MIGRATION_ONLY
+  sim06_anchor_csv:
+    old_path: null
+    new_path: 30_simulation/sim_06_capture_impulse/results/capture_impulse_matrix_v0.csv
+    classification: PIN_INTACT
+  sim08_sweep_csv:
+    old_path: null
+    new_path: 30_simulation/sim_08_detumble_actuator_budget/results/actuator_budget_sweep.csv
+    classification: PIN_INTACT
+migration_key_whitelist:
+- file
+- filename
+- location
+- migration
+- migration_metadata
+- normalized_lf_sha256
+- path
+- raw_sha256
+- sha256
+- source
+- source_commit_recorded_in_rows
+- source_path
+- source_sha256
+path_prefix_rewrites:
+- post_reorg04: 40_evidence/artifacts/
+  pre_reorg04: artifacts/
+- post_reorg04: 20_engineering/config/
+  pre_reorg04: config/
+- post_reorg04: 20_engineering/stage1_spacecraft_layout/
+  pre_reorg04: docs/stage1_spacecraft_layout/
+- post_reorg04: 20_engineering/cad/
+  pre_reorg04: cad/
+- post_reorg04: 30_simulation/common/
+  pre_reorg04: sim/common/
+- post_reorg04: 30_simulation/sim_09_grasp_evaluator/src/
+  pre_reorg04: src/sim_09_grasp_evaluator/
+- post_reorg04: 30_simulation/sim_04_capture_corridor/
+  pre_reorg04: sim/sim_04_capture_corridor/
+- post_reorg04: 30_simulation/
+  pre_reorg04: sim/

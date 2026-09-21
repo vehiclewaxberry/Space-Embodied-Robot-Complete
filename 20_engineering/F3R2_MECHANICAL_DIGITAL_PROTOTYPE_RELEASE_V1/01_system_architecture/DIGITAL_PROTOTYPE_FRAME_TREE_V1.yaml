@@ -1,0 +1,172 @@
+schema: M4_DIGITAL_PROTOTYPE_FRAME_TREE_V1
+status: WORKING_DIGITAL_PROTOTYPE_WITH_EXPLICIT_FRAME_HOLDS
+length_unit: mm
+matrix_convention: homogeneous_transform_child_coordinates_into_parent_coordinates
+rotation_convention: columns_are_child_axes_expressed_in_parent
+root_frame: S
+
+frame_aliases:
+  spacecraft_assembly_frame:
+    canonical_frame: S
+    relation: IDENTITY_EQUIVALENCE
+    T_S_spacecraft_assembly_frame_rows:
+      - [1.0, 0.0, 0.0, 0.0]
+      - [0.0, 1.0, 0.0, 0.0]
+      - [0.0, 0.0, 1.0, 0.0]
+      - [0.0, 0.0, 0.0, 1.0]
+    status: FROZEN_EXACT_ALIAS_NO_TRANSFORM_UNCERTAINTY
+
+authority_precedence:
+  - rank: 1
+    source: 20_engineering/config/geometry/frame_tree_v1.yaml
+    governs: [S, M_DYNAMICS, F_L, F_R]
+  - rank: 2
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/SYSTEM_FRAME_TREE.yaml
+    governs: [B601_ARM_BASE_PHYSICAL, accepted_B601_q0_chain_mapping]
+  - rank: 3
+    source: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+    governs: [axial_station_semantics, as_built_pattern_center, as_built_pattern_clocking]
+  - rank: 4
+    source: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    governs: [B601_joint_and_link_transforms_at_q0]
+  - rank: 5
+    source: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/gripper_r1/B601_GRIPPER_PALM_RAIL_SLOT_R1.step
+    governs: [GRIPPER_R1_PALM_geometry_in_LINK6_LOCAL]
+
+semantic_rulings:
+  M_DYNAMICS_vs_B601_ARM_BASE_PHYSICAL: >-
+    M_DYNAMICS at x=185.25 and the physical B601 arm-base placement at x=208.0
+    are retained as distinct frames. Upstream files use overlapping base-link wording;
+    M4 does not alias the frames. Consumer-side aliasing remains HOLD.
+  M3R_installation: >-
+    The M3R local z=0 plane is placed on the x=208.0 physical installation face,
+    with measured pattern-center offsets and +25.000014 degree clocking. It is not
+    placed at the x=185.25 dynamics frame.
+  spacecraft_load_bridge: >-
+    The bus proxy terminates at x=185.25 while the M3R B-rep begins near x=196.
+    No authorized mating/load-bridge geometry spans the 10.75 mm clear gap.
+  unknown_transform_policy: null_transform_and_action_mask
+
+frames:
+  S:
+    parent: null
+    role: servicer_body_frame_12U_geometric_centre
+    T_parent_child_rows:
+      - [1.0, 0.0, 0.0, 0.0]
+      - [0.0, 1.0, 0.0, 0.0]
+      - [0.0, 0.0, 1.0, 0.0]
+      - [0.0, 0.0, 0.0, 1.0]
+    status: FROZEN_V1
+
+  M_DYNAMICS:
+    parent: S
+    role: accepted_dynamics_origin_no_physical_entity
+    T_S_child_rows:
+      - [0.0, 0.0, 1.0, 185.25]
+      - [0.0, 1.0, 0.0, 0.0]
+      - [-1.0, 0.0, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 1.0]
+    axes: {Z_M: +X_S, Y_M: +Y_S, X_M: -Z_S}
+    status: FROZEN_V1
+
+  ADAPTER_PLATE_EXTERNAL_FACE:
+    parent: S
+    origin_S_mm: [198.0, 0.0, 0.0]
+    orientation: inherited_axial_station_only
+    status: AXIAL_STATION_FROZEN_GEOMETRIC_ENTITY_NOT_PRESENT_IN_M4
+
+  B601_ARM_BASE_PHYSICAL:
+    parent: S
+    role: physical_arm_base_and_q0_witness_placement
+    T_S_child_rows:
+      - [0.0, 0.0, 1.0, 208.0]
+      - [0.422618483193, 0.906307683772, 0.0, 0.0]
+      - [-0.906307683772, 0.422618483193, 0.0, 0.0]
+      - [0.0, 0.0, 0.0, 1.0]
+    clocking_about_positive_X_S_deg: 25.000014
+    status: FROZEN_F3R2_MAPPING
+
+  M3R_LOCAL:
+    parent: S
+    role: M3R_working_BRep_local_xy_interface_plane_with_local_positive_z_toward_B601
+    T_S_child_rows:
+      - [0.0, 0.0, 1.0, 208.0]
+      - [0.422618483193, 0.906307683772, 0.0, 0.015994151]
+      - [-0.906307683772, 0.422618483193, 0.0, -0.086366070]
+      - [0.0, 0.0, 0.0, 1.0]
+    status: PHYSICAL_STACK_AND_AS_BUILT_PATTERN_APPLIED
+
+  B601_FASTENER_END_PLANE:
+    parent: S
+    origin_S_mm: [210.405, 0.015994151, -0.086366070]
+    orientation: same_as_M3R_LOCAL
+    role: four_screw_end_faces_not_a_continuous_flange
+    status: MEASURED_COMPETITION_DATUM_NOT_OEM
+
+  F_L:
+    parent: S
+    origin_S_mm: [-56.75, 113.15, 0.0]
+    specified_axes: {Y_F: +Y_S, Z_F: +Z_S}
+    full_orientation_matrix: null
+    status: ORIGIN_AND_PARTIAL_AXES_FROZEN_FULL_HINGE_KINEMATICS_HOLD
+
+  F_R:
+    parent: S
+    origin_S_mm: [-56.75, -113.15, 0.0]
+    specified_axes: {Y_F: -Y_S, Z_F: +Z_S}
+    full_orientation_matrix: null
+    status: ORIGIN_AND_PARTIAL_AXES_FROZEN_FULL_HINGE_KINEMATICS_HOLD
+
+  LINK6_Q0:
+    parent: S
+    role: accepted_URDF_q0_chain_result_for_gripper_palm
+    T_S_child_rows:
+      - [0.999999999966, 0.000007346410, 0.000003673205, 399.700116165574]
+      - [0.000005105744, -0.906307683747, 0.422618483215, 42.515390074619]
+      - [0.000006433783, -0.422618483182, -0.906307683754, -91.174390125903]
+      - [0.0, 0.0, 0.0, 1.0]
+    status: DERIVED_FROM_HASH_BOUND_URDF_AT_Q0
+
+  GRIPPER_R1_PALM:
+    parent: LINK6_Q0
+    T_parent_child_rows:
+      - [1.0, 0.0, 0.0, 0.0]
+      - [0.0, 1.0, 0.0, 0.0]
+      - [0.0, 0.0, 1.0, 0.0]
+      - [0.0, 0.0, 0.0, 1.0]
+    geometry_scope: palm_only
+    status: INSTALLED_DIGITAL_PROTOTYPE_FINGERS_AND_CONTACT_FRAMES_HOLD
+
+  SENSOR_PACKAGE:
+    parent: S
+    candidate_origin_S_mm: [190.25, 0.0, 80.0]
+    T_S_child_rows: null
+    status: UNRESOLVED_CANDIDATE_REJECTED_M3R_POSITIVE_PENETRATION
+
+  SPACECRAFT_LOAD_BRIDGE:
+    parent: S
+    T_S_child_rows: null
+    status: UNRESOLVED_STRUCTURAL_LOAD_PATH_DISCONTINUITY_HOLD
+
+  ARM_HDRM:
+    parent: S
+    T_S_child_rows: null
+    status: UNRESOLVED_GLOBAL_TRANSFORM_AND_CLOCKING_HOLD
+
+  TARGET_SATELLITE_T:
+    parent: null
+    T_S_child_rows: null
+    status: INDEPENDENT_SCENARIO_FRAME_RELATIVE_POSE_HOLD
+
+  TARGET_DEBRIS_D:
+    parent: null
+    T_S_child_rows: null
+    status: INDEPENDENT_SCENARIO_FRAME_RELATIVE_POSE_HOLD
+
+consumer_rules:
+  - Treat spacecraft_assembly_frame and S as the same frame through the frozen identity alias above.
+  - Never substitute M_DYNAMICS for B601_ARM_BASE_PHYSICAL.
+  - Reject any requested state whose required frame transform is null.
+  - Convert millimetres to metres exactly once at the simulation boundary.
+  - The B601 q0 object is a frame/axis witness and must not be used as a physical collision envelope.
+  - No target may be inserted into the spacecraft master STEP until T_S_target is frozen.

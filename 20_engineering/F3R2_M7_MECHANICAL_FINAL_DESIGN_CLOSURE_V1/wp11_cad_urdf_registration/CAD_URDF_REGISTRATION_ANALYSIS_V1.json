@@ -1,0 +1,5918 @@
+{
+ "schema": "CAD_URDF_REGISTRATION_ANALYSIS_V1",
+ "generated_local": "2026-08-22T05:34:59+08:00",
+ "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+ "phase": "M7_MECHANICAL_FINAL_DESIGN_CLOSURE",
+ "work_package": "WP11_CAD_URDF_REGISTRATION",
+ "authority_basis": [
+  "ODR-09",
+  "ODR-10",
+  "ODR-01",
+  "ODR-03",
+  "ODR-04"
+ ],
+ "lifecycle_status": "ENGINEERING_ADJUDICATION_DESIGN_LEVEL_NOT_MANUFACTURING_NOT_FLIGHT",
+ "review_status": "PENDING_OWNER_REVIEW",
+ "next_stage_authorized": false,
+ "claim_limits": [
+  "no flight, launcher, manufacturing-release or qualification claim",
+  "analysis of tessellated geometry, not metrology of hardware",
+  "the 6 GiB memory gate remains FAILED on this host and was not used",
+  "no FreeCAD or SolidWorks process was started by this work package"
+ ],
+ "representation_selection": {
+  "question": "which B601 representation is actually being measured",
+  "m7_design_freeze_step": {
+   "entity_counts_text_parsed": {
+    "MANIFOLD_SOLID_BREP": 41,
+    "ADVANCED_FACE": 647,
+    "CLOSED_SHELL": 41
+   },
+   "wp1_reported_solids": 41,
+   "wp1_reported_faces": 647,
+   "b601_representation_in_design_freeze_step": {
+    "component": "INST_B601_ARM_CORE_Q0",
+    "source_shape": "B601_arm_q0_frame_axis_witness",
+    "solids": 18,
+    "faces": 34,
+    "volume_mm3": 817.651847974,
+    "classification": "KINEMATIC_FRAME_AXIS_WITNESS_OVERLAY",
+    "is_physical_arm_geometry": false,
+    "note": "817.65 mm3 across 18 solids / 34 faces cannot be a 4.6955 kg 6R manipulator; WP1's own pairwise register labels every pair involving it KINEMATIC_FRAME_AXIS_WITNESS_OVERLAY_NOT_INTERFERENCE_GEOMETRY.  The M7 design-freeze STEP therefore contains NO B601 physical geometry and cannot be the CAD side of this adjudication."
+   }
+  },
+  "cad_side_measured": {
+   "asset_family": "B51 vendor-CAD arm, tessellated per link into the assembly frame at two articulation states",
+   "paths": [
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_<link>_LINKLOCAL.stl",
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_<link>_LINKLOCAL.stl"
+   ],
+   "why": "these are the exports M5 adopted as the B601 geometry authority assets (B601_CAD_MESH_FRAME_DECISION_V1.json) and the only B601 representation in the repository that carries real physical arm material",
+   "provenance_chain": [
+    "vendor B601 CAD assembly (Seeed reBot DevArm), groups Link1..Link6 / Base / Gripper",
+    "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/130_B601_Vendor_CAD_Direct_Integration_03 -- per-group rigid registration into accepted-URDF link frames (p_link = R @ p_vendor + t), all R pure axis permutations",
+    "B5_0 vendor_reference_linklocal B50_REF_<link>_LINKLOCAL.step",
+    "B5_1 native_inputs 10_vendor_link_parts B51_REF_<link>_LINKLOCAL.SLDPRT",
+    "F3R1/F3R2 assembly, articulated by accepted-URDF FK, tessellated to the STLs measured here"
+   ],
+   "cad_export_configuration_verified": "parts_DEPLOYED is at URDF q0, not at C01 DEPLOYED_NOMINAL; verified by assembly-frame AABB agreement with the URDF meshes placed by FK(q0) and corroborated by the vendor hypothesis 'vendor assembly configuration = URDF q=0' (rotation_max_dev 7.346e-06)"
+  },
+  "urdf_side_measured": {
+   "urdf": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+   "collision_meshes": "meshes_b601_gripper/*.STL (10 binary STL, 549242 triangles, all declared/actual sizes consistent, no truncation)"
+  }
+ },
+ "input_integrity": {
+  "accepted_urdf_copies_checked": 4,
+  "all_copies_identical_on_disk": true,
+  "all_copies_identical_lf_normalised": true,
+  "sha256_on_disk_crlf": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+  "sha256_lf_normalised": "408147DDC9CC0BBA0FACBF864C559A54D1712262703BA41251514A4303B5A3A4",
+  "crlf_note": "core.autocrlf keeps the working tree at 11321 bytes / CRLF; the LF-normalised digest is 11029 bytes and equals the historically pinned 408147DD...A3A4.  No contamination.",
+  "urdf_topology": {
+   "robot_name": "arm_b601_v1",
+   "link_count": 10,
+   "joint_count": 9,
+   "links": [
+    "base_link",
+    "link1",
+    "link2",
+    "link3",
+    "link4",
+    "link5",
+    "link6",
+    "gripper_link",
+    "gripper_left",
+    "gripper_right"
+   ],
+   "joints": [
+    {
+     "name": "joint1",
+     "type": "revolute",
+     "parent": "base_link",
+     "child": "link1",
+     "origin_xyz_mm": [
+      -0.08416,
+      0.0,
+      84.65
+     ],
+     "origin_rpy_rad": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "axis": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "lower": -2.8,
+     "upper": 2.8
+    },
+    {
+     "name": "joint2",
+     "type": "revolute",
+     "parent": "link1",
+     "child": "link2",
+     "origin_xyz_mm": [
+      20.084,
+      31.625,
+      55.550000000000004
+     ],
+     "origin_rpy_rad": [
+      -1.5708,
+      0.0,
+      0.0
+     ],
+     "axis": [
+      0.0,
+      0.0,
+      -1.0
+     ],
+     "lower": -3.14,
+     "upper": 0.0
+    },
+    {
+     "name": "joint3",
+     "type": "revolute",
+     "parent": "link2",
+     "child": "link3",
+     "origin_xyz_mm": [
+      -264.0,
+      0.0,
+      0.0
+     ],
+     "origin_rpy_rad": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "axis": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "lower": -3.14,
+     "upper": 0.0
+    },
+    {
+     "name": "joint4",
+     "type": "revolute",
+     "parent": "link3",
+     "child": "link4",
+     "origin_xyz_mm": [
+      242.60000000000002,
+      -54.0,
+      -1.625
+     ],
+     "origin_rpy_rad": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "axis": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "lower": -1.87,
+     "upper": 1.57
+    },
+    {
+     "name": "joint5",
+     "type": "revolute",
+     "parent": "link4",
+     "child": "link5",
+     "origin_xyz_mm": [
+      78.308,
+      -37.5,
+      -30.0
+     ],
+     "origin_rpy_rad": [
+      -1.5708,
+      0.0,
+      0.0
+     ],
+     "axis": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "lower": -1.57,
+     "upper": 1.57
+    },
+    {
+     "name": "joint6",
+     "type": "revolute",
+     "parent": "link5",
+     "child": "link6",
+     "origin_xyz_mm": [
+      23.692,
+      0.0,
+      40.0
+     ],
+     "origin_rpy_rad": [
+      0.0,
+      1.5708,
+      0.0
+     ],
+     "axis": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "lower": -3.14,
+     "upper": 3.14
+    },
+    {
+     "name": "gripper_joint",
+     "type": "fixed",
+     "parent": "link6",
+     "child": "gripper_link",
+     "origin_xyz_mm": [
+      0.0,
+      0.0,
+      159.70999999999998
+     ],
+     "origin_rpy_rad": [
+      0.0,
+      -1.5708,
+      0.0
+     ],
+     "axis": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "lower": null,
+     "upper": null
+    },
+    {
+     "name": "gripper_joint1",
+     "type": "prismatic",
+     "parent": "gripper_link",
+     "child": "gripper_left",
+     "origin_xyz_mm": [
+      -42.091,
+      0.027531,
+      -0.013031
+     ],
+     "origin_rpy_rad": [
+      0.0,
+      0.0,
+      -1.5708
+     ],
+     "axis": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "lower": 0.0,
+     "upper": 0.0715
+    },
+    {
+     "name": "gripper_joint2",
+     "type": "prismatic",
+     "parent": "gripper_link",
+     "child": "gripper_right",
+     "origin_xyz_mm": [
+      -42.091,
+      -0.027531,
+      0.013031
+     ],
+     "origin_rpy_rad": [
+      0.0,
+      0.0,
+      1.5708
+     ],
+     "axis": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "lower": 0.0,
+     "upper": 0.0715
+    }
+   ],
+   "revolute_count": 6,
+   "prismatic_count": 2,
+   "fixed_count": 1,
+   "urdf_inertial_mass_sum_kg": 4.695555949342986,
+   "pinned_l0_arm_mass_kg": 4.695555949342986,
+   "joint_lower_limits_rad": [
+    -2.8,
+    -3.14,
+    -3.14,
+    -1.87,
+    -1.57,
+    -3.14
+   ],
+   "joint_upper_limits_rad": [
+    2.8,
+    0.0,
+    0.0,
+    1.57,
+    1.57,
+    3.14
+   ],
+   "urdf_mass_sum_matches_pinned_l0_exactly": true
+  },
+  "m5_transform_independent_rederivation": {
+   "base_link": {
+    "mount_M7_WP1": {
+     "max_abs_rotation_delta": 5.528353634876026e-07,
+     "max_abs_translation_delta_mm": 0.0
+    },
+    "mount_F3R1_build": {
+     "max_abs_rotation_delta": 3.313833634721597e-07,
+     "max_abs_translation_delta_mm": 0.0
+    }
+   },
+   "link1": {
+    "mount_M7_WP1": {
+     "max_abs_rotation_delta": 5.528353634876026e-07,
+     "max_abs_translation_delta_mm": 4.3728909382423353e-14
+    },
+    "mount_F3R1_build": {
+     "max_abs_rotation_delta": 3.313833634721597e-07,
+     "max_abs_translation_delta_mm": 7.477352070850429e-14
+    }
+   },
+   "link2": {
+    "mount_M7_WP1": {
+     "max_abs_rotation_delta": 5.528353634876026e-07,
+     "max_abs_translation_delta_mm": 1.6413537196058314e-11
+    },
+    "mount_F3R1_build": {
+     "max_abs_rotation_delta": 3.313833634721597e-07,
+     "max_abs_translation_delta_mm": 2.808775434459676e-11
+    }
+   },
+   "link3": {
+    "mount_M7_WP1": {
+     "max_abs_rotation_delta": 5.528353634876026e-07,
+     "max_abs_translation_delta_mm": 1.2676082405960187e-10
+    },
+    "mount_F3R1_build": {
+     "max_abs_rotation_delta": 3.313833634721597e-07,
+     "max_abs_translation_delta_mm": 2.1677237782569136e-10
+    }
+   },
+   "link4": {
+    "mount_M7_WP1": {
+     "max_abs_rotation_delta": 5.528353634876026e-07,
+     "max_abs_translation_delta_mm": 1.56035184772918e-11
+    },
+    "mount_F3R1_build": {
+     "max_abs_rotation_delta": 3.313833634721597e-07,
+     "max_abs_translation_delta_mm": 2.665956344571896e-11
+    }
+   },
+   "link5": {
+    "mount_M7_WP1": {
+     "max_abs_rotation_delta": 5.528353635431138e-07,
+     "max_abs_translation_delta_mm": 3.991829089500243e-11
+    },
+    "mount_F3R1_build": {
+     "max_abs_rotation_delta": 3.3138336352767084e-07,
+     "max_abs_translation_delta_mm": 6.831157861597603e-11
+    }
+   },
+   "link6": {
+    "mount_M7_WP1": {
+     "max_abs_rotation_delta": 5.528353633765803e-07,
+     "max_abs_translation_delta_mm": 5.2224891078367364e-11
+    },
+    "mount_F3R1_build": {
+     "max_abs_rotation_delta": 3.313833633611374e-07,
+     "max_abs_translation_delta_mm": 8.9343643594475e-11
+    }
+   }
+  },
+  "mount_transform_variants": {
+   "max_abs_element_delta": 2.2145200001544296e-07,
+   "M7_WP1_sin25": 0.422618483193,
+   "F3R1_build_sin25": 0.422618261741,
+   "exact_sin25": 0.42261826174069944,
+   "M7_orthonormality_defect": 5.195843755245733e-13,
+   "F3R1_orthonormality_defect": 8.884004643050503e-13,
+   "worst_case_tip_effect_mm_at_460mm_reach": 0.00010186792000710376
+  }
+ },
+ "test_a_zero_pose_rigid_registration": {
+  "method": "CAD part localised into each accepted-URDF link frame with inv(T_URDF_i(q0)) re-derived independently in this WP; then bounding box, principal dimensions, single-shell volume and area, exact bidirectional point-to-surface residual at D=I, and the best-fit D_i",
+  "distance_engine": "exact unsigned point-to-triangle with a radius-bucketed KD-tree broad phase whose sufficiency bound is proved per query point; 0 unverified points anywhere in this analysis",
+  "per_link": {
+   "base_link": {
+    "cad_source": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_base_link_LINKLOCAL.stl",
+    "urdf_source": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL",
+    "cad_triangles_raw": 265028,
+    "cad_triangles_deduplicated": 132416,
+    "cad_shell_duplication_factor": 2.0014801836636056,
+    "urdf_triangles": 77972,
+    "cad_volume_raw_mm3": 828699.6409524169,
+    "cad_volume_dedup_mm3": 414349.81804143725,
+    "urdf_volume_mm3": 798475.7099776611,
+    "cad_raw_over_urdf_volume_ratio": 1.0378520355686227,
+    "cad_dedup_over_urdf_volume_ratio": 0.5189260147350374,
+    "cad_area_dedup_mm2": 110968.39234734364,
+    "urdf_area_mm2": 173790.66054616013,
+    "cad_area_over_urdf_area_ratio": 0.6385175820070583,
+    "bbox_cad_link_frame_mm": [
+     [
+      -45.9150049874818,
+      -46.0220039804449,
+      2.404998779296875
+     ],
+     [
+      46.085003914172496,
+      45.978003371416555,
+      82.55499267578125
+     ]
+    ],
+    "bbox_urdf_link_frame_mm": [
+     [
+      -70.00000029802322,
+      -100.00000149011612,
+      -1.78813942819378e-08
+     ],
+     [
+      70.00000029802322,
+      100.00000149011612,
+      82.64999836683273
+     ]
+    ],
+    "bbox_extent_cad_mm": [
+     92.0000089016543,
+     92.00000735186146,
+     80.14999389648438
+    ],
+    "bbox_extent_urdf_mm": [
+     140.00000059604645,
+     200.00000298023224,
+     82.64999838471412
+    ],
+    "bbox_extent_delta_mm": [
+     -47.99999169439215,
+     -107.99999562837078,
+     -2.5000044882297487
+    ],
+    "bbox_corner_max_abs_delta_mm": 54.021998118699564,
+    "principal_extents_cad_mm": [
+     81.27391470655238,
+     93.59731519283238,
+     93.6950306705923
+    ],
+    "principal_extents_urdf_mm": [
+     104.10450665569634,
+     146.4564407928963,
+     204.62286669475338
+    ],
+    "principal_extents_delta_mm": [
+     -22.830591949143965,
+     -52.85912560006392,
+     -110.92783602416108
+    ],
+    "residual_D_identity_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 0.1355418986584741,
+     "median_mm": 0.09308805787931942,
+     "p95_mm": 0.15818572525572225,
+     "p99_mm": 2.622975432709026,
+     "max_mm": 5.25501412153244,
+     "rms_mm": 0.440966655123914,
+     "frac_le_0p5mm": 0.9726666666666667,
+     "frac_le_1mm": 0.9771666666666666,
+     "frac_le_2mm": 0.9855833333333334,
+     "unverified_bound_points": 0
+    },
+    "residual_D_identity_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 10.131156214689554,
+     "median_mm": 0.09500300884246826,
+     "p95_mm": 52.93202743726499,
+     "p99_mm": 63.16419402087473,
+     "max_mm": 68.56068569356357,
+     "rms_mm": 20.130543790496713,
+     "frac_le_0p5mm": 0.6563333333333333,
+     "frac_le_1mm": 0.6604166666666667,
+     "frac_le_2mm": 0.6646666666666666,
+     "unverified_bound_points": 0
+    },
+    "D_i_best_fit_rows": [
+     [
+      0.9999993170158585,
+      0.0001519500711460453,
+      -0.0011588265579815515,
+      0.002857904434042352
+     ],
+     [
+      -0.0001505260916684903,
+      0.9999992336961774,
+      0.0012287998016130286,
+      -0.010724426482996693
+     ],
+     [
+      0.0011590123861858759,
+      -0.0012286245287299047,
+      0.9999985735850105,
+      0.07492000965162049
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_translation_mm": [
+     0.002857904434042352,
+     -0.010724426482996693,
+     0.07492000965162049
+    ],
+    "D_i_translation_norm_mm": 0.07573763124987622,
+    "D_i_rotation_axis": [
+     -0.7245665865072408,
+     -0.6834101181111754,
+     -0.08918448396730577
+    ],
+    "D_i_rotation_angle_deg": 0.09716160856503882,
+    "residual_after_D_i_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 0.11785730367367363,
+     "median_mm": 0.03860628194113886,
+     "p95_mm": 0.13249022458131493,
+     "p99_mm": 2.9278305197879435,
+     "max_mm": 5.312400120470244,
+     "rms_mm": 0.47936179798602063,
+     "frac_le_0p5mm": 0.9685,
+     "frac_le_1mm": 0.9723333333333334,
+     "frac_le_2mm": 0.9810833333333333,
+     "unverified_bound_points": 0
+    },
+    "residual_after_D_i_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 10.293657879227238,
+     "median_mm": 0.06165648515224314,
+     "p95_mm": 53.651765906028004,
+     "p99_mm": 63.07245827944605,
+     "max_mm": 68.57822510882669,
+     "rms_mm": 20.33317949305244,
+     "frac_le_0p5mm": 0.6526666666666666,
+     "frac_le_1mm": 0.6576666666666666,
+     "frac_le_2mm": 0.66125,
+     "unverified_bound_points": 0
+    },
+    "partition_tolerant_neighbourhood": [
+     "base_link",
+     "link1"
+    ],
+    "residual_cad_to_urdf_neighbourhood_union": {
+     "n": 12000,
+     "mean_mm": 0.09567048863651124,
+     "median_mm": 0.09101638560573982,
+     "p95_mm": 0.1493610573032691,
+     "p99_mm": 1.1227936259832418,
+     "max_mm": 2.1034137580534638,
+     "rms_mm": 0.1876020879980014,
+     "frac_le_0p5mm": 0.9814166666666667,
+     "frac_le_1mm": 0.9866666666666667,
+     "frac_le_2mm": 0.9998333333333334,
+     "unverified_bound_points": 0
+    },
+    "seconds": 124.4
+   },
+   "link1": {
+    "cad_source": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link1_LINKLOCAL.stl",
+    "urdf_source": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link1.STL",
+    "cad_triangles_raw": 81368,
+    "cad_triangles_deduplicated": 40941,
+    "cad_shell_duplication_factor": 1.987445348183972,
+    "urdf_triangles": 9980,
+    "cad_volume_raw_mm3": 174949.3572003314,
+    "cad_volume_dedup_mm3": 87796.0785526532,
+    "urdf_volume_mm3": 84032.48229898645,
+    "cad_raw_over_urdf_volume_ratio": 2.0819253747362114,
+    "cad_dedup_over_urdf_volume_ratio": 1.0447873982857716,
+    "cad_area_dedup_mm2": 61016.76428074336,
+    "urdf_area_mm2": 54386.59121071431,
+    "cad_area_over_urdf_area_ratio": 1.1219082299962733,
+    "bbox_cad_link_frame_mm": [
+     [
+      -38.181998353331664,
+      -38.77401108432606,
+      -10.600012207031227
+     ],
+     [
+      48.7219868169073,
+      38.47601104137495,
+      87.94997558593752
+     ]
+    ],
+    "bbox_urdf_link_frame_mm": [
+     [
+      -38.41584175825119,
+      -38.624998182058334,
+      -7.099998649209738
+     ],
+     [
+      48.56555536389351,
+      38.624998182058334,
+      83.91933888196945
+     ]
+    ],
+    "bbox_extent_cad_mm": [
+     86.90398517023897,
+     77.25002212570101,
+     98.54998779296875
+    ],
+    "bbox_extent_urdf_mm": [
+     86.9813971221447,
+     77.24999636411667,
+     91.01933753117919
+    ],
+    "bbox_extent_delta_mm": [
+     -0.0774119519057308,
+     2.5761584339534238e-05,
+     7.53065026178956
+    ],
+    "bbox_corner_max_abs_delta_mm": 4.030636703968071,
+    "principal_extents_cad_mm": [
+     125.87088931822655,
+     121.38321366301943,
+     71.19924939529463
+    ],
+    "principal_extents_urdf_mm": [
+     127.75189699633079,
+     121.57108101778337,
+     72.2872292084543
+    ],
+    "principal_extents_delta_mm": [
+     -1.8810076781042397,
+     -0.187867354763938,
+     -1.0879798131596772
+    ],
+    "residual_D_identity_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 1.1136600417884446,
+     "median_mm": 0.9000189829617966,
+     "p95_mm": 3.9000189829617966,
+     "p99_mm": 3.900352268752227,
+     "max_mm": 5.149009367259524,
+     "rms_mm": 1.6457816245490273,
+     "frac_le_0p5mm": 0.4235,
+     "frac_le_1mm": 0.6356666666666667,
+     "frac_le_2mm": 0.819,
+     "unverified_bound_points": 0
+    },
+    "residual_D_identity_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 1.0828046112856962,
+     "median_mm": 0.7343748860127854,
+     "p95_mm": 3.900020035356306,
+     "p99_mm": 3.900020035356306,
+     "max_mm": 3.9656152701303564,
+     "rms_mm": 1.5784513726189213,
+     "frac_le_0p5mm": 0.46058333333333334,
+     "frac_le_1mm": 0.638,
+     "frac_le_2mm": 0.849,
+     "unverified_bound_points": 0
+    },
+    "D_i_best_fit_rows": [
+     [
+      0.9999998308703366,
+      0.00047003195702653494,
+      -0.0003425335859655876,
+      -0.25298718617295
+     ],
+     [
+      -0.0004705147397132056,
+      0.9999988942258993,
+      -0.0014107313208840217,
+      0.1401906074294781
+     ],
+     [
+      0.0003418701183971473,
+      0.0014108922493879534,
+      0.9999989462533864,
+      -3.805608909626148
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_translation_mm": [
+     -0.25298718617295,
+     0.1401906074294781,
+     -3.805608909626148
+    ],
+    "D_i_translation_norm_mm": 3.81658421835613,
+    "D_i_rotation_axis": [
+     0.924521597082856,
+     -0.2242489084913153,
+     -0.3081756699803204
+    ],
+    "D_i_rotation_angle_deg": 0.08743288700964143,
+    "residual_after_D_i_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 0.22306179525632133,
+     "median_mm": 0.08090418188198956,
+     "p95_mm": 0.9606861137654832,
+     "p99_mm": 3.8253815090513372,
+     "max_mm": 7.5004948918519485,
+     "rms_mm": 0.7077310512628233,
+     "frac_le_0p5mm": 0.9396666666666667,
+     "frac_le_1mm": 0.9513333333333334,
+     "frac_le_2mm": 0.9695,
+     "unverified_bound_points": 0
+    },
+    "residual_after_D_i_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 0.07631803959307265,
+     "median_mm": 0.07448281364381863,
+     "p95_mm": 0.13573218856315897,
+     "p99_mm": 0.15025380172847583,
+     "max_mm": 0.294386120492843,
+     "rms_mm": 0.08517609647733675,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "partition_tolerant_neighbourhood": [
+     "base_link",
+     "link1",
+     "link2"
+    ],
+    "residual_cad_to_urdf_neighbourhood_union": {
+     "n": 12000,
+     "mean_mm": 0.9764446710367505,
+     "median_mm": 0.7129029523452318,
+     "p95_mm": 3.9000189829617966,
+     "p99_mm": 3.9000189829617966,
+     "max_mm": 4.2865091580323025,
+     "rms_mm": 1.471552035622525,
+     "frac_le_0p5mm": 0.4585,
+     "frac_le_1mm": 0.68475,
+     "frac_le_2mm": 0.85725,
+     "unverified_bound_points": 0
+    },
+    "seconds": 96.0
+   },
+   "link2": {
+    "cad_source": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link2_LINKLOCAL.stl",
+    "urdf_source": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link2.STL",
+    "cad_triangles_raw": 419132,
+    "cad_triangles_deduplicated": 230026,
+    "cad_shell_duplication_factor": 1.8221070661577388,
+    "urdf_triangles": 119842,
+    "cad_volume_raw_mm3": 1420275.664597236,
+    "cad_volume_dedup_mm3": 755454.8115481787,
+    "urdf_volume_mm3": 710181.1618215699,
+    "cad_raw_over_urdf_volume_ratio": 1.9998779761410717,
+    "cad_dedup_over_urdf_volume_ratio": 1.0637494376934538,
+    "cad_area_dedup_mm2": 244141.87590260134,
+    "urdf_area_mm2": 227402.4399163538,
+    "cad_area_over_urdf_area_ratio": 1.073611505630304,
+    "bbox_cad_link_frame_mm": [
+     [
+      -292.2470122250374,
+      -28.536022560149263,
+      -65.35498805625902
+     ],
+     [
+      28.75300570136701,
+      28.464018947695706,
+      2.645066556512994
+     ]
+    ],
+    "bbox_urdf_link_frame_mm": [
+     [
+      -292.49998927116394,
+      -28.50000001490116,
+      -65.30000269412994
+     ],
+     [
+      28.50000001490116,
+      28.50000374019146,
+      2.050000010058284
+     ]
+    ],
+    "bbox_extent_cad_mm": [
+     321.0000179264044,
+     57.00004150784497,
+     68.000054612772
+    ],
+    "bbox_extent_urdf_mm": [
+     320.9999892860651,
+     57.00000375509262,
+     67.35000270418823
+    ],
+    "bbox_extent_delta_mm": [
+     2.8640339280627813e-05,
+     3.775275234829678e-05,
+     0.6500519085837766
+    ],
+    "bbox_corner_max_abs_delta_mm": 0.59506654645471,
+    "principal_extents_cad_mm": [
+     321.8053561308312,
+     71.11145674970035,
+     57.208040217954135
+    ],
+    "principal_extents_urdf_mm": [
+     321.00702517488185,
+     67.50174318874566,
+     57.473593978022414
+    ],
+    "principal_extents_delta_mm": [
+     0.7983309559493819,
+     3.609713560954688,
+     -0.26555376006827913
+    ],
+    "residual_D_identity_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 0.08915475638996431,
+     "median_mm": 0.054976472053542835,
+     "p95_mm": 0.24855560060048745,
+     "p99_mm": 0.3253868672066813,
+     "max_mm": 3.4540933011668367,
+     "rms_mm": 0.1330641751631486,
+     "frac_le_0p5mm": 0.99725,
+     "frac_le_1mm": 0.9990833333333333,
+     "frac_le_2mm": 0.9995833333333334,
+     "unverified_bound_points": 0
+    },
+    "residual_D_identity_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 0.09783391724105656,
+     "median_mm": 0.05497522285416908,
+     "p95_mm": 0.25298249774182724,
+     "p99_mm": 0.33513695408494204,
+     "max_mm": 4.680306461218653,
+     "rms_mm": 0.21909419525662732,
+     "frac_le_0p5mm": 0.9931666666666666,
+     "frac_le_1mm": 0.99425,
+     "frac_le_2mm": 0.9966666666666667,
+     "unverified_bound_points": 0
+    },
+    "D_i_best_fit_rows": [
+     [
+      0.9999999005339654,
+      0.0004258054164573881,
+      -0.0001327471524923344,
+      -0.2722236921403578
+     ],
+     [
+      -0.00042522370877987135,
+      0.9999904407750512,
+      0.0043517287732865,
+      0.1150016031660388
+     ],
+     [
+      0.0001345988732150626,
+      -0.004351671893200815,
+      0.9999905223725257,
+      0.05675985182458021
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_translation_mm": [
+     -0.2722236921403578,
+     0.1150016031660388,
+     0.05675985182458021
+    ],
+    "D_i_translation_norm_mm": 0.30091990308458444,
+    "D_i_rotation_axis": [
+     -0.9947886586660931,
+     -0.030557342411826553,
+     -0.09727164753432369
+    ],
+    "D_i_rotation_angle_deg": 0.25064103400973214,
+    "residual_after_D_i_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 0.05655505715616702,
+     "median_mm": 0.04504300604442002,
+     "p95_mm": 0.13788608279991685,
+     "p99_mm": 0.20339655052327857,
+     "max_mm": 3.727138361893783,
+     "rms_mm": 0.0963291634184082,
+     "frac_le_0p5mm": 0.9981666666666666,
+     "frac_le_1mm": 0.9991666666666666,
+     "frac_le_2mm": 0.9996666666666667,
+     "unverified_bound_points": 0
+    },
+    "residual_after_D_i_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 0.06742028468990742,
+     "median_mm": 0.04504109558521523,
+     "p95_mm": 0.13681343795531972,
+     "p99_mm": 0.21813608524713637,
+     "max_mm": 4.610131796672045,
+     "rms_mm": 0.20371744398116765,
+     "frac_le_0p5mm": 0.9920833333333333,
+     "frac_le_1mm": 0.99425,
+     "frac_le_2mm": 0.9966666666666667,
+     "unverified_bound_points": 0
+    },
+    "partition_tolerant_neighbourhood": [
+     "link1",
+     "link2",
+     "link3"
+    ],
+    "residual_cad_to_urdf_neighbourhood_union": {
+     "n": 12000,
+     "mean_mm": 0.08658275567188586,
+     "median_mm": 0.054973134072069385,
+     "p95_mm": 0.2500754150226517,
+     "p99_mm": 0.3155832477174253,
+     "max_mm": 1.3137117350542977,
+     "rms_mm": 0.11526352156656546,
+     "frac_le_0p5mm": 0.9984166666666666,
+     "frac_le_1mm": 0.9998333333333334,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "seconds": 142.7
+   },
+   "link3": {
+    "cad_source": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link3_LINKLOCAL.stl",
+    "urdf_source": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link3.STL",
+    "cad_triangles_raw": 331392,
+    "cad_triangles_deduplicated": 175906,
+    "cad_shell_duplication_factor": 1.8839152729298603,
+    "urdf_triangles": 84198,
+    "cad_volume_raw_mm3": 1061532.0078686292,
+    "cad_volume_dedup_mm3": 540473.406643569,
+    "urdf_volume_mm3": 524553.137213917,
+    "cad_raw_over_urdf_volume_ratio": 2.0236882263383125,
+    "cad_dedup_over_urdf_volume_ratio": 1.0303501557806136,
+    "cad_area_dedup_mm2": 213671.68786725163,
+    "urdf_area_mm2": 193839.0104915904,
+    "cad_area_over_urdf_area_ratio": 1.102315201286697,
+    "bbox_cad_link_frame_mm": [
+     [
+      -26.705622991667298,
+      -81.32799166535972,
+      -71.16395775010027
+     ],
+     [
+      271.1199925980406,
+      23.672030889648966,
+      9.086069615948276
+     ]
+    ],
+    "bbox_urdf_link_frame_mm": [
+     [
+      -26.679547503590584,
+      -82.49997347593307,
+      -71.24999910593033
+     ],
+     [
+      271.0999846458435,
+      22.500023245811462,
+      8.999999612569809
+     ]
+    ],
+    "bbox_extent_cad_mm": [
+     297.8256155897079,
+     105.00002255500868,
+     80.25002736604854
+    ],
+    "bbox_extent_urdf_mm": [
+     297.7795321494341,
+     104.99999672174454,
+     80.24999871850014
+    ],
+    "bbox_extent_delta_mm": [
+     0.04608344027383282,
+     2.5833264146513102e-05,
+     2.864754840459227e-05
+    ],
+    "bbox_corner_max_abs_delta_mm": 1.172007643837503,
+    "principal_extents_cad_mm": [
+     298.70304556446257,
+     85.72788241771535,
+     100.82016259634021
+    ],
+    "principal_extents_urdf_mm": [
+     297.9280343868806,
+     84.96083735103393,
+     100.61691502858353
+    ],
+    "principal_extents_delta_mm": [
+     0.7750111775819732,
+     0.767045066681419,
+     0.20324756775667652
+    ],
+    "residual_D_identity_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 0.4270782113648649,
+     "median_mm": 0.08606017438258706,
+     "p95_mm": 1.1720011209759416,
+     "p99_mm": 1.698229072228764,
+     "max_mm": 7.103579997128875,
+     "rms_mm": 0.7066116318002034,
+     "frac_le_0p5mm": 0.66575,
+     "frac_le_1mm": 0.8301666666666667,
+     "frac_le_2mm": 0.991,
+     "unverified_bound_points": 0
+    },
+    "residual_D_identity_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 0.3798073123291685,
+     "median_mm": 0.08605742215257439,
+     "p95_mm": 1.1719980710877063,
+     "p99_mm": 1.1720212304377227,
+     "max_mm": 1.3653492176596993,
+     "rms_mm": 0.5652509703385821,
+     "frac_le_0p5mm": 0.69075,
+     "frac_le_1mm": 0.8414166666666667,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "D_i_best_fit_rows": [
+     [
+      0.9999999440486643,
+      0.00033123783185257105,
+      4.673506944610339e-05,
+      0.047534638043899236
+     ],
+     [
+      -0.00033131904525974393,
+      0.9999984163682691,
+      0.0017485675975990461,
+      -1.062307367352652
+     ],
+     [
+      -4.6155803695109576e-05,
+      -0.0017485829839831019,
+      0.9999984701624247,
+      -0.14646331288835057
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_translation_mm": [
+     0.047534638043899236,
+     -1.062307367352652,
+     -0.14646331288835057
+    ],
+    "D_i_translation_norm_mm": 1.0734095148487914,
+    "D_i_rotation_axis": [
+     -0.9821878741007695,
+     0.026088750565798048,
+     -0.18608158711523964
+    ],
+    "D_i_rotation_angle_deg": 0.10200292621905105,
+    "residual_after_D_i_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 0.0852110762591404,
+     "median_mm": 0.03460915462517201,
+     "p95_mm": 0.10863349170635368,
+     "p99_mm": 1.5940504487301943,
+     "max_mm": 7.174536711769544,
+     "rms_mm": 0.4280441841525185,
+     "frac_le_0p5mm": 0.9825,
+     "frac_le_1mm": 0.9871666666666666,
+     "frac_le_2mm": 0.9915,
+     "unverified_bound_points": 0
+    },
+    "residual_after_D_i_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 0.03696418589265923,
+     "median_mm": 0.03324809916200229,
+     "p95_mm": 0.08673376245589158,
+     "p99_mm": 0.12351074754658595,
+     "max_mm": 0.25580860294489055,
+     "rms_mm": 0.045744278483344156,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "partition_tolerant_neighbourhood": [
+     "link2",
+     "link3",
+     "link4"
+    ],
+    "residual_cad_to_urdf_neighbourhood_union": {
+     "n": 12000,
+     "mean_mm": 0.38245003940373445,
+     "median_mm": 0.08605889226539887,
+     "p95_mm": 1.171998583780752,
+     "p99_mm": 1.174852827346845,
+     "max_mm": 2.041257401625614,
+     "rms_mm": 0.5652923529810205,
+     "frac_le_0p5mm": 0.6829166666666666,
+     "frac_le_1mm": 0.8474166666666667,
+     "frac_le_2mm": 0.9999166666666667,
+     "unverified_bound_points": 0
+    },
+    "seconds": 166.8
+   },
+   "link4": {
+    "cad_source": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link4_LINKLOCAL.stl",
+    "urdf_source": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link4.STL",
+    "cad_triangles_raw": 201592,
+    "cad_triangles_deduplicated": 105457,
+    "cad_shell_duplication_factor": 1.911603781636117,
+    "urdf_triangles": 51592,
+    "cad_volume_raw_mm3": 376394.8132797787,
+    "cad_volume_dedup_mm3": 187567.37390743435,
+    "urdf_volume_mm3": 190907.9416370795,
+    "cad_raw_over_urdf_volume_ratio": 1.971603748131726,
+    "cad_dedup_over_urdf_volume_ratio": 0.9825016827430069,
+    "cad_area_dedup_mm2": 87443.15458774698,
+    "urdf_area_mm2": 83608.60782363,
+    "cad_area_over_urdf_area_ratio": 1.0458630619972271,
+    "bbox_cad_link_frame_mm": [
+     [
+      -29.528227258017658,
+      -86.33298986322899,
+      -63.37002036268017
+     ],
+     [
+      116.35573368927425,
+      29.62438197765306,
+      3.3900092495187693
+     ]
+    ],
+    "bbox_urdf_link_frame_mm": [
+     [
+      -28.03371660411358,
+      -87.99999952316284,
+      -63.38000297546387
+     ],
+     [
+      117.75152385234833,
+      27.91484445333481,
+      3.379999892786145
+     ]
+    ],
+    "bbox_extent_cad_mm": [
+     145.8839609472919,
+     115.95737184088205,
+     66.76002961219893
+    ],
+    "bbox_extent_urdf_mm": [
+     145.7852404564619,
+     115.91484397649765,
+     66.76000286825001
+    ],
+    "bbox_extent_delta_mm": [
+     0.09872049083000434,
+     0.04252786438439671,
+     2.67439489221033e-05
+    ],
+    "bbox_corner_max_abs_delta_mm": 1.7095375243182502,
+    "principal_extents_cad_mm": [
+     176.4945933065099,
+     76.34198239450026,
+     85.57589107775537
+    ],
+    "principal_extents_urdf_mm": [
+     175.31419158255136,
+     70.41447356900082,
+     83.80190698844561
+    ],
+    "principal_extents_delta_mm": [
+     1.1804017239585392,
+     5.927508825499444,
+     1.7739840893097636
+    ],
+    "residual_D_identity_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 0.7612752248694896,
+     "median_mm": 0.667024300545151,
+     "p95_mm": 1.6670307007384733,
+     "p99_mm": 2.114696683504863,
+     "max_mm": 8.610003041694688,
+     "rms_mm": 1.055458751681003,
+     "frac_le_0p5mm": 0.42091666666666666,
+     "frac_le_1mm": 0.63725,
+     "frac_le_2mm": 0.9889166666666667,
+     "unverified_bound_points": 0
+    },
+    "residual_D_identity_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 0.8233600236793979,
+     "median_mm": 0.8065649511079013,
+     "p95_mm": 1.6670302085441944,
+     "p99_mm": 3.547650635867638,
+     "max_mm": 8.04309001639316,
+     "rms_mm": 1.1203099382797586,
+     "frac_le_0p5mm": 0.3923333333333333,
+     "frac_le_1mm": 0.6141666666666666,
+     "frac_le_2mm": 0.9798333333333333,
+     "unverified_bound_points": 0
+    },
+    "D_i_best_fit_rows": [
+     [
+      0.9999996476051286,
+      0.0008390277689879211,
+      -2.8670919364280623e-05,
+      1.478883007387111
+     ],
+     [
+      -0.000839007021048388,
+      0.9999993915868384,
+      0.0007161656031981975,
+      -1.622735966503619
+     ],
+     [
+      2.9271784748693963e-05,
+      -0.0007161412957225124,
+      0.9999997431423707,
+      -0.029356681314443023
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_translation_mm": [
+     1.478883007387111,
+     -1.622735966503619,
+     -0.029356681314443023
+    ],
+    "D_i_translation_norm_mm": 2.1957296694403383,
+    "D_i_rotation_axis": [
+     -0.6489961561534042,
+     -0.02625456337241051,
+     -0.7603385346016801
+    ],
+    "D_i_rotation_angle_deg": 0.063224686434511,
+    "residual_after_D_i_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 0.06930160793410842,
+     "median_mm": 0.02435831832409587,
+     "p95_mm": 0.08046187952288435,
+     "p99_mm": 0.9450494440234409,
+     "max_mm": 8.756171152493257,
+     "rms_mm": 0.42752686172818405,
+     "frac_le_0p5mm": 0.9851666666666666,
+     "frac_le_1mm": 0.99025,
+     "frac_le_2mm": 0.9943333333333333,
+     "unverified_bound_points": 0
+    },
+    "residual_after_D_i_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 0.1291988318221241,
+     "median_mm": 0.026305826120282417,
+     "p95_mm": 0.09376339463565214,
+     "p99_mm": 4.385820962123833,
+     "max_mm": 7.334379401931048,
+     "rms_mm": 0.6629796727958135,
+     "frac_le_0p5mm": 0.9733333333333334,
+     "frac_le_1mm": 0.9753333333333334,
+     "frac_le_2mm": 0.9796666666666667,
+     "unverified_bound_points": 0
+    },
+    "partition_tolerant_neighbourhood": [
+     "link3",
+     "link4",
+     "link5"
+    ],
+    "residual_cad_to_urdf_neighbourhood_union": {
+     "n": 12000,
+     "mean_mm": 0.6852507872595153,
+     "median_mm": 0.6396738470440334,
+     "p95_mm": 1.6670263887225842,
+     "p99_mm": 1.8556992547608926,
+     "max_mm": 4.039160741734367,
+     "rms_mm": 0.9175950050678899,
+     "frac_le_0p5mm": 0.44916666666666666,
+     "frac_le_1mm": 0.68475,
+     "frac_le_2mm": 0.99325,
+     "unverified_bound_points": 0
+    },
+    "seconds": 99.1
+   },
+   "link5": {
+    "cad_source": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link5_LINKLOCAL.stl",
+    "urdf_source": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link5.STL",
+    "cad_triangles_raw": 176832,
+    "cad_triangles_deduplicated": 89975,
+    "cad_shell_duplication_factor": 1.9653459294248403,
+    "urdf_triangles": 42386,
+    "cad_volume_raw_mm3": 298713.85256885196,
+    "cad_volume_dedup_mm3": 153886.75981820043,
+    "urdf_volume_mm3": 149673.40156447774,
+    "cad_raw_over_urdf_volume_ratio": 1.995771121966311,
+    "cad_dedup_over_urdf_volume_ratio": 1.0281503474209985,
+    "cad_area_dedup_mm2": 60470.11164694519,
+    "urdf_area_mm2": 57149.12341661164,
+    "cad_area_over_urdf_area_ratio": 1.058110921599337,
+    "bbox_cad_link_frame_mm": [
+     [
+      -36.67501938160227,
+      -38.58698526744095,
+      -5.780997309772431
+     ],
+     [
+      33.32498805104562,
+      38.41301784811428,
+      79.25897827610521
+     ]
+    ],
+    "bbox_urdf_link_frame_mm": [
+     [
+      -37.80774772167206,
+      -38.49999979138374,
+      -1.9999989308416843
+     ],
+     [
+      32.192256301641464,
+      38.49999979138374,
+      78.03994417190552
+     ]
+    ],
+    "bbox_extent_cad_mm": [
+     70.00000743264789,
+     77.00000311555523,
+     85.03997558587764
+    ],
+    "bbox_extent_urdf_mm": [
+     70.00000402331352,
+     76.99999958276749,
+     80.0399431027472
+    ],
+    "bbox_extent_delta_mm": [
+     3.409334368598138e-06,
+     3.532787744120469e-06,
+     5.00003248313044
+    ],
+    "bbox_corner_max_abs_delta_mm": 3.7809983789307466,
+    "principal_extents_cad_mm": [
+     81.171884651483,
+     99.55893685594386,
+     77.44661659186377
+    ],
+    "principal_extents_urdf_mm": [
+     64.16630132540644,
+     89.37116238029004,
+     77.11505169981302
+    ],
+    "principal_extents_delta_mm": [
+     17.00558332607656,
+     10.18777447565381,
+     0.3315648920507499
+    ],
+    "residual_D_identity_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 0.8272548966778662,
+     "median_mm": 1.0391648120218568,
+     "p95_mm": 1.2327333805651814,
+     "p99_mm": 1.6629360479328321,
+     "max_mm": 4.1254054401695015,
+     "rms_mm": 0.9446206001423676,
+     "frac_le_0p5mm": 0.28725,
+     "frac_le_1mm": 0.4855833333333333,
+     "frac_le_2mm": 0.9960833333333333,
+     "unverified_bound_points": 0
+    },
+    "residual_D_identity_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 0.8894381103602476,
+     "median_mm": 1.1327247555482125,
+     "p95_mm": 1.252986240916368,
+     "p99_mm": 2.94148675070359,
+     "max_mm": 8.170480753450391,
+     "rms_mm": 1.0658703875460134,
+     "frac_le_0p5mm": 0.25433333333333336,
+     "frac_le_1mm": 0.44216666666666665,
+     "frac_le_2mm": 0.98475,
+     "unverified_bound_points": 0
+    },
+    "D_i_best_fit_rows": [
+     [
+      0.9999999317711532,
+      6.955333164808397e-05,
+      0.00036279474027184344,
+      -1.1942179857787245
+     ],
+     [
+      -6.927165348841885e-05,
+      0.9999996962280416,
+      -0.0007763667063236564,
+      0.0952381006732728
+     ],
+     [
+      -0.0003628486289564137,
+      0.0007763415219613351,
+      0.9999996328172893,
+      -1.2333875911141376
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_translation_mm": [
+     -1.1942179857787245,
+     0.0952381006732728,
+     -1.2333875911141376
+    ],
+    "D_i_translation_norm_mm": 1.7194393979700424,
+    "D_i_rotation_axis": [
+     0.9029917078010337,
+     0.4220045552007291,
+     -0.08073494306932662
+    ],
+    "D_i_rotation_angle_deg": 0.04926049624390009,
+    "residual_after_D_i_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 0.06908019947979906,
+     "median_mm": 0.04180387600917079,
+     "p95_mm": 0.08560296462436058,
+     "p99_mm": 1.0488243825716015,
+     "max_mm": 5.162735743740383,
+     "rms_mm": 0.27736792043976066,
+     "frac_le_0p5mm": 0.9816666666666667,
+     "frac_le_1mm": 0.9895833333333334,
+     "frac_le_2mm": 0.99475,
+     "unverified_bound_points": 0
+    },
+    "residual_after_D_i_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 0.08997694590070904,
+     "median_mm": 0.04034323136908501,
+     "p95_mm": 0.07683887299464963,
+     "p99_mm": 2.4588398322028326,
+     "max_mm": 7.056455108470531,
+     "rms_mm": 0.45036558486977574,
+     "frac_le_0p5mm": 0.9801666666666666,
+     "frac_le_1mm": 0.98375,
+     "frac_le_2mm": 0.98825,
+     "unverified_bound_points": 0
+    },
+    "partition_tolerant_neighbourhood": [
+     "link4",
+     "link5",
+     "link6"
+    ],
+    "residual_cad_to_urdf_neighbourhood_union": {
+     "n": 12000,
+     "mean_mm": 0.797181502591569,
+     "median_mm": 0.9455147795383578,
+     "p95_mm": 1.232732535800782,
+     "p99_mm": 1.662928632612276,
+     "max_mm": 2.5856440629672903,
+     "rms_mm": 0.9097580723508967,
+     "frac_le_0p5mm": 0.3030833333333333,
+     "frac_le_1mm": 0.5209166666666667,
+     "frac_le_2mm": 0.9995,
+     "unverified_bound_points": 0
+    },
+    "seconds": 100.4
+   },
+   "link6": {
+    "cad_source": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link6_LINKLOCAL.stl",
+    "urdf_source": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link6.STL",
+    "cad_triangles_raw": 216564,
+    "cad_triangles_deduplicated": 127790,
+    "cad_shell_duplication_factor": 1.6946865951952421,
+    "urdf_triangles": 24962,
+    "cad_volume_raw_mm3": 269662.01385590615,
+    "cad_volume_dedup_mm3": 162693.07460896746,
+    "urdf_volume_mm3": 18765.100267050584,
+    "cad_raw_over_urdf_volume_ratio": 14.370400904779734,
+    "cad_dedup_over_urdf_volume_ratio": 8.669981630454611,
+    "cad_area_dedup_mm2": 57315.331049415836,
+    "urdf_area_mm2": 10846.6649280819,
+    "cad_area_over_urdf_area_ratio": 5.284143230148748,
+    "bbox_cad_link_frame_mm": [
+     [
+      -38.53649610327534,
+      -31.744792315384565,
+      -3.9543545776248124
+     ],
+     [
+      38.46355127848631,
+      31.759714422714296,
+      57.5457635321372
+     ]
+    ],
+    "bbox_urdf_link_frame_mm": [
+     [
+      -28.4000001847744,
+      -28.4000001847744,
+      -0.49999967450276017
+     ],
+     [
+      28.4000001847744,
+      28.4000001847744,
+      8.999999612569809
+     ]
+    ],
+    "bbox_extent_cad_mm": [
+     77.00004738176165,
+     63.50450673809886,
+     61.50011810976201
+    ],
+    "bbox_extent_urdf_mm": [
+     56.8000003695488,
+     56.8000003695488,
+     9.49999928707257
+    ],
+    "bbox_extent_delta_mm": [
+     20.20004701221285,
+     6.704506368550064,
+     52.000118822689444
+    ],
+    "bbox_corner_max_abs_delta_mm": 48.54576391956739,
+    "principal_extents_cad_mm": [
+     61.88599684747394,
+     77.04115686666876,
+     63.6486139363414
+    ],
+    "principal_extents_urdf_mm": [
+     56.796070819787914,
+     56.75237537217329,
+     9.51814628098083
+    ],
+    "principal_extents_delta_mm": [
+     5.089926027686026,
+     20.288781494495467,
+     54.13046765536057
+    ],
+    "residual_D_identity_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 12.16788566400123,
+     "median_mm": 5.883663430961252,
+     "p95_mm": 47.21675781478684,
+     "p99_mm": 48.54570287798927,
+     "max_mm": 49.22883006682064,
+     "rms_mm": 19.427040830377695,
+     "frac_le_0p5mm": 0.27591666666666664,
+     "frac_le_1mm": 0.2848333333333333,
+     "frac_le_2mm": 0.2985,
+     "unverified_bound_points": 0
+    },
+    "residual_D_identity_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 0.04305660958314288,
+     "median_mm": 0.04566371300056417,
+     "p95_mm": 0.08538181612476549,
+     "p99_mm": 0.15181010356498728,
+     "max_mm": 0.250305063190818,
+     "rms_mm": 0.050632395866070046,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "D_i_best_fit_rows": [
+     [
+      0.9963834693393082,
+      0.006338653141255208,
+      0.08473372117237678,
+      -1.3978951147579601
+     ],
+     [
+      -0.00015868390402161078,
+      0.9973507358943434,
+      -0.07274259020978664,
+      1.0855450623617668
+     ],
+     [
+      -0.08497032921427247,
+      0.07246606852427695,
+      0.9937447922207456,
+      -4.432955965876507
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_translation_mm": [
+     -1.3978951147579601,
+     1.0855450623617668,
+     -4.432955965876507
+    ],
+    "D_i_translation_norm_mm": 4.773218770356362,
+    "D_i_rotation_axis": [
+     0.6498659128987171,
+     0.7594924337749472,
+     -0.029078141118791062
+    ],
+    "D_i_rotation_angle_deg": 6.414591728706677,
+    "residual_after_D_i_cad_to_urdf": {
+     "n": 12000,
+     "mean_mm": 10.430356845307955,
+     "median_mm": 3.7584235957482144,
+     "p95_mm": 42.14637456417773,
+     "p99_mm": 44.827950823780725,
+     "max_mm": 45.9438711383867,
+     "rms_mm": 17.24885649210606,
+     "frac_le_0p5mm": 0.13016666666666668,
+     "frac_le_1mm": 0.22775,
+     "frac_le_2mm": 0.3468333333333333,
+     "unverified_bound_points": 0
+    },
+    "residual_after_D_i_urdf_to_cad": {
+     "n": 12000,
+     "mean_mm": 0.8252748677090079,
+     "median_mm": 0.6003392879766163,
+     "p95_mm": 2.5437074775159214,
+     "p99_mm": 3.325537530212024,
+     "max_mm": 4.23526929262614,
+     "rms_mm": 1.1342552067438276,
+     "frac_le_0p5mm": 0.44166666666666665,
+     "frac_le_1mm": 0.7008333333333333,
+     "frac_le_2mm": 0.8955833333333333,
+     "unverified_bound_points": 0
+    },
+    "partition_tolerant_neighbourhood": [
+     "link5",
+     "link6",
+     "gripper_link",
+     "gripper_left",
+     "gripper_right"
+    ],
+    "residual_cad_to_urdf_neighbourhood_union": {
+     "n": 12000,
+     "mean_mm": 0.1493090460956201,
+     "median_mm": 0.045029478887392414,
+     "p95_mm": 0.6999171612728069,
+     "p99_mm": 2.4552093529996193,
+     "max_mm": 3.93532914748366,
+     "rms_mm": 0.4457144883807945,
+     "frac_le_0p5mm": 0.9435833333333333,
+     "frac_le_1mm": 0.9575,
+     "frac_le_2mm": 0.9824166666666667,
+     "unverified_bound_points": 0
+    },
+    "seconds": 106.0
+   }
+  },
+  "joint_axis_geometric_evidence": {
+   "joint1": {
+    "joint": "joint1",
+    "parent": "base_link",
+    "child": "link1",
+    "urdf_origin_in_parent_mm": [
+     -0.08416,
+     0.0,
+     84.65
+    ],
+    "urdf_axis_in_parent": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "cad_parent_material": {
+     "status": "EVALUATED",
+     "points_in_band": 504428,
+     "peak_population": 76396,
+     "dominant_radius_mm": 34.125,
+     "radius_spread_p10_p90_mm": 0.9349119197413174,
+     "implied_axis_eccentricity_bound_mm": 0.4674559598706587,
+     "dr_ds_slope": 1.4959801739586736e-05,
+     "implied_axis_tilt_bound_deg": 0.0008571335019668461
+    },
+    "cad_child_material": {
+     "status": "EVALUATED",
+     "points_in_band": 71086,
+     "peak_population": 17828,
+     "dominant_radius_mm": 12.125,
+     "radius_spread_p10_p90_mm": 1.4264594480747999,
+     "implied_axis_eccentricity_bound_mm": 0.7132297240373999,
+     "dr_ds_slope": -0.007499926417321593,
+     "implied_axis_tilt_bound_deg": 0.4297060736612586
+    },
+    "axial_extent_parent_near_axis_mm": [
+     -82.24500122070313,
+     -2.0950073242187557
+    ],
+    "axial_extent_child_near_axis_mm": [
+     -10.600012207031256,
+     87.9499755859375
+    ]
+   },
+   "joint2": {
+    "joint": "joint2",
+    "parent": "link1",
+    "child": "link2",
+    "urdf_origin_in_parent_mm": [
+     20.084,
+     31.625,
+     55.550000000000004
+    ],
+    "urdf_axis_in_parent": [
+     0.0,
+     -0.9999999999932537,
+     3.673205103346574e-06
+    ],
+    "cad_parent_material": {
+     "status": "EVALUATED",
+     "points_in_band": 65490,
+     "peak_population": 10698,
+     "dominant_radius_mm": 15.375,
+     "radius_spread_p10_p90_mm": 1.4337092524084518,
+     "implied_axis_eccentricity_bound_mm": 0.7168546262042259,
+     "dr_ds_slope": 0.000998108525135844,
+     "implied_axis_tilt_bound_deg": 0.057187386995897954
+    },
+    "cad_child_material": {
+     "status": "EVALUATED",
+     "points_in_band": 190328,
+     "peak_population": 48364,
+     "dominant_radius_mm": 16.625,
+     "radius_spread_p10_p90_mm": 1.3309016069621666,
+     "implied_axis_eccentricity_bound_mm": 0.6654508034810833,
+     "dr_ds_slope": NaN,
+     "implied_axis_tilt_bound_deg": NaN
+    },
+    "axial_extent_parent_near_axis_mm": [
+     -6.851039103258853,
+     70.39912213729473
+    ],
+    "axial_extent_child_near_axis_mm": [
+     -2.6449991649225675,
+     64.55501420688076
+    ]
+   },
+   "joint3": {
+    "joint": "joint3",
+    "parent": "link2",
+    "child": "link3",
+    "urdf_origin_in_parent_mm": [
+     -264.0,
+     0.0,
+     0.0
+    ],
+    "urdf_axis_in_parent": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "cad_parent_material": {
+     "status": "EVALUATED",
+     "points_in_band": 190326,
+     "peak_population": 48364,
+     "dominant_radius_mm": 16.625,
+     "radius_spread_p10_p90_mm": 1.3309114445421901,
+     "implied_axis_eccentricity_bound_mm": 0.6654557222710951,
+     "dr_ds_slope": NaN,
+     "implied_axis_tilt_bound_deg": NaN
+    },
+    "cad_child_material": {
+     "status": "EVALUATED",
+     "points_in_band": 77408,
+     "peak_population": 16950,
+     "dominant_radius_mm": 13.125,
+     "radius_spread_p10_p90_mm": 1.5941879412582374,
+     "implied_axis_eccentricity_bound_mm": 0.7970939706291187,
+     "dr_ds_slope": -0.0008396618007004058,
+     "implied_axis_tilt_bound_deg": 0.048109066092347524
+    },
+    "axial_extent_parent_near_axis_mm": [
+     -64.55495782121486,
+     2.645066556512994
+    ],
+    "axial_extent_child_near_axis_mm": [
+     -71.16395308843664,
+     9.086069615948283
+    ]
+   },
+   "joint4": {
+    "joint": "joint4",
+    "parent": "link3",
+    "child": "link4",
+    "urdf_origin_in_parent_mm": [
+     242.60000000000002,
+     -54.0,
+     -1.625
+    ],
+    "urdf_axis_in_parent": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "cad_parent_material": {
+     "status": "EVALUATED",
+     "points_in_band": 400632,
+     "peak_population": 98774,
+     "dominant_radius_mm": 25.125,
+     "radius_spread_p10_p90_mm": 1.483129469067027,
+     "implied_axis_eccentricity_bound_mm": 0.7415647345335135,
+     "dr_ds_slope": 0.005819699145874687,
+     "implied_axis_tilt_bound_deg": 0.3334404347084675
+    },
+    "cad_child_material": {
+     "status": "EVALUATED",
+     "points_in_band": 62772,
+     "peak_population": 13680,
+     "dominant_radius_mm": 14.125,
+     "radius_spread_p10_p90_mm": 1.5404455394620147,
+     "implied_axis_eccentricity_bound_mm": 0.7702227697310073,
+     "dr_ds_slope": -0.006808410144884965,
+     "implied_axis_tilt_bound_deg": 0.390087139145706
+    },
+    "axial_extent_parent_near_axis_mm": [
+     -60.66400447560966,
+     -0.9139941975882842
+    ],
+    "axial_extent_child_near_axis_mm": [
+     -63.37000978386604,
+     3.390009249517945
+    ]
+   },
+   "joint5": {
+    "joint": "joint5",
+    "parent": "link4",
+    "child": "link5",
+    "urdf_origin_in_parent_mm": [
+     78.308,
+     -37.5,
+     -30.0
+    ],
+    "urdf_axis_in_parent": [
+     0.0,
+     0.9999999999932537,
+     -3.673205103346574e-06
+    ],
+    "cad_parent_material": {
+     "status": "EVALUATED",
+     "points_in_band": 436146,
+     "peak_population": 90990,
+     "dominant_radius_mm": 24.625,
+     "radius_spread_p10_p90_mm": 1.467565855483933,
+     "implied_axis_eccentricity_bound_mm": 0.7337829277419665,
+     "dr_ds_slope": -0.011476709638675168,
+     "implied_axis_tilt_bound_deg": 0.6575381568241337
+    },
+    "cad_child_material": {
+     "status": "EVALUATED",
+     "points_in_band": 127084,
+     "peak_population": 30170,
+     "dominant_radius_mm": 23.875,
+     "radius_spread_p10_p90_mm": 1.5664227839031426,
+     "implied_axis_eccentricity_bound_mm": 0.7832113919515713,
+     "dr_ds_slope": 0.006534288975938686,
+     "implied_axis_tilt_bound_deg": 0.3743818521819327
+    },
+    "axial_extent_parent_near_axis_mm": [
+     -48.83310404392819,
+     2.6670623171380217
+    ],
+    "axial_extent_child_near_axis_mm": [
+     -5.780997309772499,
+     79.25897827610524
+    ]
+   },
+   "joint6": {
+    "joint": "joint6",
+    "parent": "link5",
+    "child": "link6",
+    "urdf_origin_in_parent_mm": [
+     23.692,
+     0.0,
+     40.0
+    ],
+    "urdf_axis_in_parent": [
+     0.9999999999932537,
+     0.0,
+     -3.673205103346574e-06
+    ],
+    "cad_parent_material": {
+     "status": "EVALUATED",
+     "points_in_band": 379396,
+     "peak_population": 87726,
+     "dominant_radius_mm": 25.125,
+     "radius_spread_p10_p90_mm": 1.4995439578247947,
+     "implied_axis_eccentricity_bound_mm": 0.7497719789123973,
+     "dr_ds_slope": 0.009355055431563463,
+     "implied_axis_tilt_bound_deg": 0.5359895576272814
+    },
+    "cad_child_material": {
+     "status": "EVALUATED",
+     "points_in_band": 290686,
+     "peak_population": 24214,
+     "dominant_radius_mm": 16.375,
+     "radius_spread_p10_p90_mm": 1.0917395295686187,
+     "implied_axis_eccentricity_bound_mm": 0.5458697647843094,
+     "dr_ds_slope": 0.07133872175596383,
+     "implied_axis_tilt_bound_deg": 4.080494872268167
+    },
+    "axial_extent_parent_near_axis_mm": [
+     -60.36713169787064,
+     9.633118998815396
+    ],
+    "axial_extent_child_near_axis_mm": [
+     -3.954354577612501,
+     57.54576353214954
+    ]
+   }
+  },
+  "whole_arm_aggregate_q0_assembly_frame": {
+   "cad_members": [
+    "base_link",
+    "link1",
+    "link2",
+    "link3",
+    "link4",
+    "link5",
+    "link6",
+    "gripper_detail"
+   ],
+   "urdf_members": [
+    "base_link",
+    "link1",
+    "link2",
+    "link3",
+    "link4",
+    "link5",
+    "link6",
+    "gripper_link",
+    "gripper_left",
+    "gripper_right"
+   ],
+   "cad_triangles": 996916,
+   "urdf_triangles": 549242,
+   "residual_cad_to_urdf": {
+    "n": 25000,
+    "mean_mm": 0.3250739023856903,
+    "median_mm": 0.08603092031854258,
+    "p95_mm": 1.232726448476668,
+    "p99_mm": 2.5120324117068003,
+    "max_mm": 6.528186524505161,
+    "rms_mm": 0.6303806077322132,
+    "frac_le_0p5mm": 0.78556,
+    "frac_le_1mm": 0.87536,
+    "frac_le_2mm": 0.98704,
+    "unverified_bound_points": 0
+   },
+   "residual_urdf_to_cad": {
+    "n": 25000,
+    "mean_mm": 2.317496130957294,
+    "median_mm": 0.08605183282543913,
+    "p95_mm": 14.348147208724047,
+    "p99_mm": 53.535539801970415,
+    "max_mm": 68.36632614113,
+    "rms_mm": 9.107461208556273,
+    "frac_le_0p5mm": 0.73824,
+    "frac_le_1mm": 0.81756,
+    "frac_le_2mm": 0.92848,
+    "unverified_bound_points": 0
+   },
+   "seconds": 195.3
+  },
+  "translation_only_vs_full_rigid": {
+   "link1": {
+    "candidates": {
+     "zero_trim0.5": {
+      "t_mm": [
+       0.26022655849377874,
+       0.15024462105121658,
+       -1.2658478487695854
+      ],
+      "norm_mm": 1.30102347562791,
+      "median_mm": 0.3658288658077886,
+      "p95_mm": 2.6341711341922114
+     },
+     "zero_trim0.7": {
+      "t_mm": [
+       0.17542256496183886,
+       0.13596921174893456,
+       -1.328119202404146
+      ],
+      "norm_mm": 1.3465367869598075,
+      "median_mm": 0.42810021944234933,
+      "p95_mm": 2.5718997805576507
+     },
+     "zero_trim0.9": {
+      "t_mm": [
+       -0.2895478576888231,
+       0.1526793079462422,
+       -3.8957677522070404
+      ],
+      "norm_mm": 3.909495531664338,
+      "median_mm": 0.004249914609677052,
+      "p95_mm": 0.8949631428437431
+     },
+     "from_M2_translation_trim0.5": {
+      "t_mm": [
+       -0.31533242772853853,
+       0.15516743907605626,
+       -3.9078753500523757
+      ],
+      "norm_mm": 3.9236464195533185,
+      "median_mm": 0.007855537468427709,
+      "p95_mm": 0.8957204547984973
+     },
+     "from_M2_translation_trim0.7": {
+      "t_mm": [
+       -0.2589752244722201,
+       0.15045999673305135,
+       -3.904364102209446
+      ],
+      "norm_mm": 3.9158352136075796,
+      "median_mm": 0.004344289625497932,
+      "p95_mm": 0.8911941543306522
+     },
+     "from_M2_translation_trim0.9": {
+      "t_mm": [
+       -0.2971745530821438,
+       0.15215308203040567,
+       -3.8956329747023513
+      ],
+      "norm_mm": 3.9099129848321708,
+      "median_mm": 0.0043846921143662065,
+      "p95_mm": 0.8946039887039703
+     },
+     "bbox_center_delta_trim0.5": {
+      "t_mm": [
+       -0.27564850272603747,
+       3.091593453646659,
+       -3.8932887905349114
+      ],
+      "norm_mm": 4.979119378584006,
+      "median_mm": 0.05740888779779141,
+      "p95_mm": 2.942599781617971
+     },
+     "bbox_center_delta_trim0.7": {
+      "t_mm": [
+       -0.28661601610008547,
+       0.15253178315909494,
+       -3.90704374604643
+      ],
+      "norm_mm": 3.920510874755903,
+      "median_mm": 0.007023933462481757,
+      "p95_mm": 0.8900266634686866
+     },
+     "bbox_center_delta_trim0.9": {
+      "t_mm": [
+       -0.30635117216052726,
+       0.1526867611835684,
+       -3.894832311160249
+      ],
+      "norm_mm": 3.9098443728341343,
+      "median_mm": 0.005185355656468271,
+      "p95_mm": 0.8933422667950248
+     }
+    },
+    "best_translation_only_D_i_mm": [
+     -0.2895478576888231,
+     0.1526793079462422,
+     -3.8957677522070404
+    ],
+    "best_translation_only_norm_mm": 3.909495531664338,
+    "best_residual_cad_to_urdf": {
+     "n": 15000,
+     "mean_mm": 0.16256313672471837,
+     "median_mm": 0.004249914609677052,
+     "p95_mm": 0.8949631428437431,
+     "p99_mm": 3.8679938642065563,
+     "max_mm": 7.611376912977745,
+     "rms_mm": 0.6953921092567078,
+     "frac_le_0p5mm": 0.9402666666666667,
+     "frac_le_1mm": 0.9528,
+     "frac_le_2mm": 0.9702666666666667
+    },
+    "best_residual_urdf_to_cad": {
+     "n": 15000,
+     "mean_mm": 0.013400462463638163,
+     "median_mm": 0.004249914609677052,
+     "p95_mm": 0.05571152167059144,
+     "p99_mm": 0.09838492189304232,
+     "max_mm": 0.19231995899401078,
+     "rms_mm": 0.025768135605039304,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0
+    },
+    "residual_with_M2_translation_rotation_dropped": {
+     "n": 15000,
+     "mean_mm": 0.19488369027091132,
+     "median_mm": 0.05753566019850213,
+     "p95_mm": 0.8886424635314127,
+     "p99_mm": 3.822350550181005,
+     "max_mm": 7.528978006677802,
+     "rms_mm": 0.6916081522598345,
+     "frac_le_0p5mm": 0.9408666666666666,
+     "frac_le_1mm": 0.9528,
+     "frac_le_2mm": 0.9706
+    },
+    "residual_full_rigid_M2": {
+     "n": 15000,
+     "mean_mm": 0.21589748215666224,
+     "median_mm": 0.07960762942072955,
+     "p95_mm": 0.865088529694131,
+     "p99_mm": 3.796745382283352,
+     "max_mm": 7.535704464806693,
+     "rms_mm": 0.6897687861668013,
+     "frac_le_0p5mm": 0.9403333333333334,
+     "frac_le_1mm": 0.9533333333333334,
+     "frac_le_2mm": 0.9712
+    },
+    "rotation_is_necessary": false,
+    "prior_2026_07_translation_dev_mm": 3.943
+   },
+   "base_link": {
+    "candidates": {
+     "zero_trim0.5": {
+      "t_mm": [
+       -0.05732750272995675,
+       -0.03253727084589079,
+       0.05006764302725364
+      ],
+      "norm_mm": 0.08277611637215504,
+      "median_mm": 0.04493400980954654,
+      "p95_mm": 0.13763270515942566
+     },
+     "zero_trim0.7": {
+      "t_mm": [
+       -0.08169974910277185,
+       0.018794496396904822,
+       0.04295875181966342
+      ],
+      "norm_mm": 0.09419945040270973,
+      "median_mm": 0.05203019032663292,
+      "p95_mm": 0.10587611818785277
+     },
+     "zero_trim0.9": {
+      "t_mm": [
+       -0.09050334026263634,
+       0.0034715418647817088,
+       -0.022900408348114906
+      ],
+      "norm_mm": 0.0934202060805042,
+      "median_mm": 0.0640069431321893,
+      "p95_mm": 0.11790609939960461
+     },
+     "from_M2_translation_trim0.5": {
+      "t_mm": [
+       -0.05732750272995678,
+       -0.032537270845892176,
+       0.0500676430272533
+      ],
+      "norm_mm": 0.0827761163721554,
+      "median_mm": 0.04493400980954654,
+      "p95_mm": 0.1376327051594278
+     },
+     "from_M2_translation_trim0.7": {
+      "t_mm": [
+       -0.08169974910277192,
+       0.018794496396904774,
+       0.04295875181966341
+      ],
+      "norm_mm": 0.09419945040270979,
+      "median_mm": 0.05203019032663292,
+      "p95_mm": 0.10587611818785277
+     },
+     "from_M2_translation_trim0.9": {
+      "t_mm": [
+       -0.09206161406312373,
+       0.0029020140069334153,
+       -0.02272953124933271
+      ],
+      "norm_mm": 0.09487040666097289,
+      "median_mm": 0.0641578557480032,
+      "p95_mm": 0.11773522230082278
+     },
+     "bbox_center_delta_trim0.5": {
+      "t_mm": [
+       -0.08362220645478625,
+       0.022951974149625125,
+       -20.73683080449339
+      ],
+      "norm_mm": 20.73701211073369,
+      "median_mm": 1.802333405315819,
+      "p95_mm": 9.780716148541272
+     },
+     "bbox_center_delta_trim0.7": {
+      "t_mm": [
+       -0.0975640840803802,
+       0.02213745706075947,
+       -12.655219956408462
+      ],
+      "norm_mm": 12.65561539248829,
+      "median_mm": 1.249778840769807,
+      "p95_mm": 7.128615540848092
+     },
+     "bbox_center_delta_trim0.9": {
+      "t_mm": [
+       -0.17211193248067028,
+       -0.0035209203399095036,
+       -3.479916744474962
+      ],
+      "norm_mm": 3.484172134476063,
+      "median_mm": 0.23116077455350004,
+      "p95_mm": 3.5749096205278192
+     }
+    },
+    "best_translation_only_D_i_mm": [
+     -0.05732750272995675,
+     -0.03253727084589079,
+     0.05006764302725364
+    ],
+    "best_translation_only_norm_mm": 0.08277611637215504,
+    "best_residual_cad_to_urdf": {
+     "n": 15000,
+     "mean_mm": 0.1095769028333448,
+     "median_mm": 0.04493400980954654,
+     "p95_mm": 0.13763270515942566,
+     "p99_mm": 2.608506202625188,
+     "max_mm": 5.305081764559688,
+     "rms_mm": 0.42414934076199695,
+     "frac_le_0p5mm": 0.9720666666666666,
+     "frac_le_1mm": 0.9769333333333333,
+     "frac_le_2mm": 0.9856
+    },
+    "best_residual_urdf_to_cad": {
+     "n": 15000,
+     "mean_mm": 10.039751746304853,
+     "median_mm": 0.054531168933078314,
+     "p95_mm": 53.015951206977874,
+     "p99_mm": 62.868396152191416,
+     "max_mm": 68.43796024771959,
+     "rms_mm": 19.992768753166473,
+     "frac_le_0p5mm": 0.6558,
+     "frac_le_1mm": 0.6602,
+     "frac_le_2mm": 0.6639333333333334
+    },
+    "residual_with_M2_translation_rotation_dropped": {
+     "n": 15000,
+     "mean_mm": 0.11130906016450598,
+     "median_mm": 0.03248579311124497,
+     "p95_mm": 0.16605710177476193,
+     "p99_mm": 2.633355187473858,
+     "max_mm": 5.329934131184061,
+     "rms_mm": 0.42833440790093924,
+     "frac_le_0p5mm": 0.9718,
+     "frac_le_1mm": 0.9764,
+     "frac_le_2mm": 0.9855333333333334
+    },
+    "residual_full_rigid_M2": {
+     "n": 15000,
+     "mean_mm": 0.10559901581569289,
+     "median_mm": 0.03903991633251495,
+     "p95_mm": 0.13107558636850727,
+     "p99_mm": 2.6367312638290974,
+     "max_mm": 5.358355416087534,
+     "rms_mm": 0.42677483402422134,
+     "frac_le_0p5mm": 0.9716666666666667,
+     "frac_le_1mm": 0.9767333333333333,
+     "frac_le_2mm": 0.9855333333333334
+    },
+    "rotation_is_necessary": false,
+    "prior_2026_07_translation_dev_mm": 0.072
+   },
+   "link2": {
+    "candidates": {
+     "zero_trim0.5": {
+      "t_mm": [
+       -0.32579314269835913,
+       0.05409454784222976,
+       0.06686316321562791
+      ],
+      "norm_mm": 0.33695411339042647,
+      "median_mm": 0.011927844459356018,
+      "p95_mm": 0.09311007014595467
+     },
+     "zero_trim0.7": {
+      "t_mm": [
+       -0.3561099790254367,
+       0.07788453137033877,
+       0.07449489774080448
+      ],
+      "norm_mm": 0.3720615636930092,
+      "median_mm": 0.019558024093406345,
+      "p95_mm": 0.11791124610574674
+     },
+     "zero_trim0.9": {
+      "t_mm": [
+       -0.29189599901578983,
+       0.07769809616234336,
+       0.07254661279254454
+      ],
+      "norm_mm": 0.3106497697027154,
+      "median_mm": 0.01760303774844696,
+      "p95_mm": 0.08111794324569406
+     },
+     "from_M2_translation_trim0.5": {
+      "t_mm": [
+       -0.32485525192192577,
+       0.05674317813140584,
+       0.06553089811299043
+      ],
+      "norm_mm": 0.3362216851620452,
+      "median_mm": 0.01059678058003044,
+      "p95_mm": 0.09271893878442428
+     },
+     "from_M2_translation_trim0.7": {
+      "t_mm": [
+       -0.3561099790254367,
+       0.07788453137033878,
+       0.0744948977408045
+      ],
+      "norm_mm": 0.3720615636930092,
+      "median_mm": 0.019558024093406345,
+      "p95_mm": 0.11791124610574674
+     },
+     "from_M2_translation_trim0.9": {
+      "t_mm": [
+       -0.2911249216114862,
+       0.07882842563256982,
+       0.07255047537282076
+      ],
+      "norm_mm": 0.31021156030655245,
+      "median_mm": 0.017607771920639975,
+      "p95_mm": 0.0812379525009148
+     },
+     "bbox_center_delta_trim0.5": {
+      "t_mm": [
+       4.961270825381214,
+       0.05211032607610854,
+       0.031529443526525404
+      ],
+      "norm_mm": 4.961644666304878,
+      "median_mm": 0.023471070963744012,
+      "p95_mm": 4.22041403099025
+     },
+     "bbox_center_delta_trim0.7": {
+      "t_mm": [
+       3.744110545401309,
+       -0.022715503424751406,
+       0.029383103871043842
+      ],
+      "norm_mm": 3.744294744951875,
+      "median_mm": 0.05872038935173468,
+      "p95_mm": 3.4019332148498616
+     },
+     "bbox_center_delta_trim0.9": {
+      "t_mm": [
+       -0.28488622983711626,
+       0.07142164065079275,
+       0.07095579927744447
+      ],
+      "norm_mm": 0.302152180457395,
+      "median_mm": 0.01601213811524005,
+      "p95_mm": 0.07629181185912469
+     }
+    },
+    "best_translation_only_D_i_mm": [
+     -0.32485525192192577,
+     0.05674317813140584,
+     0.06553089811299043
+    ],
+    "best_translation_only_norm_mm": 0.3362216851620452,
+    "best_residual_cad_to_urdf": {
+     "n": 15000,
+     "mean_mm": 0.03239701535533562,
+     "median_mm": 0.01059678058003044,
+     "p95_mm": 0.09271893878442428,
+     "p99_mm": 0.14711844875957095,
+     "max_mm": 3.3644358435321053,
+     "rms_mm": 0.09622456431657628,
+     "frac_le_0p5mm": 0.9974666666666666,
+     "frac_le_1mm": 0.9985333333333334,
+     "frac_le_2mm": 0.9992666666666666
+    },
+    "best_residual_urdf_to_cad": {
+     "n": 15000,
+     "mean_mm": 0.04380356119685343,
+     "median_mm": 0.012552989214414223,
+     "p95_mm": 0.09238464596185929,
+     "p99_mm": 0.1522274989229859,
+     "max_mm": 4.446124539202277,
+     "rms_mm": 0.20781074609989314,
+     "frac_le_0p5mm": 0.9923333333333333,
+     "frac_le_1mm": 0.9938,
+     "frac_le_2mm": 0.9962
+    },
+    "residual_with_M2_translation_rotation_dropped": {
+     "n": 15000,
+     "mean_mm": 0.03568758683468104,
+     "median_mm": 0.01187449668763732,
+     "p95_mm": 0.09804958004336006,
+     "p99_mm": 0.14946027656620542,
+     "max_mm": 3.3801753622773356,
+     "rms_mm": 0.09989903340595296,
+     "frac_le_0p5mm": 0.9974,
+     "frac_le_1mm": 0.9985333333333334,
+     "frac_le_2mm": 0.9992666666666666
+    },
+    "residual_full_rigid_M2": {
+     "n": 15000,
+     "mean_mm": 0.058053311856635204,
+     "median_mm": 0.04507368121438896,
+     "p95_mm": 0.13807651032931645,
+     "p99_mm": 0.2038181461537628,
+     "max_mm": 3.3501722157585543,
+     "rms_mm": 0.10962296289596651,
+     "frac_le_0p5mm": 0.9974666666666666,
+     "frac_le_1mm": 0.9985333333333334,
+     "frac_le_2mm": 0.9992666666666666
+    },
+    "rotation_is_necessary": false,
+    "prior_2026_07_translation_dev_mm": 0.225
+   },
+   "link3": {
+    "candidates": {
+     "zero_trim0.5": {
+      "t_mm": [
+       -0.12311230331322416,
+       -1.223966888099044,
+       -0.06872875276023929
+      ],
+      "norm_mm": 1.2320613717854818,
+      "median_mm": 0.01733728566224224,
+      "p95_mm": 0.13163826430275571
+     },
+     "zero_trim0.7": {
+      "t_mm": [
+       -0.04542190056103686,
+       -1.2001688837486817,
+       -0.07405445426009714
+      ],
+      "norm_mm": 1.2033090046886934,
+      "median_mm": 0.01200249075015769,
+      "p95_mm": 0.07272438471811007
+     },
+     "zero_trim0.9": {
+      "t_mm": [
+       0.019048935002868722,
+       -1.1641555201544838,
+       -0.08624992884872727
+      ],
+      "norm_mm": 1.1675016005373657,
+      "median_mm": 0.00568097692501283,
+      "p95_mm": 0.07522399596608899
+     },
+     "from_M2_translation_trim0.5": {
+      "t_mm": [
+       -0.12311230331322486,
+       -1.2239668880990426,
+       -0.0687287527602418
+      ],
+      "norm_mm": 1.2320613717854807,
+      "median_mm": 0.01733728566224091,
+      "p95_mm": 0.13163826430275571
+     },
+     "from_M2_translation_trim0.7": {
+      "t_mm": [
+       -0.045421900561036566,
+       -1.2001688837486817,
+       -0.07405445426009706
+      ],
+      "norm_mm": 1.2033090046886934,
+      "median_mm": 0.01200249075015769,
+      "p95_mm": 0.07272438471811007
+     },
+     "from_M2_translation_trim0.9": {
+      "t_mm": [
+       0.019048935002867355,
+       -1.1641555201544846,
+       -0.08624992884872758
+      ],
+      "norm_mm": 1.1675016005373666,
+      "median_mm": 0.00568097692501283,
+      "p95_mm": 0.07522399596607945
+     },
+     "bbox_center_delta_trim0.5": {
+      "t_mm": [
+       3.9282954486546053,
+       -1.125494019190805,
+       -0.10140898993232433
+      ],
+      "norm_mm": 4.087606353649266,
+      "median_mm": 0.046502392279549554,
+      "p95_mm": 3.19364387319313
+     },
+     "bbox_center_delta_trim0.7": {
+      "t_mm": [
+       2.0594449211036507,
+       -1.2007746977376006,
+       -0.07940626242331703
+      ],
+      "norm_mm": 2.3852627973241205,
+      "median_mm": 0.02877735147846039,
+      "p95_mm": 1.8153022957952651
+     },
+     "bbox_center_delta_trim0.9": {
+      "t_mm": [
+       0.025261953313863442,
+       -1.1647747617269926,
+       -0.08329298499497297
+      ],
+      "norm_mm": 1.1680223170773651,
+      "median_mm": 0.005556086794444109,
+      "p95_mm": 0.07879212803748978
+     }
+    },
+    "best_translation_only_D_i_mm": [
+     0.025261953313863442,
+     -1.1647747617269926,
+     -0.08329298499497297
+    ],
+    "best_translation_only_norm_mm": 1.1680223170773651,
+    "best_residual_cad_to_urdf": {
+     "n": 15000,
+     "mean_mm": 0.060444907915978306,
+     "median_mm": 0.005556086794444109,
+     "p95_mm": 0.07879212803748978,
+     "p99_mm": 1.559511014371472,
+     "max_mm": 6.854778299162933,
+     "rms_mm": 0.4004842223156194,
+     "frac_le_0p5mm": 0.9822666666666666,
+     "frac_le_1mm": 0.9875333333333334,
+     "frac_le_2mm": 0.9927333333333334
+    },
+    "best_residual_urdf_to_cad": {
+     "n": 15000,
+     "mean_mm": 0.014900972852776787,
+     "median_mm": 0.003751980657659822,
+     "p95_mm": 0.055792193008950136,
+     "p99_mm": 0.09188529254812762,
+     "max_mm": 0.16249312896627402,
+     "rms_mm": 0.025041289209558143,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0
+    },
+    "residual_with_M2_translation_rotation_dropped": {
+     "n": 15000,
+     "mean_mm": 0.11562333432751999,
+     "median_mm": 0.06044635251395292,
+     "p95_mm": 0.14824654055444386,
+     "p99_mm": 1.5426365034867684,
+     "max_mm": 6.917447077452794,
+     "rms_mm": 0.4118694741072927,
+     "frac_le_0p5mm": 0.9816666666666667,
+     "frac_le_1mm": 0.9874,
+     "frac_le_2mm": 0.9926666666666667
+    },
+    "residual_full_rigid_M2": {
+     "n": 15000,
+     "mean_mm": 0.08214939818044363,
+     "median_mm": 0.03483127229869698,
+     "p95_mm": 0.10822320462550149,
+     "p99_mm": 1.556421693461733,
+     "max_mm": 6.939140923069717,
+     "rms_mm": 0.4028463395091502,
+     "frac_le_0p5mm": 0.982,
+     "frac_le_1mm": 0.9874666666666667,
+     "frac_le_2mm": 0.9928666666666667
+    },
+    "rotation_is_necessary": false,
+    "prior_2026_07_translation_dev_mm": 1.14
+   },
+   "link4": {
+    "candidates": {
+     "zero_trim0.5": {
+      "t_mm": [
+       1.4275423325089418,
+       -1.6776827342985503,
+       -0.042169958471920024
+      ],
+      "norm_mm": 2.2032418781119003,
+      "median_mm": 0.025907124504052234,
+      "p95_mm": 0.08341675459552757
+     },
+     "zero_trim0.7": {
+      "t_mm": [
+       1.4704992352570876,
+       -1.6930552239058925,
+       -0.023022653188664758
+      ],
+      "norm_mm": 2.2426176746486584,
+      "median_mm": 0.026017977270736736,
+      "p95_mm": 0.07210037820913659
+     },
+     "zero_trim0.9": {
+      "t_mm": [
+       1.471331542332645,
+       -1.6993797009371132,
+       -0.021749599655926443
+      ],
+      "norm_mm": 2.247928139533216,
+      "median_mm": 0.028460653420511493,
+      "p95_mm": 0.07236603089954603
+     },
+     "from_M2_translation_trim0.5": {
+      "t_mm": [
+       1.4275423325089416,
+       -1.677682734298549,
+       -0.042169958471919976
+      ],
+      "norm_mm": 2.203241878111899,
+      "median_mm": 0.025907124504052234,
+      "p95_mm": 0.08341675459552757
+     },
+     "from_M2_translation_trim0.7": {
+      "t_mm": [
+       1.471097998758072,
+       -1.692867554401522,
+       -0.02328679547815263
+      ],
+      "norm_mm": 2.2428714081594237,
+      "median_mm": 0.025830849242947096,
+      "p95_mm": 0.07212717427094581
+     },
+     "from_M2_translation_trim0.9": {
+      "t_mm": [
+       1.4726005171901881,
+       -1.6987234136203717,
+       -0.021421440368799487
+      ],
+      "norm_mm": 2.248259859829004,
+      "median_mm": 0.028534198826501052,
+      "p95_mm": 0.0726016848975127
+     },
+     "bbox_center_delta_trim0.5": {
+      "t_mm": [
+       1.4275423325089416,
+       -1.677682734298552,
+       -0.04216995847191996
+      ],
+      "norm_mm": 2.2032418781119016,
+      "median_mm": 0.025907124504052234,
+      "p95_mm": 0.08341675459552757
+     },
+     "bbox_center_delta_trim0.7": {
+      "t_mm": [
+       1.4710979987580701,
+       -1.6928675544015226,
+       -0.023286795478152877
+      ],
+      "norm_mm": 2.2428714081594228,
+      "median_mm": 0.025830849242947096,
+      "p95_mm": 0.07212717427094581
+     },
+     "bbox_center_delta_trim0.9": {
+      "t_mm": [
+       1.4722787051164878,
+       -1.699102454145826,
+       -0.02135816112593746
+      ],
+      "norm_mm": 2.24833491861656,
+      "median_mm": 0.028510746896763157,
+      "p95_mm": 0.07257225703024615
+     }
+    },
+    "best_translation_only_D_i_mm": [
+     1.471097998758072,
+     -1.692867554401522,
+     -0.02328679547815263
+    ],
+    "best_translation_only_norm_mm": 2.2428714081594237,
+    "best_residual_cad_to_urdf": {
+     "n": 15000,
+     "mean_mm": 0.06577597572238855,
+     "median_mm": 0.025830849242947096,
+     "p95_mm": 0.07212717427094581,
+     "p99_mm": 1.1926240971031634,
+     "max_mm": 8.776702947337327,
+     "rms_mm": 0.42411225827159427,
+     "frac_le_0p5mm": 0.9834666666666667,
+     "frac_le_1mm": 0.9884666666666667,
+     "frac_le_2mm": 0.9941333333333333
+    },
+    "best_residual_urdf_to_cad": {
+     "n": 15000,
+     "mean_mm": 0.11511739964555487,
+     "median_mm": 0.025833638806120936,
+     "p95_mm": 0.08296625273530402,
+     "p99_mm": 3.9888233636430264,
+     "max_mm": 7.054808531335594,
+     "rms_mm": 0.6141764328743072,
+     "frac_le_0p5mm": 0.9739333333333333,
+     "frac_le_1mm": 0.9761333333333333,
+     "frac_le_2mm": 0.9799333333333333
+    },
+    "residual_with_M2_translation_rotation_dropped": {
+     "n": 15000,
+     "mean_mm": 0.0755909177588148,
+     "median_mm": 0.03486746500236291,
+     "p95_mm": 0.07877785411340155,
+     "p99_mm": 1.1988944359371934,
+     "max_mm": 8.781783631485014,
+     "rms_mm": 0.4256633454906861,
+     "frac_le_0p5mm": 0.9834666666666667,
+     "frac_le_1mm": 0.9884666666666667,
+     "frac_le_2mm": 0.9941333333333333
+    },
+    "residual_full_rigid_M2": {
+     "n": 15000,
+     "mean_mm": 0.07220199613616095,
+     "median_mm": 0.02488856093653169,
+     "p95_mm": 0.08437580856509927,
+     "p99_mm": 1.1962630381647597,
+     "max_mm": 8.77846925858627,
+     "rms_mm": 0.4250692103909189,
+     "frac_le_0p5mm": 0.9837333333333333,
+     "frac_le_1mm": 0.9885333333333334,
+     "frac_le_2mm": 0.9942
+    },
+    "rotation_is_necessary": false,
+    "prior_2026_07_translation_dev_mm": 2.214
+   },
+   "link5": {
+    "candidates": {
+     "zero_trim0.5": {
+      "t_mm": [
+       -1.1649728399203554,
+       0.07893092934977261,
+       -1.2097649487277389
+      ],
+      "norm_mm": 1.6813456041309132,
+      "median_mm": 0.03223798528255806,
+      "p95_mm": 0.07080142543237163
+     },
+     "zero_trim0.7": {
+      "t_mm": [
+       -1.1724867076755223,
+       0.08843974890062536,
+       -1.2337615188058892
+      ],
+      "norm_mm": 1.7043221978685854,
+      "median_mm": 0.039750906755155135,
+      "p95_mm": 0.07200704154190161
+     },
+     "zero_trim0.9": {
+      "t_mm": [
+       -1.1719433486454667,
+       0.05114197578165633,
+       -1.2351556304122868
+      ],
+      "norm_mm": 1.703430698754832,
+      "median_mm": 0.0392087997888213,
+      "p95_mm": 0.0826165978261635
+     },
+     "from_M2_translation_trim0.5": {
+      "t_mm": [
+       -1.1649631578700426,
+       0.07977190961354959,
+       -1.2096733424135466
+      ],
+      "norm_mm": 1.6813126752938894,
+      "median_mm": 0.03222831690590766,
+      "p95_mm": 0.07101550224508521
+     },
+     "from_M2_translation_trim0.7": {
+      "t_mm": [
+       -1.1738902072380346,
+       0.09357104278856014,
+       -1.2337912312374428
+      ],
+      "norm_mm": 1.7055833491730328,
+      "median_mm": 0.04115424637489262,
+      "p95_mm": 0.07309527033417744
+     },
+     "from_M2_translation_trim0.9": {
+      "t_mm": [
+       -1.1720466995778067,
+       0.053085822724594924,
+       -1.2352031274810946
+      ],
+      "norm_mm": 1.7035957081140625,
+      "median_mm": 0.03931210019395337,
+      "p95_mm": 0.08165079520794448
+     },
+     "bbox_center_delta_trim0.5": {
+      "t_mm": [
+       -1.1649631578700426,
+       0.07977190961354948,
+       -1.2096733424135464
+      ],
+      "norm_mm": 1.6813126752938892,
+      "median_mm": 0.03222831690590766,
+      "p95_mm": 0.07101550224508521
+     },
+     "bbox_center_delta_trim0.7": {
+      "t_mm": [
+       -1.173684136341953,
+       0.09437104123608539,
+       -1.2333115812599358
+      ],
+      "norm_mm": 1.7051386459155227,
+      "median_mm": 0.0409481967393468,
+      "p95_mm": 0.07306242653748603
+     },
+     "bbox_center_delta_trim0.9": {
+      "t_mm": [
+       -1.1720466995778067,
+       0.053085822724594924,
+       -1.2352031274810946
+      ],
+      "norm_mm": 1.7035957081140625,
+      "median_mm": 0.03931210019395337,
+      "p95_mm": 0.08165079520794448
+     }
+    },
+    "best_translation_only_D_i_mm": [
+     -1.1649631578700426,
+     0.07977190961354959,
+     -1.2096733424135466
+    ],
+    "best_translation_only_norm_mm": 1.6813126752938894,
+    "best_residual_cad_to_urdf": {
+     "n": 15000,
+     "mean_mm": 0.060595410078673834,
+     "median_mm": 0.03222831690590766,
+     "p95_mm": 0.07101550224508521,
+     "p99_mm": 1.0415391750658372,
+     "max_mm": 5.155850015265682,
+     "rms_mm": 0.266642345665849,
+     "frac_le_0p5mm": 0.9831333333333333,
+     "frac_le_1mm": 0.9894666666666667,
+     "frac_le_2mm": 0.9946666666666667
+    },
+    "best_residual_urdf_to_cad": {
+     "n": 15000,
+     "mean_mm": 0.08733970056182194,
+     "median_mm": 0.032227585109875494,
+     "p95_mm": 0.06802653062931874,
+     "p99_mm": 2.667550700450186,
+     "max_mm": 7.067776124820971,
+     "rms_mm": 0.48163568113630184,
+     "frac_le_0p5mm": 0.9785333333333334,
+     "frac_le_1mm": 0.9824,
+     "frac_le_2mm": 0.9864666666666667
+    },
+    "residual_with_M2_translation_rotation_dropped": {
+     "n": 15000,
+     "mean_mm": 0.06911637359525571,
+     "median_mm": 0.038515008132291584,
+     "p95_mm": 0.07591089567963054,
+     "p99_mm": 1.0502432542210933,
+     "max_mm": 5.170696238572449,
+     "rms_mm": 0.2691504337918367,
+     "frac_le_0p5mm": 0.9828666666666667,
+     "frac_le_1mm": 0.9895333333333334,
+     "frac_le_2mm": 0.9946
+    },
+    "residual_full_rigid_M2": {
+     "n": 15000,
+     "mean_mm": 0.06656678638942348,
+     "median_mm": 0.04130101834572564,
+     "p95_mm": 0.08012005652035906,
+     "p99_mm": 1.043753704104693,
+     "max_mm": 5.179857194470807,
+     "rms_mm": 0.2682936407372677,
+     "frac_le_0p5mm": 0.9832666666666666,
+     "frac_le_1mm": 0.9894666666666667,
+     "frac_le_2mm": 0.9946666666666667
+    },
+    "rotation_is_necessary": false,
+    "prior_2026_07_translation_dev_mm": 1.609
+   }
+  },
+  "link6_subset_containment": {
+   "direction": "URDF_link6_collision_disc -> CAD_link6_wrist_body",
+   "D_i_translation_only_mm": [
+    0.03852329987594306,
+    -0.0011448375572261137,
+    -0.08814447225370395
+   ],
+   "D_i_norm_mm": 0.0962018881064621,
+   "residual": {
+    "n": 25000,
+    "mean_mm": 0.03754937342120576,
+    "median_mm": 0.04239909964862766,
+    "p95_mm": 0.07492004001804775,
+    "p99_mm": 0.14459091029767487,
+    "max_mm": 0.22451792812269822,
+    "rms_mm": 0.04511350637167911,
+    "frac_le_0p5mm": 1.0,
+    "frac_le_1mm": 1.0,
+    "frac_le_2mm": 1.0
+   },
+   "interpretation": "the accepted-URDF link6 collision mesh is a geometric SUBSET of the CAD link6 wrist body; containment, not divergence"
+  },
+  "conclusion": "after a per-link PURE TRANSLATION of 0.083-3.910 mm the shared CAD and accepted-URDF material coincides to a median of 0.0043-0.0449 mm, far below the 0.5 mm source tessellation deflection.  This is a mesh-origin / CAD-datum difference, NOT a kinematic conflict."
+ },
+ "test_a_unshared_material_attribution": {
+  "base_link": {
+   "hypothesis": "the URDF base_link collision mesh still carries the vendor 01_BASE_Plate (desktop base plate) that the owner ruling of 2026-07-27 deleted from the flight-side CAD",
+   "ruling_source": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/130_B601_Vendor_CAD_Direct_Integration_03/design/base_classification.json  (deleted: 01_BASE_Plate, criterion z_max<18mm vendor world)",
+   "deleted_plate_bbox_vendor_mm": [
+    [
+     -70.0,
+     -100.0,
+     3.3
+    ],
+    [
+     70.0,
+     100.0,
+     17.8
+    ]
+   ],
+   "deleted_plate_bbox_in_urdf_base_link_frame_mm": [
+    [
+     -69.915,
+     -100.022,
+     -0.0950000000000002
+    ],
+    [
+     70.085,
+     99.978,
+     14.405000000000001
+    ]
+   ],
+   "urdf_surface_samples": 40000,
+   "samples_farther_than_1mm_from_cad": 13701,
+   "fraction_of_urdf_surface_farther_than_1mm": 0.342525,
+   "of_those_fraction_inside_deleted_plate_box": 0.9296401722502007,
+   "unexplained_far_samples_outside_plate_box": 964,
+   "unexplained_fraction_of_urdf_surface": 0.0241,
+   "residual_stats_urdf_to_cad_all": {
+    "n": 40000,
+    "mean_mm": 10.320926038036681,
+    "median_mm": 0.09500300884246826,
+    "p95_mm": 52.97197444440032,
+    "p99_mm": 62.89847340109232,
+    "max_mm": 68.41461828985659,
+    "rms_mm": 20.32884467788705,
+    "frac_le_0p5mm": 0.652975,
+    "frac_le_1mm": 0.657475,
+    "frac_le_2mm": 0.661025
+   },
+   "residual_stats_urdf_to_cad_excluding_plate_box": {
+    "n": 23901,
+    "mean_mm": 1.9171730168873995,
+    "median_mm": 0.08565680055633813,
+    "p95_mm": 0.17592653080696846,
+    "p99_mm": 56.27016671172113,
+    "max_mm": 66.84742680833001,
+    "rms_mm": 9.584952218411912,
+    "frac_le_0p5mm": 0.9596669595414418,
+    "frac_le_1mm": 0.9596669595414418,
+    "frac_le_2mm": 0.9596669595414418
+   }
+  },
+  "base_link_unexplained_remainder": {
+   "explained_fraction_pad_0.0mm": 0.9307117463542045,
+   "explained_fraction_pad_0.5mm": 1.0,
+   "explained_fraction_pad_2.0mm": 1.0,
+   "explained_fraction_pad_5.0mm": 1.0,
+   "far_sample_count": 13783,
+   "far_fraction_of_urdf_surface": 0.344575,
+   "unexplained_count_pad0": 955,
+   "unexplained_fraction_of_urdf_surface_pad0": 0.023875,
+   "unexplained_bbox_link_frame_mm": [
+    [
+     -70.00000029802322,
+     -90.39412817251548,
+     -1.78813942819378e-08
+    ],
+    [
+     59.64678326524948,
+     100.00000149011612,
+     14.000000432133675
+    ]
+   ],
+   "unexplained_distance_stats": {
+    "n": 955,
+    "mean_mm": 45.6614869027372,
+    "median_mm": 52.925310262435524,
+    "p95_mm": 63.05431557405012,
+    "p99_mm": 65.48861707709634,
+    "max_mm": 66.18981186104355,
+    "rms_mm": 47.65278756856154,
+    "frac_le_0p5mm": 0.0,
+    "frac_le_1mm": 0.0,
+    "frac_le_2mm": 0.0
+   },
+   "unexplained_z_percentiles_mm": [
+    -1.78813942819378e-08,
+    3.7099837507194953,
+    7.094537577966097,
+    10.817766792865491,
+    14.000000432133675
+   ],
+   "deleted_plate_box_link_frame_mm": [
+    [
+     -69.915,
+     -100.022,
+     -0.0950000000000002
+    ],
+    [
+     70.085,
+     99.978,
+     14.405000000000001
+    ]
+   ]
+  },
+  "wrist_link6_gripper_partition": {
+   "hypothesis": "the accepted URDF assigns the wrist housing to gripper_link and keeps only the ~9.5 mm tool flange disc in link6, while the vendor CAD group Link6:1 carries the whole wrist housing; this is a link-content partition boundary, not a geometry version difference",
+   "prior_registration_note": "B5_0 G05/G08 receipts: method CHAIN_DERIVED, note 'direct \u914d\u51c6\u4e0d\u53ef\u9760\uff08\u5185\u5bb9\u5212\u5206/\u5f00\u5ea6\u5dee\u5f02\uff09\uff1b\u94fe\u63a8\u5bfc\u9501\u5b9a' -- the same boundary was hit in 2026-07 and resolved by chain derivation, direct_nn 16.408 mm (link6) / 8.446 mm (gripper_link)",
+   "cad_link6_single_shell_volume_mm3": 134832.9775870308,
+   "cad_gripper_detail_single_shell_volume_mm3": 151686.2185809987,
+   "cad_wrist_total_single_shell_volume_mm3": 286519.1961680295,
+   "urdf_link6_volume_mm3": 18765.100267055866,
+   "urdf_gripper_group_volume_mm3": 266341.1122138694,
+   "urdf_wrist_total_volume_mm3": 285106.21248092526,
+   "wrist_total_volume_ratio_cad_over_urdf": 1.0049559905230012,
+   "residual_cad_wrist_to_urdf_wrist": {
+    "n": 25000,
+    "mean_mm": 0.11853980419429232,
+    "median_mm": 0.0450253412190032,
+    "p95_mm": 0.14504138588334098,
+    "p99_mm": 2.5450377902336494,
+    "max_mm": 6.63621320787011,
+    "rms_mm": 0.45015142563824717,
+    "frac_le_0p5mm": 0.96132,
+    "frac_le_1mm": 0.9694,
+    "frac_le_2mm": 0.98436
+   },
+   "residual_urdf_wrist_to_cad_wrist": {
+    "n": 25000,
+    "mean_mm": 0.08856931813918496,
+    "median_mm": 0.0450148356011435,
+    "p95_mm": 0.10506919869912106,
+    "p99_mm": 2.0531675362385142,
+    "max_mm": 7.145033001264051,
+    "rms_mm": 0.392476506715886,
+    "frac_le_0p5mm": 0.97648,
+    "frac_le_1mm": 0.98192,
+    "frac_le_2mm": 0.98944
+   },
+   "residual_cad_link6_alone_to_urdf_link6_plus_gripper_link": {
+    "n": 25000,
+    "mean_mm": 0.15492194272144422,
+    "median_mm": 0.04502933267270629,
+    "p95_mm": 0.7936098043112687,
+    "p99_mm": 2.552897772300209,
+    "max_mm": 4.318139565057726,
+    "rms_mm": 0.4702278531244806,
+    "frac_le_0p5mm": 0.94176,
+    "frac_le_1mm": 0.95652,
+    "frac_le_2mm": 0.98128
+   },
+   "note_gripper_r1_supersedes": "ODR-04: the flight gripper is the neutral R1 design, not the vendor gripper; the CAD gripper_detail here is the LEGACY vendor gripper kept only as the wrist-partition witness (M5 marks it SUPERSEDED_FOR_ACTIVE_GRIPPER_GEOMETRY_BY_R1_SEPARATED_PALM_AND_FINGERS).  Gripper shape agreement is therefore NOT claimed."
+  },
+  "link1_plateau": {
+   "cad_surface_samples": 40000,
+   "fraction_farther_than_2mm": 0.17145,
+   "plateau_distance_mm_p50_of_hot": 3.8999899691608277,
+   "hot_region_bbox_link_frame_mm": [
+    [
+     -38.18007210337093,
+     -38.77400817597875,
+     -10.599981689453102
+    ],
+    [
+     46.461747164518435,
+     38.47600285535748,
+     87.94882639162248
+    ]
+   ],
+   "cad_link1_bbox_link_frame_mm": [
+    [
+     -38.181998353331664,
+     -38.77401108432606,
+     -10.599981689453102
+    ],
+    [
+     48.7219868169073,
+     38.47601104137495,
+     87.94997558593752
+    ]
+   ],
+   "urdf_link1_bbox_link_frame_mm": [
+    [
+     -38.41584175825119,
+     -38.624998182058334,
+     -7.099998649209738
+    ],
+    [
+     48.56555536389351,
+     38.624998182058334,
+     83.91933888196945
+    ]
+   ],
+   "hot_samples_distance_to_urdf_base_link_plus_link2": {
+    "n": 6858,
+    "mean_mm": 7.174418360758429,
+    "median_mm": 8.900019943714142,
+    "p95_mm": 14.100018560886383,
+    "p99_mm": 14.27389459467155,
+    "max_mm": 14.709603152313917,
+    "rms_mm": 8.3116986837062,
+    "frac_le_0p5mm": 0.0768445610965296,
+    "frac_le_1mm": 0.12058909303003791,
+    "frac_le_2mm": 0.16506270049577138
+   },
+   "resolution": "the 3.9000 mm plateau measured at D=I is the datum offset itself: D_link1 is a 3.9095 mm translation, and after it the median residual falls from 0.9000 mm to 0.00425 mm"
+  },
+  "doubled_shell_defect": {
+   "cad_stl_raw_over_urdf_volume_ratio": {
+    "base_link": 1.0378520355686227,
+    "link1": 2.0819253747362114,
+    "link2": 1.9998779761410717,
+    "link3": 2.0236882263383125,
+    "link4": 1.971603748131726,
+    "link5": 1.995771121966311,
+    "link6": 14.370400904779734
+   },
+   "cad_stl_exact_duplicate_triangle_factor": {
+    "base_link": 2.0014801836636056,
+    "link1": 1.987445348183972,
+    "link2": 1.8221070661577388,
+    "link3": 1.8839152729298603,
+    "link4": 1.911603781636117,
+    "link5": 1.9653459294248403,
+    "link6": 1.6946865951952421
+   },
+   "m5_ply_single_shell_check": {
+    "base_link": {
+     "ply_faces": 132514,
+     "ply_volume_mm3": 414349.7562227958,
+     "urdf_volume_mm3": 798475.7099776611,
+     "ply_over_urdf_volume_ratio": 0.5189259373142209
+    },
+    "link1": {
+     "ply_faces": 48325,
+     "ply_volume_mm3": 136417.59447885127,
+     "urdf_volume_mm3": 84032.48229898645,
+     "ply_over_urdf_volume_ratio": 1.6233912261865513
+    },
+    "link2": {
+     "ply_faces": 271674,
+     "ply_volume_mm3": 1021311.8038450974,
+     "urdf_volume_mm3": 710181.1618215699,
+     "ply_over_urdf_volume_ratio": 1.4381003872666758
+    },
+    "link3": {
+     "ply_faces": 196229,
+     "ply_volume_mm3": 698059.543735898,
+     "urdf_volume_mm3": 524553.137213917,
+     "ply_over_urdf_volume_ratio": 1.330769933897514
+    },
+    "link4": {
+     "ply_faces": 118187,
+     "ply_volume_mm3": 212841.77444896376,
+     "urdf_volume_mm3": 190907.9416370795,
+     "ply_over_urdf_volume_ratio": 1.1148921968557024
+    },
+    "link5": {
+     "ply_faces": 93747,
+     "ply_volume_mm3": 163368.1236275901,
+     "urdf_volume_mm3": 149673.40156447774,
+     "ply_over_urdf_volume_ratio": 1.0914973663988843
+    },
+    "link6": {
+     "ply_faces": 160869,
+     "ply_volume_mm3": 206578.4057570041,
+     "urdf_volume_mm3": 18765.100267050584,
+     "ply_over_urdf_volume_ratio": 11.008649184770553
+    }
+   }
+  }
+ },
+ "test_b_multi_configuration_propagation": {
+  "schema": "WP11_TESTB_V1",
+  "generated_local": "2026-08-22T03:45:40+08:00",
+  "configurations": {
+   "q0": {
+    "q_rad": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "q_deg": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "note": "URDF zero pose",
+    "cad_geometry_available": "CAD_EXPORT_parts_DEPLOYED",
+    "inside_joint_limits": true
+   },
+   "Q_STOW_C05_ARM_STOWED_ONORBIT": {
+    "q_rad": [
+     2.5407106987131853,
+     -2.9321531433504737,
+     -0.9948376736367679,
+     -0.718080814148027,
+     -0.3657162914628918,
+     -0.05235987755982989
+    ],
+    "q_deg": [
+     145.572,
+     -168.0,
+     -57.00000000000001,
+     -41.143,
+     -20.954,
+     -3.0000000000000004
+    ],
+    "note": "O13-v3 stow, deg [145.572,-168,-57,-41.143,-20.954,-3]",
+    "cad_geometry_available": "CAD_EXPORT_parts_STOWED",
+    "inside_joint_limits": true
+   },
+   "Q_TASK_READY_C06": {
+    "q_rad": [
+     -1.570796,
+     -1.047198,
+     -2.094395,
+     -0.523599,
+     0.0,
+     0.0
+    ],
+    "q_deg": [
+     -89.99998127603166,
+     -60.00002571454079,
+     -119.99999413330205,
+     -30.000012857270395,
+     0.0,
+     0.0
+    ],
+    "note": "ARM_TASK_READY",
+    "cad_geometry_available": "NO_CAD_EXPORT",
+    "inside_joint_limits": true
+   },
+   "Q_INTERMEDIATE_C07_PREGRASP": {
+    "q_rad": [
+     -1.4722592995215e-05,
+     -1.0482002296028672,
+     -1.3989828152470143,
+     -1.220010067943876,
+     3.673218594813444e-06,
+     1.8395811591278994e-05
+    ],
+    "q_deg": [
+     -0.0008435424421146889,
+     -60.05744924088815,
+     -80.15581092498411,
+     -69.9014278566529,
+     0.00021045992271178515,
+     0.0010540023648981252
+    ],
+    "note": "representative intermediate",
+    "cad_geometry_available": "NO_CAD_EXPORT",
+    "inside_joint_limits": true
+   },
+   "Q_DEPLOYED_HOME_C01": {
+    "q_rad": [
+     -1.570796,
+     -2.094395,
+     -1.047198,
+     0.0,
+     -0.523599,
+     0.0
+    ],
+    "q_deg": [
+     -89.99998127603166,
+     -119.99999413330205,
+     -60.00002571454079,
+     0.0,
+     -30.000012857270395,
+     0.0
+    ],
+    "note": "deployed home",
+    "cad_geometry_available": "NO_CAD_EXPORT",
+    "inside_joint_limits": true
+   },
+   "Q_JOINT_LOWER_LIMITS": {
+    "q_rad": [
+     -2.8,
+     -3.14,
+     -3.14,
+     -1.87,
+     -1.57,
+     -3.14
+    ],
+    "q_deg": [
+     -160.42818263663048,
+     -179.9087476710785,
+     -179.9087476710785,
+     -107.14310768946395,
+     -89.95437383553924,
+     -179.9087476710785
+    ],
+    "note": "all joints at lower limit",
+    "cad_geometry_available": "NO_CAD_EXPORT",
+    "inside_joint_limits": true
+   },
+   "Q_JOINT_UPPER_LIMITS": {
+    "q_rad": [
+     2.8,
+     0.0,
+     0.0,
+     1.57,
+     1.57,
+     3.14
+    ],
+    "q_deg": [
+     160.42818263663048,
+     0.0,
+     0.0,
+     89.95437383553924,
+     89.95437383553924,
+     179.9087476710785
+    ],
+    "note": "all joints at upper limit",
+    "cad_geometry_available": "NO_CAD_EXPORT",
+    "inside_joint_limits": true
+   }
+  },
+  "links": {
+   "base_link": {
+    "urdf_predicted_motion_rows": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0000000000005196,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0000000000005196,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "icp_measured_motion_rows": [
+     [
+      0.9999952269812982,
+      -0.0019556477141561834,
+      0.0023919566551745958,
+      -0.017061552092116017
+     ],
+     [
+      0.0019655945055759294,
+      0.9999894021479769,
+      -0.004163175467258827,
+      -0.46488935833563133
+     ],
+     [
+      -0.0023837896009857307,
+      0.004167857213203445,
+      0.9999884731902607,
+      0.6492626788211528
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "motion_discrepancy_translation_mm": 0.7987210014543183,
+    "motion_discrepancy_rotation_deg": 0.29715327819124937,
+    "urdf_predicted_pose_surface_residual_pred_to_stowed": {
+     "n": 9000,
+     "mean_mm": 1.2896583768866105e-11,
+     "median_mm": 9.71311919910957e-12,
+     "p95_mm": 2.6458031853952396e-11,
+     "p99_mm": 6.49071305426386e-11,
+     "max_mm": 6.922077793351929e-10,
+     "rms_mm": 3.5352694362263947e-11,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "urdf_predicted_pose_surface_residual_stowed_to_pred": {
+     "n": 9000,
+     "mean_mm": 1.3147925040550528e-11,
+     "median_mm": 9.87444075292418e-12,
+     "p95_mm": 2.6416945569742737e-11,
+     "p99_mm": 6.174173662200798e-11,
+     "max_mm": 8.486041863945848e-10,
+     "rms_mm": 3.7398465936930136e-11,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "icp_correspondence_rms_mm": 1.6926354197307445,
+    "D_i_at_q0_rows": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_at_stow_rows": [
+     [
+      0.9999868458950896,
+      -0.0041666652119053404,
+      0.002991143400388152,
+      -0.162744762793639
+     ],
+     [
+      0.004164367468561303,
+      0.9999910294441872,
+      0.0007739998581636541,
+      0.014049581451842201
+     ],
+     [
+      -0.0029943415664508526,
+      -0.0007615334566176074,
+      0.9999952269812982,
+      -0.018054339982086276
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_invariance_translation_mm": 0.16434478314786427,
+    "D_i_invariance_rotation_deg": 0.29715327819124937,
+    "seconds": 39.7
+   },
+   "link1": {
+    "urdf_predicted_motion_rows": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      -0.8248373048003916,
+      -0.5653701624693903,
+      -0.02178150442243931
+     ],
+     [
+      0.0,
+      0.5653701624693903,
+      -0.8248373048003916,
+      0.15929804391653793
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "icp_measured_motion_rows": [
+     [
+      0.9999998846368887,
+      -0.00045536597504627907,
+      -0.00015286607971204402,
+      -0.040481817486352156
+     ],
+     [
+      -0.00046207009448237524,
+      -0.825015142215973,
+      -0.5651104331062966,
+      0.1394717333312041
+     ],
+     [
+      0.0001312152328869498,
+      0.5651104385482428,
+      -0.8250152574506582,
+      0.12100931151002126
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "motion_discrepancy_translation_mm": 0.17060894250407205,
+    "motion_discrepancy_rotation_deg": 0.03290542859446624,
+    "urdf_predicted_pose_surface_residual_pred_to_stowed": {
+     "n": 9000,
+     "mean_mm": 1.0348305958281845e-05,
+     "median_mm": 2.001034262591551e-06,
+     "p95_mm": 3.0517578125e-05,
+     "p99_mm": 3.0517578125e-05,
+     "max_mm": 3.062056039440271e-05,
+     "rms_mm": 1.6929901856145563e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "urdf_predicted_pose_surface_residual_stowed_to_pred": {
+     "n": 9000,
+     "mean_mm": 1.043814812002177e-05,
+     "median_mm": 1.9718745220597923e-06,
+     "p95_mm": 3.0517578125e-05,
+     "p99_mm": 3.0517578125e-05,
+     "max_mm": 3.061047605268755e-05,
+     "rms_mm": 1.7024953798148154e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "icp_correspondence_rms_mm": 1.2551992300093693,
+    "D_i_at_q0_rows": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_at_stow_rows": [
+     [
+      0.9999999489995495,
+      -0.0003148216133927739,
+      5.3752112338256884e-05,
+      0.004373564753567802
+     ],
+     [
+      0.0003147959208839035,
+      0.9999998365338105,
+      0.00047732265814208203,
+      -0.025685083743482155
+     ],
+     [
+      -5.3902375040631404e-05,
+      -0.00047730571285233583,
+      0.9999998846368887,
+      -0.04051104207695744
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_invariance_translation_mm": 0.04816633809751742,
+    "D_i_invariance_rotation_deg": 0.03290542859446624,
+    "seconds": 31.7
+   },
+   "link2": {
+    "urdf_predicted_motion_rows": [
+     [
+      -0.9781476007071156,
+      -0.08787390877110168,
+      0.18842889212704,
+      692.9494249084128
+     ],
+     [
+      0.034064731268269255,
+      -0.9617805051635694,
+      -0.27169441284643325,
+      -5.402470413965794
+     ],
+     [
+      0.2051020851053352,
+      -0.259338458477782,
+      0.9437566946204031,
+      -32.229035291690685
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "icp_measured_motion_rows": [
+     [
+      -0.9782733425127365,
+      -0.0862850581483892,
+      0.1885103606417635,
+      692.9492765129858
+     ],
+     [
+      0.03247408681478778,
+      -0.9618271808853182,
+      -0.2717239551378343,
+      -4.859181129182094
+     ],
+     [
+      0.20476010601312014,
+      -0.25969860001650225,
+      0.943731919633412,
+      -32.21052499265545
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "motion_discrepancy_translation_mm": 0.5436045439036196,
+    "motion_discrepancy_rotation_deg": 0.09351120672247339,
+    "urdf_predicted_pose_surface_residual_pred_to_stowed": {
+     "n": 9000,
+     "mean_mm": 4.285548928400147e-05,
+     "median_mm": 2.2181300120958945e-05,
+     "p95_mm": 0.00012500982763066805,
+     "p99_mm": 0.00013687013673617166,
+     "max_mm": 0.00015177517219331117,
+     "rms_mm": 5.9557172560470266e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "urdf_predicted_pose_surface_residual_stowed_to_pred": {
+     "n": 9000,
+     "mean_mm": 4.094613999023329e-05,
+     "median_mm": 1.9651088424331034e-05,
+     "p95_mm": 0.00012516213734448686,
+     "p99_mm": 0.00013654920515842838,
+     "max_mm": 0.00014888694613990534,
+     "rms_mm": 5.821295084128818e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "icp_correspondence_rms_mm": 2.17372433202821,
+    "D_i_at_q0_rows": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_at_stow_rows": [
+     [
+      0.9999998129702652,
+      -0.0006109959041101509,
+      2.728472897148282e-05,
+      0.10872768816958
+     ],
+     [
+      0.0006109539188897395,
+      0.9999986685447098,
+      0.0015131570108061349,
+      0.038087549113868135
+     ],
+     [
+      -2.8209225378883485e-05,
+      -0.0015131400580880722,
+      0.9999988548055662,
+      -0.00664339740739095
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_invariance_translation_mm": 0.11539716764858345,
+    "D_i_invariance_rotation_deg": 0.09351120672247339,
+    "seconds": 54.6
+   },
+   "link3": {
+    "urdf_predicted_motion_rows": [
+     [
+      -0.35836794952697265,
+      -0.39455286586252813,
+      0.8461090052658414,
+      300.0787907590071
+     ],
+     [
+      0.15293270762734257,
+      -0.9188727577245783,
+      -0.3637092823264546,
+      -22.019614095642915
+     ],
+     [
+      0.9209690546864513,
+      -0.0009440086080757248,
+      0.389634584140436,
+      -132.31049457887872
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "icp_measured_motion_rows": [
+     [
+      -0.35941107804203043,
+      -0.3953782511403512,
+      0.8452808500763889,
+      300.6317885052027
+     ],
+     [
+      0.1562914535707049,
+      -0.9185170352484358,
+      -0.36317962153620403,
+      -23.36970288389206
+     ],
+     [
+      0.9199981839772413,
+      0.001579393434696083,
+      0.39191943941957874,
+      -132.05640489827204
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "motion_discrepancy_translation_mm": 1.4809145178727505,
+    "motion_discrepancy_rotation_deg": 0.20924419986824705,
+    "urdf_predicted_pose_surface_residual_pred_to_stowed": {
+     "n": 9000,
+     "mean_mm": 6.0250984191788547e-05,
+     "median_mm": 5.839619020043997e-05,
+     "p95_mm": 0.000132821800241332,
+     "p99_mm": 0.00014476405944719467,
+     "max_mm": 0.0001629909138996286,
+     "rms_mm": 7.649319433315161e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "urdf_predicted_pose_surface_residual_stowed_to_pred": {
+     "n": 9000,
+     "mean_mm": 6.133437791918175e-05,
+     "median_mm": 6.137707467683826e-05,
+     "p95_mm": 0.0001333247814201578,
+     "p99_mm": 0.00014273254428368585,
+     "max_mm": 0.0001570895477529124,
+     "rms_mm": 7.730427654173431e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "icp_correspondence_rms_mm": 2.0933660692756235,
+    "D_i_at_q0_rows": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_at_stow_rows": [
+     [
+      0.9999993605963573,
+      -0.0011199148451503937,
+      -0.00015683814036668992,
+      -0.14169460365690156
+     ],
+     [
+      0.001119363472861734,
+      0.9999933440602071,
+      -0.003472587097979596,
+      -0.20998776844200506
+     ],
+     [
+      0.0001607260983036915,
+      0.003472409318707459,
+      0.9999939582525906,
+      0.12497041429380573
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_invariance_translation_mm": 0.28247093310552324,
+    "D_i_invariance_rotation_deg": 0.20924419986824705,
+    "seconds": 67.0
+   },
+   "link4": {
+    "urdf_predicted_motion_rows": [
+     [
+      0.34436438007475534,
+      -0.39677166018152565,
+      0.8508733298282318,
+      17.432407412742947
+     ],
+     [
+      0.15379107742776835,
+      -0.8702238403271431,
+      -0.4680371483449916,
+      -22.203673801390913
+     ],
+     [
+      0.9261541330900561,
+      0.29203204859061616,
+      -0.23865415218840846,
+      -133.42528678791552
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "icp_measured_motion_rows": [
+     [
+      0.3448585540829129,
+      -0.3949591579666827,
+      0.8515162013808617,
+      17.209567623893392
+     ],
+     [
+      0.1557704055217773,
+      -0.8705073629970962,
+      -0.4668538440790892,
+      -23.01668647038246
+     ],
+     [
+      0.9256393241643446,
+      0.2936395656346244,
+      -0.23867896232069802,
+      -133.21594704680683
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "motion_discrepancy_translation_mm": 0.8686024974886282,
+    "motion_discrepancy_rotation_deg": 0.14145647305073036,
+    "urdf_predicted_pose_surface_residual_pred_to_stowed": {
+     "n": 9000,
+     "mean_mm": 3.135178408162498e-05,
+     "median_mm": 2.6950921615237933e-05,
+     "p95_mm": 6.751650903590412e-05,
+     "p99_mm": 7.167742985952116e-05,
+     "max_mm": 7.911055230606531e-05,
+     "rms_mm": 3.9930703078548464e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "urdf_predicted_pose_surface_residual_stowed_to_pred": {
+     "n": 9000,
+     "mean_mm": 3.1712369166051194e-05,
+     "median_mm": 2.871083787070208e-05,
+     "p95_mm": 6.724072352213123e-05,
+     "p99_mm": 7.177621958603338e-05,
+     "max_mm": 8.074600514681366e-05,
+     "rms_mm": 4.011972372844523e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "icp_correspondence_rms_mm": 1.4566820754417713,
+    "D_i_at_q0_rows": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_at_stow_rows": [
+     [
+      0.9999990261506084,
+      0.0005271802170061513,
+      -0.0012921994563311681,
+      -0.016334079551654668
+     ],
+     [
+      -0.0005298107954528897,
+      0.99999778650978,
+      -0.0020362407815554817,
+      -0.051564291346949176
+     ],
+     [
+      0.00129112313020361,
+      0.002036923419784481,
+      0.9999970919683132,
+      0.015177166860052438
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_invariance_translation_mm": 0.05617850737435727,
+    "D_i_invariance_rotation_deg": 0.14145647305073036,
+    "seconds": 33.6
+   },
+   "link5": {
+    "urdf_predicted_motion_rows": [
+     [
+      0.3443619135520965,
+      -0.06624464441671624,
+      0.9364969405082426,
+      12.658518184872875
+     ],
+     [
+      0.15379074636484824,
+      -0.9800528156450846,
+      -0.12587646674303724,
+      5.215532818842327
+     ],
+     [
+      0.9261551051674547,
+      0.18737162440796873,
+      -0.3273050496701409,
+      -136.20308562010547
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "icp_measured_motion_rows": [
+     [
+      0.34359107501287195,
+      -0.06591020099916761,
+      0.9368036179348092,
+      12.950748890414545
+     ],
+     [
+      0.15488804150096203,
+      -0.97989620122146,
+      -0.1257502661299278,
+      4.8239078797352875
+     ],
+     [
+      0.926258531821162,
+      0.18830634677567482,
+      -0.3264748872310155,
+      -136.24653378788457
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "motion_discrepancy_translation_mm": 0.49056765229226085,
+    "motion_discrepancy_rotation_deg": 0.07706418562030626,
+    "urdf_predicted_pose_surface_residual_pred_to_stowed": {
+     "n": 9000,
+     "mean_mm": 2.3721413579341945e-05,
+     "median_mm": 2.3346481501548685e-05,
+     "p95_mm": 4.507211255609312e-05,
+     "p99_mm": 5.228114933277817e-05,
+     "max_mm": 6.472034615173047e-05,
+     "rms_mm": 2.6395093407423212e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "urdf_predicted_pose_surface_residual_stowed_to_pred": {
+     "n": 9000,
+     "mean_mm": 2.363489908797955e-05,
+     "median_mm": 2.3289470939199547e-05,
+     "p95_mm": 4.5148989061765664e-05,
+     "p99_mm": 5.306025274991794e-05,
+     "max_mm": 6.55463961517173e-05,
+     "rms_mm": 2.6459246832940736e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "icp_correspondence_rms_mm": 1.2075210020628615,
+    "D_i_at_q0_rows": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_at_stow_rows": [
+     [
+      0.9999999256590846,
+      -1.2244512980890201e-05,
+      -0.00038539919078567353,
+      0.014440779357613565
+     ],
+     [
+      1.1747889728264474e-05,
+      0.999999169724911,
+      -0.001288569926653424,
+      0.1020553655009433
+     ],
+     [
+      0.00038541464855212926,
+      0.0012885653031726521,
+      0.9999990955273236,
+      0.029874324202069147
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_invariance_translation_mm": 0.10731406702998791,
+    "D_i_invariance_rotation_deg": 0.07706418561084752,
+    "seconds": 36.6
+   },
+   "link6": {
+    "urdf_predicted_motion_rows": [
+     [
+      0.36146139810992634,
+      -0.08299577692393928,
+      0.9286858234568136,
+      5.823859320116661
+     ],
+     [
+      0.10430949148827358,
+      -0.9861781555466791,
+      -0.1287329620145537,
+      24.993178142008702
+     ],
+     [
+      0.9265339646566262,
+      0.14340274242976156,
+      -0.34780808760276105,
+      -136.35451361273192
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "icp_measured_motion_rows": [
+     [
+      0.3615532048455994,
+      -0.08280273637821439,
+      0.9286673176731026,
+      5.808304822715108
+     ],
+     [
+      0.10408873513683321,
+      -0.9862370532469076,
+      -0.12846014954245505,
+      25.105511109060128
+     ],
+     [
+      0.9265229707263009,
+      0.1431089852215286,
+      -0.3479583352434225,
+      -136.36085183094548
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "motion_discrepancy_translation_mm": 0.11358173658704353,
+    "motion_discrepancy_rotation_deg": 0.02150122856242394,
+    "urdf_predicted_pose_surface_residual_pred_to_stowed": {
+     "n": 9000,
+     "mean_mm": 2.2472244620948515e-05,
+     "median_mm": 2.2781837363339513e-05,
+     "p95_mm": 3.8514793413363435e-05,
+     "p99_mm": 4.477779130857528e-05,
+     "max_mm": 5.335659126271006e-05,
+     "rms_mm": 2.4549442176757654e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "urdf_predicted_pose_surface_residual_stowed_to_pred": {
+     "n": 9000,
+     "mean_mm": 2.225944764443865e-05,
+     "median_mm": 2.260860211042083e-05,
+     "p95_mm": 3.8674898154515424e-05,
+     "p99_mm": 4.495635110360336e-05,
+     "max_mm": 5.380472563099703e-05,
+     "rms_mm": 2.4454896667999108e-05,
+     "frac_le_0p5mm": 1.0,
+     "frac_le_1mm": 1.0,
+     "frac_le_2mm": 1.0,
+     "unverified_bound_points": 0
+    },
+    "icp_correspondence_rms_mm": 1.1008605975099586,
+    "D_i_at_q0_rows": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_at_stow_rows": [
+     [
+      0.9999999713590847,
+      0.00023863603373514009,
+      1.8306383373634105e-05,
+      0.0020526231774056214
+     ],
+     [
+      -0.00023863073242611638,
+      0.9999999297554212,
+      -0.00028904240463919866,
+      -0.013119240234388485
+     ],
+     [
+      -1.837535785598199e-05,
+      0.0002890380277503959,
+      0.9999999580600007,
+      -0.02980439303277649
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D_i_invariance_translation_mm": 0.03262866179125702,
+    "D_i_invariance_rotation_deg": 0.02150122856242394,
+    "seconds": 35.0
+   }
+  },
+  "fixed_D_i_propagation": {
+   "q0": {
+    "chain_closure_rows": [
+     {
+      "joint": "joint1",
+      "parent_predicted_joint_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "child_frame_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint2",
+      "parent_predicted_joint_origin_mm": [
+       348.2,
+       37.114282544192186,
+       -4.760699135231971
+      ],
+      "child_frame_origin_mm": [
+       348.2,
+       37.114282544192186,
+       -4.760699135231971
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint3",
+      "parent_predicted_joint_origin_mm": [
+       348.2,
+       -74.45699701875981,
+       234.50452938057603
+      ],
+      "child_frame_origin_mm": [
+       348.2,
+       -74.45699701875981,
+       234.50452938057603
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint4",
+      "parent_predicted_joint_origin_mm": [
+       402.200005968594,
+       26.597676786658937,
+       13.947614089980789
+      ],
+      "child_frame_origin_mm": [
+       402.200005968594,
+       26.597676786658937,
+       13.947614089980789
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint5",
+      "parent_predicted_joint_origin_mm": [
+       439.7001161644941,
+       32.50297929508516,
+       -69.70202429287761
+      ],
+      "child_frame_origin_mm": [
+       439.7001161644941,
+       32.50297929508516,
+       -69.70202429287761
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint6",
+      "parent_predicted_joint_origin_mm": [
+       399.7001161655735,
+       42.51539007457298,
+       -91.17439012595338
+      ],
+      "child_frame_origin_mm": [
+       399.7001161655735,
+       42.51539007457298,
+       -91.17439012595338
+      ],
+      "closure_residual_mm": 0.0
+     }
+    ],
+    "max_closure_residual_mm": 0.0,
+    "gripper_link_origin_S_mm": [
+     399.70070281316055,
+     110.01178802877762,
+     -235.9207902983816
+    ],
+    "D_i_application": "EXACT_BY_RIGID_BODY_COMPOSITION_D_i_IS_BODY_FIXED",
+    "empirical_cad_geometry_at_this_configuration": "CAD_EXPORT_parts_DEPLOYED"
+   },
+   "Q_STOW_C05_ARM_STOWED_ONORBIT": {
+    "chain_closure_rows": [
+     {
+      "joint": "joint1",
+      "parent_predicted_joint_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "child_frame_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint2",
+      "parent_predicted_joint_origin_mm": [
+       348.2,
+       -27.943469044205663,
+       25.069408239518644
+      ],
+      "child_frame_origin_mm": [
+       348.2,
+       -27.943469044205663,
+       25.069408239518644
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint3",
+      "parent_predicted_joint_origin_mm": [
+       403.08868637551814,
+       14.35658679940402,
+       279.8122930933103
+      ],
+      "child_frame_origin_mm": [
+       403.08868637551814,
+       14.35658679940402,
+       279.8122930933103
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint4",
+      "parent_predicted_joint_origin_mm": [
+       157.25021160246754,
+       9.977164496016542,
+       243.51262909280666
+      ],
+      "child_frame_origin_mm": [
+       157.25021160246754,
+       9.977164496016542,
+       243.51262909280666
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint5",
+      "parent_predicted_joint_origin_mm": [
+       96.6456107729593,
+       49.75655002831302,
+       299.9313822602719
+      ],
+      "child_frame_origin_mm": [
+       96.6456107729593,
+       49.75655002831302,
+       299.9313822602719
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint6",
+      "parent_predicted_joint_origin_mm": [
+       62.09906073126749,
+       36.49509434173804,
+       271.78923349209157
+      ],
+      "child_frame_origin_mm": [
+       62.09906073126749,
+       36.49509434173804,
+       271.78923349209157
+      ],
+      "closure_residual_mm": 0.0
+     }
+    ],
+    "max_closure_residual_mm": 0.0,
+    "gripper_link_origin_S_mm": [
+     -77.92657304252035,
+     -11.434684870707159,
+     331.8129142430948
+    ],
+    "D_i_application": "EXACT_BY_RIGID_BODY_COMPOSITION_D_i_IS_BODY_FIXED",
+    "empirical_cad_geometry_at_this_configuration": "CAD_EXPORT_parts_STOWED"
+   },
+   "Q_TASK_READY_C06": {
+    "chain_closure_rows": [
+     {
+      "joint": "joint1",
+      "parent_predicted_joint_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "child_frame_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint2",
+      "parent_predicted_joint_origin_mm": [
+       348.2,
+       -4.872529421062059,
+       -37.07357684176789
+      ],
+      "child_frame_origin_mm": [
+       348.2,
+       -4.872529421062059,
+       -37.07357684176789
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint3",
+      "parent_predicted_joint_origin_mm": [
+       576.8307658395754,
+       114.7603285284306,
+       18.7112975459617
+      ],
+      "child_frame_origin_mm": [
+       576.8307658395754,
+       114.7603285284306,
+       18.7112975459617
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint4",
+      "parent_predicted_joint_origin_mm": [
+       813.9284936817695,
+       46.522526684384275,
+       -11.31653082314293
+      ],
+      "child_frame_origin_mm": [
+       813.9284936817695,
+       46.522526684384275,
+       -11.31653082314293
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint5",
+      "parent_predicted_joint_origin_mm": [
+       892.2366161321987,
+       67.83059463536618,
+       31.720628266254604
+      ],
+      "child_frame_origin_mm": [
+       892.2366161321987,
+       67.83059463536618,
+       31.720628266254604
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint6",
+      "parent_predicted_joint_origin_mm": [
+       915.9286030607815,
+       31.578260476103083,
+       14.815928109735385
+      ],
+      "child_frame_origin_mm": [
+       915.9286030607815,
+       31.578260476103083,
+       14.815928109735385
+      ],
+      "closure_residual_mm": 0.0
+     }
+    ],
+    "max_closure_residual_mm": 0.0,
+    "gripper_link_origin_S_mm": [
+     1075.6386030588096,
+     31.578992786058073,
+     14.815622295440933
+    ],
+    "D_i_application": "EXACT_BY_RIGID_BODY_COMPOSITION_D_i_IS_BODY_FIXED",
+    "empirical_cad_geometry_at_this_configuration": "NO_CAD_EXPORT"
+   },
+   "Q_INTERMEDIATE_C07_PREGRASP": {
+    "chain_closure_rows": [
+     {
+      "joint": "joint1",
+      "parent_predicted_joint_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "child_frame_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint2",
+      "parent_predicted_joint_origin_mm": [
+       348.2,
+       37.114211327366604,
+       -4.76124607683082
+      ],
+      "child_frame_origin_mm": [
+       348.2,
+       37.114211327366604,
+       -4.76124607683082
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint3",
+      "parent_predicted_joint_origin_mm": [
+       576.9629451964691,
+       -18.571998250287855,
+       114.66471830244394
+      ],
+      "child_frame_origin_mm": [
+       576.9629451964691,
+       -18.571998250287855,
+       114.66471830244394
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint4",
+      "parent_predicted_joint_origin_mm": [
+       711.0398988575266,
+       68.39446677416481,
+       -75.68654931388703
+      ],
+      "child_frame_origin_mm": [
+       711.0398988575266,
+       68.39446677416481,
+       -75.68654931388703
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint5",
+      "parent_predicted_joint_origin_mm": [
+       789.3481467978809,
+       25.35773910757183,
+       -54.37807118276031
+      ],
+      "child_frame_origin_mm": [
+       789.3481467978809,
+       25.35773910757183,
+       -54.37807118276031
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint6",
+      "parent_predicted_joint_origin_mm": [
+       813.0399998699858,
+       42.261848318750104,
+       -90.63076837603381
+      ],
+      "child_frame_origin_mm": [
+       813.0399998699858,
+       42.261848318750104,
+       -90.63076837603381
+      ],
+      "closure_residual_mm": 0.0
+     }
+    ],
+    "max_closure_residual_mm": 0.0,
+    "gripper_link_origin_S_mm": [
+     972.7499998699857,
+     42.26184831795907,
+     -90.630768374337
+    ],
+    "D_i_application": "EXACT_BY_RIGID_BODY_COMPOSITION_D_i_IS_BODY_FIXED",
+    "empirical_cad_geometry_at_this_configuration": "NO_CAD_EXPORT"
+   },
+   "Q_DEPLOYED_HOME_C01": {
+    "chain_closure_rows": [
+     {
+      "joint": "joint1",
+      "parent_predicted_joint_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "child_frame_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint2",
+      "parent_predicted_joint_origin_mm": [
+       348.2,
+       -4.872529421062059,
+       -37.07357684176789
+      ],
+      "child_frame_origin_mm": [
+       348.2,
+       -4.872529421062059,
+       -37.07357684176789
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint3",
+      "parent_predicted_joint_origin_mm": [
+       576.83072011345,
+       -124.50474931319746,
+       -92.86000694886562
+      ],
+      "child_frame_origin_mm": [
+       576.83072011345,
+       -124.50474931319746,
+       -92.86000694886562
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint4",
+      "parent_predicted_joint_origin_mm": [
+       393.7330557626276,
+       -277.51079516214327,
+       -162.41427258339422
+      ],
+      "child_frame_origin_mm": [
+       393.7330557626276,
+       -277.51079516214327,
+       -162.41427258339422
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint5",
+      "parent_predicted_joint_origin_mm": [
+       344.66648812175356,
+       -355.1082257988202,
+       -165.49705744983928
+      ],
+      "child_frame_origin_mm": [
+       344.66648812175356,
+       -355.1082257988202,
+       -165.49705744983928
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint6",
+      "parent_predicted_joint_origin_mm": [
+       306.8974117162646,
+       -328.0043236549501,
+       -165.9285896644356
+      ],
+      "child_frame_origin_mm": [
+       306.8974117162646,
+       -328.0043236549501,
+       -165.9285896644356
+      ],
+      "closure_residual_mm": 0.0
+     }
+    ],
+    "max_closure_residual_mm": 0.0,
+    "gripper_link_origin_S_mm": [
+     187.114818693601,
+     -356.93357607723635,
+     -267.52835769104263
+    ],
+    "D_i_application": "EXACT_BY_RIGID_BODY_COMPOSITION_D_i_IS_BODY_FIXED",
+    "empirical_cad_geometry_at_this_configuration": "NO_CAD_EXPORT"
+   },
+   "Q_JOINT_LOWER_LIMITS": {
+    "chain_closure_rows": [
+     {
+      "joint": "joint1",
+      "parent_predicted_joint_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "child_frame_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint2",
+      "parent_predicted_joint_origin_mm": [
+       348.2,
+       -36.659315272313954,
+       -7.810979759658539
+      ],
+      "child_frame_origin_mm": [
+       348.2,
+       -36.659315272313954,
+       -7.810979759658539
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint3",
+      "parent_predicted_joint_origin_mm": [
+       348.6204603699497,
+       -221.93504987046035,
+       180.2547677390041
+      ],
+      "child_frame_origin_mm": [
+       348.6204603699497,
+       -221.93504987046035,
+       180.2547677390041
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint4",
+      "parent_predicted_joint_origin_mm": [
+       402.6204663385437,
+       -391.03497421619886,
+       354.21630247208213
+      ],
+      "child_frame_origin_mm": [
+       402.6204663385437,
+       -391.03497421619886,
+       354.21630247208213
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint5",
+      "parent_predicted_joint_origin_mm": [
+       466.39599513858957,
+       -328.31662288737874,
+       333.3002034841859
+      ],
+      "child_frame_origin_mm": [
+       466.39599513858957,
+       -328.31662288737874,
+       333.3002034841859
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint6",
+      "parent_predicted_joint_origin_mm": [
+       478.2043362441423,
+       -372.01511181741625,
+       343.89812826063877
+      ],
+      "child_frame_origin_mm": [
+       478.2043362441423,
+       -372.01511181741625,
+       343.89812826063877
+      ],
+      "closure_residual_mm": 0.0
+     }
+    ],
+    "max_closure_residual_mm": 0.0,
+    "gripper_link_origin_S_mm": [
+     478.3252804616809,
+     -485.7615654357975,
+     231.78651529502793
+    ],
+    "D_i_application": "EXACT_BY_RIGID_BODY_COMPOSITION_D_i_IS_BODY_FIXED",
+    "empirical_cad_geometry_at_this_configuration": "NO_CAD_EXPORT"
+   },
+   "Q_JOINT_UPPER_LIMITS": {
+    "chain_closure_rows": [
+     {
+      "joint": "joint1",
+      "parent_predicted_joint_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "child_frame_origin_mm": [
+       292.65,
+       -0.035567571545522876,
+       0.07627485466625152
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint2",
+      "parent_predicted_joint_origin_mm": [
+       348.2,
+       -33.418657333857496,
+       17.078539378021688
+      ],
+      "child_frame_origin_mm": [
+       348.2,
+       -33.418657333857496,
+       17.078539378021688
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint3",
+      "parent_predicted_joint_origin_mm": [
+       348.2,
+       -8.444721449796084,
+       -245.73756082608492
+      ],
+      "child_frame_origin_mm": [
+       348.2,
+       -8.444721449796084,
+       -245.73756082608492
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint4",
+      "parent_predicted_joint_origin_mm": [
+       402.200005968594,
+       -29.776739680956293,
+       -4.071789607635651
+      ],
+      "child_frame_origin_mm": [
+       402.200005968594,
+       -29.776739680956293,
+       -4.071789607635651
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint5",
+      "parent_predicted_joint_origin_mm": [
+       323.9220032459016,
+       -3.4643194847152152,
+       36.16008453667687
+      ],
+      "child_frame_origin_mm": [
+       323.9220032459016,
+       -3.4643194847152152,
+       36.16008453667687
+      ],
+      "closure_residual_mm": 0.0
+     },
+     {
+      "joint": "joint6",
+      "parent_predicted_joint_origin_mm": [
+       323.8713707064123,
+       23.90549227962137,
+       -1.4191877331775586
+      ],
+      "child_frame_origin_mm": [
+       323.8713707064123,
+       23.90549227962137,
+       -1.4191877331775586
+      ],
+      "closure_residual_mm": 0.0
+     }
+    ],
+    "max_closure_residual_mm": 0.0,
+    "gripper_link_origin_S_mm": [
+     323.7447769894951,
+     182.8991072233097,
+     13.690361604318898
+    ],
+    "D_i_application": "EXACT_BY_RIGID_BODY_COMPOSITION_D_i_IS_BODY_FIXED",
+    "empirical_cad_geometry_at_this_configuration": "NO_CAD_EXPORT"
+   }
+  }
+ },
+ "test_c_true_version_mismatch_indicators": {
+  "indicator_1_D_i_varies_with_configuration": {
+   "result": "NOT_PRESENT",
+   "evidence": "one fixed rigid per-link relationship reproduces the second CAD articulation export exactly: URDF-predicted pose surface residual max 0.000163 mm over all 7 links",
+   "worst_max_residual_mm": 0.0001629909138996286
+  },
+  "indicator_2_large_shape_residual_after_fixed_rigid_transform": {
+   "result": "NOT_PRESENT_FOR_SHARED_MATERIAL",
+   "per_link_median_mm": {
+    "base_link": 0.04493400980954654,
+    "link1": 0.004249914609677052,
+    "link2": 0.01059678058003044,
+    "link3": 0.005556086794444109,
+    "link4": 0.025830849242947096,
+    "link5": 0.03222831690590766,
+    "link6": 0.04239909964862766
+   },
+   "per_link_p95_mm": {
+    "base_link": 0.13763270515942566,
+    "link1": 0.8949631428437431,
+    "link2": 0.09271893878442428,
+    "link3": 0.07879212803748978,
+    "link4": 0.07212717427094581,
+    "link5": 0.07101550224508521,
+    "link6": 0.07492004001804775
+   },
+   "acceptance_reference_mm": 0.5,
+   "note": "every link's post-D_i median residual is 0.0043-0.0449 mm, 1-2 orders of magnitude below the 0.5 mm source tessellation deflection.  The two large *unshared* regions are both attributed by name (owner-deleted 01_BASE_Plate; link6/gripper_link content-partition boundary) and are not shape disagreements about the same physical material."
+  },
+  "indicator_3_joint_axis_or_mounting_face_inconsistent": {
+   "result": "NOT_PRESENT",
+   "evidence_a_no_datum_rotation": "rotation_is_necessary = False for every evaluated link; the CAD link axes are parallel to the accepted-URDF link axes",
+   "evidence_b_cad_material_concentric_with_urdf_joint_axes": {
+    "per_joint_eccentricity_upper_bound_mm": {
+     "joint1": 0.7132297240373999,
+     "joint2": 0.7168546262042259,
+     "joint3": 0.7970939706291187,
+     "joint4": 0.7702227697310073,
+     "joint5": 0.7832113919515713,
+     "joint6": 0.7497719789123973
+    },
+    "per_joint_tilt_upper_bound_deg": {
+     "joint1": 0.4297060736612586,
+     "joint2": 0.057187386995897954,
+     "joint3": 0.048109066092347524,
+     "joint4": 0.390087139145706,
+     "joint5": 0.6575381568241337,
+     "joint6": 4.080494872268167
+    },
+    "method": "radius-histogram peak of CAD material about the URDF joint axis; spread bounds eccentricity, dr/ds bounds tilt.  These are UPPER BOUNDS inflated by the 0.25 mm bin width and by concentric neighbouring features, not fitted axis errors.",
+    "weakest_case": "joint6 child tilt upper bound 4.0805 deg"
+   }
+  },
+  "verdict": "CAD_URDF_VERSION_MISMATCH_NOT_SUPPORTED_BY_EVIDENCE"
+ },
+ "findings": [
+  {
+   "id": "WP11-F-01",
+   "severity": "MEDIUM",
+   "state": "OPEN_ACTION_ASSIGNED",
+   "title": "accepted-URDF base_link collision mesh still carries the owner-deleted vendor desktop base plate",
+   "detail": "The accepted-URDF base_link collision mesh spans 140 x 200 x 82.65 mm in the base_link frame, while the flight-side CAD base_link spans 92 x 92 x 80.15 mm.  34.25% of the URDF base_link surface is farther than 1.0 mm from any CAD material, and 92.96% of that lies inside the bounding box of vendor solid 01_BASE_Plate, which the owner ruling of 2026-07-27 DELETED (design/base_classification.json).  Single-shell volume ratio CAD/URDF = 0.51893, i.e. 384125.9 mm3 of the URDF base_link collision volume is non-flight bench hardware.",
+   "consequence": "Consuming the accepted-URDF collision meshes unmodified as the operational collision authority injects a phantom slab at the arm root, assembly-frame AABB [[207.905, -120.198, -105.79], [222.405, 120.23, 105.617]] mm.  This is a decisive reason the disposition is O2-A (CAD = physical geometry authority) and not O2-B.",
+   "action": "re-export the base_link operational collision mesh from the CAD geometry through D_base_link; do not use the raw URDF base_link collision STL for clearance, self-collision or RL shielding",
+   "assigned_to": "A7_CM_RELEASE_with_WP10_MECH_RL",
+   "phantom_plate_bbox_assembly_frame_mm": [
+    [
+     207.905,
+     -120.19807839868159,
+     -105.78971994309086
+    ],
+    [
+     222.405,
+     120.2300460027384,
+     105.61705242358914
+    ]
+   ]
+  },
+  {
+   "id": "WP11-F-02",
+   "severity": "MEDIUM",
+   "state": "OPEN_DECLARED",
+   "title": "neither the CAD arm STL exports nor the M5 link-local PLY assets yield a usable volume: the STLs carry a DOUBLED closed shell and the PLYs are only PARTIALLY de-duplicated",
+   "detail": "Raw divergence-theorem volume of the CAD part STLs divided by the accepted-URDF volume: base_link 1.03785, link1 2.08193, link2 1.99988, link3 2.02369, link4 1.97160, link5 1.99577.  Exact-duplicate triangle factor 1.695-2.001.  After halving, links 2-5 agree with the accepted URDF to 0.006%-1.4% (link2 0.99994, link3 1.01184, link4 0.98580, link5 0.99789), which validates the halving rule.  I ALSO CHECKED the M5 link-local PLY assets and the initial expectation that they are single-shell is FALSE: PLY face counts are 53-74% of the raw STL counts and PLY/URDF volume ratios are base_link 0.51893, link1 1.62339, link2 1.43810, link3 1.33077, link4 1.11489, link5 1.09150, link6 11.00865 -- i.e. the PLYs are partially de-duplicated and their volume integral is neither 1x nor 2x the true volume.",
+   "consequence": "Surface-distance, clearance and registration results are UNAFFECTED: a doubled or partially doubled shell has the same surface locus, and every WP11 number is a point-to-surface distance.  What is affected is any volume / mass / inertia integral.  No M7 artifact is known to take arm mass from these assets - the L0 accepted-URDF masses govern (pinned 4.695555949342986 kg) and M5's own use-limit already says SOURCE_BOUND_SURFACE_AND_CONSERVATIVE_BROADPHASE_ONLY_NOT_CONTACT_OR_STRENGTH_AUTHORITY.  The defect is therefore latent, not propagated, and is registered so it stays that way.",
+   "action": "attach a NO_VOLUME_FROM_THIS_ASSET rule to parts_DEPLOYED / parts_STOWED and to the M5 b601_link_local_surfaces PLYs; if a volume is ever needed, take it from the B5_0 B-rep STEPs, not from a tessellation",
+   "assigned_to": "A7_CM_RELEASE",
+   "measured_m5_ply_volume_ratios": {
+    "base_link": {
+     "ply_faces": 132514,
+     "ply_volume_mm3": 414349.7562227958,
+     "urdf_volume_mm3": 798475.7099776611,
+     "ply_over_urdf_volume_ratio": 0.5189259373142209
+    },
+    "link1": {
+     "ply_faces": 48325,
+     "ply_volume_mm3": 136417.59447885127,
+     "urdf_volume_mm3": 84032.48229898645,
+     "ply_over_urdf_volume_ratio": 1.6233912261865513
+    },
+    "link2": {
+     "ply_faces": 271674,
+     "ply_volume_mm3": 1021311.8038450974,
+     "urdf_volume_mm3": 710181.1618215699,
+     "ply_over_urdf_volume_ratio": 1.4381003872666758
+    },
+    "link3": {
+     "ply_faces": 196229,
+     "ply_volume_mm3": 698059.543735898,
+     "urdf_volume_mm3": 524553.137213917,
+     "ply_over_urdf_volume_ratio": 1.330769933897514
+    },
+    "link4": {
+     "ply_faces": 118187,
+     "ply_volume_mm3": 212841.77444896376,
+     "urdf_volume_mm3": 190907.9416370795,
+     "ply_over_urdf_volume_ratio": 1.1148921968557024
+    },
+    "link5": {
+     "ply_faces": 93747,
+     "ply_volume_mm3": 163368.1236275901,
+     "urdf_volume_mm3": 149673.40156447774,
+     "ply_over_urdf_volume_ratio": 1.0914973663988843
+    },
+    "link6": {
+     "ply_faces": 160869,
+     "ply_volume_mm3": 206578.4057570041,
+     "urdf_volume_mm3": 18765.100267050584,
+     "ply_over_urdf_volume_ratio": 11.008649184770553
+    }
+   },
+   "self_falsification_note": "the first draft of this finding asserted the M5 PLYs were single-shell; the assertion was tested in this same work package and failed, so it was replaced by the measurement"
+  },
+  {
+   "id": "WP11-F-03",
+   "severity": "LOW",
+   "state": "OPEN_DECLARED",
+   "title": "two numerical writings of the same 25 deg arm clocking",
+   "detail": "M7 WP1 T_S_B601_ARM_BASE uses sin25 = 0.422618483193; the F3R1 transform that actually built and posed the CAD arm uses the exact double 0.422618261741 (= sin(25 deg)).  Max element delta 2.215e-07; worst-case tip effect 1.019e-04 mm at 460 mm reach.",
+   "consequence": "geometrically negligible, but two spellings of one frame is a configuration-management defect",
+   "action": "pin the exact sin/cos(25 deg) doubles in one place",
+   "assigned_to": "A7_CM_RELEASE"
+  },
+  {
+   "id": "WP11-F-04",
+   "severity": "LOW",
+   "state": "OPEN_DECLARED",
+   "title": "the M7 design-freeze assembly holds no B601 physical geometry",
+   "detail": "DESIGN_FREEZE_ASSEMBLY_V1.step contains 41 MANIFOLD_SOLID_BREP / 647 ADVANCED_FACE (independently re-counted by text parse, matching WP1).  The B601 contribution is the 18-solid / 34-face / 817.651847974 mm3 'B601_arm_q0_frame_axis_witness' overlay.  A 4.695555949342986 kg 6R manipulator cannot be 817.65 mm3.",
+   "consequence": "the design-freeze STEP cannot be the CAD side of any arm clearance, interference or registration claim; WP11 therefore measured the B51 vendor-CAD arm exports that M5 adopted as the geometry-authority asset set",
+   "action": "state the witness-overlay limitation wherever the design-freeze assembly is cited for arm geometry",
+   "assigned_to": "A1_PRODUCT_CAD_and_A0"
+  },
+  {
+   "id": "WP11-F-05",
+   "severity": "INFORMATIONAL",
+   "state": "DECLARED_SCOPE_LIMIT",
+   "title": "Test B cross-configuration agreement is construction-inherited, not an independent kinematic measurement",
+   "detail": "p4_stow_pose.py states the method verbatim: 'compute URDF FK at q_stow, then set every component's Transform2 to T_link(q_stow) @ offset_i, where offset_i = inv(T_link(q0)) @ T_comp(q0)'.  The CAD arm has dead joints and is articulated by accepted-URDF forward kinematics, so the max 2e-4 mm agreement between the two CAD exports confirms that a single body-fixed calibration is what the CAD uses, and does NOT independently corroborate the URDF joint parameters.",
+   "consequence": "it also means the CAD holds no competing kinematic definition, so a CAD-vs-URDF *kinematic* conflict is structurally impossible; the question reduces to shape and datum, which Test A answers",
+   "action": "none; declared so no reader over-reads Test B",
+   "assigned_to": "WP11"
+  },
+  {
+   "id": "WP11-F-06",
+   "severity": "INFORMATIONAL",
+   "state": "CLOSED_FULLY_ATTRIBUTED",
+   "title": "base_link non-coincident surface is 100% attributed to the deleted plate at 0.5 mm box dilation",
+   "detail": "955 of 40000 accepted-URDF base_link surface samples (2.39%) are >1.0 mm from CAD material and fall outside the EXACT deleted-plate bounding box, but 100.0000% / 100.0000% / 100.0000% of ALL far samples are captured at 0.5 / 2.0 / 5.0 mm box dilation - i.e. at 0.5 mm dilation the attribution is complete.  The remainder at zero dilation is plate edge-blend and material the plate concealed.  No unattributed base_link geometry difference remains.",
+   "consequence": "no unexplained CAD-vs-URDF geometry difference remains on base_link; the whole non-coincident region is the owner-deleted desktop plate tracked by WP11-F-01",
+   "action": "none; retained as the positive attribution record",
+   "assigned_to": "A7_CM_RELEASE"
+  }
+ ],
+ "verdict": {
+  "classification": "COORDINATE_REGISTRATION_DIFFERENCE",
+  "not": "CAD_URDF_VERSION_MISMATCH",
+  "statement": "The B601 CAD arm and the accepted URDF are the same arm at the same geometry version.  The registered 'link6 ~46 mm / base_link ~56 mm' divergence decomposes into (a) a fixed per-link CAD-datum TRANSLATION of 0.083-3.910 mm with identity rotation, (b) an owner-ruled deliberate deletion of the vendor desktop base plate on the flight side, and (c) a link-content partition boundary between link6 and gripper_link.  None of the three is a geometry-version difference and none is a kinematic conflict.",
+  "gate_a_criterion_05_may_pass": true
+ },
+ "source_register": [
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+   "bytes": 11321,
+   "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_1R1_B601_interface_native_rework_candidate/00_BASELINE/AUTHORITIES/accepted_urdf/arm_b601_v1.urdf",
+   "bytes": 11321,
+   "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_1R1_B601_interface_native_rework_candidate/00_BASELINE/PARENT_LOCKED_INPUTS/ACCEPTED_URDF/arm_b601_v1.urdf",
+   "bytes": 11321,
+   "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/06_pack_and_go/V5R_NEUTRAL_OPERATIONAL_PACKAGE/urdf/arm_b601_v1.urdf",
+   "bytes": 11321,
+   "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/base_link.STL",
+   "bytes": 3898684,
+   "sha256": "22641C079014FE968702393F61E7F7F1A8F80C6C1DF45A61E31545F6EAFF3B65",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link1.STL",
+   "bytes": 499084,
+   "sha256": "9DB637A63D37BC2C6398EA5B8BA32FB54122C637D5D77DC134C8782839B654CD",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link2.STL",
+   "bytes": 5992184,
+   "sha256": "DEF0D9D82343DCCC1EFF0D9D5572ECA49B3C134DB9807CA12302B99D153DF65E",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link3.STL",
+   "bytes": 4209984,
+   "sha256": "CA14D73B5D63F352051F440F4CABC3989567F25EE9D19E7DD749F2D6F0D0561D",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link4.STL",
+   "bytes": 2579684,
+   "sha256": "061909364F20BB387F9FF82CB80E506AF959142F9FBB4A39DC86FC8244EE768A",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link5.STL",
+   "bytes": 2119384,
+   "sha256": "3A32006227C1F9DBC70E77E07055C61E3F195F1054D4D2EB480262F0873BF001",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/link6.STL",
+   "bytes": 1248184,
+   "sha256": "C586A7D0B8345D2CD32EAB7DFD2E334ABA56E83F582A6298D41BBF718F2EBEF1",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_link.STL",
+   "bytes": 2676384,
+   "sha256": "A826E164D420A6922E8AD5EE27813F39FA809F6E4FDF39B42FD8A59E7D12E847",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_left.STL",
+   "bytes": 2119684,
+   "sha256": "C4E0DE70F776B3573D975A6EAAA746CCCBE57C2D5BB12501DA8889979D3AF268",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/gripper_right.STL",
+   "bytes": 2119684,
+   "sha256": "615B119C0BB97A032BADD5882144E4A2A50C905A3E071AF1FA28B83BFE9B1B65",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_base_link_LINKLOCAL.stl",
+   "bytes": 13251484,
+   "sha256": "F02A5046B2A3E3520BCA3F026C0AE90300A3737E032BE2C41E0EE95448CDA8AB",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link1_LINKLOCAL.stl",
+   "bytes": 4068484,
+   "sha256": "D2EC90BEE44A2774903D8036AB9559A88D00AE4261BC415E0953F244D62E8849",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link2_LINKLOCAL.stl",
+   "bytes": 20956684,
+   "sha256": "CA093A2B2419E860C80B90EF7967E2C434E5799F6B8229832D7A0D0F233A5961",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link3_LINKLOCAL.stl",
+   "bytes": 16569684,
+   "sha256": "E6E443AF2D244403B27F4B4D0305A79B3DE1CF5952C404072C0015DC46666D5B",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link4_LINKLOCAL.stl",
+   "bytes": 10079684,
+   "sha256": "C985586463B96F6C49951BD6BF7C183CDC1875292A4EF4702C840B093526B708",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link5_LINKLOCAL.stl",
+   "bytes": 8841684,
+   "sha256": "3E3FD21D2CB85CE5C6689D1249E74483CBF41196027C279B4B05C54F4E7E04CA",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_link6_LINKLOCAL.stl",
+   "bytes": 10828284,
+   "sha256": "3333564A559280FE18C3B1583C7184C0194E6429C8DC08DC559E9BF60AA4B799",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_DEPLOYED/B51_REF_gripper_detail_LINKLOCAL.stl",
+   "bytes": 7457884,
+   "sha256": "8E76E93B7F86069A93CD4B3247A20D4F491ACAE93A231BF3B2A8EE3725C72467",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_base_link_LINKLOCAL.stl",
+   "bytes": 13251484,
+   "sha256": "F02A5046B2A3E3520BCA3F026C0AE90300A3737E032BE2C41E0EE95448CDA8AB",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link1_LINKLOCAL.stl",
+   "bytes": 4068484,
+   "sha256": "020264984DBE0FCD6ADA24819AE4A0D40000D6CBBC3BFCD684844678BB1EBADD",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link2_LINKLOCAL.stl",
+   "bytes": 20956684,
+   "sha256": "E1195D81A0E3807935350565C6F8E22C60C453152A22D9ED8BF557F8F15063B4",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link3_LINKLOCAL.stl",
+   "bytes": 16569884,
+   "sha256": "C8A91FFE48F1CA1A8C0AC0B339B9F55996D616EE8DE94A6E84B7DBB237A91EED",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link4_LINKLOCAL.stl",
+   "bytes": 10080084,
+   "sha256": "815F345CB885D498828964C4B1E68EE742D50285CE84B2BC8D477E997D43B202",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link5_LINKLOCAL.stl",
+   "bytes": 8841484,
+   "sha256": "BBD9F228C2E63C8592396B651000713C20CD25436CD8716D582163F7CE995C57",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_link6_LINKLOCAL.stl",
+   "bytes": 10828284,
+   "sha256": "EEDDF5DC4BB236BD75789552F6C951C800060B5187870277912284BBFF085C27",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/05_clearance/mesh/parts_STOWED/B51_REF_gripper_detail_LINKLOCAL.stl",
+   "bytes": 7457884,
+   "sha256": "352269BDF114DC24645FD5A9B60196F00D28C1DF9D86C0799B7AE150C2BE2ABA",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/B601_CAD_MESH_FRAME_DECISION_V1.json",
+   "bytes": 32652,
+   "sha256": "2A99484C6CE55B402CB06380F5DCB71D5A8B4BA622A371EEF72F4EC69EF124FF",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_BUILD_REPORT_V1.json",
+   "bytes": 29415,
+   "sha256": "105BCB020FAF9F535C3A18F9A37831679F89070A8CA69C5960F959A686F332C1",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp1_structure_cad/DESIGN_FREEZE_ASSEMBLY_V1.step",
+   "bytes": 1373004,
+   "sha256": "8C85585E9C051AEBB849E48F56354B48BF4204F61103B550BD92FC77BA99EA9E",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R1_MECHANICAL_INTEGRATION_RECOVERY_20260806/03_native_cad/F3R1_TOP_INTEGRATION_REPORT.json",
+   "bytes": 4277,
+   "sha256": "132BC09F285ECE81E69A9AADB43EC078E73A18597DE3A6025A40E23E694A9D26",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R1_MECHANICAL_INTEGRATION_RECOVERY_20260806/99_tools/p4_stow_pose.py",
+   "bytes": 20703,
+   "sha256": "AF1D2741D2BC6300F2E46A2240550B18DC10B482CC07046828FEFC23D872EE0C",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/99_tools/r2_kin.py",
+   "bytes": 7077,
+   "sha256": "C6A4450BF962834311BE11FD3571FAF7537DCBB92B6DE55EEF57EE3F374196FE",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G01_receipt.json",
+   "bytes": 2661,
+   "sha256": "9C3D4180B0C47D21FD64027DD83C5D4C95B7B5B03385929DAEBC30E38E36C99C",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G02_receipt.json",
+   "bytes": 2672,
+   "sha256": "67AEC34C45A92D81AAE8C0D96539A00BD152EABF38EAC667F7C4030CB88DF21E",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G03_receipt.json",
+   "bytes": 2668,
+   "sha256": "5FA7ECCD579A0743830A02982437E0A532B41251AC987572D56ACF729C4D9FB5",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G04_receipt.json",
+   "bytes": 2671,
+   "sha256": "976EB0EA149469EF108046CF8BD7AB3BF357AE38DFBE53F32E6A0F7751EF2CB1",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G05_receipt.json",
+   "bytes": 2809,
+   "sha256": "1F0762C11D44A14F0F66417581CACF37327A69568B6736146CFB479B8FDB0DB3",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G06_receipt.json",
+   "bytes": 2675,
+   "sha256": "2B85E58A261DEAFAB86A28C794CDB8DF17337A2CFDFE526F56A4CD7C866CC3C6",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G07_receipt.json",
+   "bytes": 2670,
+   "sha256": "CC72142CDC05E55C334DF541AA74CB226DDA8EF60C0328E2BBD75F6E7F359A2E",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/02_DESIGN/vendor_reference_linklocal/evidence/G08_receipt.json",
+   "bytes": 2799,
+   "sha256": "4F3C37760A67A3673A5A2B1761B8970703E70490AFE52C0930318D8D874E695D",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/130_B601_Vendor_CAD_Direct_Integration_03/design/base_classification.json",
+   "bytes": 1036,
+   "sha256": "FE669FE95514B923398D582BF1FC2B215DB20F203A5882F459E3598751FD96E0",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/130_B601_Vendor_CAD_Direct_Integration_03/design/group_link_transforms.json",
+   "bytes": 5483,
+   "sha256": "856BFEFEEABF27A74BD07D3E513C70812DEDA0841E88FEB91DA3B27B93CCC2F0",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/130_B601_Vendor_CAD_Direct_Integration_03/design/group_link_registration.json",
+   "bytes": 6095,
+   "sha256": "587B1EE76CBACAD03AC0EEDA8E67960983BD2B2BC670B2945451580E86B71486",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/130_B601_Vendor_CAD_Direct_Integration_03/design/vendor_group_census.json",
+   "bytes": 4578,
+   "sha256": "D6385ED834196B1F648C40D8BE4C4C924EAAB79369529A2D4BED6704C2B1222E",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/M5_CONFIGURATION_GEOMETRY_CONTRACT_V1.yaml",
+   "bytes": 16454,
+   "sha256": "DA18F5A6E2F553FC709E90BA1035CDD7770A6FCEECA13EDC1FDB448CAF75838D",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml",
+   "bytes": 19133,
+   "sha256": "5602CB6FC3DC983681F60D8FA94B432FBA4D432830F5B2362049DB4C1B849BF7",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml",
+   "bytes": 3531,
+   "sha256": "F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md",
+   "bytes": 4931,
+   "sha256": "AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_base_link_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 2517650,
+   "sha256": "A9EEBAB69868656265D5032B8A1DDADBD74E3821AC2775A2AD9A44575D9CDCD5",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link1_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 896992,
+   "sha256": "868C9AC82975DE4457821D58DEB1A16561E2C0414AE046ED8E4E215F67E770E1",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link2_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 4947023,
+   "sha256": "2E9B2B86002B72D9AC9160FDAFA18944407AD4FE8CD8B5D2BE9CA864A1EE665D",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link3_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 3618945,
+   "sha256": "03EE314B83BA31CA0D355971A193B4F118039F09A7F046AB3D14FDCC9FD29D90",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link4_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 2187231,
+   "sha256": "06AD6D5AB356A721442FFCA2CC4AF14780768DA7FD51AAA82AB371C9E18C1CD2",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link5_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 1760094,
+   "sha256": "39B3D55AEEB3FC64EEE7CC94E77C49DA10CED53E378FA963EF84488BCFF7BA97",
+   "role": "CONSUMED_READ_ONLY"
+  },
+  {
+   "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/01_geometry_authority/assets/b601_link_local_surfaces/B601_link6_CAD_SURFACE_LINK_LOCAL_M.ply",
+   "bytes": 2879173,
+   "sha256": "247D835B27ED024B33475AF7927EBCDC464AACB193CE25040CDA8CF18011A441",
+   "role": "CONSUMED_READ_ONLY"
+  }
+ ],
+ "tool_register": [
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_lib.py",
+   "bytes": 17930,
+   "sha256": "E6466C028A2F28C2BBF0675216A93126CC262446A60D1E8CD31EB360EECD5693"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_analysis.py",
+   "bytes": 28460,
+   "sha256": "02473E3FEB489AA1948878D28B1371DF3FCE8C253F9E1A17309F8A35FCBD2B50"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_attribution.py",
+   "bytes": 8472,
+   "sha256": "7B8F21CB05D395BDE72A44F1B6B0016A8DBFEE5D975171348BEC4DDD77454B00"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_refine.py",
+   "bytes": 5203,
+   "sha256": "771EC382BEDC529E1B1C7FA90C4271AA1138B668BC8ECDAEBD426F1F07784942"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_closeout.py",
+   "bytes": 7854,
+   "sha256": "ADED05343C757F58EA5FF738F0BB1F6BC507B8EB31BEC33584C26228D1B1A088"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_emit.py",
+   "bytes": 38915,
+   "sha256": "E97EA36CF13F21D70C292FDBFCF715218D17D0768F2E9256C5E6BA287F07657E"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_final.py",
+   "bytes": 5850,
+   "sha256": "A5257B2DC1480186903EFEFAC8CDDB054FF8D63F922684BF7F0B0AAD2F91EEC3"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/99_tools/wp11_emit2.py",
+   "bytes": 30768,
+   "sha256": "0FEF85A8E853BFBD1418F62890F77D14951B1514DAE4C75E6C34B65F1A044D3E"
+  }
+ ],
+ "intermediate_register": [
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/INPUTS.json",
+   "bytes": 21561,
+   "sha256": "680F7D47A5AFE33045650408537235A17016E26052B0BC826CB4A5D12D5447AD"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/TESTA.json",
+   "bytes": 43524,
+   "sha256": "8387DCF9F0270A79D33EFDF3024F5A0EBDA809466FDBD1175ABE1049168BC452"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/TESTB.json",
+   "bytes": 38648,
+   "sha256": "168F0392B5352DA1EE50F298F527F9646F8006935A818DA92593BC6CB73D840E"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/ATTRIBUTION.json",
+   "bytes": 5728,
+   "sha256": "0760E1DF95AC3C00504A78E340D41593EA492CB5A34FAC13E9DE63EBB76700FE"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/REFINE.json",
+   "bytes": 14630,
+   "sha256": "88E3EFA2B857809692ABE666A99E69810B7EED504F398455EE2304050002EFFB"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/CLOSEOUT.json",
+   "bytes": 27467,
+   "sha256": "E32872AA73D27DDD813FF064BF455A3F3E433D6D5DA4B77A058D11DD24672BDF"
+  },
+  {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp11_cad_urdf_registration/10_intermediate/FINAL.json",
+   "bytes": 7963,
+   "sha256": "E1E2C979D80A67720DEAAB0170247F11FEB2B063521DEC73ED048B74A79F52A6"
+  }
+ ],
+ "test_a_post_D_i_closure": {
+  "per_link_partition_tolerant": {
+   "base_link": {
+    "neighbourhood": [
+     "base_link",
+     "link1"
+    ],
+    "residual_cad_to_urdf_union": {
+     "n": 15000,
+     "mean_mm": 0.07091663900129817,
+     "median_mm": 0.044934143919995506,
+     "p95_mm": 0.12740088566904578,
+     "p99_mm": 1.1084460873139041,
+     "max_mm": 2.2674146771339188,
+     "rms_mm": 0.17968358073531435,
+     "frac_le_0p5mm": 0.9809333333333333,
+     "frac_le_1mm": 0.9881333333333333,
+     "frac_le_2mm": 0.9996
+    }
+   },
+   "link1": {
+    "neighbourhood": [
+     "base_link",
+     "link1",
+     "link2"
+    ],
+    "residual_cad_to_urdf_union": {
+     "n": 15000,
+     "mean_mm": 0.03823262841294687,
+     "median_mm": 0.004249914609677052,
+     "p95_mm": 0.10880020599269877,
+     "p99_mm": 0.6551237411865817,
+     "max_mm": 2.438603965674801,
+     "rms_mm": 0.15152129987075008,
+     "frac_le_0p5mm": 0.9871333333333333,
+     "frac_le_1mm": 0.9936666666666667,
+     "frac_le_2mm": 0.9989333333333333
+    }
+   },
+   "link2": {
+    "neighbourhood": [
+     "link1",
+     "link2",
+     "link3"
+    ],
+    "residual_cad_to_urdf_union": {
+     "n": 15000,
+     "mean_mm": 0.030444702217716363,
+     "median_mm": 0.010595850884563163,
+     "p95_mm": 0.09307866364209239,
+     "p99_mm": 0.16337424749788423,
+     "max_mm": 1.2894110898609856,
+     "rms_mm": 0.05855407140861373,
+     "frac_le_0p5mm": 0.9983333333333333,
+     "frac_le_1mm": 0.9995333333333334,
+     "frac_le_2mm": 1.0
+    }
+   },
+   "link3": {
+    "neighbourhood": [
+     "link2",
+     "link3",
+     "link4"
+    ],
+    "residual_cad_to_urdf_union": {
+     "n": 15000,
+     "mean_mm": 0.02231461081478215,
+     "median_mm": 0.00587813772880408,
+     "p95_mm": 0.06777229047516015,
+     "p99_mm": 0.2601165179272446,
+     "max_mm": 2.012987909631704,
+     "rms_mm": 0.08092627086434441,
+     "frac_le_0p5mm": 0.9957333333333334,
+     "frac_le_1mm": 0.9982666666666666,
+     "frac_le_2mm": 0.9999333333333333
+    }
+   },
+   "link4": {
+    "neighbourhood": [
+     "link3",
+     "link4",
+     "link5"
+    ],
+    "residual_cad_to_urdf_union": {
+     "n": 15000,
+     "mean_mm": 0.04011933307495926,
+     "median_mm": 0.025831240452546922,
+     "p95_mm": 0.07001920197479602,
+     "p99_mm": 0.4913559687147211,
+     "max_mm": 3.0845937382985533,
+     "rms_mm": 0.15956840504040803,
+     "frac_le_0p5mm": 0.9902,
+     "frac_le_1mm": 0.9940666666666667,
+     "frac_le_2mm": 0.9979333333333333
+    }
+   },
+   "link5": {
+    "neighbourhood": [
+     "link4",
+     "link5",
+     "link6"
+    ],
+    "residual_cad_to_urdf_union": {
+     "n": 15000,
+     "mean_mm": 0.04728265128220575,
+     "median_mm": 0.03222822481826171,
+     "p95_mm": 0.06777644028031657,
+     "p99_mm": 0.6379918401166728,
+     "max_mm": 2.0302387276106515,
+     "rms_mm": 0.15030804786011306,
+     "frac_le_0p5mm": 0.9882,
+     "frac_le_1mm": 0.9938666666666667,
+     "frac_le_2mm": 0.9974
+    }
+   },
+   "link6": {
+    "neighbourhood": [
+     "link5",
+     "link6",
+     "gripper_link",
+     "gripper_left",
+     "gripper_right"
+    ],
+    "residual_cad_to_urdf_union": {
+     "n": 15000,
+     "mean_mm": 0.13560412768770777,
+     "median_mm": 0.0431079477063147,
+     "p95_mm": 0.8281151385734034,
+     "p99_mm": 2.4568922371177173,
+     "max_mm": 3.8609805709275027,
+     "rms_mm": 0.446457204437236,
+     "frac_le_0p5mm": 0.9419333333333333,
+     "frac_le_1mm": 0.96,
+     "frac_le_2mm": 0.9828
+    }
+   }
+  },
+  "whole_arm_aggregate_q0": {
+   "residual_cad_to_urdf": {
+    "n": 25000,
+    "mean_mm": 0.04751275529338185,
+    "median_mm": 0.0207384085003617,
+    "p95_mm": 0.09267107835802942,
+    "p99_mm": 0.6843042015470264,
+    "max_mm": 6.257772024130845,
+    "rms_mm": 0.2000767301001817,
+    "frac_le_0p5mm": 0.98796,
+    "frac_le_1mm": 0.99304,
+    "frac_le_2mm": 0.99744
+   },
+   "residual_urdf_to_cad": {
+    "n": 25000,
+    "mean_mm": 2.0606985844863845,
+    "median_mm": 0.022128041644327832,
+    "p95_mm": 14.335632600981166,
+    "p99_mm": 53.086561961246446,
+    "max_mm": 68.19241441282381,
+    "rms_mm": 9.070726045395254,
+    "frac_le_0p5mm": 0.92792,
+    "frac_le_1mm": 0.9296,
+    "frac_le_2mm": 0.93132
+   },
+   "seconds": 187.5
+  },
+  "D_i_axis_observability": {
+   "base_link": {
+    "baseline_p95_mm": 0.13372206956875252,
+    "degradation_threshold_p95_mm": 0.20058310435312876,
+    "sweep_points": 3000,
+    "sweep_range_mm": [
+     -4.0,
+     4.0
+    ],
+    "sweep_step_mm": 0.5,
+    "axis_0_admissible_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "axis_1_admissible_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "axis_2_admissible_offset_mm": [
+     0.0,
+     0.0
+    ]
+   },
+   "link1": {
+    "baseline_p95_mm": 0.9629817216461327,
+    "degradation_threshold_p95_mm": 1.444472582469199,
+    "sweep_points": 3000,
+    "sweep_range_mm": [
+     -4.0,
+     4.0
+    ],
+    "sweep_step_mm": 0.5,
+    "axis_0_admissible_offset_mm": [
+     -1.0,
+     1.5
+    ],
+    "axis_1_admissible_offset_mm": [
+     -1.0,
+     1.0
+    ],
+    "axis_2_admissible_offset_mm": [
+     -1.0,
+     1.0
+    ]
+   },
+   "link2": {
+    "baseline_p95_mm": 0.09003212636443704,
+    "degradation_threshold_p95_mm": 0.14003212636443704,
+    "sweep_points": 3000,
+    "sweep_range_mm": [
+     -4.0,
+     4.0
+    ],
+    "sweep_step_mm": 0.5,
+    "axis_0_admissible_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "axis_1_admissible_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "axis_2_admissible_offset_mm": [
+     0.0,
+     0.0
+    ]
+   },
+   "link3": {
+    "baseline_p95_mm": 0.08324437612535279,
+    "degradation_threshold_p95_mm": 0.13324437612535278,
+    "sweep_points": 3000,
+    "sweep_range_mm": [
+     -4.0,
+     4.0
+    ],
+    "sweep_step_mm": 0.5,
+    "axis_0_admissible_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "axis_1_admissible_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "axis_2_admissible_offset_mm": [
+     0.0,
+     0.0
+    ]
+   },
+   "link4": {
+    "baseline_p95_mm": 0.06920208294703893,
+    "degradation_threshold_p95_mm": 0.11920208294703893,
+    "sweep_points": 3000,
+    "sweep_range_mm": [
+     -4.0,
+     4.0
+    ],
+    "sweep_step_mm": 0.5,
+    "axis_0_admissible_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "axis_1_admissible_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "axis_2_admissible_offset_mm": [
+     0.0,
+     0.0
+    ]
+   },
+   "link5": {
+    "baseline_p95_mm": 0.07835188818374794,
+    "degradation_threshold_p95_mm": 0.12835188818374793,
+    "sweep_points": 3000,
+    "sweep_range_mm": [
+     -4.0,
+     4.0
+    ],
+    "sweep_step_mm": 0.5,
+    "axis_0_admissible_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "axis_1_admissible_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "axis_2_admissible_offset_mm": [
+     0.0,
+     0.0
+    ]
+   },
+   "link6": {
+    "baseline_p95_mm": 47.457481952097034,
+    "degradation_threshold_p95_mm": 71.18622292814555,
+    "sweep_points": 3000,
+    "sweep_range_mm": [
+     -4.0,
+     4.0
+    ],
+    "sweep_step_mm": 0.5,
+    "axis_0_admissible_offset_mm": [
+     -4.0,
+     4.0
+    ],
+    "axis_1_admissible_offset_mm": [
+     -4.0,
+     4.0
+    ],
+    "axis_2_admissible_offset_mm": [
+     -4.0,
+     4.0
+    ]
+   }
+  },
+  "headline": "with the per-link translation calibration applied and the adjacent-link content partition allowed, 98.80% of the CAD arm surface lies within 0.5 mm of the accepted-URDF arm surface (median 0.02074 mm, p95 0.09267 mm, p99 0.68430 mm)"
+ }
+}

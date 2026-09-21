@@ -1,0 +1,59 @@
+"""S02/S03 scenario-level tests (run after protocol revisions R2/R3)."""
+import numpy as np
+
+from dh_v1.scen_dynamics import S02_THRESHOLDS, run_s02_case, run_s03
+
+
+def test_s02_arm_only_passes_with_floor_semantics(arm_plant):
+    r = run_s02_case(arm_plant, "base_at_rest_arm_moving", t_end=2.0, dt=1.0e-3,
+                     convergence_dts=(4.0e-3, 2.0e-3, 1.0e-3))
+    assert r["all_gates_pass"], (r["gates"], r["convergence_mode"], r["rel_drift_by_dt"])
+    assert r["convergence_mode"] in ("PASS_AT_ROUNDOFF_FLOOR", "PASS_ENTERED_ROUNDOFF_FLOOR", "ORDER_FIT")
+    assert r["metrics"]["rel_h_drift_max"] < S02_THRESHOLDS["rel_h_drift_max"]
+
+
+def test_s02_pairwise_floor_semantics_unit():
+    """R4 pair-wise semantics on synthetic drift sequences (no plant needed):
+    order fitting only applies to pairs entirely above the floor; entering the
+    floor is itself convergence evidence; garbage order above floor fails."""
+    th = S02_THRESHOLDS
+    floor = th["roundoff_floor_rel"]
+
+    def verdict(rel_drifts):
+        orders = [float(np.log2(a / b)) for a, b in zip(rel_drifts[:-1], rel_drifts[1:]) if b > 0]
+        informative = [o for o, ra, rb in zip(orders, rel_drifts[:-1], rel_drifts[1:]) if ra >= floor and rb >= floor]
+        if all(r < floor for r in rel_drifts):
+            return True, "PASS_AT_ROUNDOFF_FLOOR"
+        if informative:
+            ok = all(th["conv_order_range"][0] <= o <= th["conv_order_range"][1] for o in informative)
+            return ok, "ORDER_FIT" if ok else "FAIL_ORDER_OUT_OF_RANGE"
+        if rel_drifts[-1] < floor:
+            return True, "PASS_ENTERED_ROUNDOFF_FLOOR"
+        return False, "FAIL_NO_ORDER_EVIDENCE_ABOVE_FLOOR"
+
+    # Run3 case1 shape: first value slightly above floor, rest below -> pass via clause 3
+    ok, mode = verdict([1.67e-12, 1.09e-13, 2.58e-14])
+    assert ok and mode == "PASS_ENTERED_ROUNDOFF_FLOOR"
+    # all below floor
+    ok, mode = verdict([5e-14, 3e-14, 2e-14])
+    assert ok and mode == "PASS_AT_ROUNDOFF_FLOOR"
+    # genuine 4th-order convergence above floor
+    ok, mode = verdict([1.6e-9, 1.0e-10, 6.25e-12])
+    assert ok and mode == "ORDER_FIT"
+    # garbage order above floor must FAIL (floor clauses must not mask it)
+    ok, mode = verdict([1e-10, 8e-11, 9e-11])
+    assert not ok and mode == "FAIL_ORDER_OUT_OF_RANGE"
+    # stagnating above floor with no informative pair passing: construct
+    # sequence where every pair has one member below floor but last is above -> FAIL
+    ok, mode = verdict([1e-10, 1e-13, 5e-10])
+    assert not ok
+
+
+def test_s03_nominal_dt_is_stable_and_conservative(arm_plant):
+    """At the nominal dt the internal-torque run must conserve momentum to
+    near-roundoff (no external wrench) and must not chatter on effort caps."""
+    r = run_s03(arm_plant, t_end=3.0, dt=5.0e-4)
+    r.pop("samples")
+    assert r["internal_torque_momentum_drift_abs"] < 1e-9
+    assert not r["any_saturation"]
+    assert r["claim"] == "DIAGNOSTIC_ONLY_NOT_CONTROL_PASS"

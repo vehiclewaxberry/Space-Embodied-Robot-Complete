@@ -1,0 +1,1326 @@
+version: 3
+generated: "2026-07-22"
+task: "REORG-01-R"
+title: "空间具身智能机械臂文献与开源资料本地归档"
+source_seed: "50_literature/references/source_notes/space_manipulator_refs_and_oss.md"
+verdict: "REORG01R_COMPLETE"
+
+truth_policy:
+  evidence_order:
+    - "local_file_validation"
+    - "official_metadata"
+    - "Crossref"
+    - "arXiv"
+    - "Git"
+    - "reports"
+  crossref_title_similarity_threshold: 0.70
+  xu_adjudication_title_similarity_threshold: 0.90
+  mismatch_rule: "保留种子 DOI；记录 Crossref 返回标题；等待人工裁决。"
+  download_allowlist:
+    - "arXiv"
+    - "author_homepage"
+    - "institutional_repository"
+    - "MDPI"
+    - "Frontiers"
+    - "Space: Science & Technology"
+    - "中国工程科学"
+    - "NASA NTRS"
+    - "力学进展"
+    - "航空学报"
+    - "SciOpen"
+    - "PMC / Europe PMC"
+  publisher_download_blocklist:
+    - "Elsevier"
+    - "IEEE"
+    - "Springer"
+    - "Wiley"
+    - "CNKI"
+  binary_git_policy: "PDF、模型权重、数据集、第三方仓库均不提交 Git。"
+
+counts:
+  papers: 45
+  primary_doi_records: 38
+  primary_doi_verified: 35
+  primary_doi_mismatch: 0
+  primary_doi_crossref_not_found: 3
+  arxiv_primary_records: 7
+  arxiv_metadata_verified: 7
+  pdf_open_access_downloaded_and_validated: 23
+  pdf_manually_supplied_and_validated: 21
+  pdf_local_validated_total: 44
+  pdf_paywalled_or_blocked_by_publisher_policy: 1
+  mission_line_debris_removal: 13
+  mission_line_on_orbit_assembly: 3
+  mission_line_both: 9
+  mission_line_platform_common: 20
+  pdf_failed_after_retry: 0
+  pdf_policy_skipped_not_on_allowlist: 0
+  pdf_skipped_existing: 0
+  repositories: 10
+  repositories_new_shallow_clones: 9
+  repositories_reused_existing: 1
+  datasets_registered: 2
+  datasets_downloaded: 0
+
+categories:
+  - survey
+  - gjm_rns
+  - contact_capture
+  - flexible_ancf
+  - embodied_vla
+  - on_orbit_assembly
+  - platform
+  - chinese
+  - oss
+  - dataset
+
+papers:
+  - key: "rybus2024manipulators"
+    title: "Robotic manipulators for in-orbit servicing and active debris removal: Review and comparison"
+    authors: ["Tomasz Rybus"]
+    venue: "Progress in Aerospace Sciences 151:101055"
+    year: 2024
+    doi: "10.1016/j.paerosci.2024.101055"
+    doi_status: "VERIFIED"
+    category: "survey"
+    section: "V0"
+    mission_line: "both"
+    grade: "A"
+    reading_mode: ["定调", "对标"]
+    access: "paywalled"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1016/j.paerosci.2024.101055"
+    source_filename: "rybus2024manipulators.pdf"
+    local_pdf: "50_literature/pdf/01_survey/rybus2024manipulators.pdf"
+    pdf_pages: 26
+    pdf_sha256: "628d70e347e74ebf56b1d0b5e263bfc1be1cc6a0be2eadcca9f319d295c7761b"
+    pdf_validation: "PASS"
+    why: "臂本体自由度、臂长、质量与末端执行器横向选型的首要表格来源。"
+    figure_role: "机械臂构型与参数选型对比表"
+
+  - key: "papadopoulos2021survey"
+    title: "Robotic manipulation and capture in space: A survey"
+    authors: ["Evangelos Papadopoulos", "Farhad Aghili", "Ou Ma", "Roberto Lampariello"]
+    venue: "Frontiers in Robotics and AI 8:686723"
+    year: 2021
+    doi: "10.3389/frobt.2021.686723"
+    doi_status: "VERIFIED"
+    category: "survey"
+    section: "V0"
+    mission_line: "both"
+    grade: "A"
+    reading_mode: ["定调"]
+    access: "open"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.3389/frobt.2021.686723"
+    local_pdf: "50_literature/pdf/01_survey/papadopoulos2021survey.pdf"
+    pdf_pages: 36
+    pdf_sha256: "85e2a7bb0d217132a6daac7c0a5da7c8d4027b73a1de9a56340685fdc94f8d91"
+    pdf_validation: "PASS"
+    why: "串联动力学建模、规划、捕获与捕获后镇定，建立项目总方法图。"
+    figure_role: "任务阶段—算法—证据链总览图"
+
+  - key: "alizadeh2024comprehensive"
+    title: "A comprehensive survey of space robotic manipulators for on-orbit servicing"
+    authors: ["Mohammad Alizadeh", "Zheng H. Zhu"]
+    venue: "Frontiers in Robotics and AI 11:1470950"
+    year: 2024
+    doi: "10.3389/frobt.2024.1470950"
+    doi_status: "VERIFIED"
+    category: "survey"
+    section: "V0"
+    mission_line: "both"
+    grade: "A"
+    reading_mode: ["定调", "对标"]
+    access: "open"
+    priority: "P1"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.3389/frobt.2024.1470950"
+    local_pdf: "50_literature/pdf/01_survey/alizadeh2024comprehensive.pdf"
+    pdf_pages: 34
+    pdf_sha256: "176c85af31115383f3e9b8a3a37699c45eb59ed74a40ae2d61f0b5b62a0eac7f"
+    pdf_validation: "PASS"
+    why: "补齐 OSAM-1、SPIDER、Canadarm3 等较新系统进展。"
+    figure_role: "任务与机械臂系统代际对比图"
+
+  - key: "sst2024autonomous"
+    title: "Review of Autonomous Space Robotic Manipulators for On-Orbit Servicing and Active Debris Removal"
+    authors: ["Nasim Fallahiarezoodar", "Zheng H. Zhu"]
+    venue: "Space: Science & Technology"
+    year: 2025
+    key_year_note: "种子 key 保留 2024；Crossref 登记出版年为 2025。"
+    doi: "10.34133/space.0291"
+    doi_status: "VERIFIED"
+    category: "survey"
+    section: "V0"
+    mission_line: "both"
+    grade: "B"
+    reading_mode: ["定调"]
+    access: "open"
+    priority: "P1"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.34133/space.0291"
+    download_source_url: "https://www.sciopen.com/local/article_pdf/10.34133/space.0291.pdf"
+    version_used: "publisher_authorized_sciopen_copy"
+    local_pdf: "50_literature/pdf/01_survey/sst2024autonomous.pdf"
+    pdf_pages: 23
+    pdf_sha256: "df14530433630446d54a365841c9bba739deb05bd63a8d8dffeac4dd530e00be"
+    pdf_validation: "PASS"
+    why: "提供自主性分级，用于界定遥操作、技能调度与闭环自主的边界。"
+    figure_role: "自主等级阶梯图"
+
+  - key: "zhang2022adcr"
+    title: "Review of On-Orbit Robotic Arm Active Debris Capture Removal Methods"
+    authors: ["Wei Zhang", "Feng Li", "Junlin Li", "Qinkun Cheng"]
+    venue: "Aerospace 10(1):13"
+    year: 2022
+    doi: "10.3390/aerospace10010013"
+    doi_status: "VERIFIED"
+    category: "survey"
+    section: "V0"
+    mission_line: "debris_removal"
+    grade: "B"
+    reading_mode: ["定调"]
+    access: "open"
+    priority: "P2"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.3390/aerospace10010013"
+    local_pdf: "50_literature/pdf/01_survey/zhang2022adcr.pdf"
+    pdf_pages: 27
+    pdf_sha256: "bf55fadf562ae224721cb0fcb548187450cd8bea99f7a0eee981427d27b44d88"
+    pdf_validation: "PASS"
+    why: "用于梳理 1983—2022 年机械臂主动碎片清除研究热点。"
+    figure_role: "ADR 方法谱系与研究趋势图"
+
+  - key: "ellery2019tutorial"
+    title: "Tutorial Review on Space Manipulators for Space Debris Mitigation"
+    authors: ["Alex Ellery"]
+    venue: "Robotics 8(2):34"
+    year: 2019
+    doi: "10.3390/robotics8020034"
+    doi_status: "VERIFIED"
+    category: "survey"
+    section: "V0"
+    mission_line: "debris_removal"
+    grade: "B"
+    reading_mode: ["定调", "推导"]
+    access: "open"
+    priority: "P2"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.3390/robotics8020034"
+    local_pdf: "50_literature/pdf/01_survey/ellery2019tutorial.pdf"
+    pdf_pages: 56
+    pdf_sha256: "e08a68903de91f740a67547ec6278c0a8ab75191b73720cc6e2b894c7037f16d"
+    pdf_validation: "PASS"
+    why: "用物理直觉解释基座反作用，适合作为自由漂浮动力学入门。"
+    figure_role: "基座—机械臂动量交换示意图"
+
+  - key: "wilde2018tutorial"
+    title: "Equations of Motion of Free-Floating Spacecraft-Manipulator Systems: An Engineer's Tutorial"
+    authors: ["Markus Wilde", "Stephen Kwok Choon", "Alessio Grompone", "Marcello Romano"]
+    venue: "Frontiers in Robotics and AI 5:41"
+    year: 2018
+    doi: "10.3389/frobt.2018.00041"
+    doi_status: "VERIFIED"
+    category: "gjm_rns"
+    section: "V1"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["推导"]
+    access: "open"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.3389/frobt.2018.00041"
+    local_pdf: "50_literature/pdf/02_gjm_rns/wilde2018tutorial.pdf"
+    pdf_pages: 24
+    pdf_sha256: "8d7d36f825f40e9be87d668dcd1cd363a92de4400766f9bfbc95119af3d205a6"
+    pdf_validation: "PASS"
+    why: "V1 理论骨架；并列 VM、DEM、GJM 并给出工程推导。"
+    figure_role: "GJM/RNS 控制框图与基座扰动曲线"
+
+  - key: "yoshida2001zrm"
+    title: "Zero Reaction Maneuver: Flight Validation with ETS-VII Space Robot and Extension to Kinematically Redundant Arm"
+    authors: ["Kazuya Yoshida", "K. Hashizume", "Satoshi Abiko"]
+    venue: "ICRA 2001, 441-446"
+    year: 2001
+    doi: "10.1109/ROBOT.2001.932590"
+    doi_status: "VERIFIED_AFTER_ADJUDICATION"
+    superseded_doi: "10.1109/ROBOT.2001.932589"
+    crossref_title: "Zero reaction maneuver: flight validation with ETS-VII space robot and extension to kinematically redundant arm"
+    crossref_authors: ["K. Yoshida", "K. Hashizume", "S. Abiko"]
+    category: "gjm_rns"
+    section: "V1"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "open_author_copy"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.1109/ROBOT.2001.932590"
+    author_copy_url: "https://www.astro.mech.tohoku.ac.jp/~yoshida/ETS-VII/ICRA-2001-paper.pdf"
+    download_source_url: "https://www.astro.mech.tohoku.ac.jp/~yoshida/ETS-VII/ICRA-2001-paper.pdf"
+    version_used: "author_archived_copy"
+    local_pdf: "50_literature/pdf/02_gjm_rns/yoshida2001zrm.pdf"
+    pdf_pages: 6
+    pdf_sha256: "8bf22a1088ddeafc35941cbd3765fe9bd4f97ceaeb916b6d5482dd051854c3e8"
+    pdf_validation: "PASS"
+    note: "用户裁决后改正 DOI；作者主页自存档副本已下载，正式出版 DOI 保留为引用主标识。"
+    why: "RNS 在轨飞行对标；用于约束基座姿态扰动杀手图。"
+    figure_role: "ETS-VII 零反作用机动实测对标图"
+
+  - key: "xu2017reactiontorque"
+    title: "Analysis of reaction torque-based control of a redundant free-floating space robot"
+    authors: ["Minghe Jin", "Cheng Zhou", "Yechao Liu", "Hong Liu"]
+    venue: "Chinese Journal of Aeronautics"
+    year: 2017
+    doi: "10.1016/j.cja.2017.02.021"
+    doi_status: "VERIFIED_AFTER_ADJUDICATION"
+    superseded_doi: "10.1016/j.cja.2017.03.010"
+    crossref_title: "Analysis of reaction torque-based control of a redundant free-floating space robot"
+    crossref_authors: ["Minghe Jin", "Cheng Zhou", "Yechao Liu", "Hong Liu"]
+    crossref_query_title_similarity: 1.000000
+    sciencedirect_pii: "S1000936117300869"
+    category: "gjm_rns"
+    section: "V1"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["推导"]
+    access: "paywalled"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1016/j.cja.2017.02.021"
+    source_filename: "xu2017reactiontorque.pdf"
+    local_pdf: "50_literature/pdf/02_gjm_rns/xu2017reactiontorque.pdf"
+    pdf_pages: 12
+    pdf_sha256: "e224c8088a11fae42611bf33ae821e0e37f40a13c1312129be701bff3ed49eeb"
+    pdf_validation: "PASS"
+    note: "Crossref 标题检索第一名与目标题名归一化相似度为 1.000000，达到 0.90 裁决阈值，采纳候选 DOI；Elsevier 自有站点仍按任务规则阻断。"
+    why: "连接反作用力矩零空间与 RNS，并把基座反作用纳入轨迹优化。"
+    figure_role: "RNS 与反作用力矩代价统一图"
+
+  - key: "nenchev1999impact"
+    title: "Impact analysis and post-impact motion control issues of a free-floating space robot subject to a force impulse"
+    authors: ["Dragomir N. Nenchev", "Kazuya Yoshida"]
+    venue: "IEEE Transactions on Robotics and Automation 15(3):548-557"
+    year: 1999
+    doi: "10.1109/70.768186"
+    doi_status: "VERIFIED"
+    category: "gjm_rns"
+    section: "V1"
+    mission_line: "debris_removal"
+    grade: "A"
+    reading_mode: ["推导"]
+    access: "paywalled"
+    priority: "P1"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1109/70.768186"
+    source_filename: "nenchev1999impac.pdf"
+    renamed_from: "补充论文/nenchev1999impac.pdf"
+    rename_reason: "typo_in_source_filename"
+    local_pdf: "50_literature/pdf/02_gjm_rns/nenchev1999impact.pdf"
+    pdf_pages: 10
+    pdf_sha256: "015b02c37fa174228372e34ea037779737130bf53c64202e06649355f63e8cfd"
+    pdf_validation: "PASS"
+    why: "给出碰撞冲量向自由漂浮基座传播的 V1→V2 接口。"
+    figure_role: "冲量传播与捕获后运动示意图"
+
+  - key: "yoshida2004impedance"
+    title: "Dynamics, control and impedance matching for robotic capture of a non-cooperative satellite"
+    authors: ["Kazuya Yoshida", "Hiroki Nakanishi", "Hiroshi Ueno", "Noriyasu Inaba", "Takeshi Nishimaki", "Mitsushige Oda"]
+    venue: "Advanced Robotics 18(2):175-198"
+    year: 2004
+    doi: "10.1163/156855304322758015"
+    doi_status: "VERIFIED"
+    category: "contact_capture"
+    section: "V2"
+    mission_line: "debris_removal"
+    grade: "A"
+    reading_mode: ["推导"]
+    access: "paywalled"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1163/156855304322758015"
+    source_filename: "Dynamics  control and impedance matching for robotic capture of a non-cooperative satellite.pdf"
+    local_pdf: "50_literature/pdf/03_contact_capture/yoshida2004impedance.pdf"
+    pdf_pages: 25
+    pdf_sha256: "204a685a44429e7218053c17b2f106f61d10a38b2e87f928b4a6f279433063c0"
+    pdf_validation: "PASS"
+    why: "虚拟质量与阻抗匹配的原始定义，是非合作目标捕获控制核心。"
+    figure_role: "末端等效惯量—目标惯量匹配图"
+
+  - key: "uyama2012compliantwrist"
+    title: "Impedance-based contact control of a free-flying space robot with a compliant wrist for non-cooperative satellite capture"
+    authors: ["Naohiro Uyama", "Hiroki Nakanishi", "Kenji Nagaoka", "Kazuya Yoshida"]
+    venue: "IROS 2012, 4477-4482"
+    year: 2012
+    doi: "10.1109/IROS.2012.6386082"
+    doi_status: "VERIFIED"
+    category: "contact_capture"
+    section: "V2"
+    mission_line: "debris_removal"
+    grade: "B"
+    reading_mode: ["推导", "对标"]
+    access: "paywalled"
+    priority: "P1"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1109/IROS.2012.6386082"
+    source_filename: "uyama2012compliantwrist.pdf"
+    local_pdf: "50_literature/pdf/03_contact_capture/uyama2012compliantwrist.pdf"
+    pdf_pages: 6
+    pdf_sha256: "78f2719d35183ebd06afb846c3f6b52d32359d81a46a60dd124f060c83b83699"
+    pdf_validation: "PASS"
+    why: "把柔顺腕与阻抗控制落到自由飞行捕获硬件结构。"
+    figure_role: "柔顺腕接触力峰值对比图"
+
+  - key: "uyama2016hybrid"
+    title: "Hybrid Impedance/Position Control of a Free-Flying Space Robot for Detumbling a Noncooperative Satellite"
+    authors: ["Naohiro Uyama", "T. Narumi"]
+    venue: "IFAC-PapersOnLine 49(17):230-235"
+    year: 2016
+    doi: "10.1016/j.ifacol.2016.09.040"
+    doi_status: "VERIFIED"
+    category: "contact_capture"
+    section: "V2"
+    mission_line: "debris_removal"
+    grade: "B"
+    reading_mode: ["推导"]
+    access: "open"
+    priority: "P1"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1016/j.ifacol.2016.09.040"
+    source_filename: "uyama2016hybrid.pdf"
+    local_pdf: "50_literature/pdf/03_contact_capture/uyama2016hybrid.pdf"
+    pdf_pages: 6
+    pdf_sha256: "14cb4b4f3533ef406b1bdd474ab07f45e33ad601ad411ed66355a5369b922ec4"
+    pdf_validation: "PASS"
+    note: "种子标为开放获取，但 Elsevier 属任务下载阻断列表；未自动下载。"
+    why: "回答捕获后的消旋与位置保持如何切换。"
+    figure_role: "捕获—消旋阶段状态机与角速度衰减图"
+
+  - key: "fujii2024gripping"
+    title: "Comparative analysis of robotic gripping solutions for cooperative and non-cooperative targets"
+    authors: ["Kosuke Fujii", "Ismael Rodríguez", "Manfred Schedl", "Gerhard Grunwald", "Máximo A. Roa"]
+    venue: "IEEE Aerospace Conference 2024"
+    year: 2024
+    doi: "10.1109/AERO58975.2024.10520942"
+    doi_status: "VERIFIED"
+    category: "contact_capture"
+    section: "V2"
+    mission_line: "both"
+    grade: "B"
+    reading_mode: ["定调", "对标"]
+    access: "paywalled"
+    priority: "P1"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1109/AERO58975.2024.10520942"
+    source_filename: "fujii2024gripping.pdf"
+    local_pdf: "50_literature/pdf/03_contact_capture/fujii2024gripping.pdf"
+    pdf_pages: 14
+    pdf_sha256: "262e384edecf44c1491d750d4a6dab7ff1da54d1f39d3955839b000661ef19ed"
+    pdf_validation: "PASS"
+    why: "为夹爪、包络与柔性抓取方案选型提供横向证据。"
+    figure_role: "末端执行器方案权衡矩阵"
+
+  - key: "gerstmayr2013ancfreview"
+    title: "Review on the Absolute Nodal Coordinate Formulation for Large Deformation Analysis of Multibody Systems"
+    authors: ["Johannes Gerstmayr", "Hiroyuki Sugiyama", "Aki Mikkola"]
+    venue: "Journal of Computational and Nonlinear Dynamics 8(3):031016"
+    year: 2013
+    doi: "10.1115/1.4023487"
+    doi_status: "VERIFIED"
+    category: "flexible_ancf"
+    section: "V3"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["定调", "推导"]
+    access: "paywalled"
+    priority: "P0"
+    archive_status: "PAYWALLED_TODO"
+    official_url: "https://doi.org/10.1115/1.4023487"
+    why: "ANCF 单元族、锁死、应变与浮动坐标法取舍的权威入口。"
+    figure_role: "刚柔耦合建模方法选型树"
+
+  - key: "gerstmayr2008elasticline"
+    title: "On the correct representation of bending and axial deformation in the absolute nodal coordinate formulation with an elastic line approach"
+    authors: ["Johannes Gerstmayr", "Hans Irschik"]
+    venue: "Journal of Sound and Vibration 318(3):461-487"
+    year: 2008
+    doi: "10.1016/j.jsv.2008.04.019"
+    doi_status: "VERIFIED"
+    category: "flexible_ancf"
+    section: "V3"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["推导"]
+    access: "paywalled"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1016/j.jsv.2008.04.019"
+    source_filename: "gerstmayr2008elasticline.pdf"
+    local_pdf: "50_literature/pdf/04_flexible_ancf/gerstmayr2008elasticline.pdf"
+    pdf_pages: 27
+    pdf_sha256: "30897e9fcbb19720db68c4301a969b81243bb8651da246bf17b39dce50b2d716"
+    pdf_validation: "PASS"
+    why: "约束 ANCF 梁弯曲与轴向变形的正确解耦，避免伪柔性结果。"
+    figure_role: "ANCF 梁收敛/锁死验证图"
+
+  - key: "gerstmayr2023exudyn"
+    title: "Exudyn - a C++-based Python package for flexible multibody systems"
+    authors: ["Johannes Gerstmayr"]
+    venue: "Multibody System Dynamics"
+    year: 2023
+    publication_year: 2024
+    doi: "10.1007/s11044-023-09937-1"
+    doi_status: "VERIFIED"
+    category: "flexible_ancf"
+    section: "V3"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "paywalled"
+    priority: "P1"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1007/s11044-023-09937-1"
+    source_filename: "gerstmayr2023exudyn.pdf"
+    local_pdf: "50_literature/pdf/04_flexible_ancf/gerstmayr2023exudyn.pdf"
+    pdf_pages: 29
+    pdf_sha256: "44ac028665e383f9dcd3366ad61271e548f3fe009f70f747e8bd81c4ba629d0c"
+    pdf_validation: "PASS"
+    note: "种子使用 online-first 年 2023；Crossref 期刊出版年为 2024。"
+    why: "对应 EXUDYN 实现，用于 ANCF 梁、模态与积分器选择。"
+    figure_role: "ANCF 实现—开源求解器映射图"
+
+  - key: "tayebi2025vibrationeditorial"
+    title: "Editorial: Advancements in vibration control for space manipulators: actuators, algorithms, and material innovations"
+    authors: ["Javad Tayebi", "Ti Chen", "Xiaofeng Wu", "Anand Kumar Mishra"]
+    venue: "Frontiers in Robotics and AI"
+    year: 2025
+    doi: "10.3389/frobt.2025.1681168"
+    doi_status: "VERIFIED"
+    category: "flexible_ancf"
+    section: "V3"
+    mission_line: "platform_common"
+    grade: "B"
+    reading_mode: ["定调"]
+    access: "open"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.3389/frobt.2025.1681168"
+    local_pdf: "50_literature/pdf/04_flexible_ancf/tayebi2025vibrationeditorial.pdf"
+    pdf_pages: 3
+    pdf_sha256: "b899622796088bab9547e0cedd1c55103c8881e14d40a07e279ff03648d35cd8"
+    pdf_validation: "PASS"
+    why: "定位柔性空间机械臂振动控制、执行器、算法与材料的近期邻域。"
+    figure_role: "V3 文献地图与证据缺口图"
+
+  - key: "ma2025latticemeta"
+    title: "Multi‐Physical Lattice Metamaterials Enabled by Additive Manufacturing: Design Principles, Interaction Mechanisms, and Multifunctional Applications"
+    authors: ["Winston Wai Shing Ma", "Hang Yang", "Yijing Zhao", "Xinwei Li", "Junhao Ding", "Shuo Qu", "Quyang Liu", "Zongxin Hu", "Rui Li", "Quanqing Tao", "Haoming Mo", "Wei Zhai", "Xu Song"]
+    venue: "Advanced Science 12:2405835"
+    year: 2025
+    doi: "10.1002/advs.202405835"
+    doi_status: "VERIFIED"
+    title_note: "seed_title_truncated"
+    category: "flexible_ancf"
+    section: "V3"
+    mission_line: "platform_common"
+    grade: "B"
+    reading_mode: ["定调"]
+    access: "open"
+    priority: "P1"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.1002/advs.202405835"
+    pmid: "39834122"
+    pmcid: "PMC11848643"
+    download_source_url: "https://pmc-oa-opendata.s3.amazonaws.com/PMC11848643.1/PMC11848643.1.pdf"
+    version_used: "pmc_open_access_copy"
+    local_pdf: "50_literature/pdf/04_flexible_ancf/ma2025latticemeta.pdf"
+    pdf_pages: 65
+    pdf_sha256: "bd315c414f9219521344757400596f6beda8cfd28108310197565d7b9d9e4932"
+    pdf_validation: "PASS"
+    note: "种子题名被截短，DOI 本身正确；PMC 开放全文已下载。该文仅作超材料跨领域迁移依据，不是空间机械臂 ANCF 验证。"
+    why: "解释点阵材料轻量化、带隙与减振机制，但必须与航天机械臂证据分层。"
+    figure_role: "超材料机制候选图（跨领域，不作系统验证）"
+
+  - key: "spacemind2026"
+    title: "SpaceMind: A Modular and Self-Evolving Embodied Vision-Language Agent Framework for Autonomous On-orbit Servicing"
+    authors: ["Aodi Wu", "Haodong Han", "Xubo Luo", "Ruisuo Wang", "Shan He", "Xue Wan"]
+    venue: "arXiv"
+    year: 2026
+    arxiv: "2604.14399"
+    arxiv_version: "v1"
+    arxiv_status: "VERIFIED"
+    category: "embodied_vla"
+    section: "V4"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["对标"]
+    access: "open"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://arxiv.org/abs/2604.14399"
+    local_pdf: "50_literature/pdf/05_embodied_vla/spacemind2026.pdf"
+    pdf_pages: 23
+    pdf_sha256: "2e1a65354f41952509eca939edfa5c1c5b04728c5dae375d16d65f989433559f"
+    pdf_validation: "PASS"
+    why: "最接近选题的空间具身智能公开工作，用于比较模块化智能体与动作生成式 VLA。"
+    figure_role: "空间智能体—技能—工具链架构对比图"
+    boundary: "SpaceMind 是模块化具身视觉语言智能体框架；不得等同于端到端 VLA，也不得据此声称本项目已泛化。"
+
+  - key: "kawaharazuka2025vlareview"
+    title: "Vision-Language-Action Models for Robotics: A Review Towards Real-World Applications"
+    authors: ["Kento Kawaharazuka", "Jihoon Oh", "Jun Yamada", "Ingmar Posner", "Yuke Zhu"]
+    venue: "IEEE Access 13:162467-162504"
+    year: 2025
+    doi: "10.1109/ACCESS.2025.3609980"
+    doi_status: "VERIFIED"
+    category: "embodied_vla"
+    section: "V4"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["定调"]
+    access: "open"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.1109/ACCESS.2025.3609980"
+    arxiv: "2510.07077"
+    arxiv_alternative: "https://arxiv.org/abs/2510.07077"
+    download_source_url: "https://arxiv.org/pdf/2510.07077"
+    version_used: "arxiv_preprint"
+    local_pdf: "50_literature/pdf/05_embodied_vla/kawaharazuka2025vlareview.pdf"
+    pdf_pages: 38
+    pdf_sha256: "35b9fad5b156b6ac70d6abc3b8083ca35cd66bdaa96728cc5d6769d86ceb9784"
+    pdf_validation: "PASS"
+    note: "已下载作者投稿的 arXiv 预印本；预印本与正式版可能存在差异，引用页码以正式版为准。"
+    why: "提供面向真实机器人落地的 VLA 架构、数据与评价分类。"
+    figure_role: "VLA 技术栈与部署约束图"
+
+  - key: "ma2024vlasurvey"
+    title: "A Survey on Vision-Language-Action Models for Embodied AI"
+    authors: ["Yueen Ma", "Zixing Song", "Yuzheng Zhuang", "Jianye Hao", "Irwin King"]
+    venue: "arXiv"
+    year: 2024
+    arxiv: "2405.14093"
+    arxiv_version: "v8"
+    arxiv_status: "VERIFIED"
+    published_doi: "10.1109/TNNLS.2025.3650584"
+    published_doi_status: "VERIFIED"
+    category: "embodied_vla"
+    section: "V4"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["定调"]
+    access: "open"
+    priority: "P1"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://arxiv.org/abs/2405.14093"
+    local_pdf: "50_literature/pdf/05_embodied_vla/ma2024vlasurvey.pdf"
+    pdf_pages: 54
+    pdf_sha256: "8f8419e0ec4e0dae9a8ec649db463159cb628359194c6a09223f31e873d35a00"
+    pdf_validation: "PASS"
+    why: "VLA 分类学、训练数据、动作表示与评测的标准入口。"
+    figure_role: "VLA 分类树与项目选型定位图"
+
+  - key: "kim2024openvla"
+    title: "OpenVLA: An Open-Source Vision-Language-Action Model"
+    authors: ["Moo Jin Kim", "Karl Pertsch", "Siddharth Karamcheti", "Ted Xiao", "Ashwin Balakrishna", "Suraj Nair", "Rafael Rafailov", "Ethan Foster", "Grace Lam", "Pannag Sanketi", "Quan Vuong", "Thomas Kollar", "Benjamin Burchfiel", "Russ Tedrake", "Dorsa Sadigh", "Sergey Levine", "Percy Liang", "Chelsea Finn"]
+    venue: "arXiv"
+    year: 2024
+    arxiv: "2406.09246"
+    arxiv_version: "v3"
+    arxiv_status: "VERIFIED"
+    category: "embodied_vla"
+    section: "V4"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "open"
+    priority: "P1"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://arxiv.org/abs/2406.09246"
+    local_pdf: "50_literature/pdf/05_embodied_vla/kim2024openvla.pdf"
+    pdf_pages: 37
+    pdf_sha256: "353c37df34458f12f969b14dfd8b77175b727b9cddea7bb891759beddeefe1be"
+    pdf_validation: "PASS"
+    why: "动作 token、LoRA/OFT 与多模态策略的公开实现基线。"
+    figure_role: "VLA 输入—动作输出与微调路径图"
+
+  - key: "rodriguez2024lmspacecraft"
+    title: "Language Models are Spacecraft Operators"
+    authors: ["Victor Rodriguez-Fernandez", "Alejandro Carrasco", "Jason Cheng", "Eli Scharf", "Peng Mun Siew", "Richard Linares"]
+    venue: "arXiv"
+    year: 2024
+    arxiv: "2404.00413"
+    arxiv_version: "v1"
+    arxiv_status: "VERIFIED"
+    category: "embodied_vla"
+    section: "V4"
+    mission_line: "platform_common"
+    grade: "B"
+    reading_mode: ["对标"]
+    access: "open"
+    priority: "P2"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://arxiv.org/abs/2404.00413"
+    local_pdf: "50_literature/pdf/05_embodied_vla/rodriguez2024lmspacecraft.pdf"
+    pdf_pages: 13
+    pdf_sha256: "5c4f1fbf7b72a129d51cddc2c22331a04992906b714b1ae4f2bd15beb092fc1e"
+    pdf_validation: "PASS"
+    why: "用作语言模型航天器操作决策的早期对照，不替代低层控制。"
+    figure_role: "高层任务决策与低层控制分层图"
+
+  - key: "park2021speedplus"
+    title: "SPEED+: Next-Generation Dataset for Spacecraft Pose Estimation across Domain Gap"
+    authors: ["Tae Ha Park", "Marcus Märtens", "Gurvan Lecuyer", "Dario Izzo", "Simone D'Amico"]
+    venue: "arXiv"
+    year: 2021
+    arxiv: "2110.03101"
+    arxiv_version: "v2"
+    arxiv_status: "VERIFIED"
+    published_doi: "10.1109/AERO53065.2022.9843439"
+    published_doi_status: "VERIFIED"
+    category: "embodied_vla"
+    section: "V4"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["对标"]
+    access: "open"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://arxiv.org/abs/2110.03101"
+    local_pdf: "50_literature/pdf/05_embodied_vla/park2021speedplus.pdf"
+    pdf_pages: 15
+    pdf_sha256: "aaa88692a0be8d4b2d1be21c296b63342ae4235e603863e2776dfdafe75fbd6f"
+    pdf_validation: "PASS"
+    why: "空间目标位姿估计与域间隙的标准基准；数据集只登记不下载。"
+    figure_role: "合成域—HIL 域位姿误差对比图"
+
+  - key: "orsula2025srb"
+    title: "Space Robotics Bench: Robot Learning Beyond Earth"
+    authors: ["Andrej Orsula", "Matthieu Geist", "Miguel Olivares-Mendez", "Carol Martinez"]
+    venue: "arXiv"
+    year: 2025
+    arxiv: "2509.23328"
+    arxiv_version: "v1"
+    arxiv_status: "VERIFIED"
+    category: "embodied_vla"
+    section: "V4"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "open"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://arxiv.org/abs/2509.23328"
+    local_pdf: "50_literature/pdf/05_embodied_vla/orsula2025srb.pdf"
+    pdf_pages: 13
+    pdf_sha256: "08ce86c86ff41b2986198e41fb7d14da08e38a7cb0122155e8756b1506fe97a6"
+    pdf_validation: "PASS"
+    why: "Isaac Sim/Isaac Lab 空间机器人学习基准，作为 V4 环境与 RL 对标。"
+    figure_role: "空间机器人学习任务与基线性能图"
+
+  - key: "visualservoing2024survey"
+    title: "Visual Servoing for Robotic On-Orbit Servicing: A Survey"
+    authors: ["Lina María Amaya-Mejía", "Mohamed Ghita", "Jan Dentler", "Miguel Olivares-Mendez", "Carol Martinez"]
+    venue: "arXiv"
+    year: 2024
+    arxiv: "2409.02324"
+    arxiv_version: "v1"
+    arxiv_status: "VERIFIED"
+    published_doi: "10.1109/iSpaRo60631.2024.10687516"
+    published_doi_status: "VERIFIED"
+    category: "embodied_vla"
+    section: "V4"
+    mission_line: "platform_common"
+    grade: "B"
+    reading_mode: ["定调", "推导"]
+    access: "open"
+    priority: "P1"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://arxiv.org/abs/2409.02324"
+    local_pdf: "50_literature/pdf/05_embodied_vla/visualservoing2024survey.pdf"
+    pdf_pages: 8
+    pdf_sha256: "a334394e847326bcbbe60e91b82b99e19b1fb63cf44d002ecac3584ee53c0461"
+    pdf_validation: "PASS"
+    why: "连接位姿感知、图像误差与机械臂闭环控制。"
+    figure_role: "感知—视觉伺服—动力学控制闭环图"
+
+  - key: "li2022assemblysurvey"
+    title: "A Survey of Space Robotic Technologies for On-Orbit Assembly"
+    authors: ["Delun Li", "Lou Zhong", "Wei Zhu", "Zhipeng Xu", "Qirong Tang", "Wenhao Zhan"]
+    venue: "Space: Science & Technology 2022:9849170"
+    year: 2022
+    doi: "10.34133/2022/9849170"
+    doi_status: "VERIFIED"
+    category: "on_orbit_assembly"
+    section: "on_orbit_assembly"
+    mission_line: "on_orbit_assembly"
+    grade: "A"
+    reading_mode: ["定调"]
+    access: "open"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.34133/2022/9849170"
+    download_source_url: "https://www.sciopen.com/local/article_pdf/10.34133/2022/9849170.pdf"
+    version_used: "publisher_authorized_sciopen_copy"
+    local_pdf: "50_literature/pdf/06_on_orbit_assembly/li2022assemblysurvey.pdf"
+    pdf_pages: 13
+    pdf_sha256: "8cf93e6c1bea5fd654de34e28aa18bf15bf9d9dcabcbc29f57595759e974087c"
+    pdf_validation: "PASS"
+    why: "覆盖装配序列、运动规划、振动抑制、柔顺装配和地面验证。"
+    figure_role: "在轨装配技术链总览图"
+
+  - key: "hu2025ultralarge"
+    title: "极大空间结构在轨组装的动力学与控制"
+    authors: ["胡海岩", "田强", "文浩", "罗凯", "马小飞"]
+    venue: "力学进展 55(1):1-29"
+    year: 2025
+    doi: "10.6052/1000-0992-24-044"
+    doi_status: "CROSSREF_NOT_FOUND"
+    official_metadata_status: "VERIFIED"
+    category: "on_orbit_assembly"
+    section: "on_orbit_assembly"
+    mission_line: "on_orbit_assembly"
+    grade: "A"
+    reading_mode: ["定调", "推导"]
+    access: "open"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://pubs.cstam.org.cn/article/doi/10.6052/1000-0992-24-044"
+    download_source_url: "https://pubs.cstam.org.cn/data/article/lxjz/preview/pdf/10.6052/1000-0992-24-044.pdf"
+    version_used: "official_journal_pdf"
+    local_pdf: "50_literature/pdf/06_on_orbit_assembly/hu2025ultralarge.pdf"
+    pdf_pages: 30
+    pdf_sha256: "11f7199fc1fc8b380592fd019d80bb2f52e147de87b9718737e2b9fe1fd9a217"
+    pdf_validation: "PASS"
+    note: "Crossref 返回 404；期刊官网题名、作者、DOI 与开放 PDF 已核验。"
+    why: "同时覆盖多柔体动力学、规划控制与地面模拟，是 V3—装配接口文献。"
+    figure_role: "大尺度柔性结构组装与地面验证路线图"
+
+  - key: "kenneally2020basilisk"
+    title: "Basilisk: A Flexible, Scalable and Modular Astrodynamics Simulation Framework"
+    authors: ["Patrick W. Kenneally", "Scott Piggott", "Hanspeter Schaub"]
+    venue: "Journal of Aerospace Information Systems 17"
+    year: 2020
+    doi: "10.2514/1.I010762"
+    doi_status: "VERIFIED"
+    category: "platform"
+    section: "platform"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "paywalled"
+    priority: "P1"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.2514/1.I010762"
+    source_filename: "kenneally-et-al-2020-basilisk-a-flexible-scalable-and-modular-astrodynamics-simulation-framework.pdf"
+    local_pdf: "50_literature/pdf/07_platform/kenneally2020basilisk.pdf"
+    pdf_pages: 12
+    pdf_sha256: "a8fb11a942d7dc843e43b135c43c682065bea469c467b5de93ae76438f369a3d"
+    pdf_validation: "PASS"
+    why: "整器轨道—姿态—GNC 仿真的平台级基准。"
+    figure_role: "星平台姿态/轨道/机械臂耦合架构图"
+
+  - key: "alali2024hiltestbed"
+    title: "Development of 6DOF Hardware-in-the-Loop Ground Testbed for Autonomous Robotic Space Debris Removal"
+    authors: ["Ahmad Al Ali", "Bahador Beigomi", "Zheng H. Zhu"]
+    venue: "Aerospace 11(11):877"
+    year: 2024
+    doi: "10.3390/aerospace11110877"
+    doi_status: "VERIFIED"
+    category: "platform"
+    section: "platform"
+    mission_line: "debris_removal"
+    grade: "B"
+    reading_mode: ["对标"]
+    access: "open"
+    priority: "P1"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.3390/aerospace11110877"
+    local_pdf: "50_literature/pdf/07_platform/alali2024hiltestbed.pdf"
+    pdf_pages: 20
+    pdf_sha256: "4604f10019640e5ead797b55d64235d83589e0540d5cea671881098cf1af1435"
+    pdf_validation: "PASS"
+    why: "为主动重力补偿、双机械臂、力/触觉传感地面验证台提供对标。"
+    figure_role: "六自由度地面 HIL 组成与证据链图"
+
+  - key: "ding2025spacerobotops"
+    title: "空间机器人操作技术研究现状与展望"
+    authors: ["丁希仑", "陈一同", "王成才", "徐坤"]
+    venue: "航空学报 46(6):531556"
+    year: 2025
+    doi: "10.7527/S1000-6893.2024.31556"
+    doi_status: "CROSSREF_NOT_FOUND"
+    official_metadata_status: "VERIFIED"
+    category: "chinese"
+    section: "chinese"
+    mission_line: "both"
+    grade: "A"
+    reading_mode: ["定调"]
+    access: "open"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://hkxb.buaa.edu.cn/CN/10.7527/S1000-6893.2024.31556"
+    download_source_url: "https://hkxb.buaa.edu.cn/CN/10.7527/S1000-6893.2024.31556"
+    download_method: "official_journal_PDF_endpoint (ephemeral token not persisted)"
+    version_used: "official_journal_pdf"
+    local_pdf: "50_literature/pdf/08_chinese/ding2025spacerobotops.pdf"
+    pdf_pages: 29
+    pdf_sha256: "d9049425a2c0aeff397ccbae093999a470ca5b529efdc55ecf11b0ed4957d223"
+    pdf_validation: "PASS"
+    note: "Crossref 返回 404；《航空学报》官网元数据、RichHTML 与开放 PDF 已核验。"
+    why: "中文报告中的空间机器人操作现状、难点和发展方向总引用。"
+    figure_role: "国内外空间机器人操作技术谱系图"
+
+  - key: "liu2021spacemanipulator"
+    title: "空间机械臂技术综述及展望"
+    authors: ["刘宏", "刘冬雨", "蒋再男"]
+    venue: "航空学报 42(1):524164"
+    year: 2021
+    doi: "10.7527/S1000-6893.2020.24164"
+    doi_status: "CROSSREF_NOT_FOUND"
+    official_metadata_status: "VERIFIED"
+    category: "chinese"
+    section: "chinese"
+    mission_line: "both"
+    grade: "A"
+    reading_mode: ["定调"]
+    access: "open"
+    priority: "P0"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://hkxb.buaa.edu.cn/EN/abstract/article/1000-6893/17996"
+    download_source_url: "https://hkxb.buaa.edu.cn/CN/10.7527/S1000-6893.2020.24164"
+    download_method: "official_journal_PDF_endpoint (ephemeral token not persisted)"
+    version_used: "official_journal_pdf"
+    local_pdf: "50_literature/pdf/08_chinese/liu2021spacemanipulator.pdf"
+    pdf_pages: 14
+    pdf_sha256: "adac6672f5a3e0065bb520033c59189620f2987f9a9fbb2a440cd96e0ff9e567"
+    pdf_validation: "PASS"
+    text_layer_status: "DEGRADED_FONT_ENCODING"
+    text_layer_note: "阅读卡以期刊 RichHTML 与 PDF 页图交叉核验，不使用乱码文本层作证。"
+    note: "Crossref 返回 404；《航空学报》官网元数据、RichHTML 与开放 PDF 已核验。"
+    why: "中文梳理空间机械臂构型、驱动、控制和在轨任务脉络。"
+    figure_role: "空间机械臂关键技术分解图"
+
+  - key: "sscae2024strategy"
+    title: "面向航天器自主维护的空间机器人发展战略研究"
+    authors: ["赵亮亮", "李雪皑", "赵京东", "刘宏"]
+    venue: "中国工程科学 26(1):149-159"
+    year: 2024
+    doi: "10.15302/J-SSCAE-2024.01.014"
+    doi_status: "VERIFIED"
+    title_note: "bilingual_record"
+    title_en: "Development Strategy of Space Robots for Autonomous Repair and Maintenance of Spacecraft"
+    crossref_title: "Development Strategy of Space Robots for Autonomous Repair and Maintenance of Spacecraft"
+    crossref_authors: ["Liangliang Zhao", "Xueai Li", "Jingdong Zhao", "Hong Liu"]
+    category: "chinese"
+    section: "chinese"
+    mission_line: "both"
+    grade: "A"
+    reading_mode: ["定调", "对标"]
+    access: "open"
+    priority: "P1"
+    archive_status: "OPEN_ACCESS_DOWNLOADED"
+    official_url: "https://doi.org/10.15302/J-SSCAE-2024.01.014"
+    local_pdf: "50_literature/pdf/08_chinese/sscae2024strategy.pdf"
+    pdf_pages: 11
+    pdf_sha256: "83981279757fbbd1d71abe5a88f50ddc44e5cd0170bf7b8a3d432424b62f2f28"
+    pdf_validation: "PASS"
+    note: "Crossref 英文译名与期刊官网中文题名属于同一 DOI 的中英文记录。"
+    why: "用于中国工程语境下的空间机器人自主维护路线与能力边界。"
+    figure_role: "空间机器人自主维护能力路线图"
+
+  - key: "vijayan2022detumbling"
+    title: "A Detumbling Strategy for an Orbital Manipulator in the Post-Grasp Phase"
+    authors: ["Ria Vijayan", "Marco De Stefano", "Christian Ott"]
+    venue: "2022 International Conference on Robotics and Automation (ICRA), 4080-4086"
+    year: 2022
+    doi: "10.1109/ICRA46639.2022.9812067"
+    doi_status: "VERIFIED"
+    crossref_checked: "2026-07-22"
+    crossref_title: "A Detumbling Strategy for an Orbital Manipulator in the Post-Grasp Phase"
+    category: "contact_capture"
+    section: "V2"
+    mission_line: "debris_removal"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "paywalled"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1109/ICRA46639.2022.9812067"
+    source_filename: "A Detumbling Strategy for an Orbital Manipulator.pdf"
+    local_pdf: "50_literature/pdf/03_contact_capture/vijayan2022detumbling.pdf"
+    pdf_pages: 7
+    pdf_sha256: "52c2d0a0face6a9754171cf38817cefd1b1e428e7e20ef3e4b1fb8a78d98f499"
+    pdf_validation: "PASS"
+    why: "把抓持后的组合体状态重构、角速度衰减与模式切换落成可审计的消旋状态机。"
+    figure_role: "抓持后重构—消旋状态机与角速度收敛图"
+  - key: "palma2022compliantjoint"
+    title: "Impedance Control Using Selected Compliant Prismatic Joint in a Free-Floating Space Manipulator"
+    authors: ["Piotr Palma", "Karol Seweryn", "Tomasz Rybus"]
+    venue: "Aerospace 9(8):406"
+    year: 2022
+    doi: "10.3390/aerospace9080406"
+    doi_status: "VERIFIED"
+    crossref_checked: "2026-07-22"
+    crossref_title: "Impedance Control Using Selected Compliant Prismatic Joint in a Free-Floating Space Manipulator"
+    category: "contact_capture"
+    section: "V2"
+    mission_line: "both"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "open"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.3390/aerospace9080406"
+    source_filename: "aerospace-09-00406.pdf"
+    local_pdf: "50_literature/pdf/03_contact_capture/palma2022compliantjoint.pdf"
+    pdf_pages: 17
+    pdf_sha256: "03bb369b268463f0a8b23ef39f76c04e82b615f4e8de566d798b16b1a45f283a"
+    pdf_validation: "PASS"
+    why: "提供选择性柔顺移动副与阻抗控制的自由漂浮验证，可共同服务捕获和柔顺装配。"
+    figure_role: "选择性柔顺移动副结构与接触力响应图"
+  - key: "liu2022flexiblecapture"
+    title: "Capturing a Space Target Using a Flexible Space Robot"
+    authors: ["Xiao-Feng Liu", "Xiao-Yu Zhang", "Guo-Ping Cai", "Wu-Jun Chen"]
+    venue: "Applied Sciences 12(3):984"
+    year: 2022
+    doi: "10.3390/app12030984"
+    doi_status: "VERIFIED"
+    crossref_checked: "2026-07-22"
+    crossref_title: "Capturing a Space Target Using a Flexible Space Robot"
+    category: "contact_capture"
+    section: "V2"
+    mission_line: "debris_removal"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "open"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.3390/app12030984"
+    source_filename: "applsci-12-00984.pdf"
+    local_pdf: "50_literature/pdf/03_contact_capture/liu2022flexiblecapture.pdf"
+    pdf_pages: 18
+    pdf_sha256: "bf7b220aee57a410e0ad74ff25e4f575eca69959b3c3214764a4f67a88e3343e"
+    pdf_validation: "PASS"
+    why: "直接量化柔性空间机器人捕获时的振动与接触耦合，为 ADR-CAP 的柔性边界提供依据。"
+    figure_role: "柔性机械臂捕获动力学与振动响应图"
+  - key: "lee2016modulartelescope"
+    title: "Architecture for in-space robotic assembly of a modular space telescope"
+    authors: ["Nicolas Lee", "Paul Backes", "Joel Burdick", "Sergio Pellegrino", "Christine Fuller", "Kristina Hogstrom", "Brett Kennedy", "Junggon Kim", "Rudranarayan Mukherjee", "Carl Seubert", "Yen-Hung Wu"]
+    venue: "Journal of Astronomical Telescopes, Instruments, and Systems 2(4):041207"
+    year: 2016
+    doi: "10.1117/1.JATIS.2.4.041207"
+    doi_status: "VERIFIED"
+    crossref_checked: "2026-07-22"
+    crossref_title: "Architecture for in-space robotic assembly of a modular space telescope"
+    category: "on_orbit_assembly"
+    section: "on_orbit_assembly"
+    mission_line: "on_orbit_assembly"
+    grade: "A"
+    reading_mode: ["定调", "对标"]
+    access: "open_author_copy"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1117/1.JATIS.2.4.041207"
+    source_filename: "Architecture for in-space robotic assembly of a modular space telescope.pdf"
+    local_pdf: "50_literature/pdf/06_on_orbit_assembly/lee2016modulartelescope.pdf"
+    pdf_pages: 16
+    pdf_sha256: "a550600017fbbbd120c3887031f7f7e622c0b89a4a2ac14cf8fddc41229e9a77"
+    pdf_validation: "PASS"
+    why: "给出模块化空间望远镜的接口、装配序列和机器人架构，是在轨搭建任务分解的直接范例。"
+    figure_role: "模块化望远镜在轨装配架构与序列图"
+  - key: "virgilillop2019simultaneous"
+    title: "Simultaneous Capture and Detumble of a Resident Space Object by a Free-Flying Spacecraft-Manipulator System"
+    authors: ["Josep Virgili-Llop", "Marcello Romano"]
+    venue: "Frontiers in Robotics and AI 6:14"
+    year: 2019
+    doi: "10.3389/frobt.2019.00014"
+    doi_status: "VERIFIED"
+    crossref_checked: "2026-07-22"
+    crossref_title: "Simultaneous Capture and Detumble of a Resident Space Object by a Free-Flying Spacecraft-Manipulator System"
+    category: "contact_capture"
+    section: "V2"
+    mission_line: "debris_removal"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "open"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.3389/frobt.2019.00014"
+    source_filename: "frobt-06-00014.pdf"
+    local_pdf: "50_literature/pdf/03_contact_capture/virgilillop2019simultaneous.pdf"
+    pdf_pages: 24
+    pdf_sha256: "c0aa98259a179ff889a43d9083e673f7888345ce77d1c9d24d3c8a76bcb5fa6b"
+    pdf_validation: "PASS"
+    why: "把捕获与消旋放入同一自由飞行优化问题，用于比较分阶段与同步策略。"
+    figure_role: "同时捕获—消旋优化框架与状态收敛图"
+  - key: "mavrakis2021rocketstage"
+    title: "On-Orbit Robotic Grasping of a Spent Rocket Stage: Grasp Stability Analysis and Experimental Results"
+    authors: ["Nikos Mavrakis", "Zhou Hao", "Yang Gao"]
+    venue: "Frontiers in Robotics and AI 8:652681"
+    year: 2021
+    doi: "10.3389/frobt.2021.652681"
+    doi_status: "VERIFIED"
+    crossref_checked: "2026-07-22"
+    crossref_title: "On-Orbit Robotic Grasping of a Spent Rocket Stage: Grasp Stability Analysis and Experimental Results"
+    category: "contact_capture"
+    section: "V2"
+    mission_line: "debris_removal"
+    grade: "B"
+    reading_mode: ["对标"]
+    access: "open"
+    priority: "P1"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.3389/frobt.2021.652681"
+    source_filename: "frobt-08-652681.pdf"
+    local_pdf: "50_literature/pdf/03_contact_capture/mavrakis2021rocketstage.pdf"
+    pdf_pages: 19
+    pdf_sha256: "ee3ba06ab2a762670a5f3eceb35de7203f89503ab95419416a1aa68f70f5295d"
+    pdf_validation: "PASS"
+    why: "提供废弃上面级抓持稳定性与实验结果，约束 ADR-GRASP 的抓点和末端方案。"
+    figure_role: "上面级抓持稳定域与实验装置图"
+  - key: "park2024poseestimation"
+    title: "Robust multi-task learning and online refinement for spacecraft pose estimation across domain gap"
+    authors: ["Tae Ha Park", "Simone D’Amico"]
+    venue: "Advances in Space Research 73(11):5726-5740"
+    year: 2024
+    doi: "10.1016/j.asr.2023.03.036"
+    doi_status: "VERIFIED"
+    crossref_checked: "2026-07-22"
+    crossref_title: "Robust multi-task learning and online refinement for spacecraft pose estimation across domain gap"
+    category: "embodied_vla"
+    section: "embodied_vla"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "paywalled"
+    priority: "P1"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1016/j.asr.2023.03.036"
+    source_filename: "Robust multi-task learning and online refinement for spacecraft pose estimation across domain gap.pdf"
+    local_pdf: "50_literature/pdf/05_embodied_vla/park2024poseestimation.pdf"
+    pdf_pages: 15
+    pdf_sha256: "c2e9f3b00682a1ebe5b91055decb5f267cf92b7ca76bfe429b1cc713da9d274e"
+    pdf_validation: "PASS"
+    why: "覆盖合成到真实的位姿域差、在线修正与不确定度，是两类任务共用的感知校准证据。"
+    figure_role: "位姿域差与在线修正流程图"
+  - key: "lampariello2018tracking"
+    title: "Tracking Control for the Grasping of a Tumbling Satellite With a Free-Floating Robot"
+    authors: ["Roberto Lampariello", "Hrishik Mishra", "Nassir Oumer", "Phillip Schmidt", "Marco De Stefano", "Alin Albu-Schaffer"]
+    venue: "IEEE Robotics and Automation Letters 3(4):3638-3645"
+    year: 2018
+    doi: "10.1109/LRA.2018.2855799"
+    doi_status: "VERIFIED"
+    crossref_checked: "2026-07-22"
+    crossref_title: "Tracking Control for the Grasping of a Tumbling Satellite With a Free-Floating Robot"
+    category: "contact_capture"
+    section: "V2"
+    mission_line: "debris_removal"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "paywalled"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1109/LRA.2018.2855799"
+    source_filename: "Tracking Control for the Grasping of a Tumbling Satellite With a Free-Floating Robot.pdf"
+    local_pdf: "50_literature/pdf/03_contact_capture/lampariello2018tracking.pdf"
+    pdf_pages: 8
+    pdf_sha256: "1c9e91b39d94fdb3a74431dfdc4c270ef2c5bdd5e8bd8553750114fd5219928a"
+    pdf_validation: "PASS"
+    why: "给出自由漂浮机器人对翻滚目标的同步跟踪与抓取控制，支撑 ADR-SYNC 到 ADR-CAP 的接口。"
+    figure_role: "翻滚目标跟踪抓取控制与误差收敛图"
+  - key: "yoshida1999vibrationsuppression"
+    title: "Vibration suppression and zero reaction maneuvers of flexible space structure mounted manipulators"
+    authors: ["Kazuya Yoshida", "Dragomir N. Nenchev", "Masaru Uchiyama"]
+    venue: "Smart Materials and Structures 8(6):847-856"
+    year: 1999
+    doi: "10.1088/0964-1726/8/6/312"
+    doi_status: "VERIFIED"
+    crossref_checked: "2026-07-22"
+    crossref_title: "Vibration suppression and zero reaction maneuvers of flexible space structure mounted manipulators"
+    category: "gjm_rns"
+    cross_category: ["04_flexible_ancf"]
+    section: "V1"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "paywalled"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1088/0964-1726/8/6/312"
+    source_filename: "Vibration suppression and zero reaction maneuvers of flexible space structure mounted manipulators.pdf"
+    local_pdf: "50_literature/pdf/02_gjm_rns/yoshida1999vibrationsuppression.pdf"
+    pdf_pages: 11
+    pdf_sha256: "07098e04f42ac1849a205b69dcc5c08846c41fa1d2b926b43813cac5550f086f"
+    pdf_validation: "PASS"
+    why: "这是 RNS 与柔性抑振之间唯一的直接桥接文献：以零反作用机动同时约束基座反作用与柔性结构振动。"
+    figure_role: "零反作用机动与柔性振动抑制统一示意图"
+  - key: "virgilillop2019convexguidance"
+    title: "A convex-programming-based guidance algorithm to capture a tumbling object on orbit using a spacecraft equipped with a robotic manipulator"
+    authors: ["Josep Virgili-Llop", "Costantinos Zagaris", "Richard Zappulla", "Andrew Bradstreet", "Marcello Romano"]
+    venue: "The International Journal of Robotics Research 38(1):40-72"
+    year: 2019
+    doi: "10.1177/0278364918804660"
+    doi_status: "VERIFIED"
+    crossref_checked: "2026-07-22"
+    crossref_title: "A convex-programming-based guidance algorithm to capture a tumbling object on orbit using a spacecraft equipped with a robotic manipulator"
+    category: "contact_capture"
+    section: "V2"
+    mission_line: "debris_removal"
+    grade: "A"
+    reading_mode: ["推导", "对标"]
+    access: "paywalled"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1177/0278364918804660"
+    source_filename: "virgili-llop-et-al-2018-a-convex-programming-based-guidance-algorithm-to-capture-a-tumbling-object-on-orbit-using-a.pdf"
+    local_pdf: "50_literature/pdf/03_contact_capture/virgilillop2019convexguidance.pdf"
+    pdf_pages: 33
+    pdf_sha256: "e87f37b31347a0d812faf28a4974d504d594747f84741a4af0945e12c9df8fb7"
+    pdf_validation: "PASS"
+    why: "提供带末端同步、约束和可行性判定的凸规划捕获制导，支撑 ADR-SYNC 的候选轨迹生成。"
+    figure_role: "凸规划捕获制导约束与终端同步图"
+  - key: "nenchev1999flexiblerns"
+    title: "Reaction null-space control of flexible structure mounted manipulator systems"
+    authors: ["Dragomir N. Nenchev", "Kazuya Yoshida", "P. Vichitkulsawat", "Masaru Uchiyama"]
+    venue: "IEEE Transactions on Robotics and Automation 15(6):1011-1023"
+    year: 1999
+    doi: "10.1109/70.817666"
+    doi_status: "VERIFIED"
+    crossref_checked: "2026-07-22"
+    crossref_title: "Reaction null-space control of flexible structure mounted manipulator systems"
+    category: "gjm_rns"
+    section: "V1"
+    mission_line: "platform_common"
+    grade: "A"
+    reading_mode: ["推导"]
+    access: "paywalled"
+    priority: "P0"
+    archive_status: "MANUAL_PDF_VALIDATED"
+    official_url: "https://doi.org/10.1109/70.817666"
+    source_filename: "Reaction null-space control of flexible structure mounted manipulator systems.pdf"
+    local_pdf: "50_literature/pdf/02_gjm_rns/nenchev1999flexiblerns.pdf"
+    pdf_pages: 13
+    pdf_sha256: "61e387a6ad51b521d50100431f98eed2a3d004018584068489bb011f1ee15cfb"
+    pdf_validation: "PASS"
+    why: "把反作用零空间扩展到柔性结构安装机械臂，为基座反作用抑制与柔性模态约束提供统一控制基础。"
+    figure_role: "柔性结构反作用零空间控制框图"
+repositories:
+  - name: "SPART"
+    url: "https://github.com/NPS-SRL/SPART"
+    grade: "A"
+    use: "浮动基 GJM/GIM/CIM 与 URDF 导入；用于和现有刚体动力学结果交叉验证。"
+    local_path: "80_third_party/vendor/SPART"
+    archive_status: "SHALLOW_CLONED"
+    shallow: true
+    pinned_sha: "1365c7e6f345255a700936511b8abfd58d179016"
+
+  - name: "SpaceDyn"
+    url: "https://github.com/Space-Robotics-Laboratory/SpaceDyn"
+    grade: "A"
+    use: "Yoshida 实验室 GJM/RNS 参考实现；用于 V1 方程与结果裁决。"
+    local_path: "80_third_party/vendor/SpaceDyn"
+    archive_status: "SHALLOW_CLONED"
+    shallow: true
+    pinned_sha: "57e5d608cb959338b1bcec6bc34249d959815036"
+
+  - name: "SpaceRobotEnv"
+    url: "https://github.com/Tsinghua-Space-Robot-Learning-Group/SpaceRobotEnv"
+    grade: "A"
+    use: "MuJoCo 自由漂浮双臂捕获与图像观测环境；用于 V1/V4 基线。"
+    local_path: "80_third_party/external/spacecraft_layout_refs/spacerobotenv/SpaceRobotEnv"
+    archive_status: "REUSED_EXISTING"
+    shallow: true
+    pinned_sha: "155989c2ae94a3afeedf9b8601b6125d83b9c097"
+
+  - name: "space_robotics_bench"
+    url: "https://github.com/AndrejOrsula/space_robotics_bench"
+    grade: "A"
+    use: "Isaac Sim/Isaac Lab 空间机器人基准与 RL 基线。"
+    local_path: "80_third_party/vendor/space_robotics_bench"
+    archive_status: "SHALLOW_CLONED"
+    shallow: true
+    pinned_sha: "7528ff81f1ac0b34ba259b1ae150fdb4f6a90b5e"
+
+  - name: "EXUDYN"
+    url: "https://github.com/jgerstmayr/EXUDYN"
+    grade: "A"
+    use: "ANCF 梁/板、模态与柔性多体；V3 最小刚柔耦合证明首选。"
+    local_path: "80_third_party/vendor/EXUDYN"
+    archive_status: "SHALLOW_CLONED"
+    shallow: true
+    pinned_sha: "b428cda78ef745e2092e7d202e72d84881bf4667"
+
+  - name: "basilisk"
+    url: "https://github.com/AVSLab/basilisk"
+    grade: "A"
+    use: "星平台轨道、姿态、结构挠性与 GNC；承接整器动力学。"
+    local_path: "80_third_party/vendor/basilisk"
+    archive_status: "SHALLOW_CLONED"
+    shallow: true
+    pinned_sha: "6b9c222fc9ea8d4b478c26435b16ff71910e80e8"
+
+  - name: "astrobee"
+    url: "https://github.com/nasa/astrobee"
+    grade: "B"
+    use: "自由飞行器感知、导航与栖靠全栈工程范例，不等同于机械臂验证。"
+    local_path: "80_third_party/vendor/astrobee"
+    archive_status: "SHALLOW_CLONED"
+    shallow: true
+    pinned_sha: "bf43a42d5f89bf0679e51ab25e7a9b7800313e9c"
+
+  - name: "chrono"
+    url: "https://github.com/projectchrono/chrono"
+    grade: "B"
+    use: "ANCF 与接触耦合；只在 V2×V3 交叉实验需要时启用。"
+    local_path: "80_third_party/vendor/chrono"
+    archive_status: "SHALLOW_CLONED"
+    shallow: true
+    pinned_sha: "24c78cf889de1105be3742cec9586f662cc52b05"
+
+  - name: "openvla"
+    url: "https://github.com/openvla/openvla"
+    grade: "B"
+    use: "VLA 动作离散化、LoRA/OFT 微调配方参考；不直接作为航天控制器。"
+    local_path: "80_third_party/vendor/openvla"
+    archive_status: "SHALLOW_CLONED"
+    shallow: true
+    pinned_sha: "c8f03f48af692657d3060c19588038c7220e9af9"
+
+  - name: "openpi"
+    url: "https://github.com/Physical-Intelligence/openpi"
+    grade: "B"
+    use: "π0/π0-FAST 训练与推理管线参考；不自动安装或下载权重。"
+    local_path: "80_third_party/vendor/openpi"
+    archive_status: "SHALLOW_CLONED"
+    shallow: true
+    pinned_sha: "15a9616a00943ada6c20a0f158e3adb39df2ccac"
+
+datasets:
+  - name: "SPEED+"
+    url: "https://purl.stanford.edu/wv398fc4383"
+    grade: "A"
+    use: "空间目标位姿估计域间隙基准。"
+    download_status: "NOT_DOWNLOADED_BY_POLICY"
+    note: "仅登记；等待磁盘配额与实验协议确认。"
+
+  - name: "SPEED"
+    url: "https://purl.stanford.edu/dz692fn7184"
+    grade: "A"
+    use: "SPEED+ 前代与 SPEC2019 对照。"
+    download_status: "NOT_DOWNLOADED_BY_POLICY"
+    note: "仅登记；等待磁盘配额与实验协议确认。"
+
+existing_coverage:
+  reused_repository:
+    name: "SpaceRobotEnv"
+    path: "80_third_party/external/spacecraft_layout_refs/spacerobotenv/SpaceRobotEnv"
+  prior_text_references:
+    - "20_engineering/stage1_spacecraft_layout/02_open_bus_reference/external_onorbit_asset_catalog.md"
+    - "20_engineering/stage1_spacecraft_layout/02_open_bus_reference/external_onorbit_asset_catalog.en.md"
+    - "01_project/competition/文献缺口审计_附录_59papers_20260718.json"
+    - "40_evidence/tables/paper01_literature_scan.csv"
+  preexisting_target_pdfs: 0

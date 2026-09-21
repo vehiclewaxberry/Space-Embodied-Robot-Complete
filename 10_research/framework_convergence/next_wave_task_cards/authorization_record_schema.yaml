@@ -1,0 +1,48 @@
+schema_id: WAVE_AUTHORIZATION_RECORD_V1
+schema_status: TEMPLATE_ONLY_NOT_AN_APPROVAL
+canonical_records:
+  HAG_A: 10_research/on_orbit_assembly/approvals/HAG-A.yaml
+  HAG_B: 10_research/on_orbit_assembly/approvals/HAG-B.yaml
+  HAG_I: 10_research/on_orbit_assembly/approvals/HAG-I.yaml
+
+issuer_policy:
+  allowed_issuer_types: [HUMAN_PI, TRUSTED_APPROVAL_SYSTEM]
+  implementation_agent_must_not_create_or_modify_record: true
+  authenticity_proof_required: true
+  accepted_proof_types: [DETACHED_SIGNATURE, SIGNED_GIT_COMMIT, TRUSTED_SYSTEM_RECEIPT]
+  verification_failure_action: BLOCKED_BY_UNVERIFIED_AUTHORIZATION
+
+required_fields:
+  - schema_id
+  - gate_id
+  - status
+  - authorization_id
+  - issuer_type
+  - approver
+  - approved_at
+  - expires_at
+  - approved_commit
+  - approved_base_card_hashes
+  - approved_overlay_card_hashes
+  - approved_success_schema_path
+  - approved_success_schema_sha256
+  - owned_paths
+  - forbidden_paths
+  - threshold_registry_hashes
+  - authenticity_proof
+
+status_enum: [APPROVED, REJECTED, REVOKED]
+fail_closed_rules:
+  - missing_record: BLOCKED_BY_MISSING_AUTHORIZATION
+  - missing_required_field: BLOCKED_BY_INVALID_AUTHORIZATION
+  - expired_record: BLOCKED_BY_EXPIRED_AUTHORIZATION
+  - approved_commit_mismatch: BLOCKED_BY_HEAD_MISMATCH
+  - card_hash_mismatch: BLOCKED_BY_TASK_CARD_MISMATCH
+  - success_schema_hash_mismatch: BLOCKED_BY_SUCCESS_SCHEMA_MISMATCH
+  - authenticity_not_verified: BLOCKED_BY_UNVERIFIED_AUTHORIZATION
+  - status_not_approved: BLOCKED_BY_AUTHORIZATION_STATUS
+
+notes:
+  - This file defines validation only and MUST NOT be interpreted as approval.
+  - HAG-A is invalid until the 8-vs-9 success-criterion conflict is resolved in one versioned schema.
+  - Approval can narrow scope; it cannot override machine Gate truth, remove negative results, or widen thresholds.

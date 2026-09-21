@@ -1,0 +1,131 @@
+{
+  "object_id": "servicer_12U_v0",
+  "frame": "S",
+  "reference_point": "CoM",
+  "geom_reference_point": "S_origin (geometric center of the 12U body envelope; CoM offset TBD per SSOT §4)",
+  "n_primitives": 9,
+  "volume_m3": 0.018765,
+  "density_kg_m3": 1279.0,
+  "mass_kg": 24.0,
+  "cg_m": [
+    -0.00242,
+    -0.0,
+    0.00057
+  ],
+  "inertia_kg_m2_about_com": {
+    "Ixx": 0.227567,
+    "Iyy": 0.353651,
+    "Izz": 0.386162,
+    "Ixy": -0.0,
+    "Ixz": -0.000745,
+    "Iyz": -0.0
+  },
+  "features": {
+    "mount_face_M": {
+      "origin_mm": [
+        185.25,
+        0,
+        0
+      ],
+      "normal": [
+        1,
+        0,
+        0
+      ],
+      "note": "Outer datum face of the robot_mount_adapter (flange) on the +X front task face = frame M origin. +Z_M := +X_S (mount-face normal / arm reach & target-approach direction), +X_M along task-face main bolt array (project +Z_S). Placed at Y=Z=0 to sit on the servicer CoM lateral projection (req 12U-LR-01) and near-coaxial with the camera. T_SM (S->M) is directly readable off this face after CAD: nominal translation [185.25,0,0] mm, rotation = +90deg about Y_S mapping X_S->Z_M."
+    },
+    "keepout": {
+      "robot_arm_workspace": {
+        "shape": "cylinder",
+        "axis": "x",
+        "base_x_mm": 185.25,
+        "cyl_length": 500,
+        "radius": 250,
+        "note": "forward capture/reach volume ahead of frame M; solar panels, antenna and nozzle are kept clear of it (baseline §2, req 12U-LR-02/05)"
+      },
+      "camera_fov_cone": {
+        "apex_mm": [
+          210,
+          0,
+          80
+        ],
+        "boresight": [
+          1,
+          0,
+          0
+        ],
+        "half_angle_deg": 20,
+        "note": "must stay unoccluded by folded arm (req 12U-LR-04)"
+      },
+      "com_allowable_box_mm": {
+        "ref": "geometric_center",
+        "x_half": 45,
+        "y_half": 45,
+        "z_half": 70,
+        "source": "CDS Rev14.1 Table 2 (12U)"
+      }
+    },
+    "camera_boresight": {
+      "optical_center_mm": [
+        190,
+        0,
+        80
+      ],
+      "direction": [
+        1,
+        0,
+        0
+      ],
+      "maps_to": "frame C"
+    },
+    "grasp_points_mm": [],
+    "marker_points_mm": [],
+    "tumble_axis": null,
+    "bay_partitions_x_mm": {
+      "rear": [
+        -170.25,
+        -56.75
+      ],
+      "mid": [
+        -56.75,
+        56.75
+      ],
+      "front": [
+        56.75,
+        170.25
+      ]
+    },
+    "envelope_mm": {
+      "length_x": 340.5,
+      "width_y": 226.3,
+      "height_z": 226.3
+    }
+  },
+  "assumptions": [
+    "S origin is placed at the geometric center of the 12U envelope; CoM is assumed near-center (Y=Z=0) but not yet computed — CoM offset and T_SB are TBD per SSOT §4.",
+    "Envelope taken as the nominal 12U (2x2x3) form: 340.5 mm (X) x 226.3 mm (Y) x 226.3 mm (Z). Exact CDS Appendix B dims are unverified (drawing-text parse failed, doc §1 limitation) and must be manually reviewed before CAD.",
+    "The 340.5 mm long axis is aligned with +X_S (rear service bay -> front task bay = target-approach). Three bays each 113.5 mm (1U) deep partition the body along X: rear [-170.25,-56.75], mid [-56.75,56.75], front [56.75,170.25]. Bay boxes share the full 226.3x226.3 cross-section and union into one monolithic body; internal bulkheads not modeled.",
+    "target_mass_kg = 24.0 kg adopted as the CDS Rev14.1 Table 1 12U max-mass reference, used as a design target for the display servicer (confidence low). Builder sizes effective density to hit it. Internal components (OBC/C&DH, EPS/PMAD, battery, reaction-wheel set, IMU) are lumped into the body mass, not modeled as separate outer geometry (they do not change the external envelope).",
+    "Robot mount face M = outer datum of a 140x140x15 mm adapter flange centered on the +X front face; M origin [185.25,0,0] mm, outward normal +X_S. Positioned at Y=Z=0 to lie on the CoM lateral projection (req 12U-LR-01) and clear of camera/panels/antenna (req 12U-LR-02).",
+    "Camera modeled as a Ø50 x 40 mm cylinder mounted on the front face, offset +80 mm in +Z above the arm mount, boresight +X and near-coaxial with the robot workspace (baseline §4 front-task-face C-over-B); it does not conflict with the mount or occlude when the arm is folded (req 12U-LR-04).",
+    "Solar panels modeled as two 227x200x6 mm flat plates deployed on ±Y with Z-normal, spanning only the rear+mid bays (X from -170.25 to +56.75) so they clear the forward robot workspace and camera FOV cone (baseline §2 side deployables). Deployed state assumed; stowed envelope TBD.",
+    "Propulsion placeholder = Ø90 x 60 mm cylinder on the -X rear face (nozzle, axis +X, protruding rearward). Antenna placeholder = Ø30 x 50 mm cylinder on the rear-bay +Z face. Both are isolated from the front-end robot workspace and the panels (baseline §2 rear service bay; req in reference-inputs §2).",
+    "No fillets, holes, rails, or -Z 'tuna-can' extra volume are modeled; rail contact zones and the -Z extra volume are intentionally left free per CDS. Block model = simple boxes + cylinders unioned only.",
+    "Grasp/marker points and tumble axis are N/A for the servicer (they belong to target/debris models); left empty/null.",
+    "Reference deployment system assumed rail-reference (baseline §3), pending Appendix B manual review.",
+    "Geometry only; inertia is self-defined downstream. No OreSat/PyCubed/BIRDS CAD is copied or renamed — external open assets informed only sub-system stacking/interface ideas per mapping doc §1 (whole-servicer geometry is original, risk RA-001)."
+  ],
+  "open_asset_refs": [
+    "OreSat 12U_Frames.SLDASM (12U frame / bay-stack layering reference)",
+    "OreSat lensMount.STEP / OreSat1_CameraBoard.SLDPRT (camera payload placement)",
+    "OreSat OreSat_ReactionWheels.SLDASM (mid-bay RW cluster, lumped internally)",
+    "PyCubed mainboard/batteryboard (mid bus-bay card-stack mass, lumped internally)",
+    "CDS Rev.14.1 (Appendix B 12U outline; Table 1 mass 24 kg; Table 2 CoM box)",
+    "NASA SmallSat SOA propulsion & communications chapters (rear nozzle/antenna placeholders)",
+    "reBot base requirements / reBot-DevArm_fixend.urdf (frame M mount-face datum)"
+  ],
+  "source": "build123d block model (spec-driven)",
+  "confidence": "low",
+  "status": "usable_for_v0",
+  "note": "inertia about CoM in frame S; tensor convention (URDF/Basilisk)"
+}

@@ -1,0 +1,1 @@
+const sharp = require('C:/Users/stude/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp'); sharp(process.argv[2]).png().toFile(process.argv[3]).then(()=>process.stdout.write('rendered'));

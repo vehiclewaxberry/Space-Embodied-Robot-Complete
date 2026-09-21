@@ -1,0 +1,75 @@
+{
+  "object_id": "servicer_6U_v0",
+  "frame": "S",
+  "reference_point": "CoM",
+  "geom_reference_point": "S_origin",
+  "n_primitives": 8,
+  "volume_m3": 0.009109,
+  "density_kg_m3": 988.1,
+  "mass_kg": 9.0,
+  "cg_m": [
+    0.00131,
+    -0.0,
+    0.00028
+  ],
+  "inertia_kg_m2_about_com": {
+    "Ixx": 0.046108,
+    "Iyy": 0.140303,
+    "Izz": 0.111491,
+    "Ixy": -0.0,
+    "Ixz": -0.00052,
+    "Iyz": -0.0
+  },
+  "features": {
+    "mount_face_M": {
+      "origin_mm": [
+        191,
+        0,
+        0
+      ],
+      "normal": [
+        1,
+        0,
+        0
+      ],
+      "x_axis_hint": [
+        0,
+        0,
+        1
+      ],
+      "note": "Frame M = arm mounting-face / reBot URDF base = adapter flange outer-surface datum. +Z_M = mount-face normal = +X_S (arm reach direction); +X_M (main bolt array) aligned with +Z_S. T_SM = S->M to be read off CAD once the flange bolt pattern is fixed (per coordinate SSOT, this is the mechanical-to-dynamics bridge, old T_SB)."
+    },
+    "camera_boresight_S": [
+      1,
+      0,
+      0
+    ],
+    "keepout": {
+      "arm_workspace": "Forward hemisphere about +X_S emanating from mount_face_M; solar panels held behind x=+100 mm to stay clear (6U-LR-05).",
+      "rail_contact_surface": "CDS Rev14 rail / contact-surface keepout on the deployer-rail edges is TBD pending manual dimension review; not modeled at block-model level."
+    }
+  },
+  "assumptions": [
+    "Frame S origin = geometric center of the 6U envelope (100x226.3x366 mm); reconciliation with CoM is deferred to the mass-inertia budget (T_SB S->B offset left TBD).",
+    "Axis mapping (documented, not from a fixed drawing): long 366 mm = X_S (rear service bay -> front task bay / approach axis); 100 mm = Y_S (right solar-panel side); 226.3 mm = Z_S (up). Consistent with the CDS Rev14 6U envelope.",
+    "The 'single body' is represented as three equal-length X-partitioned bays of 122 mm each (rear_bay, mid_bus_bay, front_task_bay) that sum to the full envelope with zero overlap; no detailed internal packaging (OBC/EPS/battery/RW/IMU are notional occupants of mid_bus_bay, comms/propulsion/interface of rear_bay).",
+    "Arm mount = frame M on the +X front task face: M origin at flange outer surface [191,0,0] mm in S; mount-face normal +Z_M = +X_S = [1,0,0] (arm reaches forward); +X_M (main bolt array) aligned with +Z_S. T_SM to be exported/reviewed with the adapter model, not guessed post-CAD.",
+    "Camera placeholder co-located on the front task face, offset +50 mm in Z above the arm axis to keep the FOV near-coaxial with the arm capture workspace (6U-LR-02); optical boresight assumed = +X_S.",
+    "Two side solar panels modeled as thin (6 mm) body-mounted plates flush on the +/-Y faces, spanning X in [-160,+100] mm to stay clear of the forward arm workspace hemisphere (6U-LR-05). This is a stowed / body-mounted representation only; deployed envelope, hinge line and deployment mechanism are NOT modeled and will change the collision envelope.",
+    "Rear propulsion/interface represented by one small nozzle cylinder (r=15, L=30 mm) on -X; individual comms antennas, connectors, harness exits and ground-support interfaces are not modeled (placeholder volume only).",
+    "Flange, camera, nozzle and panels are simple geometric placeholders per block-model rules: boxes + cylinders unioned, NO fillets/holes/fasteners/manufacturing detail.",
+    "Mass/CoM/inertia are self-defined (RA-003): target_mass_kg = 9.0 kg is a v0 STATED ASSUMPTION, chosen to be lighter than the 12U variant and consistent with ~1100 kg/m^3 effective density over the ~8.3 L envelope; it is NOT a measured value. Inertia tensor to be derived by the deterministic builder / mass-inertia budget about a stated reference point. Confidence: low.",
+    "No external CAD geometry is imported: no full-servicer CAD exists (RA-001). Open assets (OreSat, UPSat, OSSAT/KISPE, bac-hardware) informed only subsystem stacking/panel-interconnect concepts; all geometry here is self-authored.",
+    "Units are millimeters; all frames right-handed; every primitive is placed by center_offset_mm from the S origin."
+  ],
+  "open_asset_refs": [
+    "OreSat",
+    "UPSat",
+    "OSSAT-KISPE",
+    "bac-hardware"
+  ],
+  "source": "build123d block model (spec-driven)",
+  "confidence": "low",
+  "status": "usable_for_v0",
+  "note": "inertia about CoM in frame S; tensor convention (URDF/Basilisk)"
+}

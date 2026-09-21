@@ -1,0 +1,192 @@
+schema: ROUTE_C_C2_ADMISSION_GATE_V1
+generated_local: '2026-08-23T20:45:54+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+generator: "KIMI M7 机械终局接管 swarm Wave-4a (ODR-45..49 owner decisions + R2 full-flex closure) — AGENT-A3 (Route-C RFI-E/F/G issuance record + ROUTE_C_C2_ADMISSION_GATE definition/evaluation)"
+gate_id: ROUTE_C_C2_ADMISSION_GATE
+gate_type: FAIL_CLOSED_ADMISSION_GATE__DEFINITION_PLUS_CURRENT_EVALUATION
+route_c_status_context: FROZEN_PENDING_PHYSICAL_AUTHORITY
+
+authority_basis:
+  odr_record:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+    sha256: 69473bc19e020c6422b23c1758cfc343874f641781c9782e982036614c0849b5
+  odr_45_bridge_confirmation: "FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION -> CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE (registry-level; frozen bridge file unchanged)"
+  odr_46_admission_logic_verbatim: "bridge CONFIRMED AND RFI-E/F/G resolved AND 13/13 fields non-null AND all sources traceable → ROUTE_C_CAD_AUTHORIZED = true；否则 ROUTE_C_CAD_AUTHORIZED = false"
+  odr_46_cad_unblock_requirements: [MPI PASS, C2-01 physical registry complete]
+  odr_46_cad_prohibition_rule: "C2-01 注册表 13 个物理能力字段任一为 null，即禁止生成任何 Route-C CAD"
+  mpi_bridge_gate_evidence:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/MPI_BRIDGE_GATE_V1.json
+    sha256: 60911e3c88387e2ed53601f2b541649bf90d689c57c4e74225226ae6fd10c721
+    facts_carried: "mpi_gate=PASS (scoped: installation-semantics bridging only); criteria 9/9 PASS; route_c_cad_entry=DOUBLY_BLOCKED; review_status=PENDING_OWNER_REVIEW at that file's emission, superseded at register level by ODR-45"
+
+admission_conditions:
+  rule: "ALL conditions must be PASS for ROUTE_C_CAD_AUTHORIZED=true; any FAIL or UNKNOWN yields false (fail-closed)"
+  conditions:
+    - id: C2-ADM-01
+      name: mpi_bridge_confirmed
+      requirement: "mpi_bridge == CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE"
+      authority: ODR-45
+    - id: C2-ADM-02
+      name: rfi_e_resolved
+      requirement: "RFI-E == RESOLVED_WITH_TRACEABLE_SOURCES（载体产品族/尺寸系列/弯曲半径系列/单位长度质量/行程与硬停定义，证据类白名单内）"
+      authority: ODR-46
+    - id: C2-ADM-03
+      name: rfi_f_resolved
+      requirement: "RFI-F == RESOLVED_WITH_TRACEABLE_SOURCES（逐对命名材料对 + 温度/真空工况摩擦系数 + 磨损/出气证据）"
+      authority: ODR-46
+    - id: C2-ADM-04
+      name: rfi_g_resolved
+      requirement: "RFI-G == RESOLVED_WITH_TRACEABLE_SOURCES（夹具产品族/夹持范围/质量/紧固件接口/安装设计规则/衬垫出气/工艺符合性）"
+      authority: ODR-46
+    - id: C2-ADM-05
+      name: c2_01_fields_non_null
+      requirement: "C2-01 注册表 13/13 字段 value != null（显式 null 存在即 FAIL；null 永不压 0）"
+      authority: ODR-46 cad_prohibition_rule
+    - id: C2-ADM-06
+      name: all_sources_traceable
+      requirement: "全部 13 字段的取值均带可溯源来源（白名单证据类），且每值带单位 + 公差/不确定度 + 出处"
+      authority: ODR-46 acceptable_evidence_classes
+    - id: C2-ADM-07
+      name: mpi_evidence_chain_pass
+      requirement: "MPI 证据链 PASS（MPI-FB-01..08 桥链落地，MPI_BRIDGE_GATE_V1 mpi_gate=PASS 限域口径 + ODR-45 Owner 确认）"
+      authority: "ODR-46 cad_unblock_requirements[0] 'MPI PASS' + ODR-45"
+    - id: C2-ADM-08
+      name: c2_01_physical_registry_complete
+      requirement: "C2-01 物理注册表齐备（13/13 达到 status AVAILABLE 口径：受控值 + 单位 + 公差/不确定度 + 出处，per registry status_enum_rule）"
+      authority: "ODR-46 cad_unblock_requirements[1] 'C2-01 physical registry complete'"
+
+output_flag:
+  name: ROUTE_C_CAD_AUTHORIZED
+  type: boolean
+  fail_closed_rule: "true iff C2-ADM-01..08 all PASS; 任一 FAIL/UNKNOWN -> false; 本门不自我授权下一阶段"
+
+current_evaluation:
+  evaluated_at: '2026-08-23T20:45:54+08:00'
+  evaluation_basis: "ODR-45/ODR-46 登记文本 + ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml 复解析 + ROUTE_C_RFI_EFG_ISSUANCE_V1.yaml 发放记录"
+  per_condition:
+    - id: C2-ADM-01
+      result: PASS
+      evidence: "ODR-45（ODR record sha256 69473bc1...）：桥状态升级为 CONFIRMED_MECHANICAL_DYNAMICS_BRIDGE；工程基础 MPI_BRIDGE_GATE_V1.json（sha256 60911e3c...）mpi_gate=PASS、9/9 判据 PASS"
+    - id: C2-ADM-02
+      result: FAIL
+      evidence: "RFI-E 已按 ODR-46 发放（ROUTE_C_RFI_EFG_ISSUANCE_V1 status=ISSUED_PER_ODR46）；响应数 = 0，无可溯源来源落账"
+    - id: C2-ADM-03
+      result: FAIL
+      evidence: "RFI-F 已发放；响应数 = 0"
+    - id: C2-ADM-04
+      result: FAIL
+      evidence: "RFI-G 已发放；响应数 = 0"
+    - id: C2-ADM-05
+      result: FAIL
+      evidence: "对 ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml（sha256 6264a0a4...）复解析：13 entries，13 HOLD，0 AVAILABLE，0 non-null values（与骨架 summary 块一致）"
+    - id: C2-ADM-06
+      result: FAIL
+      evidence: "13 字段无任何可溯源来源注册（候选源仅存在于 P01/P02/P09 的 vendor_catalog 级，且受 DECL_C2_01_01/02 限制，不构成受控值）"
+    - id: C2-ADM-07
+      result: PASS
+      scope_note: "限域：MPI-FB-01..08 安装语义桥链（MPI_BRIDGE_GATE_V1 PASS + ODR-45 确认）。事实记录：Route-C 物理输入车道 MPI 证据门 ROUTE_C_MPI_EVIDENCE_GATE_V1.json（sha256 348c9d60...）仍为 HOLD（0/8 controlled），该 HOLD 与 C2-ADM-05/08 同一事实源，不重复计数也不掩盖"
+    - id: C2-ADM-08
+      result: FAIL
+      evidence: "C2-01 注册表 13/13 HOLD、0 AVAILABLE（同 C2-ADM-05 复解析）"
+  tally:
+    conditions_total: 8
+    pass: 2
+    fail: 6
+    pass_ids: [C2-ADM-01, C2-ADM-07]
+    fail_ids: [C2-ADM-02, C2-ADM-03, C2-ADM-04, C2-ADM-05, C2-ADM-06, C2-ADM-08]
+  ROUTE_C_CAD_AUTHORIZED: false
+  next_stage_authorized: false
+
+re_evaluation_rule:
+  trigger: "仅当 CM 注册的 RFI 响应落账（带 sha256 登记入 CM 刷新）时重跑本门；无自我触发重估"
+  discipline: "重估永不把 CANDIDATE_RANGE 自动升格为 AVAILABLE；永不以 RFI 响应单独闭合 MPI（evidence_class_non_equivalence）；任一条件未达 PASS 即维持 ROUTE_C_CAD_AUTHORIZED=false"
+
+carried_non_equivalence_declarations:
+  note: "DECL_C2_01_01..06 逐字搬运自 ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml（sha256 6264a0a45f6a497787f3d96205cef7799a19a225cd23cea66d5ad31e335a3e8e），本门全程适用"
+  declarations:
+    - id: DECL_C2_01_01
+      statement: "catalog bend radius is NOT dynamic-life evidence"
+      detail: "A catalog minimum bend radius whose static/dynamic class is unstated, or that is explicitly static-only, does not establish six-joint dynamic flex life. Bindings: ROUTE_C_VENDOR_RFI_SHORTLIST_V1.json decision_invariants[1] ('catalog bend radius is not dynamic-life evidence unless the source explicitly states the applicable regime'); ROUTE_C_PRODUCT_SOURCE_REGISTER_V1.json source_policy.dynamic_flex_policy ('Mating-cycle ratings and static/unspecified bend radii do not prove six-joint dynamic flex life'). Applies to P02 and P06."
+    - id: DECL_C2_01_02
+      statement: "component-level OD and mass are NOT installed-bundle OD and mass"
+      detail: "Single-wire or protocol-cable outer diameter and linear mass do not include shielding, sleeve, ties, branching, ovalization or clamps of an installed dress-pack. Bindings: ROUTE_C_VENDOR_RFI_SHORTLIST_V1.json decision_invariants[3] ('component cable OD and mass are not installed dress-pack OD and mass'); ROUTE_C_MINIMUM_PRODUCT_INTERFACE_INPUT_REGISTER_V1.json MPI-05 candidate_evidence ('single-wire and protocol-cable diameters are not an assembled dress-pack OD'). Applies to P01 and P09."
+    - id: DECL_C2_01_03
+      statement: "connector mating cycles are NOT harness flex cycles"
+      detail: "Binding: ROUTE_C_VENDOR_RFI_SHORTLIST_V1.json decision_invariants[2]; MPI-08 candidate_evidence ('connector mating-cycle data is not harness flex life'). Applies to MPI-08 linkage of P06/P08."
+    - id: DECL_C2_01_04
+      statement: "scan-axis diagnostic ranges are NOT measured, selected or released values"
+      detail: "Binding: ROUTE_C_PARAMETER_SPACE_V1.yaml global_scan_axes authority fields (SCAN_AXIS_ONLY / SENSITIVITY_AXIS_ONLY); search_output_rules.scan_axis_as_measured_value=FORBIDDEN. Applies to P01/P02/P04."
+    - id: DECL_C2_01_05
+      statement: "quarantined Route-B seeds are NOT priors"
+      detail: "OD 10.0 mm, legacy R25, terminal-requirement R30, cut length 4001.158 mm, diagnostic mass 0.68406762184 kg and Route-B derived clamp/waypoint candidates are REJECTED-candidate seeds, not inheritable. Bindings: ROUTE_C_PRELIMINARY_DESIGN_CONTRACT_V1.json route_b_seed_quarantine; ROUTE_C_MPI_EVIDENCE_AUDIT route_b_values_not_inherited (per round0 inventory); ROUTE_C_MPI_EVIDENCE_GATE_V1.json route_b_seed_inheritance_allowed=false. Applies to P01/P02/P03/P07/P13."
+    - id: DECL_C2_01_06
+      statement: "synthetic predicate-qualification geometry is NOT physical evidence"
+      detail: "P08 predicate synthetic arc R_path_min 49.99999999999991 mm is SYNTHETIC SEMANTICS ONLY and grants no design authority (round0 inventory P11 candidate_sources.missing). Applies to P11."
+
+namespace_collision_warning: "RFI-G01..RFI-G08 是 ROUTE_C_VENDOR_RFI_DECISION_GATE_V1.json（sha256 74079091b35c47588096f1fdb0ff276e63036e656a4568a4c8a18868b1a79ac6）内的门判据 ID（official-source traceability / no-silent-selection / engineering-model exclusion / minimum-inputs HOLD_0_OF_8 / ODR-42 HOLD_PENDING / immutable assets / upstream validation / revision control），与 ODR-46 发放的硬件 RFI-G（夹具/固定硬件）完全无关；任何工件不得把两组 ID 互相绑定证据、状态或结论"
+
+cad_entry_context:
+  mpi_bridge_gate_verbatim: "route_c_cad_entry: DOUBLY_BLOCKED, not unblocked by this gate: (1) ODR-44 forbids any Route-C independent versioned CAD candidate before MPI-FB-01..08 all closed AND owner-level incorporation; (2) C2-01 registry (ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml) remains all-null/all-HOLD (verified: no AVAILABLE entry), so Route-C MPI-06/07 cannot close regardless"
+  current_reading: "ODR-45 已完成 owner-level incorporation（肢 1 解除）；肢 2（C2-01 全 HOLD）不变；本门为前向唯一绑定准入控制，本文件不解除任何 CAD 阻塞"
+
+verification_record:
+  recomputation_method: "sha256 over raw bytes, full 64-hex lowercase, recomputed by this agent at emission (host local 2026-08-23T20:45+08:00)"
+  pins:
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+      sha256: 69473bc19e020c6422b23c1758cfc343874f641781c9782e982036614c0849b5
+      bytes: 26885
+      check: "recomputed at emission; ODR-45/ODR-46 admission logic and cad_unblock_requirements read from file"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml
+      sha256: 6264a0a45f6a497787f3d96205cef7799a19a225cd23cea66d5ad31e335a3e8e
+      bytes: 19773
+      check: "recomputed; registry re-parsed by this agent: 13 entries, 13 HOLD, 0 AVAILABLE, 0 non-null values; DECL_C2_01_01..06 extracted verbatim"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/MPI_BRIDGE_GATE_V1.json
+      sha256: 60911e3c88387e2ed53601f2b541649bf90d689c57c4e74225226ae6fd10c721
+      check: "recomputed at emission; matches ODR record verification_record pin (case-insensitive)"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/01_minimum_product_inputs/02_mpi_evidence_audit/ROUTE_C_MPI_EVIDENCE_GATE_V1.json
+      sha256: 348c9d603f7249e938e5f398cda53b28a2b1155aff2330f147bd93372f236d50
+      bytes: 2981
+      check: "recomputed at emission; matches round0 inventory source pin (case-insensitive); gate=HOLD, criteria_controlled 0/8"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/01_minimum_product_inputs/ROUTE_C_VENDOR_RFI_DECISION_GATE_V1.json
+      sha256: 74079091b35c47588096f1fdb0ff276e63036e656a4568a4c8a18868b1a79ac6
+      check: "recomputed at emission; RFI-G01..G08 criteria IDs read from file"
+    - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_RFI_EFG_ISSUANCE_V1.yaml
+      sha256: null
+      check: "EXPLICIT NULL - companion issuance file emitted this same wave; its sha256 is pinned by downstream consumers after emission per SELF_REFERENCE_EXCLUDED policy; this gate's FAIL verdict does not depend on that pin"
+
+evidence_links:
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml
+    sha256: 69473bc19e020c6422b23c1758cfc343874f641781c9782e982036614c0849b5
+    role: "Owner 权威来源（ODR-45 桥确认；ODR-46 准入门逻辑与解禁要求）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/08_gate/MPI_BRIDGE_GATE_V1.json
+    sha256: 60911e3c88387e2ed53601f2b541649bf90d689c57c4e74225226ae6fd10c721
+    role: "MPI-FB08 门证据（C2-ADM-01/07 工程基础；DOUBLY_BLOCKED 逐字来源）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_C2_01_REGISTRY_SKELETON_V1.yaml
+    sha256: 6264a0a45f6a497787f3d96205cef7799a19a225cd23cea66d5ad31e335a3e8e
+    role: "C2-01 注册表骨架（C2-ADM-05/08 评估对象；DECL 逐字来源）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round0_handover/02_route_c_inputs/ROUTE_C_PHYSICAL_INPUT_INVENTORY_V1.json
+    sha256: b91611f9837641a0bf1bbf555534b2d87eb2a5005fde06ef04b3cdd3374353b7
+    role: "round0 物理输入盘点（注册表的唯一上游）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/01_minimum_product_inputs/02_mpi_evidence_audit/ROUTE_C_MPI_EVIDENCE_GATE_V1.json
+    sha256: 348c9d603f7249e938e5f398cda53b28a2b1155aff2330f147bd93372f236d50
+    role: "Route-C 物理输入车道 MPI 证据门（HOLD 0/8 事实来源）"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/08_route_c/01_minimum_product_inputs/ROUTE_C_VENDOR_RFI_DECISION_GATE_V1.json
+    sha256: 74079091b35c47588096f1fdb0ff276e63036e656a4568a4c8a18868b1a79ac6
+    role: "RFI-G01..G08 命名冲突警示来源"
+  - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/route_c_prep/ROUTE_C_RFI_EFG_ISSUANCE_V1.yaml
+    sha256: null
+    role: "同轮 RFI-E/F/G 发放登记（C2-ADM-02..04 FAIL 的事实来源；sha256 由下游按 SELF_REFERENCE_EXCLUDED 政策签发后钉入）"
+
+nonclaims:
+  - "本门当前评估 ROUTE_C_CAD_AUTHORIZED=false；不授权任何 Route-C CAD/STEP/GLB/FCStd 生成"
+  - "C2-ADM-01/07 的 PASS 限域于安装语义桥链，不构成系统级机械放行"
+  - "本门不闭合 OI-R1-05（HIGH OPEN 保持）；不闭合 MPI-06/07；不升格任何 HOLD 字段"
+  - "RFI 响应永不单独闭合 MPI（evidence_class_non_equivalence）；目录值永不自动成为选定件"
+  - "三条 Route-B 拒收数字拼写永不合并/取平均；legacy R1 车道值不得在本 R2 车道消费"
+  - "candidate != authority；test PASS != gate PASS；PROVISIONAL 不静默升格；unknown 保持显式 null 不压 0"
+  - "OPEN_ITEMS 寄存器、PROJECT_CURRENT_STATUS.md、AGENTS.md 不由本代理触碰"
+
+next_stage_authorized: false
+release_credit: false
+self_hash_policy: SELF_REFERENCE_EXCLUDED - this file carries no hash of itself; downstream consumers pin its sha256 after emission (same policy as e21/V5 manifests and 02_bridge)
+companion_human_readable: ROUTE_C_C2_ADMISSION_GATE_V1.md（同目录，人读版；冲突时以本 YAML 结构化字段为准）

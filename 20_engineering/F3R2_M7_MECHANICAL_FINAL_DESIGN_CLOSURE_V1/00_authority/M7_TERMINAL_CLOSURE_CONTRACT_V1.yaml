@@ -1,0 +1,416 @@
+schema: M7_TERMINAL_CLOSURE_CONTRACT_V1
+generated_local: '2026-08-22T02:05:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+source_of_decisions: OWNER_DIRECTIVE_2026-08-22_TERMINAL_MECHANICAL_CLOSURE
+extends: M7_OWNER_DECISION_REGISTER_V1.yaml
+register_role: >-
+  Owner rulings ODR-07..ODR-17 that convert the in-flight M7 loop into the
+  project's Terminal Mechanical Closure. They add mandatory adjudications and
+  method contracts; they do not expand mechanical scope and do not authorize
+  an M8/M9 phase. Nothing here grants flight, launcher, manufacturing-release
+  or qualification authority.
+
+terminal_objective:
+  technical_verdict_target: >-
+    MECHANICAL_ENGINEERING_DESIGN_RELEASED_FOR_OPERATIONAL_DIGITAL_TWIN_AND_EMBODIED_CONTROL
+  carried_holds:
+    - FLIGHT_QUALIFICATION_HOLD
+    - LAUNCHER_AND_SEPARATION_LOAD_HOLD
+    - AS_BUILT_MASS_CORRELATION_HOLD
+    - FLIGHT_MATERIAL_ALLOWABLE_HOLD
+    - QUALIFICATION_TEST_HOLD
+  review_status_on_issue: PENDING_OWNER_REVIEW
+  next_stage_authorized_on_issue: false
+  prohibition: >-
+    L6 is the terminus. No M8/M9 planning artifact may be created by this loop.
+
+decisions:
+
+  - id: ODR-07
+    subject: INERTIA_UNCERTAINTY_COVARIANCE_SEMANTICS
+    triggered_by: WP2-AUD-02
+    ruling: >-
+      The negative entries found in component-level inertia
+      "standard uncertainty" matrices are a semantic defect, not a sign bug.
+      Uncertainty must not be rotated component-wise the way an inertia tensor
+      is. Propagate a COVARIANCE matrix, C_global = R * C_local * R^T, whose
+      off-diagonal entries MAY legitimately be negative; then derive reported
+      per-component standard uncertainties as sigma_i = sqrt(C_global[i,i]),
+      which must all be non-negative.
+    forbidden_remediation:
+      - abs(rotated_uncertainty_matrix)
+      - clipping negative entries to zero
+      - deleting the offending entries
+    rationale_for_prohibition: >-
+      Taking absolute values destroys the statistical meaning of the
+      covariance and would convert a real finding into a fabricated PASS.
+    required_data_structure:
+      inertia_uncertainty:
+        covariance_matrix: SIGNED_OFF_DIAGONAL_ALLOWED
+        component_standard_uncertainty: [Ixx, Iyy, Izz, Ixy, Ixz, Iyz]
+    required_new_checks:
+      - covariance_symmetric
+      - covariance_positive_semidefinite
+      - variance_diagonal_nonnegative
+      - reported_sigma_nonnegative
+    gate_coupling: >-
+      Gate A criterion 10 (nine-configuration design mass properties) MUST NOT
+      be PASS while WP2-AUD-02 is open. Re-run the independent audit after the
+      fix; the pre-existing self-check must also be widened, because it
+      currently scans only configuration-level fields and therefore reported
+      PASS over a component-level defect.
+    scope: DESIGN_MASS_MODEL
+
+  - id: ODR-08
+    subject: AGENT_STALL_IS_NOT_ENGINEERING_FAILURE
+    ruling: >-
+      Orchestration failure and engineering failure are separate ledgers. If a
+      work-package agent exceeds its timebox without producing its contract
+      artifacts while the underlying engineering object already exists, record
+      WP<n>_AGENT_STATUS = STALLED and explicitly NOT
+      WP<n>_ENGINEERING_STATUS = FAIL. Restart only that agent.
+    applied_case_wp1: >-
+      DESIGN_FREEZE_ASSEMBLY_V1.FCStd and .step already exist (built 01:23).
+      A restarted WP1 agent must generate PRODUCT_STRUCTURE_V1.yaml,
+      HARNESS_ROUTING_V1.yaml, KEEP_OUT_REGISTER_V1.yaml,
+      SUPPORT_AND_BRACKET_CANDIDATES_V1.yaml and receipt.json from the
+      existing FCStd/STEP plus the M6/M7 product tree.
+    principle: RESTORE_THE_WORKFLOW_NOT_THE_DESIGN
+    prohibition: >-
+      A stalled agent must never trigger a CAD rebuild. The single-process
+      FreeCAD Owner Override for this loop is already consumed for building;
+      only bounded read-only reopen is permitted (see ODR-09/criterion 03).
+    scope: ORCHESTRATION_POLICY
+
+  - id: ODR-09
+    subject: CAD_VS_ACCEPTED_URDF_DISCREPANCY_VERIFICATION_METHOD
+    ruling: >-
+      The registered link6 ~46 mm / base_link ~56 mm CAD-vs-URDF divergence
+      must NOT be pre-judged as a kinematic conflict. Determine first whether
+      it is a coordinate-registration difference or a true geometry-version
+      difference. Global mesh-position comparison alone is inadmissible.
+    method:
+      per_link_transform: 'D_i = inv(T_URDF_i) * T_CAD_i'
+      test_a_zero_pose_rigid_registration:
+        procedure: >-
+          Align each CAD link into its URDF link frame using D_i, then compare
+          bounding box, principal dimensions, joint-axis position, joint-axis
+          direction, interface plane, and collision-geometry residual.
+        pass_meaning: >-
+          Geometry substantially coincident after alignment means this is a
+          mesh-origin / CAD-datum difference, not a kinematic conflict;
+          Gate criterion 05 may PASS.
+      test_b_multi_configuration_propagation:
+        configurations_required:
+          - q0
+          - ARM_TASK_READY
+          - representative_intermediate
+          - joint_lower_limits
+          - joint_upper_limits
+        pass_meaning: >-
+          A single D_i valid across all tested configurations proves the
+          CAD<->URDF relationship is a fixed rigid calibration. Emit
+          B601_CAD_URDF_GEOMETRY_CALIBRATION_V1.yaml.
+      test_c_true_version_mismatch:
+        indicators:
+          - D_i varies with configuration
+          - large shape residual after fixed rigid transform
+          - joint axis or mounting face inconsistent
+        meaning: CAD_URDF_VERSION_MISMATCH
+    scope: GEOMETRY_AND_KINEMATIC_AUTHORITY
+
+  - id: ODR-10
+    subject: O2_DISPOSITION_PRIORITY_FOR_CAD_URDF
+    ruling: >-
+      If ODR-09 confirms a genuine conflict, dispositions are lexicographically
+      ordered. Agents may not vote; they select the highest-ranked option whose
+      preconditions are met by reproducible evidence.
+    options:
+      - rank: 1
+        id: O2-A
+        definition: >-
+          accepted URDF = kinematics + mass/inertia authority;
+          current M7 CAD = physical geometry authority;
+          explicit calibration transforms = the bridge. Re-export collision
+          meshes accordingly. ("URDF says how it moves, CAD says what it looks
+          like, calibration says how they align.")
+        note: PREFERRED_FOR_THIS_PROJECT
+      - rank: 2
+        id: O2-B
+        definition: >-
+          If CAD link physical-geometry evidence is insufficient but the
+          accepted URDF's own collision geometry is traceable, then URDF
+          collision geometry = operational collision authority and M7 CAD =
+          visualization / mechanical evidence only. Sim/RL transitional use.
+      - rank: 3
+        id: O2-C
+        definition: >-
+          Only when neither can be adjudicated by engineering evidence:
+          Gate 03 SYSTEM_GEOMETRY = HOLD, Gate 05 B601_KINEMATICS = HOLD,
+          Gate 18 MECH_RL = HOLD, and escalate to Owner as a type-O2 ruling.
+    scope: AUTHORITY_ARBITRATION
+
+  - id: ODR-11
+    subject: WP7_THREE_LAYER_FEA_ACCEPTANCE
+    ruling: >-
+      "13/13 jobs completed" is not a Gate. Operational structural
+      verification requires three separately evidenced layers.
+    layer_1_solver_validity:
+      - completed_normally
+      - dat_nonzero
+      - odb_nonzero
+      - fatal_error_count_zero
+      - warning_classification
+      - reaction_balance
+    layer_2_numerical_credibility:
+      series: coarse -> medium -> fine
+      compared_quantities: [Umax, sigma_vM_max, reaction, critical_location]
+      singularity_rule: >-
+        A single sharp-corner / hard-constraint / point-coupling / contact-edge
+        peak nodal stress MUST NOT alone decide convergence, because stress
+        singularities make peak stress rise monotonically with refinement and
+        would be misread as NOT_CONVERGED. Where the peak lies at such a
+        location, additionally report element-averaged stress and
+        path/region stress.
+    layer_3_engineering_interpretation:
+      required_questions:
+        - which load case controls the structural design
+        - which part controls (Stage A / Stage B / bridge / fastener region)
+        - is 150 kg capture genuinely more controlling than 22 kg
+        - is arm emergency stop more severe than the capture loads
+        - does the 6061 -> 7075 candidate change the controlling location, not
+          merely the numbers
+      note: >-
+        These five answers outrank any quantity of contour plots.
+    scope: OPERATIONAL_STRUCTURAL_VERIFICATION
+
+  - id: ODR-12
+    subject: FEA_GATE_NAMING_PRECISION
+    permitted_verdict: OPERATIONAL_STRUCTURAL_VERIFICATION_PASS
+    permitted_preconditions:
+      - 13_of_13_solver_pass
+      - reaction_balance_pass
+      - mesh_credibility_pass
+      - load_traceability_pass
+      - no_unexplained_solver_anomaly
+    forbidden_verdicts:
+      - STRUCTURAL_QUALIFICATION_PASS
+      - FLIGHT_MOS_PASS
+      - LAUNCH_LOAD_PASS
+    rationale: >-
+      No launcher/separation authority and no formal flight allowable exist.
+      Naming precision is what prevents the absence of flight qualification
+      from continuing to block mechanical design closure.
+    scope: VERDICT_NAMING
+
+  - id: ODR-13
+    subject: TC13_TC14_CONDITIONAL_NON_BLOCKING
+    ruling: >-
+      The two functionally-open tolerance chains must be classified by
+      functional effect, not by counting. "12/14 therefore HOLD" is invalid,
+      and so is "external input missing therefore non-blocking". An agent must
+      first construct an explicit
+      requirement -> failure effect -> operational consequence chain.
+    tc_13_camera_bracket_orientation:
+      non_blocking_if_all_true:
+        - camera not yet finally selected
+        - affects only future vision alignment
+        - does not affect primary structure
+        - does not affect B601 motion or collision
+        - does not affect current Sim13/Sim15
+      classification_if_met: NON_BLOCKING_EXTERNAL_EQUIPMENT_INTEGRATION_HOLD
+      deferred_to: [GATE_B, ECR]
+    tc_14_hdrm_preload_interface:
+      non_blocking_if: >-
+        it affects only launch retention / qualification, given that the
+        accepted operational baseline is the post-release on-orbit state.
+      classification_if_met: NON_BLOCKING_FLIGHT_QUALIFICATION_HOLD
+      remains_gate_a_blocker_if_it_affects_any_of:
+        - whether the solar array can release at all
+        - deployment initial conditions
+        - deployment dynamics
+        - on-orbit latching
+    scope: TOLERANCE_CLOSURE_CLASSIFICATION
+
+  - id: ODR-14
+    subject: GATE_A_THREE_LEVEL_STATUS
+    ruling: >-
+      Each of the 18 Gate A criteria takes exactly one of three states.
+      Binary PASS/HOLD is insufficient and would let two future qualification
+      questions block the mechanical phase forever.
+    states:
+      PASS: internal design fully closed.
+      PASS_WITH_DECLARED_OPEN_ITEM:
+        all_required:
+          - design definition complete
+          - current operational digital twin unaffected
+          - open item is qualification / as-built / external-equipment class
+          - no HIGH finding attached
+          - explicit future trigger condition named
+      HOLD: internal engineering definition still uncertain or contradictory.
+    acceptable_terminal_shape_example: '16 PASS + 2 PASS_WITH_DECLARED_OPEN_ITEM + 0 HOLD'
+    scope: GATE_SEMANTICS
+
+  - id: ODR-15
+    subject: EMBODIED_MECHANICAL_CONTRACT_UNCERTAINTY_REQUIREMENT
+    ruling: >-
+      EMBODIED_MECHANICAL_CONTRACT_V1.yaml is the single mechanical interface
+      contract for dynamics -> control -> RL -> safety shield. Every quantity
+      it exports must carry authority and uncertainty, never a bare nominal,
+      so that domain randomization consumes mechanical-engineering uncertainty
+      instead of RL-invented ranges.
+    required_sections:
+      - kinematics
+      - dynamics
+      - collision
+      - grasp
+      - flexibility
+      - failure_states
+      - authority_and_uncertainty
+    authority_and_uncertainty_fields:
+      - source
+      - authority_level
+      - confidence
+      - nominal
+      - uncertainty
+      - calibration_required
+    worked_example:
+      grasp.contact_window_ms:
+        nominal: 20
+        authority: PROVISIONAL
+        uncertainty_range_note: >-
+          sim_11 v1.1 swept 5-100 ms; 20 ms is a placeholder pending the B601
+          gripper closing-time hardware measurement (standing todo 2).
+    scope: MECHANICAL_TO_EMBODIED_INTERFACE
+
+  - id: ODR-16
+    subject: MECHANICAL_TO_EMBODIED_HANDOFF_GATE
+    ruling: >-
+      The terminal release must contain MECHANICAL_TO_EMBODIED_HANDOFF_GATE.json.
+      It does not restate the 18 mechanical criteria; it machine-checks that the
+      downstream consumer can actually load and reason about the assets.
+    checks:
+      - asset_hashes_matched
+      - frame_tree_matched
+      - urdf_topology_matched
+      - design_mass_model_loadable
+      - collision_meshes_loadable
+      - accepted_configurations_loadable
+      - failure_states_enumerable
+      - grasp_frames_defined
+      - flex_interface_defined
+      - uncertainty_fields_machine_readable
+      - unknown_remains_fail_closed
+    pass_verdict: MECHANICAL_TO_EMBODIED_HANDOFF_PASS
+    role: >-
+      This, not the mechanical gate, is the launch credential for Sim16 and
+      Physics-Gated RL.
+    scope: PHASE_HANDOFF
+
+  - id: ODR-17
+    subject: MECHANICAL_SCOPE_FREEZE_AFTER_TERMINAL_RELEASE
+    ruling: >-
+      Immediately upon terminal release, set ACTIVE_MECHANICAL_DESIGN = false
+      and mechanical_change_policy = ECR_ONLY.
+    legitimate_reopen_triggers:
+      ECR-M1: dynamics load exceedance
+      ECR-M2: collision or reachability defect
+      ECR-M3: RL/controller discovers mechanical infeasibility
+      ECR-M4: camera or HDRM hardware selected
+      ECR-M5: as-built mass correlation exceeds tolerance
+      ECR-M6: launcher or separation ICD received
+      ECR-M7: structural or thermal qualification finding
+    illegitimate_reopen_reasons:
+      - it could look nicer
+      - one more bracket could be added
+      - the CAD could be further natively re-integrated
+    scope: PHASE_GOVERNANCE
+
+gate_a_18_criteria:
+  - {id: '01', name: INPUT_AND_CM_INTEGRITY, requirement: frozen input hashes 100% consistent}
+  - {id: '02', name: PRODUCT_STRUCTURE, requirement: spacecraft/M3R/B601/gripper/solar/HDRM/brackets/harness all in the product tree}
+  - {id: '03', name: SYSTEM_GEOMETRY, requirement: FCStd/STEP cold reopen succeeds with no unexplained missing solids}
+  - {id: '04', name: FRAME_AUTHORITY, requirement: ROOT->BUS->M->B601->EE unique, loop residual acceptable}
+  - {id: '05', name: B601_KINEMATIC_CHAIN, requirement: topology consistent with accepted URDF}
+  - {id: '06', name: M3R_B601_ICD, requirement: Stage A/B, 4xM4, datums, contact, tool access frozen}
+  - {id: '07', name: GRIPPER_R1, requirement: no positive-volume penetration over continuous stroke; contact/functional parameters defined}
+  - {id: '08', name: SOLAR_AND_HDRM, requirement: deployment/failure/release/stop/latch states complete}
+  - {id: '09', name: HARNESS_AND_KEEPOUT, requirement: routing, bend radius, motion slack, pinch zones, keep-outs closed}
+  - {id: '10', name: NINE_CONFIG_DESIGN_MASS, requirement: 9/9 design mass/CG/inertia/uncertainty, no null; blocked by WP2-AUD-02 per ODR-07}
+  - {id: '11', name: MATERIAL_AND_PROCESS, requirement: all critical parts have DESIGN_APPROVED material/process}
+  - {id: '12', name: TOLERANCE_CHAINS, requirement: all function-critical chains numerically allocated with functional margin}
+  - {id: '13', name: FASTENERS, requirement: preload, torque, slip/separation/tension-shear analysis on critical joints}
+  - {id: '14', name: OPERATIONAL_LOADS, requirement: maneuver/estop/22kg/150kg/gripper/deployment have controlled sources}
+  - {id: '15', name: OPERATIONAL_FEA, requirement: reaction balance, mesh convergence, stress/displacement/contact evidence per ODR-11}
+  - {id: '16', name: THERMOMECHANICAL, requirement: HOT/COLD effect on clearance, preload, alignment checked}
+  - {id: '17', name: MANUFACTURING_RELEASE_PACKAGE, requirement: drawings, BOM, assembly, inspection, fastener schedule complete}
+  - {id: '18', name: MECH_RL_DIGITAL_THREAD, requirement: assets, frames, mass, collision, joints, contact all readable by simulation regression}
+
+terminal_release_condition:
+  all_required:
+    high_severity_open_findings: 0
+    internal_hold_count: 0
+    hash_mismatch_count: 0
+    unexplained_positive_interference_count: 0
+    mechanical_to_embodied_handoff: PASS
+  criteria_states_allowed: [PASS, PASS_WITH_DECLARED_OPEN_ITEM]
+  non_blocking_holds_permitted:
+    - launcher ICD
+    - separation ICD
+    - flight random vibration spectrum
+    - flight shock spectrum
+    - flight-qualified allowables
+    - as-built mass / CG / inertia
+    - qualification vibration test
+    - thermal-vacuum qualification
+    - flight HDRM reliability demonstration
+    - flight fastener lot acceptance
+    - flight model workmanship inspection
+    - SolidWorks native reintegration
+
+blocking_holds_forbidden_at_gate_a:
+  - ROOT_TO_M ambiguous
+  - M3R geometry or interface conflict
+  - unknown positive-volume collision
+  - missing product component
+  - nine-configuration design mass still null
+  - kinematic topology mismatch
+  - critical tolerance chain open
+  - operational FEA solver error or reaction imbalance
+  - missing operational load source
+  - MECH-RL frame/mass/collision mismatch
+  - zero-byte evidence
+  - frozen baseline hash drift
+  - HIGH-severity red-team finding
+
+agent_responsibility_separation:
+  decision_rule: 'Authority > Evidence > Independent reproduction > Agent opinion'
+  voting: FORBIDDEN
+  roles:
+    A0_mechanical_chief: {owns: [12_release, decision register], forbidden: directly editing CAD or FEA values}
+    A1_product_cad: {owns: [WP1], forbidden: defining mass truth}
+    A2_mass_frames: {owns: [WP2], forbidden: changing geometry to fit numbers}
+    A3_mechanisms: {owns: [WP5], forbidden: signing structural strength}
+    A4_joint_engineering: {owns: [WP3, WP4, WP6], forbidden: changing system architecture}
+    A5_loads_fea: {owns: [WP7, WP8], forbidden: back-solving loads to make results PASS}
+    A6_red_team: {owns: [read-only audit], forbidden: modifying the design}
+    A7_cm_release: {owns: [WP9, 12_release CM], forbidden: changing engineering conclusions}
+
+owner_escalation_policy:
+  escalate_only:
+    O1: mission-definition change
+    O2: two equal-authority sources contradict with no engineering evidence to adjudicate
+    O3: change to the frozen system architecture
+  decide_autonomously:
+    - material candidates
+    - local dimensions
+    - tolerance allocation
+    - mesh density
+    - bracket stiffening
+    - harness routing
+  invariants:
+    - UNKNOWN is never PASS
+    - NO EVIDENCE is never PASS
+    - a test PASS is not a design Gate PASS
+    - external qualification gaps may remain HOLD without blocking Gate A when
+      they do not affect the operational design definition

@@ -1,0 +1,39 @@
+# 单位合同（S00 强制，正负测试双向）
+schema: UNIT_CONTRACT_V1
+internal_si:
+  length: m
+  mass: kg
+  time: s
+  angle: rad
+  angular_rate: rad/s        # deg/s 仅限 I/O 边界显式换算
+  force: N
+  torque: "N*m"
+  inertia: "kg*m^2"
+  momentum_linear: "kg*m/s"
+  momentum_angular: "N*m*s"
+cad_display_units:
+  geometry_ssot: mm          # frame_tree_v1.yaml 'Units: mm here; sims use m (D-3)'
+  rule: "mm 数据必须经 units.mm_to_m 显式换算方可进入 SI plant；静默直传 = 合同违规"
+conversion_factors:
+  mm_per_m: 1000.0
+  g_per_kg: 1000.0
+  deg_per_rad: 57.29577951308232
+  gmm2_per_kgm2: 1.0e9
+fail_closed_tripwires:   # 针对 B601 级臂的量纲哨兵（摄入检查，非物理主张）
+  arm_link_offset_max_m: 2.0
+  arm_link_mass_range_kg: [1.0e-4, 50.0]
+  arm_link_inertia_range_kgm2: [1.0e-12, 10.0]
+  revolute_limit_max_rad: 6.597344572538566   # 2*pi*1.05；超出 → 疑似 deg 注入
+known_unit_hazards:
+  - id: UH01
+    field: "accepted URDF gripper prismatic velocity=15.0"
+    ruling: "单位为 m/s 且为 UNVALIDATED_AUTO_EXPORTED_MODEL_LIMIT；旧 15 mm/s 读法与 4.767/3.667 s 时序判定无效；物理执行器速度权威 = HOLD，禁止补零"
+  - id: UH02
+    field: "wheel_capacity_Nms {wheels_small: 0.045, wheels_large: 0.300}"
+    ruling: "N*m*s；与 |H| 比较必须同口径（h_C vs h_O 声明）"
+negative_controls_required:
+  - kg_vs_g_scale_1000_detected
+  - m_vs_mm_scale_1000_detected
+  - inertia_gmm2_scale_1e9_detected
+  - deg_limits_in_rad_channel_detected
+verification: 11_verification/UNIT_FRAME_INVARIANCE_REPORT.json

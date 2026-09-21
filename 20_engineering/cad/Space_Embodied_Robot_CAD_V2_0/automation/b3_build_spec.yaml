@@ -1,0 +1,292 @@
+# B3 机器可读构建规格（几何唯一驱动源的脚本消费版）
+# 来源：V2_master_skeleton_parameter_contract.yaml（B2.5）+ frame_export_v0_1.yaml（A3）
+#       经 B3-00 摄入摘要 evidence/b3_00/intake/r4_digest.json / r7_digest.json 蒸馏。
+# 规则：本文件不新增任何数值权威——每个值都带 state 与 source；UNKNOWN_BLOCKED 永不填值。
+# 单位：长度 mm、角度 deg（SolidWorks API 写入时由脚本统一转 米/弧度）。
+
+spec_id: B3_BUILD_SPEC_V1
+gate: COMP-PROT-03-A4-B3-V2-SYSTEM-MECHANICAL-CAD
+profile: COMPETITION_DISPLAY_V0
+
+parameters:
+  BODY_X_MM:            { value: 340.5,  state: EVIDENCE_BOUND, source: V2_master_skeleton_parameter_contract.yaml }
+  BODY_Y_MM:            { value: 226.3,  state: EVIDENCE_BOUND, source: V2_master_skeleton_parameter_contract.yaml }
+  BODY_Z_MM:            { value: 226.3,  state: EVIDENCE_BOUND, source: V2_master_skeleton_parameter_contract.yaml }
+  BODY_HALF_X_MM:       { value: 170.25, state: DERIVED,        formula: BODY_X_MM/2 }
+  BODY_HALF_Y_MM:       { value: 113.15, state: DERIVED,        formula: BODY_Y_MM/2 }
+  BODY_HALF_Z_MM:       { value: 113.15, state: DERIVED,        formula: BODY_Z_MM/2 }
+  BAY_COUNT:            { value: 3,      state: EVIDENCE_BOUND, source: V2_master_skeleton_parameter_contract.yaml }
+  BAY_LENGTH_NOMINAL_MM: { value: 113.5,  state: DERIVED,        formula: BODY_X_MM/3 }
+  TASK_FACE_X_MM:       { value: 170.25, state: DERIVED }
+  REAR_MID_BOUNDARY_X_MM: { value: -56.75, state: DERIVED, formula: -BODY_X_MM/6 }
+  MID_FRONT_BOUNDARY_X_MM: { value: 56.75, state: DERIVED, formula: +BODY_X_MM/6 }
+  MOUNT_ORIGIN_X_MM:    { value: 185.25, state: EVIDENCE_BOUND }
+  MOUNT_OFFSET_FROM_TASK_FACE_MM: { value: 15.0, state: DERIVED, formula: 185.25-170.25 }
+  MOUNT_RY_DEG:         { value: 90.0,   state: EVIDENCE_BOUND }
+  SERVICER_FLANGE_X_MM: { value: 15.0,   state: EVIDENCE_BOUND }
+  SERVICER_FLANGE_Y_MM: { value: 160.0,  state: EVIDENCE_BOUND }
+  SERVICER_FLANGE_Z_MM: { value: 160.0,  state: EVIDENCE_BOUND }
+  ADAPTER_PLATE_X_MM:   { value: 12.0,   state: EVIDENCE_BOUND }
+  ADAPTER_PLATE_Y_MM:   { value: 160.0,  state: EVIDENCE_BOUND }
+  ADAPTER_PLATE_Z_MM:   { value: 160.0,  state: EVIDENCE_BOUND }
+  ADAPTER_BOSS_D_MM:    { value: 100.0,  state: EVIDENCE_BOUND }
+  ADAPTER_BOSS_H_MM:    { value: 15.0,   state: EVIDENCE_BOUND }
+  PRIMARY_LONGERON_COUNT: { value: 4, state: DESIGN_PROPOSAL, source: inherited_A4_B1_visual_topology }
+  TRANSVERSE_RING_COUNT:  { value: 4, state: DESIGN_PROPOSAL, source: inherited_A4_B1_visual_topology }
+  BAY_BOUNDARY_DECK_COUNT: { value: 2, state: DESIGN_PROPOSAL }
+  DEPLOYED_REFERENCE_ENVELOPE_MM:
+    value: [440.5, 626.3, 276.3]
+    state: EVIDENCE_BOUND
+    drives_body_envelope: false
+    claim_limit: V1_deployed_STL_reference_only
+
+unknown_blocked:   # 这些量在 CAD 中必须保持空/禁用，任何脚本填值 = EVIDENCE_POLLUTION
+  - material
+  - section_dimensions
+  - wall_thickness
+  - joints_and_fasteners
+  - T_SB          # CS_B enabled=false
+  - T_E_TCP       # CS_TCP_CONTACT enabled=false
+  - T_SC          # CS_SENSOR enabled=false
+  - mass_properties_authority
+  - physical_TCP
+  - target_active_assembly
+
+reference_planes:  # 全部相对 CS_S（原点=包络中心），法向 +X_S（除太阳翼根）
+  PLANE_REAR_BODY_FACE:    { offset_x_mm: -170.25 }
+  PLANE_REAR_MID_BOUNDARY: { offset_x_mm: -56.75 }
+  PLANE_MID_FRONT_BOUNDARY:{ offset_x_mm: 56.75 }
+  PLANE_TASK_FACE:         { offset_x_mm: 170.25 }
+  PLANE_MOUNT_M:           { transform_ref: T_SM }
+  PLANE_SOLAR_ROOT_L:      { origin_mm: [-56.75, 113.15, 0.0], frame_ref: F_L, normal: +Y_S }
+  PLANE_SOLAR_ROOT_R:      { origin_mm: [-56.75, -113.15, 0.0], frame_ref: F_R, normal: -Y_S }
+
+coordinate_systems:
+  CS_S:  { parent: null, origin: body_envelope_center, state: EVIDENCE_BOUND }
+  CS_M:  { parent: CS_S, transform_ref: T_SM, state: EVIDENCE_BOUND }
+  CS_A0: { parent: CS_M, transform_ref: T_MA0_identity, state: EVIDENCE_BOUND }
+  CS_B:  { enabled: false, state: UNKNOWN_BLOCKED }
+  CS_E_VIRTUAL: { parent: B601_link6, state: EVIDENCE_BOUND, note: 无 q 无全局位姿 }
+  CS_TCP_CONTACT: { enabled: false, state: UNKNOWN_BLOCKED }
+  CS_SENSOR: { enabled: false, state: UNKNOWN_BLOCKED }
+
+transforms:
+  T_SM:
+    translation_mm: [185.25, 0.0, 0.0]
+    rotation: R_y_plus_90_deg
+    rotation_rows: [[0,0,1],[0,1,0],[-1,0,0]]
+    solidworks_arraydata_16: [0,0,-1, 0,1,0, 1,0,0, 0.18525,0,0, 1, 0,0,0]
+    arraydata_translation_unit: m   # 写 MathTransform 必须用米（0.18525），mm 会错 1000 倍
+    state: EVIDENCE_BOUND
+    source: frame_export_v0_1.yaml
+  T_MA0:
+    translation_mm: [0.0, 0.0, 0.0]
+    rotation: identity
+    state: DESIGN_BOUND
+    limitation: geometry_insertion_contract_only
+
+b601:
+  accepted_urdf: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  mesh_dir: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper
+  topology: 10_links_9_joints
+  links: [base_link, link1, link2, link3, link4, link5, link6, gripper_link, gripper_left, gripper_right]
+  pose: q_zero    # gripper prismatic 锁定于 capture-ready
+  hash_verified: evidence/b3_00/B3_entry_verification.json (11/11 MATCH)
+  v1_visual_parts: 20_engineering/cad/Space_Embodied_Robot_CAD_V1_0/03_B601_Visual  # 32/32 已核，只读复用来源
+  vendor_step: FORBIDDEN   # 禁复制/导入/修改/分发
+
+custom_properties_schema:   # 每个一级文档 15 项，全部必填
+  - OBJECT_ID
+  - SYSTEM_OWNER
+  - PARENT_ID
+  - STRUCTURE_CLASS        # PRIMARY_STRUCTURE / SECONDARY_STRUCTURE / REFERENCE / VOLUME_OWNER / VISUAL
+  - REPRESENTATION_LAYER
+  - EVIDENCE_STATE         # EVIDENCE_BOUND / DESIGN_PROPOSAL / UNKNOWN_BLOCKED / EXCLUDED
+  - SOURCE_REFERENCE
+  - FRAME_ID
+  - INTERFACE_IDS
+  - MASS_OWNER
+  - NO_DYNAMICS_USE        # 恒 true
+  - MANUFACTURING_AUTHORITY # 恒 NONE
+  - EXECUTION_AUTHORITY    # 恒 DISPLAY_ONLY
+  - CLAIM_LIMIT
+  - BLOCKED_CONSUMERS
+
+interfaces:
+  IF-RM-001: robot_mount
+  IF-RM-002: B601_insertion
+  IF-SA-L: solar_root_left     # 保持原编号风格，勿归一化
+  IF-SA-R: solar_root_right
+  IF-PL-001: perception_payload
+  IF-EE-001: end_effector_contact
+
+named_configurations:
+  - STRUCTURAL_REVIEW
+  - SERVICE_ACCESS_REVIEW
+  - DEPLOYED_REFERENCE_Q0
+  - STOWED_PROPOSAL
+  - SAFE_DISPLAY_PROPOSAL
+  - EVIDENCE_STATE_REVIEW
+  # INDEPENDENT_SCENE 仅用于独立 target 场景文件（V2-VIEW-15），不在主装配
+
+file_layout:
+  root: 20_engineering/cad/Space_Embodied_Robot_CAD_V2_0
+  master_skeleton: 00_Master_Skeleton/Master_Skeleton_V2_0.SLDPRT
+  top_assembly: Assembly/Spacecraft_Service_Vehicle_V2_0.SLDASM
+  modules:
+    - 00_Master_Skeleton
+    - 01_Primary_Structure
+    - 02_Front_Mission_Module
+    - 03_Avionics_EPS_ADCS_Bay
+    - 04_Rear_Service_Module
+    - 05_Robot_Mount_Module
+    - 06_B601_Visual_Arm
+    - 07_Solar_Array_Interface_Module
+    - 08_Payload_Perception_Interface
+    - 09_Service_Access_and_Harness_References
+    - 10_Review_Overlays
+
+# ---- B3-03 主结构显示提案（本轮设计决定，先入规格后建模）----------------------
+# 合同字段（section/material/joints）保持 null；以下仅为显示表达尺寸，
+# claim_limit = display_representation_only_real_section_UNKNOWN_BLOCKED。
+structure_display_proposal:
+  state: DESIGN_PROPOSAL_DISPLAY_ONLY
+  FRAME_BAND_WIDTH_MM: 15.0        # 框环周向带宽（含四角与纵梁重合区，框上切角避让）
+  FRAME_DEPTH_X_MM: 12.0           # 框环沿 X 厚度
+  LONGERON_SECTION_MM: [15.0, 15.0]  # 纵梁方截面，角点内贴包络
+  DECK_THICKNESS_MM: 8.0           # 舱段边界甲板厚度（居中于站位）
+  PANEL_THICKNESS_MM: 3.0          # 可拆外板厚度（外表面与包络齐平，向内）
+  layout_rules:
+    frames:                         # X 站位区间（端框内收、中框居中）
+      FRM_REAR_BOUNDARY: { x_span_mm: [-170.25, -158.25], lp_id: LP_REAR_FRAME }
+      FRM_REAR_MID:      { x_span_mm: [-62.75, -50.75],   lp_id: LP_REAR_MID_FRAME }
+      FRM_MID_FRONT:     { x_span_mm: [50.75, 62.75],     lp_id: LP_MID_FRONT_FRAME }
+      FRM_FRONT_TASK:    { x_span_mm: [158.25, 170.25],   lp_id: LP_FRONT_FRAME }
+    frame_section: 外环 226.3x226.3，内开口 196.3x196.3，四角 15x15 切角避让纵梁
+    longerons:                      # 全长 340.5，方 15x15，中心线位于
+      LNG_PY_PZ: { yc_mm: 105.65,  zc_mm: 105.65 }
+      LNG_PY_NZ: { yc_mm: 105.65,  zc_mm: -105.65 }
+      LNG_NY_PZ: { yc_mm: -105.65, zc_mm: 105.65 }
+      LNG_NY_NZ: { yc_mm: -105.65, zc_mm: -105.65 }
+    decks:                          # 196.3x196.3x8，居中于舱段边界站位
+      DECK_REAR_MID:  { x_center_mm: -56.75, class: PRIMARY_OR_SECONDARY_TBD }
+      DECK_MID_FRONT: { x_center_mm: 56.75,  class: PRIMARY_OR_SECONDARY_TBD }
+    side_panels:                    # SECONDARY_PROPOSAL；X [-158.25,158.25]，宽 196.3，厚 3 向内
+      PNL_TOP:    { face: +Z }
+      PNL_BOTTOM: { face: -Z }
+      PNL_LEFT:   { face: +Y }
+      PNL_RIGHT:  { face: -Y }
+    front_rear_panels: 前任务面板归 02_Front_Mission_Module、后服务面板归 04_Rear_Service_Module（本模块不建）
+  modeling_convention: 零件在 S 全局坐标内直接建模，装配一律恒等变换插入并固定
+
+# ---- B3-04 机械臂安装模块显示方案（V1 探针证据：V1 adapter 在 M 局部 z∈[-27,0]，
+#       即安装堆叠从 M 面向内 27mm=法兰15+板12，与前框内缘 158.25 衔接）--------------
+robot_mount_display_proposal:
+  state: DESIGN_PROPOSAL_DISPLAY_ONLY
+  separation_rule: 法兰=bus_structure owner；板/boss=robot_adapter owner（B3-04 分离要求）
+  parts:
+    SV2_MNT_SERVICER_FLANGE:    # EVIDENCE_BOUND 包络 15x160x160
+      x_span_mm: [170.25, 185.25]
+      section_mm: [160.0, 160.0]
+      owner: bus_structure
+      lp_id: LPE_003_front_frame_side
+    SV2_MNT_ADAPTER_PLATE:      # EVIDENCE_BOUND 包络 12x160x160；位于前框开口平面内
+      x_span_mm: [158.25, 170.25]
+      section_mm: [160.0, 160.0]
+      owner: robot_adapter
+      lp_id: LPE_002
+    SV2_MNT_ADAPTER_BOSS:       # EVIDENCE_BOUND 包络 Ø100x15；伸入前舱=局部载荷扩散柱
+      x_span_mm: [143.25, 158.25]
+      diameter_mm: 100.0
+      owner: robot_adapter
+      lp_id: LPE_002
+    SV2_MNT_RIB_SET:            # MOUNT_TO_FRAME_RIB_SET 提案：4 肋条 boss→框角方向
+      x_span_mm: [152.25, 158.25]
+      bars: [{axis: +Y}, {axis: -Y}, {axis: +Z}, {axis: -Z}]
+      bar_span_mm: [50.0, 98.15]   # 从 boss 圆柱面到框内缘
+      bar_width_mm: 10.0
+      owner: bus_structure
+      claim: rib_count_shape_thickness_not_selected
+  references:
+    VIRTUAL_FT_INTERFACE: 与 PLANE_MOUNT_M 重合的具名参考面 + 说明属性（无传感器选型）
+    CABLE_PASSAGE: 法兰面 Ø30 参考圆草图 y=+55,z=0（走线过孔 reference，非开孔权威）
+    TOOL_ACCESS_KEEPOUT: M 面外侧 200x200x100 keepout 线框（装拆工具空间 reference）
+    WRENCH_OVERLAY: M 点 6 向符号线（F_M/M_M 符号接口，无数值，非载荷证据）
+
+# ---- B3-05 三舱 volume owner（V2_subsystem_volume_owner_register 派生）------------
+# 治理：volumes_may_overlap=false；null_geometry_may_be_filled_without_source=false
+# ⇒ 无来源尺寸的 volume 一律零实体 owner 参考件（具名站位点+完整属性），不发明盒子。
+bay_volume_owners:
+  front_mission_bay:      # x ∈ [56.75, 170.25]
+    VOL-FM-ROBOT:  { station_x_mm: 113.5,  owner: ROBOT_SPACECRAFT_INTERFACE,
+                     state: EVIDENCE_BOUND_INTERFACE, realized_by: 05_Robot_Mount_Module,
+                     mass_owner: adapter_owner_and_b601_urdf_owner, service: TOOL_ACCESS_TBD }
+    VOL-FM-SENSOR: { station_x_mm: 113.5,  owner: PERCEPTION_HARDWARE_OWNER,
+                     state: UNKNOWN_BLOCKED, zero_solid_required: true,
+                     mass_owner: UNASSIGNED, service: "null" }
+  avionics_bay:           # x ∈ [-56.75, 56.75]
+    VOL-MID-OBC:  { station_x_mm: 0.0, owner: C_AND_DH_OWNER, state: DESIGN_PROPOSAL,
+                    mass_owner: UNASSIGNED, service: TRAY_EXTRACTION_TBD }
+    VOL-MID-EPS:  { station_x_mm: 0.0, owner: EPS_PMAD_OWNER, state: DESIGN_PROPOSAL,
+                    mass_owner: UNASSIGNED, service: TRAY_EXTRACTION_TBD }
+    VOL-MID-BAT:  { station_x_mm: 0.0, owner: BATTERY_OWNER, state: DESIGN_PROPOSAL,
+                    mass_owner: UNASSIGNED, service: TRAY_EXTRACTION_TBD }
+    VOL-MID-ADCS: { station_x_mm: 0.0, owner: ADCS_OWNER, state: DESIGN_PROPOSAL,
+                    mass_owner: UNASSIGNED, service: TRAY_EXTRACTION_TBD }
+  rear_service_bay:       # x ∈ [-170.25, -56.75]
+    VOL-REAR-PROP:    { station_x_mm: -113.5, owner: PROPULSION_OWNER,
+                        state: UNKNOWN_BLOCKED, zero_solid_required: true,
+                        mass_owner: UNASSIGNED, service: "null" }
+    VOL-REAR-COMM:    { station_x_mm: -113.5, owner: COMMUNICATIONS_OWNER,
+                        state: DESIGN_PROPOSAL, mass_owner: UNASSIGNED,
+                        service: REAR_ACCESS_CANDIDATE }
+    VOL-REAR-THERMAL: { station_x_mm: -113.5, owner: THERMAL_OWNER,
+                        state: DESIGN_PROPOSAL, mass_owner: UNASSIGNED,
+                        service: REAR_ACCESS_CANDIDATE }
+    VOL-REAR-SERVICE: { station_x_mm: -113.5, owner: INTEGRATION_AND_TEST_OWNER,
+                        state: DESIGN_PROPOSAL, mass_owner: UNASSIGNED,
+                        service: REAR_ACCESS_CANDIDATE }
+  access_panels:          # DESIGN_PROPOSAL（R3 面板候选拆卸方向）
+    PNL_FRONT_MISSION_ACCESS:   # +X_S 拆卸；中央避让 adapter plate(±80)，4 条边条
+      x_span_mm: [167.25, 170.25]
+      strips: 边条内缘 82.0，外缘 98.15（与前框开口齐）
+    PNL_REAR_SERVICE_ACCESS:    # -X_S 拆卸；整板
+      x_span_mm: [-170.25, -167.25]
+      half_wh_mm: 98.15
+
+# ---- B3-06b 太阳翼接口模块（几何 SSOT flexible_appendage_v1.yaml 冻结值）---------
+solar_interface:
+  panel_geometry_source: 20_engineering/config/geometry/flexible_appendage_v1.yaml
+  span_mm: 200.0        # 沿 +Y_F 悬臂（frozen）
+  chord_mm: 227.0       # 沿 X_S（frozen）
+  thickness_mm: 6.0     # 占位板厚（frozen for v1）
+  envelope_closure: 226.3 + 2*200 = 626.3 = DEPLOYED_REFERENCE_ENVELOPE Y（精确闭合）
+  wings:
+    SOLAR_WING_L_DEPLOYED_REF: { y_span_mm: [113.15, 313.15],
+                                 x_span_mm: [-170.25, 56.75], z_span_mm: [-3.0, 3.0] }
+    SOLAR_WING_R_DEPLOYED_REF: { y_span_mm: [-313.15, -113.15],
+                                 x_span_mm: [-170.25, 56.75], z_span_mm: [-3.0, 3.0] }
+  root_interfaces:      # 铰链/释放/锁定/驱动 UNKNOWN（V2-UNK-010）⇒ 零实体 owner
+    SOLAR_ROOT_L_IF: { origin_mm: [-56.75, 113.15, 0.0], interface: IF-SA-L }
+    SOLAR_ROOT_R_IF: { origin_mm: [-56.75, -113.15, 0.0], interface: IF-SA-R }
+  configuration_semantics:
+    DEPLOYED_REFERENCE_Q0: 翼板显示（几何参考态，非部署验证）
+    STOWED_PROPOSAL: 翼板抑制 + 注记（收拢几何 UNKNOWN，不做飞行收拢声明）
+    SAFE_DISPLAY_PROPOSAL: 翼板抑制（安全展示提案）
+  prohibited: [deployment_verified, latch_verified, release_verified, stowed_geometry_claimed]
+
+inherited_negative_results:
+  q0_static_interferences:
+    count: 10
+    classification: NEGATIVE_RESULT
+    global_collision_safety: BLOCKED
+    rule: 必须保留并在评审视图可见，禁止 suppress 消除
+
+prohibited_claims:
+  - STRENGTH_PASS
+  - STIFFNESS_PASS
+  - MODAL_PASS
+  - FLIGHT_QUALIFIED
+  - standard_12U_compliant
+  - global_collision_safe
+  - autonomous_capture_demonstrated

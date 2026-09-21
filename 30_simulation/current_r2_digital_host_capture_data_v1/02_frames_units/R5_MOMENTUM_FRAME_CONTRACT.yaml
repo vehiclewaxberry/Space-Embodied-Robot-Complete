@@ -1,0 +1,39 @@
+schema: R5_MOMENTUM_FRAME_CONTRACT_V1
+N: fixed inertial frame I
+O: INERTIAL_ORIGIN_I fixed in N
+primary_linear_momentum:
+  field: P_I
+  expressed_in: I
+  unit: kg*m/s
+primary_angular_momentum:
+  field: H_O_I
+  about: INERTIAL_ORIGIN_I
+  expressed_in: I
+  unit: N*m*s
+secondary_com_check: H_C_I = H_O_I - p_C_I cross P_I
+base_state:
+  position: p_WB expressed in I, m
+  quaternion: wxyz, rotation B to I
+  base_spatial_velocity: '[omega_B; v_B] expressed in B; converted before inertial
+    momentum sum'
+mixing_prohibition: P and H may share a spatial-vector storage container but may never
+  share an ordinary Euclidean norm or hard Gate
+authority_inputs:
+  frame_graph:
+    path: 30_simulation/current_r2_digital_host_capture_data_v1/02_frames_units/FRAME_GRAPH.yaml
+    sha256: ef696dde3be403c59dce2c64fb828615c853567a1263195f6e73a00b021944ff
+  unit_contract:
+    path: 30_simulation/current_r2_digital_host_capture_data_v1/02_frames_units/UNIT_CONTRACT.yaml
+    sha256: 40d02a65c49b60f788352b73ce95ea98422fe9474004cee72daa35094b4041d5
+  reference_point_contract:
+    path: 30_simulation/current_r2_digital_host_capture_data_v1/02_frames_units/REFERENCE_POINT_CONTRACT.yaml
+    sha256: 76afbe0b20f374be20c8f8b2ef04648dcdc764a20cbd1169e815d82ff9eaa036
+  inertia_convention:
+    path: 30_simulation/current_r2_digital_host_capture_data_v1/02_frames_units/INERTIA_CONVENTION.yaml
+    sha256: ae761f205bf24d532176d8778efd7eb2a999c4ccd8ab872b585f946dfca387fb
+  safe_prebind:
+    path: 30_simulation/current_r2_digital_host_capture_data_v1/08_control_safe/SAFE_PREBIND_CONFIG.yaml
+    sha256: 87b4d6bfc7b3ce67d82a2e99aac8893a6d6c6c5d093a069f16d7b368952da340
+  authority_snapshot:
+    path: 30_simulation/current_r2_digital_host_capture_data_v1/00_authority/CURRENT_V2_STATUS_SNAPSHOT.json
+    sha256: ead7289f8fe51366fa74cab145de45a4b04a7db2e3b37abe861203cc6cb1dbd3

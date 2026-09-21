@@ -1,0 +1,188 @@
+schema_version: comp-prot-03-a3-geometry-only-entry-gate-v0.1
+gate_id: A3-GEOMETRY-ONLY-ENTRY-REVIEW
+phase: COMP-PROT-03-A3-G0-EVIDENCE-CLOSURE
+evaluated_on: "2026-07-23"
+gate_scope: DOCUMENT_DATA_AND_PROVENANCE_CONTRACT_ONLY
+scientific_gate: false
+
+verdict:
+  g0_evidence_closure: PASS_WITH_SCOPE_ISOLATION
+  digital_mechanical_host: PRE_CAD_DIGITAL_MECHANICAL_HOST_CONTRACT_READY
+  geometry_only_entry_review: A3_GEOMETRY_ONLY_ENTRY_REVIEW_READY_TO_REQUEST
+  geometry_only_execution_authorized: false
+  full_cad_urdf_entry: CAD_ENTRY_BLOCKED_BY_EVIDENCE
+  automatic_transition: false
+  new_human_approval_required: true
+
+packet_snapshot:
+  hash_algorithm: SHA-256
+  hash_mode: RAW_BYTES
+  records:
+    - record_id: digital_mechanical_host_schema
+      path: digital_mechanical_host.schema.json
+      sha256: c6ecc930573088064b6609c07715a630a7aa6ee5d13c647c2e06d404f4045dc9
+    - record_id: digital_mechanical_host
+      path: digital_mechanical_host_v0_1.yaml
+      sha256: 846f35d54db3ccc507acb6b4045c557e7799f012d9d36d19e67a9b59ff07296a
+    - record_id: profile_decision
+      path: cad_profile_decision_v0_1.yaml
+      sha256: f6cf7075fb00ba45548fba23c9a4d36a7e36a76f931cde933f68a01c7b3b898a
+    - record_id: mass_owner_registry
+      path: mass_owner_registry_v0_1.yaml
+      sha256: ae5b028bdeeebd04ddf53ecdcdb7f867d34b2b01b2c788cc0b85de456ec73410
+    - record_id: frame_tree_overlay
+      path: frame_tree_v2_candidate.yaml
+      sha256: ba2034841602eb46f11f20052b55665e85ed2e064427aa80819d4f1c665e15b6
+    - record_id: interface_semantics
+      path: mechanical_interface_semantics_v0_1.yaml
+      sha256: f3d424e77be9bf394eb30d2796288d0fddc1dcffd8010ef8d8b045835d643020
+    - record_id: solidworks_input
+      path: solidworks_skeleton_input_v0_1.yaml
+      sha256: 1601e4820a01f2fed626e78061037bea555b79654995ffca01442d4ac2335017
+    - record_id: blocker_matrix
+      path: evidence_closure_matrix.yaml
+      sha256: 2c6351469610641bea911bf8ffed3a7744697d69ade0ad9b81cafb3e929c3174
+    - record_id: portable_license
+      path: ../../../80_third_party/notices/rebot_b601/CERN-OHL-W-2.0.txt
+      sha256: e258a9c6833bfd17fb90252df8c33e29d13fabc2768508248927824c17878db7
+    - record_id: portable_notice
+      path: ../../../80_third_party/notices/rebot_b601/NOTICE.md
+      sha256: 80a6a2528f2dda8eb159405c98af9b42df0da8cab848e416f551f66e5f844ef4
+    - record_id: portable_provenance
+      path: ../../../80_third_party/notices/rebot_b601/PROVENANCE.yaml
+      sha256: 02c38ec0273ed7850dbdcdb8ae00e728b31936b6541328b1b371c2646239d287
+
+checks:
+  - check_id: G0-01
+    requirement: approval_scope_is_recorded_and_forbids_CAD_generation
+    result: PASS
+    evidence:
+      - approval_scope_record.md
+      - research_execution_plan.md
+  - check_id: G0-02
+    requirement: exactly_one_geometry_profile_is_selected
+    result: PASS
+    observed:
+      selected_profile: COMPETITION_DISPLAY_V0
+      selected_count: 1
+      candidate_count: 2
+  - check_id: G0-03
+    requirement: T_SM_is_single_valued_and_bound_to_selected_profile
+    result: PASS
+    observed:
+      translation_mm_S: [185.25, 0.0, 0.0]
+      rotation: R_y_plus_90_deg
+      claim_scope: NON_FLIGHT_DISPLAY_ONLY
+  - check_id: G0-04
+    requirement: mass_components_have_exactly_one_owner_and_representation
+    result: PASS
+    observed:
+      servicer_split_kg_source_decimal: "24.0000000"
+      adapter_kg_source_decimal: "1.2"
+      b601_kg_source_decimal: "4.6955559493429862"
+      candidate_total_kg_source_decimal: "29.8955559493429862"
+      total_label: PROVISIONAL_DESIGN_LEDGER_TOTAL
+  - check_id: G0-05
+    requirement: B601_mass_conflict_is_decided_without_overwriting_sources
+    result: PASS
+    observed:
+      selected_source: accepted_URDF_exact_10link_sum
+      frozen_yaml_modified: false
+      physical_weighing_claimed: false
+  - check_id: G0-06
+    requirement: geometry_only_frame_chain_is_single_valued_and_fail_closed
+    result: PASS
+    observed:
+      enabled_chain: [S, M, A0, G, E]
+      T_SB: UNKNOWN_DISABLED
+      T_E_TCP: UNKNOWN_DISABLED
+      G_equals_E: false
+      E_equals_TCP: false
+  - check_id: G0-07
+    requirement: target_and_contact_semantics_are_isolated
+    result: PASS
+    observed:
+      target_included: false
+      target_interface_enabled: false
+      canonical_debris_semantic_conflict_closed: false
+  - check_id: G0-08
+    requirement: portable_B601_license_NOTICE_commit_and_hash_record_exist
+    result: PASS
+    observed:
+      license_id: CERN-OHL-W-2.0
+      normalized_license_text_equal: true
+      upstream_commit: 71a1a6e662c3935c83d46e11c8d610d1e92b0486
+      vendor_STEP_consumed: false
+  - check_id: G0-09
+    requirement: SolidWorks_input_contract_exists_but_no_CAD_is_created
+    result: PASS
+    observed:
+      input_contract: solidworks_skeleton_input_v0_1.yaml
+      expected_future_output: 12U_Master_Skeleton.SLDASM
+      expected_future_output_exists: false
+  - check_id: G0-10
+    requirement: all_15_A2_blockers_have_geometry_only_scope_disposition
+    result: PASS
+    observed:
+      denominator: 15
+      closed_for_geometry_only_input: 5
+      isolated_from_geometry_only: 7
+      carried_limitation: 1
+      A3_exit_evidence: 2
+  - check_id: G0-11
+    requirement: original_A2_packet_hashes_are_unchanged
+    result: PASS
+    observed:
+      mechanical_standard: 61fb5695f9f3e03788a5a3e226c344217b10c5cbe121e15c2161aeab52f3242e
+      candidate_configuration: a055fb70c7e39047a84381c22bafed61a63932c334e81986a7b14599dce0a820
+      digital_skeleton: 5d0f87aaabc00e43466873d67213455f75c568521eb5acaa84dbeed6d3d7248d
+      blocker_ledger: c71308c2b5d3cab5ebb93d2340771eb7bcddb4b9e4654c316bff5bfd1a40e7b8
+      cad_gate: f2846219a6bd0ca906f9b95636b707120d22ac158c960314705dc133e5b91353
+  - check_id: G0-12
+    requirement: frozen_scientific_and_geometry_domains_are_unmodified
+    result: PASS
+    observed:
+      tracked_diff:
+        20_engineering_config_geometry: 0
+        20_engineering_cad: 0
+        30_simulation: 0
+        40_evidence: 0
+
+unknowns_preserved:
+  - T_SB
+  - T_E_TCP
+  - candidate_aggregate_com
+  - candidate_aggregate_inertia
+  - adapter_axial_stack
+  - panel_configuration
+  - camera_package
+  - target_contact_interface
+
+full_scope_blockers:
+  mandatory_for_URDF_or_dynamics:
+    - DB-BLK-009
+  mandatory_if_target_enters:
+    - DB-BLK-004
+    - DB-BLK-011
+    - DB-BLK-012
+  A3_exit_evidence:
+    - DB-BLK-010
+    - DB-BLK-015
+
+stop_rules:
+  create_or_open_SolidWorks_model: false
+  create_CAD_or_URDF: false
+  import_vendor_STEP: false
+  run_simulation_or_control: false
+  modify_existing_gate_JSON: false
+  claim_all_15_blockers_evidence_closed_for_full_scope: false
+
+next_human_decision:
+  request: APPROVE_OR_DENY_A3_GEOMETRY_ONLY
+  if_approved_scope:
+    - create_master_skeleton_only
+    - use_COMPETITION_DISPLAY_V0
+    - carry_NO_DYNAMICS_USE
+    - keep_target_excluded
+    - generate_interference_and_frame_export_evidence
+  not_authorized_by_this_gate: true

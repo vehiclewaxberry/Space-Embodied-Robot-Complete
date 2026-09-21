@@ -1,0 +1,76 @@
+schema_version: comp-prot-03-a4-b1-semantic-addendum-v0.1
+created_on: "2026-07-23"
+status: APPROVED_FOR_A4_B1_AUTHORING
+reason: resolve_pre_authoring_red_team_ambiguities
+
+token_corrections:
+  sensor_semantic_reference:
+    old: PHYSICAL_RESERVED
+    new: SEMANTIC_REFERENCE
+  target_scene_reference:
+    old: PHYSICAL_RESERVED
+    new: SCENE_REFERENCE
+  source_property:
+    canonical_key: SOURCE_REFERENCE
+    deprecated_key: SOURCE_REF
+
+disabled_frame_policy:
+  TCP_contact:
+    registry_entry_required: true
+    spatial_feature_allowed: false
+    coordinate_system_allowed: false
+    triad_allowed: false
+    mate_reference_allowed: false
+    value: null
+    status: UNKNOWN_DISABLED
+
+minimum_properties:
+  common:
+    - OBJECT_ID
+    - PARENT_ID
+    - REPRESENTATION_LAYER
+    - EVIDENCE_STATE
+    - SOURCE_REFERENCE
+    - SOURCE_SHA256
+    - FRAME_ID
+    - SEMANTIC_ROLE
+    - MASS_OWNER
+    - MASS_CONTRIBUTION
+    - NO_DYNAMICS_USE
+    - CLAIM_LIMIT
+    - BLOCKED_CONSUMERS
+    - MANUFACTURING_AUTHORITY
+    - EXECUTION_AUTHORITY
+  sensor:
+    IS_HARDWARE: "FALSE"
+    IS_OPTICAL_FRAME: "FALSE"
+    FOV_DEFINED: "FALSE"
+    FOV_CALIBRATED: "FALSE"
+    PERCEPTION_IMPLEMENTED: "FALSE"
+    OBSERVATION_VALIDATED: "FALSE"
+    SENSOR_MODEL: UNKNOWN
+  E_virtual:
+    FRAME_ROLE: VIRTUAL_TASK_DATUM
+    PHYSICAL_TCP: "FALSE"
+    T_E_TCP: UNKNOWN_DISABLED
+    CONTACT_GEOMETRY_ACTIVE: "FALSE"
+    INTERFACE_LEVEL: 0_REFERENCE_ONLY
+    COMMAND_EMITTED: "FALSE"
+  target_scene:
+    ACTIVE_ASSEMBLY_MEMBER: "FALSE"
+    FIXED_MATE: "FALSE"
+    CONTACT_ACTIVE: "FALSE"
+    RIGID_LOCK: "FALSE"
+    CAPTURE_STATE: NOT_MODELED
+    AUTONOMOUS_CAPTURE: "FALSE"
+
+hard_veto:
+  - camera_or_lens_solid
+  - numeric_FOV
+  - CS_SENSOR_claimed_as_optical_frame
+  - task_marker_claimed_as_perception_or_planning_result
+  - E_virtual_claimed_as_TCP_or_contact_point
+  - any_TCP_contact_spatial_feature
+  - target_contact_fixed_or_rigid_lock
+  - missing_exportable_custom_properties
+  - missing_values_defaulted_to_zero_false_or_identity

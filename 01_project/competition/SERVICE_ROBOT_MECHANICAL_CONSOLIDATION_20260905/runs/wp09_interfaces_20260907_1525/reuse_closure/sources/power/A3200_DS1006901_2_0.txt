@@ -1,0 +1,782 @@
+
+PDF PAGE 1
+4 
+ 
+  
+© 2025 GomSpace A/S    
+ 
+  
+NanoMind A3200 (200284) 
+NanoMind A3200 PWM from VAUX (103409) 
+ 
+ 
+Datasheet 
+On-board Computer System for mission critical space applications 
+
+
+PDF PAGE 2
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+2 
+ 
+ 
+  
+Product name: NanoMind A3200 
+ 
+Document No.: 1006901 
+ 
+Revision: 2.0 
+ 
+Author: PNN 
+ 
+Approved by: TIM 
+ 
+Approval date: 04-04-2025 
+ 
+ 
+ 
+Confidentiality Notice 
+ 
+This document is submitted for a specific purpose as agreed in writing and contains information, 
+which is confidential and proprietary. The recipient agrees by accepting this document, that this 
+material will not be used, transferred, reproduced, modified, copied or disclosed in whole or in 
+part, in any manner or to any third party, except own staff to meet the purpose for which it was 
+submitted without prior written consent. 
+ 
+GomSpace © 2025 
+
+PDF PAGE 3
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+3 
+ 
+1 Table of Contents 
+2 OVERVIEW ............................................................................................................................................... 4 
+2.1 Highlighted Features .................................................................................................................... 4 
+2.2 Block diagram .............................................................................................................................. 5 
+2.3 Functional Description ................................................................................................................. 5 
+2.3.1 Microcontroller ............................................................................................................................. 5 
+2.3.2 Two I2C Interfaces ....................................................................................................................... 5 
+2.3.3 CAN Interface .............................................................................................................................. 5 
+2.3.4 3-Axis Magnetometer and Gyroscope ......................................................................................... 6 
+2.3.5 3-PWM Bidirectional Outputs ....................................................................................................... 6 
+2.3.6 Connecter for GomSpace Sensor Bus ........................................................................................ 6 
+2.3.7 ADC and GPIO Channels ............................................................................................................ 6 
+2.3.8 RTC with 32 kB Nonvolatile Storage ........................................................................................... 6 
+2.3.9 SDRAM ........................................................................................................................................ 6 
+2.3.10 PPS .............................................................................................................................................. 6 
+3 HARDWARE LAYOUT, CONNECTORS AND PIN OUT ......................................................................... 7 
+3.1 A3200 Top ................................................................................................................................... 7 
+3.1.1 P1 - Picoblade USART (debug) Connector ................................................................................. 7 
+3.1.2 P2 - Picoblade Connector for JTAG ............................................................................................ 8 
+3.1.3 P6 - Picoblade Connector with PWM outputs .............................................................................. 8 
+3.1.4 P7 - Picoblade Connector with I2C and VBAT ............................................................................. 8 
+3.2 A3200 Bottom .............................................................................................................................. 9 
+3.2.1 X1 and X3 - FSI Main Connectors ............................................................................................... 9 
+4 MCU MAPPING ...................................................................................................................................... 10 
+5 GENERAL CHARACTERISTICS ........................................................................................................... 11 
+6 ABSOLUTE MAXIMUM RATINGS ......................................................................................................... 12 
+7 PHYSICAL CHARACTERISTICS ........................................................................................................... 12 
+8 ENVIRONMENT TESTING ..................................................................................................................... 12 
+9 DEBUG INTERFACE .............................................................................................................................. 13 
+10 SOFTWARE DEVELOPMENT ............................................................................................................... 13 
+11 MECHANICAL DRAWING ...................................................................................................................... 14 
+12 DISCLAIMER .......................................................................................................................................... 14 
+ 
+ 
+  
+
+PDF PAGE 4
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+4 
+2 Overview 
+The NanoMind A3200 (A3200) contains three main parts. 
+ 
+ The A3200 on-board computer (OBC) is designed as  an efficient system for space applications with 
+limited resources, such as e.g. for CubeSat or nano-satellite missions.  
+ A 3-Axis magnetometer and coil- drivers that can be used to implement attitude control based on 
+magnetic sensing and actuation.  
+ A 3-Axis gyroscope used for attitude control. 
+ 
+Its main interface to other subsystems is CAN and I 2C. For storage, the board carries a 128 MB NOR serial 
+flash. The RTC chip on the board also functions as a processor companion while 32 kB of FRAM provides non-
+volatile storage. 
+ 
+Beside the I
+2C controller for the main bus the board also has an extra I2C controller that can be used to interface 
+to external I2C components. For interfacing with SPI devices, the board has one external connection with three 
+chip selects. Furthermore, it has 8 inputs to an ADC. If needed, the ADC inputs can also be used as GPIO. 
+ 
+The form factor of the A3200 fits on the GomSpace NanoDocks, which makes it possible to fit both the A3200 
+and another daughterboard next to each other in the same space as a standard OBC would require. 
+ 
+2.1 Highlighted Features 
+ High-performance AVR32 MCU with advanced power saving features 
+ Clock frequency from 8 MHz to 64 MHz 
+ 512 KB build-in flash 
+ IEEE 754 FPU 
+ Wide range for clocks speeds with build-in PLL 
+ Multiple CSP data interfaces: I 2C, UART, CAN-Bus 
+ 128 MB NOR flash (On two dies of 64 MB each) 
+ 32 kB FRAM for persistent  configuration storage  
+ 32 MB SDRAM 
+ RTC clock 
+ On-board temperature sensors 
+ 8 external ADC channels that also can be used as GPIO 
+ External SPI with 3 chip selects 
+ Attitude stabilization system 
+o 3-Axis magneto resistive sensor 
+o 3-Axis gyroscope 
+o 3 bidirectional PWM outputs with current measurement 
+o I 2C interface for GomSpace Sensor Bus (GSSB) 
+ New compact daughter-board form-factor (compatible with GomSpace motherboards)  
+ Operational temperature: -30 °C to +85 °C  
+ 2 x 20-position hard-gold plated FSI one-piece connector  
+ UART console interface for easy use in lab setup  
+ PCB material: Glass/Polyimide 4+4 twin stack ESA ECSS-Q-ST-70-11-C  
+ IPC-A-610 Class 3 assembly  
+ 
+
+PDF PAGE 5
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+5 
+2.2 Block diagram 
+ 
+ 
+Figure 1: Block diagram of the A3200 board. 
+2.3 Functional Description 
+2.3.1 Microcontroller 
+The A3200 is based on an Atmel AT32UC3C MCU. This is a high performance 32-bit RISC architecture with 
+advanced power saving features to both facilitate tasks with a high computational demand and tasks where the 
+MCU is idle most of the time. For applications as ADCS  the MCU has floating point support that is based on 
+IEEE 754 floating point standard. 
+2.3.2 Two I 2C Interfaces 
+A3200 has two I2C buses supporting bidirectional data transfer between masters and slaves, multi- master bus, 
+arbitration between simultaneously transmitting masters without corruption of serial data on the bus. Serial clock 
+synchronization allows devices with different bit rate s to communicate via one serial bus and is used as a 
+handshake mechanism to suspend and resume serial transfer. 
+2.3.3 CAN Interface 
+One of the main interfaces of the A3200 to communicate with other subsystem hardware is a CAN bus interface. 
+The Controller Area Network (CAN) is a serial communi cations protocol that supp orts distributed real-time 
+control with a high level of security. The maximum bus speed is 1 Mbits/s. 
+ 
+The A3200 uses the SN65HVD230 as a CAN transceiver. Designed for operation in harsh environments, this 
+device features cross-wire protection, loss-of-ground and over-voltage protection, over-temperature protection, 
+as well as wide common mode range. This device provid es different modes of operation: high-speed, slope 
+control, and low-power modes. 
+ 
+
+
+PDF PAGE 6
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+6 
+2.3.4 3-Axis Magnetometer and Gyroscope 
+The A3200 includes a 3-Axis magnetometer to sense Ea rth’s magnetic field, the HMC5843 from Honeywell. 
+The device is based in the Honeywell’s Anisotropic Magnetoresistive (AMR) technology. The sensor features 
+precision in-axis sensitivity and linearity, and its solid-stat e construction with very low cross-axis sensitivity 
+designed to measure both direction and magnitude of Earth’s magnetic field, from 10 micro-gauss to 4 gauss. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Beside the magnetometer the board also includes a 3-Ax is gyroscope, the MPU-3300 from InvenSense. This 
+gyro has a low power consumption of less than 10 mW and an operating temperature range of -40 °C to +105 
+°C. It offers a full-scale range up to ±450 degrees per second and a bias instability of 15 degrees/hour. 
+ 
+Both the magnetometer and the gyroscope interface to the MCU via the I
+2C2 bus using a driver included in the 
+software library. 
+2.3.5 3-PWM Bidirectional Outputs 
+The A3200 has 3 bidirectional outputs from 3 H-bridge drivers designed to be controlled by a PWM output from 
+the microcontroller. The main purpose of these bidirectional outputs is to be used for external magnetorquers 
+to implement attitude control. It is possible to switch the power to the PWM driver, they also support current 
+measurements. On the A3200 (200284)  PWM output are supplied from 3.3v VCC, On the A3200 (103409)  
+PWM output are supplied from VAUX. 
+2.3.6 Connecter for GomSpace Sensor Bus 
+The A3200 has a connector with switchable power and I 2C2 bus which this can be used together with 
+GomSpace sun sensors and interstages panels.  
+2.3.7 ADC and GPIO Channels 
+To sample external analog values the board supplies 8 ADC channels in one of the main connectors. These 8 
+pins can also be configured to be GPIO instead of ADC inputs. 
+2.3.8 RTC with 32 kB Nonvolatile Storage 
+For timekeeping and storage of nonvolatile data the boar d includes a FM33256B processor companion from 
+Cypress. This chip includes RTC, watch dog, brown-out detect and 256 Kb ferroelectric random-access memory 
+(FRAM) which supports 1014 read/write cycles. 
+2.3.9 SDRAM 
+For applications that need more ram than what is embedded in the MCU the board also has 32 MB of SDRAM 
+connected to the microcontroller.  
+ 
+2.3.10 PPS 
+A Pulse Per Second (PPS) signal on this input can tri gger an event in the processor. This pin can also be 
+configured to a GPIO pin. 
+Figure 2 A3200 top view. Magnetometer and gyro directions 
+
+PDF PAGE 7
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+7 
+3 Hardware Layout, Connectors and Pin Out 
+ 
+3.1 A3200 Top 
+● Temperature sensors – Next to MCU 
+ 
+ 
+3.1.1 P1 - Picoblade USART (debug) Connector 
+Molex PicoBlade 53261-0471 
+ 
+The debug USART is designed for easy access to the A3200 configuration and makes it possible to do factory 
+checkout of standalone modules without a motherboard.  
+ 
+Warning: please only supply the NanoMind A3200 from a single power-supply. If you have the debug USART 
+connected to a PC and power is coming from the mo therboard, you must discon nect pin 2 in the debug 
+connector. Take special care about grounding when connecting a laptop with an external switch-mode power 
+supply as these tend to produce a high common-mode noise, which can damage the PCB’s if not grounded 
+correctly. Serial port settings are 500000 baud and 8n1. 
+ 
+Pin Description 
+1 GND 
+2 VCC_OBC 
+3 USART2 RX (Data to A3200) 
+4 USART2 TX (Data from A3200) 
+ 
+  
+
+
+PDF PAGE 8
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+8 
+ 
+3.1.2 P2 - Picoblade Connector for JTAG 
+Molex PicoBlade 53261-0871 
+ 
+The JTAG interface is used for software upload only. 
+ 
+Pin Description 
+1 TDO 
+2 TCK 
+3 TMS 
+4 TDI 
+5 RESET_N 
+6 RESET_N 
+7 VCC _OBC 
+8 GND 
+  
+3.1.3 P6 - Picoblade Connector with PWM outputs 
+Molex PicoBlade 53261-0671 
+ 
+Outputs for driving magnet torques are located in connector P6. The PWM drivers in the MCU control these 
+outputs and they are setup by default, but they can be configured different in the SW. 
+ 
+Pin Name Description 
+1 MT Z A POS 
+2 MT Z B NEG 
+3 MT Y A POS 
+4 MT Y B NEG 
+5 MT X A POS 
+6 MT X B NEG 
+ 
+ 
+3.1.4 P7 - Picoblade Connector with I 2C and VBAT 
+Molex PicoBlade 53261-0671 
+ 
+The P7 connector can be used together with GomSpace interstages and Fine Sun Sensors. The I2C bus in the 
+connector is also used on the board for the magnetomet er and the gyroscope and it can be connected to 
+external devices. Also found in the connector is two switchable outputs that are connected to the board VCC. 
+If an external device needs battery voltage it can be taken from this connector. (This is not available on product 
+103409 A3200 PWM on AUX due to max 6v on PWM.) 
+ 
+Pin Name Description 
+1 VAUX Normally connected to VBAT and used for antenna deployment 
+(this is not allowed on product 103409 A3200 PWM supplied from VAUX.) 
+2 GSSB_VCC2 Switchable output from board 
+3 GND  
+4 GSSB_VCC Switchable output from board 
+5 SCL2 I2C clock 
+6 SDA2 I 2C data 
+ 
+
+PDF PAGE 9
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+9 
+3.2 A3200 Bottom 
+● Temperature sensors – next to RAM 
+ 
+3.2.1 X1 and X3 - FSI Main Connectors 
+The main connectors are built into the PCB as two 20-position hard-gold plated FSI one-piece connectors. The 
+motherboard connector is a SAMTEC-FSI-110-D. The X1 and X3 connectors are connected to the NanoDock 
+FSI’s. Pressing the gold-plated PCB onto the connector and fastening the PCB to the motherboard using 4 
+screws connect the modules. The alignment is done with  two plastic pins that fit in the holes on the A3200 
+module. The overall stacking height between the motherboard and the A3200 module’s underside is 3.0 mm. A 
+3.0 mm spacer must therefore be used in each of the four corners of the A3200.  
+ 
+Se chapter 4 for mapping descriptions to the MCU pin numbers. 
+ 
+Pin Description for X1 Pin Description for X1 
+1 GND 20 GND 
+2 GND 19 GND 
+3 VCC_OBC 18 VCC_OBC 
+4 VCC_OBC 17 VCC_OBC 
+5 I2C SCL 16 VAUX 
+6 I2C SDA 15 VAUX 
+7 CAN high 14 PPS 
+8 CAN low 13 Not Connected 
+9 USART4 RX (data to A3200) 12 USART1 RX (data to A3200) 
+10 USART4 TX (data from A3200) 11 USART1 TX (data from A3200) 
+ 
+ 
+ 
+ 
+
+
+PDF PAGE 10
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+10 
+Pin Description for X3 Pin Description for X3 
+1 I2C 2 SDA 20 SPI0_SCK 
+2 I2C 2 SCL 19 SPI0_MOSI 
+3 GSSB VCC 18 SPI0_MISO 
+4 GND 17 SPI0_CS0 
+5 GSSB VCC2 16 SPI0_CS1 
+6 VAUX 15 SPI0_CS2 
+7 AD0 14 AD4 
+8 AD1 13 AD5 
+9 AD2 12 AD6 
+10 AD3 11 AD7 
+ 
+ 
+4 MCU Mapping 
+Consult the Atmel AT32UC3C0512C MCU Package LQFP144 datasheet to compare pins. 
+ 
+A3200 
+ 
+Description 
+Connector 
+ 
+ID 
+Connector 
+ 
+PIN 
+MCU 
+ 
+Pin 
+ 
+ 
+Mnemonic 
+I2C SCL X1 5 74 PC03 (through isolator) 
+I2C SDA X1 6 73 PC02 (through isolator) 
+CAN H X1 7 7 PB04 - CAN RX (through transceiver) 
+CAN L X1 8 8 PB05 - CAN TX (through transceiver) 
+USART4 RX X1 9 82 PC09 
+USART4 TX X1 10 81 PC08  
+USART1 TX X1 11 20 PB17 
+USART1 RX X1 12 19 PB16 
+GPIO X1 14 143 PB02 
+I2C 2 SDA X3 1 79 PC06 
+I2C 2 SCL X3 2 80 PC07 
+AD0 X3 7 21 PA04 
+AD1 X3 8 22 PA05 
+AD2 X3 9 23 PA06 
+AD3 X3 10 24 PA07 
+AD4 X3 14 25 PA08 
+AD5 X3 13 26 PA09 
+AD6 X3 12 27 PA10 
+AD7 X3 11 28 PA11 
+SPI_CS2 X3 15 72 PC01 
+SPI_CS1 X3 16 17 PB14 
+SPI_CS0 X3 17 16 PB13 
+SPI0_MISO X3 18 14 PB11 
+SPI0_MOSI X3 19 13 PB10 
+SPI_SCK X3 20 15 PB12 
+ 
+
+PDF PAGE 11
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+11 
+5 General Characteristics 
+Parameter Condition Min Typ. Max Unit 
+VCC_OBC Supply voltage 3.2 3.3 3.4 V 
+Clock Frequency  8 32 64 MHz 
+Operating temperature  -30  85 °C 
+Current consumption, 
+VCC_OBC = 3.3 V 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Power consumption  
+   VCC_OBC 
+All clocks 64 MHz, MCU idle
+1,2 
+All clocks 32 MHz, running ADCS1,2 
+All clocks 32 MHz, MCU idle1,2 
+All clocks 8 MHz, MCU idle1,2 
+Additional Current Consumption: 
+  Gyroscope on 
+  Magnetometer (10 Hz averaged) 
+External flash read 
+External flash Standby 
+ 
+ 
+ 
+42 
+45 
+33 
+23 
+ 
+3.6 
+0.9 
+ 
+70 
+ 
+0.17 
+ 
+ 
+ 
+ 
+ 
+ 
+18 
+200 
+ 
+ 
+0.9 
+mA 
+mA 
+mA 
+mA 
+ 
+mA 
+mA 
+mA 
+μA 
+ 
+W 
+PWM output X,Y,Z 
+- Supply voltage  
+   VCC_OBC 
+   VAUX (PWM from VAUX) 
+- Total current output  
+- Current output one Ch 
+- Frequency 
+- Duty cycle resolution 
+ 
+ 
+ 
+ 
+X+Y+Z 
+X or Y or Z 
+ 
+ 
+ 
+ 
+ 
+0 
+ 
+ 
+3.3 
+ 
+ 
+ 
+16 
+ 
+ 
+ 
+6 
+1 
+1 
+250 
+ 
+ 
+ 
+V 
+V 
+A 
+A 
+kHz 
+bit 
+Magnetometer 
+- Field range 
+- Measurement time 
+- Resolution 
+- SNR 
+ 
+ 
+ 
+-4 
+ 
+ 
+10 
+7 
+70 
+ 
+4 
+ 
+Gauss 
+ms 
+mG 
+dB 
+Gyroscope 
+- Full-Scale Range 
+- ADC Word Length 
+- Nonlinearity 
+- Cross-Axis Sensitivity 
+   
+225 
+16 
+0.2 
+±2 
+ 
+450 
+ 
+°/s 
+bit 
+% 
+% 
+I2C 
+- Voltage 
+- Bit-rate 
+  
+0 
+ 
+ 
+ 
+400 
+ 
+3.3 
+400 
+ 
+V 
+kbit/s 
+CAN 
+- Bus voltages  
+- Bit-rate 
+  
+-4 
+  
+16 
+1000 
+ 
+V 
+kbit/s 
+SPI 
+- Voltage 
+  
+0 
+  
+3.3 
+ 
+V 
+ADC 
+- Reference voltage  
+- Voltage range 
+ 
+ 
+ 
+ 
+ 
+0 
+ 
+ 
+ 
+ 
+2.5 
+2.5 
+ 
+V 
+V 
+GSSB Power channels Supply current @3.3 V   114 mA 
+ 
+1. Magnetometer, gyroscope, flash and SDRAM enabled 
+2. FreeRTOS idle call to sleep mode Frozen. 
+ 
+
+PDF PAGE 12
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+12 
+6 Absolute maximum ratings 
+Stresses above those listed under Absolute Maximum Ratings may cause permanent damage to the A3200. 
+Exposure to absolute maximum rating conditions for extended periods may affect the reliability. 
+ 
+Symbol Description Min. Max. Unit 
+I Supply current - 1 A 
+Tamb Operating Temperature -30 85 °C 
+Tstg Storage Temperature -30 85 °C 
+Vio Voltage on I2C/USART/JTAG pins -0.3 3.6 V 
+     
+ 
+7 Physical Characteristics 
+ 
+Description Value Unit 
+Mass including shield 24 g 
+Size 65 x 40 x 7.1  mm 
+ 
+8 Environment Testing 
+To simulate the harsh conditions of launch and space, the A3200 has been exposed to a number of environment 
+tests. For detailed information about the tests please contact GomSpace. 
+ 
+The A3200 has flown successfully on several satellites and performed perfectly. 
+ 
+ 
+
+PDF PAGE 13
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+13 
+9 Debug Interface 
+The debug interface is a USART that uses the GomSpace Shell (GOSH) to present a console-like interface to 
+the user. GOSH is a general feature present on all GomSpace products. To read more about GOSH please go 
+to www.gomspace.com  
+ 
+The console can be used during checkout of the A3200 to send commands and set parameters of the A3200. 
+Telemetry and housekeeping parameters can also be monitored. Here is a short list of some of the features of 
+the debug interface: 
+ 
+ Inspect CSP traffic (incoming and outgoing) 
+ Test command for board (Switch power channel s, read gyroscope and magnetometer, set PWM 
+outputs, etc.) 
+ Commands for other GomSpace subsystems as  NanoPower EPS, NanoCom radio and GomSpace 
+GSSB sensor devices such as NanoSense Fine Sun Sensor. 
+ 
+These features make it easy to te st the functionality and connections to  the A3200 before it is loaded with 
+custom software.  
+ 
+The GOSH console can be found in connector P1 and the COM port settings are 500000 baud 8n1. On Linux 
+it is recommended to use the program Minicom to see the terminal and on Windows Realterm can be used. For 
+a more detailed description of how to use GOSH please refer the GOSH manual. 
+10 Software Development 
+The software for the NanoMind A3200 comes in two packages, the A3200 Board Support Package (BSP) and 
+the A3200 Command & Management SDK. 
+ 
+The Board Support Package includes a patched version of the Atmel Software Framework (ASF) and lowlevel 
+utilities/drivers for the peripherals on the board. ASF also  includes FreeRTOS configured for running on the 
+microcontroller.  
+ 
+The A3200 comes with the Board Support Package included. The A3200 Command & Management SDK can 
+be purchased separately. 
+ 
+In the table below the different features are listed for the Standard Software Package and the A3200 Command 
+& Management SDK. 
+ 
+Feature A3200 Board Support Package A3200 Command & Management 
+SDK 
+Utilities (GOSH) and drivers   
+FreeRTOS   
+CSP   
+Parameter System   
+File Transfer Protocol   
+Housekeeping (telemetry)  
+Flight Planner  
+ 
+ 
+ 
+
+PDF PAGE 14
+© 2025 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ 
+ 
+Datasheet NanoMind A3200 
+26 Marts 2025 
+DS 1006901 2.0 
+14 
+11 Mechanical Drawing 
+All dimensions in mm. 
+ 
+ 
+ 
+12 Disclaimer 
+The information in this document is subject to change without notice and should not be construed as a 
+commitment by GomSpace. GomSpace assumes no respon sibility for any errors that may appear in this 
+document. 
+ 
+In no event shall GomSpace be liable for incidental or consequential damages arising from use of this document 
+or the software and hardware described in this document. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

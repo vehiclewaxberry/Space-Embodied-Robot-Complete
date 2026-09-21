@@ -1,0 +1,78 @@
+schema: M06_22_CONTACT_AND_LOCK_CONTRACT_V1
+generated_local: '2026-08-23T18:10:00+08:00'
+segment_id: M06_22
+authority_class: NON_RELEASE_DIAGNOSTIC_CANDIDATE
+source_bindings:
+- id: sim06
+  path: 30_simulation/sim_06_capture_impulse/results/capture_impulse_matrix_v0.csv
+  sha256: 8CBAD84B8FF69FFCA6992CE29E95520BAE3C309260EC8C55083CBE62DFED5151
+  bytes: 6431
+- id: sim11_contact
+  path: 20_engineering/config/coupled_scene/scene_A2_capture.yaml
+  sha256: 4B979A1DFD183AD938D79D6EB05A8FB0D4164C0E075A5391B467CC50E173A707
+  bytes: 2784
+- id: contact_contract
+  path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/05_contact_identification/CONTACT_MODEL_PARAMETER_CONTRACT_V1.yaml
+  sha256: 1BF741A508AA6F263D81458184840F2AD6608652250256CE84D7F2656BD04B6B
+  bytes: 5199
+- &id001
+  id: gripper_v2
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V2.yaml
+  sha256: C31938668746C6B5D3C8C6879D8F2B14BDF8FE78000274ADD8411E7FBB58CEF6
+  bytes: 13398
+- &id002
+  id: gripper_gate
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_gripper_velocity_unit_authority/02_gate/GRIPPER_VELOCITY_UNIT_GATE_V1.json
+  sha256: A93B08B56CB46623A0E8B96234B7FA48C1C59492F950A543BB164AD4CF4A0E7B
+  bytes: 2692
+- &id003
+  id: gripper_validation
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_gripper_velocity_unit_authority/03_validation/GRIPPER_VELOCITY_UNIT_VALIDATION_V1.json
+  sha256: 3E4EA63B8FAFBADE1BF158838557F607BB90911CC97A0306EB97A8D66A3EC348
+  bytes: 19325
+stimulus_matrix:
+  path: 30_simulation/e18_b601_mission_input_branches/02_candidates/M06_22_HALF_SINE_EQUAL_IMPULSE_STIMULUS_MATRIX_V1.csv
+  sha256: 1446339899916D4F5B37000A89EBA5D687E40F8A3D9E3FE152D695B5E022C0D0
+  case_count: 20
+  approach_speeds_m_s:
+  - 0.005
+  - 0.01
+  - 0.02
+  - 0.03
+  solver_contact_windows_ms:
+  - 5
+  - 10
+  - 20
+  - 50
+  - 100
+  waveform: half-sine equal impulse
+  measurement_model: Fpeak = pi*J/(2*Tc); integral_0^Tc F(t)dt = J
+  standard_uncertainty: null
+  uncertainty_reason: DETERMINISTIC_SOLVER_TRANSFORM_OF_DIAGNOSTIC_INPUT__NOT_A_PHYSICAL_MEASUREMENT
+  classification: SOLVER_STIMULUS_PROXY_NOT_HARDWARE_CONTACT
+physical_contact_and_lock:
+  contact_duration_s: null
+  contact_force_N: null
+  contact_pressure_Pa: null
+  contact_normal: null
+  contact_point_m: null
+  contact_area_m2: null
+  initial_gap_m: null
+  stiffness_N_m: null
+  damping_N_s_m: null
+  coefficient_of_restitution: null
+  static_friction_coefficient: null
+  kinetic_friction_coefficient: null
+  lock_confirmed: null
+  lock_retention_force_N: null
+  gripper_physical_closing_speed_m_s: null
+  gripper_physical_closing_time_s: null
+  status: HOLD_NO_PHYSICAL_CONTACT_ACTUATOR_OR_LOCK_AUTHORITY
+gripper_velocity_semantics:
+  active_pack: *id001
+  required_gate: *id002
+  independent_validation: *id003
+  physical_speed_authority: HOLD
+  urdf_literal_use_for_physical_timing: PROHIBITED
+released_for_mission_gate: false
+next_stage_authorized: false

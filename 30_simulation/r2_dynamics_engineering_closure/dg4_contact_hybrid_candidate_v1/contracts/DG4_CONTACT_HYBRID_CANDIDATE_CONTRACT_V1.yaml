@@ -1,0 +1,489 @@
+schema: DG4_CONTACT_HYBRID_CANDIDATE_CONTRACT_V1
+issued_date: '2026-08-27'
+record_type: ADDITIVE_DESIGN_DIAGNOSTIC_CANDIDATE__PARENT_DG4_UNCHANGED
+authority_scope: MATHEMATICAL_PRECONTACT_TO_POST_IMPACT_DIAGNOSTIC_ONLY
+decision_rule: Authority > hash-bound evidence > deterministic conservation audit > candidate output
+frozen_inputs_modified: false
+fail_closed_invariants:
+- UNKNOWN is never ALLOW or PASS
+- source hash drift maps to ABORT_ONLY
+- any requested first-contact speed above 0.005 m/s maps to ABORT_ONLY
+- the original 0.05 m/s provisional scenario is retained but rejected by this consumer
+- null physical or as-built data are never replaced by zero or a design estimate
+- POST_IMPACT_DIAGNOSTIC preserves two separate bodies and is not attachment or capture
+- a candidate diagnostic PASS does not satisfy the parent DG4 physical gate
+- physical contact, production, non-ABORT, flight and hardware claims remain forbidden
+diagnostic_frame_fixture:
+  inertial_frame: I
+  service_source_frame: S
+  satellite_source_frame: T
+  debris_source_frame: D
+  R_I_from_S: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  R_I_from_T: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  R_I_from_D: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  orientation_interpretation: SYNTHETIC_IDENTITY_ORIENTATION_FOR_CONSERVATION_FIXTURE_ONLY
+  origin_interpretation: TARGET_SOURCE_FRAME_ORIGIN_TREATED_AS_COM_FOR_SYNTHETIC_FIXTURE_ONLY
+  physical_pose_or_patch_authority: false
+source_pins:
+  contact_velocity_contract:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/digital_prototype_dynamics_entry_v1/contact_velocity_reconciliation_v1/CONTACT_VELOCITY_RECONCILIATION_CANDIDATE_V1.yaml
+    bytes: 6580
+    sha256: 8567F3FB171615FA23B2655B854A414A012278A4D3CB328225E35BAC898A153B
+  contact_velocity_gate:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/digital_prototype_dynamics_entry_v1/contact_velocity_reconciliation_v1/CONTACT_VELOCITY_RECONCILIATION_GATE_V1.json
+    bytes: 12161
+    sha256: E6981B808B168C4E5442EA2573BEC0A38B7F68B4C60EF70AEC253E743D8B33A6
+  design_contact_model:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/loop_b/DESIGN_CONTACT_MODEL_V1.yaml
+    bytes: 9131
+    sha256: E57C799768BFDAB5DF22A3B834F6C8B9F8232D046A46774D24CA1FBB3DB879AD
+  target_models:
+    path: 20_engineering/config/geometry/target_models_v1.yaml
+    bytes: 864
+    sha256: 45666D9D37460FD825F0ED7301BF69113016689FDF00A13DFF8046358A76AE45
+  unified_r2_interface:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/15_UNIFIED_R2_SYSTEM_INTERFACE.yaml
+    bytes: 9001
+    sha256: 19822080E540DE1E46A383B49C60CD0FB4F40DB9DD4FD5EDDDD4F9C31DDD1E3A
+  unified_r2_urdf:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/generated_v2/unified_r2_c01_no_route_c_sim_candidate_v2.urdf
+    bytes: 17191
+    sha256: D84AA23CE98A2A9C697B1F32E433C01C3F0AE3BD0B5C56EF9A218DD88911CBDA
+  unified_r2_frame_tree:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/source_only_v2/UNIFIED_R2_SYSTEM_FRAME_TREE_V2.yaml
+    bytes: 11828
+    sha256: 5F8B19DC5BF14EFBB3C6A781C6816D52FE80804DAB328821623E165239999756
+  unified_r2_mass_ledger:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+    bytes: 223714
+    sha256: 3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB
+  parent_dynamics_authority:
+    path: 30_simulation/r2_dynamics_engineering_closure/contracts/R2_DYNAMICS_AUTHORITY_V1.yaml
+    bytes: 9860
+    sha256: 67F69C4BBA252D4B988CB2A3403C84A25C7826BA89A003E3FBA298A70A377903
+quantity_schema:
+  required_fields:
+  - estimate
+  - lower_bound
+  - upper_bound
+  - si_unit
+  - standard_uncertainty
+  - uncertainty_type
+  - distribution
+  - degrees_of_freedom
+  - authority
+  - source
+  - confidence
+  - status
+quantities:
+  first_contact_speed_hard_upper_bound:
+    estimate: 0.005
+    lower_bound: 0.0
+    upper_bound: 0.005
+    si_unit: m/s
+    standard_uncertainty: null
+    uncertainty_type: NOT_A_MEASUREMENT__DESIGN_LIMIT
+    distribution: NOT_APPLICABLE_DESIGN_LIMIT
+    degrees_of_freedom: null
+    authority: CONTACT_VELOCITY_RECONCILIATION_CANDIDATE_V1
+    source: quantities.current_design_target_hard_upper_bound
+    confidence: MEDIUM_DESIGN_SEMANTICS_ONLY
+    status: HARD_UPPER_BOUND_FOR_CURRENT_DG4_CONSUMER
+  original_provisional_contact_speed:
+    estimate: 0.05
+    lower_bound: 0.01
+    upper_bound: 0.1
+    si_unit: m/s
+    standard_uncertainty: null
+    uncertainty_type: TYPE_B_NOT_EVALUATED__SOURCE_DECLARED_NO_UNCERTAINTY
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: DESIGN_CONTACT_MODEL_V1__DESIGN_ESTIMATE_UNVERIFIED
+    source: gripper_actuator.first_contact_closing_velocity_mps
+    confidence: LOW
+    status: RETAINED_LINEAGE__REJECTED_FOR_DG4_CURRENT_CONSUMER
+  diagnostic_closing_speed:
+    estimate: 0.005
+    lower_bound: 0.0
+    upper_bound: 0.005
+    si_unit: m/s
+    standard_uncertainty: null
+    uncertainty_type: NOT_A_MEASUREMENT__EXPLICIT_DESIGN_DIAGNOSTIC
+    distribution: NOT_APPLICABLE_DESIGN_CANDIDATE
+    degrees_of_freedom: null
+    authority: DG4_CONTACT_HYBRID_CANDIDATE_V1
+    source: Explicit reduction to the current contact-velocity hard upper bound
+    confidence: MEDIUM_DESIGN_SEMANTICS_ONLY
+    status: BOUNDED_DESIGN_DIAGNOSTIC_ONLY
+  diagnostic_contact_normal_axis:
+    estimate: [0.0, 1.0, 0.0]
+    lower_bound: null
+    upper_bound: null
+    si_unit: '1'
+    standard_uncertainty: null
+    uncertainty_type: NOT_A_MEASUREMENT__MATHEMATICAL_AXIS
+    distribution: NOT_APPLICABLE_DIAGNOSTIC_CONSTRUCTION
+    degrees_of_freedom: null
+    authority: DG4_MATHEMATICAL_FIXTURE_ONLY
+    source: Deterministic inertial-frame +Y axis; not the unknown target surface normal
+    confidence: HIGH_MATHEMATICAL_ONLY
+    status: NOT_PHYSICAL_CONTACT_NORMAL_AUTHORITY
+    reference_frame: I
+  service_contact_lever_about_service_com:
+    estimate: [0.0, 0.0, 0.0]
+    lower_bound: null
+    upper_bound: null
+    si_unit: m
+    standard_uncertainty: null
+    uncertainty_type: NOT_A_MEASUREMENT__MATHEMATICAL_CONTACT_AT_COM
+    distribution: NOT_APPLICABLE_DIAGNOSTIC_CONSTRUCTION
+    degrees_of_freedom: null
+    authority: DG4_MATHEMATICAL_FIXTURE_ONLY
+    source: Contact-origin construction selected to avoid inventing an unresolved physical patch frame
+    confidence: HIGH_MATHEMATICAL_ONLY
+    status: EXPLICIT_ZERO_MODEL_CHOICE__NOT_UNKNOWN_ZERO_FILL
+    reference_frame: S
+  service_mass_c01:
+    estimate: 31.022864807342987
+    lower_bound: null
+    upper_bound: null
+    si_unit: kg
+    standard_uncertainty: 4.594921657121637
+    uncertainty_type: SOURCE_STANDARD_UNCERTAINTY__DESIGN_MODEL
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2__C01
+    source: configurations[C01].mass
+    confidence: DESIGN_MODEL_ONLY
+    status: NOT_AS_BUILT
+  service_inertia_c01_components:
+    estimate: [0.7321469577701156, 1.0806232960449866, 1.472191574502519, 0.26239087175248343, 0.1172269606116568, -0.10274858169516832]
+    lower_bound: null
+    upper_bound: null
+    si_unit: kg*m^2
+    standard_uncertainty: [0.09573667837547098, 0.11958085436805588, 0.11993765455937687, 0.11045931205809564, 0.11045931205809564, 0.11046229227700201]
+    uncertainty_type: SOURCE_STANDARD_UNCERTAINTY__DESIGN_MODEL
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2__C01
+    source: configurations[C01].inertia components ordered Ixx,Iyy,Izz,Ixy,Ixz,Iyz
+    confidence: DESIGN_MODEL_ONLY
+    status: NOT_AS_BUILT
+    reference_frame: S
+  target_satellite_mass:
+    estimate: 22.0
+    lower_bound: null
+    upper_bound: null
+    si_unit: kg
+    standard_uncertainty: null
+    uncertainty_type: NOT_EVALUATED
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: TARGET_MODELS_V1
+    source: target_satellite_v0.mass_kg
+    confidence: LOW_RA_003_NEVER_MEASURED
+    status: DESIGN_DIAGNOSTIC_TARGET_ONLY
+  target_satellite_inertia_diag:
+    estimate: [0.231629, 0.422149, 0.489336]
+    lower_bound: null
+    upper_bound: null
+    si_unit: kg*m^2
+    standard_uncertainty: null
+    uncertainty_type: NOT_EVALUATED
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: TARGET_MODELS_V1
+    source: target_satellite_v0.inertia_diag_kgm2
+    confidence: LOW_RA_003_NEVER_MEASURED
+    status: DESIGN_DIAGNOSTIC_TARGET_ONLY
+    reference_frame: T
+  target_satellite_contact_lever:
+    estimate: [0.2517, 0.0, 0.0]
+    lower_bound: null
+    upper_bound: null
+    si_unit: m
+    standard_uncertainty: null
+    uncertainty_type: NOT_EVALUATED
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: TARGET_MODELS_V1_WITH_AXIS_ALIGNED_DIAGNOSTIC_INTERPRETATION
+    source: target_satellite_v0.grasp_primary.lever_to_com_m and approach +X_T
+    confidence: LOW
+    status: MATHEMATICAL_LEVER_ONLY__PHYSICAL_PATCH_UNKNOWN
+    reference_frame: T
+  target_satellite_tumble_rate:
+    estimate: 0.008726646259971648
+    lower_bound: null
+    upper_bound: null
+    si_unit: rad/s
+    standard_uncertainty: null
+    uncertainty_type: NOT_A_MEASUREMENT__PROJECT_ANCHOR_SCENARIO
+    distribution: NOT_APPLICABLE_SCENARIO
+    degrees_of_freedom: null
+    authority: VERIFIED_PROJECT_ANCHOR_SCENARIO_0P5_DEG_PER_S
+    source: sim_10 target-satellite anchor
+    confidence: HIGH_SCENARIO_ONLY
+    status: DIAGNOSTIC_INITIAL_CONDITION
+  target_satellite_tumble_axis:
+    estimate: [0.0, 0.0, 1.0]
+    lower_bound: null
+    upper_bound: null
+    si_unit: '1'
+    standard_uncertainty: null
+    uncertainty_type: NOT_A_MEASUREMENT__MATHEMATICAL_AXIS
+    distribution: NOT_APPLICABLE_SCENARIO
+    degrees_of_freedom: null
+    authority: DG4_DIAGNOSTIC_FIXTURE
+    source: aligned target-frame +Z diagnostic
+    confidence: HIGH_MATHEMATICAL_ONLY
+    status: DIAGNOSTIC_INITIAL_CONDITION
+    reference_frame: T
+  target_debris_mass:
+    estimate: 150.0
+    lower_bound: null
+    upper_bound: null
+    si_unit: kg
+    standard_uncertainty: null
+    uncertainty_type: NOT_EVALUATED
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: TARGET_MODELS_V1
+    source: target_debris_v0.mass_kg
+    confidence: LOW_RA_003_PLACEHOLDER_DENSITY_NONPHYSICAL
+    status: DESIGN_DIAGNOSTIC_TARGET_ONLY
+  target_debris_inertia_diag:
+    estimate: [74.805599, 74.829903, 26.592617]
+    lower_bound: null
+    upper_bound: null
+    si_unit: kg*m^2
+    standard_uncertainty: null
+    uncertainty_type: NOT_EVALUATED
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: TARGET_MODELS_V1
+    source: target_debris_v0.inertia_diag_kgm2
+    confidence: LOW_RA_003_PLACEHOLDER_DENSITY_NONPHYSICAL
+    status: DESIGN_DIAGNOSTIC_TARGET_ONLY
+    reference_frame: D
+  target_debris_contact_lever:
+    estimate: [0.66, 0.0, 0.95]
+    lower_bound: null
+    upper_bound: null
+    si_unit: m
+    standard_uncertainty: null
+    uncertainty_type: NOT_EVALUATED
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: DG4_SYNTHETIC_FIXTURE_FROM_TARGET_MODELS_V1_POINT_VECTOR
+    source: target_debris_v0.grasp_primary.point_mm_D converted exactly to m; D origin to COM is not established
+    confidence: LOW_SYNTHETIC_FIXTURE_ONLY
+    status: SYNTHETIC_POINT_VECTOR_USED_AS_COM_LEVER__NOT_SSOT_LEVER_OR_PHYSICAL_PATCH
+    reference_frame: D
+  target_debris_tumble_rate:
+    estimate: 0.05235987755982989
+    lower_bound: null
+    upper_bound: null
+    si_unit: rad/s
+    standard_uncertainty: null
+    uncertainty_type: NOT_A_MEASUREMENT__PROJECT_ANCHOR_SCENARIO
+    distribution: NOT_APPLICABLE_SCENARIO
+    degrees_of_freedom: null
+    authority: VERIFIED_PROJECT_ANCHOR_SCENARIO_3_DEG_PER_S
+    source: sim_10 target-debris anchor
+    confidence: HIGH_SCENARIO_ONLY
+    status: DIAGNOSTIC_INITIAL_CONDITION
+  target_debris_tumble_axis:
+    estimate: [1.0, 0.15, 0.4]
+    lower_bound: null
+    upper_bound: null
+    si_unit: '1'
+    standard_uncertainty: null
+    uncertainty_type: NOT_A_MEASUREMENT__AXIS_NORMALIZED_BY_SOLVER
+    distribution: NOT_APPLICABLE_SCENARIO
+    degrees_of_freedom: null
+    authority: TARGET_MODELS_V1
+    source: target_debris_v0 tumble-axis sim convention
+    confidence: MEDIUM_SCENARIO_ONLY
+    status: DIAGNOSTIC_INITIAL_CONDITION
+    reference_frame: D
+  restitution_lower:
+    estimate: 0.05
+    lower_bound: 0.05
+    upper_bound: 0.05
+    si_unit: '1'
+    standard_uncertainty: null
+    uncertainty_type: SOURCE_BOUND_NOT_A_STANDARD_UNCERTAINTY
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: DESIGN_CONTACT_MODEL_V1
+    source: normal_contact.coefficient_of_restitution.lower
+    confidence: LOW
+    status: BOUNDED_PROVISIONAL_CORNER
+  restitution_nominal:
+    estimate: 0.2
+    lower_bound: 0.2
+    upper_bound: 0.2
+    si_unit: '1'
+    standard_uncertainty: null
+    uncertainty_type: SOURCE_NOMINAL_WITHOUT_EVALUATED_UNCERTAINTY
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: DESIGN_CONTACT_MODEL_V1
+    source: normal_contact.coefficient_of_restitution.nominal
+    confidence: LOW
+    status: BOUNDED_PROVISIONAL_NOMINAL
+  restitution_upper:
+    estimate: 0.5
+    lower_bound: 0.5
+    upper_bound: 0.5
+    si_unit: '1'
+    standard_uncertainty: null
+    uncertainty_type: SOURCE_BOUND_NOT_A_STANDARD_UNCERTAINTY
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: DESIGN_CONTACT_MODEL_V1
+    source: normal_contact.coefficient_of_restitution.upper
+    confidence: LOW
+    status: BOUNDED_PROVISIONAL_CORNER
+  diagnostic_contact_window:
+    estimate: 0.02
+    lower_bound: 0.005
+    upper_bound: 0.1
+    si_unit: s
+    standard_uncertainty: null
+    uncertainty_type: SOURCE_PROVISIONAL_SWEEP_WITHOUT_EVALUATED_UNCERTAINTY
+    distribution: UNKNOWN_NOT_DECLARED
+    degrees_of_freedom: null
+    authority: DESIGN_CONTACT_MODEL_V1__SIM11_PROVISIONAL_SWEEP
+    source: gripper_actuator.contact_window_T_c_s
+    confidence: MEDIUM_PROVISIONAL
+    status: EQUIVALENT_HALF_SINE_FORCE_DIAGNOSTIC_ONLY
+  linear_momentum_residual_limit:
+    estimate: 1.0e-12
+    lower_bound: 0.0
+    upper_bound: 1.0e-12
+    si_unit: N*s
+    standard_uncertainty: null
+    uncertainty_type: NUMERICAL_ACCEPTANCE_LIMIT
+    distribution: NOT_APPLICABLE_NUMERICAL_GATE
+    degrees_of_freedom: null
+    authority: DG4_CANDIDATE_NUMERICAL_GATE
+    source: deterministic double-precision conservation tolerance
+    confidence: HIGH_NUMERICAL_ONLY
+    status: GATE_THRESHOLD
+  angular_momentum_residual_limit:
+    estimate: 1.0e-12
+    lower_bound: 0.0
+    upper_bound: 1.0e-12
+    si_unit: N*m*s
+    standard_uncertainty: null
+    uncertainty_type: NUMERICAL_ACCEPTANCE_LIMIT
+    distribution: NOT_APPLICABLE_NUMERICAL_GATE
+    degrees_of_freedom: null
+    authority: DG4_CANDIDATE_NUMERICAL_GATE
+    source: deterministic double-precision conservation tolerance
+    confidence: HIGH_NUMERICAL_ONLY
+    status: GATE_THRESHOLD
+  restitution_residual_limit:
+    estimate: 1.0e-12
+    lower_bound: 0.0
+    upper_bound: 1.0e-12
+    si_unit: m/s
+    standard_uncertainty: null
+    uncertainty_type: NUMERICAL_ACCEPTANCE_LIMIT
+    distribution: NOT_APPLICABLE_NUMERICAL_GATE
+    degrees_of_freedom: null
+    authority: DG4_CANDIDATE_NUMERICAL_GATE
+    source: deterministic double-precision restitution tolerance
+    confidence: HIGH_NUMERICAL_ONLY
+    status: GATE_THRESHOLD
+  contact_origin_coincidence_residual_limit:
+    estimate: 1.0e-12
+    lower_bound: 0.0
+    upper_bound: 1.0e-12
+    si_unit: m
+    standard_uncertainty: null
+    uncertainty_type: NUMERICAL_ACCEPTANCE_LIMIT
+    distribution: NOT_APPLICABLE_NUMERICAL_GATE
+    degrees_of_freedom: null
+    authority: DG4_CANDIDATE_NUMERICAL_GATE
+    source: deterministic common-contact-origin coincidence tolerance
+    confidence: HIGH_NUMERICAL_ONLY
+    status: GATE_THRESHOLD
+  energy_identity_residual_limit:
+    estimate: 1.0e-12
+    lower_bound: 0.0
+    upper_bound: 1.0e-12
+    si_unit: J
+    standard_uncertainty: null
+    uncertainty_type: NUMERICAL_ACCEPTANCE_LIMIT
+    distribution: NOT_APPLICABLE_NUMERICAL_GATE
+    degrees_of_freedom: null
+    authority: DG4_CANDIDATE_NUMERICAL_GATE
+    source: deterministic independent effective-mass energy-loss identity tolerance
+    confidence: HIGH_NUMERICAL_ONLY
+    status: GATE_THRESHOLD
+state_machine:
+  initial_state: PRECONTACT
+  transitions:
+  - from: PRECONTACT
+    event: VALIDATED_BOUNDED_DIAGNOSTIC_ENTRY
+    to: BOUNDED_CONTACT_DIAGNOSTIC
+  - from: BOUNDED_CONTACT_DIAGNOSTIC
+    event: CONSERVATIVE_INTERNAL_IMPULSE_SOLVED
+    to: POST_IMPACT_DIAGNOSTIC
+  terminal_state: POST_IMPACT_DIAGNOSTIC
+  prohibited_states:
+  - ATTACHED
+  - CAPTURED
+  - LOCKED_TARGET
+  - PRODUCTION_CONTACT
+  - NON_ABORT_OPERATIONAL
+cases:
+- target_id: TARGET_SATELLITE_22KG
+  mass_quantity_ref: target_satellite_mass
+  inertia_quantity_ref: target_satellite_inertia_diag
+  contact_lever_quantity_ref: target_satellite_contact_lever
+  tumble_rate_quantity_ref: target_satellite_tumble_rate
+  tumble_axis_quantity_ref: target_satellite_tumble_axis
+- target_id: TARGET_DEBRIS_150KG
+  mass_quantity_ref: target_debris_mass
+  inertia_quantity_ref: target_debris_inertia_diag
+  contact_lever_quantity_ref: target_debris_contact_lever
+  tumble_rate_quantity_ref: target_debris_tumble_rate
+  tumble_axis_quantity_ref: target_debris_tumble_axis
+restitution_corners:
+- corner: LOW
+  quantity_ref: restitution_lower
+- corner: NOMINAL
+  quantity_ref: restitution_nominal
+- corner: HIGH
+  quantity_ref: restitution_upper
+consumer_policy:
+  accepted_request_scope: BOUNDED_DESIGN_DIAGNOSTIC_ONLY
+  current_speed_quantity_ref: diagnostic_closing_speed
+  hard_bound_quantity_ref: first_contact_speed_hard_upper_bound
+  original_0p05_quantity_ref: original_provisional_contact_speed
+  original_0p05_disposition: REJECT_CURRENT_CONSUMER
+  unknown_disposition: ABORT_ONLY
+physical_as_built:
+  first_contact_closing_speed_m_s: null
+  coefficient_of_restitution: null
+  contact_duration_s: null
+  contact_force_N: null
+  target_surface_normal: null
+  left_contact_patch_frame: null
+  right_contact_patch_frame: null
+  attachment_state: null
+  lock_confirmation: null
+release_boundary:
+  design_diagnostic_candidate_allowed: true
+  real_attachment_claimed: false
+  physical_contact_claimed: false
+  production_ready: false
+  non_abort_grasp_ready: false
+  hardware_valid: false
+  flight_valid: false
+  parent_DG4_satisfied: false
+  next_stage_authorized: false
+  release_credit: false

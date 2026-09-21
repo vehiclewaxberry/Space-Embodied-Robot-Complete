@@ -1,0 +1,2885 @@
+{
+ "schema": "M7_WP7_FEA_OPERATIONAL_FEA1_EVIDENCE_V1",
+ "generated_local": "2026-08-22T02:11:08+08:00",
+ "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+ "work_package": "WP7_FEA_OPERATIONAL",
+ "authorization": {
+  "odr": "ODR-06",
+  "scope": "OPERATIONAL_STRUCTURAL_VERIFICATION",
+  "retained_hold": "LAUNCH_QUALIFICATION_FEA_HOLD",
+  "gate_b": "MECHANICAL_FLIGHT_QUALIFICATION_RELEASED = HOLD"
+ },
+ "verdict": "OPERATIONAL_STRUCTURAL_VERIFICATION_CANDIDATE_LEVEL",
+ "verdict_qualifiers": [
+  "13 of 13 decks SOLVED (Abaqus/Standard 2023, all .dat non-zero, all .sta report THE ANALYSIS HAS COMPLETED SUCCESSFULLY, 0 error messages anywhere)",
+  "MESH CONVERGENCE NOT DEMONSTRATED: NOT_CONVERGED in all 4 case families",
+  "candidate != authority; analysis != test; design != flight-qualified",
+  "no margin of safety is asserted anywhere in this artifact"
+ ],
+ "run_ledger": {
+  "decks_present": 13,
+  "jobs_attempted": 13,
+  "jobs_solved": 13,
+  "jobs_failed": 0,
+  "failed_job_names": [],
+  "jobs_solved_this_loop": 12,
+  "jobs_pre_existing_from_0120_not_re_run": [
+   "fea1_capture_150kg_qs_coarse"
+  ],
+  "solver_invocation": "D:/SIMULIA/Commands/abaqus.bat job=<name> interactive, run serially from inside the jobs directory, one job at a time, no CAE GUI",
+  "memory_note": "6 GiB memory gate remains DECLARED FAILED on this host. It was not a constraint here: every job reports MEMORY PEAK (GB) = 0 and the largest deck needs an estimated 18-29 MB."
+ },
+ "solver": {
+  "version_string_as_reported_by_abaqus": "Abaqus/Standard 2023",
+  "analysis_code": "ABAQUS_STANDARD",
+  "odb_precision": "SINGLE_PRECISION",
+  "equation_solver": "DIRECT SPARSE (symmetric)",
+  "procedure": "*STATIC, NLGEOM=NO (linear static, small displacement)",
+  "license_note": "The Abaqus banner on this host reads 'For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.' This is recorded verbatim as an observed fact about the toolchain, not endorsed as a valid commercial license, and it is a licensing risk for any external submission of these results."
+ },
+ "model_definition": {
+  "units": "N, mm, MPa, tonne",
+  "element_type": "C3D8R (8-node linear brick, reduced integration, hourglass control)",
+  "geometry_stack_local_z": {
+   "load_bridge": "z 0.00-10.75, 160x160, centre hole r20",
+   "stage_b": "z 10.75-22.75, 160x160, bore r50, centre web r<50 modelled 4.0 mm vs 5.595 mm real",
+   "stage_a": "z 22.75-30.75, ring OD150/ID40, 8.0 mm uniform"
+  },
+  "frame_authority_odr_01": "T_SM = [185.25, 0, 0] mm + Ry(90 deg). Stations 198.0 / 208.0 / 210.405 mm are a geometric feature stack, NOT a second dynamics frame. The deck's local z=0 maps to x_S = 185.25 mm.",
+  "l0_urdf_authority_respected": {
+   "b601_arm_mass_kg": 4.695555949342986,
+   "statement": "L0 accepted-URDF mass used verbatim in the arm load derivation; never overridden by CAD."
+  }
+ },
+ "boundary_condition_source": {
+  "bc_of_record": "*BOUNDARY NFIXED,ENCASTRE on every node of the z=0 (x_S=185.25 mm) bus-side face",
+  "n_encastre_nodes_by_level": {
+   "COARSE": 116,
+   "MEDIUM": 280,
+   "FINE": 420
+  },
+  "authority_status": "ASSUMPTION_NOT_AUTHORITY",
+  "hold": "BC-BUS-001 bus-side interface stiffness authority is HOLD. A fully clamped face is a stiff-boundary design bound, and it over-predicts interface reaction and under-predicts global compliance relative to a real compliant bus."
+ },
+ "load_source": {
+  "capture_cases": {
+   "authority_file": "20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/DERIVED_CAPTURE_LOAD_ENVELOPE_V1.csv",
+   "authority_status_column_value": "NOT_STRUCTURAL_DESIGN_AUTHORITY",
+   "quasi_static_policy": "F_eq = DAF * J / dt_contact ; M_eq = F_eq * L_grasp + DAF * C / dt_contact",
+   "declared_assumptions": {
+    "DAF": 2.0,
+    "dt_contact_s": 0.1
+   },
+   "verification": {
+    "envelope_rows_present": [
+     "CAP150_005",
+     "CAP150_010",
+     "CAP150_020",
+     "CAP150_030",
+     "CAP22_005",
+     "CAP22_010",
+     "CAP22_020",
+     "CAP22_030"
+    ],
+    "policy": {
+     "DAF": 2.0,
+     "dt_contact_s": 0.1,
+     "formula_F": "F = DAF * J / dt",
+     "formula_M": "M = F * L_grasp + DAF * C / dt"
+    },
+    "checks": {
+     "CAPTURE_22KG_QS": {
+      "declared_source_row": "CAP22_030",
+      "deck_J_N_s": 0.360622,
+      "envelope_J_N_s": 0.360622,
+      "J_matches_declared_row": true,
+      "deck_L_m": 0.25173,
+      "envelope_L_m": 0.25173,
+      "L_matches_declared_row": true,
+      "deck_C_N_m_s": 0.00152744,
+      "envelope_C_N_m_s": 0.00152744,
+      "C_matches_declared_row": true,
+      "deck_C_actual_origin_rows": [
+       "CAP22_030"
+      ],
+      "recomputed_F_from_deck_constants_N": 7.21244,
+      "recomputed_M_from_deck_constants_N_m": 1.8461363212000002,
+      "recomputed_F_strictly_from_declared_row_N": 7.21244,
+      "recomputed_M_strictly_from_declared_row_N_m": 1.8461363212000002,
+      "M_delta_pct_deck_vs_declared_row": 0.0,
+      "F_delta_pct_deck_vs_declared_row": 0.0,
+      "row_max_couple_across_family": "CAP22_030",
+      "authority_status_column": "NOT_STRUCTURAL_DESIGN_AUTHORITY",
+      "source_class_column": "DERIVED"
+     },
+     "CAPTURE_150KG_QS": {
+      "declared_source_row": "CAP150_030",
+      "deck_J_N_s": 0.677633,
+      "envelope_J_N_s": 0.677633,
+      "J_matches_declared_row": true,
+      "deck_L_m": 1.21521,
+      "envelope_L_m": 1.21521,
+      "L_matches_declared_row": true,
+      "deck_C_N_m_s": 0.130197,
+      "envelope_C_N_m_s": 0.113705,
+      "C_matches_declared_row": false,
+      "deck_C_actual_origin_rows": [
+       "CAP150_005"
+      ],
+      "recomputed_F_from_deck_constants_N": 13.55266,
+      "recomputed_M_from_deck_constants_N_m": 19.0732679586,
+      "recomputed_F_strictly_from_declared_row_N": 13.55266,
+      "recomputed_M_strictly_from_declared_row_N_m": 18.743427958599998,
+      "M_delta_pct_deck_vs_declared_row": 1.7597634793835093,
+      "F_delta_pct_deck_vs_declared_row": 0.0,
+      "row_max_couple_across_family": "CAP150_005",
+      "authority_status_column": "NOT_STRUCTURAL_DESIGN_AUTHORITY",
+      "source_class_column": "DERIVED"
+     }
+    }
+   }
+  },
+  "arm_cases": {
+   "derivation": "quintic joint profile peak angular acceleration (LC-010 q2 +60 deg over 8 s) x assumed effective radius r_eff = 0.7 m x L0 URDF arm mass; e-stop = declared estop_factor 2.0 x maneuver",
+   "authority_status": "DERIVED_TRAJECTORY_PLUS_ASSUMPTION and ASSUMPTION_POLICY",
+   "not_traceable_to_an_authorized_actuator_limit": true
+  },
+  "applied_load_of_record_note": "The generator wrote *CLOAD magnitudes with %.6g, so each deck applies a 6-significant-figure truncation of the derivation value carried in its sidecar. All reaction-balance residuals in this artifact are computed against the DECK value, which is what the solver actually saw. For the 150 kg case that is F_y = 13.5527 N and M_z = 19073.3 N*mm versus sidecar 13.55266 N and 19073.267958599998 N*mm (relative difference 3.0e-6 and 1.7e-9).",
+  "TRACEABILITY_DEFECT_FOUND": {
+   "severity": "MEDIUM_CONSERVATIVE_DIRECTION",
+   "case": "CAPTURE_150KG_QS",
+   "finding": "The deck declares its provenance as envelope row CAP150_030 and correctly takes contact_impulse 0.677633 N*s and grasp_lever_arm 1.21521 m from that row, but its grasp couple C = 0.130197 N*m*s is the value from a DIFFERENT row, CAP150_005. Row CAP150_030 states C = 0.113705 N*m*s.",
+   "effect": "Applied M_z is 19073.268 N*mm instead of 18743.428 N*mm, i.e. 1.7598% HIGH. F_y is unaffected (0.000% delta). The error is in the CONSERVATIVE direction.",
+   "mitigating_context": "grasp_couple is non-monotonic across the CAP150 family (0.130197, 0.121693, 0.111944, 0.113705), and CAP150_005 is the family maximum, so 'max impulse row + max couple across the family' is a defensible bounding envelope. What is defective is the PROVENANCE LABEL, which names a single row that does not contain the couple actually used.",
+   "the_22kg_case_is_clean": "CAPTURE_22KG_QS takes J, C and L all from CAP22_030, and CAP22_030 is also the family maximum couple. No defect.",
+   "disposition": "RECORDED_NOT_SILENTLY_CORRECTED. Correcting it requires re-decking and re-solving, which is a change to the model of record and is not authorized inside this loop. Both numbers are published here so any consumer can choose."
+  }
+ },
+ "material_source": {
+  "library": "20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml",
+  "classification": "PROTOTYPE_CANDIDATE",
+  "verification": {
+   "AL6061_T6_CAND": {
+    "library_material_id": "PMAT-AL6061-T6-SHEET-PLATE",
+    "library_E_GPa": 68.3,
+    "library_E_value_kind": "TYPICAL_AT_20_DEGC",
+    "deck_E_MPa": 68300.0,
+    "E_match": true,
+    "library_density_kg_m3": 2700.0,
+    "deck_density_tonne_mm3": 2.7e-09,
+    "density_match": true,
+    "library_yield_MPa": 276.0,
+    "library_yield_value_kind": "TYPICAL_0P2_PERCENT_YIELD_FOR_T6_T651_AT_20_DEGC",
+    "deck_yield_reference_MPa": 276.0,
+    "yield_match": true,
+    "library_classification": "PROTOTYPE_CANDIDATE",
+    "library_status": "HOLD_ENVIRONMENT_NOT_AUTHORIZED",
+    "poisson_ratio_in_library": false,
+    "deck_poisson_used": 0.33,
+    "poisson_provenance": "DECLARED_ASSUMPTION_NOT_IN_LIBRARY",
+    "allowable_status": "TYPICAL_PROPERTY_NOT_A_DESIGN_ALLOWABLE_NASA_STD_5001B_PROHIBITS_TYPICAL_AS_ALLOWABLE"
+   },
+   "AL7075_T651_CAND": {
+    "library_material_id": "PMAT-AL7075-T651-SHEET-PLATE",
+    "library_E_GPa": 71.0,
+    "library_E_value_kind": "TYPICAL_AT_20_DEGC",
+    "deck_E_MPa": 71000.0,
+    "E_match": true,
+    "library_density_kg_m3": 2800.0,
+    "deck_density_tonne_mm3": 2.8e-09,
+    "density_match": true,
+    "library_yield_MPa": 503.0,
+    "library_yield_value_kind": "TYPICAL_0P2_PERCENT_YIELD_FOR_T651_AT_20_DEGC",
+    "deck_yield_reference_MPa": 503.0,
+    "yield_match": true,
+    "library_classification": "PROTOTYPE_CANDIDATE",
+    "library_status": "HOLD_ENVIRONMENT_NOT_AUTHORIZED",
+    "poisson_ratio_in_library": false,
+    "deck_poisson_used": 0.33,
+    "poisson_provenance": "DECLARED_ASSUMPTION_NOT_IN_LIBRARY",
+    "allowable_status": "TYPICAL_PROPERTY_NOT_A_DESIGN_ALLOWABLE_NASA_STD_5001B_PROHIBITS_TYPICAL_AS_ALLOWABLE"
+   },
+   "_summary": {
+    "all_E_match": true,
+    "all_yield_match": true,
+    "all_density_match": true,
+    "poisson_absent_from_library_confirmed": true
+   }
+  },
+  "poisson_ratio": {
+   "value_used": 0.33,
+   "present_in_library": false,
+   "status": "DECLARED_ASSUMPTION_POISSON_NOT_IN_M6_LIBRARY"
+  },
+  "allowables": "NONE EXIST. Both yields are value_kind TYPICAL_* with standard_uncertainty null."
+ },
+ "contact_and_joint_representation": {
+  "contact_pairs": 0,
+  "contact_status": "NO_CONTACT_MODELLED",
+  "bolt_preload": "NONE",
+  "friction": "NONE",
+  "joint_model": "13 *COUPLING / *KINEMATIC (DOF 1-6) rigid coupling disks per deck: 4 x M6 (bridge<->Stage B), 8 x M5 (Stage B<->Stage A), 1 x arm-base spider onto the 4 as-built M4 centres, driven from RP node 900000 at (0,0,30.75)",
+  "bolt_holes": "NOT CUT AS VOIDS. dia 6.6 / 5.5 / 4.6 holes are represented by coupling disks, so the model is locally STIFFER than hardware and hole-edge stress concentration is NOT represented.",
+  "faces_outside_bolt_disks": "UNTIED -- separation and interpenetration are possible; this is a declared Level-1 bound.",
+  "hold": "CDR_JOINT_MECHANICS_HOLD",
+  "per_level_disk_node_capture": {
+   "COARSE": {
+    "m6_nodes_per_face": [
+     3
+    ],
+    "m5_nodes_per_face": [
+     2
+    ],
+    "m4_spider_nodes_per_disk": [
+     1
+    ]
+   },
+   "MEDIUM": {
+    "m6_nodes_per_face": [
+     5
+    ],
+    "m5_nodes_per_face": [
+     4
+    ],
+    "m4_spider_nodes_per_disk": [
+     4
+    ]
+   },
+   "FINE": {
+    "m6_nodes_per_face": [
+     8
+    ],
+    "m5_nodes_per_face": [
+     5
+    ],
+    "m4_spider_nodes_per_disk": [
+     5
+    ]
+   }
+  }
+ },
+ "mesh_convergence": {
+  "criterion": "<=5% change in the peak metric between the two finest levels",
+  "levels": {
+   "COARSE": {
+    "grid_pitch_mm": 16.0,
+    "elements": 468,
+    "nodes": 979
+   },
+   "MEDIUM": {
+    "grid_pitch_mm": 10.0,
+    "elements": 1336,
+    "nodes": 2375
+   },
+   "FINE": {
+    "grid_pitch_mm": 8.0,
+    "elements": 2056,
+    "nodes": 3563
+   }
+  },
+  "per_case": {
+   "ARM_MANEUVER_QS": {
+    "levels": {
+     "COARSE": {
+      "job_name": "fea1_arm_maneuver_qs_coarse",
+      "grid_pitch_mm": 16.0,
+      "elements": 468,
+      "nodes": 979,
+      "peak_mises_MPa": 0.01808265596628189,
+      "peak_mises_element": 443,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 0.0001281016590641038,
+      "peak_disp_node": 904009,
+      "peak_disp_node_coords_mm": [
+       48.0,
+       -16.0,
+       30.75
+      ],
+      "artificial_energy_fraction": 0.8016910883220784,
+      "numerical_singularity_count": 8,
+      "m5_nodes_per_face": [
+       2
+      ],
+      "m4_spider_nodes_per_disk": [
+       1
+      ]
+     },
+     "MEDIUM": {
+      "job_name": "fea1_arm_maneuver_qs_medium",
+      "grid_pitch_mm": 10.0,
+      "elements": 1336,
+      "nodes": 2375,
+      "peak_mises_MPa": 0.010223465040326118,
+      "peak_mises_element": 1258,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 7.242002589580186e-06,
+      "peak_disp_node": 710016,
+      "peak_disp_node_coords_mm": [
+       70.0,
+       20.0,
+       22.75
+      ],
+      "artificial_energy_fraction": 0.0654480055728653,
+      "numerical_singularity_count": 0,
+      "m5_nodes_per_face": [
+       4
+      ],
+      "m4_spider_nodes_per_disk": [
+       4
+      ]
+     },
+     "FINE": {
+      "job_name": "fea1_arm_maneuver_qs_fine",
+      "grid_pitch_mm": 8.0,
+      "elements": 2056,
+      "nodes": 3563,
+      "peak_mises_MPa": 0.012578901834785938,
+      "peak_mises_element": 1937,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 9.57686209139636e-06,
+      "peak_disp_node": 712019,
+      "peak_disp_node_coords_mm": [
+       64.0,
+       16.0,
+       22.75
+      ],
+      "artificial_energy_fraction": 0.14045570682225528,
+      "numerical_singularity_count": 0,
+      "m5_nodes_per_face": [
+       5
+      ],
+      "m4_spider_nodes_per_disk": [
+       5
+      ]
+     }
+    },
+    "trend": {
+     "peak_mises_pct_change_coarse_to_medium": -43.46259167132603,
+     "peak_mises_pct_change_medium_to_fine": 23.039515322533774,
+     "peak_disp_pct_change_coarse_to_medium": -94.3466754119428,
+     "peak_disp_pct_change_medium_to_fine": 32.24052287934248,
+     "sequence_monotonic": false,
+     "sequence_shape": "NON_MONOTONIC_V_SHAPE_COARSE_HIGH_MEDIUM_LOW_FINE_RISING",
+     "finest_pair_worst_abs_pct_change": 32.24052287934248,
+     "convergence_verdict": "NOT_CONVERGED",
+     "convergence_criterion": "<=5% change in the peak metric between the two finest levels",
+     "richardson_gci_applicable": false,
+     "richardson_gci_not_applicable_reason": "refinement is not a pure h-refinement: (a) grid pitch ratios are unequal (16->10 = 1.60, 10->8 = 1.25); (b) the bolt-disk constraint footprints change with the lattice (M5 nodes/face 2->4->5, M4 spider nodes/disk 1->4->5, M6 3->5->8), so the boundary-condition model changes between levels; (c) the peak metrics are located at kinematic-coupling boundaries, i.e. at a constraint-induced stress concentration that does not have a finite mesh-independent limit."
+    }
+   },
+   "ARM_ESTOP_QS": {
+    "levels": {
+     "COARSE": {
+      "job_name": "fea1_arm_estop_qs_coarse",
+      "grid_pitch_mm": 16.0,
+      "elements": 468,
+      "nodes": 979,
+      "peak_mises_MPa": 0.036165233701467514,
+      "peak_mises_element": 443,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 0.0002562027656867258,
+      "peak_disp_node": 904009,
+      "peak_disp_node_coords_mm": [
+       48.0,
+       -16.0,
+       30.75
+      ],
+      "artificial_energy_fraction": 0.8016910366794406,
+      "numerical_singularity_count": 8,
+      "m5_nodes_per_face": [
+       2
+      ],
+      "m4_spider_nodes_per_disk": [
+       1
+      ]
+     },
+     "MEDIUM": {
+      "job_name": "fea1_arm_estop_qs_medium",
+      "grid_pitch_mm": 10.0,
+      "elements": 1336,
+      "nodes": 2375,
+      "peak_mises_MPa": 0.020446885377168655,
+      "peak_mises_element": 1258,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 1.448397660368143e-05,
+      "peak_disp_node": 710016,
+      "peak_disp_node_coords_mm": [
+       70.0,
+       20.0,
+       22.75
+      ],
+      "artificial_energy_fraction": 0.06544799430703516,
+      "numerical_singularity_count": 0,
+      "m5_nodes_per_face": [
+       4
+      ],
+      "m4_spider_nodes_per_disk": [
+       4
+      ]
+     },
+     "FINE": {
+      "job_name": "fea1_arm_estop_qs_fine",
+      "grid_pitch_mm": 8.0,
+      "elements": 2056,
+      "nodes": 3563,
+      "peak_mises_MPa": 0.02515774965286255,
+      "peak_mises_element": 1937,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 1.915368393970417e-05,
+      "peak_disp_node": 712019,
+      "peak_disp_node_coords_mm": [
+       64.0,
+       16.0,
+       22.75
+      ],
+      "artificial_energy_fraction": 0.14045572034803194,
+      "numerical_singularity_count": 0,
+      "m5_nodes_per_face": [
+       5
+      ],
+      "m4_spider_nodes_per_disk": [
+       5
+      ]
+     }
+    },
+    "trend": {
+     "peak_mises_pct_change_coarse_to_medium": -43.46259298100717,
+     "peak_mises_pct_change_medium_to_fine": 23.039520145958882,
+     "peak_disp_pct_change_coarse_to_medium": -94.3466743753298,
+     "peak_disp_pct_change_medium_to_fine": 32.24050593147069,
+     "sequence_monotonic": false,
+     "sequence_shape": "NON_MONOTONIC_V_SHAPE_COARSE_HIGH_MEDIUM_LOW_FINE_RISING",
+     "finest_pair_worst_abs_pct_change": 32.24050593147069,
+     "convergence_verdict": "NOT_CONVERGED",
+     "convergence_criterion": "<=5% change in the peak metric between the two finest levels",
+     "richardson_gci_applicable": false,
+     "richardson_gci_not_applicable_reason": "refinement is not a pure h-refinement: (a) grid pitch ratios are unequal (16->10 = 1.60, 10->8 = 1.25); (b) the bolt-disk constraint footprints change with the lattice (M5 nodes/face 2->4->5, M4 spider nodes/disk 1->4->5, M6 3->5->8), so the boundary-condition model changes between levels; (c) the peak metrics are located at kinematic-coupling boundaries, i.e. at a constraint-induced stress concentration that does not have a finite mesh-independent limit."
+    }
+   },
+   "CAPTURE_22KG_QS": {
+    "levels": {
+     "COARSE": {
+      "job_name": "fea1_capture_22kg_qs_coarse",
+      "grid_pitch_mm": 16.0,
+      "elements": 468,
+      "nodes": 979,
+      "peak_mises_MPa": 0.1654183715581894,
+      "peak_mises_element": 443,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 0.0012663231661931749,
+      "peak_disp_node": 904009,
+      "peak_disp_node_coords_mm": [
+       48.0,
+       -16.0,
+       30.75
+      ],
+      "artificial_energy_fraction": 0.804111885921885,
+      "numerical_singularity_count": 8,
+      "m5_nodes_per_face": [
+       2
+      ],
+      "m4_spider_nodes_per_disk": [
+       1
+      ]
+     },
+     "MEDIUM": {
+      "job_name": "fea1_capture_22kg_qs_medium",
+      "grid_pitch_mm": 10.0,
+      "elements": 1336,
+      "nodes": 2375,
+      "peak_mises_MPa": 0.0996856838464737,
+      "peak_mises_element": 1258,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 7.425661972849655e-05,
+      "peak_disp_node": 710016,
+      "peak_disp_node_coords_mm": [
+       70.0,
+       20.0,
+       22.75
+      ],
+      "artificial_energy_fraction": 0.07369449711458725,
+      "numerical_singularity_count": 0,
+      "m5_nodes_per_face": [
+       4
+      ],
+      "m4_spider_nodes_per_disk": [
+       4
+      ]
+     },
+     "FINE": {
+      "job_name": "fea1_capture_22kg_qs_fine",
+      "grid_pitch_mm": 8.0,
+      "elements": 2056,
+      "nodes": 3563,
+      "peak_mises_MPa": 0.12164381146430969,
+      "peak_mises_element": 1937,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 9.663978124589405e-05,
+      "peak_disp_node": 712019,
+      "peak_disp_node_coords_mm": [
+       64.0,
+       16.0,
+       22.75
+      ],
+      "artificial_energy_fraction": 0.14270010541687445,
+      "numerical_singularity_count": 0,
+      "m5_nodes_per_face": [
+       5
+      ],
+      "m4_spider_nodes_per_disk": [
+       5
+      ]
+     }
+    },
+    "trend": {
+     "peak_mises_pct_change_coarse_to_medium": -39.73723540652366,
+     "peak_mises_pct_change_medium_to_fine": 22.027363178501936,
+     "peak_disp_pct_change_coarse_to_medium": -94.13604507041224,
+     "peak_disp_pct_change_medium_to_fine": 30.142984691784708,
+     "sequence_monotonic": false,
+     "sequence_shape": "NON_MONOTONIC_V_SHAPE_COARSE_HIGH_MEDIUM_LOW_FINE_RISING",
+     "finest_pair_worst_abs_pct_change": 30.142984691784708,
+     "convergence_verdict": "NOT_CONVERGED",
+     "convergence_criterion": "<=5% change in the peak metric between the two finest levels",
+     "richardson_gci_applicable": false,
+     "richardson_gci_not_applicable_reason": "refinement is not a pure h-refinement: (a) grid pitch ratios are unequal (16->10 = 1.60, 10->8 = 1.25); (b) the bolt-disk constraint footprints change with the lattice (M5 nodes/face 2->4->5, M4 spider nodes/disk 1->4->5, M6 3->5->8), so the boundary-condition model changes between levels; (c) the peak metrics are located at kinematic-coupling boundaries, i.e. at a constraint-induced stress concentration that does not have a finite mesh-independent limit."
+    }
+   },
+   "CAPTURE_150KG_QS": {
+    "levels": {
+     "COARSE": {
+      "job_name": "fea1_capture_150kg_qs_coarse",
+      "grid_pitch_mm": 16.0,
+      "elements": 468,
+      "nodes": 979,
+      "peak_mises_MPa": 1.5515964031219482,
+      "peak_mises_element": 443,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 0.010712127702389076,
+      "peak_disp_node": 904009,
+      "peak_disp_node_coords_mm": [
+       48.0,
+       -16.0,
+       30.75
+      ],
+      "artificial_energy_fraction": 0.8013969720137513,
+      "numerical_singularity_count": 8,
+      "m5_nodes_per_face": [
+       2
+      ],
+      "m4_spider_nodes_per_disk": [
+       1
+      ]
+     },
+     "MEDIUM": {
+      "job_name": "fea1_capture_150kg_qs_medium",
+      "grid_pitch_mm": 10.0,
+      "elements": 1336,
+      "nodes": 2375,
+      "peak_mises_MPa": 0.8588933348655701,
+      "peak_mises_element": 1258,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 0.0005975064020758015,
+      "peak_disp_node": 710016,
+      "peak_disp_node_coords_mm": [
+       70.0,
+       20.0,
+       22.75
+      ],
+      "artificial_energy_fraction": 0.0644030553399873,
+      "numerical_singularity_count": 0,
+      "m5_nodes_per_face": [
+       4
+      ],
+      "m4_spider_nodes_per_disk": [
+       4
+      ]
+     },
+     "FINE": {
+      "job_name": "fea1_capture_150kg_qs_fine",
+      "grid_pitch_mm": 8.0,
+      "elements": 2056,
+      "nodes": 3563,
+      "peak_mises_MPa": 1.0596110820770264,
+      "peak_mises_element": 1937,
+      "peak_mises_zone": "ESTAGEA",
+      "peak_disp_mm": 0.0007947134823478103,
+      "peak_disp_node": 712019,
+      "peak_disp_node_coords_mm": [
+       64.0,
+       16.0,
+       22.75
+      ],
+      "artificial_energy_fraction": 0.1401765850251908,
+      "numerical_singularity_count": 0,
+      "m5_nodes_per_face": [
+       5
+      ],
+      "m4_spider_nodes_per_disk": [
+       5
+      ]
+     }
+    },
+    "trend": {
+     "peak_mises_pct_change_coarse_to_medium": -44.644539447410345,
+     "peak_mises_pct_change_medium_to_fine": 23.369345070406407,
+     "peak_disp_pct_change_coarse_to_medium": -94.42215012109554,
+     "peak_disp_pct_change_medium_to_fine": 33.005015441991944,
+     "sequence_monotonic": false,
+     "sequence_shape": "NON_MONOTONIC_V_SHAPE_COARSE_HIGH_MEDIUM_LOW_FINE_RISING",
+     "finest_pair_worst_abs_pct_change": 33.005015441991944,
+     "convergence_verdict": "NOT_CONVERGED",
+     "convergence_criterion": "<=5% change in the peak metric between the two finest levels",
+     "richardson_gci_applicable": false,
+     "richardson_gci_not_applicable_reason": "refinement is not a pure h-refinement: (a) grid pitch ratios are unequal (16->10 = 1.60, 10->8 = 1.25); (b) the bolt-disk constraint footprints change with the lattice (M5 nodes/face 2->4->5, M4 spider nodes/disk 1->4->5, M6 3->5->8), so the boundary-condition model changes between levels; (c) the peak metrics are located at kinematic-coupling boundaries, i.e. at a constraint-induced stress concentration that does not have a finite mesh-independent limit."
+    }
+   }
+  },
+  "cases_converged": 0,
+  "cases_total": 4,
+  "OVERALL_VERDICT": "NOT_CONVERGED",
+  "plain_statement": "Mesh convergence is NOT demonstrated. In all four case families the peak von Mises changes by +22.0% to +23.4% and the peak displacement by +30.1% to +33.0% between MEDIUM and FINE, and the trend is still rising at the finest level. This is an honest negative result and is reported as such; no converged stress value is claimed.",
+  "why_it_does_not_converge": [
+   "Both peak metrics are located ON kinematic-coupling boundaries (peak stress in Stage A at the arm-spider M4 attachment, peak displacement at an M5 coupling node). A rigid constraint on a solid mesh is a stress singularity, so the peak has no finite mesh-independent limit and will keep rising with refinement.",
+   "The refinement is not a pure h-refinement: the bolt-disk constraint footprints change with the lattice (M6 3->5->8, M5 2->4->5, M4 spider 1->4->5 nodes), so the boundary-condition model changes between levels.",
+   "Grid pitch ratios are unequal (16->10 = 1.60, 10->8 = 1.25), so Richardson extrapolation / GCI is not applicable.",
+   "The sequence is non-monotonic (coarse high, medium low, fine rising), which independently invalidates GCI."
+  ],
+  "what_would_be_needed": "Report a stress at a fixed distance from the constraint (or on a de-featured sub-model with real holes and contact) rather than a global peak; hold the constraint footprint fixed in physical size across levels; use a constant refinement ratio; and switch to a non-hourglassing element formulation."
+ },
+ "reaction_balance": {
+  "method": "Independently recomputed from the ODB RF field: sum of all nodal reaction forces, plus the resultant moment of those reactions about the global origin and about the load reference point (0,0,30.75), compared with the deck-applied load.",
+  "per_job": {
+   "fea1_arm_estop_qs_coarse": {
+    "applied_force_N_deck": [
+     0.0,
+     0.621016,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     434.711
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -19.096242,
+     0.0,
+     434.711
+    ],
+    "sum_reaction_force_N": [
+     1.3475073501467705e-08,
+     -0.6210160007904051,
+     1.0903022484853864e-08
+    ],
+    "residual_force_N": [
+     1.3475073501467705e-08,
+     -7.904050747242763e-10,
+     1.0903022484853864e-08
+    ],
+    "residual_force_norm_N": 1.7351606420079263e-08,
+    "residual_force_rel_to_applied": 2.7940675312840992e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     19.096241778170224,
+     -3.037857823073864e-07,
+     -434.71099910815246
+    ],
+    "residual_moment_about_origin_N_mm": [
+     -2.2182977588158792e-07,
+     -3.037857823073864e-07,
+     8.918475487007527e-07
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     -2.46134732151404e-07,
+     -7.181442924775183e-07,
+     -434.71099910815246
+    ],
+    "residual_moment_about_RP_N_mm": [
+     -2.46134732151404e-07,
+     -7.181442924775183e-07,
+     8.918475487007527e-07
+    ],
+    "residual_moment_about_RP_norm_N_mm": 1.1711983526767872e-06,
+    "residual_moment_rel_to_applied_Mz": 2.694199945887698e-09,
+    "n_nodes_with_nonzero_RF": 116,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_arm_estop_qs_fine": {
+    "applied_force_N_deck": [
+     0.0,
+     0.621016,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     434.711
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -19.096242,
+     0.0,
+     434.711
+    ],
+    "sum_reaction_force_N": [
+     -1.2505193325296204e-08,
+     -0.6210159945883049,
+     -1.2451677910974013e-08
+    ],
+    "residual_force_N": [
+     -1.2505193325296204e-08,
+     5.411695092050195e-09,
+     -1.2451677910974013e-08
+    ],
+    "residual_force_norm_N": 1.8458347343979392e-08,
+    "residual_force_rel_to_applied": 2.972282089991142e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     19.09624188149587,
+     3.6281175823660305e-06,
+     -434.711001193197
+    ],
+    "residual_moment_about_origin_N_mm": [
+     -1.1850412917624453e-07,
+     3.6281175823660305e-06,
+     -1.193196965232346e-06
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     4.790549468225436e-08,
+     4.012652277118889e-06,
+     -434.711001193197
+    ],
+    "residual_moment_about_RP_N_mm": [
+     4.790549468225436e-08,
+     4.012652277118889e-06,
+     -1.193196965232346e-06
+    ],
+    "residual_moment_about_RP_norm_N_mm": 4.186572850354791e-06,
+    "residual_moment_rel_to_applied_Mz": 9.630703732720799e-09,
+    "n_nodes_with_nonzero_RF": 420,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_arm_estop_qs_medium": {
+    "applied_force_N_deck": [
+     0.0,
+     0.621016,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     434.711
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -19.096242,
+     0.0,
+     434.711
+    ],
+    "sum_reaction_force_N": [
+     -1.0372559700044803e-08,
+     -0.6210159963794695,
+     -2.778147489834737e-08
+    ],
+    "residual_force_N": [
+     -1.0372559700044803e-08,
+     3.620530542036704e-09,
+     -2.778147489834737e-08
+    ],
+    "residual_force_norm_N": 2.9874882153145294e-08,
+    "residual_force_rel_to_applied": 4.8106461271763194e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     19.096243183348136,
+     -9.094598141246024e-07,
+     -434.71100117311096
+    ],
+    "residual_moment_about_origin_N_mm": [
+     1.183348135924689e-06,
+     -9.094598141246024e-07,
+     -1.1731109452739474e-06
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     1.294679449870273e-06,
+     -5.905036033482247e-07,
+     -434.71100117311096
+    ],
+    "residual_moment_about_RP_N_mm": [
+     1.294679449870273e-06,
+     -5.905036033482247e-07,
+     -1.1731109452739474e-06
+    ],
+    "residual_moment_about_RP_norm_N_mm": 1.844201364657657e-06,
+    "residual_moment_rel_to_applied_Mz": 4.2423618557102465e-09,
+    "n_nodes_with_nonzero_RF": 280,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_arm_maneuver_qs_coarse": {
+    "applied_force_N_deck": [
+     0.0,
+     0.310508,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     217.356
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -9.548121,
+     0.0,
+     217.356
+    ],
+    "sum_reaction_force_N": [
+     -7.697963155806065e-09,
+     -0.31050800689990865,
+     -1.718717612675391e-08
+    ],
+    "residual_force_N": [
+     -7.697963155806065e-09,
+     -6.899908644442121e-09,
+     -1.718717612675391e-08
+    ],
+    "residual_force_norm_N": 2.0056579949279846e-08,
+    "residual_force_rel_to_applied": 6.459279615752202e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     9.548120751998795,
+     -5.409601726569235e-07,
+     -217.35599908989388
+    ],
+    "residual_moment_about_origin_N_mm": [
+     -2.480012053496239e-07,
+     -5.409601726569235e-07,
+     9.101061095861951e-07
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     -4.601733962772414e-07,
+     -3.0424780561588705e-07,
+     -217.35599908989388
+    ],
+    "residual_moment_about_RP_N_mm": [
+     -4.601733962772414e-07,
+     -3.0424780561588705e-07,
+     9.101061095861951e-07
+    ],
+    "residual_moment_about_RP_norm_N_mm": 1.0642459361301471e-06,
+    "residual_moment_rel_to_applied_Mz": 4.896326469617343e-09,
+    "n_nodes_with_nonzero_RF": 116,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_arm_maneuver_qs_fine": {
+    "applied_force_N_deck": [
+     0.0,
+     0.310508,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     217.356
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -9.548121,
+     0.0,
+     217.356
+    ],
+    "sum_reaction_force_N": [
+     -4.70078065362145e-09,
+     -0.3105079996555986,
+     -1.0972556196975347e-11
+    ],
+    "residual_force_N": [
+     -4.70078065362145e-09,
+     3.444013962905501e-10,
+     -1.0972556196975347e-11
+    ],
+    "residual_force_norm_N": 4.713392777206042e-09,
+    "residual_force_rel_to_applied": 1.5179617843037997e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     9.54812163483632,
+     6.651205950447547e-07,
+     -217.3559999296946
+    ],
+    "residual_moment_about_origin_N_mm": [
+     6.348363204011775e-07,
+     6.651205950447547e-07,
+     7.03053899542283e-08
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     6.454266632260897e-07,
+     8.096696001436143e-07,
+     -217.3559999296946
+    ],
+    "residual_moment_about_RP_N_mm": [
+     6.454266632260897e-07,
+     8.096696001436143e-07,
+     7.03053899542283e-08
+    ],
+    "residual_moment_about_RP_norm_N_mm": 1.0378262315322833e-06,
+    "residual_moment_rel_to_applied_Mz": 4.774776088685306e-09,
+    "n_nodes_with_nonzero_RF": 420,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_arm_maneuver_qs_medium": {
+    "applied_force_N_deck": [
+     0.0,
+     0.310508,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     217.356
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -9.548121,
+     0.0,
+     217.356
+    ],
+    "sum_reaction_force_N": [
+     1.002615590550704e-08,
+     -0.31050800283475155,
+     6.770655147647631e-10
+    ],
+    "residual_force_N": [
+     1.002615590550704e-08,
+     -2.8347515446114357e-09,
+     6.770655147647631e-10
+    ],
+    "residual_force_norm_N": 1.0441170253975092e-08,
+    "residual_force_rel_to_applied": 3.362609096698021e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     9.548121756783452,
+     3.1869671346385076e-07,
+     -217.35600034557592
+    ],
+    "residual_moment_about_origin_N_mm": [
+     7.567834519051075e-07,
+     3.1869671346385076e-07,
+     -3.4557592698547523e-07
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     6.696148417972836e-07,
+     1.0392419369509298e-08,
+     -217.35600034557592
+    ],
+    "residual_moment_about_RP_N_mm": [
+     6.696148417972836e-07,
+     1.0392419369509298e-08,
+     -3.4557592698547523e-07
+    ],
+    "residual_moment_about_RP_norm_N_mm": 7.536011942980341e-07,
+    "residual_moment_rel_to_applied_Mz": 3.4671285554483617e-09,
+    "n_nodes_with_nonzero_RF": 280,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_capture_150kg_qs_coarse": {
+    "applied_force_N_deck": [
+     0.0,
+     13.5527,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     19073.3
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -416.745525,
+     0.0,
+     19073.3
+    ],
+    "sum_reaction_force_N": [
+     -6.742775440216064e-07,
+     -13.552699963212945,
+     1.0333315003663301e-06
+    ],
+    "residual_force_N": [
+     -6.742775440216064e-07,
+     3.6787055179843264e-08,
+     1.0333315003663301e-06
+    ],
+    "residual_force_norm_N": 1.2344138217996205e-06,
+    "residual_force_rel_to_applied": 9.108250177452614e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     416.74552718317136,
+     -4.71421517431736e-05,
+     -19073.300064504147
+    ],
+    "residual_moment_about_origin_N_mm": [
+     2.1831713752362703e-06,
+     -4.71421517431736e-05,
+     -6.45041473035235e-05
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     3.314373316243291e-06,
+     -2.64081172645092e-05,
+     -19073.300064504147
+    ],
+    "residual_moment_about_RP_N_mm": [
+     3.314373316243291e-06,
+     -2.64081172645092e-05,
+     -6.45041473035235e-05
+    ],
+    "residual_moment_about_RP_norm_N_mm": 6.977935760158696e-05,
+    "residual_moment_rel_to_applied_Mz": 3.658483723403237e-09,
+    "n_nodes_with_nonzero_RF": 116,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_capture_150kg_qs_fine": {
+    "applied_force_N_deck": [
+     0.0,
+     13.5527,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     19073.3
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -416.745525,
+     0.0,
+     19073.3
+    ],
+    "sum_reaction_force_N": [
+     -2.0139896150794812e-07,
+     -13.552700453216858,
+     -7.658597951376578e-07
+    ],
+    "residual_force_N": [
+     -2.0139896150794812e-07,
+     -4.532168578208484e-07,
+     -7.658597951376578e-07
+    ],
+    "residual_force_norm_N": 9.124189211747958e-07,
+    "residual_force_rel_to_applied": 6.732377468510303e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     416.7454715870699,
+     1.6810228771646507e-05,
+     -19073.300036614062
+    ],
+    "residual_moment_about_origin_N_mm": [
+     -5.341293007177228e-05,
+     1.6810228771646507e-05,
+     -3.6614062992157415e-05
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     -6.734934845553653e-05,
+     2.300324683801591e-05,
+     -19073.300036614062
+    ],
+    "residual_moment_about_RP_N_mm": [
+     -6.734934845553653e-05,
+     2.300324683801591e-05,
+     -3.6614062992157415e-05
+    ],
+    "residual_moment_about_RP_norm_N_mm": 8.00354528397862e-05,
+    "residual_moment_rel_to_applied_Mz": 4.1962037423930945e-09,
+    "n_nodes_with_nonzero_RF": 420,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_capture_150kg_qs_fine_7075": {
+    "applied_force_N_deck": [
+     0.0,
+     13.5527,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     19073.3
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -416.745525,
+     0.0,
+     19073.3
+    ],
+    "sum_reaction_force_N": [
+     -2.0139896150794812e-07,
+     -13.552700453216858,
+     -7.658597951376578e-07
+    ],
+    "residual_force_N": [
+     -2.0139896150794812e-07,
+     -4.532168578208484e-07,
+     -7.658597951376578e-07
+    ],
+    "residual_force_norm_N": 9.124189211747958e-07,
+    "residual_force_rel_to_applied": 6.732377468510303e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     416.7454715870699,
+     1.6810228771646507e-05,
+     -19073.300036614062
+    ],
+    "residual_moment_about_origin_N_mm": [
+     -5.341293007177228e-05,
+     1.6810228771646507e-05,
+     -3.6614062992157415e-05
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     -6.734934845553653e-05,
+     2.300324683801591e-05,
+     -19073.300036614062
+    ],
+    "residual_moment_about_RP_N_mm": [
+     -6.734934845553653e-05,
+     2.300324683801591e-05,
+     -3.6614062992157415e-05
+    ],
+    "residual_moment_about_RP_norm_N_mm": 8.00354528397862e-05,
+    "residual_moment_rel_to_applied_Mz": 4.1962037423930945e-09,
+    "n_nodes_with_nonzero_RF": 420,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_capture_150kg_qs_medium": {
+    "applied_force_N_deck": [
+     0.0,
+     13.5527,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     19073.3
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -416.745525,
+     0.0,
+     19073.3
+    ],
+    "sum_reaction_force_N": [
+     3.1177023629425094e-07,
+     -13.55269920633873,
+     1.2066193448845297e-06
+    ],
+    "residual_force_N": [
+     3.1177023629425094e-07,
+     7.9366127003766e-07,
+     1.2066193448845297e-06
+    ],
+    "residual_force_norm_N": 1.4775077445639113e-06,
+    "residual_force_rel_to_applied": 1.090194385298805e-07,
+    "sum_reaction_moment_about_origin_N_mm": [
+     416.7456130960636,
+     -5.42065390618518e-05,
+     -19073.299943562015
+    ],
+    "residual_moment_about_origin_N_mm": [
+     8.809606362092381e-05,
+     -5.42065390618518e-05,
+     5.643798431265168e-05
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     0.0001125011476688087,
+     -6.379347382790002e-05,
+     -19073.299943562015
+    ],
+    "residual_moment_about_RP_N_mm": [
+     0.0001125011476688087,
+     -6.379347382790002e-05,
+     5.643798431265168e-05
+    ],
+    "residual_moment_about_RP_norm_N_mm": 0.00014110762418489365,
+    "residual_moment_rel_to_applied_Mz": 7.398175679347237e-09,
+    "n_nodes_with_nonzero_RF": 280,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_capture_22kg_qs_coarse": {
+    "applied_force_N_deck": [
+     0.0,
+     7.21244,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     1846.14
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -221.78253,
+     0.0,
+     1846.14
+    ],
+    "sum_reaction_force_N": [
+     1.1245720088481903e-07,
+     -7.212440168950707,
+     2.771139406831935e-08
+    ],
+    "residual_force_N": [
+     1.1245720088481903e-07,
+     -1.6895070675815305e-07,
+     2.771139406831935e-08
+    ],
+    "residual_force_norm_N": 2.0483867971195687e-07,
+    "residual_force_rel_to_applied": 2.840074644807539e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     221.78253268457775,
+     8.734059520065784e-07,
+     -1846.1399933360517
+    ],
+    "residual_moment_about_origin_N_mm": [
+     2.684577736999927e-06,
+     8.734059520065784e-07,
+     6.6639483975450275e-06
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     -2.5106564862653613e-06,
+     -2.5846529752016068e-06,
+     -1846.1399933360517
+    ],
+    "residual_moment_about_RP_N_mm": [
+     -2.5106564862653613e-06,
+     -2.5846529752016068e-06,
+     6.6639483975450275e-06
+    ],
+    "residual_moment_about_RP_norm_N_mm": 7.575753113677068e-06,
+    "residual_moment_rel_to_applied_Mz": 4.1035637133029285e-09,
+    "n_nodes_with_nonzero_RF": 116,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_capture_22kg_qs_fine": {
+    "applied_force_N_deck": [
+     0.0,
+     7.21244,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     1846.14
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -221.78253,
+     0.0,
+     1846.14
+    ],
+    "sum_reaction_force_N": [
+     3.567231487977551e-08,
+     -7.212439949066265,
+     1.3949136246083071e-07
+    ],
+    "residual_force_N": [
+     3.567231487977551e-08,
+     5.0933734563329836e-08,
+     1.3949136246083071e-07
+    ],
+    "residual_force_norm_N": 1.5272393252738238e-07,
+    "residual_force_rel_to_applied": 2.1175071477528048e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     221.78253780369232,
+     6.232849045773037e-07,
+     -1846.1399932783534
+    ],
+    "residual_moment_about_origin_N_mm": [
+     7.8036923127911e-06,
+     6.232849045773037e-07,
+     6.721646741425502e-06
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     9.36990466016141e-06,
+     -4.7363877797579335e-07,
+     -1846.1399932783534
+    ],
+    "residual_moment_about_RP_N_mm": [
+     9.36990466016141e-06,
+     -4.7363877797579335e-07,
+     6.721646741425502e-06
+    ],
+    "residual_moment_about_RP_norm_N_mm": 1.1541229654981872e-05,
+    "residual_moment_rel_to_applied_Mz": 6.251546283045637e-09,
+    "n_nodes_with_nonzero_RF": 420,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   },
+   "fea1_capture_22kg_qs_medium": {
+    "applied_force_N_deck": [
+     0.0,
+     7.21244,
+     0.0
+    ],
+    "applied_moment_about_RP_N_mm_deck": [
+     0.0,
+     0.0,
+     1846.14
+    ],
+    "applied_moment_about_origin_N_mm_deck": [
+     -221.78253,
+     0.0,
+     1846.14
+    ],
+    "sum_reaction_force_N": [
+     7.2183865995612e-08,
+     -7.212440027764387,
+     -1.3258159015094861e-07
+    ],
+    "residual_force_N": [
+     7.2183865995612e-08,
+     -2.776438723373076e-08,
+     -1.3258159015094861e-07
+    ],
+    "residual_force_norm_N": 1.5349022690546502e-07,
+    "residual_force_rel_to_applied": 2.1281317682429943e-08,
+    "sum_reaction_moment_about_origin_N_mm": [
+     221.78252175179296,
+     4.027015165775083e-06,
+     -1846.1399943873766
+    ],
+    "residual_moment_about_origin_N_mm": [
+     -8.248207052474754e-06,
+     4.027015165775083e-06,
+     5.612623453998822e-06
+    ],
+    "sum_reaction_moment_about_RP_N_mm": [
+     -9.101961950364057e-06,
+     1.8073612864100141e-06,
+     -1846.1399943873766
+    ],
+    "residual_moment_about_RP_N_mm": [
+     -9.101961950364057e-06,
+     1.8073612864100141e-06,
+     5.612623453998822e-06
+    ],
+    "residual_moment_about_RP_norm_N_mm": 1.0844990004691863e-05,
+    "residual_moment_rel_to_applied_Mz": 5.874413643977088e-09,
+    "n_nodes_with_nonzero_RF": 280,
+    "nonzero_RF_nodes_outside_encastre_set": [],
+    "balance_reference": "APPLIED_LOAD_OF_RECORD_IS_THE_DECK_CLOAD_VALUE (generator wrote %.6g format; sidecar carries the untruncated derivation value)"
+   }
+  },
+  "summary": {
+   "worst_relative_force_residual": 1.090194385298805e-07,
+   "worst_relative_force_residual_job": "fea1_capture_150kg_qs_medium",
+   "worst_relative_moment_residual": 9.630703732720799e-09,
+   "worst_relative_moment_residual_job": "fea1_arm_estop_qs_fine",
+   "jobs_with_reaction_leakage_outside_encastre_set": [],
+   "odb_precision": "SINGLE_PRECISION",
+   "verdict": "PASS",
+   "criterion": "global force and moment residual < 1e-5 relative (float32 odb round-off floor is ~1e-7)"
+  }
+ },
+ "energy_check": {
+  "source": "*ENERGY PRINT block in each .dat, cross-checked against the ODB history region for ALLIE/ALLSE/ALLAE/ALLWK/ETOTAL",
+  "per_job_dat": {
+   "fea1_arm_estop_qs_coarse": {
+    "ALLIE": 0.00100465,
+    "ALLAE": 0.0008054189,
+    "ALLSE": 0.0001992312,
+    "ALLWK": 0.00100465,
+    "ETOTAL": 1.539567e-17,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.8016910366794406,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_arm_estop_qs_fine": {
+    "ALLIE": 5.244576e-05,
+    "ALLAE": 7.366307e-06,
+    "ALLSE": 4.507946e-05,
+    "ALLWK": 5.244576e-05,
+    "ETOTAL": -8.470329e-19,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.14045572034803194,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_arm_estop_qs_medium": {
+    "ALLIE": 4.530504e-05,
+    "ALLAE": 2.965124e-06,
+    "ALLSE": 4.233992e-05,
+    "ALLWK": 4.530504e-05,
+    "ETOTAL": 1.348476e-18,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.06544799430703516,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_arm_maneuver_qs_coarse": {
+    "ALLIE": 0.0002511637,
+    "ALLAE": 0.0002013557,
+    "ALLSE": 4.980802e-05,
+    "ALLWK": 0.0002511637,
+    "ETOTAL": 3.794708e-18,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.8016910883220784,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_arm_maneuver_qs_fine": {
+    "ALLIE": 1.31115e-05,
+    "ALLAE": 1.841585e-06,
+    "ALLSE": 1.126992e-05,
+    "ALLWK": 1.31115e-05,
+    "ETOTAL": -2.117582e-19,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.14045570682225528,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_arm_maneuver_qs_medium": {
+    "ALLIE": 1.132631e-05,
+    "ALLAE": 7.412844e-07,
+    "ALLSE": 1.058503e-05,
+    "ALLWK": 1.132631e-05,
+    "ETOTAL": 3.371191e-19,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.0654480055728653,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_capture_150kg_qs_coarse": {
+    "ALLIE": 1.92273,
+    "ALLAE": 1.54087,
+    "ALLSE": 0.381867,
+    "ALLWK": 1.92273,
+    "ETOTAL": 2.68674e-14,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.8013969720137513,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_capture_150kg_qs_fine": {
+    "ALLIE": 0.100235,
+    "ALLAE": 0.0140506,
+    "ALLSE": 0.08618425,
+    "ALLWK": 0.100235,
+    "ETOTAL": -1.776357e-15,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.1401765850251908,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_capture_150kg_qs_fine_7075": {
+    "ALLIE": 0.09642311,
+    "ALLAE": 0.01351628,
+    "ALLSE": 0.08290683,
+    "ALLWK": 0.09642311,
+    "ETOTAL": 1.262879e-15,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.1401767688264774,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_capture_150kg_qs_medium": {
+    "ALLIE": 0.08639955,
+    "ALLAE": 0.005564395,
+    "ALLSE": 0.08083515,
+    "ALLWK": 0.08639955,
+    "ETOTAL": 2.622902e-15,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.0644030553399873,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_capture_22kg_qs_coarse": {
+    "ALLIE": 0.01903117,
+    "ALLAE": 0.01530319,
+    "ALLSE": 0.003727976,
+    "ALLWK": 0.01903117,
+    "ETOTAL": 3.642919e-16,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.804111885921885,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_capture_22kg_qs_fine": {
+    "ALLIE": 0.001004583,
+    "ALLAE": 0.0001433541,
+    "ALLSE": 0.0008612292,
+    "ALLWK": 0.001004583,
+    "ETOTAL": -1.886512e-17,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.14270010541687445,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   },
+   "fea1_capture_22kg_qs_medium": {
+    "ALLIE": 0.0008829586,
+    "ALLAE": 6.506919e-05,
+    "ALLSE": 0.0008178894,
+    "ALLWK": 0.0008829586,
+    "ETOTAL": 2.808084e-17,
+    "artificial_energy_fraction_ALLAE_over_ALLIE": 0.07369449711458725,
+    "conventional_acceptance_threshold": 0.05,
+    "acceptance_note": "C3D8R reduced integration: artificial (hourglass) strain energy should be a small fraction of internal energy. >5% indicates hourglass-contaminated bending response."
+   }
+  },
+  "per_job_odb_history": {
+   "fea1_arm_estop_qs_coarse": {
+    "ALLAE": 0.0008054189383983612,
+    "ALLIE": 0.0010046501411125064,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 0.00019923118816222996,
+    "ALLWK": 0.0010046501411125064,
+    "ETOTAL": 1.5395670849294163e-17
+   },
+   "fea1_arm_estop_qs_fine": {
+    "ALLAE": 7.3663072726048995e-06,
+    "ALLIE": 5.2445764595177025e-05,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 4.507945413934067e-05,
+    "ALLWK": 5.2445764595177025e-05,
+    "ETOTAL": -8.470329472543003e-19
+   },
+   "fea1_arm_estop_qs_medium": {
+    "ALLAE": 2.9651243949047057e-06,
+    "ALLIE": 4.530504156718962e-05,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 4.233991785440594e-05,
+    "ALLWK": 4.530504156718962e-05,
+    "ETOTAL": 1.3484764520288461e-18
+   },
+   "fea1_arm_maneuver_qs_coarse": {
+    "ALLAE": 0.0002013556513702497,
+    "ALLIE": 0.0002511636703275144,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 4.980802259524353e-05,
+    "ALLWK": 0.0002511636703275144,
+    "ETOTAL": 3.7947076036992655e-18
+   },
+   "fea1_arm_maneuver_qs_fine": {
+    "ALLAE": 1.8415852309772163e-06,
+    "ALLIE": 1.3111500265949871e-05,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 1.1269915376033168e-05,
+    "ALLWK": 1.3111500265949871e-05,
+    "ETOTAL": -2.1175823681357508e-19
+   },
+   "fea1_arm_maneuver_qs_medium": {
+    "ALLAE": 7.412843956444704e-07,
+    "ALLIE": 1.1326312232995406e-05,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 1.0585027666820679e-05,
+    "ALLWK": 1.1326312232995406e-05,
+    "ETOTAL": 3.3711911300721153e-19
+   },
+   "fea1_capture_150kg_qs_coarse": {
+    "ALLAE": 1.540866732597351,
+    "ALLIE": 1.9227334260940552,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 0.3818666934967041,
+    "ALLWK": 1.9227334260940552,
+    "ETOTAL": 2.6867397195928788e-14
+   },
+   "fea1_capture_150kg_qs_fine": {
+    "ALLAE": 0.014050602912902832,
+    "ALLIE": 0.10023485869169235,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 0.08618425577878952,
+    "ALLWK": 0.10023485869169235,
+    "ETOTAL": -1.7763568394002505e-15
+   },
+   "fea1_capture_150kg_qs_fine_7075": {
+    "ALLAE": 0.01351628452539444,
+    "ALLIE": 0.09642311185598373,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 0.0829068273305893,
+    "ALLWK": 0.09642311185598373,
+    "ETOTAL": 1.2628786905111156e-15
+   },
+   "fea1_capture_150kg_qs_medium": {
+    "ALLAE": 0.005564394872635603,
+    "ALLIE": 0.08639954775571823,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 0.08083515614271164,
+    "ALLWK": 0.08639954775571823,
+    "ETOTAL": 2.6229018956769323e-15
+   },
+   "fea1_capture_22kg_qs_coarse": {
+    "ALLAE": 0.015303189866244793,
+    "ALLIE": 0.019031167030334473,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 0.0037279764655977488,
+    "ALLWK": 0.019031167030334473,
+    "ETOTAL": 3.642919299551295e-16
+   },
+   "fea1_capture_22kg_qs_fine": {
+    "ALLAE": 0.00014335413288790733,
+    "ALLIE": 0.0010045833187177777,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 0.0008612291421741247,
+    "ALLWK": 0.0010045833187177777,
+    "ETOTAL": -1.8865117801247777e-17
+   },
+   "fea1_capture_22kg_qs_medium": {
+    "ALLAE": 6.506918725790456e-05,
+    "ALLIE": 0.0008829585858620703,
+    "ALLKE": 0.0,
+    "ALLPD": 0.0,
+    "ALLSE": 0.0008178894058801234,
+    "ALLWK": 0.0008829585858620703,
+    "ETOTAL": 2.8080836267374565e-17
+   }
+  },
+  "balance": {
+   "worst_rel_ALLWK_minus_ALLIE": 0.0,
+   "worst_job": "fea1_capture_22kg_qs_medium",
+   "verdict": "PASS",
+   "criterion": "external work must equal internal energy for a static linear elastic step"
+  },
+  "HOURGLASS_FINDING": {
+   "per_job_ALLAE_over_ALLIE": {
+    "fea1_arm_estop_qs_coarse": 0.8016910366794406,
+    "fea1_arm_estop_qs_fine": 0.14045572034803194,
+    "fea1_arm_estop_qs_medium": 0.06544799430703516,
+    "fea1_arm_maneuver_qs_coarse": 0.8016910883220784,
+    "fea1_arm_maneuver_qs_fine": 0.14045570682225528,
+    "fea1_arm_maneuver_qs_medium": 0.0654480055728653,
+    "fea1_capture_150kg_qs_coarse": 0.8013969720137513,
+    "fea1_capture_150kg_qs_fine": 0.1401765850251908,
+    "fea1_capture_150kg_qs_fine_7075": 0.1401767688264774,
+    "fea1_capture_150kg_qs_medium": 0.0644030553399873,
+    "fea1_capture_22kg_qs_coarse": 0.804111885921885,
+    "fea1_capture_22kg_qs_fine": 0.14270010541687445,
+    "fea1_capture_22kg_qs_medium": 0.07369449711458725
+   },
+   "conventional_threshold": 0.05,
+   "jobs_exceeding_threshold": [
+    "fea1_arm_estop_qs_coarse",
+    "fea1_arm_estop_qs_fine",
+    "fea1_arm_estop_qs_medium",
+    "fea1_arm_maneuver_qs_coarse",
+    "fea1_arm_maneuver_qs_fine",
+    "fea1_arm_maneuver_qs_medium",
+    "fea1_capture_150kg_qs_coarse",
+    "fea1_capture_150kg_qs_fine",
+    "fea1_capture_150kg_qs_fine_7075",
+    "fea1_capture_150kg_qs_medium",
+    "fea1_capture_22kg_qs_coarse",
+    "fea1_capture_22kg_qs_fine",
+    "fea1_capture_22kg_qs_medium"
+   ],
+   "n_jobs_exceeding_threshold": 13,
+   "verdict": "FAIL_ALL_JOBS_HOURGLASS_CONTAMINATED",
+   "interpretation": "Every deck is C3D8R (reduced integration, hourglass control) with only 2-3 elements through each plate thickness under bending and torsion. The artificial ('spurious mode control') energy is 80% of internal energy at COARSE and still 14% at FINE, i.e. the bending response is hourglass-stiffness-dominated. Reported stresses are therefore DESIGN_INDICATIVE screening numbers, not converged structural stresses. Remedy (not executed this loop, no authorization to re-deck): C3D8 / C3D8I incompatible-mode or C3D20R elements, or >=4 elements through thickness."
+  }
+ },
+ "verification_checks": {
+  "load_proportionality_linearity": {
+   "per_level": {
+    "COARSE": {
+     "deck_force_ratio": 2.0,
+     "deck_moment_ratio": 1.9999953992528388,
+     "peak_mises_ratio": 1.9999956736943725,
+     "peak_disp_ratio": 1.9999956874759794,
+     "mises_rel_dev_from_deck_moment_ratio": 1.372210825201549e-07,
+     "disp_rel_dev_from_deck_moment_ratio": 1.4411190185498621e-07,
+     "note": "response is moment-dominated, so the deck MOMENT ratio is the correct reference. The deck moment ratio is 1.999995399 (not exactly 2) purely because the generator wrote CLOAD with %.6g; the response tracks it to ~1e-7, which is float32 round-off for a SINGLE_PRECISION odb."
+    },
+    "MEDIUM": {
+     "deck_force_ratio": 2.0,
+     "deck_moment_ratio": 1.9999953992528388,
+     "peak_mises_ratio": 1.999995627364753,
+     "peak_disp_ratio": 1.9999960542020543,
+     "mises_rel_dev_from_deck_moment_ratio": 1.1405621949524087e-07,
+     "disp_rel_dev_from_deck_moment_ratio": 3.2747536107983553e-07,
+     "note": "response is moment-dominated, so the deck MOMENT ratio is the correct reference. The deck moment ratio is 1.999995399 (not exactly 2) purely because the generator wrote CLOAD with %.6g; the response tracks it to ~1e-7, which is float32 round-off for a SINGLE_PRECISION odb."
+    },
+    "FINE": {
+     "deck_force_ratio": 2.0,
+     "deck_moment_ratio": 1.9999953992528388,
+     "peak_mises_ratio": 1.9999957057690698,
+     "peak_disp_ratio": 1.9999957978836733,
+     "mises_rel_dev_from_deck_moment_ratio": 1.5325846808341576e-07,
+     "disp_rel_dev_from_deck_moment_ratio": 1.9931587578288379e-07,
+     "note": "response is moment-dominated, so the deck MOMENT ratio is the correct reference. The deck moment ratio is 1.999995399 (not exactly 2) purely because the generator wrote CLOAD with %.6g; the response tracks it to ~1e-7, which is float32 round-off for a SINGLE_PRECISION odb."
+    }
+   },
+   "worst_rel_deviation": 1.5325846808341576e-07,
+   "verdict": "PASS",
+   "criterion": "response ratio must equal deck load ratio to <1e-5"
+  },
+  "material_sensitivity_scaling": {
+   "peak_mises_AL6061_MPa": 1.0596110820770264,
+   "peak_mises_AL7075_MPa": 1.0596110820770264,
+   "stress_bit_identical": true,
+   "stress_expectation": "force-driven single-material linear elastic model -> stress must be independent of E",
+   "peak_disp_AL6061_mm": 0.0007947134823478103,
+   "peak_disp_AL7075_mm": 0.0007644920041798177,
+   "disp_ratio_6061_over_7075": 1.0395314509540432,
+   "expected_E_ratio_7075_over_6061": 1.0395314787701317,
+   "disp_rel_dev_from_1_over_E": 2.6758293627182784e-08,
+   "verdict": "PASS",
+   "criterion": "stress identical AND displacement ratio == E ratio to <1e-6"
+  },
+  "reaction_balance_summary": {
+   "worst_relative_force_residual": 1.090194385298805e-07,
+   "worst_relative_force_residual_job": "fea1_capture_150kg_qs_medium",
+   "worst_relative_moment_residual": 9.630703732720799e-09,
+   "worst_relative_moment_residual_job": "fea1_arm_estop_qs_fine",
+   "jobs_with_reaction_leakage_outside_encastre_set": [],
+   "odb_precision": "SINGLE_PRECISION",
+   "verdict": "PASS",
+   "criterion": "global force and moment residual < 1e-5 relative (float32 odb round-off floor is ~1e-7)"
+  },
+  "energy_balance": {
+   "worst_rel_ALLWK_minus_ALLIE": 0.0,
+   "worst_job": "fea1_capture_22kg_qs_medium",
+   "verdict": "PASS",
+   "criterion": "external work must equal internal energy for a static linear elastic step"
+  },
+  "artificial_strain_energy_quality": {
+   "per_job_ALLAE_over_ALLIE": {
+    "fea1_arm_estop_qs_coarse": 0.8016910366794406,
+    "fea1_arm_estop_qs_fine": 0.14045572034803194,
+    "fea1_arm_estop_qs_medium": 0.06544799430703516,
+    "fea1_arm_maneuver_qs_coarse": 0.8016910883220784,
+    "fea1_arm_maneuver_qs_fine": 0.14045570682225528,
+    "fea1_arm_maneuver_qs_medium": 0.0654480055728653,
+    "fea1_capture_150kg_qs_coarse": 0.8013969720137513,
+    "fea1_capture_150kg_qs_fine": 0.1401765850251908,
+    "fea1_capture_150kg_qs_fine_7075": 0.1401767688264774,
+    "fea1_capture_150kg_qs_medium": 0.0644030553399873,
+    "fea1_capture_22kg_qs_coarse": 0.804111885921885,
+    "fea1_capture_22kg_qs_fine": 0.14270010541687445,
+    "fea1_capture_22kg_qs_medium": 0.07369449711458725
+   },
+   "conventional_threshold": 0.05,
+   "jobs_exceeding_threshold": [
+    "fea1_arm_estop_qs_coarse",
+    "fea1_arm_estop_qs_fine",
+    "fea1_arm_estop_qs_medium",
+    "fea1_arm_maneuver_qs_coarse",
+    "fea1_arm_maneuver_qs_fine",
+    "fea1_arm_maneuver_qs_medium",
+    "fea1_capture_150kg_qs_coarse",
+    "fea1_capture_150kg_qs_fine",
+    "fea1_capture_150kg_qs_fine_7075",
+    "fea1_capture_150kg_qs_medium",
+    "fea1_capture_22kg_qs_coarse",
+    "fea1_capture_22kg_qs_fine",
+    "fea1_capture_22kg_qs_medium"
+   ],
+   "n_jobs_exceeding_threshold": 13,
+   "verdict": "FAIL_ALL_JOBS_HOURGLASS_CONTAMINATED",
+   "interpretation": "Every deck is C3D8R (reduced integration, hourglass control) with only 2-3 elements through each plate thickness under bending and torsion. The artificial ('spurious mode control') energy is 80% of internal energy at COARSE and still 14% at FINE, i.e. the bending response is hourglass-stiffness-dominated. Reported stresses are therefore DESIGN_INDICATIVE screening numbers, not converged structural stresses. Remedy (not executed this loop, no authorization to re-deck): C3D8 / C3D8I incompatible-mode or C3D20R elements, or >=4 elements through thickness."
+  }
+ },
+ "numerical_warning_diagnosis": {
+  "jobs_with_singularity_warnings": [
+   "fea1_arm_estop_qs_coarse",
+   "fea1_arm_maneuver_qs_coarse",
+   "fea1_capture_150kg_qs_coarse",
+   "fea1_capture_22kg_qs_coarse"
+  ],
+  "jobs_without": [
+   "fea1_arm_estop_qs_fine",
+   "fea1_arm_estop_qs_medium",
+   "fea1_arm_maneuver_qs_fine",
+   "fea1_arm_maneuver_qs_medium",
+   "fea1_capture_150kg_qs_fine",
+   "fea1_capture_150kg_qs_fine_7075",
+   "fea1_capture_150kg_qs_medium",
+   "fea1_capture_22kg_qs_fine",
+   "fea1_capture_22kg_qs_medium"
+  ],
+  "count_per_affected_job": 8,
+  "all_affected_jobs_are_mesh_level": "COARSE",
+  "mapped_warnings": [
+   {
+    "node": 900207,
+    "dof": 5,
+    "ratio": "842.503E+12",
+    "coupling_constraint": "M5_8",
+    "dof_meaning": "rotation about global Y"
+   },
+   {
+    "node": 900200,
+    "dof": 5,
+    "ratio": "2.37249E+15.",
+    "coupling_constraint": "M5_1",
+    "dof_meaning": "rotation about global Y"
+   },
+   {
+    "node": 900204,
+    "dof": 5,
+    "ratio": "1.28520E+15.",
+    "coupling_constraint": "M5_5",
+    "dof_meaning": "rotation about global Y"
+   },
+   {
+    "node": 900202,
+    "dof": 4,
+    "ratio": "1.03874E+15.",
+    "coupling_constraint": "M5_3",
+    "dof_meaning": "rotation about global X"
+   },
+   {
+    "node": 900203,
+    "dof": 5,
+    "ratio": "1.16814E+15.",
+    "coupling_constraint": "M5_4",
+    "dof_meaning": "rotation about global Y"
+   },
+   {
+    "node": 900201,
+    "dof": 4,
+    "ratio": "703.168E+12",
+    "coupling_constraint": "M5_2",
+    "dof_meaning": "rotation about global X"
+   },
+   {
+    "node": 900205,
+    "dof": 4,
+    "ratio": "2.04525E+15.",
+    "coupling_constraint": "M5_6",
+    "dof_meaning": "rotation about global X"
+   },
+   {
+    "node": 900206,
+    "dof": 4,
+    "ratio": "280.569E+12",
+    "coupling_constraint": "M5_7",
+    "dof_meaning": "rotation about global X"
+   }
+  ],
+  "root_cause": "Every one of the 8 warnings is on an M5 kinematic-coupling REFERENCE node (900200-900207 = M5_1..M5_8), never on a structural node. At the COARSE 16 mm lattice each M5 bolt disk captures only 2 lattice points per mating face (sidecar nodes_face_lo = 2), and planes p6/p7 are coincident at z=22.75, so the coupling's slave set collapses to TWO distinct spatial points. A 6-DOF kinematic coupling to two collinear points leaves the reference node's rotation ABOUT THAT LINE with zero stiffness -> zero pivot -> NUMERICAL SINGULARITY.",
+  "root_cause_proof": "The reported DOF matches the joint geometry in all 8 of 8 cases: joints whose two points are separated along y (M5_1,4,5,8) report DOF 5 (rotation about Y) and joints separated along x (M5_2,3,6,7) report DOF 4 (rotation about X). Independent confirmation: the warnings vanish completely at MEDIUM (4 nodes/face) and FINE (5 nodes/face), where the slave sets are no longer collinear, and the M6 joints (3 nodes/face, non-collinear) never warn at any level.",
+  "does_it_invalidate_the_result": "NO_FOR_THE_COARSE_LOAD_PATH_ITSELF",
+  "validity_judgement": "The singular degrees of freedom are pure rigid-body rotations of massless, UNLOADED internal constraint reference nodes (the only loaded node is RP 900000). No load path passes through them, and Abaqus reports 0 negative eigenvalue messages, 0 error messages, a linear equilibrium response, largest scaled residual force 4.576e-12 and residual moment 5.264e-11. The independently recomputed global reaction balance for the coarse jobs closes to <1e-7 relative. So the warnings do not corrupt the reported coarse solution.",
+  "but": "The COARSE level is nevertheless EXCLUDED from any quantitative convergence claim, for a different and stronger reason: at 16 mm pitch the constraint footprints are degenerate (M4 arm-spider disks capture 1 node each, M5 disks 2), which makes the coarse peak displacement 13.5x the fine value and puts the coarse peak at a single-node spider attachment. COARSE is a different boundary-condition model, not a coarser discretization of the same model.",
+  "residual_evidence": {
+   "fea1_arm_estop_qs_coarse": {
+    "largest_scaled_residual_force": -5.899e-14,
+    "largest_scaled_residual_moment": 2.812e-12,
+    "negative_eigenvalue_messages": 0,
+    "error_messages": 0
+   },
+   "fea1_arm_maneuver_qs_coarse": {
+    "largest_scaled_residual_force": 2.895e-14,
+    "largest_scaled_residual_moment": 1.482e-12,
+    "negative_eigenvalue_messages": 0,
+    "error_messages": 0
+   },
+   "fea1_capture_150kg_qs_coarse": {
+    "largest_scaled_residual_force": -4.576e-12,
+    "largest_scaled_residual_moment": 5.264e-11,
+    "negative_eigenvalue_messages": 0,
+    "error_messages": 0
+   },
+   "fea1_capture_22kg_qs_coarse": {
+    "largest_scaled_residual_force": 2.984e-13,
+    "largest_scaled_residual_moment": 9.287e-12,
+    "negative_eigenvalue_messages": 0,
+    "error_messages": 0
+   }
+  },
+  "separate_input_processing_warning": "All 13 jobs also carry exactly 1 warning during user input processing: 'THE CONTACT AREA OR DISTRIBUTING WEIGHT ASSOCIATED WITH <n> NODES IS ZERO OR NEGATIVE'. This is expected and harmless here: the joints use *SURFACE,TYPE=NODE node-based surfaces with *KINEMATIC coupling, which needs no area weighting; a distributing (*DISTRIBUTING) coupling would have needed it."
+ },
+ "dat_nonzero_proof": {
+  "fea1_arm_estop_qs_coarse": {
+   "dat_bytes": 29699,
+   "dat_nonzero": true,
+   "odb_bytes": 511032,
+   "msg_bytes": 10326,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 468,
+   "dat_reported_nodes": 979,
+   "dat_reported_variables": 3156
+  },
+  "fea1_arm_estop_qs_fine": {
+   "dat_bytes": 48393,
+   "dat_nonzero": true,
+   "odb_bytes": 1168208,
+   "msg_bytes": 9289,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 2056,
+   "dat_reported_nodes": 3563,
+   "dat_reported_variables": 11220
+  },
+  "fea1_arm_estop_qs_medium": {
+   "dat_bytes": 39713,
+   "dat_nonzero": true,
+   "odb_bytes": 865664,
+   "msg_bytes": 9288,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 1336,
+   "dat_reported_nodes": 2375,
+   "dat_reported_variables": 7524
+  },
+  "fea1_arm_maneuver_qs_coarse": {
+   "dat_bytes": 29699,
+   "dat_nonzero": true,
+   "odb_bytes": 511036,
+   "msg_bytes": 10326,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 468,
+   "dat_reported_nodes": 979,
+   "dat_reported_variables": 3156
+  },
+  "fea1_arm_maneuver_qs_fine": {
+   "dat_bytes": 48393,
+   "dat_nonzero": true,
+   "odb_bytes": 1168208,
+   "msg_bytes": 9289,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 2056,
+   "dat_reported_nodes": 3563,
+   "dat_reported_variables": 11220
+  },
+  "fea1_arm_maneuver_qs_medium": {
+   "dat_bytes": 39713,
+   "dat_nonzero": true,
+   "odb_bytes": 865668,
+   "msg_bytes": 9288,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 1336,
+   "dat_reported_nodes": 2375,
+   "dat_reported_variables": 7524
+  },
+  "fea1_capture_150kg_qs_coarse": {
+   "dat_bytes": 29695,
+   "dat_nonzero": true,
+   "odb_bytes": 511036,
+   "msg_bytes": 10326,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 468,
+   "dat_reported_nodes": 979,
+   "dat_reported_variables": 3156
+  },
+  "fea1_capture_150kg_qs_fine": {
+   "dat_bytes": 48393,
+   "dat_nonzero": true,
+   "odb_bytes": 1168212,
+   "msg_bytes": 9289,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 2056,
+   "dat_reported_nodes": 3563,
+   "dat_reported_variables": 11220
+  },
+  "fea1_capture_150kg_qs_fine_7075": {
+   "dat_bytes": 48407,
+   "dat_nonzero": true,
+   "odb_bytes": 1168216,
+   "msg_bytes": 9289,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 2056,
+   "dat_reported_nodes": 3563,
+   "dat_reported_variables": 11220
+  },
+  "fea1_capture_150kg_qs_medium": {
+   "dat_bytes": 39709,
+   "dat_nonzero": true,
+   "odb_bytes": 865668,
+   "msg_bytes": 9288,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 1336,
+   "dat_reported_nodes": 2375,
+   "dat_reported_variables": 7524
+  },
+  "fea1_capture_22kg_qs_coarse": {
+   "dat_bytes": 29699,
+   "dat_nonzero": true,
+   "odb_bytes": 511036,
+   "msg_bytes": 10326,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 468,
+   "dat_reported_nodes": 979,
+   "dat_reported_variables": 3156
+  },
+  "fea1_capture_22kg_qs_fine": {
+   "dat_bytes": 48393,
+   "dat_nonzero": true,
+   "odb_bytes": 1168208,
+   "msg_bytes": 9289,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 2056,
+   "dat_reported_nodes": 3563,
+   "dat_reported_variables": 11220
+  },
+  "fea1_capture_22kg_qs_medium": {
+   "dat_bytes": 39713,
+   "dat_nonzero": true,
+   "odb_bytes": 865668,
+   "msg_bytes": 9288,
+   "sta_bytes": 443,
+   "sta_completed_successfully": true,
+   "dat_reported_elements": 1336,
+   "dat_reported_nodes": 2375,
+   "dat_reported_variables": 7524
+  }
+ },
+ "headline_results": {
+  "governing_case": "CAPTURE_150KG_QS",
+  "governing_peak_von_mises_MPa_at_FINE": 1.0596110820770264,
+  "peak_by_case_at_FINE_MPa": {
+   "ARM_MANEUVER_QS": 0.012578901834785938,
+   "ARM_ESTOP_QS": 0.02515774965286255,
+   "CAPTURE_22KG_QS": 0.12164381146430969,
+   "CAPTURE_150KG_QS": 1.0596110820770264
+  },
+  "peak_disp_by_case_at_FINE_mm": {
+   "ARM_MANEUVER_QS": 9.57686209139636e-06,
+   "ARM_ESTOP_QS": 1.915368393970417e-05,
+   "CAPTURE_22KG_QS": 9.663978124589405e-05,
+   "CAPTURE_150KG_QS": 0.0007947134823478103
+  },
+  "arm_cases_are_not_governing": true,
+  "candidate_property_comparison": {
+   "governing_job": "fea1_capture_150kg_qs_fine",
+   "governing_case": "CAPTURE_150KG_QS",
+   "governing_mesh_level": "FINE",
+   "peak_von_mises_MPa": 1.0596110820770264,
+   "peak_location_zone": "ESTAGEA",
+   "peak_location_element": 1937,
+   "peak_location_centroid_mm": [
+    44.0,
+    -12.0,
+    28.75
+   ],
+   "AL6061_T6_candidate_typical_yield_MPa": 276.0,
+   "AL6061_T6_candidate_utilization_ratio": 0.003839170587235603,
+   "AL6061_T6_candidate_utilization_percent": 0.3839170587235603,
+   "AL7075_T651_candidate_typical_yield_MPa": 503.0,
+   "AL7075_T651_candidate_utilization_ratio": 0.0021065826681451816,
+   "comparison_label": "CANDIDATE_PROPERTY_BASED_UTILIZATION_RATIO",
+   "margin_of_safety_status": "NOT_COMPUTED_NO_DESIGN_ALLOWABLE_EXISTS",
+   "prohibition_honored": "NASA-STD-5001B forbids using typical properties as design allowables. Both library yields are value_kind TYPICAL_* with standard_uncertainty null and classification PROTOTYPE_CANDIDATE, so NO A-basis/B-basis allowable exists and NO margin of safety, factor of safety or positive-margin claim is made or implied.",
+   "additional_invalidators_for_any_margin_claim": [
+    "mesh NOT converged (22-23% peak-stress change between the two finest levels)",
+    "artificial (hourglass) strain energy 14% of internal energy at FINE",
+    "peak stress sits at a kinematic-coupling boundary = constraint-induced concentration with no mesh-independent limit",
+    "bolt holes are NOT cut as voids, so real hole-edge stress concentration is not represented (locally stiffer model)",
+    "no bolt preload, no contact, no friction (CDR joint-mechanics HOLD)",
+    "bus-side boundary is ENCASTRE by assumption (BC-BUS-001 stiffness authority is HOLD)",
+    "quasi-static equivalence uses DAF=2.0 and dt_contact=0.1 s, both declared assumptions with no authority"
+   ]
+  }
+ },
+ "per_file_result_hashes": {
+  "fea1_arm_estop_qs_coarse": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_coarse.inp",
+    "sha256": "7EB9E9559AE5C332317FA0C27C9A60AE36B7883A111ED11C28A8B57ED0F9691B",
+    "bytes": 71662
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_coarse.dat",
+    "sha256": "27EE5482EDC9B66790D062A41523DC541DAF155B2F82C21EE3DD254DDE6E227A",
+    "bytes": 29699
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_coarse.msg",
+    "sha256": "4E6E3D9B834BE8B99A5C89E3A1976585F117DB1BA1FAF5EFC828050DB172C637",
+    "bytes": 10326
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_coarse.sta",
+    "sha256": "0C1B0270D7C6487FDFC49717FF3D9725171B1ABF9A1C2DBC0913EF7BAE729BE9",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_coarse.odb",
+    "sha256": "776EA98EA3CFC78CCB5D206FBA782A2F20AA02EE276AC29A31CB741379B53F80",
+    "bytes": 511032
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_coarse.com",
+    "sha256": "B5BE1BB877D0EBA26DBD77252BCD359E3F509DCA880286D2C616EE4CC583D8D1",
+    "bytes": 3010
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_coarse.prt",
+    "sha256": "B6F39601802F73F9E16F93CF166C7406B062B816E24FC8F922FEDE49F1912D34",
+    "bytes": 5967
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_arm_estop_qs_coarse.json",
+    "sha256": "F4CA6BFB6F28263DF094A8683820AB1B54869EA456898E9ECD252AA0E3A6AE9C",
+    "bytes": 3363
+   },
+   "solved_this_loop": true
+  },
+  "fea1_arm_estop_qs_fine": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_fine.inp",
+    "sha256": "879898A1481D728F77C08DA30B505D77865B66C6DD4A53D948F8134B16CED51A",
+    "bytes": 272651
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_fine.dat",
+    "sha256": "1F530ACA55FB6168EC3C982359DC07A33F14E232136BBB1BFDC3F3A5184E4521",
+    "bytes": 48393
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_fine.msg",
+    "sha256": "898D9FD74E03FC57C30349818A6886D317796D642D7752351099A307F5DA43C3",
+    "bytes": 9289
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_fine.sta",
+    "sha256": "6F364CCF123A13BFC9988447BCF93D68787B9EEB618330AAB43C14104023CB21",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_fine.odb",
+    "sha256": "E4100EFD07BE30006BA6AD984E9D0811D0A262B3D686DF5F31B477F0460B1699",
+    "bytes": 1168208
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_fine.com",
+    "sha256": "1B8FFA97C7667B264A7DEF3343D8C312663C7DD464AEDAB60A8C2ED9FB1F5BAE",
+    "bytes": 3006
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_fine.prt",
+    "sha256": "36E274612CF299172B9C0A76B79EC33D66BC09780B1E0DCB0AA61493ECF04C4E",
+    "bytes": 6745
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_arm_estop_qs_fine.json",
+    "sha256": "C01CCDF983A117BB0ED9B4A1F1B69B58842684C6E4DA888742FFB3B4250D5D71",
+    "bytes": 3344
+   },
+   "solved_this_loop": true
+  },
+  "fea1_arm_estop_qs_medium": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_medium.inp",
+    "sha256": "BBED1A67CCF7C26699901B12C4A2A83C020754CD23F09A2FCA5D1F87470910D0",
+    "bytes": 180695
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_medium.dat",
+    "sha256": "F69F5AA0493E7DBE50C274CD2D5105C9C7C21B9E62D1E35AC720BCF3A382540A",
+    "bytes": 39713
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_medium.msg",
+    "sha256": "0681F5AAAC7B92E2BA788EA0F8D588AC6828827AF32816C9419AF24F2F7E1B64",
+    "bytes": 9288
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_medium.sta",
+    "sha256": "B7C050A2B62CDD5A4A32E30D31A3FC60B1476FD46CA14553F65E10F5013281BF",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_medium.odb",
+    "sha256": "37B2FAB5DB81E66D13C797123A4A4BFC31A2B61F012319DF43D42A64F249EBA9",
+    "bytes": 865664
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_medium.com",
+    "sha256": "1380E2A41C99791980B6546859A1E23988663B4C752E8FA20C97AAC509A693CF",
+    "bytes": 3010
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_medium.prt",
+    "sha256": "1CA57461E0E7F358E1061F96324A9DE8189DA833370C58483FE070CF05A7B593",
+    "bytes": 5403
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_arm_estop_qs_medium.json",
+    "sha256": "67F5897276202ABC28B1968ACFC9DA50C1C14967EDD11D88201ECDB327BBB8D3",
+    "bytes": 3353
+   },
+   "solved_this_loop": true
+  },
+  "fea1_arm_maneuver_qs_coarse": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_coarse.inp",
+    "sha256": "7968F20A1E79D5451197FADDABADA604E71CAA39B7C70D7385116A772C02D17E",
+    "bytes": 71663
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_coarse.dat",
+    "sha256": "912F37EF8C6A84511196D8F3971A6CEE6AB304D7A3A96283AB56C671C3018EB0",
+    "bytes": 29699
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_coarse.msg",
+    "sha256": "E5119AB8A561C0A7C30DCB9D8D7AE85B9C960D36E927BF16AD4E604FCA28E975",
+    "bytes": 10326
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_coarse.sta",
+    "sha256": "16C2B1C5E18C98032887D55AE323988F3DE81E90D1AE63144DFCFE4695A04E6C",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_coarse.odb",
+    "sha256": "30E0F4CA5DAD220866AD7075589B9909B3F35107CDD5B1983BD871A8D4A97A40",
+    "bytes": 511036
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_coarse.com",
+    "sha256": "D3C9B9E83BB21DDE4934ADAC9B97D3DF1DE9718E2BD9DFFA1DDD72B49F9B4F9E",
+    "bytes": 3016
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_coarse.prt",
+    "sha256": "B6F39601802F73F9E16F93CF166C7406B062B816E24FC8F922FEDE49F1912D34",
+    "bytes": 5967
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_arm_maneuver_qs_coarse.json",
+    "sha256": "1BBE54BF9A2806C4FDF673A6703BA85B65AC6F9B7E547D34234FD64E99DB71B5",
+    "bytes": 3340
+   },
+   "solved_this_loop": true
+  },
+  "fea1_arm_maneuver_qs_fine": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_fine.inp",
+    "sha256": "557299C903B0082F1232971896A962C533C4E0B58442A1B2CABD305E16E92094",
+    "bytes": 272652
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_fine.dat",
+    "sha256": "3B344C50C2E732123B9E933D69F99E2673692215ACC32F482B0524152F2130AA",
+    "bytes": 48393
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_fine.msg",
+    "sha256": "1249F6D4148499060D6962F498E3B570566F20685FF7E93BAE1F01E7D5D86C24",
+    "bytes": 9289
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_fine.sta",
+    "sha256": "1597700109792C043E3D95768A4DDCFAFC3F1DE37D2E053BF21254B91F142C85",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_fine.odb",
+    "sha256": "9FDA78A6A5D4E12A6AFBDA793D9C0F7217865F77EC5726E043BC636288957CDC",
+    "bytes": 1168208
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_fine.com",
+    "sha256": "A61DF133C2696FDA31BAB9D1CD5661CC72D59C5A2937BE46ADD500A57B8C2F12",
+    "bytes": 3012
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_fine.prt",
+    "sha256": "36E274612CF299172B9C0A76B79EC33D66BC09780B1E0DCB0AA61493ECF04C4E",
+    "bytes": 6745
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_arm_maneuver_qs_fine.json",
+    "sha256": "0F864AF9BEC082144EFA240A86489960BE427E3A83696812FF312D2AA6000D49",
+    "bytes": 3348
+   },
+   "solved_this_loop": true
+  },
+  "fea1_arm_maneuver_qs_medium": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_medium.inp",
+    "sha256": "3E66D1384DA25708166D01816C7FF691244C5D833B6BB1AEE52811500896C0CA",
+    "bytes": 180696
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_medium.dat",
+    "sha256": "56923861DCC4BB86DE2B265E3646334EF0369103DDD16729F41D20566DCAF27A",
+    "bytes": 39713
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_medium.msg",
+    "sha256": "F1653508F7A78DE77DF544BE63D150E682BA33733C314C3F0FDD84B19046A4A9",
+    "bytes": 9288
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_medium.sta",
+    "sha256": "BAFA8D2FF10D6738216F45CBF2E2AED23D607C5225815716743CE4388458352C",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_medium.odb",
+    "sha256": "FE96E0CAF480B307FC8E72239B7BDD2AE74A5118F29E7A6421FAC20F18DBC692",
+    "bytes": 865668
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_medium.com",
+    "sha256": "A90439573FE1D0C825BFAE85E602EE0902EB6BE126A8E8EC795DFD898D84207C",
+    "bytes": 3016
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_medium.prt",
+    "sha256": "1CA57461E0E7F358E1061F96324A9DE8189DA833370C58483FE070CF05A7B593",
+    "bytes": 5403
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_arm_maneuver_qs_medium.json",
+    "sha256": "9A0D06EA76A846E3444B82A6144DB863C3A84736037C70522C34E63E2725EF12",
+    "bytes": 3354
+   },
+   "solved_this_loop": true
+  },
+  "fea1_capture_150kg_qs_coarse": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_coarse.inp",
+    "sha256": "0717BE7C9850904F3DBA5E24734EF93942FE32091FB402ADD2E9B46783EB84BD",
+    "bytes": 71677
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_coarse.dat",
+    "sha256": "3236975E18011F31E9B77F67F58365BA5A2BAE86BCCC906E05D4A5C2D1651C22",
+    "bytes": 29695
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_coarse.msg",
+    "sha256": "4EA4DA1BCBDDBB16BAE0E898713959D0F81FC5DA39ABE2F6B767E39B653C2B42",
+    "bytes": 10326
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_coarse.sta",
+    "sha256": "77DE4256A30252C56CF18CA81C849C68D51C52606A13FA988E5531045DA29A94",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_coarse.odb",
+    "sha256": "4D14C75EE99C0EC565B659BFFE3033D85D36AE218ACF892CD73AA54671C01C69",
+    "bytes": 511036
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_coarse.com",
+    "sha256": "31F24C9D7587E3CEDF59E86C3EA16719381E5B2FBB2C5C17D56147EE10A1BC21",
+    "bytes": 3018
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_coarse.prt",
+    "sha256": "B6F39601802F73F9E16F93CF166C7406B062B816E24FC8F922FEDE49F1912D34",
+    "bytes": 5967
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_capture_150kg_qs_coarse.json",
+    "sha256": "B5669E1DCB5C967B49B3CF60AEB36DFC32B9E4CCA274E48AD50FAD1DA0D52B33",
+    "bytes": 3293
+   },
+   "solved_this_loop": false
+  },
+  "fea1_capture_150kg_qs_fine": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine.inp",
+    "sha256": "1EC991941579EF44CF2F88E21164F4293C9B410A26EFF2778BC5E9CE585432BE",
+    "bytes": 272666
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine.dat",
+    "sha256": "810E9C81E26FDC95B33B361A8A430945A8EB1C7633FB96134C7B0E5669BBB8A9",
+    "bytes": 48393
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine.msg",
+    "sha256": "594CF3E7460EC6EF31373F849999F5EAA94732E09A4023933D74CCCF2903553E",
+    "bytes": 9289
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine.sta",
+    "sha256": "0FB94F6281BD9D72B09AF5133C2A2C7051AB678A2861F8B2F4FAB45582FE44EE",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine.odb",
+    "sha256": "9BDB906B681E6568352761688C1EDBE8497E87013B56C0A64F6D6C38D5885423",
+    "bytes": 1168212
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine.com",
+    "sha256": "61D2C6B57ADF71A98610EB6DFDD81355DB94AC5E385913791F42FFB487D9821F",
+    "bytes": 3014
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine.prt",
+    "sha256": "36E274612CF299172B9C0A76B79EC33D66BC09780B1E0DCB0AA61493ECF04C4E",
+    "bytes": 6745
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_capture_150kg_qs_fine.json",
+    "sha256": "8617E49AD91B04EC4476DDF11CB1FC30CB5D3A5F7083B53B55D3B5B22526C6AF",
+    "bytes": 3315
+   },
+   "solved_this_loop": true
+  },
+  "fea1_capture_150kg_qs_fine_7075": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine_7075.inp",
+    "sha256": "BF4E9FAF4B6DA1240D3AE0FA18AE7E9DCCB7E14B5FF250F58CFF43EB192EBD5B",
+    "bytes": 272676
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine_7075.dat",
+    "sha256": "688A564B088CA707123DDED3F0DD042BF829E83C4068B60C2F4C6DC39FE48C19",
+    "bytes": 48407
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine_7075.msg",
+    "sha256": "7B83108CAE7D9DA32C306EF19F161C656C01F89D01B87379064ECEB67EE9A42B",
+    "bytes": 9289
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine_7075.sta",
+    "sha256": "120A4702B6BF4F93218ED9A9AB125BED5441C10454CD950B970BEAE244B3BFD3",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine_7075.odb",
+    "sha256": "A4F2F315E179DB01016F9E29124C7503CA7CD9EBAD0D877248765A7F38F862B6",
+    "bytes": 1168216
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine_7075.com",
+    "sha256": "736F7B8CEAC295B17DC6973BAD0F7B9A943A15D43522B8D58C4981C05195872F",
+    "bytes": 3024
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine_7075.prt",
+    "sha256": "36E274612CF299172B9C0A76B79EC33D66BC09780B1E0DCB0AA61493ECF04C4E",
+    "bytes": 6745
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_capture_150kg_qs_fine_7075.json",
+    "sha256": "BF26F19EC5651B22BF932E80ACAD8C7379957F5944BE8DE72E8FA10D32C63043",
+    "bytes": 3324
+   },
+   "solved_this_loop": true
+  },
+  "fea1_capture_150kg_qs_medium": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_medium.inp",
+    "sha256": "49571C30416A87B57B5FE4E15F739D8751E57DF02FCDEF8A6BDE06F5DA7438B2",
+    "bytes": 180710
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_medium.dat",
+    "sha256": "00337DE988BC87863FF0E61F72D46202A9EB7AEC1CDA0DE4918BEFE4DD979FFC",
+    "bytes": 39709
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_medium.msg",
+    "sha256": "667D5BCA6D13542816B83492D8798B28C74190ACB4A11822A33226932D05908B",
+    "bytes": 9288
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_medium.sta",
+    "sha256": "F7A94AB39B7137E51FB45731B77480A0C32E9B249EA21465BF8275834103E6E0",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_medium.odb",
+    "sha256": "0D580119FAC3BD113414E1912DA19A38BF81DF4D63D18D012D9FC504C5531CCD",
+    "bytes": 865668
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_medium.com",
+    "sha256": "D50E5606DE58DA9BD863C7F507691DE5871B22F88DC2A0274B9FEA586732A985",
+    "bytes": 3018
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_medium.prt",
+    "sha256": "1CA57461E0E7F358E1061F96324A9DE8189DA833370C58483FE070CF05A7B593",
+    "bytes": 5403
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_capture_150kg_qs_medium.json",
+    "sha256": "14676C79E3407BD9EC38F788E956BBE4E817198B38574E910372C35F0CB63C9A",
+    "bytes": 3313
+   },
+   "solved_this_loop": true
+  },
+  "fea1_capture_22kg_qs_coarse": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_coarse.inp",
+    "sha256": "55A678E633EB53FA84160926F9DDBAEBF032D377F0E32654B4D0EE8DD27C74CC",
+    "bytes": 71675
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_coarse.dat",
+    "sha256": "DD13502FE44DFB4144DDA4A2A655F9779D31523658DE829AFCC4543D5157ABB4",
+    "bytes": 29699
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_coarse.msg",
+    "sha256": "E87A6900E6E2D4CA5F95AFE4D861B4F6E2948FF4886A3E7DA90313A605BEFC36",
+    "bytes": 10326
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_coarse.sta",
+    "sha256": "092C83072A462AA9384F6FA44197F94B5732607CC32E4D1485E9A7051A6B5969",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_coarse.odb",
+    "sha256": "3B33FE459E63451BD6AB10120228B334280E8C6886E06A08016AD096D62B8460",
+    "bytes": 511036
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_coarse.com",
+    "sha256": "80F4B304330CAEA5AE0F9F64825280904D1CCD832335A406469EACCF0EDD9823",
+    "bytes": 3016
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_coarse.prt",
+    "sha256": "B6F39601802F73F9E16F93CF166C7406B062B816E24FC8F922FEDE49F1912D34",
+    "bytes": 5967
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_capture_22kg_qs_coarse.json",
+    "sha256": "03BE07D0FD482A08A79A0EF3C4618882DD850F7DF1A396F5EA170DC1ED348E1F",
+    "bytes": 3317
+   },
+   "solved_this_loop": true
+  },
+  "fea1_capture_22kg_qs_fine": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_fine.inp",
+    "sha256": "F94A9D4B1CC8A4E66AB7C4F707D74CD36D65FFB104F85B6E6A70E3CF51868A6E",
+    "bytes": 272664
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_fine.dat",
+    "sha256": "17216C9D7D62A2CC34F7A9F3E7863691B5CA89FEF269470D11AF5F1EDA1A8637",
+    "bytes": 48393
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_fine.msg",
+    "sha256": "7D3F68D35AF22D1379D45240D92AC3CD3D9266FF4CC78900EF56AA8761F16065",
+    "bytes": 9289
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_fine.sta",
+    "sha256": "63727A0A75AB872DCF13131742E90518017FE46E9915BDD31988AAB7C75467ED",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_fine.odb",
+    "sha256": "157B4A10C999921EA58CC06EB4210CE95E8B504A59425EB53ECE5ED1618078D8",
+    "bytes": 1168208
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_fine.com",
+    "sha256": "E3087D60BAE289DD3A911525A7A5C61216EA86D0D68C73F08B8C758E66050169",
+    "bytes": 3012
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_fine.prt",
+    "sha256": "36E274612CF299172B9C0A76B79EC33D66BC09780B1E0DCB0AA61493ECF04C4E",
+    "bytes": 6745
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_capture_22kg_qs_fine.json",
+    "sha256": "DC4D005D53C8FE4514FA36EA77AA97DE4FAC007D3A3E64A88C69317E5A6A29D9",
+    "bytes": 3334
+   },
+   "solved_this_loop": true
+  },
+  "fea1_capture_22kg_qs_medium": {
+   "inp": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_medium.inp",
+    "sha256": "522939B24B1D7AE08F151422E38C19CF35FE41008C3581C3015B58453FD76385",
+    "bytes": 180708
+   },
+   "dat": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_medium.dat",
+    "sha256": "2541C5005E741EDE6EC05C02DAE51D430D38A605D9F16BC07D4A63F626330E7F",
+    "bytes": 39713
+   },
+   "msg": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_medium.msg",
+    "sha256": "AC51763A1905BF73FE42DE8EE86113CEDA7781178B5ED1A02D8D534F43257F9E",
+    "bytes": 9288
+   },
+   "sta": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_medium.sta",
+    "sha256": "A54D18906A8331EE8DEBC453385179AD43433BE7A4C3F783348E1AE6F5D3F37A",
+    "bytes": 443
+   },
+   "odb": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_medium.odb",
+    "sha256": "D0BEA475E5C535C72961D3A9CD14E1ED457839635B3BED483DA13CAB17DF2ADD",
+    "bytes": 865668
+   },
+   "com": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_medium.com",
+    "sha256": "48F9DC58F0E7D63886F15111CF656B40FB4BE1FDD9EA04217A0E8BAA4CB7C8C4",
+    "bytes": 3016
+   },
+   "prt": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_medium.prt",
+    "sha256": "1CA57461E0E7F358E1061F96324A9DE8189DA833370C58483FE070CF05A7B593",
+    "bytes": 5403
+   },
+   "_extract_json": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/_extract/fea1_capture_22kg_qs_medium.json",
+    "sha256": "BB79497DB12750B13913AC2996E5BF2E64420B01EAD879B0120183CEB111C762",
+    "bytes": 3335
+   },
+   "solved_this_loop": true
+  }
+ },
+ "source_register": {
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md",
+   "sha256": "AD406ACA2AB12FDC794E8BBAB8B32AD33AB1ECE6FEE3BF332049DE3951D8C68B",
+   "bytes": 4931,
+   "role": "authority_plan"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml",
+   "sha256": "F5B1572C0CFCEC35C40F262A3D7386AFA91DEC09DA94FE31FD03F5C04956F8B6",
+   "bytes": 3531,
+   "role": "authority_odr"
+  },
+  "20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml": {
+   "path": "20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml",
+   "sha256": "53DD6E9139675D49D1295E20C05832BA3618325E4F0BA6E47EA8FF9361716F50",
+   "bytes": 33584,
+   "role": "material_library"
+  },
+  "20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/DERIVED_CAPTURE_LOAD_ENVELOPE_V1.csv": {
+   "path": "20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/DERIVED_CAPTURE_LOAD_ENVELOPE_V1.csv",
+   "sha256": "E852DE89BCA633C126B0547257649C69B7A62E658E19DBE726ECA4C38CB900A6",
+   "bytes": 2456,
+   "role": "capture_load_envelope"
+  },
+  "20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_DATUMS_V1.yaml": {
+   "path": "20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp1_load_bridge/LOAD_BRIDGE_DATUMS_V1.yaml",
+   "sha256": "0F9B413E7B6CD451E2724AD25CA4DA41E52E02C86F1D2874460274EADBAA47A2",
+   "bytes": 9037,
+   "role": "load_bridge_datums"
+  },
+  "20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_STAGE_A_PARAMETER_TABLE.yaml": {
+   "path": "20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_STAGE_A_PARAMETER_TABLE.yaml",
+   "sha256": "9262AF213CCE3A9A7453387D98FEB4D029E5027AFA958A2A1D54B5EE6C3B454B",
+   "bytes": 7704,
+   "role": "m3r_stage_a_parameter_table"
+  },
+  "20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_STAGE_B_PARAMETER_TABLE.yaml": {
+   "path": "20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_STAGE_B_PARAMETER_TABLE.yaml",
+   "sha256": "80EC3F878AD26F3E89AB8740D6CE4750FB0B28F0EC70DD6D40AFC596805ED36F",
+   "bytes": 8185,
+   "role": "m3r_stage_b_parameter_table"
+  },
+  "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf": {
+   "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+   "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+   "bytes": 11321,
+   "role": "accepted_urdf_l0"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/receipt.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp3_tolerance_alloc/receipt.json",
+   "sha256": "03B1B6CBA969C467CA16ABC8440986B5F40F8E149BE3BF98DB9E155EB22208AE",
+   "bytes": 12845,
+   "role": "sibling_receipt_schema_reference"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/make_fea1_input.py": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/make_fea1_input.py",
+   "sha256": "CBC3B9C48CC58C8F4EEEE95DA531C4F60B4EA535F0B5CFB1856E3E3D0800F7BB",
+   "bytes": 21519,
+   "role": "deck_generator_present_on_disk",
+   "provenance_warning": "DIVERGED_FROM_THE_DECKS_IT_NOMINALLY_PRODUCED. This file's mtime is later than every deck and later than the first solved job, and its write_deck() emits *MPC PIN pairs with a single RP, whereas every deck actually on disk (and actually solved) uses 13 *COUPLING/*KINEMATIC constraints with dedicated reference nodes 900100-900103 and 900200-900207, and every sidecar carries ref_nodes / nodes_face_lo keys that this file never writes. Re-running this generator would NOT reproduce the solved decks. It was therefore NOT executed this loop; the decks on disk are the model of record and each deck's SHA-256 matches the deck_sha256 recorded in its own sidecar."
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/extract_fea1_odb.py": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/extract_fea1_odb.py",
+   "sha256": "1B62A0C63C2D65943A883132776CDD669B4460821EE73C8F6558D4681D85928B",
+   "bytes": 10647,
+   "role": "odb_extractor_written_and_run_this_loop"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_estop_qs_coarse.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_estop_qs_coarse.inp",
+   "sha256": "7EB9E9559AE5C332317FA0C27C9A60AE36B7883A111ED11C28A8B57ED0F9691B",
+   "bytes": 71662,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_coarse.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_coarse.json",
+   "sha256": "C00F7A4D2F156DF90630B7E3FEE0937616F0B3E4C62BE98485D6DBEE481ABAE5",
+   "bytes": 9884,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_estop_qs_fine.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_estop_qs_fine.inp",
+   "sha256": "879898A1481D728F77C08DA30B505D77865B66C6DD4A53D948F8134B16CED51A",
+   "bytes": 272651,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_fine.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_fine.json",
+   "sha256": "F358DA621906638F37F54DC1F6920C3A56097A0A16BD0C1AD905ADAFAB591924",
+   "bytes": 24584,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_estop_qs_medium.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_estop_qs_medium.inp",
+   "sha256": "BBED1A67CCF7C26699901B12C4A2A83C020754CD23F09A2FCA5D1F87470910D0",
+   "bytes": 180695,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_medium.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_estop_qs_medium.json",
+   "sha256": "AD93A0AF00767A043A98F34FDDDCD9E0937C4ABC2F80D267D6954BDF5E867FB5",
+   "bytes": 17848,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_maneuver_qs_coarse.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_maneuver_qs_coarse.inp",
+   "sha256": "7968F20A1E79D5451197FADDABADA604E71CAA39B7C70D7385116A772C02D17E",
+   "bytes": 71663,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_coarse.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_coarse.json",
+   "sha256": "4F4C021349A0593A688DEA77CC53BE1E168BEA8B4B198C0F3339A0AE1073B6B0",
+   "bytes": 9891,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_maneuver_qs_fine.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_maneuver_qs_fine.inp",
+   "sha256": "557299C903B0082F1232971896A962C533C4E0B58442A1B2CABD305E16E92094",
+   "bytes": 272652,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_fine.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_fine.json",
+   "sha256": "577F21C61CD216B1066A687C18F55313AC711656F5E4E55579315DD60BB26646",
+   "bytes": 24591,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_maneuver_qs_medium.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_arm_maneuver_qs_medium.inp",
+   "sha256": "3E66D1384DA25708166D01816C7FF691244C5D833B6BB1AEE52811500896C0CA",
+   "bytes": 180696,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_medium.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_arm_maneuver_qs_medium.json",
+   "sha256": "7C16412F26097A0F3DB81BB7F7E9D74CC41B8627392FDBC1FA1C09B7A6292CA1",
+   "bytes": 17855,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_150kg_qs_coarse.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_150kg_qs_coarse.inp",
+   "sha256": "0717BE7C9850904F3DBA5E24734EF93942FE32091FB402ADD2E9B46783EB84BD",
+   "bytes": 71677,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_coarse.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_coarse.json",
+   "sha256": "A1142B04B105A69B76C1CB9BE357172B5AC70A21B51933975A98F0F947E06648",
+   "bytes": 9885,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_150kg_qs_fine.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_150kg_qs_fine.inp",
+   "sha256": "1EC991941579EF44CF2F88E21164F4293C9B410A26EFF2778BC5E9CE585432BE",
+   "bytes": 272666,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine.json",
+   "sha256": "70933B1CB497792BD88ED3BFBDB7A64FFDF4DF903065CF2D2322D209BBAF6750",
+   "bytes": 24585,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_150kg_qs_fine_7075.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_150kg_qs_fine_7075.inp",
+   "sha256": "BF4E9FAF4B6DA1240D3AE0FA18AE7E9DCCB7E14B5FF250F58CFF43EB192EBD5B",
+   "bytes": 272676,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine_7075.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_fine_7075.json",
+   "sha256": "FA1BA55F98447EC1F81E9ABDD6A052D52864F93A742E9A4E8C60D8943087F494",
+   "bytes": 24592,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_150kg_qs_medium.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_150kg_qs_medium.inp",
+   "sha256": "49571C30416A87B57B5FE4E15F739D8751E57DF02FCDEF8A6BDE06F5DA7438B2",
+   "bytes": 180710,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_medium.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_150kg_qs_medium.json",
+   "sha256": "C1C25B09E31F0FA881C4237C8D5BE80E0BD7FCF8877D12D62DB7CE14049128B6",
+   "bytes": 17849,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_22kg_qs_coarse.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_22kg_qs_coarse.inp",
+   "sha256": "55A678E633EB53FA84160926F9DDBAEBF032D377F0E32654B4D0EE8DD27C74CC",
+   "bytes": 71675,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_coarse.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_coarse.json",
+   "sha256": "6E4B3BB1BF7C66E4B4C1428538E241A2925C3FB81B9CD177A6699D8CA2ED932D",
+   "bytes": 9876,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_22kg_qs_fine.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_22kg_qs_fine.inp",
+   "sha256": "F94A9D4B1CC8A4E66AB7C4F707D74CD36D65FFB104F85B6E6A70E3CF51868A6E",
+   "bytes": 272664,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_fine.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_fine.json",
+   "sha256": "EDC5D46A71DB8761B2E6070947CD1C95E08A2A19512F5A8CCDCF55F58125D740",
+   "bytes": 24576,
+   "role": "deck_sidecar_metadata"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_22kg_qs_medium.inp": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/decks/fea1_capture_22kg_qs_medium.inp",
+   "sha256": "522939B24B1D7AE08F151422E38C19CF35FE41008C3581C3015B58453FD76385",
+   "bytes": 180708,
+   "role": "deck_of_record"
+  },
+  "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_medium.json": {
+   "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp7_fea_operational/jobs/fea1_capture_22kg_qs_medium.json",
+   "sha256": "A9A9EE1BE48A3F63218FEE58ED5203DC0F28CA8A363B96AFAD3EE144DF1C38F3",
+   "bytes": 17840,
+   "role": "deck_sidecar_metadata"
+  }
+ },
+ "retained_holds": [
+  "LAUNCH_QUALIFICATION_FEA_HOLD (ODR-06 retained)",
+  "GATE_B_MECHANICAL_FLIGHT_QUALIFICATION_RELEASED_HOLD",
+  "CDR_JOINT_MECHANICS_HOLD (no preload, contact or friction)",
+  "BC_BUS_001_BUS_SIDE_STIFFNESS_HOLD (ENCASTRE is an assumption)",
+  "MATERIAL_ALLOWABLES_HOLD (typical properties only, no A/B basis)",
+  "MESH_CONVERGENCE_NOT_DEMONSTRATED_HOLD",
+  "HOURGLASS_CONTAMINATION_HOLD (ALLAE/ALLIE = 14% at FINE)",
+  "CAPTURE_CONTACT_DURATION_ASSUMED_HOLD (dt=0.1 s assumed here, inconsistent with sim_11 T_c=20 ms PROVISIONAL)",
+  "DAF_2P0_ASSUMPTION_HOLD",
+  "ARM_EFFECTIVE_RADIUS_0P7M_ASSUMPTION_HOLD",
+  "POISSON_RATIO_0P33_ASSUMPTION_HOLD",
+  "CAP150_COUPLE_ROW_PROVENANCE_DEFECT_OPEN",
+  "M3R_AS_BUILT_MEASUREMENT_OPEN (ODR-05)",
+  "NATIVE_REINTEGRATION_HOLD (ODR-03, SolidWorks line off critical path)"
+ ],
+ "prohibitions_honored": {
+  "launch_or_launcher_claim_made": false,
+  "flight_qualification_claim_made": false,
+  "manufacturing_release_claim_made": false,
+  "margin_of_safety_asserted": false,
+  "typical_property_used_as_design_allowable": false,
+  "zero_fill_of_unknowns": false,
+  "cross_job_or_cross_mesh_value_substitution": false,
+  "pass_reported_over_empty_artifact": false,
+  "l0_urdf_mass_overridden": false,
+  "freecad_launched": false,
+  "abaqus_cae_gui_launched": false,
+  "decks_regenerated_or_modified": false,
+  "baseline_or_sibling_wp_files_modified": false,
+  "memory_gate_6gib_declared_failed": true
+ }
+}

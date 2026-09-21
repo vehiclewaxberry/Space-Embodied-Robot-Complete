@@ -1,0 +1,198 @@
+{
+  "schema": "F3R2_CAMERA_HARNESS_GRIPPER_V1",
+  "camera": {
+    "designation": "SERVICE_CAMERA",
+    "exists_in_assembly": false,
+    "maturity": "DEFINED_NOT_MODELLED",
+    "consequence": "every camera-visibility criterion in this campaign is reported NOT_EVALUATED_NO_CAMERA_IN_ASSEMBLY and is NOT counted as passed -- including requirement 'camera usable' for Q_DEPLOYED_HOME",
+    "proposed_mount": {
+      "host_link": "link6",
+      "rationale": "wrist mounting keeps the target in view through the whole service approach without a separate pointing mechanism",
+      "bracket": {
+        "material": "Al 6061-T6",
+        "mass_g": 34.0,
+        "envelope_mm": [
+          40.0,
+          34.0,
+          26.0
+        ]
+      }
+    },
+    "optical_frame": {
+      "name": "camera_optical_frame",
+      "parent": "link6",
+      "convention": "REP-103 optical: +Z forward, +X right, +Y down",
+      "offset_from_link6_mm": [
+        0.0,
+        -46.0,
+        58.0
+      ],
+      "rpy_rad": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "status": "PROPOSED_NOT_CALIBRATED"
+    },
+    "field_of_view_deg": {
+      "horizontal": 66.0,
+      "vertical": 52.0,
+      "status": "TYPICAL_CLASS_VALUE_NOT_SELECTED"
+    },
+    "views": {
+      "STOW": "OCCLUDED -- in stow the wrist faces the bus deck; no useful view (geometric reading of the stowed link6 box [-1.1, -16.8, 233.3, 76.0, 75.2, 331.4])",
+      "Q_DEPLOYED_HOME": "NOT_EVALUATED_NO_CAMERA",
+      "SERVICE_GRASP": "NOT_EVALUATED_NO_CAMERA"
+    }
+  },
+  "harness": {
+    "designation": "ARM_HARNESS",
+    "exists_in_assembly": false,
+    "maturity": "DEFINED_NOT_MODELLED",
+    "existing_bus_features": {
+      "Harness_Passage_mm": [
+        64.0,
+        -30.0,
+        -82.0,
+        171.0,
+        30.0,
+        -58.0
+      ],
+      "Harness_Service_Loop_Left_mm": [
+        -110.0,
+        113.15,
+        -30.0,
+        -90.0,
+        131.15,
+        -10.0
+      ],
+      "Harness_Service_Loop_Right_mm": [
+        -110.0,
+        -131.15,
+        -30.0,
+        -90.0,
+        -113.15,
+        -10.0
+      ]
+    },
+    "entry_point": {
+      "at": "bus Harness_Passage, +x end",
+      "coordinates_mm": [
+        171.0,
+        0.0,
+        -70.0
+      ]
+    },
+    "exit_point": {
+      "at": "arm base_link connector face",
+      "coordinates_mm": [
+        215.0,
+        0.0,
+        0.0
+      ]
+    },
+    "clamp_points": [
+      {
+        "id": "HC-1",
+        "on": "Adapter_Plate",
+        "x_mm": 192.0
+      },
+      {
+        "id": "HC-2",
+        "on": "base_link collar",
+        "x_mm": 220.0
+      },
+      {
+        "id": "HC-3",
+        "on": "link1 shoulder",
+        "note": "rotating"
+      },
+      {
+        "id": "HC-4",
+        "on": "link3 mid-span"
+      },
+      {
+        "id": "HC-5",
+        "on": "link6 wrist, before the camera"
+      }
+    ],
+    "service_loop": {
+      "length_mm": 120.0,
+      "location": "at HC-2/HC-3",
+      "purpose": "absorbs joint1 rotation"
+    },
+    "minimum_bend_radius_mm": 25.0,
+    "bundle_outer_diameter_mm": 9.0,
+    "sweep_envelope": {
+      "poses": [
+        "Q_DEPLOYED_HOME",
+        "Q_SERVICE_READY"
+      ],
+      "status": "NOT_COMPUTED_NO_HARNESS_GEOMETRY",
+      "why": "a sweep of a cable that does not exist would be a fabricated envelope; the clamp scheme above is the input to that sweep once the harness is modelled"
+    }
+  },
+  "gripper": {
+    "designation": "TWO_FINGER_GRIPPER",
+    "cad_reality": {
+      "solids_in_cad": 1,
+      "cad_part": "B51_REF_gripper_detail_LINKLOCAL",
+      "stowed_box_mm": [
+        -78.07,
+        -84.74,
+        216.19,
+        45.43,
+        114.8,
+        381.1
+      ],
+      "finding": "the CAD carries a SINGLE gripper solid; it has no separated fingers"
+    },
+    "urdf_reality": {
+      "joints": [
+        "gripper_joint1",
+        "gripper_joint2"
+      ],
+      "type": "prismatic",
+      "travel_mm": [
+        0.0,
+        71.5
+      ],
+      "links_declared": [
+        "gripper_left",
+        "gripper_right"
+      ],
+      "cad_mapping": "MISSING for both fingers -- F3R1_LINK_COMPONENT_MAPPING.csv records gripper_left and gripper_right as MISSING"
+    },
+    "maturity": "SEPARATION_REQUIRED_NOT_DONE",
+    "explicit_non_claim": "the single visual gripper solid is NOT presented as two movable fingers, and no OPEN/PREGRASP/CLOSED/HOLDING CAD configuration is claimed to exist",
+    "states_defined": {
+      "OPEN": {
+        "finger_travel_mm": 71.5,
+        "jaw_opening_mm": 143.0,
+        "status": "DEFINED_NOT_MODELLED"
+      },
+      "PREGRASP": {
+        "finger_travel_mm": 55.0,
+        "jaw_opening_mm": 110.0,
+        "status": "DEFINED_NOT_MODELLED"
+      },
+      "CLOSED": {
+        "finger_travel_mm": 0.0,
+        "jaw_opening_mm": 0.0,
+        "status": "DEFINED_NOT_MODELLED"
+      },
+      "HOLDING": {
+        "finger_travel_mm": "target dependent",
+        "grip_force_N": "TBD_CONTACT_CASE",
+        "status": "DEFINED_NOT_MODELLED"
+      }
+    },
+    "what_must_be_done": [
+      "split B51_REF_gripper_detail into palm + two finger solids",
+      "bind each finger to gripper_joint1 / gripper_joint2",
+      "author the four states as CAD configurations",
+      "re-run clearance with the fingers at OPEN (the widest state)"
+    ],
+    "why_it_matters_for_this_gate": "OPEN is the widest gripper state; all clearance numbers in this campaign were measured with the single closed-looking solid, so gripper clearance is valid for that solid only and is NOT valid for the open jaw"
+  }
+}

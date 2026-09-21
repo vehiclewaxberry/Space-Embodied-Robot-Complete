@@ -1,0 +1,106 @@
+# F3R2 T_SM interface stack -- frozen
+schema: F3R2_TSM_INTERFACE_STACK_V1
+frozen_utc: 2026-08-07
+ruling: "185.25 / 198.00 / 208.00 are NOT competing values for one quantity.  They are three distinct features on the same X axis and are frozen together."
+axis: "spacecraft +X"
+stations_mm:
+  M_FRAME_ORIGIN_X: 185.25
+  ADAPTER_PLATE_OUTER_FACE_X: 198.0
+  CENTRAL_BOSS_PHYSICAL_MOUNT_FACE_X: 208.0
+offsets_mm:
+  M_TO_ADAPTER: 12.75
+  ADAPTER_TO_BOSS_FACE: 10.0
+  M_TO_PHYSICAL_MOUNT_FACE: 22.75
+semantics:
+  M_FRAME: "dynamics / URDF base frame of the B601 (P5C Mode B single route).  It is a FRAME, not a face: no material lies at x = 185.25."
+  ADAPTER_PLATE_OUTER_FACE: "the load-spreading adapter's outer face; bolts pass through it into the boss"
+  CENTRAL_BOSS_PHYSICAL_MOUNT_FACE: "the real metal face the arm bolts against"
+why_this_is_not_a_conflict: "T_SM is spacecraft frame -> B601 dynamics frame.  The physical mounting face is a different feature 22.75 mm further out.  Reporting them as a 22.75 mm discrepancy conflated a frame with a face."
+consequences:
+  arm_does_not_move: "the F3R2 arm stays where G1/G2 placed it; no 22.75 mm translation, so the frozen poses and clearances stand"
+  dynamics_uses: "M_FRAME_ORIGIN_X = 185.25"
+  cad_mating_uses: "CENTRAL_BOSS_PHYSICAL_MOUNT_FACE_X = 208.00"
+  the_adapter_bridges_them: "the base interface adapter (G3-1) is the hardware that makes the 22.75 mm real"
+cad_cross_check:
+  adapter_outer_face_measured_mm: 198.0
+  adapter_matches_declared: true
+  boss_outer_face_measured_mm: 208.0
+  boss_matches_declared: true
+  m_frame_has_no_material: "correct by construction -- 185.25 is inboard of Load_Spreading_Frame's inner face at 171.0"
+spacecraft_load_path:
+  chain:
+    -
+      part: Load_Spreading_Frame
+      x_from: 171.0
+      x_to: 175.0
+      thickness_mm: 4.0
+      central_bore_r_mm: 50.0
+    -
+      part: Front_End_Frame
+      x_from: 175.0
+      x_to: 183.0
+      thickness_mm: 8.0
+      central_bore_r_mm: null
+    -
+      part: Spacecraft_Flange
+      x_from: 183.0
+      x_to: 186.0
+      thickness_mm: 3.0
+      central_bore_r_mm: 50.0
+    -
+      part: Adapter_Plate
+      x_from: 186.0
+      x_to: 198.0
+      thickness_mm: 12.0
+      central_bore_r_mm: 50.0
+    -
+      part: Central_Boss
+      x_from: 198.0
+      x_to: 208.0
+      thickness_mm: 10.0
+      central_bore_r_mm: 50.0
+  interfaces:
+    -
+      between: "Load_Spreading_Frame -> Front_End_Frame"
+      gap_mm: 0.0
+      contiguous: true
+    -
+      between: "Front_End_Frame -> Spacecraft_Flange"
+      gap_mm: 0.0
+      contiguous: true
+    -
+      between: "Spacecraft_Flange -> Adapter_Plate"
+      gap_mm: 0.0
+      contiguous: true
+    -
+      between: "Adapter_Plate -> Central_Boss"
+      gap_mm: 0.0
+      contiguous: true
+  all_contiguous: true
+  all_share_r50_bore: true
+  front_end_frame_note: "primary-structure bulkhead, no r50 bore of its own; it is the frame the flange bolts to"
+  coaxial_axis: X
+b601_side:
+  x_station_mm: 210.41
+  hole_radius_mm: 1.5
+  nominal_fastener: M3
+  hole_count: 8
+  bolt_circle_R_mm:
+    - 45.179
+    - 45.331
+  angles_deg:
+    - 69.94
+    - 69.94
+    - 160.1
+    - 160.1
+    - 250.06
+    - 250.06
+    - 339.9
+    - 339.9
+  axis: "X (coaxial with the spacecraft mount stack)"
+  note: "this SUPERSEDES D-F3R1-05 'base_link has no flange face, largest cylinder r=1.0' -- that was measured on a coarse solid; the detailed solid carries a real bolt pattern"
+open_gap_to_close_in_G3_1:
+  from_x_mm: 208.0
+  to_x_mm: 210.41
+  distance_mm: 2.41
+  meaning: "the axial space the base interface adapter must physically occupy between the boss face and the B601 flange"

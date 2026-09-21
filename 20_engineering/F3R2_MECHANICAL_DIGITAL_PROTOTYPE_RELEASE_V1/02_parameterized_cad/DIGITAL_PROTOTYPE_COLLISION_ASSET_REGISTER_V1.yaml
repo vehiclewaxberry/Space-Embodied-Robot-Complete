@@ -1,0 +1,93 @@
+schema: M4_DIGITAL_PROTOTYPE_COLLISION_ASSET_REGISTER_V1
+status: PROVISIONAL_BROAD_PHASE_ASSETS_WITH_NARROW_PHASE_HOLDS
+length_unit: mm
+
+master_geometry:
+  FCStd:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/02_parameterized_cad/SEI_DIGITAL_PROTOTYPE_V1.FCStd
+    role: editable_digital_prototype_master
+    collision_release: false
+  STEP:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/02_parameterized_cad/SEI_DIGITAL_PROTOTYPE_V1.step
+    sha256_at_registration: 0FA64971512FAAA0B1D8EB026D4449DD513340BE8F047554D370ED359CD28020
+    solids_on_cold_reopen: 40
+    valid_on_cold_reopen: true
+    role: default_configuration_visual_and_geometry_exchange
+    collision_release: false
+
+candidate_scene_mesh:
+  path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/SEI_MECH_B601_V5R_COLLISION_MESH.stl
+  bytes: 23352384
+  sha256: 7DBD3F2BA19B033243F898C64025CCFD1A7C41BBD5410285188CE0DE7F3F7D80
+  inherited_role: SIM13_BROAD_PHASE_COLLISION
+  inherited_bbox_mm: [[-183.0, -313.1499938964844, -235.97665405273438], [488.533203125, 313.1499938964844, 354.0]]
+  M4_status: CANDIDATE_ONLY_NOT_REBUILT_FROM_M4_MASTER
+  narrow_phase_contact_fidelity: HOLD
+  composition_equivalence_to_M4: NOT_ESTABLISHED
+
+component_proxy_policy:
+  INST_BUS_12U_CORE:
+    available: true
+    proxy: source_bound_analytic_primitives
+    allowed_use: static_broad_phase_and_visual_debug
+    prohibited_use: [mass_inference, flight_clearance_release]
+  INST_SOLAR_ARRAY_LEFT_DEPLOYED:
+    available: true
+    proxy: deployed_box
+    allowed_use: default_state_static_broad_phase
+    prohibited_use: [stowed_state, hinge_sweep]
+  INST_SOLAR_ARRAY_RIGHT_DEPLOYED:
+    available: true
+    proxy: deployed_box
+    allowed_use: default_state_static_broad_phase
+    prohibited_use: [stowed_state, hinge_sweep]
+  INST_M3R_INTERFACE_ASSEMBLY:
+    available: true
+    proxy: working_BRep
+    allowed_use: default_pose_narrow_phase_candidate
+    prohibited_use: [manufacturing_clearance_release, load_path_validation]
+  INST_B601_ARM_CORE_Q0:
+    available: false
+    existing_object: frame_axis_witness_only
+    allowed_use: kinematic_frame_visualization
+    prohibited_use: [broad_phase, narrow_phase, swept_volume, contact]
+  INST_GRIPPER_R1_PALM:
+    available: true
+    proxy: palm_BRep_only
+    allowed_use: palm_static_clearance_candidate
+    prohibited_use: [finger_contact, complete_gripper_collision, capture]
+  SENSOR_PACKAGE:
+    available: false
+    reason: source_candidate_pose_rejected_due_M3R_penetration
+  SPACECRAFT_LOAD_BRIDGE:
+    available: false
+    reason: no_authorized_geometry
+  ARM_HDRM:
+    available: false
+    reason: skeleton_is_non_physical_and_transform_is_null
+  TARGET_SATELLITE_22KG:
+    available: true
+    role: independent_scenario_proxy
+    T_S_target: null
+    contact_fidelity: HOLD
+  TARGET_DEBRIS_150KG:
+    available: true
+    role: independent_exact_primitive_scenario_proxy
+    T_S_target: null
+    contact_fidelity: HOLD_tangent_marker_bracket_compound
+
+default_static_pairwise_audit:
+  source: DIGITAL_PROTOTYPE_GEOMETRY_AUDIT_V1.json
+  installed_pairs: 15
+  unclassified_positive_overlap_count: 0
+  bus_M3R_common_volume_mm3: 0.0
+  bus_M3R_minimum_distance_mm: 10.75
+  interpretation: geometry_snapshot_only_not_a_continuous_collision_certificate
+
+action_mask_rules:
+  - Mask any state requiring B601 physical link collision geometry.
+  - Mask panel-failure states until stowed geometry and hinge transforms are frozen.
+  - Mask capture/contact actions until target pose and gripper finger/contact geometry are frozen.
+  - Mask any structural load-path claim while SPACECRAFT_LOAD_BRIDGE is unresolved.
+  - Never interpret the frame-axis witness as an arm collision envelope.
+

@@ -1,0 +1,67 @@
+{
+  "review": "r01_deck_fastening_20260917_review",
+  "check": "ACC6_NC3_washer_oversize_or_tool_conflict_detectable",
+  "nc3a_washer_oversize": {
+    "mutation": "lower_deck_fastener_-1_-150 螺母侧垫圈 Ø6 -> Ø8（隔离重建，未改原文件）",
+    "step_file": "mutant_fastener_washer_OD8.step",
+    "step_sha256": "41b9ead4086f0bf01e89ce5e774a76a1edfdb44deb206d09f4c644e337f77719",
+    "limit_source": "design_parameters.json deck_angle_fastener_candidate.washer_outer_diameter_max_mm",
+    "mutant_measurement": {
+      "max_cyl_OD_mm": 8.0,
+      "washer_od_limit_mm": 6,
+      "within_limit": false,
+      "shank_R1.5_present": true,
+      "head_R2.75_present": true
+    },
+    "real_fastener_control": {
+      "max_cyl_OD_mm": 6.0,
+      "washer_od_limit_mm": 6,
+      "within_limit": true,
+      "shank_R1.5_present": true,
+      "head_R2.75_present": true
+    },
+    "violation_detected": true
+  },
+  "nc3b_tool_conflict": {
+    "tool_sweep": {
+      "fastener": "upper_deck_fastener_-1_-50",
+      "diameter_mm": 8,
+      "length_mm": 150,
+      "axis_S": [
+        0,
+        0,
+        1
+      ],
+      "z_span_mm": [
+        -5.0,
+        145.0
+      ]
+    },
+    "mutant_neighbor": {
+      "box_mm": [
+        10,
+        30,
+        30
+      ],
+      "center_S_mm": [
+        -50,
+        -92.65,
+        60
+      ],
+      "stage": "CO_PRESENT"
+    },
+    "distance_to_mutant_mm": 0.0,
+    "violation_rule": "BRepExtrema 距离 < 0.5mm 且 CO_PRESENT -> VIOLATION",
+    "violation_detected": true,
+    "real_overhead_hit_recheck": {
+      "hold_crossbeam_1_distance_mm": 0.0,
+      "hold_roof_lug_1_-94.15_distance_mm": 0.0,
+      "stage": "OVERHEAD_RETENTION（真实场景为装序约束记录，非 VIOLATION）",
+      "hit_reproduced": true
+    }
+  },
+  "failures": [],
+  "detected": true,
+  "verdict": "NC3_PASS_washer_oversize_and_tool_conflict_detected",
+  "elapsed_s": 0.096
+}

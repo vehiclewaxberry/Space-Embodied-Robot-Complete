@@ -1,0 +1,1559 @@
+schema_version: SYSTEM_MASS_PROPERTIES_V4_DIAGNOSTIC
+generated_local: '2026-08-21T21:00:29+08:00'
+phase: M6_CANDIDATE_AUTHORITY_CLOSURE
+work_package: WP2_MASS9
+scope: NINE_CONFIGURATION_DIAGNOSTIC_MASS_CG_INERTIA_BBOX_UNDER_CANDIDATE_TRANSFORMS
+release_aggregation_active: false
+release_status: DIAGNOSTIC_ONLY_NOT_RELEASED_NO_WRITEBACK_TO_M4_M5_CDR_SIM_BASELINES
+overall_status: DIAGNOSTIC_BRANCH_A_NUMERIC_9_OF_9_BRANCH_B_MASS_ONLY_9_OF_9_ALL_RELEASE_FIELDS_HOLD
+units:
+  mass: kg
+  center_of_mass: m
+  inertia: kg*m^2
+  linear_dimension: m
+  angle: rad
+aggregation_contract:
+  target_frame: spacecraft_assembly_frame (frozen identity alias of S, M4 frame tree)
+  mass_model: m_system = sum(m_i) over the declared non-overlapping member set
+  center_of_mass_model: r_system = sum(m_i*r_i)/sum(m_i) under the candidate transforms
+  inertia_model: rotate each own-COM tensor into S, then parallel-axis shift to the configuration system CG
+  tensor_matrix_order:
+  - - Ixx
+    - Ixy
+    - Ixz
+  - - Ixy
+    - Iyy
+    - Iyz
+  - - Ixz
+    - Iyz
+    - Izz
+  zero_fill_forbidden: true
+  diagnostic_values_authoritative_for_simulation: false
+  candidate_density_as_measurement_forbidden: true
+branch_semantics_preserved:
+  branch_A: M4-DIAG-LEGACY-A
+  branch_B: M4-DIAG-M3R-B
+  legacy_flange_boundary_ruling_ref: SYSTEM_MASS_PROPERTIES_V3.yaml#diagnostic_nonrelease_branches.legacy_flange_boundary_ruling
+  branch_B_mass_basis: diagnostic bus core 22.927194215348 kg + 2*panel + B601 + M3R 0.7619 kg (+ target scenario where bound)
+  branch_B_cg_inertia_policy: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+aggregator:
+  path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp2_mass_properties/aggregate_m6_mass_properties.py
+  rerun_command: python 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp2_mass_properties/aggregate_m6_mass_properties.py
+source_register:
+  m4_system_mass_properties_v3:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/SYSTEM_MASS_PROPERTIES_V3.yaml
+    sha256: 3F88318666C8A7DA57A74D65F94E8B27A7D84E32741039A893C21FC247A9FE9F
+  m4_configuration_library_v1:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/CONFIGURATION_LIBRARY_V1.yaml
+    sha256: DCE40C1DB8A318A077F0DD92A47F236BE55EAF2FD32B4E514D2BB67C9B19B4A2
+  m4_frame_tree:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+    sha256: 67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA
+  b601_named_pose_revalidation:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/11_validation/B601_NAMED_POSE_REVALIDATION_V1.json
+    sha256: 68D0356F889E5888399631E6C735D404140AC5933B7FA172AB1F9E26BA26B844
+  m5_configuration_geometry_contract:
+    path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/M5_CONFIGURATION_GEOMETRY_CONTRACT_V1.yaml
+    sha256: DA18F5A6E2F553FC709E90BA1035CDD7770A6FCEECA13EDC1FDB448CAF75838D
+  geometry_ssot_service_spacecraft:
+    path: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+    sha256: 8DD8F22FF1F893273DE2215EA12819E4D41CC0E20B853ADC0774052237881432
+  geometry_ssot_flexible_appendage:
+    path: 20_engineering/config/geometry/flexible_appendage_v1.yaml
+    sha256: 52FA88084C628CE8845E05DE0C0A892BCA5347B7146C8D1C6B99093927153786
+  geometry_ssot_frame_tree:
+    path: 20_engineering/config/geometry/frame_tree_v1.yaml
+    sha256: 958BFF23BF83434C773854FD0E78DA3B09BE4A3A213EB81A0741514750B3E55B
+  stage1_mass_budget:
+    path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+    sha256: 073C802527E35C9495188EEFD5D8BA51F524D326142CF2AB31E436BAD0899392
+  target_models_ssot:
+    path: 20_engineering/config/geometry/target_models_v1.yaml
+    sha256: 45666D9D37460FD825F0ED7301BF69113016689FDF00A13DFF8046358A76AE45
+  accepted_b601_urdf_L0_witness:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  m6_wp2_transform_candidates:
+    path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp2_mass_properties/CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml
+    sha256: F43D871FAA6831652441C75916B1E890D760EAE3D5781DDF3650CFB65159DE51
+diagnostic_checks:
+  m4_branch_mass_regression_18_values:
+    pass: true
+    max_abs_err_kg: 2.842170943040401e-14
+    detail:
+    - configuration_id: C01
+      branch_A_abs_err_kg: 0.0
+      branch_B_abs_err_kg: 1.0658141036401503e-14
+      pass: true
+    - configuration_id: C02
+      branch_A_abs_err_kg: 0.0
+      branch_B_abs_err_kg: 1.0658141036401503e-14
+      pass: true
+    - configuration_id: C03
+      branch_A_abs_err_kg: 0.0
+      branch_B_abs_err_kg: 1.0658141036401503e-14
+      pass: true
+    - configuration_id: C04
+      branch_A_abs_err_kg: 0.0
+      branch_B_abs_err_kg: 1.0658141036401503e-14
+      pass: true
+    - configuration_id: C05
+      branch_A_abs_err_kg: 0.0
+      branch_B_abs_err_kg: 1.0658141036401503e-14
+      pass: true
+    - configuration_id: C06
+      branch_A_abs_err_kg: 0.0
+      branch_B_abs_err_kg: 1.0658141036401503e-14
+      pass: true
+    - configuration_id: C07
+      branch_A_abs_err_kg: 0.0
+      branch_B_abs_err_kg: 1.0658141036401503e-14
+      pass: true
+    - configuration_id: C08
+      branch_A_abs_err_kg: 0.0
+      branch_B_abs_err_kg: 7.105427357601002e-15
+      pass: true
+    - configuration_id: C09
+      branch_A_abs_err_kg: 0.0
+      branch_B_abs_err_kg: 2.842170943040401e-14
+      pass: true
+  deployed_panels_whole_sat_closure_vs_stage1_row:
+    reference_row: servicer_12U_v0 (stage1 mass_inertia_budget_v1.csv, CSV 7-decimal rounding)
+    mass_abs_err_kg: 0.0
+    cg_max_abs_err_m: 4.223892500002102e-08
+    inertia_max_abs_err_kg_m2: 3.0537093353988354e-08
+    tolerances:
+      mass_kg: 1.0e-09
+      cg_m: 5.0e-06
+      inertia_kg_m2: 5.0e-06
+    pass: true
+  target_capture_transforms_match_m5_display_rows:
+    pass: true
+    detail:
+    - configuration_id: C07
+      max_abs_err_m: 0.0
+      pass: true
+    - configuration_id: C08
+      max_abs_err_m: 0.0
+      pass: true
+    - configuration_id: C09
+      max_abs_err_m: 0.0
+      pass: true
+  branch_A_inertia_symmetric_positive_definite_all_configs:
+    pass: true
+    detail:
+    - configuration_id: C01
+      min_eigenvalue_kg_m2: 0.35908884731583623
+      symmetric: true
+      pass: true
+    - configuration_id: C02
+      min_eigenvalue_kg_m2: 0.3550253306541851
+      symmetric: true
+      pass: true
+    - configuration_id: C03
+      min_eigenvalue_kg_m2: 0.35163551586814673
+      symmetric: true
+      pass: true
+    - configuration_id: C04
+      min_eigenvalue_kg_m2: 0.34754277491659785
+      symmetric: true
+      pass: true
+    - configuration_id: C05
+      min_eigenvalue_kg_m2: 0.37617511703869744
+      symmetric: true
+      pass: true
+    - configuration_id: C06
+      min_eigenvalue_kg_m2: 0.2411750900410282
+      symmetric: true
+      pass: true
+    - configuration_id: C07
+      min_eigenvalue_kg_m2: 0.2526558069402342
+      symmetric: true
+      pass: true
+    - configuration_id: C08
+      min_eigenvalue_kg_m2: 0.4897760141159698
+      symmetric: true
+      pass: true
+    - configuration_id: C09
+      min_eigenvalue_kg_m2: 52.29067104319848
+      symmetric: true
+      pass: true
+  uncertainty_fields_all_null: true
+  release_aggregation_active_all_false: true
+configurations:
+- configuration_id: C01
+  name: DEPLOYED_NOMINAL
+  legacy_mapping: DEPLOYED_NOMINAL
+  transform_binding: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#configuration_bindings[C01]
+  release_aggregation_active: false
+  mass:
+    released_value_kg: null
+    released_standard_uncertainty_kg: null
+    diagnostic_branches:
+      legacy_A_value_kg: 28.695555949342985
+      legacy_A_model: bus_no_panels_including_legacy_flange + 2*panel + B601_accepted_URDF; M3R excluded
+      m3r_B_value_kg: 29.081436764690988
+      m3r_B_model: ADR rev2 diagnostic bus core 22.927194215348 kg + 2*panel + B601 + M3R; legacy flange excluded by material-derived
+        diagnostic allocation
+      branch_definition_source: SYSTEM_MASS_PROPERTIES_V3.yaml#diagnostic_nonrelease_branches
+    diagnostic_standard_uncertainty_kg: null
+    status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+  cg:
+    released_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    released_standard_uncertainty_xyz_m: null
+    diagnostic_branch_A_xyz_m:
+    - 0.05965506009598844
+    - -0.028746598683918635
+    - -0.013717351660430751
+    diagnostic_branch_A_scope: BUS_NO_PANELS_PLUS_TWO_PANELS_PLUS_B601
+    diagnostic_branch_B_xyz_m: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_xyz_m: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  inertia:
+    released_matrix_kg_m2: null
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    released_standard_uncertainty_matrix_kg_m2: null
+    diagnostic_branch_A_matrix_kg_m2:
+    - - 0.49923099911460833
+      - 0.26743340901741075
+      - 0.129785508852378
+    - - 0.26743340901741075
+      - 1.0366055564475138
+      - -0.10601480923721182
+    - - 0.129785508852378
+      - -0.10601480923721182
+      - 1.2275654910387344
+    diagnostic_branch_B_matrix_kg_m2: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_matrix_kg_m2: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  bbox:
+    released_min_xyz_m: null
+    released_max_xyz_m: null
+    released_extent_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    diagnostic_aggregation_scope_min_xyz_m:
+    - -0.17025
+    - -0.31315000000000004
+    - -0.11315
+    diagnostic_aggregation_scope_max_xyz_m:
+    - 0.18525
+    - 0.31315000000000004
+    - 0.11315
+    diagnostic_aggregation_scope_extent_xyz_m:
+    - 0.35550000000000004
+    - 0.6263000000000001
+    - 0.2263
+    diagnostic_scope: BUS_BAYS_BOX_PLUS_LEGACY_FLANGE_BOX_PLUS_PANEL_PLATE_BOXES_UNDER_CANDIDATE_TRANSFORMS_NOT_ARM_NOT_TARGET_NOT_WHOLE_ASSEMBLY
+    cross_references:
+      m5_whole_assembly_diagnostic_bbox_S_m:
+      - - -0.183
+        - -0.4249006515489606
+        - -0.29543616517841637
+      - - 0.6406227549151435
+        - 0.31314999999999993
+        - 0.11015
+      m5_snapshot:
+        path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/snapshots/C01_DEPLOYED_NOMINAL_DIAGNOSTIC.glb
+        sha256: 9A7CFDAA8567A8A28C4A6DA05BA7DAEE9760A7FB902C967BA70D6FDF4804C3C6
+      m4_bus_and_deployed_panels_extent_xyz_m:
+      - 0.4405
+      - 0.6263
+      - 0.2763
+    status: DIAGNOSTIC_PRIMITIVE_SCOPE_ONLY_WHOLE_ASSEMBLY_BBOX_HOLD
+  components_diagnostic_branch_A:
+  - component_id: spacecraft_bus_no_panels
+    mass_kg: 23.3032134
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    transform_ref: null
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: m4_system_mass_properties_v3
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_classification: BUDGETED
+    com_S_m:
+    - 0.376934164889081
+    - -0.17567666955456437
+    - -0.08674287405126006
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_BINDING
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_DEPLOYED_HOME
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: b601_named_pose_revalidation
+    pose_status: PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD
+  collision:
+    whole_assembly_evaluated: false
+    status: HOLD_SEE_M5_BROADPHASE_CONTRACT_NO_NARROW_PHASE_OR_SYSTEM_RELEASE
+  confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+  status: DIAGNOSTIC_VALUES_UNDER_CANDIDATE_TRANSFORMS_RELEASE_PROPERTIES_HOLD
+- configuration_id: C02
+  name: LEFT_PANEL_FAIL
+  legacy_mapping: LEFT_PANEL_FAIL
+  transform_binding: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#configuration_bindings[C02]
+  release_aggregation_active: false
+  mass:
+    released_value_kg: null
+    released_standard_uncertainty_kg: null
+    diagnostic_branches:
+      legacy_A_value_kg: 28.695555949342985
+      legacy_A_model: LEFT_PANEL_RETAINED_WITH_SAME_MASS_AND_M3R_EXCLUDED
+      m3r_B_value_kg: 29.081436764690988
+      m3r_B_model: ADR rev2 diagnostic bus core plus retained panels B601 and M3R; failure transform unresolved
+      branch_definition_source: SYSTEM_MASS_PROPERTIES_V3.yaml#diagnostic_nonrelease_branches
+    diagnostic_standard_uncertainty_kg: null
+    status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+  cg:
+    released_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    released_standard_uncertainty_xyz_m: null
+    diagnostic_branch_A_xyz_m:
+    - 0.05965506009598844
+    - -0.02996070061877931
+    - -0.014931453595291425
+    diagnostic_branch_A_scope: BUS_NO_PANELS_PLUS_TWO_PANELS_PLUS_B601
+    diagnostic_branch_B_xyz_m: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_xyz_m: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  inertia:
+    released_matrix_kg_m2: null
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    released_standard_uncertainty_matrix_kg_m2: null
+    diagnostic_branch_A_matrix_kg_m2:
+    - - 0.48830343058138304
+      - 0.26337793471505677
+      - 0.12573003455002402
+    - - 0.26337793471505677
+      - 1.0402516500671042
+      - -0.10055102497059916
+    - - 0.12573003455002402
+      - -0.10055102497059916
+      - 1.212991828885919
+    diagnostic_branch_B_matrix_kg_m2: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_matrix_kg_m2: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  bbox:
+    released_min_xyz_m: null
+    released_max_xyz_m: null
+    released_extent_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    diagnostic_aggregation_scope_min_xyz_m:
+    - -0.17025
+    - -0.31315000000000004
+    - -0.2
+    diagnostic_aggregation_scope_max_xyz_m:
+    - 0.18525
+    - 0.11615
+    - 0.11315
+    diagnostic_aggregation_scope_extent_xyz_m:
+    - 0.35550000000000004
+    - 0.4293
+    - 0.31315000000000004
+    diagnostic_scope: BUS_BAYS_BOX_PLUS_LEGACY_FLANGE_BOX_PLUS_PANEL_PLATE_BOXES_UNDER_CANDIDATE_TRANSFORMS_NOT_ARM_NOT_TARGET_NOT_WHOLE_ASSEMBLY
+    cross_references:
+      m5_whole_assembly_diagnostic_bbox_S_m:
+      - - -0.183
+        - -0.4249006515489606
+        - -0.29543616517841637
+      - - 0.6406227549151435
+        - 0.2028166666666667
+        - 0.11015
+      m5_snapshot:
+        path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/snapshots/C02_LEFT_PANEL_FAIL_DIAGNOSTIC.glb
+        sha256: FC614F4BA047D8216ABDDE0F9656DA1D871FE2C80C9F18EFFC30E985D5EBA1D2
+    status: DIAGNOSTIC_PRIMITIVE_SCOPE_ONLY_WHOLE_ASSEMBLY_BBOX_HOLD
+  components_diagnostic_branch_A:
+  - component_id: spacecraft_bus_no_panels
+    mass_kg: 23.3032134
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    transform_ref: null
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: m4_system_mass_properties_v3
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - 0.11315
+    - -0.1
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_stowed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_classification: BUDGETED
+    com_S_m:
+    - 0.376934164889081
+    - -0.17567666955456437
+    - -0.08674287405126006
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_BINDING
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: b601_named_pose_revalidation
+    pose_status: PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD_DISPLAY_ONLY_BINDING
+  collision:
+    whole_assembly_evaluated: false
+    status: HOLD_SEE_M5_BROADPHASE_CONTRACT_NO_NARROW_PHASE_OR_SYSTEM_RELEASE
+  confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+  status: DIAGNOSTIC_VALUES_UNDER_CANDIDATE_TRANSFORMS_RELEASE_PROPERTIES_HOLD
+- configuration_id: C03
+  name: RIGHT_PANEL_FAIL
+  legacy_mapping: RIGHT_PANEL_FAIL
+  transform_binding: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#configuration_bindings[C03]
+  release_aggregation_active: false
+  mass:
+    released_value_kg: null
+    released_standard_uncertainty_kg: null
+    diagnostic_branches:
+      legacy_A_value_kg: 28.695555949342985
+      legacy_A_model: RIGHT_PANEL_RETAINED_WITH_SAME_MASS_AND_M3R_EXCLUDED
+      m3r_B_value_kg: 29.081436764690988
+      m3r_B_model: ADR rev2 diagnostic bus core plus retained panels B601 and M3R; failure transform unresolved
+      branch_definition_source: SYSTEM_MASS_PROPERTIES_V3.yaml#diagnostic_nonrelease_branches
+    diagnostic_standard_uncertainty_kg: null
+    status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+  cg:
+    released_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    released_standard_uncertainty_xyz_m: null
+    diagnostic_branch_A_xyz_m:
+    - 0.05965506009598844
+    - -0.027532496749057958
+    - -0.014931453595291425
+    diagnostic_branch_A_scope: BUS_NO_PANELS_PLUS_TWO_PANELS_PLUS_B601
+    diagnostic_branch_B_xyz_m: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_xyz_m: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  inertia:
+    released_matrix_kg_m2: null
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    released_standard_uncertainty_matrix_kg_m2: null
+    diagnostic_branch_A_matrix_kg_m2:
+    - - 0.49230947953308934
+      - 0.2714888833197647
+      - 0.12573003455002402
+    - - 0.2714888833197647
+      - 1.040251650067104
+      - -0.10947556902797123
+    - - 0.12573003455002402
+      - -0.10947556902797123
+      - 1.2169978778376254
+    diagnostic_branch_B_matrix_kg_m2: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_matrix_kg_m2: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  bbox:
+    released_min_xyz_m: null
+    released_max_xyz_m: null
+    released_extent_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    diagnostic_aggregation_scope_min_xyz_m:
+    - -0.17025
+    - -0.11615
+    - -0.2
+    diagnostic_aggregation_scope_max_xyz_m:
+    - 0.18525
+    - 0.31315000000000004
+    - 0.11315
+    diagnostic_aggregation_scope_extent_xyz_m:
+    - 0.35550000000000004
+    - 0.4293
+    - 0.31315000000000004
+    diagnostic_scope: BUS_BAYS_BOX_PLUS_LEGACY_FLANGE_BOX_PLUS_PANEL_PLATE_BOXES_UNDER_CANDIDATE_TRANSFORMS_NOT_ARM_NOT_TARGET_NOT_WHOLE_ASSEMBLY
+    cross_references:
+      m5_whole_assembly_diagnostic_bbox_S_m:
+      - - -0.183
+        - -0.4249006515489606
+        - -0.29543616517841637
+      - - 0.6406227549151435
+        - 0.31314999999999993
+        - 0.11015
+      m5_snapshot:
+        path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/snapshots/C03_RIGHT_PANEL_FAIL_DIAGNOSTIC.glb
+        sha256: B6F879F08CC45AC49B0BA6C6D354BADDC7B4661943D92453C774FE20B1E5D32E
+    status: DIAGNOSTIC_PRIMITIVE_SCOPE_ONLY_WHOLE_ASSEMBLY_BBOX_HOLD
+  components_diagnostic_branch_A:
+  - component_id: spacecraft_bus_no_panels
+    mass_kg: 23.3032134
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    transform_ref: null
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: m4_system_mass_properties_v3
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - -0.11315
+    - -0.1
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_stowed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_classification: BUDGETED
+    com_S_m:
+    - 0.376934164889081
+    - -0.17567666955456437
+    - -0.08674287405126006
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_BINDING
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: b601_named_pose_revalidation
+    pose_status: PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD_DISPLAY_ONLY_BINDING
+  collision:
+    whole_assembly_evaluated: false
+    status: HOLD_SEE_M5_BROADPHASE_CONTRACT_NO_NARROW_PHASE_OR_SYSTEM_RELEASE
+  confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+  status: DIAGNOSTIC_VALUES_UNDER_CANDIDATE_TRANSFORMS_RELEASE_PROPERTIES_HOLD
+- configuration_id: C04
+  name: BOTH_PANEL_FAIL
+  legacy_mapping: BOTH_PANEL_FAIL
+  transform_binding: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#configuration_bindings[C04]
+  release_aggregation_active: false
+  mass:
+    released_value_kg: null
+    released_standard_uncertainty_kg: null
+    diagnostic_branches:
+      legacy_A_value_kg: 28.695555949342985
+      legacy_A_model: BOTH_PANELS_RETAINED_WITH_SAME_MASS_AND_M3R_EXCLUDED
+      m3r_B_value_kg: 29.081436764690988
+      m3r_B_model: ADR rev2 diagnostic bus core plus retained panels B601 and M3R; failure transforms unresolved
+      branch_definition_source: SYSTEM_MASS_PROPERTIES_V3.yaml#diagnostic_nonrelease_branches
+    diagnostic_standard_uncertainty_kg: null
+    status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+  cg:
+    released_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    released_standard_uncertainty_xyz_m: null
+    diagnostic_branch_A_xyz_m:
+    - 0.05965506009598844
+    - -0.028746598683918635
+    - -0.016145555530152098
+    diagnostic_branch_A_scope: BUS_NO_PANELS_PLUS_TWO_PANELS_PLUS_B601
+    diagnostic_branch_B_xyz_m: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_xyz_m: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  inertia:
+    released_matrix_kg_m2: null
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    released_standard_uncertainty_matrix_kg_m2: null
+    diagnostic_branch_A_matrix_kg_m2:
+    - - 0.48138191099986416
+      - 0.26743340901741075
+      - 0.12167456024767005
+    - - 0.26743340901741075
+      - 1.0438131466907699
+      - -0.10401178476135861
+    - - 0.12167456024767005
+      - -0.10401178476135861
+      - 1.2025088126807344
+    diagnostic_branch_B_matrix_kg_m2: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_matrix_kg_m2: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  bbox:
+    released_min_xyz_m: null
+    released_max_xyz_m: null
+    released_extent_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    diagnostic_aggregation_scope_min_xyz_m:
+    - -0.17025
+    - -0.11615
+    - -0.2
+    diagnostic_aggregation_scope_max_xyz_m:
+    - 0.18525
+    - 0.11615
+    - 0.11315
+    diagnostic_aggregation_scope_extent_xyz_m:
+    - 0.35550000000000004
+    - 0.2323
+    - 0.31315000000000004
+    diagnostic_scope: BUS_BAYS_BOX_PLUS_LEGACY_FLANGE_BOX_PLUS_PANEL_PLATE_BOXES_UNDER_CANDIDATE_TRANSFORMS_NOT_ARM_NOT_TARGET_NOT_WHOLE_ASSEMBLY
+    cross_references:
+      m5_whole_assembly_diagnostic_bbox_S_m:
+      - - -0.183
+        - -0.4249006515489606
+        - -0.29543616517841637
+      - - 0.6406227549151435
+        - 0.2028166666666667
+        - 0.11015
+      m5_snapshot:
+        path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/snapshots/C04_BOTH_PANEL_FAIL_DIAGNOSTIC.glb
+        sha256: 2840190B888A3FCEB21C80AC71F3542519B3034325FED1DDB558729A45CFE027
+    status: DIAGNOSTIC_PRIMITIVE_SCOPE_ONLY_WHOLE_ASSEMBLY_BBOX_HOLD
+  components_diagnostic_branch_A:
+  - component_id: spacecraft_bus_no_panels
+    mass_kg: 23.3032134
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    transform_ref: null
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: m4_system_mass_properties_v3
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - 0.11315
+    - -0.1
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_stowed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - -0.11315
+    - -0.1
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_stowed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_classification: BUDGETED
+    com_S_m:
+    - 0.376934164889081
+    - -0.17567666955456437
+    - -0.08674287405126006
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_BINDING
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_DEPLOYED_HOME_DISPLAY_ONLY_FOR_FAILURE_BRANCH
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: b601_named_pose_revalidation
+    pose_status: PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD_DISPLAY_ONLY_BINDING
+  collision:
+    whole_assembly_evaluated: false
+    status: HOLD_SEE_M5_BROADPHASE_CONTRACT_NO_NARROW_PHASE_OR_SYSTEM_RELEASE
+  confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+  status: DIAGNOSTIC_VALUES_UNDER_CANDIDATE_TRANSFORMS_RELEASE_PROPERTIES_HOLD
+- configuration_id: C05
+  name: ARM_STOWED_ONORBIT
+  legacy_mapping: ARM_STOWED_ONORBIT
+  transform_binding: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#configuration_bindings[C05]
+  release_aggregation_active: false
+  mass:
+    released_value_kg: null
+    released_standard_uncertainty_kg: null
+    diagnostic_branches:
+      legacy_A_value_kg: 28.695555949342985
+      legacy_A_model: same retained legacy component set; mass is joint-invariant; M3R excluded
+      m3r_B_value_kg: 29.081436764690988
+      m3r_B_model: ADR rev2 diagnostic bus core plus panels B601 and M3R; stow pose remains held
+      branch_definition_source: SYSTEM_MASS_PROPERTIES_V3.yaml#diagnostic_nonrelease_branches
+    diagnostic_standard_uncertainty_kg: null
+    status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+  cg:
+    released_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    released_standard_uncertainty_xyz_m: null
+    diagnostic_branch_A_xyz_m:
+    - 0.03568384467964425
+    - 0.0045066426438410126
+    - 0.030910966225144276
+    diagnostic_branch_A_scope: BUS_NO_PANELS_PLUS_TWO_PANELS_PLUS_B601
+    diagnostic_branch_B_xyz_m: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_xyz_m: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  inertia:
+    released_matrix_kg_m2: null
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    released_standard_uncertainty_matrix_kg_m2: null
+    diagnostic_branch_A_matrix_kg_m2:
+    - - 0.4448995976065336
+      - -0.023426765694127025
+      - -0.14233655226491126
+    - - -0.023426765694127025
+      - 0.8547389905854107
+      - -0.030287259915805304
+    - - -0.14233655226491126
+      - -0.030287259915805304
+      - 0.6841686460703227
+    diagnostic_branch_B_matrix_kg_m2: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_matrix_kg_m2: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  bbox:
+    released_min_xyz_m: null
+    released_max_xyz_m: null
+    released_extent_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    diagnostic_aggregation_scope_min_xyz_m:
+    - -0.17025
+    - -0.31315000000000004
+    - -0.11315
+    diagnostic_aggregation_scope_max_xyz_m:
+    - 0.18525
+    - 0.31315000000000004
+    - 0.11315
+    diagnostic_aggregation_scope_extent_xyz_m:
+    - 0.35550000000000004
+    - 0.6263000000000001
+    - 0.2263
+    diagnostic_scope: BUS_BAYS_BOX_PLUS_LEGACY_FLANGE_BOX_PLUS_PANEL_PLATE_BOXES_UNDER_CANDIDATE_TRANSFORMS_NOT_ARM_NOT_TARGET_NOT_WHOLE_ASSEMBLY
+    cross_references:
+      m5_whole_assembly_diagnostic_bbox_S_m:
+      - - -0.183
+        - -0.11015
+        - -0.11015
+      - - 0.4368038563304489
+        - 0.11156597693154371
+        - 0.36564245097739695
+      m5_snapshot:
+        path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/snapshots/C05_ARM_STOWED_ONORBIT_DIAGNOSTIC.glb
+        sha256: C2ED3030D60706093ECF5ED524B8DAE5E0C88DA7D0F7202AE65DE1C84AEF0DFD
+    status: DIAGNOSTIC_PRIMITIVE_SCOPE_ONLY_WHOLE_ASSEMBLY_BBOX_HOLD
+  components_diagnostic_branch_A:
+  - component_id: spacecraft_bus_no_panels
+    mass_kg: 23.3032134
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    transform_ref: null
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: m4_system_mass_properties_v3
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_classification: BUDGETED
+    com_S_m:
+    - 0.2304408932564203
+    - 0.027541065962195514
+    - 0.185990409637921
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_BINDING
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_STOW_ENGINEERING_CANDIDATE
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: b601_named_pose_revalidation
+    pose_status: HELD_CANDIDATE_FK_REGRESSION_FAIL_MAX_RESIDUAL_567P734_MM
+  collision:
+    whole_assembly_evaluated: false
+    status: HOLD_SEE_M5_BROADPHASE_CONTRACT_NO_NARROW_PHASE_OR_SYSTEM_RELEASE
+  confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+  status: DIAGNOSTIC_VALUES_UNDER_CANDIDATE_TRANSFORMS_RELEASE_PROPERTIES_HOLD
+- configuration_id: C06
+  name: ARM_TASK_READY
+  legacy_mapping: ARM_TASK_READY
+  transform_binding: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#configuration_bindings[C06]
+  release_aggregation_active: false
+  mass:
+    released_value_kg: null
+    released_standard_uncertainty_kg: null
+    diagnostic_branches:
+      legacy_A_value_kg: 28.695555949342985
+      legacy_A_model: same retained legacy component set; mass is joint-invariant; M3R excluded
+      m3r_B_value_kg: 29.081436764690988
+      m3r_B_model: ADR rev2 diagnostic bus core plus panels B601 and M3R; task-ready release remains held
+      branch_definition_source: SYSTEM_MASS_PROPERTIES_V3.yaml#diagnostic_nonrelease_branches
+    diagnostic_standard_uncertainty_kg: null
+    status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+  cg:
+    released_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    released_standard_uncertainty_xyz_m: null
+    diagnostic_branch_A_xyz_m:
+    - 0.09756968887723409
+    - 0.00700336498913152
+    - 0.003703752959015405
+    diagnostic_branch_A_scope: BUS_NO_PANELS_PLUS_TWO_PANELS_PLUS_B601
+    diagnostic_branch_B_xyz_m: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_xyz_m: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  inertia:
+    released_matrix_kg_m2: null
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    released_standard_uncertainty_matrix_kg_m2: null
+    diagnostic_branch_A_matrix_kg_m2:
+    - - 0.25132103429786085
+      - -0.12661922589741775
+      - -0.05793986167445169
+    - - -0.12661922589741775
+      - 2.1497613547373557
+      - -0.00673851951632057
+    - - -0.05793986167445169
+      - -0.00673851951632057
+      - 2.1939197417505873
+    diagnostic_branch_B_matrix_kg_m2: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_matrix_kg_m2: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  bbox:
+    released_min_xyz_m: null
+    released_max_xyz_m: null
+    released_extent_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    diagnostic_aggregation_scope_min_xyz_m:
+    - -0.17025
+    - -0.31315000000000004
+    - -0.11315
+    diagnostic_aggregation_scope_max_xyz_m:
+    - 0.18525
+    - 0.31315000000000004
+    - 0.11315
+    diagnostic_aggregation_scope_extent_xyz_m:
+    - 0.35550000000000004
+    - 0.6263000000000001
+    - 0.2263
+    diagnostic_scope: BUS_BAYS_BOX_PLUS_LEGACY_FLANGE_BOX_PLUS_PANEL_PLATE_BOXES_UNDER_CANDIDATE_TRANSFORMS_NOT_ARM_NOT_TARGET_NOT_WHOLE_ASSEMBLY
+    cross_references:
+      m5_whole_assembly_diagnostic_bbox_S_m:
+      - - -0.183
+        - -0.31314999999999993
+        - -0.11015
+      - - 1.0015749340747542
+        - 0.31314999999999993
+        - 0.1186167855968151
+      m5_snapshot:
+        path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/snapshots/C06_ARM_TASK_READY_DIAGNOSTIC.glb
+        sha256: BE325BCACE19BEBEB49B83893A1F82EBDD46FBAC9B83CF2F3A5732CED0F85D69
+    status: DIAGNOSTIC_PRIMITIVE_SCOPE_ONLY_WHOLE_ASSEMBLY_BBOX_HOLD
+  components_diagnostic_branch_A:
+  - component_id: spacecraft_bus_no_panels
+    mass_kg: 23.3032134
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    transform_ref: null
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: m4_system_mass_properties_v3
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_classification: BUDGETED
+    com_S_m:
+    - 0.60863864530168
+    - 0.042799075135589205
+    - 0.0197212566501584
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_BINDING
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.Q_SERVICE_READY
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: b601_named_pose_revalidation
+    pose_status: PASS_RUNTIME_FK_AND_INERTIA_WITH_SOURCE_CONFIGURATION_RATIFICATION_HOLD
+  collision:
+    whole_assembly_evaluated: false
+    status: HOLD_SEE_M5_BROADPHASE_CONTRACT_NO_NARROW_PHASE_OR_SYSTEM_RELEASE
+  confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+  status: DIAGNOSTIC_VALUES_UNDER_CANDIDATE_TRANSFORMS_RELEASE_PROPERTIES_HOLD
+- configuration_id: C07
+  name: PREGRASP
+  legacy_mapping: PREGRASP
+  transform_binding: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#configuration_bindings[C07]
+  release_aggregation_active: false
+  mass:
+    released_value_kg: null
+    released_standard_uncertainty_kg: null
+    diagnostic_branches:
+      legacy_A_value_kg: 28.695555949342985
+      legacy_A_model: same retained legacy component set; external target not captured; M3R excluded
+      m3r_B_value_kg: 29.081436764690988
+      m3r_B_model: ADR rev2 diagnostic bus core plus panels B601 and M3R; target remains separate before capture
+      branch_definition_source: SYSTEM_MASS_PROPERTIES_V3.yaml#diagnostic_nonrelease_branches
+    diagnostic_standard_uncertainty_kg: null
+    status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+  cg:
+    released_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    released_standard_uncertainty_xyz_m: null
+    diagnostic_branch_A_xyz_m:
+    - 0.08719212819975426
+    - 4.649661813396684e-05
+    - -0.0013984587013495895
+    diagnostic_branch_A_scope: BUS_NO_PANELS_PLUS_TWO_PANELS_PLUS_B601
+    diagnostic_branch_B_xyz_m: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_xyz_m: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  inertia:
+    released_matrix_kg_m2: null
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    released_standard_uncertainty_matrix_kg_m2: null
+    diagnostic_branch_A_matrix_kg_m2:
+    - - 0.25479766974038465
+      - -0.0005817142705036113
+      - 0.05744516561101812
+    - - -0.0005817142705036113
+      - 1.7838861755585491
+      - -2.0641486066742595e-05
+    - - 0.05744516561101812
+      - -2.0641486066742595e-05
+      - 1.7935045805408132
+    diagnostic_branch_B_matrix_kg_m2: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_matrix_kg_m2: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  bbox:
+    released_min_xyz_m: null
+    released_max_xyz_m: null
+    released_extent_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    diagnostic_aggregation_scope_min_xyz_m:
+    - -0.17025
+    - -0.31315000000000004
+    - -0.11315
+    diagnostic_aggregation_scope_max_xyz_m:
+    - 0.18525
+    - 0.31315000000000004
+    - 0.11315
+    diagnostic_aggregation_scope_extent_xyz_m:
+    - 0.35550000000000004
+    - 0.6263000000000001
+    - 0.2263
+    diagnostic_scope: BUS_BAYS_BOX_PLUS_LEGACY_FLANGE_BOX_PLUS_PANEL_PLATE_BOXES_UNDER_CANDIDATE_TRANSFORMS_NOT_ARM_NOT_TARGET_NOT_WHOLE_ASSEMBLY
+    cross_references:
+      m5_whole_assembly_diagnostic_bbox_S_m:
+      - - -0.183
+        - -0.6597948670387268
+        - -2.55
+      - - 2.270000026226044
+        - 0.6597948670387268
+        - 0.16656311556932082
+      m5_snapshot:
+        path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/snapshots/C07_PREGRASP_DIAGNOSTIC.glb
+        sha256: 6DBC46A78F1382D35A3EE372DA4C16D7BFE7186DCF17A4B02E5AE4B2B53B8FF8
+    status: DIAGNOSTIC_PRIMITIVE_SCOPE_ONLY_WHOLE_ASSEMBLY_BBOX_HOLD
+  components_diagnostic_branch_A:
+  - component_id: spacecraft_bus_no_panels
+    mass_kg: 23.3032134
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    transform_ref: null
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: m4_system_mass_properties_v3
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_classification: BUDGETED
+    com_S_m:
+    - 0.5452191319893124
+    - 0.00028415086978255945
+    - -0.011459460126495074
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_BINDING
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.PREGRASP_SCENE_CANDIDATE
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: b601_named_pose_revalidation
+    pose_status: DIAGNOSTIC_CANDIDATE_HOLD_FOR_CAPTURE_DYNAMICS
+  collision:
+    whole_assembly_evaluated: false
+    status: HOLD_SEE_M5_BROADPHASE_CONTRACT_NO_NARROW_PHASE_OR_SYSTEM_RELEASE
+  confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+  status: DIAGNOSTIC_VALUES_UNDER_CANDIDATE_TRANSFORMS_RELEASE_PROPERTIES_HOLD
+- configuration_id: C08
+  name: TARGET_CAPTURE_22KG
+  legacy_mapping: POST_CAPTURE_22KG
+  transform_binding: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#configuration_bindings[C08]
+  release_aggregation_active: false
+  mass:
+    released_value_kg: null
+    released_standard_uncertainty_kg: null
+    diagnostic_branches:
+      legacy_A_value_kg: 50.69555594934299
+      legacy_A_model: M4-DIAG-LEGACY-A + 22.0 kg target scenario; M3R excluded
+      m3r_B_value_kg: 51.08143676469099
+      m3r_B_model: ADR rev2 diagnostic uncaptured total 29.081436764691 kg + 22.0 kg target under nonauthoritative rigid-capture
+        scenario
+      branch_definition_source: SYSTEM_MASS_PROPERTIES_V3.yaml#diagnostic_nonrelease_branches
+    diagnostic_standard_uncertainty_kg: null
+    status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+  cg:
+    released_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    released_standard_uncertainty_xyz_m: null
+    diagnostic_branch_A_xyz_m:
+    - 0.570860424570872
+    - 2.631880215401352e-05
+    - -0.044096755781536996
+    diagnostic_branch_A_scope: BUS_NO_PANELS_PLUS_TWO_PANELS_PLUS_B601_PLUS_TARGET_SCENARIO
+    diagnostic_branch_B_xyz_m: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_xyz_m: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  inertia:
+    released_matrix_kg_m2: null
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    released_standard_uncertainty_matrix_kg_m2: null
+    diagnostic_branch_A_matrix_kg_m2:
+    - - 0.6069810677112494
+      - 6.361836779985257e-05
+      - 1.4223852230787541
+    - - 6.361836779985257e-05
+      - 17.79540629421794
+      - -7.761153126623073e-05
+    - - 1.4223852230787541
+      - -7.761153126623073e-05
+      - 17.751657355073696
+    diagnostic_branch_B_matrix_kg_m2: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_matrix_kg_m2: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  bbox:
+    released_min_xyz_m: null
+    released_max_xyz_m: null
+    released_extent_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    diagnostic_aggregation_scope_min_xyz_m:
+    - -0.17025
+    - -0.31315000000000004
+    - -0.11315
+    diagnostic_aggregation_scope_max_xyz_m:
+    - 0.18525
+    - 0.31315000000000004
+    - 0.11315
+    diagnostic_aggregation_scope_extent_xyz_m:
+    - 0.35550000000000004
+    - 0.6263000000000001
+    - 0.2263
+    diagnostic_scope: BUS_BAYS_BOX_PLUS_LEGACY_FLANGE_BOX_PLUS_PANEL_PLATE_BOXES_UNDER_CANDIDATE_TRANSFORMS_NOT_ARM_NOT_TARGET_NOT_WHOLE_ASSEMBLY
+    cross_references:
+      m5_whole_assembly_diagnostic_bbox_S_m:
+      - - -0.183
+        - -0.31314999999999993
+        - -0.21299999803304673
+      - - 1.4100000017881393
+        - 0.31314999999999993
+        - 0.21299999356269836
+      m5_snapshot:
+        path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/snapshots/C08_CAPTURE_DIAGNOSTIC.glb
+        sha256: 56DBAAE02EE0BBC89BFCE01D0A87673028F0A04645BC2AA8195910CB0A8AFFB9
+    status: DIAGNOSTIC_PRIMITIVE_SCOPE_ONLY_WHOLE_ASSEMBLY_BBOX_HOLD
+  components_diagnostic_branch_A:
+  - component_id: spacecraft_bus_no_panels
+    mass_kg: 23.3032134
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    transform_ref: null
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: m4_system_mass_properties_v3
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_classification: BUDGETED
+    com_S_m:
+    - 0.5452191319893124
+    - 0.00028415086978255945
+    - -0.011459460126495074
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_BINDING
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.PREGRASP_SCENE_CANDIDATE
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: b601_named_pose_revalidation
+    pose_status: DIAGNOSTIC_CANDIDATE_HOLD_FOR_CAPTURE_DYNAMICS
+  - component_id: target_22kg_scenario
+    mass_kg: 22.0
+    mass_classification: PROVISIONAL
+    com_S_m:
+    - 1.20173
+    - 0.0
+    - -0.09979
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.target_capture_pose_candidates.capture_22kg_satellite
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  collision:
+    whole_assembly_evaluated: false
+    status: HOLD_SEE_M5_BROADPHASE_CONTRACT_NO_NARROW_PHASE_OR_SYSTEM_RELEASE
+  confidence: LOW_SCENARIO_DIAGNOSTIC_ONLY
+  status: DIAGNOSTIC_VALUES_UNDER_CANDIDATE_TRANSFORMS_RELEASE_PROPERTIES_HOLD
+- configuration_id: C09
+  name: TARGET_CAPTURE_150KG
+  legacy_mapping: POST_CAPTURE_150KG
+  transform_binding: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#configuration_bindings[C09]
+  release_aggregation_active: false
+  mass:
+    released_value_kg: null
+    released_standard_uncertainty_kg: null
+    diagnostic_branches:
+      legacy_A_value_kg: 178.69555594934297
+      legacy_A_model: M4-DIAG-LEGACY-A + 150.0 kg target scenario; M3R excluded
+      m3r_B_value_kg: 179.08143676469098
+      m3r_B_model: ADR rev2 diagnostic uncaptured total 29.081436764691 kg + 150.0 kg target under nonauthoritative rigid-capture
+        scenario
+      branch_definition_source: SYSTEM_MASS_PROPERTIES_V3.yaml#diagnostic_nonrelease_branches
+    diagnostic_standard_uncertainty_kg: null
+    status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+  cg:
+    released_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    released_standard_uncertainty_xyz_m: null
+    diagnostic_branch_A_xyz_m:
+    - 1.3652355555068034
+    - 7.4665891942870495e-06
+    - -0.9408243459482943
+    diagnostic_branch_A_scope: BUS_NO_PANELS_PLUS_TWO_PANELS_PLUS_B601_PLUS_TARGET_SCENARIO
+    diagnostic_branch_B_xyz_m: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_xyz_m: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  inertia:
+    released_matrix_kg_m2: null
+    reference_frame: spacecraft_assembly_frame
+    reference_point: configuration_system_CG
+    released_standard_uncertainty_matrix_kg_m2: null
+    diagnostic_branch_A_matrix_kg_m2:
+    - - 105.22948483245423
+      - 0.0011235104527178748
+      - 41.115797582972036
+    - - 0.0011235104527178748
+      - 162.62068496404495
+      - -0.001274067006937498
+    - - 41.115797582972036
+      - -0.001274067006937498
+      - 84.22392931046473
+    diagnostic_branch_B_matrix_kg_m2: null
+    diagnostic_branch_B_status: HOLD_M3R_COMPONENT_COM_INERTIA_UNKNOWN_AND_BUS_CORE_COM_ALLOCATION_NOT_RATIFIED_LEGACY_FLANGE_BOUNDARY_RULING_PRESERVED
+    diagnostic_standard_uncertainty_matrix_kg_m2: null
+    status: DIAGNOSTIC_BRANCH_A_NUMERIC_UNDER_CANDIDATE_TRANSFORMS_RELEASE_HOLD
+  bbox:
+    released_min_xyz_m: null
+    released_max_xyz_m: null
+    released_extent_xyz_m: null
+    reference_frame: spacecraft_assembly_frame
+    diagnostic_aggregation_scope_min_xyz_m:
+    - -0.17025
+    - -0.31315000000000004
+    - -0.11315
+    diagnostic_aggregation_scope_max_xyz_m:
+    - 0.18525
+    - 0.31315000000000004
+    - 0.11315
+    diagnostic_aggregation_scope_extent_xyz_m:
+    - 0.35550000000000004
+    - 0.6263000000000001
+    - 0.2263
+    diagnostic_scope: BUS_BAYS_BOX_PLUS_LEGACY_FLANGE_BOX_PLUS_PANEL_PLATE_BOXES_UNDER_CANDIDATE_TRANSFORMS_NOT_ARM_NOT_TARGET_NOT_WHOLE_ASSEMBLY
+    cross_references:
+      m5_whole_assembly_diagnostic_bbox_S_m:
+      - - -0.183
+        - -0.6597948670387268
+        - -2.55
+      - - 2.270000026226044
+        - 0.6597948670387268
+        - 0.16656311556932082
+      m5_snapshot:
+        path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/snapshots/C09_POST_CAPTURE_DIAGNOSTIC.glb
+        sha256: 6DBC46A78F1382D35A3EE372DA4C16D7BFE7186DCF17A4B02E5AE4B2B53B8FF8
+    status: DIAGNOSTIC_PRIMITIVE_SCOPE_ONLY_WHOLE_ASSEMBLY_BBOX_HOLD
+  components_diagnostic_branch_A:
+  - component_id: spacecraft_bus_no_panels
+    mass_kg: 23.3032134
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.0007955
+    - 0.0
+    - 0.000587
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: NOT_REQUIRED_ALREADY_IN_S
+    transform_ref: null
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: m4_system_mass_properties_v3
+  - component_id: solar_array_left
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - 0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_left_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: solar_array_right
+    mass_kg: 0.3483933
+    mass_classification: BUDGETED
+    com_S_m:
+    - -0.05675
+    - -0.21315
+    - 0.0
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.panel_transforms.panel_right_deployed
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  - component_id: b601_complete_arm_including_gripper_urdf_links
+    mass_kg: 4.695555949342986
+    mass_classification: BUDGETED
+    com_S_m:
+    - 0.5452191319893124
+    - 0.00028415086978255945
+    - -0.011459460126495074
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_BINDING
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.arm_named_pose_bindings.PREGRASP_SCENE_CANDIDATE
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: b601_named_pose_revalidation
+    pose_status: DIAGNOSTIC_CANDIDATE_HOLD_FOR_CAPTURE_DYNAMICS
+  - component_id: target_150kg_scenario
+    mass_kg: 150.0
+    mass_classification: PROVISIONAL
+    com_S_m:
+    - 1.60973
+    - 0.0
+    - -1.12054
+    com_classification: DIGITAL_MODEL_DERIVED
+    transform_classification: CANDIDATE_TRANSFORM
+    transform_ref: CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml#transform_library.target_capture_pose_candidates.capture_150kg_debris
+    inertia_role: own_com_tensor_rotated_into_S_plus_parallel_axis
+    inertia_classification: DIGITAL_MODEL_DERIVED
+    standard_uncertainty: null
+    uncertainty_status: HOLD
+    source_ref: stage1_mass_budget
+  collision:
+    whole_assembly_evaluated: false
+    status: HOLD_SEE_M5_BROADPHASE_CONTRACT_NO_NARROW_PHASE_OR_SYSTEM_RELEASE
+  confidence: LOW_SCENARIO_DIAGNOSTIC_ONLY
+  status: DIAGNOSTIC_VALUES_UNDER_CANDIDATE_TRANSFORMS_RELEASE_PROPERTIES_HOLD
+summary:
+  configuration_count: 9
+  released_mass_count: 0
+  released_cg_count: 0
+  released_inertia_count: 0
+  released_bbox_count: 0
+  diagnostic_mass_count: 9
+  diagnostic_cg_branch_A_count: 9
+  diagnostic_inertia_branch_A_count: 9
+  diagnostic_cg_branch_B_count: 0
+  diagnostic_inertia_branch_B_count: 0
+  all_checks_pass: true
+  diagnostic_use_authorization: DIGITAL_WIRING_SANITY_AND_RANGE_CHECK_ONLY_NOT_RELEASE_LOADS_FEA_MARGIN_OR_QUALIFICATION
+missing_authorities_preserved:
+- COMPLETE_COMPONENT_COVERAGE_AND_OWNERSHIP
+- STOW_AND_CAPTURE_ARM_CONFIGURATION_RELEASE_PLUS_GRIPPER_JOINT_VECTORS
+- PANEL_DEPLOYED_FAILED_AND_STOWED_TRANSFORMS
+- M3R_COMPONENT_MASS_COM_INERTIA_AND_EXCLUDED_HARDWARE
+- TARGET_CAPTURE_TRANSFORMS_AND_PHYSICAL_MASS_PROPERTIES
+- ROOT_TO_M_FRAME
+- TRACEABLE_STANDARD_UNCERTAINTIES_AND_CORRELATIONS
+- WHOLE_ASSEMBLY_BBOX_AND_COLLISION_EVALUATION
+- LEGACY_FLANGE_OWNERSHIP_ALLOCATION_AND_SPACECRAFT_LOAD_BRIDGE_GEOMETRY
+- PANEL_FULL_HINGE_KINEMATICS_RATIFICATION
+- PANEL_FAILURE_RETAINED_OR_JETTISONED_APPROVAL
+- TARGET_CAPTURE_TRANSFORM_RATIFICATION
+release_prohibitions:
+- DO_NOT_LABEL_ANY_NUMERIC_VALUE_IN_THIS_FILE_AS_MEASURED_OR_AS_INSTALLED
+- DO_NOT_PROMOTE_DIAGNOSTIC_MASS_SUMS_TO_RELEASED_SYSTEM_MASS
+- DO_NOT_ZERO_FILL_UNKNOWN_COM_INERTIA_TRANSFORM_OR_UNCERTAINTY
+- DO_NOT_USE_FOR_FORMAL_LOADS_FEA_MARGIN_OR_QUALIFICATION
+- DO_NOT_BIND_TO_SIM13_PRODUCTION_UNTIL_THE_M4_GATE_EXPLICITLY_RELEASES_A_CONFIGURATION
+- DO_NOT_TREAT_CANDIDATE_TRANSFORMS_AS_RATIFIED_HINGE_OR_CAPTURE_KINEMATICS
+- DO_NOT_WRITE_ANY_VALUE_OF_THIS_FILE_BACK_INTO_M4_M5_CDR_OR_SIM_BASELINES

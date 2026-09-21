@@ -1,0 +1,42 @@
+schema: B601_FLEX_MODEL_V1
+generated: "2026-08-04"
+status: SEED (all stiffness TBD pending F3-P1 geometry + vendor joint stiffness)
+purpose: "coupled flexible-body dynamics interface for sim_11/sim_07 consistency (Paper 1柔性耦合)"
+units: {stiffness_linear: N/mm, stiffness_torsional: Nm/rad}
+link_stiffness:
+  link1: {kx: TBD, ky: TBD, kz: TBD, note: "vendor link shell; TBD pending D8 cover decision"}
+  link2: {kx: TBD, ky: TBD, kz: TBD, note: "longest cantilever link (264 mm J2->J3); dominant bending"}
+  link3: {kx: TBD, ky: TBD, kz: TBD, note: ""}
+  link4: {kx: TBD, ky: TBD, kz: TBD, note: ""}
+  link5: {kx: TBD, ky: TBD, kz: TBD, note: ""}
+  link6: {kx: TBD, ky: TBD, kz: TBD, note: ""}
+joint_stiffness:
+  J1: {k_theta: TBD, note: "vendor harmonic drive; spec required (D1)"}
+  J2: {k_theta: TBD, note: "shoulder; dominant joint flexibility"}
+  J3: {k_theta: TBD}
+  J4: {k_theta: TBD}
+  J5: {k_theta: TBD}
+  J6: {k_theta: TBD}
+base_compliance:
+  base_adapter: {kz: "preliminary from F2 unit-load FEM (5.085e-08 mm / 1000 N -> not load-qualified)", note: "real compliance pending proper load path FEM"}
+  mount_interface: {kx: TBD, ky: TBD, kz: TBD, note: "MOUNT_FACE_X=198; T_SM dual-track O3 unresolved"}
+support_stiffness:
+  G07_contact: {kn: TBD, kt: TBD, note: "STOW_CONTACT_QUALIFICATION=HOLD (D4)"}
+  G08_wrist: {k6dof: TBD, note: "primary+secondary stop+preload+damping"}
+  HDRM_latch: {klatch: TBD}
+solar_panel_coupling:
+  note: "sim_07 ANCF: point-capture excitation vs rigid ~92x; ringing 37-75 s. F3 flex model must NOT double-count with sim_11 ANCF panel DOFs."
+modal_cases_planned:
+  case1_base_fixed_arm_deployed:
+    boundary: "base_link fixed"
+    output: "first 10 modes, frequency, dominant component"
+    status: NOT_RUN
+  case2_free_floating_spacecraft_plus_arm:
+    boundary: "free-floating (spacecraft + arm)"
+    output: "first 10 modes, frequency, dominant component"
+    status: NOT_RUN
+    note: "must reconcile with sim_05 free-floating arm disturbance (19.20 deg) and sim_11 coupled dynamics"
+open_items:
+  - "vendor joint stiffness specs required (D1)"
+  - "link shell stiffness requires D8 cover decision and material confirmation"
+  - "G07/G08 stiffness blocked by D4 contact qualification"

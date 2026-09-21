@@ -1,0 +1,335 @@
+可以。现在最合理的做法不是继续让 Codex 每完成一个微小动作就向你索取一句授权，而是改成：
+
+> **一次性站立委托 + 分级自治 + 多 Agent 法定人数裁决 + Gate 自动续跑 + 不可委托边界保留。**
+
+我已经按你上传的 S00/G1 评审工作集重新梳理。当前审查包里真正阻塞 G1A 的不是机械原理本身，而是权威链、命名歧义、容差表、Stage A 残留锁文件、V2 输入锁和 Manifest 尚未机器闭合；最终 Skeleton、Carrier 和关节装配仍不存在。 
+
+# 一、改成自治模式后的基本规则
+
+以后不再要求你逐次批准以下内容：
+
+* G1A 的 datum、命名和数值容差裁决；
+* 过期临时锁文件的隔离处置；
+* V2 输入锁、Manifest、Receipt、Claim Matrix 重建；
+* S01–S06 的 Skeleton、10 Carrier、9关节及 T005-A0/B0/C0；
+* 精细几何挂接；
+* 适配器 A/B/C 候选比较；
+* G07/G08/HDRM 候选设计；
+* H10 返工；
+* 顶层装配、连续间隙和初步结构分析；
+* 机械—控制交接草案和候选工程图。
+
+它们由 A0/A6/A7 和专业 Agent 根据机器证据自动决定，不再每一步向你提问。
+
+## 仍然不能交给 Agent 自行越权的内容
+
+只有以下事项仍保留人工边界：
+
+* 修改 V2.2、B5.0、B5.1、Stage A 等冻结资产；
+* 修改 accepted URDF 或供应商 STEP；
+* 改变 accepted 拓扑、质量和惯量权威；
+* 驱动真实机械臂或其他硬件；
+* 下采购单；
+* 对外发布制造就绪、发射合格或飞行就绪结论；
+* 在没有权威发射接口 ICD 时确定最终 Mode A/Mode B 飞行架构。
+
+其余隔离候选工程均可自治运行。
+
+---
+
+# 二、我对当前 G1A 的自主技术裁决
+
+## 1. Datum 自动采用
+
+```text
+±101.65 mm ＝ 纵梁中心轴
+±110.15 mm ＝ 主承力结构表面
+±113.15 mm ＝ 可拆面板外表面与 footprint 层
+±105.65 mm ＝ 历史未解析字段，保留但禁止驱动几何
+```
+
+这保留了历史证据，同时避免为了过 Gate 强行猜测 105.65 mm 的物理语义。现有执行图也明确区分纵梁轴、承力面和可拆面板，并禁止让面板获得主载荷路径信用。
+
+## 2. 不直接批准当前反直觉命名
+
+当前待冻结方案存在一个明显风险：
+
+* `CS_CHILD_JOINT_<JOINT>`被放在父 Carrier；
+* `CS_PARENT_JOINT_<JOINT>`被放在子 Carrier。
+
+它虽然可以内部自洽，但极易导致：
+
+* API 查错对象；
+* parent/child方向误解；
+* joint ownership写反；
+* 后续控制人员理解错误。
+
+由于目前原生 Carrier 仍为 `0/10`，现在修正成本最低。因此改为：
+
+```text
+CS_LINK_<LINK>
+
+CS_JOINT_<JOINT>_PARENT_SIDE
+CS_JOINT_<JOINT>_CHILD_SIDE
+
+AXIS_<JOINT>
+PLANE_ZERO_<JOINT>
+
+CS_VISUAL_MOUNT_<LINK>
+```
+
+所有旧名称只保留在只读 alias register，禁止用于 API 查询，也不创建重复 CAD 特征。
+
+### Ownership
+
+父 Carrier拥有：
+
+```text
+CS_JOINT_<JOINT>_PARENT_SIDE
+```
+
+子 Carrier拥有：
+
+```text
+CS_JOINT_<JOINT>_CHILD_SIDE
+AXIS_<JOINT>
+PLANE_ZERO_<JOINT>
+```
+
+两个P分支则分别由左右指 Carrier拥有自己的轴和零位，不再存在命名方向歧义。
+
+---
+
+# 三、容差不再需要逐项找你签字
+
+采用两级机器验收。
+
+## 名义门槛
+
+| 项目          |                  门槛 |
+| ----------- | ------------------: |
+| 坐标系平移回读     |            `1e-8 m` |
+| 坐标系旋转回读     |          `1e-8 rad` |
+| Link FK平移   |            `5e-6 m` |
+| Link FK旋转   |          `5e-6 rad` |
+| R关节回读/q0/限位 |          `1e-6 rad` |
+| P关节回读/q0/限位 |            `1e-6 m` |
+| 同文档回q0 FK   | `5e-6 m / 5e-6 rad` |
+
+## 自动重复性处理
+
+如果首次超限：
+
+1. 保留首次失败；
+2. 相同条件重复10次；
+3. 计算最大值、均值、标准差和原始序列；
+4. 在硬上限内，可以判：
+
+```text
+PASS_WITH_MEASURED_REPEATABILITY_BOUND_AUTHORING_ONLY
+```
+
+硬上限：
+
+| 项目       |          自治硬上限 |
+| -------- | -------------: |
+| 坐标系平移/旋转 | `1e-7 m / rad` |
+| FK平移/旋转  | `2e-5 m / rad` |
+| R/P标量回读  | `5e-6 rad / m` |
+
+这种条件通过只允许继续 CAD 创作，**不能替代最终正式 T005，也不能释放控制模型**。超过硬上限则自动 fail-closed，不向你反复索要放宽门槛。
+
+---
+
+# 四、35项 Finding 的自治处置方式
+
+现有评审包包含：
+
+* 11项 Critical；
+* 22项 High；
+* 2项 Medium。
+
+自治系统不再要求你逐条签字，而是按 Gate 范围处理：
+
+## 当前 Gate 的 Critical/High
+
+必须关闭，不能延期。
+
+需要同时满足：
+
+* A0确认权威；
+* A6确认机器证据；
+* 专业 Agent确认技术闭环；
+* A7红队无否决。
+
+## 下游问题
+
+允许保留为：
+
+```text
+DEFERRED_HOLD_REGISTERED
+```
+
+但必须写明重新激活 Gate。
+
+例如：
+
+* G07/G08载荷路径 → G7/G9重新激活；
+* 6×6基座矩阵 → G9/G10重新激活；
+* 相机/F-T/SAFE合同 → G10重新激活；
+* URDF缺失网格 → G6前重新激活。
+
+不得为了让 S01 启动而伪造这些问题已经解决。
+
+---
+
+# 五、Stage A残留锁文件自治处置
+
+当前6字节`~$`文件不再等待人工删除授权，而采用：
+
+```text
+HASH_AND_QUARANTINE_NOT_DELETE
+```
+
+条件：
+
+* SolidWorks进程数为0；
+* 文件大小精确为6字节；
+* SHA-256精确匹配已登记值。
+
+动作：
+
+1. 复制/移动到候选目录的锁文件隔离区；
+2. 保留原字节和哈希；
+3. 复算 Stage A 哈希；
+4. 确认Stage A未变化；
+5. 生成处置收据。
+
+不永久删除，不碰正式Stage A文件。
+
+---
+
+# 六、自动 SolidWorks 会话计划
+
+自治章程提供20次可见会话额度，每次：
+
+* 只有一个SolidWorks进程；
+* 只有一个主要任务；
+* 有唯一Session ID；
+* 上一Gate机器通过后自动进入下一Session；
+* 不再向你逐次索要授权。
+
+## 第一阶段
+
+```text
+S01  创建最终Master Skeleton
+S02  冷重开验收Skeleton
+S03  创建10个Carrier
+S04  冷重开10个Carrier
+S05  J00—J09 + T005-A0/B0
+S06  T005-C0
+```
+
+## 后续自动阶段
+
+```text
+S07  精细几何按link挂接
+S08  正式T005-A/B
+S09  正式T005-C
+S10  适配器候选
+S11  G07/G08/HDRM
+S12  H10返工
+S13  顶层整星
+S14  G8a刚体连续间隙
+S15  G8b鲁棒连续间隙
+S16  初步结构和模态
+S17  质量账与控制交接
+S18  候选工程图与交换包
+```
+
+任何Session失败时，Agent最多尝试两种技术路线不同的恢复方法；仍失败则只停止该分支并生成异常包，不阻塞其他独立分支。
+
+---
+
+# 七、自动机械设计仍然遵循的核心结构
+
+## 运动层
+
+```text
+Master Skeleton
+  ↓
+10个零质量Carrier
+  ↓
+6R + 1 fixed + 2 independent P
+  ↓
+T005
+```
+
+## 几何层
+
+```text
+精细B601几何
+  ↓
+仅挂接CS_VISUAL_MOUNT_<LINK>
+  ↓
+不承担运动Mate
+```
+
+## 航天器接口层
+
+```text
+B601基座
+→ 适配器
+→ 真实主框/纵梁
+→ 航天器主结构
+```
+
+可拆面板永远不获得根部力矩主载荷路径信用。
+
+## 具身智能层
+
+```text
+感知
+→ 候选动作
+→ 物理与动力学计算
+→ SAFE/UNKNOWN
+→ 控制执行许可
+```
+
+VLA不能绕过物理与安全层。
+
+---
+
+# 八、H9的自治处理
+
+H9不强制自主拍板。
+
+没有 launcher/deployer ICD 时，自治系统默认：
+
+```text
+DUAL_BRANCH_MODE_A_MODE_B
+```
+
+即：
+
+* 共用Skeleton和Carrier继续；
+* Mode A/Mode B使用配置分支；
+* 不对最终飞行构型做虚假下选；
+* 允许分别形成候选适配器和包络分析。
+
+这样不会因为缺少外部接口文件而让整个机械设计停住。
+
+---
+
+# 九、生成的自治执行包
+
+* [下载自治Loop＋多Agent完整工程包](sandbox:/mnt/data/B51R1_AUTONOMOUS_LOOP_MULTIAGENT_ENGINEERING_PACKAGE.zip)
+* [自治工程授权章程](sandbox:/mnt/data/B51R1_AUTONOMOUS_LOOP_MULTIAGENT_ENGINEERING_PACKAGE/B51R1_AUTONOMOUS_ENGINEERING_CHARTER.yaml)
+* [G1A自治裁决](sandbox:/mnt/data/B51R1_AUTONOMOUS_LOOP_MULTIAGENT_ENGINEERING_PACKAGE/B51R1_G1A_AUTONOMOUS_ADJUDICATION.yaml)
+* [Codex自治机械设计主提示词](sandbox:/mnt/data/B51R1_AUTONOMOUS_LOOP_MULTIAGENT_ENGINEERING_PACKAGE/CODEX_B51R1_AUTONOMOUS_LOOP_MULTIAGENT_MASTER_PROMPT.md)
+* [自动会话推进计划](sandbox:/mnt/data/B51R1_AUTONOMOUS_LOOP_MULTIAGENT_ENGINEERING_PACKAGE/B51R1_AUTONOMOUS_SESSION_PLAN.yaml)
+* [Finding自治处置政策](sandbox:/mnt/data/B51R1_AUTONOMOUS_LOOP_MULTIAGENT_ENGINEERING_PACKAGE/B51R1_AUTONOMOUS_FINDING_DISPOSITION_POLICY.csv)
+
+将主提示词和章程一起交给本地Codex后，它应先自动关闭G1A、重冻结V2输入锁，再自动进入S01，而不是继续要求你逐条签署三份Pending文件。
+
+当前生成的是**自治执行政策和完整机械设计提示词**；尚未在你的本地SolidWorks中创建最终Skeleton或Carrier。

@@ -1,0 +1,433 @@
+{
+ "schema": "A3_30_DEPLOYER_REFERENCE_MODEL_V1",
+ "model_class": "CDS_R14_1_GENERIC_PRELIMINARY",
+ "deployer_specific_icd": "MISSING",
+ "nanoracks_12u": "NOT_EVALUATED__DEPLOYER_ICD_MISSING",
+ "constants": {
+  "rail_width_mm": 8.5,
+  "rail_end_contact_mm": 6.5,
+  "first_protrusion_clearance_mm": 8.5,
+  "lateral_protrusion_max_mm": 6.5
+ },
+ "frames": {
+  "R_CDS": {
+   "description": "generic CDS 12U reference frame",
+   "origin": "centre of the 366.0 x 226.3 x 226.3 envelope",
+   "x": "+X = deployment / longitudinal axis, ejection direction +X",
+   "y": "+Y lateral face normal",
+   "z": "+Z lateral face normal"
+  },
+  "S": {
+   "description": "spacecraft mechanical frame (project SSOT)",
+   "note": "frame_tree_v1.yaml: S origin = 12U geometric centre; bus long axis = X_S"
+  },
+  "A": {
+   "description": "B601 arm base frame (accepted URDF base_link)"
+  },
+  "T_S_RCDS": {
+   "rotation": "identity (X_S -> X_RCDS, Y_S -> Y_RCDS, Z_S -> Z_RCDS)",
+   "translation_mm": [
+    0,
+    0,
+    0
+   ],
+   "status": "PROVISIONAL_BUT_EXPLICIT",
+   "basis": "frame_tree_v1.yaml puts the bus long axis on X_S and the project bus x-extent is symmetric about 0; the CDS long axis is therefore mapped to X_S. No owner signoff of this mapping exists."
+  },
+  "axis_roles": {
+   "longitudinal_axis": "X",
+   "lateral_faces": [
+    "+Y",
+    "-Y",
+    "+Z",
+    "-Z"
+   ],
+   "rail_planes": "four corner rails running the full X length at (+-Y_max, +-Z_max)",
+   "insertion_direction": "-X",
+   "ejection_direction": "+X",
+   "spacecraft_base_datum": "R_CDS origin (envelope centre)"
+  }
+ },
+ "zones": [
+  {
+   "zone_id": "NOMINAL_12U_ENVELOPE",
+   "zone_type": "ENVELOPE",
+   "frame": "R_CDS",
+   "origin_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    366.0,
+    226.3,
+    226.3
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "REFERENCE",
+   "enabled": true,
+   "notes": "366.0 x 226.3 x 226.3 rail-reference envelope"
+  },
+  {
+   "zone_id": "RAIL_CONTACT_PY_PZ",
+   "zone_type": "RAIL_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    0.0,
+    108.9,
+    108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    366.0,
+    8.5,
+    8.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "8.5 x 8.5 corner rail strip, full length; must be free for bus rail material"
+  },
+  {
+   "zone_id": "RAIL_END_CONTACT_PX_PY_PZ",
+   "zone_type": "RAIL_END_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    179.75,
+    108.9,
+    108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    6.5,
+    6.5,
+    6.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "6.5 x 6.5 rail end contact square"
+  },
+  {
+   "zone_id": "RAIL_END_CONTACT_NX_PY_PZ",
+   "zone_type": "RAIL_END_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    -179.75,
+    108.9,
+    108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    6.5,
+    6.5,
+    6.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "6.5 x 6.5 rail end contact square"
+  },
+  {
+   "zone_id": "RAIL_CONTACT_PY_NZ",
+   "zone_type": "RAIL_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    0.0,
+    108.9,
+    -108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    366.0,
+    8.5,
+    8.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "8.5 x 8.5 corner rail strip, full length; must be free for bus rail material"
+  },
+  {
+   "zone_id": "RAIL_END_CONTACT_PX_PY_NZ",
+   "zone_type": "RAIL_END_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    179.75,
+    108.9,
+    -108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    6.5,
+    6.5,
+    6.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "6.5 x 6.5 rail end contact square"
+  },
+  {
+   "zone_id": "RAIL_END_CONTACT_NX_PY_NZ",
+   "zone_type": "RAIL_END_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    -179.75,
+    108.9,
+    -108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    6.5,
+    6.5,
+    6.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "6.5 x 6.5 rail end contact square"
+  },
+  {
+   "zone_id": "RAIL_CONTACT_NY_PZ",
+   "zone_type": "RAIL_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    0.0,
+    -108.9,
+    108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    366.0,
+    8.5,
+    8.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "8.5 x 8.5 corner rail strip, full length; must be free for bus rail material"
+  },
+  {
+   "zone_id": "RAIL_END_CONTACT_PX_NY_PZ",
+   "zone_type": "RAIL_END_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    179.75,
+    -108.9,
+    108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    6.5,
+    6.5,
+    6.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "6.5 x 6.5 rail end contact square"
+  },
+  {
+   "zone_id": "RAIL_END_CONTACT_NX_NY_PZ",
+   "zone_type": "RAIL_END_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    -179.75,
+    -108.9,
+    108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    6.5,
+    6.5,
+    6.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "6.5 x 6.5 rail end contact square"
+  },
+  {
+   "zone_id": "RAIL_CONTACT_NY_NZ",
+   "zone_type": "RAIL_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    0.0,
+    -108.9,
+    -108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    366.0,
+    8.5,
+    8.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "8.5 x 8.5 corner rail strip, full length; must be free for bus rail material"
+  },
+  {
+   "zone_id": "RAIL_END_CONTACT_PX_NY_NZ",
+   "zone_type": "RAIL_END_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    179.75,
+    -108.9,
+    -108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    6.5,
+    6.5,
+    6.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "6.5 x 6.5 rail end contact square"
+  },
+  {
+   "zone_id": "RAIL_END_CONTACT_NX_NY_NZ",
+   "zone_type": "RAIL_END_CONTACT",
+   "frame": "R_CDS",
+   "origin_mm": [
+    -179.75,
+    -108.9,
+    -108.9
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    6.5,
+    6.5,
+    6.5
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "6.5 x 6.5 rail end contact square"
+  },
+  {
+   "zone_id": "FIRST_PROTRUSION_KEEPOUT",
+   "zone_type": "PROTRUSION_RULE",
+   "frame": "R_CDS",
+   "origin_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    366.0,
+    0.0,
+    0.0
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "any protruding feature must be >= 8.5 mm from a rail edge"
+  },
+  {
+   "zone_id": "LATERAL_PROTRUSION_REFERENCE_REGION",
+   "zone_type": "PROTRUSION_RULE",
+   "frame": "R_CDS",
+   "origin_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    366.0,
+    0.0,
+    0.0
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "HARD",
+   "enabled": true,
+   "notes": "max 6.5 mm protrusion normal to a rail plane, outside the rail strips"
+  },
+  {
+   "zone_id": "INSERTION_DIRECTION_KEEP_OUT",
+   "zone_type": "END_FEATURE",
+   "frame": "R_CDS",
+   "origin_mm": [
+    -183.0,
+    0.0,
+    0.0
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    0.0,
+    226.3,
+    226.3
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "PROVISIONAL",
+   "enabled": true,
+   "notes": "pusher-plate side; nothing may extend beyond -X end face"
+  },
+  {
+   "zone_id": "EJECTION_DIRECTION_KEEP_OUT",
+   "zone_type": "END_FEATURE",
+   "frame": "R_CDS",
+   "origin_mm": [
+    183.0,
+    0.0,
+    0.0
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    0.0,
+    226.3,
+    226.3
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "PROVISIONAL",
+   "enabled": true,
+   "notes": "door side; nothing may extend beyond +X end face"
+  },
+  {
+   "zone_id": "END_FACE_KEEP_OUT",
+   "zone_type": "END_FEATURE",
+   "frame": "R_CDS",
+   "origin_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    366.0,
+    226.3,
+    226.3
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "PROVISIONAL",
+   "enabled": true,
+   "notes": "both end faces treated as flat plates"
+  },
+  {
+   "zone_id": "OPTIONAL_EXTRA_VOLUME",
+   "zone_type": "OPTIONAL",
+   "frame": "R_CDS",
+   "origin_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": "X_longitudinal",
+   "dimensions_mm": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "source_authority": "CDS Rev 14.1 generic text (no deployer-specific ICD present)",
+   "hard_or_provisional": "PROVISIONAL",
+   "enabled": false,
+   "notes": "tuna-can / extra volume is deployer dependent; DISABLED BY DEFAULT"
+  }
+ ]
+}

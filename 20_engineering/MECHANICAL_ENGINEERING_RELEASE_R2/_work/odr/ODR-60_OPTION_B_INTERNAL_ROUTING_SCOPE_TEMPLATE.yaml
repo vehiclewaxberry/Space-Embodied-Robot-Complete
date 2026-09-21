@@ -1,0 +1,141 @@
+schema: ODR60_OPTION_B_INTERNAL_ROUTING_SCOPE_TEMPLATE_V1
+generated_utc: DETERMINISTIC_REQUEST_TEMPLATE_NO_WALLCLOCK
+authority: REQUEST_TEMPLATE_ONLY__NOT_AUTHORIZED_FOR_EXECUTION
+decision_token: AUTHORIZE_OPTION_B_VENDOR_INTERNAL_ROUTING_OR_SLIP_RING_FEASIBILITY
+review_status: PENDING_OWNER_DECISION
+next_stage_authorized: false
+release_credit: false
+
+purpose: >-
+  Reopen the currently forbidden B601 vendor-body boundary only far enough to establish
+  whether an internal cable path, hollow-shaft feedthrough, rotary electrical interface
+  or slip-ring architecture can replace the failed external passive dress-pack.
+
+input_pins:
+  terminal_ruling:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_V9F_TERMINAL_RULING.json
+    sha256: 09611DDB8ADC96D82C7446B5EDD7877C075DCCEBE9166550014282DDD25054D5
+  accepted_b601_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  vendor_b601_step:
+    path: 80_third_party/vendor/reBot-DevArm/hardware/reBot_B601_DM/reBot_B601_DM_v1.1_20260425.step
+    sha256: 87A0537D1AFD50C04FC441FDE11DD4F2EBBB368FE27F6C10FDA8567BE696D968
+  vendor_b601_readme:
+    path: 80_third_party/vendor/reBot-DevArm/hardware/reBot_B601_DM/readme.md
+    sha256: 02B00FC7331603C36756BAE539AF4C79D8CC6A2206C33CF3DFE53606D4ECC252
+  current_system_interface:
+    path: 30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/interfaces/MECH_RL_SYSTEM_INTERFACE_V2.yaml
+    sha256: B105766EC1F19EEC25D4A40F4D4AFAEAB3955AE9E0EDFFCD691754E5A3DBB8E8
+
+current_evidence_boundary:
+  vendor_step_exists: true
+  vendor_readme_documents_external_wiring_harnesses_and_end_joint_cable_restraints: true
+  vendor_step_contains_named_wire_clip_wire_slip_cover_or_cable_restraint_occurrences: true
+  vendor_step_contains_five_named_cable_restraint_occurrences: true
+  vendor_step_contains_inheritable_actual_cable_harness_xt30_slip_ring_or_hollow_shaft_feedthrough_product: false
+  vendor_step_proves_a_continuous_internal_path: false
+  validated_continuous_internal_through_bore_exists: UNKNOWN
+  validated_joint_axis_feedthrough_envelopes_exist: UNKNOWN
+  vendor_approved_slip_ring_exists: UNKNOWN
+  internal_route_clearance_and_bend_radius_evidence_exists: false
+  rotary_interface_electrical_channel_map_exists: false
+  vacuum_temperature_radiation_and_life_rating_exists: false
+  slip_ring_drag_torque_curve_exists: false
+  conclusion: >-
+    Current project evidence cannot support a claim that internal routing or a slip ring
+    is geometrically, electrically or environmentally feasible. Absence of evidence is
+    not evidence of impossibility.
+
+why_this_is_a_new_architecture_authority:
+  - ODR-58 explicitly forbids modifying the accepted B601 URDF and vendor body.
+  - An internal path may require shaft, cover, motor-bracket, connector or bearing-stack changes.
+  - A slip ring adds mass, inertia, drag torque, electrical interfaces, heat and life limits.
+  - The accepted B601 subtree is hash-bound as current hardware truth in Unified R2 and Sim13.
+  - Any accepted change therefore requires an additive ECR branch and cannot overwrite current truth.
+
+stage_0_authorized_if_owner_selects_this_option:
+  name: VENDOR_INTERNAL_ROUTING_FEASIBILITY_ONLY
+  allowed:
+    - inspect and section the pinned vendor STEP in an isolated branch
+    - create a joint-by-joint internal passage and obstruction ledger
+    - request or register vendor drawings and motor/shaft/bearing cross-sections
+    - build non-authoritative envelope concepts for internal cable or rotary interfaces
+    - compare direct flex routing and slip-ring suboptions
+    - compute provisional mass, inertia, drag-torque and thermal allocations with explicit units and uncertainty classes
+  forbidden:
+    - overwrite accepted B601 URDF, meshes, inertials or hardware truth
+    - claim a bore from visual appearance or a bounding box
+    - subtract material from the vendor body without strength and bearing-load reassessment
+    - select a slip ring without exact channel, current, voltage, data, EMC and environment requirements
+    - issue Route-C, TMG-2, handoff, Sim13 or release PASS from a concept envelope
+
+required_vendor_or_measurement_inputs:
+  mechanical:
+    - dimensioned joint1-joint6 shaft, rotor, bearing, reducer and housing cross-sections
+    - minimum continuous through-bore diameter and eccentric-passage dimensions by joint
+    - allowed machining zones and forbidden load-path material
+    - connector and strain-relief installation envelopes
+    - bearing, shaft and housing load allowables after any passage change
+  electrical:
+    - exact power rails, maximum continuous and transient current, voltage and grounding
+    - signal count, protocols, data rates, shielding, impedance and EMC constraints
+    - connector, pin-map and bonding authority corresponding to MPI-01 through MPI-04
+  rotary_interface:
+    - candidate part number and channel map
+    - outer diameter, inner bore, axial length and mounting datums
+    - mass, center of mass and full inertia tensor
+    - starting and running torque versus temperature and life
+    - contact resistance, noise, crosstalk, insulation and dielectric limits
+    - cycle life, vacuum, outgassing, radiation and thermal-vacuum evidence
+  harness:
+    - exact cable construction, minimum dynamic bend radius and torsional restoring-moment curve
+    - installed routing, clamp clocking, service length and assembly sequence
+
+feasibility_downselect:
+  direct_internal_flex_route:
+    pass_requires:
+      - continuous passage through every crossed joint and link
+      - nonnegative robust clearance and bend margins over the required mission domain
+      - no bearing, reducer, motor, connector or structural load-path conflict
+      - quantified resistance torque and life
+  slip_ring_or_rotary_interface:
+    pass_requires:
+      - exact electrical channel and environment compatibility
+      - geometric integration without load-path or bearing conflict
+      - bounded drag torque within actuator and control budgets
+      - mass, center of mass, inertia, thermal and life integration
+  no_suboption_passes:
+    disposition: RETURN_TO_OWNER__NO_FURTHER_ARCHITECTURE_INFERENCE
+
+stage_1_only_after_stage_0_pass:
+  - create a new B601 internal-routing hardware candidate in an isolated ECR namespace
+  - preserve the accepted URDF and vendor STEP as immutable historical inputs
+  - downselect only the minimum joint set justified by pinned evidence; do not default to six slip rings
+  - issue a new collision and inertial model rather than editing accepted generated artifacts
+  - revalidate joint origins, axes, limits, mass, center of mass and full inertia tensors
+  - repeat B601-M3R interface, system clearance, Solar keep-out and load-path checks
+  - repeat TMG-2, Unified R2 binding, handoff G01-G12 and Sim13 system binding
+
+required_stage_0_outputs_if_authorized:
+  - B601_INTERNAL_ROUTING_PASSAGE_LEDGER_V1.csv
+  - B601_INTERNAL_ROUTING_SECTION_REVIEW_V1.json
+  - B601_INTERNAL_ROUTING_VS_SLIP_RING_TRADE_V1.csv
+  - B601_ROTARY_INTERFACE_REQUIREMENTS_V1.yaml
+  - B601_VENDOR_INPUT_RFI_V1.md
+  - B601_INTERNAL_ROUTING_FEASIBILITY_GATE_V1.json
+  - ODR60_OPTION_B_SHA256.csv
+
+option_success_boundary: >-
+  Stage-0 PASS authorizes detailed ECR design only. It does not modify accepted B601
+  truth and does not issue operational, simulation, release or qualification credit.
+
+option_failure_boundary: >-
+  Missing vendor cross-sections, electrical authority or environment data remains
+  UNKNOWN and fails closed. It does not prove that a future vendor redesign is impossible.
+
+legal_stage_0_terminal_states_if_authorized:
+  - INTERNAL_PATH_FEASIBLE_WITH_PINNED_VENDOR_EVIDENCE__DETAILED_ECR_NOT_YET_AUTHORIZED
+  - ROTARY_INTERFACE_FEASIBLE_WITH_PINNED_VENDOR_AND_PART_EVIDENCE__DETAILED_ECR_NOT_YET_AUTHORIZED
+  - NO_SUBOPTION_FEASIBLE_WITHIN_PINNED_STAGE0_SCOPE__RETURN_TO_OWNER
+  - UNKNOWN_MISSING_VENDOR_OR_ELECTRICAL_AUTHORITY__HOLD

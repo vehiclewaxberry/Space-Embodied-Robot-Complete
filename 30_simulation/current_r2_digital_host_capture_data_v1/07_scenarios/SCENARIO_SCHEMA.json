@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SCENARIO_SCHEMA_V1",
+  "description": "场景定义合同：每个场景实例在运行前必须解析为本 schema；缺 required 字段 → 场景 HOLD。",
+  "type": "object",
+  "required": ["scenario_id", "base_state_id", "scope", "plant_binding", "required_authorities", "termination", "seed"],
+  "properties": {
+    "scenario_id": {"type": "string"},
+    "base_state_id": {"type": "string", "description": "同状态配对集的组键（D1 复用 sim_12 同状态证明思路）"},
+    "scope": {"enum": ["CONTRACT_ONLY", "NO_CONTACT_PREBIND", "HISTORY_REPLAY", "CONTACT_SYNTHETIC", "CONTACT_AUTHORITY_BOUND"]},
+    "plant_binding": {
+      "type": "object",
+      "required": ["plant_id", "plant_sha256", "urdf_sha256", "frame_contract_sha256", "unit_contract_sha256"],
+      "properties": {
+        "plant_id": {"type": "string"},
+        "plant_sha256": {"type": "string"},
+        "urdf_sha256": {"type": "string"},
+        "frame_contract_sha256": {"type": "string"},
+        "unit_contract_sha256": {"type": "string"},
+        "mount_transform_source": {"type": ["string", "null"]}
+      }
+    },
+    "initial_conditions": {"type": "object"},
+    "required_authorities": {"type": "array", "items": {"type": "object", "required": ["name", "status", "provisional_allowed"], "properties": {"name": {"type": "string"}, "status": {"type": "string"}, "provisional_allowed": {"type": "boolean"}}}},
+    "termination": {"type": "object", "required": ["t_end_s", "dt_s"], "properties": {"t_end_s": {"type": "number"}, "dt_s": {"type": "number"}}},
+    "controller": {"type": ["object", "null"]},
+    "seed": {"type": "integer"},
+    "strategy_id": {"type": "string", "enum": ["DIRECT_CAPTURE", "SPIN_MATCH", "MOMENTUM_PRESHAPE", "COMPLIANT_CAPTURE", "PROPULSION_ASSISTED", "ABORT", "NONE"]}
+  },
+  "x_fail_closed": [
+    "scope=CONTACT_* 且 T_E_T status!=VERIFIED → 场景拒绝解析",
+    "required_authorities 中任一 MISSING/UNKNOWN → SAFE decide=ABORT，场景可运行但终态锁定 ABORT",
+    "所有实际数值必须从本地配置读取，场景文件不得内联复制质量/惯量"
+  ]
+}

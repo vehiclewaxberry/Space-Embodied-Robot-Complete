@@ -1,0 +1,132 @@
+{
+  "schema": "V5R_LOOP1E_ATTEMPT2_RESULT_AND_THIRD_ATTEMPT_DECISION_V1",
+  "task": "V5_LOOP1E_NATIVE_RECOVERY_R1",
+  "owner_ruling_in_effect": "AUTHORIZE_LOW_MEMORY_EXECUTION_WITH_BOUNDED_NATIVE_ATTEMPTS_20260820",
+  "milestone": "M9",
+  "timestamp_utc": "2026-08-20T15:10:00Z",
+
+  "memory_gate_passed": false,
+  "owner_override_used": true,
+  "execution_authorized": true,
+  "owner_override_receipt_untouched": true,
+
+  "attempt_2_result": {
+    "started_utc": "2026-08-20T14:06:58Z",
+    "ended_utc": "2026-08-20T14:56:38Z",
+    "duration": "0:49:40",
+    "exit_code": 3,
+    "verdict": "V5_LOOP1E_UNEXPECTED_EXCEPTION",
+    "reason": "'IModelDoc2 instance' object has no attribute 'FeatureByName'",
+    "failing_line": 2691,
+    "failure_receipt": "13_validation/V5_LOOP1E_FAIL_20260820T145637.214317Z.json",
+    "dialog_block_recurred": false,
+    "cpu_seconds_consumed": 3932,
+    "comparison_to_attempt_1": "attempt 1 burned 113 minutes at ~45s CPU total (blocked on a dialog). Attempt 2 consumed 3932s CPU in 50 minutes - roughly 87x the work rate. This was real execution, not thrashing."
+  },
+
+  "primary_patch_VALIDATED_IN_PRODUCTION": {
+    "claim": "the IInverse/IMultiply -> Inverse/Multiply fix works in the real assembly",
+    "evidence": "the attempt-2 traceback passes through line 2838 (build_motion_contract) and reaches line 2691. relative_transform is called at line 2807, BEFORE 2691. Execution therefore ran relative_transform successfully on live geometry.",
+    "error_61836_recurred": false,
+    "significance": "the defect that ended the 2026-08-13 run and motivated this entire round is fixed and proven on production geometry, not merely on a synthetic probe transform.",
+    "also_proven": "the corrected operand order (second.Multiply(inverse)) produced a value that passed the line-2621 rigid-shape guard on real components; a reversed order would likely have tripped it or produced a non-rigid result"
+  },
+
+  "new_defect_found_and_fixed": {
+    "defect_class": "IDENTICAL to the primary one - a member called through a makepy wrapper that does not expose it",
+    "member": "FeatureByName",
+    "absent_from": "IModelDoc2",
+    "actually_lives_on": ["IAssemblyDoc", "IComponent2", "IDrawingDoc", "IPartDoc"],
+    "fix_1": {
+      "line": 2691,
+      "change": "route the feature lookup through a new IAssemblyDoc wrapper (owner_features) instead of the IModelDoc2 wrapper",
+      "guard_added": "explicit GetType == SW_DOC_ASSEMBLY check with LOCAL_ARM_OWNER_NOT_ASSEMBLY, so the IAssemblyDoc assumption is proven rather than assumed"
+    },
+    "fix_2_found_by_looking_ahead": {
+      "line": 3165,
+      "status": "SAME BUG, would have failed minutes later in the cold-reopen verification path",
+      "found_how": "grepped for sibling call sites instead of fixing only the one that crashed",
+      "value": "avoided spending an entire additional run to discover it"
+    },
+    "important_non_change": {
+      "line": 3166,
+      "member": "Parameter",
+      "finding": "Parameter exists ONLY on IModelDoc2 and NOT on IAssemblyDoc - the exact inverse of FeatureByName",
+      "action": "left on owner_model deliberately. A bulk find-and-replace of owner_model -> owner_features would have broken this line. Both wrappers are required and coexist.",
+      "verified_against": "the generated typelib, per-interface member sets"
+    }
+  },
+
+  "systematic_audit_to_stop_paying_one_run_per_defect": {
+    "tool": "99_tools/V5R_AUDIT_COM_MEMBERS.py",
+    "method": "parse the typelib for per-interface member sets, track base.wrap(x,\"IFoo\") assignments in the script, then verify every <var>.<Member>() call exists on that interface",
+    "typelib_classes_parsed": 979,
+    "wrapped_variables_attributed": 22,
+    "member_calls_checked": 65,
+    "mismatches_found": 0,
+    "verdict": "NO_REMAINING_INTERFACE_MEMBER_MISMATCH",
+    "honest_limitation": "285 member calls could NOT be attributed to a proven interface and were NOT judged. Most go through base.value()/base.as_list(), which normalise the method/property split and are inherently tolerant. This audit REDUCES the risk of another same-class failure; it does not eliminate it.",
+    "not_claimed": "this is not a proof that attempt 3 will succeed"
+  },
+
+  "post_fix_state": {
+    "script_sha256": "8F8B3964A39BF279F242B036926488FA03D99DED99B8C891EF321670EBCBEF63",
+    "script_bytes": 245028,
+    "py_compile": "OK",
+    "self_test": "V5_LOOP1E_OFFLINE_PERSIST_AND_AST_SELF_TEST_PASS",
+    "ast_contract_self_test": "V5_LOOP1E_SCRIPT_AST_CONTRACT_SELF_TEST_PASS",
+    "base_helper_both_copies": "E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906",
+    "base_helper_unchanged": true,
+    "audit_3_verdict": "V5_LOOP1E_STATIC_EXECUTION_READY",
+    "audit_3_execution_authorized": true,
+    "target_state": "PENDING_NEW",
+    "staging_isolation_records": 3,
+    "failures": 0,
+    "pending": 0
+  },
+
+  "integrity_state": {
+    "target_assembly_created": false,
+    "zero_byte_saves": false,
+    "six_byte_file_investigated": "the 6-byte ~$SEI_MECH...SLDASM seen during attempt 2 was a standard SolidWorks owner/lock file, not a save artifact. It is gone now that the document is closed. NOT a zero-byte save, NOT a hard stop.",
+    "donor_modified": false,
+    "frozen_hash_drift": false,
+    "isolated_staging_artifacts": 3,
+    "isolated_artifact_bytes": [27122742, 27125901, 27121219],
+    "all_isolated_artifacts_receipted": true,
+    "writes_outside_boundary": false,
+    "hard_stop_triggered": false
+  },
+
+  "timebox_and_attempt_accounting": {
+    "attempts_authorized": 2,
+    "attempts_consumed": 2,
+    "attempts_remaining_under_ruling": 0,
+    "attempt_1_duration": "1:52:37",
+    "attempt_2_duration": "0:49:40",
+    "total_in_attempts": "2:42:17",
+    "box_total": "4:00:00",
+    "box_remaining": "1:17:43"
+  },
+
+  "decision_point_escalated_to_owner": {
+    "situation": "both authorised native attempts are spent, so the ruling's default is automatic fallback. But the evidence does not match the failure mode the 2-attempt cap was written to prevent.",
+    "why_the_cap_arguably_does_not_fit": [
+      "the original blocking defect (61836) is FIXED and proven on production geometry",
+      "attempt 2 built and saved the complete top assembly - the furthest any run has reached",
+      "attempt 1 was lost to an environmental dialog, not to a code defect; it produced no diagnostic value about the model itself",
+      "the attempt-2 failure was a 1-line interface defect, now fixed, plus a second identical one fixed pre-emptively at line 3165",
+      "a systematic audit found no further same-class mismatches in the attributable set",
+      "1h17m remains inside the 4h box"
+    ],
+    "why_i_did_not_just_proceed": "the ruling names a specific number (2) and an explicit automatic action after it. Silently taking a third attempt because I judge the odds favourable would substitute my judgement for an explicit constraint the owner set. Consuming ~50 more minutes of a hard-deadline project is the owner's call, not mine.",
+    "option_A_recommended": "authorise ONE more native attempt (attempt 3) inside the remaining box. Expected value is high: two known defects removed, audit clean, and the failure point has advanced from line 2613 to 2691 to (expected) past the motion contract.",
+    "option_B": "stop native work now and take Fallback A, promoting/grading the 27,121,219-byte attempt-2 staging artifact - the most complete top assembly produced so far - under an explicit NATIVE_TOP_ASSEMBLY=HOLD gate field.",
+    "option_C": "stop native work and take Fallback B (125,946,155-byte neutral STEP), which is the weakest option and not recommended while Fallback A exists.",
+    "note_on_fallback_readiness": "Fallback A is genuinely available: the attempt-2 artifact is isolated, receipted, byte-stable, and larger-scope than the two 2026-08-13 artifacts. Nothing about option A risks losing it."
+  },
+
+  "review_status": "PENDING_OWNER_DECISION_ON_THIRD_ATTEMPT",
+  "next_stage_authorized": false,
+  "verdict": "PRIMARY_PATCH_PROVEN_IN_PRODUCTION_TWO_INTERFACE_DEFECTS_FIXED_ATTEMPTS_EXHAUSTED_AWAITING_OWNER_CALL"
+}

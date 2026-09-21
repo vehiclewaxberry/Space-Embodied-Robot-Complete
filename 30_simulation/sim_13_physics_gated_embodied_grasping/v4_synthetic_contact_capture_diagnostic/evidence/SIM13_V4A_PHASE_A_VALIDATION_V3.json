@@ -1,0 +1,1245 @@
+{
+  "schema": "SIM13_V4A_PHASE_A_VALIDATION_V3",
+  "hash_chain": {
+    "upstream_source_manifest": {
+      "role": "UPSTREAM_SOURCE_MANIFEST",
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v4_synthetic_contact_capture_diagnostic/evidence/SIM13_V4A_PHASE_A_SOURCE_MANIFEST_V3.json",
+      "bytes": 4183,
+      "sha256": "22A1FE2066AB6512B103FAE387F887DC57DE5E5E578C3CB8CDD22DF47E49CD42"
+    }
+  },
+  "checks": [
+    {
+      "id": "A01",
+      "name": "synthetic topology is exactly free base plus 6R+2P and independent target 6DOF",
+      "pass": true,
+      "evidence": {
+        "joint_types": [
+          "R",
+          "R",
+          "R",
+          "R",
+          "R",
+          "R",
+          "P",
+          "P"
+        ],
+        "service_velocity_dof": 14,
+        "target_dof": 6,
+        "actual_b601_claimed": false
+      }
+    },
+    {
+      "id": "A02",
+      "name": "R and P coordinate/rate/effort units are declared separately",
+      "pass": true,
+      "evidence": {
+        "coordinate_units": [
+          "rad",
+          "rad",
+          "rad",
+          "rad",
+          "rad",
+          "rad",
+          "m",
+          "m"
+        ],
+        "rate_units": [
+          "rad/s",
+          "rad/s",
+          "rad/s",
+          "rad/s",
+          "rad/s",
+          "rad/s",
+          "m/s",
+          "m/s"
+        ],
+        "effort_units": [
+          "N*m",
+          "N*m",
+          "N*m",
+          "N*m",
+          "N*m",
+          "N*m",
+          "N",
+          "N"
+        ],
+        "full_mass_matrix_single_unit": null
+      }
+    },
+    {
+      "id": "A03",
+      "name": "full floating 14x14 mass matrix is symmetric positive definite with nonzero base-joint coupling",
+      "pass": true,
+      "evidence": {
+        "shape": [
+          14,
+          14
+        ],
+        "symmetry_max_abs": 0.0,
+        "minimum_eigenvalue_under_declared_SI_channel_scaling": 0.00298950969521495,
+        "condition_number_under_declared_SI_channel_scaling": 8683.649284072817,
+        "base_joint_coupling_frobenius_under_declared_SI_channel_scaling": 6.893249189698555
+      }
+    },
+    {
+      "id": "A04",
+      "name": "direct rigid-body kinetic energy cross-checks the mass matrix",
+      "pass": true,
+      "evidence": {
+        "direct_body_sum_j": 0.053326688166174335,
+        "quadratic_mass_matrix_j": 0.05332668816617434,
+        "absolute_error_j": 6.938893903907228e-18
+      }
+    },
+    {
+      "id": "A05",
+      "name": "link-local inertial point translational Jacobian matches tangent finite difference",
+      "pass": true,
+      "evidence": {
+        "maximum_absolute_error_mixed_units": 1.8720313077480455e-09,
+        "link_index": 7,
+        "point_local_m": [
+          0.071,
+          -0.023,
+          0.038
+        ]
+      }
+    },
+    {
+      "id": "A06",
+      "name": "point position and Jacobian are covariant under a global rigid transform",
+      "pass": true,
+      "evidence": {
+        "point_position_covariance_error_m": 6.753223014464259e-16,
+        "point_jacobian_covariance_max_error_mixed_units": 6.661338147750939e-16
+      }
+    },
+    {
+      "id": "A07",
+      "name": "service no-contact P H E close separately",
+      "pass": true,
+      "evidence": {
+        "linear_momentum_relative_drift": 2.8734752242987226e-13,
+        "linear_momentum_max_absolute_drift_n_s": 2.3219372324389907e-13,
+        "angular_momentum_about_common_inertial_origin_relative_drift": 5.525800202975579e-13,
+        "angular_momentum_max_absolute_drift_n_m_s": 3.546873876569138e-13,
+        "kinetic_energy_relative_drift": 5.556144210072639e-13,
+        "kinetic_energy_max_absolute_drift_j": 2.9629076969683865e-14
+      }
+    },
+    {
+      "id": "A08",
+      "name": "target no-contact P H E close separately",
+      "pass": true,
+      "evidence": {
+        "linear_momentum_relative_drift": 0.0,
+        "linear_momentum_max_absolute_drift_n_s": 0.0,
+        "angular_momentum_about_common_inertial_origin_relative_drift": 1.0457756865153097e-15,
+        "angular_momentum_max_absolute_drift_n_m_s": 6.944442800358888e-16,
+        "kinetic_energy_relative_drift": 4.448096608283052e-16,
+        "kinetic_energy_max_absolute_drift_j": 1.3877787807814457e-17
+      }
+    },
+    {
+      "id": "A09",
+      "name": "combined no-contact P H E close about the common inertial origin without heterogeneous norm",
+      "pass": true,
+      "evidence": {
+        "linear_momentum_relative_drift": 5.054503069276462e-13,
+        "linear_momentum_max_absolute_drift_n_s": 2.3219372324389907e-13,
+        "angular_momentum_about_common_inertial_origin_relative_drift": 2.8354137982185744e-13,
+        "angular_momentum_max_absolute_drift_n_m_s": 3.5447792574169574e-13,
+        "kinetic_energy_relative_drift": 3.505318051683507e-13,
+        "kinetic_energy_max_absolute_drift_j": 2.9629076969683865e-14,
+        "linear_and_angular_momentum_combined_in_one_norm": false,
+        "reference": "COMMON_INERTIAL_ORIGIN"
+      }
+    },
+    {
+      "id": "A10",
+      "name": "RK4 step halving is componentwise within frozen mixed-unit limits",
+      "pass": true,
+      "evidence": {
+        "coarse": {
+          "step_s": 0.004,
+          "steps": 20
+        },
+        "fine": {
+          "step_s": 0.002,
+          "steps": 40
+        },
+        "observed": {
+          "service_base_position_m": 1.7772239894833365e-16,
+          "service_base_quaternion_geodesic_rad": 0.0,
+          "service_q_R_rad": 7.674416657721395e-15,
+          "service_q_P_m": 7.69870278638507e-15,
+          "service_v_base_m_s": 3.698430450782553e-15,
+          "service_omega_base_rad_s": 2.1208729217292444e-14,
+          "service_qdot_R_rad_s": 2.2585405767827638e-13,
+          "service_qdot_P_m_s": 2.1358782797964437e-13,
+          "target_position_m": 2.482534153247273e-15,
+          "target_quaternion_geodesic_rad": 0.0,
+          "target_velocity_m_s": 0.0,
+          "target_omega_rad_s": 4.163336342344337e-17
+        },
+        "limits": {
+          "service_base_position_m": 2e-07,
+          "service_base_quaternion_geodesic_rad": 2e-07,
+          "service_q_R_rad": 2e-07,
+          "service_q_P_m": 2e-07,
+          "service_v_base_m_s": 2e-07,
+          "service_omega_base_rad_s": 2e-07,
+          "service_qdot_R_rad_s": 2e-07,
+          "service_qdot_P_m_s": 2e-07,
+          "target_position_m": 2e-08,
+          "target_quaternion_geodesic_rad": 2e-07,
+          "target_velocity_m_s": 2e-10,
+          "target_omega_rad_s": 2e-07
+        },
+        "heterogeneous_sum_used": false
+      }
+    },
+    {
+      "id": "A11",
+      "name": "independent explicit-midpoint integration cross-check is componentwise within limits",
+      "pass": true,
+      "evidence": {
+        "reference": {
+          "method": "RK4",
+          "step_s": 0.002,
+          "steps": 40
+        },
+        "crosscheck": {
+          "method": "EXPLICIT_MIDPOINT",
+          "step_s": 0.001,
+          "steps": 80
+        },
+        "observed": {
+          "service_base_position_m": 8.230116361460695e-12,
+          "service_base_quaternion_geodesic_rad": 0.0,
+          "service_q_R_rad": 1.362710499996922e-10,
+          "service_q_P_m": 1.855650702542455e-11,
+          "service_v_base_m_s": 2.100396245818814e-12,
+          "service_omega_base_rad_s": 2.199174176098495e-11,
+          "service_qdot_R_rad_s": 3.5758508654115673e-10,
+          "service_qdot_P_m_s": 2.285005518132266e-11,
+          "target_position_m": 8.881784197001252e-15,
+          "target_quaternion_geodesic_rad": 0.0,
+          "target_velocity_m_s": 0.0,
+          "target_omega_rad_s": 4.235500838944972e-14
+        },
+        "limits": {
+          "service_base_position_m": 2e-07,
+          "service_base_quaternion_geodesic_rad": 2e-07,
+          "service_q_R_rad": 2e-07,
+          "service_q_P_m": 2e-07,
+          "service_v_base_m_s": 2e-07,
+          "service_omega_base_rad_s": 2e-07,
+          "service_qdot_R_rad_s": 2e-07,
+          "service_qdot_P_m_s": 2e-07,
+          "target_position_m": 2e-08,
+          "target_quaternion_geodesic_rad": 2e-07,
+          "target_velocity_m_s": 2e-10,
+          "target_omega_rad_s": 2e-07
+        },
+        "heterogeneous_sum_used": false
+      }
+    },
+    {
+      "id": "A12",
+      "name": "service and target share one time axis while remaining exactly decoupled",
+      "pass": true,
+      "evidence": {
+        "service_state_max_difference_when_only_target_changes": 0.0,
+        "shared_time_axis_exact": true,
+        "contact_force_evaluations": 0
+      }
+    },
+    {
+      "id": "A13",
+      "name": "service and target quaternion norms remain closed",
+      "pass": true,
+      "evidence": {
+        "service_max_unit_norm_error": 2.220446049250313e-16,
+        "target_max_unit_norm_error": 0.0
+      }
+    },
+    {
+      "id": "A14",
+      "name": "all six raw injected defects cross their registered thresholds and are caught",
+      "pass": true,
+      "evidence": {
+        "NC-A01_BASE_LOCK": {
+          "detected": true,
+          "free_linear_momentum_defect_n_s": 3.33708904315573e-17,
+          "free_angular_momentum_defect_n_m_s": 2.0425586263382625e-16,
+          "locked_linear_momentum_defect_n_s": 0.4566063977557756,
+          "locked_angular_momentum_defect_n_m_s": 0.7487966654382998,
+          "guard_thresholds": {
+            "free_linear_max_n_s": 1e-12,
+            "free_angular_max_n_m_s": 1e-12,
+            "locked_linear_min_n_s": 0.001,
+            "locked_angular_min_n_m_s": 0.001
+          },
+          "linear_and_angular_momentum_combined": false
+        },
+        "NC-A02_MISSING_COUPLING_BLOCK": {
+          "detected": true,
+          "direct_vs_mutated_energy_error_j": 0.002546364712650899,
+          "guard_threshold_min_j": 1e-05
+        },
+        "NC-A03_RP_UNIT_SCALE": {
+          "detected": true,
+          "maximum_point_jacobian_error_mixed_units": 0.852007245210849,
+          "guard_threshold_min_mixed_units": 0.01
+        },
+        "NC-A04_INVALID_QUATERNION": {
+          "detected": true,
+          "nan_rejected": true,
+          "nonunit_rejected": true,
+          "injected_nonunit_norm_error": 1.0,
+          "guard_threshold_max_unit_norm_error": 1e-09
+        },
+        "NC-A05_JACOBIAN_SIGN": {
+          "detected": true,
+          "maximum_point_jacobian_error_mixed_units": 1.8380106200440016,
+          "guard_threshold_min_mixed_units": 0.01
+        },
+        "NC-A06_POINT_OFFSET": {
+          "detected": true,
+          "maximum_point_jacobian_error_mixed_units": 0.06929514903804268,
+          "guard_threshold_min_mixed_units": 0.001
+        }
+      }
+    },
+    {
+      "id": "A15",
+      "name": "frozen pytest collection and execution pass exactly",
+      "pass": true,
+      "evidence": {
+        "collection_return_code": 0,
+        "execution_return_code": 0,
+        "collected_nodeids": [
+          "tests/test_dynamics.py::test_zero_velocity_zero_external_has_zero_acceleration",
+          "tests/test_dynamics.py::test_service_free_motion_preserves_p_h_and_energy_separately",
+          "tests/test_dynamics.py::test_target_full_6dof_preserves_p_h_and_energy_separately",
+          "tests/test_dynamics.py::test_no_contact_decouples_plants_and_uses_one_time_axis",
+          "tests/test_dynamics.py::test_rk4_step_halving_converges_componentwise",
+          "tests/test_dynamics.py::test_el_audit_registry_has_six_explicit_diverse_nonzero_velocity_states",
+          "tests/test_governance.py::test_phase_a_authority_and_contact_boundaries_remain_false",
+          "tests/test_governance.py::test_no_urdf_interface_or_authorization_artifact_exists",
+          "tests/test_kinematics.py::test_topology_and_mixed_unit_contract_are_explicit",
+          "tests/test_kinematics.py::test_mass_matrix_is_spd_and_has_free_base_joint_coupling",
+          "tests/test_kinematics.py::test_mass_matrix_energy_matches_direct_body_sum",
+          "tests/test_kinematics.py::test_link_local_point_jacobian_matches_finite_difference",
+          "tests/test_kinematics.py::test_point_jacobian_is_covariant_under_global_rigid_transform",
+          "tests/test_kinematics.py::test_fixed_multiconfiguration_registry_covers_all_links_and_point_jacobians",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A01_BASE_LOCK]",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A02_MISSING_COUPLING_BLOCK]",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A03_RP_UNIT_SCALE]",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A04_INVALID_QUATERNION]",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A05_JACOBIAN_SIGN]",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A06_POINT_OFFSET]"
+        ],
+        "expected_nodeids": [
+          "tests/test_dynamics.py::test_zero_velocity_zero_external_has_zero_acceleration",
+          "tests/test_dynamics.py::test_service_free_motion_preserves_p_h_and_energy_separately",
+          "tests/test_dynamics.py::test_target_full_6dof_preserves_p_h_and_energy_separately",
+          "tests/test_dynamics.py::test_no_contact_decouples_plants_and_uses_one_time_axis",
+          "tests/test_dynamics.py::test_rk4_step_halving_converges_componentwise",
+          "tests/test_dynamics.py::test_el_audit_registry_has_six_explicit_diverse_nonzero_velocity_states",
+          "tests/test_governance.py::test_phase_a_authority_and_contact_boundaries_remain_false",
+          "tests/test_governance.py::test_no_urdf_interface_or_authorization_artifact_exists",
+          "tests/test_kinematics.py::test_topology_and_mixed_unit_contract_are_explicit",
+          "tests/test_kinematics.py::test_mass_matrix_is_spd_and_has_free_base_joint_coupling",
+          "tests/test_kinematics.py::test_mass_matrix_energy_matches_direct_body_sum",
+          "tests/test_kinematics.py::test_link_local_point_jacobian_matches_finite_difference",
+          "tests/test_kinematics.py::test_point_jacobian_is_covariant_under_global_rigid_transform",
+          "tests/test_kinematics.py::test_fixed_multiconfiguration_registry_covers_all_links_and_point_jacobians",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A01_BASE_LOCK]",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A02_MISSING_COUPLING_BLOCK]",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A03_RP_UNIT_SCALE]",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A04_INVALID_QUATERNION]",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A05_JACOBIAN_SIGN]",
+          "tests/test_negative_controls.py::test_registered_mutation_is_detected[NC-A06_POINT_OFFSET]"
+        ],
+        "exact_collection_match": true,
+        "passed": 20,
+        "expected": 20,
+        "stdout_tail": [
+          "....................                                                     [100%]",
+          "20 passed in 8.01s"
+        ],
+        "stderr": ""
+      }
+    },
+    {
+      "id": "A16",
+      "name": "no Unified private call/import or forbidden generated artifact exists",
+      "pass": true,
+      "evidence": {
+        "forbidden_source_calls_or_imports": [],
+        "forbidden_artifacts": [],
+        "unified_private_builder_called": false,
+        "unified_generator_called": false
+      }
+    },
+    {
+      "id": "A17",
+      "name": "formal Sim13 V2 remains 15 of 20 with NC19 and four peers on HOLD",
+      "pass": true,
+      "evidence": {
+        "v2_gate": {
+          "role": "READ_ONLY_FORMAL_V2_GATE",
+          "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/results/SIM13_V2_PREBIND_SOURCE_GATE_V1.json",
+          "bytes": 2282,
+          "sha256": "DBFFF803A656F4AD74934F0C886BC258E219CDC6904647D2855F15D2C3916906"
+        },
+        "declared": 20,
+        "passed": 15,
+        "dependency_hold": 5,
+        "hold_ids": [
+          "NC15",
+          "NC16",
+          "NC18",
+          "NC19",
+          "NC20"
+        ],
+        "this_package_formal_credit": 0
+      }
+    },
+    {
+      "id": "A18",
+      "name": "production current-system contact owner release and next-stage flags remain false",
+      "pass": true,
+      "evidence": {
+        "contact_implemented": false,
+        "current_system_bound": false,
+        "production_backend": false,
+        "owner_authorized": false,
+        "capture_passed": false,
+        "released": false,
+        "next_stage_authorized": false
+      }
+    },
+    {
+      "id": "A19",
+      "name": "diagnostic directory is free of Python and pytest cache residue",
+      "pass": true,
+      "evidence": {
+        "cache_residue": []
+      }
+    },
+    {
+      "id": "A20",
+      "name": "ten frozen explicit stress configurations cover all eight link point Jacobians",
+      "pass": true,
+      "evidence": {
+        "registry": "FIXED_EXPLICIT_ARRAYS_NO_RNG_V1",
+        "case_count": 10,
+        "covered_link_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "maximum_point_jacobian_error_mixed_units": 1.5510226436532548e-09,
+        "cases": [
+          {
+            "case_id": "SP00_LINK0",
+            "link_index": 0,
+            "base_position_inertial_m": [
+              0.1,
+              -0.2,
+              0.3
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9976384300878754,
+              0.0499606343012973,
+              -0.02498031715064865,
+              0.03996850744103784
+            ],
+            "joint_coordinates_R_rad": [
+              0.1,
+              -0.2,
+              0.15,
+              -0.12,
+              0.08,
+              -0.05
+            ],
+            "joint_coordinates_P_m": [
+              0.01,
+              -0.006
+            ],
+            "point_local_m": [
+              0.083,
+              -0.012,
+              0.021
+            ],
+            "maximum_point_jacobian_error_mixed_units": 1.5192347380121873e-10
+          },
+          {
+            "case_id": "SP01_LINK1",
+            "link_index": 1,
+            "base_position_inertial_m": [
+              -0.3,
+              0.15,
+              0.42
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9924969015663289,
+              -0.0897747942524117,
+              0.04488739712620585,
+              0.069824839974098
+            ],
+            "joint_coordinates_R_rad": [
+              -0.25,
+              0.31,
+              -0.17,
+              0.22,
+              -0.11,
+              0.07
+            ],
+            "joint_coordinates_P_m": [
+              -0.014,
+              0.009
+            ],
+            "point_local_m": [
+              0.061,
+              0.018,
+              -0.027
+            ],
+            "maximum_point_jacobian_error_mixed_units": 1.4496101541361384e-10
+          },
+          {
+            "case_id": "SP02_LINK2",
+            "link_index": 2,
+            "base_position_inertial_m": [
+              0.45,
+              0.08,
+              -0.16
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9878870332920602,
+              0.10457570281825844,
+              0.06473733983987429,
+              -0.09461611207366241
+            ],
+            "joint_coordinates_R_rad": [
+              0.34,
+              -0.28,
+              0.26,
+              -0.18,
+              0.15,
+              -0.09
+            ],
+            "joint_coordinates_P_m": [
+              0.022,
+              0.004
+            ],
+            "point_local_m": [
+              0.052,
+              -0.024,
+              0.031
+            ],
+            "maximum_point_jacobian_error_mixed_units": 1.0017559143316035e-09
+          },
+          {
+            "case_id": "SP03_LINK3",
+            "link_index": 3,
+            "base_position_inertial_m": [
+              -0.12,
+              -0.38,
+              0.27
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9881111325009757,
+              -0.054781864183170804,
+              -0.11952406730873628,
+              0.07968271153915753
+            ],
+            "joint_coordinates_R_rad": [
+              -0.37,
+              0.19,
+              -0.29,
+              0.33,
+              -0.14,
+              0.12
+            ],
+            "joint_coordinates_P_m": [
+              -0.008,
+              -0.013
+            ],
+            "point_local_m": [
+              0.047,
+              0.026,
+              0.019
+            ],
+            "maximum_point_jacobian_error_mixed_units": 6.503714233829783e-10
+          },
+          {
+            "case_id": "SP04_LINK4",
+            "link_index": 4,
+            "base_position_inertial_m": [
+              0.24,
+              0.36,
+              -0.22
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.987351753322072,
+              0.12945144575433196,
+              -0.08464132991629397,
+              -0.03485231231847399
+            ],
+            "joint_coordinates_R_rad": [
+              0.18,
+              0.27,
+              -0.35,
+              -0.21,
+              0.24,
+              -0.16
+            ],
+            "joint_coordinates_P_m": [
+              0.016,
+              0.012
+            ],
+            "point_local_m": [
+              0.039,
+              -0.017,
+              -0.029
+            ],
+            "maximum_point_jacobian_error_mixed_units": 6.820271708507519e-10
+          },
+          {
+            "case_id": "SP05_LINK5",
+            "link_index": 5,
+            "base_position_inertial_m": [
+              -0.41,
+              0.12,
+              0.18
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9869036858272022,
+              -0.11449753493899321,
+              0.0995630738599941,
+              0.05475969062299675
+            ],
+            "joint_coordinates_R_rad": [
+              -0.16,
+              -0.32,
+              0.23,
+              0.29,
+              -0.27,
+              0.18
+            ],
+            "joint_coordinates_P_m": [
+              -0.019,
+              0.007
+            ],
+            "point_local_m": [
+              0.032,
+              0.021,
+              -0.018
+            ],
+            "maximum_point_jacobian_error_mixed_units": 4.426582600903367e-10
+          },
+          {
+            "case_id": "SP06_LINK6",
+            "link_index": 6,
+            "base_position_inertial_m": [
+              0.33,
+              -0.29,
+              -0.11
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9820787856152015,
+              0.07455143206051074,
+              0.13419257770891932,
+              -0.10934210035541575
+            ],
+            "joint_coordinates_R_rad": [
+              0.29,
+              -0.14,
+              -0.24,
+              0.17,
+              0.31,
+              -0.2
+            ],
+            "joint_coordinates_P_m": [
+              0.025,
+              -0.015
+            ],
+            "point_local_m": [
+              0.071,
+              -0.023,
+              0.038
+            ],
+            "maximum_point_jacobian_error_mixed_units": 1.3104058810275987e-09
+          },
+          {
+            "case_id": "SP07_LINK7",
+            "link_index": 7,
+            "base_position_inertial_m": [
+              -0.19,
+              0.31,
+              0.39
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9806502262989648,
+              -0.1390958403192707,
+              -0.059612502993973145,
+              0.12419271457077738
+            ],
+            "joint_coordinates_R_rad": [
+              -0.31,
+              0.36,
+              0.12,
+              -0.26,
+              0.19,
+              0.23
+            ],
+            "joint_coordinates_P_m": [
+              -0.011,
+              0.018
+            ],
+            "point_local_m": [
+              0.064,
+              0.029,
+              -0.034
+            ],
+            "maximum_point_jacobian_error_mixed_units": 1.4728958053211727e-09
+          },
+          {
+            "case_id": "SP08_LINK0_EDGE",
+            "link_index": 0,
+            "base_position_inertial_m": [
+              0.07,
+              0.44,
+              -0.28
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9735424967677616,
+              0.15363060257742628,
+              -0.1437189507982375,
+              0.08920486601269913
+            ],
+            "joint_coordinates_R_rad": [
+              0.41,
+              -0.39,
+              0.37,
+              -0.34,
+              0.28,
+              -0.25
+            ],
+            "joint_coordinates_P_m": [
+              0.029,
+              -0.021
+            ],
+            "point_local_m": [
+              0.091,
+              0.027,
+              -0.025
+            ],
+            "maximum_point_jacobian_error_mixed_units": 2.8102042914923686e-10
+          },
+          {
+            "case_id": "SP09_LINK7_EDGE",
+            "link_index": 7,
+            "base_position_inertial_m": [
+              -0.36,
+              -0.17,
+              0.51
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9702239534998944,
+              -0.16335904326824316,
+              0.11880657692235864,
+              -0.13365739903765347
+            ],
+            "joint_coordinates_R_rad": [
+              -0.43,
+              0.38,
+              -0.33,
+              0.3,
+              -0.29,
+              0.27
+            ],
+            "joint_coordinates_P_m": [
+              -0.026,
+              0.023
+            ],
+            "point_local_m": [
+              0.078,
+              -0.031,
+              0.044
+            ],
+            "maximum_point_jacobian_error_mixed_units": 1.5510226436532548e-09
+          }
+        ]
+      }
+    },
+    {
+      "id": "A21",
+      "name": "six frozen no-RNG EL states include nominal and diverse nonzero R/P motion",
+      "pass": true,
+      "evidence": {
+        "registry": "SIX_EXPLICIT_NONZERO_VELOCITY_STATES_NO_RNG_V1",
+        "case_count": 6,
+        "case_ids": [
+          "EL00_NOMINAL",
+          "EL01_CROSSED_RP",
+          "EL02_POSITIVE_EXTENSION",
+          "EL03_NEGATIVE_EXTENSION",
+          "EL04_WRIST_FOLDED",
+          "EL05_EDGE_MIXED"
+        ],
+        "contains_nominal": true,
+        "main_bias_effort_exported": false,
+        "cases": [
+          {
+            "case_id": "EL00_NOMINAL",
+            "base_position_inertial_m": [
+              0.31,
+              -0.22,
+              0.44
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9893813460316631,
+              0.08469892461412823,
+              -0.05480518651502415,
+              0.10462808334686427
+            ],
+            "joint_coordinates_R_rad": [
+              0.24,
+              -0.31,
+              0.19,
+              0.27,
+              -0.16,
+              0.12
+            ],
+            "joint_coordinates_P_m": [
+              0.018,
+              -0.009
+            ],
+            "base_linear_velocity_m_s": [
+              0.032,
+              -0.021,
+              0.014
+            ],
+            "base_angular_velocity_rad_s": [
+              0.041,
+              -0.033,
+              0.027
+            ],
+            "joint_R_velocity_rad_s": [
+              0.115,
+              -0.082,
+              0.071,
+              -0.054,
+              0.046,
+              -0.035
+            ],
+            "joint_P_velocity_m_s": [
+              0.0075,
+              -0.0058
+            ],
+            "primary_acceleration": {
+              "base_linear_m_s2": [
+                0.002190908837423264,
+                0.0009745205084905763,
+                0.0010072045842632919
+              ],
+              "base_angular_rad_s2": [
+                -0.0009149887497560427,
+                -0.00359981770559157,
+                0.00547350004801161
+              ],
+              "joint_R_rad_s2": [
+                -0.003948196109218025,
+                0.06265892894099004,
+                -0.08111726644325142,
+                0.022918240877788848,
+                0.05218559428769544,
+                -0.013464905845391823
+              ],
+              "joint_P_m_s2": [
+                0.03099957616971223,
+                0.0041960695076339915
+              ]
+            }
+          },
+          {
+            "case_id": "EL01_CROSSED_RP",
+            "base_position_inertial_m": [
+              -0.28,
+              0.17,
+              0.36
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9905025717152477,
+              -0.07974657452447552,
+              0.05980993089335664,
+              0.09469905724781469
+            ],
+            "joint_coordinates_R_rad": [
+              -0.27,
+              0.33,
+              -0.21,
+              0.24,
+              -0.13,
+              0.09
+            ],
+            "joint_coordinates_P_m": [
+              -0.014,
+              0.011
+            ],
+            "base_linear_velocity_m_s": [
+              -0.026,
+              0.019,
+              0.012
+            ],
+            "base_angular_velocity_rad_s": [
+              -0.034,
+              0.029,
+              -0.021
+            ],
+            "joint_R_velocity_rad_s": [
+              0.092,
+              -0.074,
+              0.063,
+              -0.049,
+              0.038,
+              -0.031
+            ],
+            "joint_P_velocity_m_s": [
+              0.0062,
+              -0.0047
+            ],
+            "primary_acceleration": {
+              "base_linear_m_s2": [
+                0.0005308901313223112,
+                -3.088252192714243e-05,
+                -2.8276576198110202e-05
+              ],
+              "base_angular_rad_s2": [
+                -0.00035696357910253976,
+                0.0019012943430529487,
+                -0.0013989196718718155
+              ],
+              "joint_R_rad_s2": [
+                0.0006769812257055804,
+                -0.024773112223873336,
+                0.018797835160201413,
+                -0.008352075149766913,
+                -1.5578967210427464e-05,
+                0.00588316814549474
+              ],
+              "joint_P_m_s2": [
+                0.009043013916553483,
+                0.0013206830497837193
+              ]
+            }
+          },
+          {
+            "case_id": "EL02_POSITIVE_EXTENSION",
+            "base_position_inertial_m": [
+              0.42,
+              0.09,
+              -0.18
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9875509160423341,
+              0.10954315362176267,
+              0.07468851383302,
+              -0.08464698234408935
+            ],
+            "joint_coordinates_R_rad": [
+              0.36,
+              -0.29,
+              0.25,
+              -0.19,
+              0.17,
+              -0.11
+            ],
+            "joint_coordinates_P_m": [
+              0.024,
+              0.006
+            ],
+            "base_linear_velocity_m_s": [
+              0.024,
+              -0.018,
+              0.016
+            ],
+            "base_angular_velocity_rad_s": [
+              0.031,
+              -0.027,
+              0.023
+            ],
+            "joint_R_velocity_rad_s": [
+              -0.086,
+              0.069,
+              -0.058,
+              0.047,
+              -0.036,
+              0.028
+            ],
+            "joint_P_velocity_m_s": [
+              -0.0055,
+              0.0041
+            ],
+            "primary_acceleration": {
+              "base_linear_m_s2": [
+                0.00045860635261015306,
+                2.0655528695575534e-05,
+                8.954088278202795e-05
+              ],
+              "base_angular_rad_s2": [
+                -0.00011279406411848188,
+                -0.0013423254010403284,
+                0.0009700331082039107
+              ],
+              "joint_R_rad_s2": [
+                -0.00045830628742347175,
+                0.0041413505657397435,
+                -0.010482382970733194,
+                0.0048686966729094405,
+                0.0032573659113145368,
+                -0.006444308972698982
+              ],
+              "joint_P_m_s2": [
+                0.005249331259161487,
+                0.0005534253331153994
+              ]
+            }
+          },
+          {
+            "case_id": "EL03_NEGATIVE_EXTENSION",
+            "base_position_inertial_m": [
+              -0.15,
+              -0.34,
+              0.25
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.9888457979376761,
+              -0.0647581454307478,
+              -0.11457210345439996,
+              0.06973954123311302
+            ],
+            "joint_coordinates_R_rad": [
+              -0.39,
+              0.22,
+              -0.31,
+              0.35,
+              -0.18,
+              0.14
+            ],
+            "joint_coordinates_P_m": [
+              -0.021,
+              -0.016
+            ],
+            "base_linear_velocity_m_s": [
+              0.018,
+              0.025,
+              -0.014
+            ],
+            "base_angular_velocity_rad_s": [
+              -0.029,
+              0.024,
+              0.032
+            ],
+            "joint_R_velocity_rad_s": [
+              0.081,
+              -0.067,
+              0.055,
+              -0.043,
+              0.034,
+              -0.026
+            ],
+            "joint_P_velocity_m_s": [
+              0.0048,
+              -0.0039
+            ],
+            "primary_acceleration": {
+              "base_linear_m_s2": [
+                0.0013396824500109842,
+                -0.0002778100282442302,
+                0.0003900646008033205
+              ],
+              "base_angular_rad_s2": [
+                0.0027437668222791704,
+                0.005662694938690678,
+                -0.004760737413174753
+              ],
+              "joint_R_rad_s2": [
+                0.0044741253336556255,
+                -0.05376467077911084,
+                0.05865448669628621,
+                -0.007380361241079569,
+                -0.004621920738168957,
+                0.00902326638711735
+              ],
+              "joint_P_m_s2": [
+                0.020640038699484282,
+                0.0013963237760359507
+              ]
+            }
+          },
+          {
+            "case_id": "EL04_WRIST_FOLDED",
+            "base_position_inertial_m": [
+              0.27,
+              0.32,
+              -0.24
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.987152603901374,
+              0.12446423193346343,
+              -0.08961424699209367,
+              -0.04480712349604683
+            ],
+            "joint_coordinates_R_rad": [
+              0.21,
+              0.3,
+              -0.37,
+              -0.23,
+              0.28,
+              -0.2
+            ],
+            "joint_coordinates_P_m": [
+              0.018,
+              0.014
+            ],
+            "base_linear_velocity_m_s": [
+              -0.021,
+              -0.016,
+              0.019
+            ],
+            "base_angular_velocity_rad_s": [
+              0.037,
+              0.022,
+              -0.025
+            ],
+            "joint_R_velocity_rad_s": [
+              -0.097,
+              0.078,
+              -0.064,
+              0.052,
+              -0.041,
+              0.033
+            ],
+            "joint_P_velocity_m_s": [
+              -0.0067,
+              0.0052
+            ],
+            "primary_acceleration": {
+              "base_linear_m_s2": [
+                0.0014969347815908909,
+                0.00012692270552814645,
+                0.0003207643820819457
+              ],
+              "base_angular_rad_s2": [
+                -0.0020580256872945704,
+                0.006830729240709623,
+                0.004218794749463563
+              ],
+              "joint_R_rad_s2": [
+                -0.007303547709007184,
+                -0.07498567994698586,
+                0.09171590371060621,
+                0.006792573526163087,
+                -0.050398015196248175,
+                -0.0032306508429668476
+              ],
+              "joint_P_m_s2": [
+                0.017296143839806544,
+                -0.001951745684775388
+              ]
+            }
+          },
+          {
+            "case_id": "EL05_EDGE_MIXED",
+            "base_position_inertial_m": [
+              -0.35,
+              -0.16,
+              0.49
+            ],
+            "base_quaternion_body_to_inertial_wxyz": [
+              0.974769317576791,
+              -0.15369420877678175,
+              0.10411543175201345,
+              -0.12394694256192076
+            ],
+            "joint_coordinates_R_rad": [
+              -0.42,
+              0.37,
+              -0.34,
+              0.31,
+              -0.27,
+              0.26
+            ],
+            "joint_coordinates_P_m": [
+              -0.027,
+              0.022
+            ],
+            "base_linear_velocity_m_s": [
+              0.029,
+              -0.023,
+              0.017
+            ],
+            "base_angular_velocity_rad_s": [
+              -0.038,
+              -0.031,
+              0.026
+            ],
+            "joint_R_velocity_rad_s": [
+              0.104,
+              -0.083,
+              0.072,
+              -0.057,
+              0.045,
+              -0.036
+            ],
+            "joint_P_velocity_m_s": [
+              0.0071,
+              -0.0054
+            ],
+            "primary_acceleration": {
+              "base_linear_m_s2": [
+                0.001163911199802634,
+                -0.0009514970177262138,
+                -0.00016781448218563546
+              ],
+              "base_angular_rad_s2": [
+                0.004348493588061576,
+                0.005989600764926992,
+                -0.00899834615449879
+              ],
+              "joint_R_rad_s2": [
+                0.004158902839311188,
+                -0.06512874888728282,
+                0.07027201004352737,
+                -0.0038078777339740997,
+                0.0009017917372233577,
+                0.014003672993649786
+              ],
+              "joint_P_m_s2": [
+                0.02112940689642386,
+                0.002136191205248644
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "pass": 21,
+    "fail": 0,
+    "total": 21
+  }
+}

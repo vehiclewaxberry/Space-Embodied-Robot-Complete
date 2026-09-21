@@ -1,0 +1,62 @@
+schema: ECR_REGISTER_SKELETON_V1
+generated_local: '2026-08-23T17:25:11+08:00'
+generated_clock_source: LOCAL_SYSTEM_CLOCK__WAVE2A_AGENT5_CM_REGISTRATION
+generator: KIMI M7 机械终局接管 swarm Wave-2a AGENT-5（CM 登记）
+origin_requirement: 接管交接书 §11 第 22 项（登记 ECR-M1..M7 触发器定义，空台账待触发）
+class: CONFIGURATION_CONTROLLED_CANDIDATE_RECORD
+review_status: SKELETON_REGISTERED__EMPTY_LEDGER_AWAITING_TRIGGER
+next_stage_authorized: false
+release_credit: false
+
+trigger_definitions_source:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml
+  sha256_16: 5602CB6FC3DC9836
+  section: post_terminal_release change policy（legitimate_reopen_triggers）
+  policy_context_verbatim: >-
+    Immediately upon terminal release, set ACTIVE_MECHANICAL_DESIGN = false
+    and mechanical_change_policy = ECR_ONLY.
+  current_state_note: >-
+    Terminal release 尚未签发（Mechanical Loop V5 Gate = HOLD；Route-B REJECTED、Route-C TRIGGERED），
+    本登记为前瞻骨架：仅冻结触发器定义，台账为空；任何触发发生前不得预填条目。
+
+trigger_definitions:
+  - id: ECR-M1
+    trigger: dynamics load exceedance
+  - id: ECR-M2
+    trigger: collision or reachability defect
+  - id: ECR-M3
+    trigger: RL/controller discovers mechanical infeasibility
+  - id: ECR-M4
+    trigger: camera or HDRM hardware selected
+  - id: ECR-M5
+    trigger: as-built mass correlation exceeds tolerance
+  - id: ECR-M6
+    trigger: launcher or separation ICD received
+  - id: ECR-M7
+    trigger: structural or thermal qualification finding
+
+illegitimate_reopen_reasons_verbatim:
+  - it could look nicer
+  - one more bracket could be added
+
+ledger:
+  status: EMPTY_AWAITING_TRIGGER
+  entries: []
+  entry_schema_for_future_rows: >-
+    沿用 MECHANICAL_ECR_REGISTER_V1.csv 列式：ecr_id, change_class, change_description,
+    affected_production_assets, geometry_changed, mass_or_inertia_changed,
+    frame_or_interface_changed, sim13_regression_required, status, owner, approval, evidence
+  ledger_csv_header: >-
+    ecr_id,change_class,change_description,affected_production_assets,geometry_changed,mass_or_inertia_changed,frame_or_interface_changed,sim13_regression_required,status,owner,approval,evidence
+
+related_registers_not_merged:
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/00_authority/MECHANICAL_ECR_REGISTER_V1.csv
+    sha256_16: 107388F909598357
+    note: CDR 时代登记册（仅 ECR-000 PROCESS_ONLY，scope 不同），本骨架不并入、不改写该文件。
+  - reference: ECR-HARNESS-FULL-RANGE-01（ODR-41 已触发之 Route-C 升级 ECR，见 ecr_b601_harness_rated_envelope/08_route_c/ECR_HARNESS_FULL_RANGE_01.yaml）
+    note: 已存在的命名 ECR，非本台账 ECR-M 系列条目；仅作交叉引用登记。
+
+nonclaims:
+  - 本骨架不创建任何 ECR 条目、不宣告任何触发已发生
+  - 本骨架不修改 M7_TERMINAL_CLOSURE_CONTRACT_V1.yaml 或任何既有登记/台账文件
+  - 台账填入动作必须伴随真实触发证据与 Owner/CM 签署；禁止预填、禁止空条目占位

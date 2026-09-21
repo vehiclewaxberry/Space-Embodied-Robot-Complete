@@ -1,0 +1,65 @@
+schema_version: ancf_certification_v1
+baseline_commit: 6c15395
+
+scientific_gates:
+  historical_classification_fraction_min: 1.0
+  unclassified_max: 0
+  silent_zero_max: 0
+  low_amplitude_ancf_modal_relative_max: 0.10
+  final_candidate_cross_solver_relative_max: 0.05
+  require_mesh_trend: true
+  require_time_step_trend: true
+
+beam:
+  ei_case: nominal
+  damping_ratio: 0.01
+
+low_amplitude:
+  excitation_scale: 1.0e-4
+  t_end_s: 1.5
+  n_eval: 301
+  # The tolerance axis is deliberately 1e-5 -> 1e-6.  The historical 1e-7
+  # attempt belongs to the resource-bounded candidate forensics, where it
+  # previously exhausted 100000 accepted steps; it is not a cheap anchor.
+  baseline_rtol: 1.0e-5
+  baseline_atol: 1.0e-10
+  tight_rtol: 1.0e-6
+  tight_atol: 1.0e-11
+  anchor_hard_wall_s: 12.0
+  process_startup_grace_s: 8.0
+  mesh_elements: [2, 4, 8]
+  adaptive_max_steps_s: [0.10, 0.05, 0.025]
+  pulse_durations_s: [0.02, 0.01]
+  newmark_time_steps_s: [0.02, 0.01, 0.005]
+
+historical_rerun:
+  methods: [Radau, BDF]
+  n_elements: 8
+  t_end_s: 15.0
+  n_eval: 1500
+  rtol: 1.0e-6
+  atol: 1.0e-10
+  max_step_s: 0.02
+  max_accepted_steps: 100000
+  max_nfev: 2000000
+  max_wall_s_per_attempt: 30.0
+  cases:
+    - P1_tc60_v20mm_approach_5d
+    - P2_tc90_v5mm_pose_6d
+    - P2_tc90_v20mm_pose_6d
+    - P3_tc30_v20mm_approach_5d
+    - P3_tc60_v20mm_approach_5d
+    - P3_tc30_v10mm_approach_5d
+    - P3_tc60_v5mm_approach_5d
+
+primary_sources:
+  - url: https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html
+    influence: Radau/BDF用于刚性ODE；按success/status/message分类，不把放宽容差后的返回成功当作收敛证明。
+  - url: https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.Radau.html
+    influence: 采用五阶Radau IIA作为隐式交叉求解器之一，并记录rtol/atol/max_step/Jacobian。
+  - url: https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.BDF.html
+    influence: 采用1至5阶BDF作为独立隐式交叉求解器，并逐项比较物理输出。
+  - url: https://doi.org/10.1006/jsvi.1999.2935
+    influence: 保留项目既有Berzeri-Shabana简化弹性力ANCF形式；本认证不改变旧模型，只做独立极限和离散检查。
+  - url: https://doi.org/10.1007/s11071-006-1856-1
+    influence: 用小变形线性模态极限和网格收敛检查约束ANCF结果解释。

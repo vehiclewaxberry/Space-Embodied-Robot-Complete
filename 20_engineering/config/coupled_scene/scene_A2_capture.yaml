@@ -1,0 +1,35 @@
+# 场景 A2：A1 末态叠加 sim_06 矢量式捕获冲量（150 kg 碎片 @3°/s 工况）
+# 记录帆板振铃与整星动量重分配。冲量解算复用 30_simulation/common/capture_impulse.py 的矢量式规范：
+# 主案 rigid_lock_6dof 用"柔性 Delassus"广义冲量解算（本模型质量阵 + 目标刚体 Delassus 联立），
+# 其刚性极限必须与 capture_impulse.rigidize 机器精度一致（tests 断言）。
+version: v0
+scene_id: scene_A2_capture
+model_card: 20_engineering/config/coupled_scene/coupled_model_v0.yaml
+base_scene: 20_engineering/config/coupled_scene/scene_A1_arm_slew.yaml   # A1 末态（t=12 s）为捕获初态
+capture:
+  target_object_id: target_debris_v0     # 150 kg 碎片（质量/惯量/抓点经 SSOT 读取）
+  tumble_dps: 3.0                        # sim_06/07 名义工况
+  tumble_axis_convention: sim_common     # 取 30_simulation/common/capture_impulse.py::TUMBLE_AXIS
+  v_app_m_s: 0.01                        # 残余接近速度（沿末端工具轴，sim_04/06 名义）
+  constraint_mode: rigid_lock_6dof       # capture_interface_v1.yaml 约束模式（主案）
+  secondary_mode: point_capture_3dof     # 对比案：仅解冲量与捕获瞬间模态响应，不做捕获后联体仿真
+  joints_locked_at_capture: true         # 捕获瞬间关节抱闸（θ̇ 跳变为 0 约束）
+  attach_target_after_capture: true      # 6DOF 锁定后目标并入组合体（与 link6 固连）
+  target_placement: >-
+    捕获瞬间目标抓点与末端 E 原点重合，目标本体轴与惯性系对齐（sim_06 build_capture_scenario 同款约定），
+    抓点-质心杠杆取 SSOT grasp_primary；服务星取 A1 末态静止（残余帆板振动保留），
+    另叠加沿工具轴 +z_E 的 v_app 接近速度。
+contact:                                 # 有限接触带宽模型（sim_11 v1.1 分支 B；不给 --contact-ms 时不启用）
+  model: half_sine_equal_impulse         # F(t)=lam*(pi/2Tc)*sin(pi t/Tc)，∫F dt = 瞬时 Delassus 解 lam（等冲量）
+  wrench_frame: inertial_frozen          # 力旋量方向按捕获瞬间惯性系冻结（窗内基座转角 <<1°）
+  T_c_ms_nominal: 20.0                   # 名义接触时长；占位：待 B601 夹爪闭合时间实测（PROVISIONAL）
+  T_c_ms_sweep: [5.0, 10.0, 20.0, 50.0, 100.0]   # 带宽扫掠
+  window_n_out: 201                      # 接触窗输出步数
+  lockup_after_window: true              # 窗末残余相对速度用一次 Delassus 小冲量收口（夹爪最终锁死）
+post:
+  t_post_s: 40.0                         # 捕获后特征窗口；末值是 40 s 快照，不代表振铃渐近衰减完毕
+  n_out: 2001
+output:
+  csv: sim_11_scene_A2.csv
+  summary_json: sim_11_scene_A2_summary.json
+  png: sim_11_scene_A2.png

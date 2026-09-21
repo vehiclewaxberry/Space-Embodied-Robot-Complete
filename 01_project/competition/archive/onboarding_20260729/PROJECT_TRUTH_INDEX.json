@@ -1,0 +1,570 @@
+{
+  "_meta": {
+    "generated_utc": "2026-07-29T10:26:35Z",
+    "project": "Space Embodied Robot 自由漂浮空间服务航天器具身智能机械臂系统（中国研究生未来飞行器创新大赛·第十二届，提交硬截止 2026-09-01）",
+    "root": "F:\\China Graduate Future Flight Vehicle Innovation Competition",
+    "authority_rule": "Level 0=accepted URDF/冻结CAD/Gate机器裁决JSON; Level 1=机械设计报告/架构冻结/接口合同; Level 2=仿真结果数据; Level 3=候选设计资产; Level 4=探索方案",
+    "note": "候选设计严禁当作已完成；仿真结果严禁称为飞行验证；科学结论只认机器裁决 JSON（*gate*.json / *_gate_check.json），测试 PASS ≠ Gate PASS；当前 B5.1 最终裁决为 B51_REVISE_INTERFACE_COLLISION（G0 PASS，G1 HOLD，G2 FAIL，G3/G4 HOLD，G5/G6 未运行），未授权任何 COMPLETE / FLIGHT_READY / MANUFACTURING_READY 声明；B5.1R1 为授权返工线，Phase 0 完成（带测量 HOLD），Phase 1 进行中。",
+    "hash_algorithm": "sha256（Git Bash sha256sum，2026-07-29 对仓库现状快照计算）",
+    "can_modify_rule": "Level 0/1/2 一律 false（结果只可重跑覆盖、不可手改）；Level 3/4 为 true。",
+    "missing": [
+      "sim_01 至 sim_09 各仿真模块的 gate/结果文件未逐一收录（任务仅要求 sim_10/sim_11/sim_12/safety_00/asm_00/e15 代表项），如需请按同规则补充。",
+      "V2.2 冻结 CAD 域未收录全部 55 个 SLDPRT + 8 个 SLDASM 原生文件本体，仅以 evidence/native_file_manifest.json 与 phase1_machine_verdict.json 作为冻结证据代表。",
+      "B5.1R1_PHASE1_START_PACKAGE（Phase 1 启动包）不属于裁决真值文件，未收录。"
+    ]
+  },
+  "files": [
+    {
+      "file": "CLAUDE.md",
+      "sha256": "cb851e2f9596852113da9e5d4dc5fe58718dbc89080718323390428fa6ed3587",
+      "role": "report",
+      "authority_level": 1,
+      "description": "仓库顶层入口说明与协作规则总纲，新人第一站阅读文件。",
+      "can_modify": false
+    },
+    {
+      "file": "PROJECT_MAP.md",
+      "sha256": "09dd9fa8ae5c712a8e9f0d7efbf9d5fa5d1e7722ca579b6f3e6894599dca7e5b",
+      "role": "report",
+      "authority_level": 1,
+      "description": "项目目录全景地图，定位 01/10/20/30 各大域的导航索引。",
+      "can_modify": false
+    },
+    {
+      "file": "01_project/competition/项目现状总览_20260720.md",
+      "sha256": "184cacb060fc23319a835f5a27c19ef97c9a145941b6c5b5f9dbb7372fc5e5fc",
+      "role": "report",
+      "authority_level": 1,
+      "description": "截至 2026-07-20 的项目现状总览：12U 服务星 + B601 臂、主线与各域进度快照。",
+      "can_modify": false
+    },
+    {
+      "file": "10_research/research_state_v4.md",
+      "sha256": "da5e84096c141ed68d27b78d4dd44b9454ffcbfa6ac3cc59b710535139728708",
+      "role": "report",
+      "authority_level": 1,
+      "description": "研究侧状态机 v4：主线『面向抓取后可稳定性的预见式具身抓取』的当前研究定位。",
+      "can_modify": false
+    },
+    {
+      "file": "10_research/00_project_architecture/system_architecture.md",
+      "sha256": "cb3bd466b059207b01c453a4353234db3bf617ee807761a2a76849af4d9c653f",
+      "role": "report",
+      "authority_level": 1,
+      "description": "系统架构冻结描述：服务星—机械臂—目标的任务级架构与模块划分。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+      "sha256": "1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164",
+      "role": "accepted_urdf",
+      "authority_level": 0,
+      "description": "accepted URDF（PASS）：B601 主线臂唯一动力学质量权威，4.6956 kg，拓扑 6R + 1 fixed + 2P。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/spacecraft_layout/arm_b601_v1/README.md",
+      "sha256": "d3db8edbba3203f1aaf5fa579d361ab6fbdd107d3dd1f80ed9b0b860bf5723a8",
+      "role": "report",
+      "authority_level": 1,
+      "description": "accepted URDF 的出处与证据链说明（决策 D-5-final，混合惯量来源与许可证归属）。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2_NATIVE/O11_CLOCKING_ADJUDICATION_REPORT.md",
+      "sha256": "af7d4125747ad719e3d8222c05adc96b501cb5eea9dc7e2332e8c5a04c8379bb",
+      "role": "report",
+      "authority_level": 1,
+      "description": "V2.2 冻结 CAD 域 O11 钟向（clocking）裁决报告；25° 钟向仅对 B5.1 工程候选批准（HOLD 性限定）。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2_NATIVE/O13_STOW_VECTOR_V3_REPORT.md",
+      "sha256": "69fda449f55c9063ce38d08c7dafcd783a967a3fa1e7b0c3f20dd495343837ad",
+      "role": "report",
+      "authority_level": 1,
+      "description": "V2.2 冻结 CAD 域 O13 收拢矢量 v3 报告，收拢姿态几何依据。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2_NATIVE/V22_NATIVE01_PHASE1_REPORT.md",
+      "sha256": "993f2839a0fc029fc121a290a327519b42cf8dfa9df9e4957ca30ea2686a5559",
+      "role": "report",
+      "authority_level": 1,
+      "description": "V2.2 NATIVE01 Phase 1 建设报告：原生 SolidWorks 2024 建模范围与完成度说明。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2_NATIVE/CODEX_CONTINUATION_RECONCILIATION.md",
+      "sha256": "b3a476d054a93ea91459c39b4cee40a816b73e7006d5d85325ebcdd344a3850b",
+      "role": "report",
+      "authority_level": 1,
+      "description": "V2.2 冻结 CAD 域跨会话续建的对账与 reconciliation 记录。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2_NATIVE/evidence/native_file_manifest.json",
+      "sha256": "539e8105cb135beb7b09288e40ccfb0f19f8b5d97cb8ebc6d59e70394869850e",
+      "role": "frozen_cad",
+      "authority_level": 0,
+      "description": "V2.2 冻结 CAD 原生文件清单（55 SLDPRT + 8 SLDASM）机器清单证据（PASS）。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2_NATIVE/evidence/phase1_machine_verdict.json",
+      "sha256": "d0d55ab6e7e1c8e7e44b7bd693d0ced489a61cb8cd35e82125b1534217ed8f52",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "V2.2 NATIVE01 Phase 1 机器裁决（N1 原生文件存在性 PASS 等），冻结 CAD 的机器证据。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/README.md",
+      "sha256": "bf68d8ed4b7235ba01969820a7c75d255f3c15faec039712345be74e160b61d5",
+      "role": "candidate",
+      "authority_level": 3,
+      "description": "B5.0 机械臂工程候选总说明；候选资产，严禁表述为已完成设计。",
+      "can_modify": true
+    },
+    {
+      "file": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/07_VERIFICATION/ACCEPTANCE_REPORT.md",
+      "sha256": "bd4a675ea9910b590b3d721344f8ae1d972372fb2bb7a2a2d8720b705b7d95f5",
+      "role": "report",
+      "authority_level": 1,
+      "description": "B5.0 验收报告：运动学链、惯量与 CAD 交付的验收结论与遗留项。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/07_VERIFICATION/GATE_STATUS.json",
+      "sha256": "96d22affbdb266bf4238974c70029e5cfcb3dfc85f98d7379e00a4a996d6b15b",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.0 验收 Gate 状态机器裁决 JSON，结论以此为准。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/01_KINEMATICS/B601_ACCEPTED_KINEMATIC_CHAIN.md",
+      "sha256": "9d66709e3c6835bc3ac8310125997524e42f5ae2f9220b7d76dfafde09feba27",
+      "role": "report",
+      "authority_level": 1,
+      "description": "B601 accepted 运动学链说明文档：6R + 1 fixed + 2P 拓扑与坐标系约定。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/01_KINEMATICS/accepted_chain.json",
+      "sha256": "ffdc5a0e4d94c8f2613bc1be82095d02d600c435ddb91bd5a8dc7156a7770421",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "B601 accepted 运动学链机器可读合同，与 accepted URDF 对齐的链式定义。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/01_KINEMATICS/chain_validation.json",
+      "sha256": "6ffaebcaeedc09cd3def5123286fb5a4a6b729c7bc9349da9688bb82e047b327",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B601 运动学链机器校验结果 JSON。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/00_AUDIT/phase0_gate.json",
+      "sha256": "509537450ec34855ba54dd5cff96b0c5a7a0649d43d55d7fbf2e30ae30ba7d7c",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.0 Phase 0 机器裁决：B5_0_PHASE0_PASS_WITH_RECORDED_TOOL_DEVIATIONS（带已记录工具偏差的 PASS）。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/00_AUDIT/BASELINE_TRUTH_HIERARCHY.md",
+      "sha256": "52b0415a7369d1b3312b6f11f8071750ba86a805fbfc7a1dd5f811adcef910e7",
+      "role": "report",
+      "authority_level": 1,
+      "description": "B5.0 基线真值层级声明：accepted URDF 为质量权威的真值优先级规则。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/00_AUDIT/audit_scan_summary.json",
+      "sha256": "fd06a93a11057ec154ba8ad68fa61ccc6f0b094f035b35dde01c51b039fb96b3",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.0 Phase 0 审计扫描机器汇总 JSON。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/00_AUDIT/PHASE0_DECISION.md",
+      "sha256": "8e814948ab1db8d01e978fe4772de3974e312350b56026cb5018fb6d80defa21",
+      "role": "report",
+      "authority_level": 1,
+      "description": "B5.0 Phase 0 决策记录：候选种子、唯一写入方与偏差处置说明。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1_B601_interface_closure_candidate/README.md",
+      "sha256": "8bf3c89d93b480c417e8a1dd31eab01c7cfea576fbe44cce1502d0a9037b025c",
+      "role": "candidate",
+      "authority_level": 3,
+      "description": "B5.1 接口闭合工程候选总说明；候选资产，最终裁决为返工（REVISE），严禁表述为已完成设计。",
+      "can_modify": true
+    },
+    {
+      "file": "20_engineering/cad/B5_1_B601_interface_closure_candidate/B51_CURRENT_STATUS.md",
+      "sha256": "03702bfbd71255e5a1b27c14ee27602612b43fa56d58079a979186530e655b5a",
+      "role": "report",
+      "authority_level": 1,
+      "description": "B5.1 当前状态页：最终裁决 B51_REVISE_INTERFACE_COLLISION 及 G0–G7 各门状态汇总。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1_B601_interface_closure_candidate/07_VERIFICATION/B51_GATE.json",
+      "sha256": "dd4286a1826ad6f47aef81c3685a047786430a6f5bb31d797c206a5a2a91f8d0",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.1 最终机器裁决：B51_REVISE_INTERFACE_COLLISION（G2 FAIL 几何重设计、8 项 UNACCEPTABLE_COLLISION，多门 HOLD）。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1_B601_interface_closure_candidate/07_VERIFICATION/B51_PHASE_BC_GATE.json",
+      "sha256": "2fa562b29ad7575dc7cfb77a988ad731ba3348d33004ca59952f4501efbd76c8",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.1 Phase B/C 阶段门机器裁决 JSON。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1_B601_interface_closure_candidate/00_AUDIT/B51_INPUT_LOCK.json",
+      "sha256": "4e96d3f91b632b481b18401e4753145abece4cb196350e4997fc8171d2821a42",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.1 输入锁定机器记录 v1：候选输入文件的哈希锁定证据。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1_B601_interface_closure_candidate/00_AUDIT/B51_INPUT_LOCK_V2_CANONICAL.json",
+      "sha256": "f3122ae5be3c73717bf07179b952b10d09afc534c18ad646c28297aa7d899f15",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.1 输入锁定机器记录 V2 规范版（现行有效锁定）。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1_B601_interface_closure_candidate/00_AUDIT/B51_CAD_BRIEF.md",
+      "sha256": "292054b2d11a1c228e72ef52d8a9f3126d38b2ceac9bc1d272e490faaee76e88",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "B5.1 CAD 任务书：接口闭合/关节/收拢的建模输入合同。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1_B601_interface_closure_candidate/00_AUDIT/B51_REFERENCE_OWNERSHIP_V2_CANONICAL.json",
+      "sha256": "fae47d9e57a8241584ca0026ac8c3d9b15874ad3000b530b967cb5969a83b880",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.1 参考所有权机器记录 V2 规范版： donor 资产归属与 containment 证据。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1_B601_interface_closure_candidate/00_AUDIT/B51_BASELINE_HASH_MANIFEST_V2_CANONICAL.csv",
+      "sha256": "ab145b6e9a2f8a0d4ccfe69bc496f72f00b505b6f64117202b4995d83485c7a8",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.1 基线哈希清单 V2 规范版：锁定输入的逐文件哈希台账。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1_B601_interface_closure_candidate/08_DELIVERY/B51_DELIVERY_GAP_REGISTER.md",
+      "sha256": "b7ee7183e35e0adbe2c5ce9b0aee157d8c74de64f87537f851c7cb57a82590eb",
+      "role": "report",
+      "authority_level": 1,
+      "description": "B5.1 交付缺口登记表：28 项 H10 接口记录与 8 项 UNACCEPTABLE_COLLISION 等未闭合项清单（FAIL/HOLD 必须保留明示）。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1R1_B601_interface_collision_and_articulation_rework_candidate/README.md",
+      "sha256": "08d71bcd28231177e20650592090e4680297ed97eec1ee574f8b82fc8c3624e8",
+      "role": "candidate",
+      "authority_level": 3,
+      "description": "B5.1R1 授权返工候选总说明；候选资产，严禁表述为已完成设计。",
+      "can_modify": true
+    },
+    {
+      "file": "20_engineering/cad/B5_1R1_B601_interface_collision_and_articulation_rework_candidate/B51R1_CURRENT_STATUS.md",
+      "sha256": "1b9729c49ec4516ae3d904f3402cdd1fefddf0045acfe3064eafb89c354a1091",
+      "role": "report",
+      "authority_level": 1,
+      "description": "B5.1R1 当前状态页：Phase 0 完成（基线合同与因果链，带测量 HOLD），父裁决仍为 B51_REVISE_INTERFACE_COLLISION。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1R1_B601_interface_collision_and_articulation_rework_candidate/00_CONTROL/B51R1_SCOPE_AND_FREEZE_CONTRACT.md",
+      "sha256": "d4b5b334feba968bb76e5dd7db432a45df2a747aba8223d5c249c3c3c5de2088",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "B5.1R1 范围与冻结合同：返工授权边界、禁止事项与冻结基线。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1R1_B601_interface_collision_and_articulation_rework_candidate/00_CONTROL/B51R1_PARENT_INPUT_LOCK.json",
+      "sha256": "9404932d747256b21d56de116ca2ec4c8c63ee28a8cf75b94955bc9da81f58f4",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.1R1 父输入锁定机器记录：21/21 锁定源哈希核对证据。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1R1_B601_interface_collision_and_articulation_rework_candidate/07_VERIFICATION/B51R1_GATE.json",
+      "sha256": "4e71e5871e3d5cf592ea3ff46c5e3395e5161106beebbead5908bf6b572ed31c",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.1R1 机器裁决：B51R1_PHASE0_CAUSALITY_AND_CONTRACT_BASELINE_COMPLETE_WITH_MEASUREMENT_HOLD（Phase 0 完成带测量 HOLD）。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1R1_B601_interface_collision_and_articulation_rework_candidate/07_VERIFICATION/B51R1_PHASE0_VALIDATION.json",
+      "sha256": "51744d71e5a4fa5c3bb4b4ec45db5c539c6216095c98df0a9c7761049c6fa974",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.1R1 Phase 0 校验机器记录：父 Gate 哈希、锁定源、4 mm/3 mm 因果链核对。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1R1_B601_interface_collision_and_articulation_rework_candidate/01_DATUM/B51R1_DATUM_CAUSALITY_AUDIT.json",
+      "sha256": "bdde3ca186f917beae6de3cc87aec89d2428de0feb78c8bbff3fc765857bf894",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "B5.1R1 基准因果链审计机器记录：4 mm 碰撞的 datum/截面定义根因诊断（PASS_DIAGNOSTIC）。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/cad/B5_1R1_B601_interface_collision_and_articulation_rework_candidate/01_DATUM/B51R1_DATUM_MEASUREMENT_PLAN.csv",
+      "sha256": "0e4eb30cd13ce1273f2bd188b4349e4dbcc80fea847f9d0e9b18939baf06525c",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "B5.1R1 基准测量计划：解除测量 HOLD 所需的实测量项与来源约定。",
+      "can_modify": false
+    },
+    {
+      "file": "30_simulation/README_sim_baseline_v0.md",
+      "sha256": "94cc95b17eb8016114542bb19b2b1c517f811f7e7bc23ea2cc2e5e0dc5aaa2af",
+      "role": "report",
+      "authority_level": 1,
+      "description": "仿真域基线说明 v0：sim 模块族谱与统一约定。",
+      "can_modify": false
+    },
+    {
+      "file": "30_simulation/sim_10_mission_feasibility/results/sim_10_gate_check.json",
+      "sha256": "367078aa79853591b8da276f047c8c4fdbc4017e5136680fe90ad3432cc14265",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "sim_10 任务可行域机器裁决：9002 物理点扫描、四门 fail-closed（刚体边界，FLEX=UNKNOWN 不入判据）。",
+      "can_modify": false
+    },
+    {
+      "file": "30_simulation/sim_10_mission_feasibility/results/sim_10_scan_gates.csv",
+      "sha256": "fe6c1783300b793e7215d3663666da96f0a5d8ade8290d5cdfeaec5ae47a6a4c",
+      "role": "sim_result",
+      "authority_level": 2,
+      "description": "sim_10 可行域逐点扫描门数据表（仿真结果数据，非飞行验证）。",
+      "can_modify": false
+    },
+    {
+      "file": "30_simulation/sim_11_coupled_dynamics/results/sim_11_gate_check.json",
+      "sha256": "287aa84824ced51fb4480dfc3d39e9dafc8ee41b37c9de0f73e2d927263fec10",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "sim_11 耦合动力学机器裁决 v3：浮动基座树形多体 + FFR 帆板 + B601 6R，含 PROVISIONAL_PARAMS 占位参数声明。",
+      "can_modify": false
+    },
+    {
+      "file": "30_simulation/sim_11_coupled_dynamics/results/gates_inline_partial.json",
+      "sha256": "67de2251fb686f7bb13284f0b1a48ff9ccbac7ebd332e6c49c77e8c74b2c7772",
+      "role": "sim_result",
+      "authority_level": 2,
+      "description": "sim_11 内联部分门结果（partial，仿真中间数据）。",
+      "can_modify": false
+    },
+    {
+      "file": "30_simulation/sim_12_strategy_feasibility/results/sim_12_gate_check.json",
+      "sha256": "a416c13481119bbdc61764d518a1abebc159a78bbd78fac132803069713dacd8",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "sim_12 策略可行性机器裁决：SIM12_PHASE1_GATES_PASS（守恒/微分等门 PASS，Phase 1 范围）。",
+      "can_modify": false
+    },
+    {
+      "file": "30_simulation/safety_00_runtime_gate/results/safety_00_gate_check.json",
+      "sha256": "ff56929dd8352e447afdb8b7d17c5ef0b248883c66bc4f00c16c50c6f4c46eee",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "SAFE-00 运行时安全门机器裁决：verdict PASS 但 next_stage_authorized=false、review_status=PENDING_REVIEW（不授权下一阶段）。",
+      "can_modify": false
+    },
+    {
+      "file": "30_simulation/safety_00_runtime_gate/docs/safety_gate_contract.md",
+      "sha256": "bd3b362aa440e49b0ad8a249e554cafe519c9a82051fd8761f7469dd321fe524",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "SAFE-00 安全门合同：阈值、哈希语义与复核授权规则。",
+      "can_modify": false
+    },
+    {
+      "file": "30_simulation/asm_00_interface_preflight/results/asm_00_gate_check.json",
+      "sha256": "8eb4645aa5cfd7df5d155c97f3a117f20fd10eff3d4a102f66ce0b5daa0db186",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "ASM-00 在轨装配接口预检机器裁决：HAG-A 授权缺失，装配演示被阻塞（BLOCKED）。",
+      "can_modify": false
+    },
+    {
+      "file": "30_simulation/e15_ancf_certification/results/gate_summary.json",
+      "sha256": "aab4d609e219279c2563c8a38743ac1784bbf16de399d5b8798439b0ac2dca80",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "E15 ANCF 认证门汇总机器裁决：离散化门 PASS，但跨求解器比对 max 相对差 5.64% 未全小于 5%（all_lt_5pct=false）。",
+      "can_modify": false
+    },
+    {
+      "file": "30_simulation/e15_core_coverage/results/core_gate_check.json",
+      "sha256": "761798e52ead35f8bf6200034af088e85f7bb9085c71d0883bf1e70c1cffe3a7",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "E15 核心覆盖门机器裁决：P0_A_CORE_COVERAGE_PASS，但 ancf_executed=false 且 next_stage_authorized=false。",
+      "can_modify": false
+    },
+    {
+      "file": "10_research/competition_convergence/competition_gate_check.json",
+      "sha256": "8b3cdbdaa09e9048262888f596bacc5a7ec543af55542256e8bce66de15a6200",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "比赛收敛机器裁决：核心文件检查 PASS，但 asm00 外部裁决 ASM00_BLOCKED_BY_MISSING_PARAMETERS，装配 Wave A 未获比赛演示要求。",
+      "can_modify": false
+    },
+    {
+      "file": "10_research/competition_convergence/competition_execution_report.md",
+      "sha256": "dc8f052689559bb02e9f940f6b79d50cad6cdbaa16b2fbc01e305dfc96ebcf15",
+      "role": "report",
+      "authority_level": 1,
+      "description": "比赛收敛执行报告：三场景演示证据与缺口的文字说明（不得升级机器裁决）。",
+      "can_modify": false
+    },
+    {
+      "file": "10_research/competition_convergence/mission_demo_contract.yaml",
+      "sha256": "28cdc815093e86f279e3ab990f98cf0404ec66d73d57c718709815f517805659",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "比赛任务演示合同：演示场景、成功判据与证据绑定的机器可读约定。",
+      "can_modify": false
+    },
+    {
+      "file": "10_research/partner_requirement_closure/wave1_results/wave1_gate_check.json",
+      "sha256": "ef49240d90471f85a6ee9479855077b0b24b90272c38415cfe71aefc3bd80daf",
+      "role": "gate_json",
+      "authority_level": 0,
+      "description": "Wave 1 集成门机器裁决（integrator-R 复测预登记项 R-6），合作方需求闭合的 gate 证据。",
+      "can_modify": false
+    },
+    {
+      "file": "10_research/partner_requirement_closure/wave1_results/wave1_execution_report.md",
+      "sha256": "01067fa46aa4811df7fb19200b00fd1136a549045d107187b8a66801a0295999",
+      "role": "report",
+      "authority_level": 1,
+      "description": "Wave 1 执行报告：合作方需求闭合的逐条处置文字记录。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/config/geometry/arm_b601_v1.yaml",
+      "sha256": "c81bd3696ce1ee789574aa3b143ea0057ffc286305a1aa18802829e9f038b188",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "B601 臂几何 SSOT：安装变换、任务模式分类与 URDF 证据链绑定。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/config/geometry/arm_mount_v1.yaml",
+      "sha256": "b08a0f28e4c4f458cd79e6e907f06389ba6a4280c0c7db2b91e36f76134c985c",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "机械臂星体安装接口几何 SSOT。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/config/geometry/capture_interface_v1.yaml",
+      "sha256": "54dd2ef8ea0ddd682f1617a8788dbff9a61055d4816b5f09e21c34ba86e5ce85",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "捕获接口几何 SSOT：末端—目标对接面与容差约定。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/config/geometry/flexible_appendage_v1.yaml",
+      "sha256": "52fa88084c628ce8845e05de0c0a892bca5347b7146c8d1c6b99093927153786",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "挠性附件（帆板）几何 SSOT：尺寸、根铰与模态频率指派输入。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/config/geometry/frame_tree_v1.yaml",
+      "sha256": "958bff23bf83434c773854fd0e78da3b09be4a3a213eb81a0741514750b3e55b",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "全器坐标系树 SSOT：星体/臂/目标各 frame 定义与父子关系。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/config/geometry/service_spacecraft_v1.yaml",
+      "sha256": "8dd8f22ff1f893273de2215ea12819e4d41cc0e20b853adc0774052237881432",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "12U 服务星平台几何 SSOT：包络、质量与推进/飞轮配置输入。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/config/geometry/target_models_v1.yaml",
+      "sha256": "45666d9d37460fd825f0ed7301bf69113016689fdf00a13dff8046358a76ae45",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "目标模型几何 SSOT：150 kg 碎片与 22 kg 目标星两类非合作目标的模型约定。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/config/geometry/mass_split_check.py",
+      "sha256": "ed952e0362c4ac3c117e8d043d99fd791670cc006dc54f68367de53a4890a43b",
+      "role": "report",
+      "authority_level": 1,
+      "description": "几何/质量拆分一致性校验脚本（工具，重跑覆盖而非手改结果）。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv",
+      "sha256": "073c802527e35c9495188eefd5d8ba51f524d326142cf2ab31e436bad0899392",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "质量惯量预算 v1 表：分系统质量/惯量台账（arm 质量以 accepted URDF 为准）。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_notes.md",
+      "sha256": "9b349f5589bbea58585ef951587aac7ebf8f115d34cc0f6d29a297855d3748d8",
+      "role": "report",
+      "authority_level": 1,
+      "description": "质量惯量预算编制说明：假设、裕度与数据来源。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/subsystem_interface_table_v0.csv",
+      "sha256": "4559470addce7e4f85c220ac8f7386d7f38866ddbb8a546aaec581e73943b78d",
+      "role": "interface_contract",
+      "authority_level": 1,
+      "description": "分系统接口表 v0：机械/电气/数据接口的跨域约定台账。",
+      "can_modify": false
+    },
+    {
+      "file": "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/coordinate_frame_definition_v0.md",
+      "sha256": "6afcb4fb6f1cd53580c5a1561788142e17df7c16a1aeec548dbeafef7efabec1",
+      "role": "report",
+      "authority_level": 1,
+      "description": "坐标系定义 v0 文档：星体/臂/目标 frame 的文字约定（与 frame_tree_v1.yaml 配套）。",
+      "can_modify": false
+    }
+  ]
+}

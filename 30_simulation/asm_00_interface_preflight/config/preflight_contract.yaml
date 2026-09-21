@@ -1,0 +1,83 @@
+schema_id: ASM00_PREFLIGHT_CONTRACT_V1
+task_id: ASM-00
+mode: GOVERNANCE_PREFLIGHT_AND_DRAFT_CLASSIFICATION_ONLY
+approved_base:
+  branch: codex/asm00-interface-a0
+  commit: c7f09ab80580f5810d75253fd836d412aa862460
+
+owned_path: 30_simulation/asm_00_interface_preflight/
+forbidden_prefixes:
+  - 30_simulation/
+  - 20_engineering/config/
+  - 10_research/on_orbit_assembly/
+  - 10_research/partner_requirement_closure/
+  - 30_simulation/e15_ancf_certification/
+  - 30_simulation/e15_core_coverage/
+  - 30_simulation/e16_sync_capture/
+
+input_bindings:
+  task_card:
+    path: 10_research/on_orbit_assembly/waveA_task_cards/ASM-00.md
+    hash_mode: RAW_BYTES_SHA256
+    expected_sha256: 8cc31a7769d387c3c709b399fed086e5be10b2e464eb9ffbdbcdd8c20dabd347
+  interface_draft:
+    path: 10_research/on_orbit_assembly/interface_ssot_draft.yaml
+    hash_mode: RAW_BYTES_SHA256
+    expected_sha256: ff7d54b3340aa2106538f61c2a54924e795e28dc9f2b3d11b5581b6a26867929
+  gate_registry:
+    path: 10_research/on_orbit_assembly/gate_registry.yaml
+    hash_mode: RAW_BYTES_SHA256
+    expected_sha256: cfe34358e136133f60e67b4a56d1875ad21c769af35cc7adb26a199bd5b5e235
+
+planning_bindings:
+  launch_manifest:
+    path: 10_research/competition_convergence/launch_manifest.md
+    expected_sha256: 620094e0d6054a520a4565a6418881e10b721bd4ecce18472fa5a9f87ac90c23
+  authorization_schema:
+    path: 10_research/framework_convergence/next_wave_task_cards/authorization_record_schema.yaml
+    expected_sha256: 8ace9b3b5951e7dc5ef6ab29b9b6a22da40338be4f13b721f6988b673257de6c
+  asm00_overlay:
+    path: 10_research/framework_convergence/next_wave_task_cards/NW-01_ASM-00_INTERFACE_QUALIFICATION.md
+    expected_sha256: f4135c4ca85803ce92affb248932a4412af2e20fb31751ca5229bee2d7327028
+
+authorization_records:
+  HAG-A: 10_research/on_orbit_assembly/approvals/HAG-A.yaml
+  HAG-B: 10_research/on_orbit_assembly/approvals/HAG-B.yaml
+  HAG-I: 10_research/on_orbit_assembly/approvals/HAG-I.yaml
+implementation_agent_must_not_create_or_modify_authorization: true
+present_record_without_external_authenticity_verification: BLOCKED
+
+success_evaluator:
+  path: 30_simulation/asm_00_interface_preflight/contracts/assembly_success_evaluator_v1.yaml
+  hash_mode: RAW_BYTES_SHA256
+  expected_sha256: abbfb294f0f60823c00b45bdc84a00cc1e937bfe6c1f2889766d674a8ab88af5
+  required_schema_id: ASM_ASSEMBLY_SUCCESS_EVALUATOR_V1
+  required_criterion_count: 9
+  authorization_effect_required: NONE
+
+rf_contract:
+  RF-1:
+    required_fields:
+      - interface.guide_cone.throat_r_mm
+      - interface.guide_cone.mouth_r_mm
+  RF-2:
+    required_fields:
+      - interface.guide_cone.wedge_margin_factor
+      - interface.friction_coulomb.material_pair
+      - interface.friction_coulomb.surface_finish
+      - interface.friction_coulomb.citation_key
+      - interface.friction_coulomb.citation_verified
+  RF-3:
+    required_fields:
+      - interface.pin_hole.clearance_semantics
+  shared_critical_fields:
+    - interface.pin_hole.pin_spacing_mm
+    - interface.pin_hole.chamfer_width_mm
+
+verdict_mapping:
+  ASM00_AG0_PASS_WITH_PROVISIONAL_PARAMS: ASM00_INTERFACE_QUALIFIED_WITH_PROVISIONAL_PARAMS
+  ASM00_AG0_REPEAT: ASM00_REPEAT_GEOMETRY
+  ASM00_AG0_BLOCKED_BY_INTERFACE: ASM00_BLOCKED_BY_MISSING_PARAMETERS
+
+thresholds_widened: false
+science_execution_permitted_without_verified_HAG_A: false

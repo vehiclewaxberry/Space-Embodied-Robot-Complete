@@ -1,0 +1,53 @@
+schema: FLEXIBLE_APPENDAGE_R2
+generated_local: '2026-08-23T00:29:02.601753+08:00'
+class: PROVISIONAL_DERIVED with uncertainty intervals (ODR-21)
+authority: ODR-21 / R2-WI-06
+supersedes: nothing - legacy flexible_appendage_v1.yaml stays untouched
+  for historical sim_11 reproduction only
+
+architecture: 3 flexible leaves per wing + root hinge compliance + 2
+  inter-panel hinge compliances + latch stiffness (book/accordion chain,
+  all hinge axes parallel X_S)
+
+leaf_L1_engineering_model:
+  construction_candidate: 2 x 0.2 mm CFRP faces (E = 70 GPa quasi-iso)
+    over 2.1 mm core, total 2.5 mm; areal density candidate 3.0 kg/m2
+  per_leaf:
+    mass_kg: 0.18
+    span_m: 0.200
+    chord_m: 0.300
+    thickness_m: 0.0025
+    EI_Nm2: {nominal: 11.109, band: [3.333, 33.327]}
+    GJ_Nm2: {status: PROVISIONAL_DERIVED, note: torsion estimate pending
+      sandwich shear model; band not yet assigned}
+    cantilever_f1_hz: {nominal: 49.15, band: [26.92, 85.13]}
+      # standalone leaf about root edge; informational only
+  root_hinge_ktheta_Nm_per_rad: {low: 50, nominal: 200, high: 800}
+  inter_panel_ktheta_Nm_per_rad: {low: 20, nominal: 100, high: 400}
+  latch_compliance: {status: PROVISIONAL_DERIVED, folded_into: inter-panel
+    ktheta bands until latch hardware selected}
+  ktheta_deployed_latched:
+    note: ODR-32 explicit deployed-state rotational stiffness - the wing
+      modal evidence below is computed AT the deployed latched state, so
+      the root/inter ktheta bands ARE the deployed latch stiffness
+      candidates
+    root_Nm_per_rad: {low: 50, nominal: 200, high: 800}
+    inter_panel_Nm_per_rad: {low: 20, nominal: 100, high: 400}
+    drives: first wing mode (nominal 6.97 Hz, band 3.33-13.95 Hz) -
+      capture-excitation and RL state models must use these bands
+  damping: {type: modal, zeta: 0.01, status: TBD_cite_literature}
+
+wing_L2_reduced_model:
+  dof_per_wing: 3 (relative hinge rotations about deployed flat config)
+  mass_matrix_kgm2: [[0.064800281, 0.033600188, 0.009600094], [0.033600188, 0.019200188, 0.006000094], [0.009600094, 0.006000094, 0.002400094]]
+  deployed_modes_hz:
+    nominal: [6.9726, 39.3586, 98.0042]
+    band_corners: {all_low: [3.3278, 18.2952, 44.1763], all_high: [13.9452, 78.7172, 196.0085]}
+  dominant_modes_for_sim: first 3 per wing (matches ODR-21 3-5 band)
+  evidence: FLEXIBLE_APPENDAGE_R2_MODES.json
+
+provenance:
+  stiffness_damping_status: PROVISIONAL_DERIVED - no measurement source;
+    all bands must be replaced by WP5 R2 hardware selection and/or test
+  sim_usage: sim_11 legacy model must NOT quote this card; new R2-coupled
+    runs must quote FLEXIBLE_APPENDAGE_R2 with its bands

@@ -1,0 +1,41 @@
+# VIZ-Gate 0 camera presets v1 -- shared by ALL matplotlib-3D figures so that
+# every view of the unified scene is comparable (same scale policy, same
+# equal-aspect box). elev/azim follow matplotlib Axes3D.view_init convention.
+version: v1
+scale_policy: equal_aspect_cube            # frame_renderer.set_equal_aspect
+projection_default: persp
+
+presets:
+  isometric:
+    elev: 22
+    azim: -55
+    proj_type: persp
+    note: primary presentation view (fig_v01, fig_v04, fig_v06 default)
+  isometric_xy:
+    elev: 22
+    azim: 35
+    proj_type: persp
+    note: >
+      mirror isometric exposing the +X and +Y faces simultaneously; used by
+      fig_v05 so that all three debris candidates (P1 on +X rim, P2 on +Y rim,
+      P3 on +X aft rim) are visible at once. Same scale policy.
+  top:
+    elev: 90
+    azim: -90
+    proj_type: ortho
+    note: +Z_S down-look; X right, Y up (fig_v02)
+  side:
+    elev: 0
+    azim: -90
+    proj_type: ortho
+    note: view from -Y_S; X right, Z up (fig_v03)
+  camera_view:
+    elev: 0
+    azim: 180
+    proj_type: persp
+    note: >
+      looks along +X_S, i.e. along the servicer camera boresight direction
+      (optical center [190, 0, 80] mm, boresight +X_S, servicer_12U_v0.json).
+      This is a view-direction preset only -- NOT a claim of rendering the
+      camera's actual optics; the JSON gives a 20 deg half-angle FOV cone
+      which is drawn as geometry where relevant.

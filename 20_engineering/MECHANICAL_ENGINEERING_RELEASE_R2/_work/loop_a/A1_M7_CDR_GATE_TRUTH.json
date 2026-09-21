@@ -1,0 +1,781 @@
+{
+ "m7_gate": {
+  "schema": "MECHANICAL_ENGINEERING_RELEASE_GATE_V1",
+  "generated_local": "2026-08-22T16:36:11+08:00",
+  "totals": {
+   "PASS": 5,
+   "PASS_WITH_DECLARED_OPEN_ITEM": 12,
+   "HOLD": 1
+  },
+  "overall_gate_a_shape": "5 PASS + 12 PASS_WITH_DECLARED_OPEN_ITEM + 1 HOLD",
+  "terminal_release_condition": {
+   "high_severity_open_findings": {
+    "required": 0,
+    "actual": 0,
+    "met": true,
+    "basis": "M7_CM01_FINDING_ADJUDICATION_V1 (HIGH open = 0 after per-hit adjudication under a declared rule set) + WP2 V2 audit finding_counts (HIGH=0, CRITICAL=0) + FEA1B open-finding scan (FEA1B-FIND-01 HIGH_METHOD is CLOSED, counted explicitly). Red-team sweep RT-01..08 runs after this gate build; any HIGH it raises flips this item and must trigger re-issue of this gate."
+   },
+   "internal_hold_count": {
+    "required": 0,
+    "actual": 1,
+    "met": false,
+    "hold_criteria": [
+     "09"
+    ]
+   },
+   "hash_mismatch_count": {
+    "required": 0,
+    "actual": 0,
+    "met": true,
+    "basis": "CM01 audit C1/C2 (frozen baseline drift + receipt self-consistency, PASS) + cross-WP reconciliation (hash_mismatch_count=0)."
+   },
+   "unexplained_positive_interference_count": {
+    "required": 0,
+    "actual": 0,
+    "met": true,
+    "basis": "WP12 SECONDARY_STRUCTURE_INTERFERENCE_RULING_V1: all 9 positive-interference claims in play located, attributed and explained (I-01..I-09); count is zero WITH its coverage limits travelling alongside."
+   },
+   "mechanical_to_embodied_handoff": {
+    "required": "PASS (in its own ODR-16 gate artifact)",
+    "referenced_artifact": {
+     "artifact": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/12_release/MECHANICAL_TO_EMBODIED_HANDOFF_GATE.json",
+     "status": "NOT_PRESENT_AT_BUILD_TIME",
+     "note": "referenced as its own gate artifact per ODR-16; built separately (WP13/A0 handoff builder). This gate does not evaluate it and does not substitute for it.",
+     "verdict": null
+    },
+    "met": false,
+    "note": "evaluated by MECHANICAL_TO_EMBODIED_HANDOFF_GATE.json, not by this gate."
+   },
+   "all_met": false
+  },
+  "blocking_holds_forbidden_at_gate_a_scan": [
+   {
+    "forbidden_item": "ROOT_TO_M ambiguous",
+    "absent": true,
+    "evidence_basis": "ODR-01 single M-frame authority; criterion 04 evidence"
+   },
+   {
+    "forbidden_item": "M3R geometry or interface conflict",
+    "absent": true,
+    "evidence_basis": "ICD_V3 IF-01/IF-02 frozen; WP12 datum rulings"
+   },
+   {
+    "forbidden_item": "unknown positive-volume collision",
+    "absent": true,
+    "evidence_basis": "WP12 interference ruling: unexplained count = 0"
+   },
+   {
+    "forbidden_item": "missing product component",
+    "absent": true,
+    "evidence_basis": "PRODUCT_STRUCTURE_V1 tree contains all required nodes"
+   },
+   {
+    "forbidden_item": "nine-configuration design mass still null",
+    "absent": true,
+    "evidence_basis": "WP2 V2 9/9 non-null + independent audit AUDIT_PASS_CLEAN"
+   },
+   {
+    "forbidden_item": "kinematic topology mismatch",
+    "absent": true,
+    "evidence_basis": "O2-A ruling; 10-link/9-joint topology verified"
+   },
+   {
+    "forbidden_item": "critical tolerance chain open",
+    "absent": true,
+    "evidence_basis": "ODR-13 functional classification: 0 Gate A blockers among open chains"
+   },
+   {
+    "forbidden_item": "operational FEA solver error or reaction imbalance",
+    "absent": true,
+    "evidence_basis": "FEA1 13/13 + FEA1B 48/48, 0 fatal errors, reaction balance PASS"
+   },
+   {
+    "forbidden_item": "missing operational load source",
+    "absent": true,
+    "evidence_basis": "all six operational load families carry controlled declared sources"
+   },
+   {
+    "forbidden_item": "MECH-RL frame/mass/collision mismatch",
+    "absent": true,
+    "evidence_basis": "cross-WP thread hash-closed; O2-A; WP13 contract loadable"
+   },
+   {
+    "forbidden_item": "zero-byte evidence",
+    "absent": true,
+    "evidence_basis": "CM01 C4 sweep PASS + every evidence file pinned by this gate is non-zero (checked at pin time)"
+   },
+   {
+    "forbidden_item": "frozen baseline hash drift",
+    "absent": true,
+    "evidence_basis": "CM01 C1 frozen-baseline drift check PASS"
+   },
+   {
+    "forbidden_item": "HIGH-severity red-team finding",
+    "absent": true,
+    "evidence_basis": "no HIGH open finding in any current artifact (CM01-F15 adjudicated to zero genuine claims); RT-01..08 red-team sweep runs after this build and any HIGH it raises must re-issue this gate"
+   }
+  ],
+  "blocking_holds_forbidden_at_gate_a_all_absent": true,
+  "carried_holds_unchanged": [
+   "FLIGHT_QUALIFICATION_HOLD",
+   "LAUNCHER_AND_SEPARATION_LOAD_HOLD",
+   "AS_BUILT_MASS_CORRELATION_HOLD",
+   "FLIGHT_MATERIAL_ALLOWABLE_HOLD",
+   "QUALIFICATION_TEST_HOLD"
+  ],
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "prohibition": "L6 is the terminus. No M8/M9 planning artifact may be created by this loop. This gate grants no flight, launcher, manufacturing-release or qualification authority."
+ },
+ "m7_criteria": [
+  {
+   "id": "01",
+   "name": "INPUT_AND_CM_INTEGRITY",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "CM01-F13 CONFIGURATION_MANAGEMENT_STANDARDS_PEDIGREE",
+     "class": "qualification",
+     "future_trigger": "controlled-copy standards procurement and CM pedigree correction at the next release re-issue (ECR)",
+     "note": "UPHELD MEDIUM finding: standards are used as DRD/method templates without held controlled copies; no design value depends on them."
+    },
+    {
+     "id": "CM-OPEN-01 V2_BASELINE_SUPERSESSION_ECR_NOT_YET_RAISED",
+     "class": "qualification",
+     "future_trigger": "Owner/Chief Engineer ECR approval before Sim13/RL production consumers are re-pointed at M7 assets",
+     "note": "re-pointing consumers is a V2 baseline event; the ECR register holds only ECR-000 (PROCESS_ONLY)."
+    },
+    {
+     "id": "CM-OPEN-03 CONCURRENT_WRITE_ZONE_12_RELEASE",
+     "class": "qualification",
+     "future_trigger": "A0 final integration sweep at terminal release signing",
+     "note": "the C4 zero-byte sweep is a point-in-time snapshot; this gate build re-pins every artifact it consumes."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "CM01-F13 CONFIGURATION_MANAGEMENT_STANDARDS_PEDIGREE",
+      "class": "qualification",
+      "future_trigger": "controlled-copy standards procurement and CM pedigree correction at the next release re-issue (ECR)",
+      "note": "UPHELD MEDIUM finding: standards are used as DRD/method templates without held controlled copies; no design value depends on them."
+     },
+     {
+      "id": "CM-OPEN-01 V2_BASELINE_SUPERSESSION_ECR_NOT_YET_RAISED",
+      "class": "qualification",
+      "future_trigger": "Owner/Chief Engineer ECR approval before Sim13/RL production consumers are re-pointed at M7 assets",
+      "note": "re-pointing consumers is a V2 baseline event; the ECR register holds only ECR-000 (PROCESS_ONLY)."
+     },
+     {
+      "id": "CM-OPEN-03 CONCURRENT_WRITE_ZONE_12_RELEASE",
+      "class": "qualification",
+      "future_trigger": "A0 final integration sweep at terminal release signing",
+      "note": "the C4 zero-byte sweep is a point-in-time snapshot; this gate build re-pins every artifact it consumes."
+     }
+    ]
+   }
+  },
+  {
+   "id": "02",
+   "name": "PRODUCT_STRUCTURE",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "SECONDARY_STRUCTURE_BREP_NOT_MODELLED",
+     "class": "qualification",
+     "future_trigger": "ECR-M6 (launcher or separation ICD received) or ECR-M2 (stowed-configuration collision defect discovered)",
+     "note": "stow supports G07/G08/MID and brackets exist in the tree as candidate slots (DEFINED_NOT_MODELLED); they react stow inertia during launch/transport only, outside the accepted post-release operational baseline."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "SECONDARY_STRUCTURE_BREP_NOT_MODELLED",
+      "class": "qualification",
+      "future_trigger": "ECR-M6 (launcher or separation ICD received) or ECR-M2 (stowed-configuration collision defect discovered)",
+      "note": "stow supports G07/G08/MID and brackets exist in the tree as candidate slots (DEFINED_NOT_MODELLED); they react stow inertia during launch/transport only, outside the accepted post-release operational baseline."
+     }
+    ]
+   }
+  },
+  {
+   "id": "03",
+   "name": "SYSTEM_GEOMETRY",
+   "state": "PASS",
+   "open_items": [],
+   "extra": {
+    "open_items": []
+   }
+  },
+  {
+   "id": "04",
+   "name": "FRAME_AUTHORITY",
+   "state": "PASS",
+   "open_items": [],
+   "extra": {
+    "open_items": []
+   }
+  },
+  {
+   "id": "05",
+   "name": "B601_KINEMATIC_CHAIN",
+   "state": "PASS",
+   "open_items": [],
+   "extra": {
+    "open_items": []
+   }
+  },
+  {
+   "id": "06",
+   "name": "M3R_B601_ICD",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "B601_PHYSICAL_FITUP_HOLD",
+     "class": "as-built",
+     "future_trigger": "B601 hardware arrival fit-up inspection (ECR-M5 if as-built correlation exceeds tolerance)",
+     "note": "the arm-side mating part is the as-built B601 base plate; physical fit-up is unverified by definition."
+    },
+    {
+     "id": "HARDWARE_DATUM_INSPECTION_HOLD",
+     "class": "as-built",
+     "future_trigger": "first-article datum inspection of the M3R Stage A/B machined parts",
+     "note": "datum stations 198.0/208.0/210.405 mm are design values pending hardware inspection."
+    },
+    {
+     "id": "FASTENER_MARGIN_CRITERIA_EXTERNAL",
+     "class": "qualification",
+     "future_trigger": "fastener qualification test campaign (ECR-M7-class)",
+     "note": "margin criteria reference candidate/typical capacities; no flight allowable exists (see criterion 13)."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "B601_PHYSICAL_FITUP_HOLD",
+      "class": "as-built",
+      "future_trigger": "B601 hardware arrival fit-up inspection (ECR-M5 if as-built correlation exceeds tolerance)",
+      "note": "the arm-side mating part is the as-built B601 base plate; physical fit-up is unverified by definition."
+     },
+     {
+      "id": "HARDWARE_DATUM_INSPECTION_HOLD",
+      "class": "as-built",
+      "future_trigger": "first-article datum inspection of the M3R Stage A/B machined parts",
+      "note": "datum stations 198.0/208.0/210.405 mm are design values pending hardware inspection."
+     },
+     {
+      "id": "FASTENER_MARGIN_CRITERIA_EXTERNAL",
+      "class": "qualification",
+      "future_trigger": "fastener qualification test campaign (ECR-M7-class)",
+      "note": "margin criteria reference candidate/typical capacities; no flight allowable exists (see criterion 13)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "07",
+   "name": "GRIPPER_R1",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "ACTUATOR_FORCE_SPEED_DUTY_FAULT_DATA_HOLD",
+     "class": "external-equipment",
+     "future_trigger": "gripper actuator procurement and instrumented bench test (standing todo: B601 gripper closing-time measurement)",
+     "note": "actuator force/speed/duty/fault data are vendor/hardware inputs; URDF 100 N / 15 mm/s limits are MODEL_LIMIT, not design authority."
+    },
+    {
+     "id": "CONTACT_FRICTION_PRESSURE_DAMAGE_CRITERIA_HOLD",
+     "class": "qualification",
+     "future_trigger": "contact/grasp qualification test campaign (ECR-M7-class)",
+     "note": "contact friction, pressure and damage criteria need a qualification test; grasp.contact_window_ms=20 ms stays PROVISIONAL per ODR-15 worked example."
+    },
+    {
+     "id": "PHYSICAL_MASS_PROPERTIES_HOLD",
+     "class": "as-built",
+     "future_trigger": "as-built gripper weighing and inertia measurement (ECR-M5-class)",
+     "note": "MVR-020: URDF mass values are not physically reconciled; L0 URDF masses never overridden."
+    },
+    {
+     "id": "TARGET_GEOMETRY_SURFACE_AUTHORITY_HOLD",
+     "class": "external-equipment",
+     "future_trigger": "target interface ICD / captured-object geometry authority (ECR-M6-class)",
+     "note": "no target surface authority exists; capture anchors are research-bound DERIVED, not structural design authority."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "ACTUATOR_FORCE_SPEED_DUTY_FAULT_DATA_HOLD",
+      "class": "external-equipment",
+      "future_trigger": "gripper actuator procurement and instrumented bench test (standing todo: B601 gripper closing-time measurement)",
+      "note": "actuator force/speed/duty/fault data are vendor/hardware inputs; URDF 100 N / 15 mm/s limits are MODEL_LIMIT, not design authority."
+     },
+     {
+      "id": "CONTACT_FRICTION_PRESSURE_DAMAGE_CRITERIA_HOLD",
+      "class": "qualification",
+      "future_trigger": "contact/grasp qualification test campaign (ECR-M7-class)",
+      "note": "contact friction, pressure and damage criteria need a qualification test; grasp.contact_window_ms=20 ms stays PROVISIONAL per ODR-15 worked example."
+     },
+     {
+      "id": "PHYSICAL_MASS_PROPERTIES_HOLD",
+      "class": "as-built",
+      "future_trigger": "as-built gripper weighing and inertia measurement (ECR-M5-class)",
+      "note": "MVR-020: URDF mass values are not physically reconciled; L0 URDF masses never overridden."
+     },
+     {
+      "id": "TARGET_GEOMETRY_SURFACE_AUTHORITY_HOLD",
+      "class": "external-equipment",
+      "future_trigger": "target interface ICD / captured-object geometry authority (ECR-M6-class)",
+      "note": "no target surface authority exists; capture anchors are research-bound DERIVED, not structural design authority."
+     }
+    ]
+   }
+  },
+  {
+   "id": "08",
+   "name": "SOLAR_AND_HDRM",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "HOLD_PANEL_ROOT_TO_HINGE_AXIS_REGISTRATION_NOT_ESTABLISHED",
+     "class": "external-equipment",
+     "future_trigger": "ECR-M4: hinge or panel-root hardware selected / solar hinge detail-design authorization",
+     "note": "declared hinge axis corroborated by real native pin geometry; panel proxy is a mass/envelope proxy never registered to the hinge line; deployment sweep clearance verification is NOT claimed."
+    },
+    {
+     "id": "PANEL_HOLD_DOWN_DEVICE_NOT_DEFINED_HOLD",
+     "class": "external-equipment",
+     "future_trigger": "ECR-M4/ECR-M6: panel hold-down & release device selection",
+     "note": "the panel hold-down/release device is not in WP5 scope and no product is selected; distinct from the arm HDRM (WP12 TC-14 mechanism-identity finding)."
+    },
+    {
+     "id": "HDRM_PRODUCT_SELECTION_AND_INTERFACE_HOLD",
+     "class": "external-equipment",
+     "future_trigger": "ECR-M4: HDRM hardware selected (vendor interface geometry and mating pattern)",
+     "note": "arm HDRM is a catalog-class device; interface geometry and mating pattern are vendor data."
+    },
+    {
+     "id": "LAUNCH_RESTRAINT_SIZING_AND_RELEASE_SHOCK_HOLD",
+     "class": "qualification",
+     "future_trigger": "ECR-M6: launcher ICD received; then launch-restraint sizing, SRS and release reliability demonstration (ECR-M7-class qualification)",
+     "note": "launch retention sizing, release-shock SRS and reliability/life test are flight-qualification items."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "HOLD_PANEL_ROOT_TO_HINGE_AXIS_REGISTRATION_NOT_ESTABLISHED",
+      "class": "external-equipment",
+      "future_trigger": "ECR-M4: hinge or panel-root hardware selected / solar hinge detail-design authorization",
+      "note": "declared hinge axis corroborated by real native pin geometry; panel proxy is a mass/envelope proxy never registered to the hinge line; deployment sweep clearance verification is NOT claimed."
+     },
+     {
+      "id": "PANEL_HOLD_DOWN_DEVICE_NOT_DEFINED_HOLD",
+      "class": "external-equipment",
+      "future_trigger": "ECR-M4/ECR-M6: panel hold-down & release device selection",
+      "note": "the panel hold-down/release device is not in WP5 scope and no product is selected; distinct from the arm HDRM (WP12 TC-14 mechanism-identity finding)."
+     },
+     {
+      "id": "HDRM_PRODUCT_SELECTION_AND_INTERFACE_HOLD",
+      "class": "external-equipment",
+      "future_trigger": "ECR-M4: HDRM hardware selected (vendor interface geometry and mating pattern)",
+      "note": "arm HDRM is a catalog-class device; interface geometry and mating pattern are vendor data."
+     },
+     {
+      "id": "LAUNCH_RESTRAINT_SIZING_AND_RELEASE_SHOCK_HOLD",
+      "class": "qualification",
+      "future_trigger": "ECR-M6: launcher ICD received; then launch-restraint sizing, SRS and release reliability demonstration (ECR-M7-class qualification)",
+      "note": "launch retention sizing, release-shock SRS and reliability/life test are flight-qualification items."
+     }
+    ]
+   }
+  },
+  {
+   "id": "09",
+   "name": "HARNESS_AND_KEEPOUT",
+   "state": "HOLD",
+   "open_items": [
+    {
+     "id": "HR-OPEN-02 SERVICE_LOOP_SLACK_NOT_PROVEN",
+     "class": "internal-design",
+     "future_trigger": "internal: fix the HC-2/HC-3 clamp radii and recompute r*dtheta exactly (A1 harness design action)",
+     "note": "the 120 mm prior-candidate service loop is smaller than the derived joint1 take-up upper bound of 347.493596 mm and is NOT proven sufficient. Internal design definition incomplete -> HOLD per ODR-14."
+    },
+    {
+     "id": "HR-OPEN-04 NO_HARNESS_GEOMETRY_NO_CLEARANCE_EVIDENCE",
+     "class": "internal-design",
+     "future_trigger": "internal: harness centreline / bus-passage modelling authorization (currently blocked by the ODR-17 scope freeze; needs an authorized harness geometry task)",
+     "note": "no bundle-to-structure clearance can be measured without a modelled harness centreline."
+    },
+    {
+     "id": "VENDOR_CABLE_DATA_ABSENT",
+     "class": "external-equipment",
+     "future_trigger": "vendor cable OD / minimum bend radius / connector shell / bundle stiffness data (HR-OPEN-05), plus moving-harness sweep computation",
+     "note": "bend radius and hinge drive-margin harness torque stay null; no zero-fill permitted."
+    },
+    {
+     "id": "CAMERA_HARNESS_UNDEFINED",
+     "class": "external-equipment",
+     "future_trigger": "owner camera architecture selection (ECR-M4-class)",
+     "note": "HR-OPEN-03: bus-mounted vs wrist-mounted camera decides whether H-RUN-04 has a moving-harness topology at all."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "HR-OPEN-02 SERVICE_LOOP_SLACK_NOT_PROVEN",
+      "class": "internal-design",
+      "future_trigger": "internal: fix the HC-2/HC-3 clamp radii and recompute r*dtheta exactly (A1 harness design action)",
+      "note": "the 120 mm prior-candidate service loop is smaller than the derived joint1 take-up upper bound of 347.493596 mm and is NOT proven sufficient. Internal design definition incomplete -> HOLD per ODR-14."
+     },
+     {
+      "id": "HR-OPEN-04 NO_HARNESS_GEOMETRY_NO_CLEARANCE_EVIDENCE",
+      "class": "internal-design",
+      "future_trigger": "internal: harness centreline / bus-passage modelling authorization (currently blocked by the ODR-17 scope freeze; needs an authorized harness geometry task)",
+      "note": "no bundle-to-structure clearance can be measured without a modelled harness centreline."
+     },
+     {
+      "id": "VENDOR_CABLE_DATA_ABSENT",
+      "class": "external-equipment",
+      "future_trigger": "vendor cable OD / minimum bend radius / connector shell / bundle stiffness data (HR-OPEN-05), plus moving-harness sweep computation",
+      "note": "bend radius and hinge drive-margin harness torque stay null; no zero-fill permitted."
+     },
+     {
+      "id": "CAMERA_HARNESS_UNDEFINED",
+      "class": "external-equipment",
+      "future_trigger": "owner camera architecture selection (ECR-M4-class)",
+      "note": "HR-OPEN-03: bus-mounted vs wrist-mounted camera decides whether H-RUN-04 has a moving-harness topology at all."
+     }
+    ]
+   }
+  },
+  {
+   "id": "10",
+   "name": "NINE_CONFIG_DESIGN_MASS",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "AS_BUILT_MASS_CORRELATION_HOLD",
+     "class": "as-built",
+     "future_trigger": "ECR-M5: as-built weighing / CG / inertia measurement and correlation review (M3R as-built open per ODR-05)",
+     "note": "all uncertainties are declared Type-B policy values; status PENDING_CALIBRATION; no measured or as-built value anywhere in the model."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "AS_BUILT_MASS_CORRELATION_HOLD",
+      "class": "as-built",
+      "future_trigger": "ECR-M5: as-built weighing / CG / inertia measurement and correlation review (M3R as-built open per ODR-05)",
+      "note": "all uncertainties are declared Type-B policy values; status PENDING_CALIBRATION; no measured or as-built value anywhere in the model."
+     }
+    ]
+   }
+  },
+  {
+   "id": "11",
+   "name": "MATERIAL_AND_PROCESS",
+   "state": "PASS",
+   "open_items": [],
+   "extra": {
+    "open_items": []
+   }
+  },
+  {
+   "id": "12",
+   "name": "TOLERANCE_CHAINS",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "TC13_CAMERA_BRACKET_POINTING",
+     "class": "external-equipment",
+     "future_trigger": "camera selection (ECR-M4-class), then Gate B / ECR allocation of the pointing budget",
+     "note": "ODR-13 conditions all met: camera not selected, affects only future vision alignment, no effect on primary structure, B601 motion/collision or Sim13/Sim15."
+    },
+    {
+     "id": "TC14_HDRM_PRELOAD_INTERFACE",
+     "class": "qualification",
+     "future_trigger": "launcher/separation ICD (ECR-M6) and HDRM qualification (ECR-M7-class); does not touch release, deployment initial conditions, deployment dynamics or on-orbit latching",
+     "note": "non-blocking because the accepted operational baseline is the post-release on-orbit state (ODR-13); WP12 confirmed TC-14 dimensions the ARM HDRM, not the undefined panel hold-down."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "TC13_CAMERA_BRACKET_POINTING",
+      "class": "external-equipment",
+      "future_trigger": "camera selection (ECR-M4-class), then Gate B / ECR allocation of the pointing budget",
+      "note": "ODR-13 conditions all met: camera not selected, affects only future vision alignment, no effect on primary structure, B601 motion/collision or Sim13/Sim15."
+     },
+     {
+      "id": "TC14_HDRM_PRELOAD_INTERFACE",
+      "class": "qualification",
+      "future_trigger": "launcher/separation ICD (ECR-M6) and HDRM qualification (ECR-M7-class); does not touch release, deployment initial conditions, deployment dynamics or on-orbit latching",
+      "note": "non-blocking because the accepted operational baseline is the post-release on-orbit state (ODR-13); WP12 confirmed TC-14 dimensions the ARM HDRM, not the undefined panel hold-down."
+     }
+    ]
+   }
+  },
+  {
+   "id": "13",
+   "name": "FASTENERS",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "LC014_TC5MS_BOUNDING_SEPARATION_AND_TENSION_EXCEEDANCE",
+     "class": "qualification",
+     "future_trigger": "B601 gripper closing-time hardware measurement (standing todo 2) replacing the tc=5 ms bounding assumption, plus fastener qualification test (ECR-M7-class); ECR-M1 if measured dynamics loads confirm an exceedance",
+     "note": "B601_TO_STAGE_A 4xM4 at LC-014 (150 kg, tc=5 ms bounding): separation demand/capacity 1.4351, bolt additional tension vs candidate proof 1.0829. Demand is DERIVED/NOT_STRUCTURAL_DESIGN_AUTHORITY; capacities are candidate A286 distributor references, not allowables. Declared, not remediated by assumption."
+    },
+    {
+     "id": "HOLD_NO_B601_MATERIAL_OR_ENGAGEMENT_AUTHORITY",
+     "class": "as-built",
+     "future_trigger": "B601 vendor material data or teardown/thread-engagement inspection",
+     "note": "internal-thread strip in the vendor tapped holes is unevaluable; thread-shear rows stay HOLD, not zero-filled."
+    },
+    {
+     "id": "HOLD_FLIGHT_ALLOWABLES_ABSENT",
+     "class": "qualification",
+     "future_trigger": "material/fastener qualification program (ECR-M7-class); flight fastener lot acceptance is a permitted non-blocking hold",
+     "note": "all checks are DESIGN_ANALYSIS_NOT_QUALIFICATION; no margin of safety is claimed."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "LC014_TC5MS_BOUNDING_SEPARATION_AND_TENSION_EXCEEDANCE",
+      "class": "qualification",
+      "future_trigger": "B601 gripper closing-time hardware measurement (standing todo 2) replacing the tc=5 ms bounding assumption, plus fastener qualification test (ECR-M7-class); ECR-M1 if measured dynamics loads confirm an exceedance",
+      "note": "B601_TO_STAGE_A 4xM4 at LC-014 (150 kg, tc=5 ms bounding): separation demand/capacity 1.4351, bolt additional tension vs candidate proof 1.0829. Demand is DERIVED/NOT_STRUCTURAL_DESIGN_AUTHORITY; capacities are candidate A286 distributor references, not allowables. Declared, not remediated by assumption."
+     },
+     {
+      "id": "HOLD_NO_B601_MATERIAL_OR_ENGAGEMENT_AUTHORITY",
+      "class": "as-built",
+      "future_trigger": "B601 vendor material data or teardown/thread-engagement inspection",
+      "note": "internal-thread strip in the vendor tapped holes is unevaluable; thread-shear rows stay HOLD, not zero-filled."
+     },
+     {
+      "id": "HOLD_FLIGHT_ALLOWABLES_ABSENT",
+      "class": "qualification",
+      "future_trigger": "material/fastener qualification program (ECR-M7-class); flight fastener lot acceptance is a permitted non-blocking hold",
+      "note": "all checks are DESIGN_ANALYSIS_NOT_QUALIFICATION; no margin of safety is claimed."
+     }
+    ]
+   }
+  },
+  {
+   "id": "14",
+   "name": "OPERATIONAL_LOADS",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "ARM_EMERGENCY_STOP_LOAD_AUTHORITY_HOLD",
+     "class": "external-equipment",
+     "future_trigger": "B601 actuator e-stop deceleration specification or an instrumented emergency-stop test",
+     "note": "e-stop = declared factor 2.0 x maneuver from a quintic trajectory peak at r_eff=0.7 m (declared assumptions); not traceable to an authorized actuator limit."
+    },
+    {
+     "id": "CAPTURE_CONTACT_DURATION_AUTHORITY_HOLD",
+     "class": "as-built",
+     "future_trigger": "B601 gripper closing-time hardware measurement (standing todo 2); dt=0.1 s and DAF=2.0 are declared assumptions, sim_11 T_c=20 ms is PROVISIONAL",
+     "note": "capture quasi-static policy F_eq=DAF*J/dt is research-bound DERIVED, not structural design authority; the CAP150 provenance defect is recorded (conservative direction, 1.76% high) and re-attributed in FEA1B (FEA1B-FIND-06 RESOLVED)."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "ARM_EMERGENCY_STOP_LOAD_AUTHORITY_HOLD",
+      "class": "external-equipment",
+      "future_trigger": "B601 actuator e-stop deceleration specification or an instrumented emergency-stop test",
+      "note": "e-stop = declared factor 2.0 x maneuver from a quintic trajectory peak at r_eff=0.7 m (declared assumptions); not traceable to an authorized actuator limit."
+     },
+     {
+      "id": "CAPTURE_CONTACT_DURATION_AUTHORITY_HOLD",
+      "class": "as-built",
+      "future_trigger": "B601 gripper closing-time hardware measurement (standing todo 2); dt=0.1 s and DAF=2.0 are declared assumptions, sim_11 T_c=20 ms is PROVISIONAL",
+      "note": "capture quasi-static policy F_eq=DAF*J/dt is research-bound DERIVED, not structural design authority; the CAP150 provenance defect is recorded (conservative direction, 1.76% high) and re-attributed in FEA1B (FEA1B-FIND-06 RESOLVED)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "15",
+   "name": "OPERATIONAL_FEA",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "GEOMETRY_EXACT_MESH_HOLD",
+     "class": "qualification",
+     "future_trigger": "ECR-M1 / ECR-M7, or any attempt to state an absolute stress value as design authority (requires a boundary-conforming mesh of the circular features)",
+     "note": "local surface stress is bounded-but-not-converged (rigid-patch singularity, handled under the ODR-11 singularity rule with a verified extrapolated bound ~170x below candidate typical yield)."
+    },
+    {
+     "id": "CDR_JOINT_MECHANICS_HOLD",
+     "class": "qualification",
+     "future_trigger": "joint qualification test with preload/contact/friction (ECR-M7-class)",
+     "note": "no contact, preload or friction in the model; the criterion's contact evidence is satisfied as 'explicitly declared absent', not modelled."
+    },
+    {
+     "id": "BC_BUS_001_INTERFACE_STIFFNESS_HOLD",
+     "class": "external-equipment",
+     "future_trigger": "bus-side interface stiffness authority (spacecraft bus ICD, ECR-M6-class)",
+     "note": "z=0 ENCASTRE is a declared stiff-bound design bound, not an authority."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "GEOMETRY_EXACT_MESH_HOLD",
+      "class": "qualification",
+      "future_trigger": "ECR-M1 / ECR-M7, or any attempt to state an absolute stress value as design authority (requires a boundary-conforming mesh of the circular features)",
+      "note": "local surface stress is bounded-but-not-converged (rigid-patch singularity, handled under the ODR-11 singularity rule with a verified extrapolated bound ~170x below candidate typical yield)."
+     },
+     {
+      "id": "CDR_JOINT_MECHANICS_HOLD",
+      "class": "qualification",
+      "future_trigger": "joint qualification test with preload/contact/friction (ECR-M7-class)",
+      "note": "no contact, preload or friction in the model; the criterion's contact evidence is satisfied as 'explicitly declared absent', not modelled."
+     },
+     {
+      "id": "BC_BUS_001_INTERFACE_STIFFNESS_HOLD",
+      "class": "external-equipment",
+      "future_trigger": "bus-side interface stiffness authority (spacecraft bus ICD, ECR-M6-class)",
+      "note": "z=0 ENCASTRE is a declared stiff-bound design bound, not an authority."
+     }
+    ]
+   }
+  },
+  {
+   "id": "16",
+   "name": "THERMOMECHANICAL",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "HOLD_THERMAL_ENVIRONMENT_AUTHORITY",
+     "class": "qualification",
+     "future_trigger": "thermal-vacuum qualification / on-orbit thermal environment specification (ECR-M7-class); thermal-vacuum qualification is a permitted non-blocking hold",
+     "note": "temperature bands are ASSUMPTION candidates; no thermal test or on-orbit measurement exists."
+    },
+    {
+     "id": "HOLD_B601_BASE_MATERIAL_UNIDENTIFIED",
+     "class": "as-built",
+     "future_trigger": "B601 vendor material identification (as-built hardware data)",
+     "note": "pattern radial drift is computed zero for an Al base but up to 70% of the WC clearance for a Ti base on the qualification swing; base material must be confirmed."
+    },
+    {
+     "id": "HOLD_HINGE_PIN_AND_BORE_NOMINALS",
+     "class": "external-equipment",
+     "future_trigger": "ECR-M4: hinge hardware selected -> pin/bore nominals become authority (M6 TC-009 lineage)",
+     "note": "diametral clearance coefficient is closed per mm of pin diameter; the absolute margin cannot close without nominals (no zero-fill applied)."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "HOLD_THERMAL_ENVIRONMENT_AUTHORITY",
+      "class": "qualification",
+      "future_trigger": "thermal-vacuum qualification / on-orbit thermal environment specification (ECR-M7-class); thermal-vacuum qualification is a permitted non-blocking hold",
+      "note": "temperature bands are ASSUMPTION candidates; no thermal test or on-orbit measurement exists."
+     },
+     {
+      "id": "HOLD_B601_BASE_MATERIAL_UNIDENTIFIED",
+      "class": "as-built",
+      "future_trigger": "B601 vendor material identification (as-built hardware data)",
+      "note": "pattern radial drift is computed zero for an Al base but up to 70% of the WC clearance for a Ti base on the qualification swing; base material must be confirmed."
+     },
+     {
+      "id": "HOLD_HINGE_PIN_AND_BORE_NOMINALS",
+      "class": "external-equipment",
+      "future_trigger": "ECR-M4: hinge hardware selected -> pin/bore nominals become authority (M6 TC-009 lineage)",
+      "note": "diametral clearance coefficient is closed per mm of pin diameter; the absolute margin cannot close without nominals (no zero-fill applied)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "17",
+   "name": "MANUFACTURING_RELEASE_PACKAGE",
+   "state": "PASS",
+   "open_items": [],
+   "extra": {
+    "open_items": []
+   }
+  },
+  {
+   "id": "18",
+   "name": "MECH_RL_DIGITAL_THREAD",
+   "state": "PASS_WITH_DECLARED_OPEN_ITEM",
+   "open_items": [
+    {
+     "id": "MECH_RL_COLLISION_MESH_CALIBRATION_APPLICATION",
+     "class": "external-equipment",
+     "future_trigger": "ECR-M2 (collision or reachability defect discovered in the downstream Sim/RL consumer); the re-export touches WP10/WP9 assets outside this loop's write scope",
+     "note": "operational collision meshes not yet re-exported through the D_i calibration (WP11-F-01/F-02); the transforms and consumption rules are defined and the current digital twin is unaffected."
+    }
+   ],
+   "extra": {
+    "open_items": [
+     {
+      "id": "MECH_RL_COLLISION_MESH_CALIBRATION_APPLICATION",
+      "class": "external-equipment",
+      "future_trigger": "ECR-M2 (collision or reachability defect discovered in the downstream Sim/RL consumer); the re-export touches WP10/WP9 assets outside this loop's write scope",
+      "note": "operational collision meshes not yet re-exported through the D_i calibration (WP11-F-01/F-02); the transforms and consumption rules are defined and the current digital twin is unaffected."
+     }
+    ]
+   }
+  }
+ ],
+ "cdr_phase1": {
+  "gate_status": "HOLD",
+  "current_formal_status": {
+   "DIGITAL_OPERATIONAL_BASELINE": "CLOSED",
+   "MECHANICAL_DETAIL_DESIGN": "ACTIVE",
+   "MECHANICAL_CDR": "NOT_YET_PASSED",
+   "STRUCTURAL_QUALIFICATION": "HOLD",
+   "MECHANISM_QUALIFICATION": "HOLD",
+   "FLIGHT_ACCEPTANCE": "HOLD"
+  },
+  "phase_blockers": {
+   "Q0": [
+    "CONTROLLED_STANDARD_COPIES_AND_AUTHORIZED_CLAUSE_LEVEL_TAILORING",
+    "OWNER_AUTHORIZED_NUMERICAL_REQUIREMENTS_AND_ACCEPTANCE_CRITERIA",
+    "UNRESOLVED_EXISTING_DESIGN_QUALIFICATION_AND_INTERFACE_HOLDS"
+   ],
+   "Q1": [
+    "NO_SELECTED_LAUNCHER_DEPLOYER_OR_SEPARATION_ICD",
+    "NO_AUTHORIZED_LAUNCH_OR_OPERATIONAL_LOAD_ENVIRONMENT",
+    "NO_APPROVED_LOAD_COMBINATION_FACTOR_AND_UNCERTAINTY_POLICY",
+    "CAPTURE_EVIDENCE_DEFAULT_PATH_AND_SOLVER_INPUT_HASH_CHAIN_NOT_REPRODUCIBLE",
+    "NO_APPROVED_ARM_HDRM_SOLAR_CAPTURE_THERMAL_AND_BOUNDARY_LOAD_AUTHORITIES"
+   ],
+   "Q2": [
+    "NO_TRACEABLE_M3R_AS_INSTALLED_TOTAL_AND_COMPONENT_MASS_PROPERTIES",
+    "NO_BUS_SOLAR_OR_TARGET_CONFIGURATION_MASS_PROPERTY_AUTHORITY",
+    "NO_NINE_CONFIGURATION_B601_JOINT_VECTORS_OR_TARGET_CAPTURE_TRANSFORMS",
+    "NO_SPACECRAFT_ROOT_TO_M_FRAME_RELATION",
+    "NO_OWNER_APPROVED_MASS_GROWTH_ALLOWANCE_POLICY"
+   ]
+  },
+  "formal_analysis_and_release_authority": {
+   "formal_strength_mos_fea_authorized": false,
+   "formal_buckling_fea_authorized": false,
+   "formal_modal_response_fea_authorized": false,
+   "formal_random_vibration_or_shock_analysis_authorized": false,
+   "qualification_test_level_definition_authorized": false,
+   "critical_native_part_model_build_authorized": false,
+   "native_solidworks_top_assembly_work_authorized": false,
+   "mechanical_cdr_design_released": false,
+   "qualification_ready_engineering_baseline": false
+  },
+  "prohibited_actions_and_claims": [
+   "RUN_OR_CREDIT_FORMAL_STRENGTH_BUCKLING_MODAL_RANDOM_VIBRATION_OR_SHOCK_FEA",
+   "USE_1N_UNIT_LOAD_RESULTS_AS_STRENGTH_OR_QUALIFICATION_EVIDENCE",
+   "REBUILD_OR_RETRY_NATIVE_SOLIDWORKS_TOP_ASSEMBLY",
+   "OVERWRITE_FROZEN_M9_M10_PRODUCTION_BASELINE",
+   "ISSUE_MECHANICAL_CDR_DESIGN_RELEASED",
+   "ISSUE_QUALIFICATION_READY_ENGINEERING_BASELINE",
+   "ISSUE_FLIGHT_MECHANICAL_HARDWARE_ACCEPTED"
+  ],
+  "verdict": "MECHANICAL_CDR_PHASE1_HOLD_WORKING_REQUIREMENTS_LOADS_MASS_BASELINE_ESTABLISHED_BUT_Q0_Q1_Q2_PASS_CONDITIONS_NOT_MET"
+ }
+}

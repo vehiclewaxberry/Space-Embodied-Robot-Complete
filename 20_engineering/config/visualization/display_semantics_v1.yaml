@@ -1,0 +1,39 @@
+# VIZ-Gate 0 display semantics v1 -- the color language ALL visualization
+# agents must reuse. Iron rule 3: UNKNOWN / missing-evidence items are NEVER
+# recolored as safe (green) or unsafe (red); fabricated data is forbidden.
+version: v1
+
+semantic_colors:
+  geometry_verified:   {hex: "#4c9f70", note: geometry checked against SSOT/JSON (green family)}
+  geometry_verified_light: {hex: "#8fbf9f", note: secondary geometry-verified surfaces}
+  geometry_infeasible: {hex: "#d97706", note: IK/collision hard-screen geometry failure; not a dynamics or physical-safety verdict}
+  dynamics_unverified: {hex: "#9e9e9e", note: geometry drawn, dynamics never evaluated (grey)}
+  unknown:             {hex: "#e0b400", note: E1.5 state UNKNOWN / evidence inconclusive (yellow)}
+  physical_violation:  {hex: "#c8443c", note: PHYSICAL_LIMIT_EXCEEDED only; existing numbers prove a provisional limit was exceeded}
+  evidence_missing:    {hex: "#7d93b2", note: value absent from allowed sources (grey-blue)}
+
+object_colors:                       # all meshes are geometry-verified assets
+  servicer_12U_v0:      "#6d8f7d"    # green-grey (geometry verified, m)
+  robot_mount_adapter_v0: "#4c9f70"
+  arm_b601_v1:          "#8a8f98"    # arm geometry verified; dynamics set medium conf
+  target_satellite_v0:  "#7f9f8a"
+  target_debris_v0:     "#8f8f86"
+  solar_panels_note: panels belong to the parent body mesh (not separately colored)
+
+overlay_styles:
+  keepout_fill:        {hex: "#c8443c", alpha: 0.15, note: keep-out volumes, translucent red}
+  keepout_edge:        {hex: "#c8443c", alpha: 0.5}
+  camera_fov:          {hex: "#e0b400", alpha: 0.12, note: JSON-declared FOV cone}
+  workspace_cloud_ok:  {hex: "#4c9f70", alpha: 0.25, note: reachable, cond <= 1e3}
+  workspace_cloud_singular: {hex: "#c8443c", alpha: 0.9, note: cond > 1e3 (wrist/axial singular band)}
+  grasp_point_unknown: {hex: "#e0b400", note: E1.5 UNKNOWN cases (P1 @ t_c=0)}
+  grasp_point_geometry_fail: {hex: "#d97706", note: P2/P3 geometry IK_FAIL; dynamics evidence remains missing}
+  grasp_point_geom_only: {hex: "#9e9e9e", note: geometry-verified only, no dynamics evidence}
+  tumble_axis_context: {hex: "#7d93b2", ls: dashed, note: E1 context value, evidence-missing for E1.5}
+
+frame_axes: {x: "#d62728", y: "#2ca02c", z: "#1f77b4"}   # frame_renderer.py
+
+provenance_stamp:
+  location: lower-right corner of every figure
+  fontsize: 5.5
+  contents: [git commit (runtime rev-parse), data source file names, scenario_hash when applicable]

@@ -1,0 +1,110 @@
+{
+  "schema": "WP10_BRAKE_READY_INTERFACE_V22",
+  "status": "NATIVE_INTERFACE_CHANGED__CONDITIONAL_STATIC_AND_FIRST_COLD_START_SCREEN",
+  "checks": {
+    "ready_threshold_below_declared_regulated_bias": true,
+    "steady_bias_within_driver_operating_range": true,
+    "ready_load_under_800uA_characterized_output_load": true,
+    "ready_high_static_margin": true,
+    "ready_low_static_margin": true,
+    "OV_high_static_margin": true,
+    "OV_low_load_within_project_2mA_allocation": true,
+    "cold_monotonic_start_note3_covers_comparator_tstartup": true,
+    "receiver_open_wire_pulldown_screen": true,
+    "all_controlled_counterexamples_rejected": true
+  },
+  "checks_passed": true,
+  "monitored_bias_V": [
+    11.51950971599402,
+    12.451356441460113
+  ],
+  "rising_threshold_nominal_V": 10.5,
+  "rising_threshold_sensitivity_V": [
+    10.220576750871949,
+    10.782587286001004
+  ],
+  "input_divider_scope": "0.1% +25ppm/K*100K resistor allocation; MAX16053 IIN +/-110nA tested at IN=0 or28V, transferred to0.5V for sensitivity only",
+  "ready_input_load_max_sensitivity_A": 0.00012677127718646578,
+  "ready_output_test_load_A": 0.0008,
+  "ready_high_min_sensitivity_V": 10.36755874439462,
+  "ready_low_max_V": 0.4,
+  "driver_VIH_V": 2.0,
+  "driver_VIL_V": 0.8,
+  "OV_high_min_sensitivity_V": 11.50637971599402,
+  "OV_low_sink_sensitivity_A": 0.0012587127718646578,
+  "OV_sink_scope": "2mA is a project allocation, not a TLV6700 test row. RevB p5 VOL<=0.25V rows: VDD1.3V/0.4mA,1.8V/3mA,5V/5mA. Transfer from5V/5mA to approximately12V/1.259mA is conditional, not an OEM12V guarantee.",
+  "receiver_input_scope": "MAX5048C +/-1uA at V+=14V and IN+=IN-=0 orV+; transferred to the declared approximately12V rails. No production-range I(V) guarantee inferred.",
+  "first_cold_start": {
+    "minimum_supervisor_start_s": 0.0005,
+    "maximum_TLV6700_start_s": 0.00045,
+    "margin_s": 5e-05,
+    "condition": "Both devices see the same initially discharged, continuously rising bias rail; MAX16053 Rev7 p3 Note3. No arbitrary brownout/restart guarantee."
+  },
+  "delay_capacitor": {
+    "MPN": "C0603C102J5GACTU",
+    "nominal_F": 1e-09,
+    "tolerance_plus_temperature": 0.053000000000000005,
+    "temperature_delta_K": 100,
+    "zero_initial_voltage_charge_sensitivity_s": [
+      0.002998833333333333,
+      0.00552825
+    ],
+    "typical_delay_s": 0.00403,
+    "guarantee_max_s": null,
+    "scope": "ICD200..300nA specified at CDELAY=0V; full-ramp current, residual charge and PCB leakage unbound. Do not add0.5ms and typical delay as a guaranteed sum."
+  },
+  "additional_READY_monitor_output_current_sensitivity_A": 0.00025768170220479236,
+  "added_load_at_bus32V_sensitivity_W": 0.008245814470553356,
+  "static_supply_scope": "MAX16053 71uA at28V transferred conservatively to current rail; driver IQ max1mA at14V separately replaces old driver. Not a total brake power maximum.",
+  "legacy_PG": {
+    "diagnostic_only": true,
+    "enable_credit": false,
+    "retired_200k_model_critical_extra_sink_A": 2.1658158356840026e-05
+  },
+  "gates": {
+    "native_logic_interface_can_be_checked": true,
+    "static_budget_conditional": true,
+    "whole_bias_ready_function_guaranteed": false,
+    "full_brake_function_verified": false,
+    "hardware_test_executed": false
+  },
+  "open_requirements": [
+    "Actual receiver/monitor input-current range applicability",
+    "C302 effective>=10uF and C305 effective>=1uF with DC bias/temperature/layout",
+    "Warm brownout reset, residual CDELAY charge and maximum READY recovery time",
+    "Driver thermal shutdown and gate-drive dissipation",
+    "PCB parasitic loop, effective bus C, real regeneration history and DM trip bounds"
+  ],
+  "scope_assertions": {
+    "typical_delay_not_promoted_to_guaranteed_max": true
+  },
+  "falsifiers": [
+    {
+      "name": "legacy_270k_plus_25uA_unexcluded_sink",
+      "observed_high_V": 2.0154730238112815,
+      "rejected": true
+    },
+    {
+      "name": "ready_pulldown_10k_exceeds_800uA_test_load",
+      "load_A": 0.0012587127718646578,
+      "rejected": true
+    },
+    {
+      "name": "monitor_300k_upper_never_ready_at_low_bias",
+      "threshold_V": 15.221,
+      "rejected": true
+    },
+    {
+      "name": "200us_cold_blanking_does_not_cover_450us",
+      "rejected": true
+    },
+    {
+      "name": "charged_delay_cap_cannot_inherit_zero_start",
+      "initial_V": 0.9,
+      "time_to_095_s": 0.00015783333333333312,
+      "rejected": true
+    }
+  ],
+  "native_xml_sha256": "12ed2a88372c5509a959f43ca615ad8c2f1d3798440fcc41a74b8faaf359e098",
+  "calculator_sha256": "6ac3760a615571949488ec37ced5a16e0a7644b0aacebf1bc51deaacc3dce170"
+}

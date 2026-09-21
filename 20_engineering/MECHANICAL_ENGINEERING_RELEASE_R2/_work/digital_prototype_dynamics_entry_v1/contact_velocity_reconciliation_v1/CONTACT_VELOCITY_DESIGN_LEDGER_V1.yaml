@@ -1,0 +1,58 @@
+schema: CONTACT_VELOCITY_DESIGN_LEDGER_V1
+issued_date: '2026-08-27'
+scope: ADDITIVE_TRACEABILITY_LEDGER__NO_FROZEN_CONTRACT_MODIFICATION
+owner: DIGITAL_PROTOTYPE_DYNAMICS_ENTRY_RESEARCH_CANDIDATE
+decisions:
+- id: CVR-D01
+  decision: Use the 0.005 m/s gripper first-contact design target as the current design-target hard upper bound.
+  rationale: It is the lower and more restrictive current interface value. It is explicitly a design target rather than a measured actuator capability.
+  evidence:
+  - GRIPPER_ACTUATION_INTERFACE_CANDIDATE_V1.yaml design_target_layer.first_contact_speed_max_m_s
+  falsifier: A reviewed, controlled superseding interface that changes or withdraws the design target.
+  disposition: ADOPTED_FOR_ADDITIVE_CANDIDATE
+- id: CVR-D02
+  decision: Retain 0.05 m/s in DESIGN_CONTACT_MODEL_V1 as immutable provisional-scenario lineage, but reject it for the current contact consumer.
+  rationale: Its nominal value is ten times the current design-target hard upper bound, and its source authority is DESIGN_ESTIMATE_UNVERIFIED with no evaluated standard uncertainty.
+  evidence:
+  - DESIGN_CONTACT_MODEL_V1.yaml gripper_actuator.first_contact_closing_velocity_mps
+  - DESIGN_CONTACT_MODEL_GATE_V1.json, which validates provisional structure but does not establish cross-contract consumer compatibility
+  falsifier: A separate additive scenario explicitly reduced so its estimate and upper bound are no greater than the current design-target hard upper bound.
+  disposition: RETAIN_SOURCE__REJECT_CURRENT_CONSUMER
+- id: CVR-D03
+  decision: Permit an explicitly reduced 0.005 m/s candidate only for bounded design diagnostics.
+  rationale: Direct bound comparison can establish semantic compatibility, but cannot establish hardware conformity while physical speed and uncertainty remain null.
+  evidence:
+  - CONTACT_VELOCITY_RECONCILIATION_CANDIDATE_V1.yaml measurement_model
+  falsifier: Any candidate estimate or upper bound above the current hard upper bound, a unit mismatch, source-hash drift, or a physical release claim.
+  disposition: ADOPTED_WITH_PHYSICAL_HOLD
+- id: CVR-D04
+  decision: Keep as-built first-contact speed and its uncertainty null.
+  rationale: No calibrated bench data, actuator force-speed characterization, coverage statement or physical authority is available. A numerical zero would be fabricated evidence.
+  evidence:
+  - GRIPPER_VELOCITY_UNIT_RECONCILIATION_CONTRACT_V1.yaml physical_capability_authority
+  falsifier: Completion of GVA-PI-01 through GVA-PI-07 followed by a separately reviewed physical characterization gate.
+  disposition: HOLD_NULLS_PRESERVED
+requirements:
+- id: CVR-R01
+  requirement: Every quantity record carries estimate/bounds or null, SI unit, standard uncertainty or null, uncertainty type, distribution, degrees of freedom, authority, source, confidence and status.
+  verification: evaluate_contact_velocity_reconciliation.py criterion CVR-G02
+- id: CVR-R02
+  requirement: All four frozen source bindings match byte count and SHA-256 before evaluation.
+  verification: evaluate_contact_velocity_reconciliation.py criterion CVR-G01
+- id: CVR-R03
+  requirement: The original 0.05 m/s provisional scenario is rejected for the current contact consumer.
+  verification: evaluate_contact_velocity_reconciliation.py criteria CVR-G05 and CVR-G06
+- id: CVR-R04
+  requirement: The current reduced diagnostic candidate is at or below 0.005 m/s in both estimate and upper bound.
+  verification: evaluate_contact_velocity_reconciliation.py criterion CVR-G07
+- id: CVR-R05
+  requirement: As-built speed and uncertainty remain null; all hardware/non-ABORT release flags remain false.
+  verification: evaluate_contact_velocity_reconciliation.py criteria CVR-G08 and CVR-G09
+authority_boundary:
+  semantic_consistency_credit: true
+  physical_contact_credit: false
+  hardware_motion_credit: false
+  production_dynamics_credit: false
+  frozen_files_modified: false
+  next_stage_authorized: false
+

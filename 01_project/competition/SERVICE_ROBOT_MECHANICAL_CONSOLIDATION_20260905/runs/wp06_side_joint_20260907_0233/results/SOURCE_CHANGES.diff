@@ -1,0 +1,77 @@
+--- WP04/r01_design.py
++++ WP06/r01_design.py
+@@ -2,7 +2,9 @@
+ All lengths mm. Hardware is nominal, unselected, threadless, mass UNKNOWN.
+ """
+ from pathlib import Path
+-import json,math,hashlib
++import json,math,hashlib,sys
++sys.path.insert(0,'F:/codex_skill/AgentSkills/codex-skills/cad/scripts/packages/cadgen/src')
++import cadgen  # Install the existing font guard before importing build123d.
+ from build123d import Box,Cylinder,Plane,Location,Compound,Color,RegularPolygon,extrude
+ from cadgen.assembly import AssemblyHelper
+ HERE=Path(__file__).resolve().parent
+@@ -37,12 +39,29 @@
+         e=R["existing_web_screw_clearance"]
+         for x in e["x_mm"]:
+             if a<x<b:s=cut(s,e["diameter_mm"],7,(x-(a+b)/2,side*3.5,e["z_mm"]-(R["deck_z_mm"][deck]-3)),(0,1,0))
++    if not legacy and P.get("wp06") and deck=="lower" and k==1:
++        # Open U-shaped tool relief in the angle only; this is not a closed bore.
++        w=P["wp06"];width=w["tool_relief_width_mm"]
++        xc=w["joint_x_mm"]-(a+b)/2
++        zc=w["lower_axis_z_mm"]-(R["deck_z_mm"][deck]-3)
++        top_local=legz+7  # Existing vertical leg top, S Z=-90.15 mm nominal.
++        if width<=0 or zc>=top_local:
++            raise ValueError("WP06 open relief requires positive width and axis below the angle top")
++        rise=top_local-zc+1.0  # Extend above the open edge to avoid coincident faces.
++        relief=cyl(width,24,(xc,0,zc),(0,1,0))+box((width,24,rise),(xc,0,zc+rise/2))
++        s=s-relief
+     return s
+ 
+ def web_shape(P,side,legacy=False):
+     s=Box(344,2,202.3)
+     for x in [-150,-90,-30,30,90,150]:
+-        for z in [-94,94]:s=cut(s,3.4,6,(x+4,0,z),(0,1,0))
++        for z in [-94,94]:
++            hx,hz,diameter=x+4,z,3.4
++            if not legacy and P.get("wp06") and x==150:
++                w=P["wp06"];hx=w["joint_x_mm"]
++                hz=w["lower_axis_z_mm"] if z<0 else w["upper_axis_z_mm"]
++                diameter=w["clearance_diameter_mm"]
++            s=cut(s,diameter,6,(hx,0,hz),(0,1,0))
+     if not legacy:
+         R=P["r01"]
+         for deck in ["lower","upper"]:
+--- WP04/r07_design.py
++++ WP06/r07_design.py
+@@ -1,6 +1,8 @@
+ """R07 A/B/C nominal mechanical joints; mm in S, no strength/release credit."""
+ from pathlib import Path
+-import json, math, hashlib
++import json, math, hashlib, sys
++sys.path.insert(0,'F:/codex_skill/AgentSkills/codex-skills/cad/scripts/packages/cadgen/src')
++import cadgen  # Install the existing font guard before importing build123d.
+ from build123d import Box, Cylinder, Plane, Location, RegularPolygon, extrude
+ HERE=Path(__file__).resolve().parent
+ 
+--- WP04/design_parameters.json
++++ WP06/design_parameters.json
+@@ -1,5 +1,13 @@
+ {
+   "configuration_id": "WP04_ROBOT_ASSEMBLY_wp04_robot_assembly_20260906_175153",
++  "wp06": {
++    "joint_x_mm": 146.0,
++    "lower_axis_z_mm": -93.5,
++    "upper_axis_z_mm": 94.0,
++    "clearance_diameter_mm": 3.4,
++    "tool_relief_width_mm": 8.4,
++    "scope": "FOUR_SIDE_JOINT_LOCAL_CANDIDATE_ONLY; OPEN_U_RELIEF_IN_TWO_LOWER_RIGHT_ANGLES; NOT_MANUFACTURING_RELEASE"
++  },
+   "status": "PARAMETRIC_LAYOUT_CANDIDATE_NOT_MANUFACTURING_RELEASE",
+   "units": {
+     "length": "mm",
+@@ -374,4 +382,4 @@
+     "root_wrench_envelope_S_N_Nm": null,
+     "actual_threads": null
+   }
+-}+}

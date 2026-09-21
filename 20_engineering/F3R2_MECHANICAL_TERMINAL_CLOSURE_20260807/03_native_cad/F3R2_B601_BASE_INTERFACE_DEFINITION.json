@@ -1,0 +1,223 @@
+{
+  "schema": "F3R2_B601_BASE_INTERFACE_V1",
+  "measured_inputs": {
+    "b601_flange": {
+      "x_mm": 210.41,
+      "bolt_circle_R_mm": 45.255,
+      "holes": 8,
+      "hole_r_mm": 1.5,
+      "counterbore_r_mm": 3.4,
+      "fastener_envelope_R_mm": 48.655,
+      "angles_deg": [
+        69.94,
+        69.94,
+        160.1,
+        160.1,
+        250.06,
+        250.06,
+        339.9,
+        339.9
+      ]
+    },
+    "central_boss": {
+      "face_x_mm": 208.0,
+      "outer_r_mm": 55.0,
+      "bore_r_mm": 50.0,
+      "annulus_width_mm": 5.0
+    },
+    "adapter_plate": {
+      "outer_face_x_mm": 198.0,
+      "half_size_mm": 80.0
+    },
+    "axial_space_for_adapter_mm": 2.41
+  },
+  "critical_finding": {
+    "id": "F3R2-BASE-01",
+    "statement": "the entire B601 bolt circle lies over the Central_Boss through-bore",
+    "b601_fastener_envelope_R_mm": 48.655,
+    "boss_bore_r_mm": 50.0,
+    "clearance_to_bore_edge_mm": 1.345,
+    "bolt_circle_entirely_over_bore": true,
+    "consequence": "there is no material under the eight screws, so a direct B601-to-boss bolted joint cannot be made.  This is why the base interface was open, and it is a geometry fact, not a modelling omission.",
+    "resolution": "a flanged transfer ring that picks up M3 at R=45.25 over the bore and reacts onto the boss annulus (r=50..55) and the Adapter_Plate bolt field"
+  },
+  "parts": [
+    {
+      "part": "B601_INTERFACE_RING",
+      "kind": "transfer ring",
+      "qty": 1,
+      "material": "Al7075-T6",
+      "volume_mm3": 41547.44,
+      "mass_g": 116.748,
+      "dimensions_mm": {
+        "outer_radius": 58.0,
+        "inner_bore_radius": 26.0,
+        "thickness": 6.0,
+        "arm_side_holes": "8 x M3 clearance (r=1.7) at R=45.25, 70/160/250/340 deg",
+        "boss_side_holes": "8 x M4 clearance (r=2.25) at R=52.5",
+        "spigot_diameter": 100.0,
+        "spigot_depth": 2.0,
+        "x_from": 208.0,
+        "x_to": 214.0
+      },
+      "note": "spans the boss bore: takes the arm's 8xM3 at R=45.25 and reacts them onto the boss annulus at R=52.5; the 2 mm spigot into the r=50 bore centres it and carries shear",
+      "dimension_source": "measured B601 bolt circle + measured boss bore/annulus"
+    },
+    {
+      "part": "B601_LOAD_SPREADING_COLLAR",
+      "kind": "load collar",
+      "qty": 1,
+      "material": "Al7075-T6",
+      "volume_mm3": 51863.92,
+      "mass_g": 145.738,
+      "dimensions_mm": {
+        "outer_radius": 78.0,
+        "inner_radius": 56.0,
+        "thickness": 8.0,
+        "holes": "8 x M5 clearance (r=2.75) at R=68.0 into Adapter_Plate",
+        "ribs": "8 radial ribs, 4 mm, aligned with the M5 pattern"
+      },
+      "note": "second load path: carries moment from the ring out to the Adapter_Plate 160x160 envelope instead of concentrating it on the 5 mm boss annulus",
+      "dimension_source": "Adapter_Plate half-size 80 mm measured"
+    },
+    {
+      "part": "B601_ANTIROTATION_PIN",
+      "kind": "dowel pin",
+      "qty": 2,
+      "material": "A286 steel",
+      "volume_mm3": 150.8,
+      "mass_g": 2.395,
+      "dimensions_mm": {
+        "diameter": 4.0,
+        "length": 12.0,
+        "fit": "h7/H7 press-slip",
+        "position": "R=52.5, at 25 and 205 deg (clocking datum)"
+      },
+      "note": "locks the 25 deg clocking that G1 established by mate; without it the joint is friction-only in torsion",
+      "dimension_source": "clocking 25 deg from F3R1_TOP_INTEGRATION_REPORT"
+    },
+    {
+      "part": "B601_IF_SCREW_M3x10",
+      "kind": "socket cap screw",
+      "qty": 8,
+      "material": "A2-70 steel",
+      "volume_mm3": 70.69,
+      "mass_g": 4.49,
+      "dimensions_mm": {
+        "thread": "M3x0.5",
+        "length": 10.0,
+        "torque_Nm": 1.3,
+        "threadlocker": "medium"
+      },
+      "note": "arm flange -> interface ring",
+      "dimension_source": "measured M3 pattern"
+    },
+    {
+      "part": "B601_IF_SCREW_M4x12",
+      "kind": "socket cap screw",
+      "qty": 8,
+      "material": "A2-70 steel",
+      "volume_mm3": 150.8,
+      "mass_g": 9.579,
+      "dimensions_mm": {
+        "thread": "M4x0.7",
+        "length": 12.0,
+        "torque_Nm": 3.0,
+        "threadlocker": "medium"
+      },
+      "note": "interface ring -> boss annulus",
+      "dimension_source": "boss annulus r=50..55"
+    },
+    {
+      "part": "B601_IF_SCREW_M5x16",
+      "kind": "socket cap screw",
+      "qty": 8,
+      "material": "A2-70 steel",
+      "volume_mm3": 314.16,
+      "mass_g": 19.955,
+      "dimensions_mm": {
+        "thread": "M5x0.8",
+        "length": 16.0,
+        "torque_Nm": 4.0,
+        "threadlocker": "medium"
+      },
+      "note": "collar -> Adapter_Plate (matches P5D M5x16 4 Nm convention)",
+      "dimension_source": "P5D fastening convention"
+    }
+  ],
+  "total_mass_g": 298.91,
+  "load_path": [
+    "B601 base flange (8 x M3, R=45.25, x=210.41)",
+    "-> B601_INTERFACE_RING (spans the r=50 bore; spigot carries shear)",
+    "-> Central_Boss annulus r=50..55 via 8 x M4 at R=52.5 (x=208.00)",
+    "-> B601_LOAD_SPREADING_COLLAR via 8 x M5 at R=68.0",
+    "-> Adapter_Plate (x=186..198)",
+    "-> Spacecraft_Flange (183..186)",
+    "-> Front_End_Frame (175..183)",
+    "-> Load_Spreading_Frame (171..175)",
+    "-> primary structure longerons"
+  ],
+  "torsion_path": "2 x Ø4 dowel at R=52.5 (25/205 deg) react the clocking torque; the screws are not relied on for torsional location",
+  "axial_budget": {
+    "available_between_boss_and_flange_mm": 2.41,
+    "ring_thickness_mm": 6.0,
+    "fits_in_gap": false,
+    "resolution": "the ring is THICKER than the 2.41 mm gap, so the arm cannot stay at its current station AND bolt to a 6 mm ring.  Two options, and this campaign chooses (b):",
+    "option_a": "move the arm outboard by 3.59 mm -- rejected: it would invalidate every frozen pose and clearance",
+    "option_b": "recess the ring into the boss bore: the ring's spigot occupies the bore (r<50) for 2.0 mm and its flange occupies the 2.41 mm gap, so only 2.41 mm of flange sits proud",
+    "chosen": "option_b",
+    "proud_flange_mm": 2.41,
+    "recess_depth_into_bore_mm": 3.59
+  },
+  "acceptance_tests": [
+    {
+      "id": "BI-1",
+      "test": "arm-side hole pattern matches B601",
+      "criterion": "8 holes, R=45.25 +/-0.05, 90 deg spacing",
+      "status": "DEFINED_FROM_MEASURED_PATTERN"
+    },
+    {
+      "id": "BI-2",
+      "test": "ring reacts onto real metal",
+      "criterion": "boss-side holes at R=52.5 fall in the r=50..55 annulus",
+      "measured": {
+        "R": 52.5,
+        "annulus": [
+          50.0,
+          55.0
+        ],
+        "inside": true
+      },
+      "status": "PASS_BY_CONSTRUCTION"
+    },
+    {
+      "id": "BI-3",
+      "test": "anti-rotation present",
+      "criterion": "at least 2 dowels or equivalent form-fit",
+      "status": "DEFINED"
+    },
+    {
+      "id": "BI-4",
+      "test": "no floating base interface",
+      "criterion": "every load path element bolts to the next",
+      "status": "DEFINED"
+    },
+    {
+      "id": "BI-5",
+      "test": "native interference = 0 with the adapter",
+      "criterion": "SolidWorks native interference zero",
+      "status": "NOT_RUN_ADAPTER_NOT_MODELLED"
+    },
+    {
+      "id": "BI-6",
+      "test": "fastener strength",
+      "criterion": "MoS > 0 under authorised launch load",
+      "status": "NOT_EVALUABLE_NO_AUTHORISED_LAUNCH_LOAD"
+    }
+  ],
+  "status": "COMPETITION_PROTOTYPE_BASE_INTERFACE",
+  "explicit_non_claim": "NOT_ORIGINAL_B601_FLIGHT_INTERFACE",
+  "mass_accounting": "enters the spacecraft EXTERNAL mechanical mass budget; must NOT be added to the accepted B601 URDF inertia",
+  "verdict": "G31_BASE_INTERFACE_DEFINED",
+  "protected_post": "ALL_PROTECTED_UNCHANGED"
+}

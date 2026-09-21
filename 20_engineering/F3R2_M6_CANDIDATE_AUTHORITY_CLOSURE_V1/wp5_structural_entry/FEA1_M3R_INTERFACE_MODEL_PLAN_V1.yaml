@@ -1,0 +1,142 @@
+schema: FEA1_M3R_INTERFACE_MODEL_PLAN_V1
+generated_local: '2026-08-21T20:31:00+08:00'
+phase: M6_CANDIDATE_AUTHORITY_CLOSURE
+work_package: WP5_STRUCTURAL_ENTRY
+model_id: FEA1_M3R_INTERFACE
+model_level: LEVEL_1_INTERFACE
+status: DRAFT_PRE_AUTHORITY
+formal_fea_authorized: false
+formal_fea_run_count: 0
+
+scope: >-
+  M3R interface chain only: STAGE_A interface ring, STAGE_B load diffusion
+  plate (REV_B2 architecture), and the B601 base adapter segment bounded at
+  the B601 as-built pattern datum. Preparation plan only; no solver input
+  deck is built and no FEA is executed under this phase.
+
+geometry_domain:
+  included:
+    - id: STAGE_A_INTERFACE_RING
+      role: B601-side interface ring carrying the 4xM4-class bolt pattern
+      authority_basis: CDR BOUNDARY_CONDITION_AUTHORITY BC-M3R-001 (geometry mapped, joint mechanics HOLD)
+    - id: STAGE_B_LOAD_DIFFUSION_PLATE
+      role: load diffusion plate between Stage A ring and spacecraft side
+      nominal_net_hole_edge_ligament_mm: 6.7
+      ligament_derivation: 160/2 - 70 - 6.6/2
+      authority_basis: M6 execution plan known engineering facts
+    - id: B601_BASE_ADAPTER_SEGMENT
+      role: arm-side adapter bounded at B601_AS_BUILT_PATTERN_DATUM
+      mounting_pattern: 4xM4-class at 64x64 mm square
+      pcd_mm: 90.509641772
+      clocking_deg: 25.000014
+      authority_basis: CDR BOUNDARY_CONDITION_AUTHORITY BC-M3R-001
+  x_stations_mm:
+    m_frame_nonphysical: 185.25
+    plate_outer_face: 198.0
+    physical_mounting_face: 208.0
+    screw_end_faces: 210.405
+  excluded_or_hold:
+    - id: LEGACY_FLANGE_X_170P25_TO_185P25
+      reason: ownership ambiguous; domain boundary decision not closed
+      status: HOLD
+    - id: SPACECRAFT_LOAD_BRIDGE_AND_BUS_PRIMARY_STRUCTURE
+      reason: >-
+        bus-M3R minimum gap 10.75 mm exposes the missing load bridge;
+        bus-side stiffness authority null (BC-BUS-001 HOLD)
+      status: HOLD_SPACECRAFT_LOAD_BRIDGE_AND_JOINT_DETAILS
+
+connections_and_fasteners:
+  primary_joint:
+    id: B601_TO_STAGE_A_4XM4_HM4_75_64MM
+    fastener_spec: 4x HM4-75 (M4-class) screws
+    pattern: 64x64 mm square, equivalent PCD 90.509642 mm
+    preload_N: null
+    friction_coefficient: null
+    contact_definition: null
+    status: HOLD_PHYSICAL_PARAMETERS_NULL
+  downstream_joint_reference:
+    id: STAGE_B_TO_SPACECRAFT_4XM6_140MM
+    note: geometric influence model exists in M5; spacecraft-side interface not in FEA1 domain
+    status: HOLD
+  analytic_load_distribution_evidence:
+    - wp5_structural_entry/FASTENER_GROUP_ANALYTIC_UNIT_LOAD_V1.csv
+    - wp5_structural_entry/FASTENER_GROUP_ANALYTIC_NOTE_V1.yaml
+
+boundary_conditions:
+  primary_reference: CDR BOUNDARY_CONDITION_AUTHORITY BC-M3R-001
+  parent_frame: M_FRAME
+  child_frame: B601_AS_BUILT_PATTERN_DATUM
+  translation_m: [0.025155, 0.000015994151, -0.00008636607]
+  quaternion_xyzw: [0.21643973321515986, 0.0, 0.0, 0.9762959806768388]
+  spacecraft_side_boundary_stiffness: null
+  m_frame_replacement_transform: null
+  modeling_constraints_from_cdr:
+    fixed_support_use: PROHIBITED_UNLESS_MATCHED_TO_CONTROLLED_INTERFACE_AUTHORITY
+    bolt_preload_use: PROHIBITED_UNTIL_PRELOAD_RANGE_AND_FRICTION_AUTHORIZED
+    contact_use: PROHIBITED_FOR_MARGIN_UNTIL_MATERIAL_PAIR_FRICTION_AND_CLEARANCE_AUTHORIZED
+    rigid_spider_use: MUST_BE_JUSTIFIED_AND_SENSITIVITY_CHECKED
+    reaction_balance_required: true
+  status: HOLD_REJECTED_M_FRAME_REPLACEMENT_TRANSFORM_NULL
+
+contact_pairs:
+  rule: no contact pair may carry margin claims until friction, clearance, and material pair data are authorized
+  pairs:
+    - pair: STAGE_A_RING_TO_STAGE_B_PLATE_FACE
+      definition: null
+      status: HOLD
+    - pair: STAGE_B_PLATE_TO_B601_BASE_ADAPTER_FACE
+      definition: null
+      status: HOLD
+    - pair: SCREW_SHANK_TO_HOLE_CYLINDER
+      definition: null
+      status: HOLD
+    - pair: SCREW_HEAD_AND_NUT_BEARING_TO_PLATE_FACES
+      definition: null
+      status: HOLD
+
+mesh_convergence_plan:
+  status: DRAFT_PRE_AUTHORITY
+  element_type_candidates:
+    solid: [C3D10_CLASS_TET10, C3D20_CLASS_HEX20]
+    fastener_idealization: [BEAM_PLUS_COUPLING, SOLID_BOLT]
+  size_sequence_mm:
+    global: [4.0, 2.0, 1.0]
+    local_hole_edge: [1.0, 0.5, 0.25]
+    ligament_rule: minimum 3 elements across the 6.7 mm nominal net ligament at every refinement level
+  convergence_criteria_draft:
+    reaction_balance_error_pct_lt: 1.0
+    max_von_mises_change_between_refinements_pct_lt: 5.0
+    interface_resultant_change_pct_lt: 2.0
+  note: criteria are placeholders for project tailoring; none approved
+  first_permitted_execution_when_authorized: 'LC-021 unit-load characterization only (stiffness, compliance, reaction balance, mesh convergence); prohibited outputs per CDR: flight strength margin, flight buckling margin, launch qualification statement'
+
+acceptance_criteria_draft:
+  status: DRAFT_PRE_AUTHORITY
+  strength_margin_criteria: null
+  buckling_margin_criteria: null
+  separation_or_slip_criteria: null
+  factor_policy: null
+  tailoring_and_owner_approval: REQUIRED_NOT_PRESENT
+  subgate_link: acceptance_criteria (HOLD_PROJECT_TAILORING_AND_OWNER_APPROVAL)
+
+required_authorities_before_execution:
+  - controlled loads (load_cases_and_factors HOLD)
+  - material allowables (material_allowables HOLD)
+  - fastener preload and allowables (null)
+  - contact definition (null)
+  - boundary condition authority (BC HOLD)
+  - acceptance criteria (null)
+
+source_register:
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/07_structural_model/STRUCTURAL_ANALYSIS_ENTRY_GATE.json
+    sha256: 04c6c66623fa867a17ee964c69574364840949224d1e19ed07a8f7e36fac8473
+  - path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/07_structural_model/STRUCTURAL_MODEL_PLAN_V1.yaml
+    sha256: 340a16ddcede63bab98914d36f59c0dcee29e6727bc3c7a74c6547223eae9ebb
+  - path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/06_structural_entry/M5_STRUCTURAL_ANALYSIS_ENTRY_GATE_V1.json
+    sha256: bb8c7587ceac182ad3f15eae887e43497fba5c99c8425a41f1fffd36cd00b5d5
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/BOUNDARY_CONDITION_AUTHORITY.json
+    sha256: 4d936f4278c728243a088703e84bd421149a95780658755d05ed7cea13121de4
+  - path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_CASE_MATRIX.csv
+    sha256: cc37f1dfab7bb5be219c7df78f2276ce605475f8990e50101502fcc4f521eee5
+
+disposition: HOLD_DO_NOT_RUN_FORMAL_FEA

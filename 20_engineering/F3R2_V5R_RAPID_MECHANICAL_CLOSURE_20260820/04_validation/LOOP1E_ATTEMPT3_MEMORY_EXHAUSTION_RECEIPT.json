@@ -1,0 +1,115 @@
+{
+  "schema": "V5R_LOOP1E_ATTEMPT3_MEMORY_EXHAUSTION_RECEIPT_V1",
+  "task": "V5_LOOP1E_NATIVE_RECOVERY_R1",
+  "owner_ruling_in_effect": "AUTHORIZE_LOW_MEMORY_EXECUTION_WITH_BOUNDED_NATIVE_ATTEMPTS_20260820",
+  "third_attempt_authorized_by": "owner decision 2026-08-20, AskUserQuestion response '授权 Attempt 3（推荐）'",
+  "milestone": "M10",
+  "timestamp_utc": "2026-08-20T15:20:00Z",
+
+  "memory_gate_passed": false,
+  "owner_override_used": true,
+  "execution_authorized": true,
+  "owner_override_receipt_untouched": true,
+
+  "attempt_3_result": {
+    "started_utc": "2026-08-20T15:12:19Z",
+    "ended_utc": "2026-08-20T15:12:29Z",
+    "duration_seconds": 10,
+    "exit_code": 1,
+    "outcome": "MEMORY_ERROR_BEFORE_ANY_SOLIDWORKS_WORK",
+    "failure_receipt": "13_validation/V5_LOOP1E_FAIL_20260820T151225.838692Z.json",
+    "primary_exception": {
+      "type": "MemoryError",
+      "line": 589,
+      "function": "audit_v5_components via static_audit (line 1136)",
+      "operation": "sha256(path) reading a V5 component file in 1 MiB blocks",
+      "meaning": "the process could not allocate a 1 MiB read buffer"
+    },
+    "secondary_exception": {
+      "type": "MemoryError",
+      "line": 3626,
+      "function": "execute exception handler calling file_fact(failure)",
+      "meaning": "the failure-reporting path ALSO ran out of memory while hashing its own receipt, which is why stderr carries a bare traceback instead of the usual 2 MB JSON receipt"
+    },
+    "solidworks_touched": false,
+    "cad_written": false,
+    "new_staging_artifacts": 0
+  },
+
+  "failure_class_is_new_and_different": {
+    "attempt_1": "environmental - blocked on an interactive modal dialog (NewDocument), 113 minutes, no code defect",
+    "attempt_2": "code defect - FeatureByName absent from IModelDoc2, 50 minutes of real work, reached the motion contract",
+    "attempt_3": "pure resource exhaustion - died in 10 seconds during the offline static audit, before any COM call",
+    "significance": "attempt 3 provides NO evidence about the correctness of either fix. It never executed the patched code paths. The two interface fixes remain as validated as they were after attempt 2, and no more."
+  },
+
+  "root_cause_of_the_memory_error": {
+    "misleading_indicator": "available physical RAM measured 1,929 MB, which looks adequate for a 1 MiB allocation",
+    "actual_constraint": "COMMIT CHARGE, not available RAM",
+    "commit_total_mb": 52855,
+    "commit_limit_mb": 62679,
+    "commit_headroom_mb": 9824,
+    "commit_utilisation_pct": 84.3,
+    "contributing_processes": {
+      "python_process_count": 29,
+      "python_identity": "ALL 29 are MCP servers, none is a Loop1E run - CAE-Agent-Hub Abaqus/Ansys Workbench/Ansys Fluent/AEDT/CST/COMSOL servers, comsol_link, claude-skills bridge, Aerospace_MCP_Skills, codex_skill qwen_vision",
+      "approximate_python_working_set_mb": 1500,
+      "verified_no_orphaned_loop1e_process": true
+    },
+    "why_this_hit_now_and_not_in_attempt_2": "attempt 2 ran when commit was lower. Each attempt leaves the system slightly more committed, and SolidWorks has been resident and paging for hours."
+  },
+
+  "action_not_taken_and_why": {
+    "candidate_action": "terminate the 29 MCP server python processes to free roughly 1.5 GB working set and a large share of commit charge",
+    "not_taken": true,
+    "reason": "these are the owner's Claude Code / Codex MCP tool servers (CAE-Agent-Hub, skills bridges). Killing them would break live tooling in the owner's session. That is an outward-facing, disruptive action on infrastructure outside this round's write boundary, and it is the owner's call, not mine.",
+    "precedent_followed": "the same reasoning used earlier for not killing the owner's Chrome (743 MB) - flag the cost, let the owner decide"
+  },
+
+  "state_ledger_all_verified": {
+    "loop1e_script_sha256": "8F8B3964A39BF279F242B036926488FA03D99DED99B8C891EF321670EBCBEF63",
+    "loop1e_script_bytes": 245028,
+    "self_test": "V5_LOOP1E_OFFLINE_PERSIST_AND_AST_SELF_TEST_PASS",
+    "audit_3_verdict": "V5_LOOP1E_STATIC_EXECUTION_READY",
+    "audit_3_execution_authorized": true,
+    "base_helper_both_copies": "E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906",
+    "base_helper_unchanged": true,
+    "target_assembly_created": false,
+    "staging_artifacts": 3,
+    "staging_artifact_bytes": [27122742, 27125901, 27121219],
+    "all_staging_isolated_and_receipted": true,
+    "isolation_receipts": [
+      "V5_LOOP1E_STAGING_ISOLATION_20260813T140520Z.json",
+      "V5_LOOP1E_STAGING_ISOLATION_20260820T085200Z.json",
+      "V5_LOOP1E_STAGING_ISOLATION_20260820T151000Z.json"
+    ],
+    "donor_modified": false,
+    "frozen_hash_drift": false,
+    "zero_byte_saves": false,
+    "writes_outside_boundary": false,
+    "hard_stop_triggered": false
+  },
+
+  "cumulative_round_achievements": [
+    "root-caused the 61836 defect to its true cause (I-prefixed IMathTransform members not invocable through IDispatch), overturning the prior IInverse-only diagnosis",
+    "discovered and averted a silent-corruption trap: dispid-1 Multiply composes in the opposite order, and a name-only swap would have passed the 1e-7 self-comparison while writing a meaningless link6->gripper transform into the motion contract",
+    "PROVED the fix on production geometry - attempt 2 executed relative_transform on the live assembly with no 61836",
+    "attempt 2 built and saved the most complete V5 top assembly to date (27,121,219 bytes)",
+    "found and fixed a second defect class instance (FeatureByName on IModelDoc2) plus its twin at line 3165 before it could cost another run",
+    "established that Parameter and FeatureByName live on mutually exclusive interfaces, preventing a plausible bulk-replace regression",
+    "built an offline typelib-vs-script interface audit so this defect class stops costing one run per instance",
+    "diagnosed the modal-dialog hang mode that no process-level health metric reveals",
+    "kept every frozen hash, donor and isolated artifact intact across three attempts"
+  ],
+
+  "options_for_owner": {
+    "option_1_recommended": "free commit charge, then re-run. Closing the CAE MCP servers (or Chrome/ChatGPT/VS Code windows) and restarting SolidWorks would give the static audit room to hash. The run reached the motion contract once already at higher free memory.",
+    "option_2": "accept Fallback A now: grade and promote the 27,121,219-byte attempt-2 staging artifact under NATIVE_TOP_ASSEMBLY=HOLD. It is the most complete top assembly produced and is already isolated and receipted.",
+    "option_3": "defer native work to a session with more headroom and proceed with non-CAD deliverables (Phase J sim_13 bootstrap, digital-thread CSVs) that need no SolidWorks at all",
+    "my_recommendation": "option_1 if you are willing to close the MCP servers, otherwise option_3 then option_2 - because attempt 3 failed for a reason that has nothing to do with the model or the code, and is fully reversible by freeing memory"
+  },
+
+  "review_status": "PENDING_OWNER_DECISION",
+  "next_stage_authorized": false,
+  "verdict": "ATTEMPT_3_DIED_ON_COMMIT_EXHAUSTION_NOT_CODE_NO_DAMAGE_FIXES_STILL_VALID"
+}

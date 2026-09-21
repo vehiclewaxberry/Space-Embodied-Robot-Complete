@@ -1,0 +1,280 @@
+{
+  "schema": "R2_FLEX_INPUT_INVENTORY_V1",
+  "generated_local": "2026-08-23T16:33:48+08:00",
+  "generated_clock_source": "HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08",
+  "agent": "AGENT-3",
+  "scope": "R2 flexible-input inventory for full-flexibility closure; text/numeric preparation only; NO CAD/FEA process started; read-only on all upstream assets",
+  "authority_context": {
+    "odr_43": "B601_ARM_PLACEMENT_RULE=DUAL_FRAME_EXPLICIT_BRIDGE; mass/CG/inertia/interface loads/CAD/collision geometry enter the dynamics frame only via the single explicit T_PHYSICAL_TO_DYNAMIC bridge (not yet built; MPI-01..MPI-08 open)",
+    "odr_44": "ODR-42=APPROVE_BOUNDED_DETAILED_DESIGN; Route-C independent versioned CAD candidate forbidden until MPI-01..MPI-08 all closed",
+    "this_inventory_is": "NONSELECTING preparation; no parameter is selected, averaged, zero-filled, or promoted to authority by this file",
+    "mechanical_loop_v5_gate": "HOLD (next_stage_authorized=false, released_segments=0); sole blocking frontier = B601 placement dual-frame semantics (delta 0.36889 deg is frame-consumption ambiguity, NOT uncertainty)"
+  },
+  "source_files_sha256": {
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json": "e068de078a0dc680...",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml": "a04acfe440c636bb...",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/compute_flexible_appendage_r2.py": "2b64a18605abbd1f...",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json": "d5b7dd16532fe711...",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1.yaml": "11d58525859717ab...",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_HDRM_LATCH_DESIGN_V1.yaml": "bf8f76e654c56d31...",
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_GEOMETRY_CANDIDATE_V1.yaml": "46a9512d064f617d...",
+    "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_FIXED_BASE_R2_ROM_REPRODUCTION_AND_MASS_CONFLICT_V1.json": "57958a9f3ac19489...",
+    "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_DIAGNOSTIC_GATE_V1.json": "b03b7c7af571aa00...",
+    "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/00_authority/E21_AUTHORITY_CONTRACT_V1.yaml": "7d2e0792b3ff6bab...",
+    "20_engineering/config/coupled_scene/coupled_model_v0.yaml": "67a532fb29c7ef66...",
+    "20_engineering/config/coupled_scene/scene_A2_capture.yaml": "4b979a1dfd183ad9...",
+    "20_engineering/config/geometry/flexible_appendage_v1.yaml": "52fa88084c628ce8...",
+    "30_simulation/e15_ancf_certification/results/gate_summary.json": "aab4d609e219279c...",
+    "30_simulation/e15_ancf_certification/config/certification_v1.yaml": "8c9f283b3444b948...",
+    "AGENTS.md": "2c2988ad6e303f90..."
+  },
+  "parameter_status_table": [
+    {
+      "parameter": "leaf_mass_kg (per leaf, 3 per wing)",
+      "value": 0.18,
+      "status": "PROVISIONAL",
+      "uncertainty_interval": "NONE (point value; basis=areal-density candidate 3.0 kg/m2, NOT measured)",
+      "source": "ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json mass_model; FLEXIBLE_APPENDAGE_R2.yaml leaf_L1_engineering_model",
+      "note": "Wing total 0.78 kg = 3x0.18 + root hinge 0.05 + 2x inter hinge 0.03 + HDRM 0.08 + harness 0.05 (closure re-verified by this agent)"
+    },
+    {
+      "parameter": "leaf_EI_Nm2",
+      "value": {"nominal": 11.109, "band": [3.333, 33.327]},
+      "status": "PROVISIONAL_DERIVED",
+      "uncertainty_interval": "YES (band = 0.3x..3.0x nominal, engineering assumption not measurement)",
+      "source": "ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml; FLEXIBLE_APPENDAGE_R2_MODES.json leaf_standalone; compute_flexible_appendage_r2.py lines 39-43",
+      "note": "sandwich estimate 2x0.2mm CFRP (E=70 GPa quasi-iso) over 2.1mm core; layup not modelled (HOLD_PANEL_LAYUP_AND_CELL_GEOMETRY_NOT_MODELLED)"
+    },
+    {
+      "parameter": "leaf_GJ_Nm2",
+      "value": null,
+      "status": "NULL_EFFECTIVE",
+      "uncertainty_interval": "NO (band not yet assigned)",
+      "source": "ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2.yaml per_leaf.GJ_Nm2",
+      "note": "card says PROVISIONAL_DERIVED 'torsion estimate pending sandwich shear model; band not yet assigned' -> no usable numeric value today"
+    },
+    {
+      "parameter": "root_hinge_ktheta_Nm_per_rad (= deployed latch-state root compliance, ODR-32)",
+      "value": {"low": 50.0, "nominal": 200.0, "high": 800.0},
+      "status": "PROVISIONAL_DERIVED",
+      "uncertainty_interval": "YES (3-point band; five-case sweep incl. mixed corners closed in e21)",
+      "source": "ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json stiffness_bands_Nm_per_rad.root; e21 E21_FIXED_BASE_R2_ROM_REPRODUCTION_AND_MASS_CONFLICT_V1.json cases",
+      "note": "no measurement source; must be replaced by WP5 R2 hardware selection and/or test"
+    },
+    {
+      "parameter": "inter_panel_hinge_ktheta_Nm_per_rad (x2 per wing; latch compliance folded in)",
+      "value": {"low": 20.0, "nominal": 100.0, "high": 400.0},
+      "status": "PROVISIONAL_DERIVED",
+      "uncertainty_interval": "YES (3-point band; five-case sweep closed)",
+      "source": "same as root ktheta; FLEXIBLE_APPENDAGE_R2.yaml latch_compliance.folded_into",
+      "note": "latch stiffness has NO independent value until latch hardware selected (HOLD_LATCH_GEOMETRY_NOT_MODELLED)"
+    },
+    {
+      "parameter": "five_case_wing_modes_hz (fixed-base, leaf-only ROM)",
+      "value": {
+        "nominal": [6.9726, 39.3586, 98.0042],
+        "all_low": [3.3278, 18.2952, 44.1763],
+        "all_high": [13.9452, 78.7172, 196.0085],
+        "root_low_inter_high": [4.3424, 65.0146, 190.5319],
+        "root_high_inter_low": [4.7369, 30.2986, 74.9597]
+      },
+      "status": "PROVISIONAL_DERIVED",
+      "uncertainty_interval": "YES (band corners)",
+      "source": "ecr_solar_array_r2/FLEXIBLE_APPENDAGE_R2_MODES.json modes_hz_per_case; e21 reproduction max abs error 4.84e-05 Hz (E21-G20 PASS)",
+      "note": "published mass matrix reproduced to 5.0e-10 kg m2 (E21-G19 PASS); first mode band 3.33-13.95 Hz drives capture excitation"
+    },
+    {
+      "parameter": "damping (modal zeta)",
+      "value": {"card_placeholder": 0.01, "rom_damping_matrix": null},
+      "status": "NULL_IN_ROM__PLACEHOLDER_IN_CARD",
+      "uncertainty_interval": "NO",
+      "source": "FLEXIBLE_APPENDAGE_R2.yaml damping {type: modal, zeta: 0.01, status: TBD_cite_literature}; e21 ROM JSON damping_matrix=null (E21-G22)",
+      "note": "0.01 is an uncited literature placeholder; e21 ROM constructs NO damping; legacy sim_11 card uses zeta_modal 0.005 (also placeholder, energy-audit gate forces 0)"
+    },
+    {
+      "parameter": "latch_stiffness (independent of hinge ktheta bands)",
+      "value": null,
+      "status": "NULL",
+      "uncertainty_interval": "NO",
+      "source": "SOLAR_ARRAY_R2_HDRM_LATCH_DESIGN_V1.yaml holds (HOLD_LATCH_GEOMETRY_NOT_MODELLED); SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1.yaml C_latch status PROVISIONAL_DERIVED",
+      "note": "currently folded into inter-panel ktheta bands; latch back-drive requirement exists (480 N controlling-stop transient + first-mode vibration at band corners) but no stiffness value"
+    },
+    {
+      "parameter": "root_compliance (interface to bus, beyond hinge spring)",
+      "value": null,
+      "status": "NULL",
+      "uncertainty_interval": "NO",
+      "source": "no dedicated root-bracket compliance value found in any R2 ledger; root ktheta bands are the only root compliance model",
+      "note": "root bracket reaction candidate 48.0 N m transient exists in mechanism ledger B_end_stop_propagation, but no bracket stiffness; gap for HF model"
+    },
+    {
+      "parameter": "hinge_freeplay_limits",
+      "value": null,
+      "status": "NULL",
+      "uncertainty_interval": "NO",
+      "source": "SOLAR_ARRAY_R2_HDRM_LATCH_DESIGN_V1.yaml holds: HOLD_FREEPLAY_LIMITS_NO_NUMERIC_AUTHORITY",
+      "note": "no numeric authority for freeplay; HF model cannot include backlash yet"
+    },
+    {
+      "parameter": "participation_factors (modal, base-coupled)",
+      "value": null,
+      "status": "NULL",
+      "uncertainty_interval": "NO",
+      "source": "e21 ROM JSON participation_factors=null (E21-G22)",
+      "note": "fixed-base ROM has no free-floating base coupling; B_t/B_r-style modal momentum coefficients for the R2 wing do NOT exist (legacy sim_11 computed them for the R1 cantilever card only)"
+    },
+    {
+      "parameter": "forced_response (capture excitation through R2 flex)",
+      "value": null,
+      "status": "NULL",
+      "uncertainty_interval": "NO",
+      "source": "e21 ROM JSON forced_response=null (E21-G22); authority contract mandatory_holds r2_full_flexible_coupling=NOT_EVALUATED",
+      "note": "e21 explicitly forbade full R2 flexible coupling; scene A2 capture through R2 wings never run"
+    },
+    {
+      "parameter": "standard_uncertainty (any flexible parameter)",
+      "value": null,
+      "status": "NULL",
+      "uncertainty_interval": "NO (bands are engineering corners, not standard uncertainties)",
+      "source": "e21 ROM JSON standard_uncertainty=null; E21_AUTHORITY_CONTRACT_V1.yaml uncertainty_policy (unmeasured_or_unpropagated_values: null, zero_fill_for_unknown: false)",
+      "note": "discipline: null must NOT be zero-filled; 0.36889 deg placement delta must NOT be booked as uncertainty"
+    },
+    {
+      "parameter": "moving_inter_hinge_point_masses (2 x 0.03 kg per wing)",
+      "value": {"each_kg": 0.03, "count_per_wing": 2, "in_mass_script": true, "in_leaf_only_rom": false},
+      "status": "CONFLICT_NONSELECTING_NONPROPAGATED",
+      "uncertainty_interval": "N/A",
+      "source": "e21 ROM JSON nonselecting_conflict_diagnostic (E21-G21 PASS); SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json mass_model.hinge_inter_kg_each",
+      "note": "Mqq* - Mqq = [[0.006,0.0024,0],[0.0024,0.0012,0],[0,0,0]] kg m2; dynamic_mass_allocation_frozen=false"
+    }
+  ],
+  "five_case_frequency_evidence": {
+    "scope": "FIXED_BASE_FREE_VIBRATION_ONLY",
+    "leaf_only_reproduced_hz": {
+      "nominal": [6.972601835600912, 39.35862281774892, 98.00424792291825],
+      "all_low": [3.3277646509638195, 18.29520701548889, 44.176339591113106],
+      "all_high": [13.945203671201824, 78.71724563549785, 196.0084958458365],
+      "root_low_inter_high": [4.342412233039303, 65.01461322563665, 190.53186694151293],
+      "root_high_inter_low": [4.736851595808733, 30.29857795247174, 74.95966328977985]
+    },
+    "moving_inter_hinge_mass_conflict_hz": {
+      "nominal": [6.727892161986368, 36.626689494084914, 84.87164594535494],
+      "all_low": [3.2146406116685453, 17.012668771022, 38.24145779488692],
+      "all_high": [13.455784323972736, 73.25337898816983, 169.74329189070988],
+      "root_low_inter_high": [4.15782031180194, 60.85829836428849, 165.30416159022167],
+      "root_high_inter_low": [4.614524400594268, 27.68567948298355, 65.48128161267904]
+    },
+    "conflict_minus_leaf_only_hz": {
+      "nominal": [-0.244709673614544, -2.731933323664009, -13.132601977563311],
+      "all_low": [-0.11312403929527415, -1.2825382444668918, -5.934881796226186],
+      "all_high": [-0.489419347229088, -5.463866647328018, -26.265203955126623],
+      "root_low_inter_high": [-0.184591921237363, -4.156314861348164, -25.227705351291263],
+      "root_high_inter_low": [-0.12232719521446445, -2.61289846948819, -9.478381677100813]
+    },
+    "nominal_relative_shift_pct_recomputed_by_this_agent": [-3.51, -6.94, -13.40]
+  },
+  "hf_model_and_rom_input_gap_list": {
+    "target_per_wing_hf_model": "3 flexible leaves + 2 inter-panel hinges + root hinge/latch compliance (book/accordion chain, axes parallel X_S)",
+    "target_rom": "3-5 dominant modes per wing (ODR-21 band), free-floating base coupled",
+    "gaps": [
+      {"id": "GAP-01", "item": "leaf GJ (torsion) value + band", "blocks": "HF model torsional modes; ROM mode set completeness", "owner_path": "WP5 R2 hardware selection / sandwich shear model"},
+      {"id": "GAP-02", "item": "damping model with cited source (matrix or modal zeta per mode)", "blocks": "any decay/ringing prediction (sim_07 showed 37-75 s ringing; R2 ringing unquantified)", "owner_path": "literature citation or test"},
+      {"id": "GAP-03", "item": "modal participation factors / momentum coupling coefficients to free-floating base", "blocks": "ROM-to-dynamics coupling; capture-excitation response", "owner_path": "ROM extension beyond fixed-base; requires dynamic mass allocation freeze first"},
+      {"id": "GAP-04", "item": "forced-response definition (capture impulse/contact window through R2 flex)", "blocks": "scene-A2-class evaluation on R2", "owner_path": "post-MPI coupled model; scene A2 currently HOLD_NOT_EVALUATED in e21"},
+      {"id": "GAP-05", "item": "latch stiffness independent of hinge ktheta bands", "blocks": "deployed-latched stiffness authority; back-drive verification vs 480 N stop transient", "owner_path": "latch hardware selection (HOLD_LATCH_GEOMETRY_NOT_MODELLED)"},
+      {"id": "GAP-06", "item": "root bracket / bus-interface compliance", "blocks": "HF model root boundary condition realism", "owner_path": "WP5 R2 update"},
+      {"id": "GAP-07", "item": "hinge freeplay numeric limits", "blocks": "nonlinear micro-dynamics; HOLD_FREEPLAY_LIMITS_NO_NUMERIC_AUTHORITY", "owner_path": "hardware measurement"},
+      {"id": "GAP-08", "item": "measured leaf construction data (layup, cell geometry, real areal density)", "blocks": "replacement of PROVISIONAL EI/mass; HOLD_PANEL_LAYUP_AND_CELL_GEOMETRY_NOT_MODELLED", "owner_path": "WP5 R2 hardware selection and/or test"},
+      {"id": "GAP-09", "item": "dynamic mass allocation freeze (Mqq leaf-only vs Mqq* with 2x0.03 kg hinge points)", "blocks": "every downstream flexible-dynamics number; currently dynamic_mass_allocation_frozen=false", "owner_path": "MPI / dynamics authority (this round)"},
+      {"id": "GAP-10", "item": "T_PHYSICAL_TO_DYNAMIC bridge consumption rule for flexible inputs", "blocks": "any CAD-geometry-derived flexible parameter entering dynamics frame", "owner_path": "MPI-01..MPI-08 (ODR-43); this inventory only stages the parameters"},
+      {"id": "GAP-11", "item": "e15 recertification of the new fully-coupled model", "blocks": "any scientific claim from the new coupled model", "owner_path": "e15 gate rerun (REPEAT_ANCF_CERTIFICATION open)"},
+      {"id": "GAP-12", "item": "24 kg whole-sat budget reallocation decision (R2 adds +0.8632134 kg vs R1)", "blocks": "system mass closure; SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json system_delta status OPEN", "owner_path": "system-level decision outside this package"}
+    ]
+  },
+  "mass_conflict_resolution_options": {
+    "conflict_statement": "mass script assigns two 0.03 kg moving inter-hinge point masses per wing that are absent from the leaf-only ROM kinetic energy; e21 keeps this NONSELECTING and NONPROPAGATED (selected=false, propagated_to_free_floating_dynamics=false, dynamic_mass_allocation_frozen=false)",
+    "discipline_constraints": ["no averaging of Mqq and Mqq*", "no silent propagation of either", "no zero-filling", "no majority-vote ruling", "freeze must be single, explicit, recorded by MPI/dynamics authority"],
+    "options": [
+      {
+        "id": "MC-A",
+        "rule": "freeze leaf-only Mqq as ROM/dynamics authority; carry the 2x0.03 kg per wing as RIGID, non-moving interface mass lumped at the hinge lines in the structural mass ledger only",
+        "consequence": "published five-case frequencies stay authoritative as-is; rigid-system mass closure unchanged (0.78 kg/wing already includes the 0.06 kg); ROM kinetic energy excludes hinge-point motion -> consistent but slightly stiffer flexible response",
+        "required_action": "one-line ruling in MPI mass-allocation record; no regeneration of any accepted file"
+      },
+      {
+        "id": "MC-B",
+        "rule": "freeze Mqq* (with moving hinge point masses) as ROM/dynamics authority",
+        "consequence": "flexible frequencies shift DOWN (nominal: -0.2447 / -2.7319 / -13.1326 Hz, i.e. -3.51% / -6.94% / -13.40%); published FLEXIBLE_APPENDAGE_R2_MODES.json becomes non-authoritative for dynamics and the five-case sweep must be re-published under a new version (upstream regeneration forbidden this round)",
+        "required_action": "MPI ruling + new-version ROM evidence package (later round); e15 scope expands"
+      },
+      {
+        "id": "MC-C",
+        "rule": "defer: keep both registered, forbid any flexible-dynamics consumption until hinge masses are measured on hardware",
+        "consequence": "full-flexibility closure stays blocked (r2_full_flexible_coupling=NOT_EVALUATED persists); only rigid-wing lanes may proceed",
+        "required_action": "explicit HOLD record; compatible with current e21 gate but does not advance closure"
+      }
+    ],
+    "this_inventory_selects": null,
+    "recommendation_note": "MC-A is the minimum-disruption freeze consistent with the published, e21-reproduced evidence; MC-B is the physically richer allocation but forces re-publication; the decision belongs to the MPI/dynamics authority, not to this inventory"
+  },
+  "e15_recertification_trigger_list": {
+    "current_state": "REPEAT_ANCF_CERTIFICATION (AGENTS.md line 25; e15 gate_summary.json overall; cross-solver max relative difference 0.05637349419858036 > 0.05 gate; final_candidate_cross_solver available=false)",
+    "evidence_locations": {
+      "e15_gate": "30_simulation/e15_ancf_certification/results/gate_summary.json",
+      "e15_config": "30_simulation/e15_ancf_certification/config/certification_v1.yaml",
+      "sim_07_ancf": "30_simulation/sim_07_ancf_flexible/ (ancf_beam.py, results/benchmark_results_v1.md, results/task_response_summary.csv; headline: point-capture excitation vs rigid lock ~92x, ringing 37-75 s per AGENTS.md line 23)"
+    },
+    "gate_thresholds_from_config": {
+      "historical_classification_fraction_min": 1.0,
+      "unclassified_max": 0,
+      "silent_zero_max": 0,
+      "low_amplitude_ancf_modal_relative_max": 0.10,
+      "final_candidate_cross_solver_relative_max": 0.05,
+      "require_mesh_trend": true,
+      "require_time_step_trend": true
+    },
+    "triggers_for_new_fully_coupled_model": [
+      "T1: ANY new fully-coupled model consuming R2 flexible wings (rigid-wing lanes are exempt but close nothing flexible)",
+      "T2: dynamic mass allocation freeze changing Mqq -> Mqq* or any leaf mass/EI update from WP5 hardware",
+      "T3: damping model introduction (today null) or zeta change",
+      "T4: hinge/latch stiffness bands replaced by measured values",
+      "T5: contact-window model change (scene A2 T_c_ms_nominal 20.0 placeholder -> measured gripper closure time)",
+      "T6: integrator/tolerance/method change off Radau rtol=1e-10 atol=1e-12 + BDF cross-method convention",
+      "T7: free-floating base coupling with modal participation factors (GAP-03 closure) - the certified object changes from fixed-base beam to coupled appendage"
+    ],
+    "pass_conditions_to_close": "frozen final candidate (SAFE>0, nominal Top-3 present; low-amplitude diagnostic anchors forbidden as substitutes), Radau-vs-BDF relative difference <= 0.05 on ALL final-candidate comparisons, mesh trend + time-step trend observable, historical classification fraction 1.0 with zero unclassified and zero silent-zero"
+  },
+  "route_c_dependency_isolation_boundary": {
+    "parallel_text_preparation_allowed_now": [
+      "this parameter inventory and gap ledger (done here)",
+      "WP5 hardware-selection requirement list for leaf/hinge/latch/damping (text)",
+      "ROM input schema drafting (mass matrix, stiffness bands, participation-factor slots as explicit null-holding fields)",
+      "e15 recertification test-spec drafting (thresholds above) without running the coupled model",
+      "mass-conflict option paper (MC-A/B/C) for MPI ruling",
+      "uncertainty-band bookkeeping convention (engineering corners vs standard uncertainty=null) documentation"
+    ],
+    "must_wait_for_mpi_gate": [
+      "any Route-C independent versioned CAD candidate (ODR-44: forbidden until MPI-01..MPI-08 all closed)",
+      "any consumption of T_PHYSICAL_TO_DYNAMIC for flexible/mass/interface inputs (bridge does not exist yet)",
+      "dynamic mass allocation freeze application inside a coupled dynamics run",
+      "any FEA of leaf/hinge/latch (this round forbids CAD/FEA processes entirely)",
+      "e15 recertification RUN of the new fully-coupled model (spec drafting allowed; execution waits)",
+      "scene-A2-class capture-through-R2-flex evaluation (e21 scope forbid; still HOLD_NOT_EVALUATED)"
+    ]
+  },
+  "blockers_and inconsistencies_found": [
+    "BLOCKER-1: damping/participation/forced_response/standard_uncertainty all null in e21 ROM; full-flexibility closure has no dissipation or coupling inputs at all",
+    "BLOCKER-2: moving inter-hinge mass conflict unresolved (dynamic_mass_allocation_frozen=false); every flexible frequency carries a two-valued ambiguity of up to -13.40% (nominal mode 3)",
+    "BLOCKER-3: r2_harness_R2_HRN_04=FAIL_REDESIGN_REQUIRED (e21 mandatory hold) - harness 0.05 kg/wing sits inside the wing mass closure, so harness redesign may perturb the mass matrix again",
+    "BLOCKER-4: 24 kg budget reallocation OPEN (R2 +0.8632134 kg vs R1); whole-sat mass 24.8632134 kg not yet an accepted budget",
+    "NOTE-1: no inconsistency with the takeover baseline found; B601 0.36889 deg dual-frame delta confirmed as ambiguity-not-uncertainty in E21_AUTHORITY_CONTRACT_V1.yaml (averaging_forbidden=true, branch_delta_is_uncertainty=false)",
+    "NOTE-2: legacy flexible_appendage_v1.yaml (0.3483933 kg/panel, f1 0.7/1.0/1.3 Hz envelope) remains valid ONLY for historical sim_11 reproduction; R2-coupled runs must quote FLEXIBLE_APPENDAGE_R2 bands (per R2 card provenance.sim_usage); AGENTS.md open item: 0.348 kg placeholder vs real 2-5 kg/m2 is 'paper's biggest hard wound', highest priority"
+  ],
+  "next_round_recommendations": [
+    "R1: MPI/dynamics authority issues the single explicit dynamic-mass-allocation ruling (MC-A/B/C above) and sets dynamic_mass_allocation_frozen=true in the MPI ledger",
+    "R2: open WP5 R2 hardware-selection work order covering GAP-01/02/05/06/07/08 (leaf layup+GJ+damping citation, hinge stiffness measurement plan, latch selection, freeplay limits)",
+    "R3: extend the ROM beyond fixed-base: compute participation factors / modal momentum coefficients for the free-floating base AFTER R1 freeze (text-spec now, compute later round)",
+    "R4: draft e15 recertification test spec against the seven triggers (text only this round)",
+    "R5: keep Route-C CAD untouched until MPI-01..MPI-08 close (ODR-44); this inventory already stages every flexible input the bridge will need to carry"
+  ]
+}

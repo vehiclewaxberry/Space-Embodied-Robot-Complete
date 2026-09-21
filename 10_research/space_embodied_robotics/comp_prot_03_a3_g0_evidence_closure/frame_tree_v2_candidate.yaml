@@ -1,0 +1,185 @@
+schema_version: comp-prot-03-frame-tree-v2-candidate
+frame_tree_id: candidate_12u_b601_frame_tree_v2
+phase: COMP-PROT-03-A3-G0-EVIDENCE-CLOSURE
+created_on: "2026-07-23"
+status: GEOMETRY_ONLY_CANDIDATE_OVERLAY
+
+authority:
+  replaces_frozen_frame_tree_v1: false
+  canonical_runtime_frame_tree: false
+  cad_generation_authorized: false
+  urdf_generation_authorized: false
+  dynamics_use_authorized: false
+  purpose: resolve_geometry_only_host_datums_without_mutating_frozen_SSOT
+
+convention:
+  transform_symbol: T_XY
+  meaning: expresses_frame_Y_in_frame_X
+  point_mapping: p_X_equals_T_XY_times_p_Y
+  rotation_semantics: passive_frame_to_frame_columns_are_child_axes_in_parent
+  geometry_units: mm
+  angle_units: rad_unless_deg_is_explicit
+  handedness: right_handed
+
+frames:
+  - frame_id: I
+    parent: null
+    role: inertial_world
+    status: DEFINED_NOT_CONSUMED_BY_GEOMETRY_ONLY
+  - frame_id: S
+    parent: null
+    role: servicer_geometry_frame
+    origin_definition: center_of_selected_display_body_envelope
+    status: BOUND
+  - frame_id: B
+    parent: S
+    role: free_flyer_mother_body_frame
+    origin_definition: null
+    status: UNKNOWN_DISABLED
+    disabled_consumers: [A3_GEOMETRY_ONLY]
+    blocked_consumers: [URDF, PHYSICS_MODEL, BASILISK]
+  - frame_id: M
+    parent: S
+    role: arm_mounting_face_reference
+    status: BOUND_TO_SELECTED_PROFILE
+  - frame_id: A0
+    parent: M
+    role: accepted_B601_base_link_insertion_frame
+    status: DESIGN_BOUND
+  - frame_id: G
+    parent: link6
+    role: existing_gripper_link_frame
+    status: SOURCE_BOUND_IN_ACCEPTED_URDF
+  - frame_id: E
+    parent: link6
+    role: virtual_task_command_frame_aligned_with_link6
+    status: DESIGN_BOUND_FOR_GEOMETRY_ONLY
+  - frame_id: TCP_contact
+    parent: E
+    role: physical_gripper_contact_datum
+    origin_definition: null
+    status: UNKNOWN_DISABLED
+    disabled_consumers: [A3_GEOMETRY_ONLY]
+    blocked_consumers: [CONTACT_MODEL, TARGET_INTEGRATION, RIGID_LOCK]
+
+transforms:
+  - transform_id: T_SM
+    parent_frame: S
+    child_frame: M
+    translation_mm: [185.25, 0.0, 0.0]
+    rotation:
+      type: passive_matrix
+      matrix_rows:
+        - [0.0, 0.0, 1.0]
+        - [0.0, 1.0, 0.0]
+        - [-1.0, 0.0, 0.0]
+      urdf_rpy_rad: [0.0, 1.5707963, 0.0]
+    status: BOUND
+    profile_id: COMPETITION_DISPLAY_V0
+    sources:
+      - path: 20_engineering/config/geometry/frame_tree_v1.yaml
+        sha256: 958bff23bf83434c773854fd0e78da3b09be4a3a213eb81a0741514750b3e55b
+      - path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/coordinate_frame_definition_v0.md
+        sha256: 6afcb4fb6f1cd53580c5a1561788142e17df7c16a1aeec548dbeafef7efabec1
+  - transform_id: T_MA0
+    parent_frame: M
+    child_frame: A0
+    translation_mm: [0.0, 0.0, 0.0]
+    rotation:
+      type: identity
+      matrix_rows:
+        - [1.0, 0.0, 0.0]
+        - [0.0, 1.0, 0.0]
+        - [0.0, 0.0, 1.0]
+    status: DESIGN_BOUND
+    limitation: insertion_contract_only_actual_mating_stackup_is_A3_exit_evidence
+  - transform_id: T_link6_G
+    parent_frame: link6
+    child_frame: G
+    translation_mm: [0.0, 0.0, 159.71]
+    rotation:
+      type: urdf_rpy
+      rpy_rad: [0.0, -1.5708, 0.0]
+    status: SOURCE_BOUND
+    source:
+      path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+      sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+      joint_name: gripper_joint
+  - transform_id: T_link6_E
+    parent_frame: link6
+    child_frame: E
+    translation_mm: [0.0, 0.0, 159.71]
+    rotation:
+      type: identity
+      matrix_rows:
+        - [1.0, 0.0, 0.0]
+        - [0.0, 1.0, 0.0]
+        - [0.0, 0.0, 1.0]
+    status: DESIGN_BOUND_FOR_GEOMETRY_ONLY
+    design_rationale:
+      - shares_the_source_bound_fixed_joint_origin
+      - remains_distinct_from_G_by_orientation_and_semantic_role
+      - provides_a_link6_aligned_task_command_datum
+    limitation: not_the_physical_contact_TCP
+  - transform_id: T_SB
+    parent_frame: S
+    child_frame: B
+    translation_mm: null
+    rotation: null
+    status: UNKNOWN_DISABLED
+    reason: aggregate_com_and_dynamics_reference_are_not_closed
+  - transform_id: T_E_TCP
+    parent_frame: E
+    child_frame: TCP_contact
+    translation_mm: null
+    rotation: null
+    status: UNKNOWN_DISABLED
+    reason: physical_finger_contact_datum_and_tool_opening_are_not_measured
+
+frame_distinction_rules:
+  - rule_id: G_IS_NOT_E
+    statement: G_is_the_existing_gripper_link_frame_while_E_is_a_virtual_link6_aligned_task_frame
+    result: ENFORCED
+  - rule_id: E_IS_NOT_TCP
+    statement: E_is_not_a_physical_contact_datum
+    result: ENFORCED
+  - rule_id: B_IS_NOT_S_BY_DEFAULT
+    statement: T_SB_may_not_be_assumed_identity
+    result: ENFORCED
+  - rule_id: M_PROFILE_BOUND
+    statement: T_SM_is_valid_only_for_COMPETITION_DISPLAY_V0
+    result: ENFORCED
+
+consumer_projection:
+  solidworks_master_skeleton:
+    allowed_frames: [S, M, A0, G, E]
+    disabled_frames: [B, TCP_contact, I]
+    result: INPUT_CONTRACT_AVAILABLE_AFTER_SEPARATE_A3_AUTHORIZATION
+  urdf:
+    allowed: false
+    blocking_transforms: [T_SB, T_E_TCP]
+  dynamics:
+    allowed: false
+    blocking_transforms: [T_SB]
+  target_integration:
+    allowed: false
+    blocking_transforms: [T_E_TCP, T_ST, T_SD]
+
+blocker_disposition:
+  DB-BLK-002:
+    geometry_only_E_contract: CLOSED_BY_DESIGN_AND_SOURCE_BOUND_ORIGIN
+    physical_TCP: OPEN_AND_EXCLUDED
+  DB-BLK-009:
+    geometry_only_scope: ISOLATED_NO_DYNAMICS_CONSUMER
+    full_CAD_URDF_dynamics_scope: OPEN_NO_UNIQUE_T_SB
+  DB-BLK-013:
+    selected_profile_T_SM: CLOSED
+
+claim_boundary:
+  allowed:
+    - geometry_only_frame_contract_has_single_valued_S_M_A0_G_E_chain
+  forbidden:
+    - complete_runtime_frame_tree
+    - physical_TCP_defined
+    - free_flyer_T_SB_defined
+    - CAD_URDF_round_trip_verified

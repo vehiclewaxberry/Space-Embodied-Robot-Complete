@@ -1,0 +1,166 @@
+{
+  "schema": "R2_DYNAMICS_ENGINEERING_GATE_V1",
+  "technical_verdict": "R2_DYNAMICS_ENGINEERING_HOLD__DG1_UNIT_METRIC_DG2_INDEPENDENT_CONSERVATION_DG3_DG4_DG5_OPEN__NO_RELEASE_CREDIT",
+  "scope": "R2_CONSTRAINED_DYNAMICS_ENGINEERING_CANDIDATE_NOT_CONTACT_NOT_CONTROL_NOT_FLIGHT",
+  "gate_rows": [
+    {
+      "id": "DG0",
+      "name": "authority_binding",
+      "status": "PASS_CANDIDATE",
+      "satisfied": true,
+      "credit": "HASH_BOUND_INPUT_AUTHORITY_ONLY"
+    },
+    {
+      "id": "DG1",
+      "name": "6R_plus_2P_constrained_dynamics",
+      "status": "HOLD_HETEROGENEOUS_COORDINATE_METRIC_UNBOUND",
+      "satisfied": false,
+      "credit": "KKT_AND_COORDINATE_ELIMINATION_COMPONENT_DIAGNOSTICS_ONLY__NO_MIXED_COORDINATE_SPECTRAL_OR_NORM_CREDIT"
+    },
+    {
+      "id": "DG2",
+      "name": "free_floating_conservation",
+      "status": "HOLD_MECHANICAL_CONNECTION_IDENTITY_IS_NOT_INDEPENDENT_FULL_STATE_CONSERVATION",
+      "satisfied": false,
+      "algebraic_identity_diagnostic_pass": true,
+      "short_time_energy_smoke_pass": true,
+      "credit": "ALGEBRAIC_ZERO_MOMENTUM_IDENTITY_AND_0P004S_ENERGY_SMOKE_ONLY__NO_CONSERVATION_GATE_CREDIT"
+    },
+    {
+      "id": "DG3",
+      "name": "R2_flex_coupling",
+      "status": "HOLD_PARTIAL_COMPONENT_DIAGNOSTIC_ONLY",
+      "satisfied": false,
+      "component_diagnostic_pass": true,
+      "reason": "SOLAR_R2_14MODE_RINGDOWN_VALIDATED_BUT_ARM_TO_FLEX_TIME_DOMAIN_COUPLING_NOT_IMPLEMENTED"
+    },
+    {
+      "id": "DG4",
+      "name": "contact_hybrid_transition",
+      "status": "HOLD_NOT_IMPLEMENTED",
+      "satisfied": false,
+      "reason": "CONTACT_PATCH_AND_AS_BUILT_PARAMETERS_OPEN__TARGET_ATTACHED_PLANT_NOT_INSTANTIATED"
+    },
+    {
+      "id": "DG5",
+      "name": "uncertainty_and_deterministic_replay",
+      "status": "HOLD_PARTIAL",
+      "satisfied": false,
+      "deterministic_candidate_replay": true,
+      "reason": "LOW_NOMINAL_HIGH_ROM_CORNERS_BOUND_BUT_AS_BUILT_MASS_CONTACT_ACTUATOR_UNCERTAINTY_REMAINS"
+    }
+  ],
+  "summary": {
+    "candidate_satisfied": 1,
+    "total": 6,
+    "engineering_pass": 0,
+    "holds": [
+      "DG1",
+      "DG2",
+      "DG3",
+      "DG4",
+      "DG5"
+    ]
+  },
+  "configuration_class_separation": {
+    "LEGACY_24KG": {
+      "mass_kg": 24.0,
+      "authority": "HISTORICAL_RIGID_SERVICER_REFERENCE",
+      "dynamics_result_inheritance": "FORBIDDEN",
+      "current_r2_credit": false
+    },
+    "CURRENT_R2": {
+      "label": "CURRENT_R2_31_022864807KG",
+      "mass_kg": 31.022864807342987,
+      "authority": "HASH_FIXED_UNIFIED_R2_RUNTIME_BACKEND",
+      "dynamics_result_inheritance": "CURRENT_CANDIDATE_ONLY",
+      "as_built_status": "MEASUREMENT_PENDING"
+    },
+    "TARGET_ATTACHED": {
+      "label": "TARGET_ATTACHED_POST_CAPTURE",
+      "target_options_kg": [
+        22.0,
+        150.0
+      ],
+      "authority": "TARGET_SSOT_LOW_CONFIDENCE",
+      "plant_instance_status": "NOT_IMPLEMENTED",
+      "dynamics_result_inheritance": "FORBIDDEN"
+    }
+  },
+  "holds": [
+    {
+      "id": "DG1_HETEROGENEOUS_COORDINATE_METRIC",
+      "state": "HOLD",
+      "required_evidence": "FROZEN_REVOLUTE_PRISMATIC_NONDIMENSIONALIZATION_OR_REFERENCE_METRIC_WITH_UNIT_REPARAMETERIZATION_INVARIANCE_TEST"
+    },
+    {
+      "id": "DG2_INDEPENDENT_FULL_STATE_CONSERVATION",
+      "state": "HOLD",
+      "required_evidence": "INDEPENDENT_BASE_POSE_TWIST_PLUS_JOINT_STATE_INTEGRATION_WITH_NONZERO_TOTAL_MOMENTUM_CASE_AND_SEPARATE_LINEAR_ANGULAR_RESIDUALS"
+    },
+    {
+      "id": "DG3_ARM_FLEX_TIME_DOMAIN_COUPLING",
+      "state": "HOLD",
+      "required_evidence": "R2_8DOF_TO_DUAL_WING_14MODE_COUPLED_EQUATIONS_AND_RIGID_LIMIT_CROSSCHECK"
+    },
+    {
+      "id": "DG4_CONTACT_HYBRID",
+      "state": "HOLD",
+      "required_evidence": "CONTACT_PATCH_FRAMES_CALIBRATION_AND_PRE_TO_POST_CAPTURE_PLANT_SWITCH"
+    },
+    {
+      "id": "ACTUATOR_HARDWARE",
+      "state": "MEASUREMENT_PENDING",
+      "required_evidence": "OUTPUT_EFFORT_RATE_DELAY_THERMAL_AND_FAULT_ENVELOPES_FOR_6R2P"
+    },
+    {
+      "id": "TARGET_ATTACHED_POST_CAPTURE",
+      "state": "NOT_IMPLEMENTED",
+      "required_evidence": "22KG_AND_150KG_COMBINED_MASS_CG_INERTIA_PLANT_INSTANCES"
+    },
+    {
+      "id": "AS_BUILT_SYSTEM_PROPERTIES",
+      "state": "MEASUREMENT_PENDING",
+      "required_evidence": "AS_BUILT_MASS_CG_INERTIA_METROLOGY"
+    }
+  ],
+  "unknowns": [
+    "HETEROGENEOUS_6R2P_COORDINATE_REFERENCE_METRIC",
+    "INDEPENDENT_FULL_STATE_FREE_FLOATING_CONSERVATION",
+    "AS_BUILT_6R2P_ACTUATOR_DYNAMICS",
+    "AS_BUILT_CONTACT_PARAMETERS_AND_PATCH_FRAMES",
+    "TARGET_INTERFACE_GEOMETRY_AND_INERTIA_CONFIDENCE",
+    "ARM_TO_SOLAR_R2_14MODE_TIME_DOMAIN_COUPLING",
+    "POST_CAPTURE_HYBRID_PLANT",
+    "WHEEL_MOMENTUM_STATE_AND_ACTUATOR_DYNAMICS"
+  ],
+  "unknown_auto_allow_count": 0,
+  "source_binding": {
+    "matched": 27,
+    "total": 27
+  },
+  "constrained_gate": {
+    "schema": "R2_8DOF_CONSTRAINED_DYNAMICS_GATE_V1",
+    "technical_verdict": "R2_8DOF_CONSTRAINED_DYNAMICS_HOLD__UNIT_METRIC_AND_INDEPENDENT_CONSERVATION_UNBOUND",
+    "candidate_package_complete": false
+  },
+  "flex_diagnostic": {
+    "component_diagnostic_pass": true,
+    "arm_to_flex_time_domain_coupling_evaluated": false,
+    "E23_pass_inherited": false
+  },
+  "execution_guards": {
+    "contact_called": false,
+    "target_attached": false,
+    "collision_query_called": false,
+    "path_search_called": false,
+    "control_command_issued": false
+  },
+  "candidate_package_complete": false,
+  "artifact_package_generated": true,
+  "dynamics_engineering_complete": false,
+  "hardware_valid": false,
+  "next_stage_authorized": false,
+  "release_credit": false,
+  "review_status": "PENDING_OWNER_REVIEW"
+}

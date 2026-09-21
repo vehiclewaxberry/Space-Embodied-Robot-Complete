@@ -1,0 +1,74 @@
+{
+  "schema": "SIM13_V4B4F_MODEL_AND_ENERGY_CONTRACT_V1",
+  "scope": "SYNTHETIC_INTERNAL_P_JOINT_GENERALIZED_FORCE_ONLY",
+  "parent_model": "B4E_14D_ACTIVE_REDUCED_DYNAMICS_PLUS_EXACT_REMOVAL_AND_INDEPENDENT_POST_RELEASE",
+  "active_equation": {
+    "equation": "M_a(q) eta_dot + h_a(q,eta) = Q_a",
+    "M_a": "M_s + A_transpose M_t A",
+    "h_a": "h_s + A_transpose(h_t + M_t A_dot_eta)",
+    "Q_a_shape": 14,
+    "allowed_nonzero_indices_zero_based": [12, 13],
+    "allowed_native_unit": "N",
+    "all_base_and_R_joint_applied_efforts_exact_zero": true,
+    "contact_kernel_enabled_while_synthetic_constraint_active": false,
+    "ideal_constraint_stored_energy_J": 0.0
+  },
+  "sign_and_basis": {
+    "opening_sign_definition": "sigma_i=sign(partial g_i / partial q_P_i) from a centered native-metre directional derivative at the hash-bound B4E rk4_reference acquisition",
+    "registered_opening_sign_vector_left_right": [1, 1],
+    "sign_must_be_reverified_from_raw_gap_jacobian_at_every_acquisition": true,
+    "sign_must_remain_invariant_over_every_accepted_trajectory_sample": true,
+    "zero_or_changed_sign_action": "DIAGNOSTIC_FAIL_CLOSED_GEOMETRY_DOMAIN",
+    "symmetric_basis": "s_c=(sigma_left e_12+sigma_right e_13)/sqrt(2)",
+    "differential_basis": "s_d=(sigma_left e_12-sigma_right e_13)/sqrt(2)",
+    "mixed_linear_and_angular_effort_norm_forbidden": true
+  },
+  "reference_force_scaling": {
+    "classification": "ALGORITHM_ONLY_DIMENSIONAL_REFERENCE_NOT_ACTUATOR_SPECIFICATION",
+    "reference_state": "hash-bound B4E rk4_reference acquisition state",
+    "one_common_reference_force_for_all_integrators_blocks_and_treatments": true,
+    "per_run_or_per_treatment_reference_force_recomputation_forbidden": true,
+    "symmetric_effective_mass_kg": "m_eff_c = 1/(s_c_transpose inverse(M_a_at_acquisition) s_c)",
+    "reference_closing_speed_m_s": "v_ref = abs(s_c_transpose eta_P_at_acquisition)",
+    "reference_braking_time_s": 0.01,
+    "reference_common_force_N": "F_ref = m_eff_c v_ref / reference_braking_time_s",
+    "individual_finger_reference_force_N": "Q_ref = F_ref/sqrt(2)",
+    "hardware_force_capacity_inferred": false
+  },
+  "command_profile": {
+    "profile": "Q_P_i(t)=alpha_i sigma_i Q_ref sin(pi (t-t_start)/T_cmd)^2 for t_start<=t<=t_start+T_cmd; otherwise zero",
+    "continuous_at_start_and_end": true,
+    "command_must_be_exact_zero_through_clearance_dwell_and_at_removal": true,
+    "post_release_applied_generalized_force": "exact_zero"
+  },
+  "synthetic_geometry_validity_domain": {
+    "source": "hash-bound B3 DualContactConfig design-model stroke",
+    "left_P_coordinate_m_closed_interval": [0.0, 0.0715],
+    "right_P_coordinate_m_closed_interval": [0.0, 0.0715],
+    "classification": "INHERITED_SYNTHETIC_DESIGN_MODEL_DOMAIN_NOT_VERIFIED_HARDWARE_STROKE",
+    "evaluation": "every accepted integrator stage, stored sample and exact event state",
+    "exit_action": "DIAGNOSTIC_FAIL_CLOSED_GEOMETRY_DOMAIN",
+    "extrapolation_or_clipping_forbidden": true
+  },
+  "actuator_work_ledger": {
+    "instantaneous_power_W": "P_act = Q_P_left qdot_P_left + Q_P_right qdot_P_right",
+    "signed_work_J": "W_act(t)=integral_from_ta_to_t P_act dt",
+    "primary_integration": "augment active state with W_act_dot=P_act and integrate with the same accepted integrator stages",
+    "independent_audit": "composite quadrature from raw Q_P and qdot_P samples with step refinement",
+    "active_energy_identity": "T_service+T_target+D_B3_minus+D_switch-W_act = constant",
+    "linear_momentum_identity": "P_service+P_target = constant because the declared joint actuation is internal",
+    "angular_momentum_identity": "H_service+H_target_about_fixed_inertial_origin = constant because the declared joint actuation is internal",
+    "dissipated_energy_return_on_removal": false,
+    "actuator_work_reset_on_removal": false
+  },
+  "removal_transition": {
+    "eligibility": "inherit B4E continuous bilateral clearance, gap-rate, dwell and active-ledger checks plus command_exact_zero",
+    "state_at_removal": "exact event-time reconstruction; nearest-sample rounding forbidden",
+    "mapping": "z_before=L(q_r)eta_r; z_after is a componentwise copy",
+    "post_release_model": "independent 29D service plus 13D target zero-external free flight",
+    "post_release_observation_s": 0.005,
+    "post_release_contact_kernel_enabled": false,
+    "post_release_actuator_generalized_force": "exact_zero",
+    "any_gap_or_gap_rate_reentry": "DIAGNOSTIC_FAIL_CLOSED"
+  }
+}

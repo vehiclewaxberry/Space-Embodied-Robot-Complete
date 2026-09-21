@@ -1,0 +1,100 @@
+{
+  "schema": "MODEL_COHORT_CROSSWALK_V1",
+  "rows": [
+    {
+      "model_id": "LEGACY_SIM05",
+      "mass_kg": 29.895555949342985,
+      "arm_mass_kg": 4.695555949342986,
+      "geometry": "legacy arm_b601_v1; panels lumped into 24 kg servicer + 1.2 kg adapter",
+      "frame": "S/M/E in sim05 README; M at [0.18525,0,0] m, Ry(+90deg)",
+      "state": "6R; gripper locked; zero initial momentum benchmark",
+      "reuse_scope": "historical mathematical reaction benchmark; q2 out-of-limit cannot be a hardware trajectory",
+      "current_873_identity_bound": false,
+      "source_ids": [
+        "sim05_csv",
+        "arm_urdf",
+        "legacy_mass",
+        "sim05_readme"
+      ]
+    },
+    {
+      "model_id": "LEGACY_SIM10_12",
+      "mass_kg": null,
+      "arm_mass_kg": null,
+      "geometry": "frozen capture stack from sim06/common; 24 kg is mu denominator, NOT a current whole-system mass",
+      "frame": "frozen capture impulse/target conventions",
+      "state": "9002 points / 16 strategy cells; rigid only; FLEX UNKNOWN",
+      "reuse_scope": "existing evidence analysis; reproduction requires original raw hash bindings restored or a separately versioned rebind",
+      "current_873_identity_bound": false,
+      "source_ids": [
+        "sim10",
+        "sim10_config",
+        "sim12"
+      ]
+    },
+    {
+      "model_id": "LEGACY_SIM11",
+      "mass_kg": 29.895555949342995,
+      "arm_mass_kg": 4.695555949342986,
+      "geometry": "bus 23.3032134 kg plus 0.3483933 kg panel per side, legacy arm and adapter",
+      "frame": "coupled_scene/SSOT S + panel/target frames",
+      "state": "3 FFR modes per wing nominal; 20 ms contact PROVISIONAL; damping 0.005 provisional",
+      "reuse_scope": "bounded coupling methods and convergence evidence; not measured current panels/contact",
+      "current_873_identity_bound": false,
+      "source_ids": [
+        "sim11",
+        "sim11_config",
+        "contact_config",
+        "legacy_mass"
+      ]
+    },
+    {
+      "model_id": "UNIFIED_R2_C01_E23",
+      "mass_kg": 31.022864807342987,
+      "arm_mass_kg": 4.695555949342986,
+      "geometry": "19-link/18-joint R2 source-only interface; separate R2 seven-mode B1-B3/T1-T4 ROM",
+      "frame": "R2 C01 S; inertia about system COM; design uncertainty retained",
+      "state": "E23 18/18 bounded provisional; next false; release false",
+      "reuse_scope": "R2-only diagnostic evidence; no sim10 threshold inheritance and no 873 CAD transfer",
+      "current_873_identity_bound": false,
+      "source_ids": [
+        "r2_mass",
+        "r2_interface",
+        "r2_release",
+        "e23",
+        "e23_config"
+      ]
+    },
+    {
+      "model_id": "SIM13_SYNTHETIC",
+      "mass_kg": null,
+      "arm_mass_kg": null,
+      "geometry": "handwritten synthetic 6R+2P spacecraft and separate 6DOF target",
+      "frame": "Phase-A declared inertial/frame/quaternion contract",
+      "state": "Phase-A audited no-contact kernel; later B4G tooling freeze is not numerical PASS",
+      "reuse_scope": "algorithm theory and existing synthetic evidence only; no R2/current CAD identity",
+      "current_873_identity_bound": false,
+      "source_ids": [
+        "sim13_phase_a",
+        "sim13_b4g_superseded",
+        "sim13_r2_source_only"
+      ]
+    },
+    {
+      "model_id": "WP09_873_CAD",
+      "mass_kg": null,
+      "arm_mass_kg": null,
+      "geometry": "873 leaf instances per fixed pose + 10 identity containers; not movable links",
+      "frame": "per-instance CAD transforms; research link/joint collision mapping unbound",
+      "state": "three static states; whole COM/inertia unknown; DM AS_BUILT limits/ratios unknown",
+      "reuse_scope": "source audit and future geometry/model contract; not a validated digital body",
+      "current_873_identity_bound": true,
+      "source_ids": [
+        "current_native",
+        "current_mass",
+        "current_dm",
+        "current_delivery"
+      ]
+    }
+  ]
+}

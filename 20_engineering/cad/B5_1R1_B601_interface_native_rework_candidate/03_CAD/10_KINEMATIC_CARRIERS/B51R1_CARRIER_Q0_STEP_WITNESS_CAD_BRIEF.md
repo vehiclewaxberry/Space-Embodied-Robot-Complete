@@ -1,0 +1,26 @@
+# B51R1 Carrier Q0 STEP Witness CAD Brief
+
+- Model: neutral STEP q0 construction witness for the accepted B601 carrier topology.
+- Task type: new source-derived kinematic-frame assembly; not a native SolidWorks mechanism.
+- Units: millimetres in generated CAD; accepted URDF values are read in metres/radians and converted explicitly.
+- Root: `base_link` / `B51R1_CARRIER_BASE` at accepted A0.
+- Topology: 10 link carriers and 9 joints: 6 revolute, 1 fixed, 2 independent prismatic.
+- Branch rule: `gripper_link` is the branch parent of `gripper_left` and `gripper_right`; the model is not treated as a 10-link serial chain.
+- Accepted authorities:
+  - `arm_b601_v1.urdf`, SHA-256 `1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164`
+  - `q0_joint_axes.csv`, SHA-256 `73F1E674A57F3EB7863BEBF32D497DF8829E4348DBB84C6A1A796106036845C0`
+- Visible construction:
+  - a labelled origin marker and right-handed local triad for each accepted link frame;
+  - a labelled q0 joint-axis witness for each revolute joint;
+  - two separate 71.5 mm q0-to-qmax travel witnesses for the prismatic joints;
+  - labelled parent-child topology edges;
+  - no imported precision geometry and no carrier material body.
+- Output:
+  - generator: `B51R1_CARRIER_Q0_STEP_WITNESS.py`
+  - STEP: `B51R1_CARRIER_Q0_STEP_WITNESS.step`
+- Validation:
+  - generator fails if either frozen authority hash changes;
+  - recursively computed q0 origins and axes are compared against `q0_joint_axes.csv`;
+  - exported labels, occurrences, bounding box, link-frame positions, branch topology, and two prismatic directions are inspected;
+  - mandatory multi-view snapshot packet.
+- Claim limit: q0 frame/topology/axis visualisation only. No native mate, motion persistence, T005, collision, mass/inertia, geometry fit, load path, tolerance, manufacturing, qualification, or flight credit.

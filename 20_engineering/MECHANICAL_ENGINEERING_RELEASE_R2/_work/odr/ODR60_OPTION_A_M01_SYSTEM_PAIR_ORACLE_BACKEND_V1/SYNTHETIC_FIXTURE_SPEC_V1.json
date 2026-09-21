@@ -1,0 +1,74 @@
+{
+  "schema": "M01_PAIR_ORACLE_SYNTHETIC_FIXTURE_SPEC_V1",
+  "generated_utc": "DETERMINISTIC_FIXTURE_SPEC_NO_WALLCLOCK",
+  "authority": "SYNTHETIC_SOFTWARE_VALIDATION_ONLY__NOT_A_CURRENT_M01_SCENE_OR_PAIR",
+  "geometry": {
+    "asset_a": {
+      "object_id": "FIXTURE::BOX_A",
+      "primitive": "CLOSED_BREP_BOX",
+      "dimensions_mm": [10.0, 10.0, 10.0],
+      "native_unit": "mm",
+      "local_frame": "FIXTURE_A"
+    },
+    "asset_b": {
+      "object_id": "FIXTURE::BOX_B",
+      "primitive": "CLOSED_BREP_BOX",
+      "dimensions_mm": [10.0, 10.0, 10.0],
+      "native_unit": "mm",
+      "local_frame": "FIXTURE_B"
+    }
+  },
+  "pose_contract": {
+    "frame": "S",
+    "translation_unit": "m",
+    "rotation": "IDENTITY",
+    "matrix_storage": "ROW_MAJOR_4X4_IEEE754_BINARY64"
+  },
+  "numeric_configuration": {
+    "authorized_pair_min_mm": 5.0,
+    "required_clearance_mm": 5.0,
+    "object_a_hausdorff_derate_mm": 0.0,
+    "object_b_hausdorff_derate_mm": 0.0,
+    "backend_numeric_derate_authority": "OCP_PRECISION_APPROXIMATION_NATIVE_MM"
+  },
+  "cases": [
+    {
+      "case_id": "SAFE_STRICT_POSITIVE_LOWER_MARGIN",
+      "asset_b_translation_S_m": [0.02, 0.0, 0.0],
+      "expected_raw_separation_mm": 10.0,
+      "expected_status": "SAFE"
+    },
+    {
+      "case_id": "UNSAFE_CERTIFIED_UPPER_MARGIN",
+      "asset_b_translation_S_m": [0.012, 0.0, 0.0],
+      "expected_raw_separation_mm": 2.0,
+      "expected_status": "UNSAFE"
+    },
+    {
+      "case_id": "UNKNOWN_THRESHOLD_INTERVAL",
+      "asset_b_translation_S_m": [0.0150000005, 0.0, 0.0],
+      "expected_raw_separation_mm": 5.0000005,
+      "expected_status": "UNKNOWN"
+    },
+    {
+      "case_id": "UNSAFE_CONTACT_WITNESS",
+      "asset_b_translation_S_m": [0.01, 0.0, 0.0],
+      "expected_raw_separation_mm": 0.0,
+      "expected_status": "UNSAFE"
+    }
+  ],
+  "exception_case": {
+    "case_id": "EXEMPT_EXACT_ADJACENT",
+    "object_id_a": "FIXTURE::ADJ_A",
+    "object_id_b": "FIXTURE::ADJ_B",
+    "expected_status": "EXEMPT_ADJACENT",
+    "geometric_fields_forbidden": true
+  },
+  "production_data": {
+    "current_registry_object_used": false,
+    "current_pair_id_used": false,
+    "current_scene_state_used": false,
+    "current_geometry_loaded": false,
+    "current_pair_query_credit": 0
+  }
+}

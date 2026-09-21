@@ -1,0 +1,304 @@
+{
+  "schema": "F3R2_FINAL_GATE_V1",
+  "campaign": "F3R2_G3_TO_G8_MECHANICAL_TERMINAL_CLOSURE",
+  "date": "2026-08-07",
+  "protected_pre": "ALL_PROTECTED_UNCHANGED",
+  "sources_present": {
+    "reference_audit": true,
+    "pack_and_go": true,
+    "g3a_offline": true,
+    "g3a_native_attempts": true,
+    "native_outcome": true,
+    "g3a_selfcheck": true,
+    "pose_evaluation": true,
+    "pose_search": true,
+    "pose_freeze": true,
+    "wing_root": true,
+    "supports": true,
+    "g4": true,
+    "g5_paths": true,
+    "digital_thread": true,
+    "shots": true
+  },
+  "sources_missing": [],
+  "criteria": {
+    "C1_baseline_created_and_healthy": {
+      "pass": true,
+      "evidence": {
+        "eight_configs": true,
+        "mate_errors_max": 0,
+        "components": 82,
+        "baseline_unchanged": true,
+        "refs_outside_f3r2": 10
+      }
+    },
+    "C2_all_eight_configs_interference_measured": {
+      "pass": true,
+      "evidence": {
+        "configs_measured": 8,
+        "total_pairs_registered": 3136,
+        "real_events": 18
+      }
+    },
+    "C3_deployed_and_service_zero_interference": {
+      "pass": true,
+      "evidence": {
+        "DEPLOYED_NOMINAL": 0,
+        "SERVICE": 0,
+        "deployed_min_gap_mm": 2.7142
+      }
+    },
+    "C4_instrument_self_checked": {
+      "pass": true,
+      "evidence": {
+        "identity_at_as_built": true,
+        "arm_split_lossless": true,
+        "environment_classified": true,
+        "known_motion_joint1_90deg": true
+      }
+    },
+    "C5_five_poses_frozen": {
+      "pass": true,
+      "evidence": {
+        "frozen": [
+          "Q_AS_BUILT_REFERENCE",
+          "Q_STOW_ENGINEERING_CANDIDATE",
+          "Q_DEPLOYED_HOME",
+          "Q_RELEASE_CLEAR",
+          "Q_SERVICE_READY"
+        ],
+        "runtime": [
+          "Q_DEPLOYED_HOME",
+          "Q_RELEASE_CLEAR",
+          "Q_SERVICE_READY"
+        ]
+      }
+    },
+    "C6_home_pose_gate": {
+      "pass": true,
+      "evidence": {
+        "1_arm_to_bus_interference_zero": true,
+        "2_arm_to_wing_interference_zero": true,
+        "3_bus_comparison_set_nonempty": true,
+        "4_wing_comparison_set_nonempty": true,
+        "5_all_critical_distances_finite": true,
+        "6_gripper_clear_of_bus": true,
+        "7_joint_limits_valid_with_margin": true,
+        "8_independent_of_saddles_and_hdrm": true,
+        "9_moving_chain_clear_of_bus": true,
+        "camera_required_view_available": "NOT_EVALUATED_NO_CAMERA"
+      },
+      "note": "the camera criterion is NOT_EVALUATED and is therefore carried as an open item, not as a pass"
+    },
+    "C7_official_runtime_path_no_unexpected_interference": {
+      "pass": true,
+      "evidence": {
+        "official_segments_total": 6,
+        "official_segments_swept": 1,
+        "official_segments_not_defined": 5,
+        "official_swept_all_pass": true,
+        "official_worst_mm": 60.328,
+        "engineering_segments_swept": 2,
+        "engineering_swept_all_pass": false,
+        "engineering_worst_mm": 0.0011,
+        "total_samples": 30
+      },
+      "note": "scope: the official-path segments for which authorised poses exist.  5 of 6 official segments have no q vector at all and are recorded NOT_DEFINED -- they are NOT counted as passed, and they keep C11 below false."
+    },
+    "C11_official_path_complete_end_to_end": {
+      "pass": false,
+      "evidence": {
+        "segments_swept": 1,
+        "segments_not_defined": 5,
+        "missing_states": [
+          "SERVICE_DOCKING",
+          "SERVICE_GRASP",
+          "SERVICE_TRANSPORT",
+          "SERVICE_ASSEMBLY",
+          "RETRIEVED_NOMINAL"
+        ]
+      },
+      "note": "fails by design: five service states have no authorised joint vector anywhere in the project, and inventing one would fabricate the evidence this gate checks"
+    },
+    "C12_engineering_release_path": {
+      "pass": false,
+      "evidence": {
+        "segments": [
+          {
+            "segment": "ENGINEERING: Q_STOW_ENGINEERING_CANDIDATE -> SOLAR_DEPLOY_ARM_LOCKED",
+            "status": "NO_ARM_MOTION_CONFIG_CHANGE_ONLY",
+            "worst_mm": null,
+            "pass": null,
+            "failing_samples": null
+          },
+          {
+            "segment": "ENGINEERING: SOLAR_DEPLOY_ARM_LOCKED -> Q_RELEASE_CLEAR",
+            "status": "SWEPT",
+            "worst_mm": 0.0011,
+            "pass": false,
+            "failing_samples": [
+              0.0
+            ]
+          },
+          {
+            "segment": "ENGINEERING: Q_RELEASE_CLEAR -> Q_DEPLOYED_HOME",
+            "status": "SWEPT",
+            "worst_mm": 60.328,
+            "pass": true,
+            "failing_samples": []
+          }
+        ]
+      },
+      "note": "the SOLAR_DEPLOY_ARM_LOCKED -> Q_RELEASE_CLEAR segment fails at its t=0 endpoint only (0.0011 mm), because that endpoint IS the stow pose resting on the saddle placeholders.  Clearance recovers to 9.2 mm by t=0.125 and 60.3 mm from t=0.375 on.  This is the stow restraint hold showing up in the sweep, not a new defect."
+    },
+    "C8_protected_assets_unchanged": {
+      "pass": true,
+      "evidence": "ALL_PROTECTED_UNCHANGED"
+    },
+    "C9_digital_thread_emitted": {
+      "pass": true,
+      "evidence": [
+        "F3R2_ACTION_MASK_RULES.yaml",
+        "F3R2_COLLISION_ASSET_MANIFEST.csv",
+        "F3R2_EXTERNAL_MASS_INERTIA.yaml",
+        "F3R2_EXTERNAL_MECHANICAL_MASS_BUDGET.csv",
+        "F3R2_FRAME_MAPPING.yaml",
+        "F3R2_LINK_COMPONENT_MAPPING.csv",
+        "F3R2_MECHANICAL_STATE_MACHINE.yaml"
+      ]
+    },
+    "C10_witness_screenshots": {
+      "pass": true,
+      "evidence": {
+        "rendered": 12,
+        "expected": 12
+      }
+    },
+    "C13_native_brep_interference_run": {
+      "pass": true,
+      "evidence": {
+        "configurations_run": [
+          "DEPLOYED_NOMINAL",
+          "STOWED_ENGINEERING_CANDIDATE"
+        ],
+        "pairs": {
+          "DEPLOYED_NOMINAL": 20,
+          "STOWED_ENGINEERING_CANDIDATE": 94
+        },
+        "component_naming": "IInterference component naming is unreachable on this SolidWorks 2024 install"
+      },
+      "note": "SolidWorks DID complete native interference on two configurations once memory allowed and OpenDoc6 used the silent bit.  But IInterference component naming is unreachable on this install, so the native pairs cannot be attributed to the arm -- see C14."
+    },
+    "C14_native_arm_attribution": {
+      "pass": false,
+      "evidence": {
+        "arm_involvement": "UNDETERMINED_BY_NATIVE_RUN",
+        "why": "IInterference.GetComponents raises both early-bound and late-bound; GetBox is absent too",
+        "workaround_attempted": "ARM-DIFFERENCE (suppress the arm and re-measure) -- blocked because SetSuppression2 did not take effect on this build",
+        "what_the_offline_run_says": {
+          "DEPLOYED_NOMINAL": "zero arm-involved interference",
+          "SERVICE": "zero arm-involved interference",
+          "stow_family": "three arm<->saddle-placeholder contacts, 0.001-0.319 mm"
+        }
+      },
+      "note": "fails by design: 'no native pair names the arm' is a statement about the API, not about the geometry.  The arm-clearance claims in this campaign rest on the offline CAD-mesh measurement, which DOES identify components and was self-checked."
+    }
+  },
+  "criteria_passed": 11,
+  "criteria_total": 14,
+  "criteria_failed": [
+    "C11_official_path_complete_end_to_end",
+    "C12_engineering_release_path",
+    "C14_native_arm_attribution"
+  ],
+  "open_items": [
+    {
+      "id": "OI-1",
+      "item": "native B-rep interference RAN, but its pairs cannot be attributed to the arm",
+      "why": "IInterference.GetComponents and GetBox are unreachable on this SolidWorks 2024 install (early- and late-bound); the ARM-DIFFERENCE workaround was blocked because SetSuppression2 does not take effect on this build",
+      "evidence": "05_clearance/F3R2_NATIVE_INTERFERENCE_OUTCOME.json, G3A_NATIVE_ATTEMPTS.json",
+      "measured_anyway": "DEPLOYED_NOMINAL 20 native pairs, STOWED_ENGINEERING_CANDIDATE 94 native pairs",
+      "blocks": "any claim of the form 'SolidWorks confirms the arm is interference-free'; the arm-clearance claims rest on the offline CAD-mesh measurement instead"
+    },
+    {
+      "id": "OI-2",
+      "item": "no camera exists in the assembly",
+      "why": "never modelled",
+      "blocks": "every camera-visibility criterion, including the Q_DEPLOYED_HOME camera requirement"
+    },
+    {
+      "id": "OI-3",
+      "item": "gripper is a single CAD solid, URDF declares two fingers",
+      "why": "fingers never separated",
+      "blocks": "open-jaw clearance; all gripper numbers are valid for the single closed-looking solid only"
+    },
+    {
+      "id": "OI-4",
+      "item": "wing-root lug defined but not modelled",
+      "why": "the 30.0 mm D-F3R1-06 gap is still physically present",
+      "blocks": "any claim that the wing-root hinge interface is closed"
+    },
+    {
+      "id": "OI-5",
+      "item": "G07/G08/Mid real supports defined but not modelled",
+      "why": "the three placeholder blocks are still what the CAD holds",
+      "blocks": "STOW restraint closure"
+    },
+    {
+      "id": "OI-6",
+      "item": "SERVICE_DOCKING / GRASP / TRANSPORT / ASSEMBLY / RETRIEVED_NOMINAL have no authorised q vectors",
+      "why": "no pose authority exists for them",
+      "blocks": "full official-path verification; inventing angles would fabricate the evidence this gate checks"
+    },
+    {
+      "id": "OI-7",
+      "item": "ARM HDRM is a demonstrator definition",
+      "why": "no device selected; 6 mm stroke is a candidate value",
+      "blocks": "flight qualification of the release chain"
+    }
+  ],
+  "verdict": [
+    "F3R2_DEPLOYED_OPERATIONAL_BASELINE_CLOSED",
+    "F4_DEPLOYED_CONTROL_AND_EMBODIED_GO",
+    "STOW_RESTRAINT_ENGINEERING_HOLD",
+    "WING_ROOT_INTERFACE_ENGINEERING_HOLD",
+    "SERVICE_SEQUENCE_POSE_AUTHORITY_HOLD",
+    "NATIVE_PAIR_ATTRIBUTION_HOLD"
+  ],
+  "verdict_reasoning": {
+    "deployed_operational_ok": true,
+    "stow_closed": false,
+    "wing_root_closed": false,
+    "service_chain_closed": false,
+    "criteria_failing_by_design": {
+      "C11": "five service states have no authorised joint vector anywhere in the project",
+      "C12": "the engineering release sweep fails only at its t=0 endpoint, which IS the stow pose resting on the saddle placeholders (0.0011 mm); clearance recovers to 9.2 mm by t=0.125 and 60.3 mm from t=0.375",
+      "C14": "native interference pairs cannot be attributed to the arm because component naming is unreachable on this SolidWorks install"
+    },
+    "why_not_full_closure": "the wing-root lug and the three real supports are DEFINED from measured geometry but NOT modelled into native CAD in this session; the service sequence has no pose authority; and native pair attribution is blocked by the API"
+  },
+  "failure_conditions_checked": {
+    "home_pose_cannot_clear_bus": false,
+    "b601_accepted_chain_broken": false,
+    "official_path_unexpected_interference": false,
+    "assembly_cannot_cold_reopen": false,
+    "key_reference_missing": false,
+    "donor_or_urdf_modified": false
+  },
+  "review_status": "PENDING_HUMAN_REVIEW",
+  "next_stage_authorized": true,
+  "manifest": {
+    "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\\14_package\\F3R2_FINAL_MANIFEST_SHA256.txt",
+    "files": 373,
+    "sha256": "F1D17E6D2456C6FF7BA833E5F76A3BFC761B91F4DA387108B4F8D4DF20ED2955"
+  },
+  "package": {
+    "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\20_engineering\\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\\14_package\\F3R2_MECHANICAL_BASELINE_PACKAGE.zip",
+    "bytes": 1064054,
+    "sha256": "C0DED8F570CA0C74292EFCE30F023A3A8BC4F95DB38F0194CAFB3EBC2988E1C2",
+    "files_packed": 82,
+    "files_skipped": [],
+    "excluded": "03_native_cad, 99_tools, and all CAD/mesh payloads -- they stay in the tree and every one of them is hashed in F3R2_FINAL_MANIFEST_SHA256.txt"
+  },
+  "protected_post": "ALL_PROTECTED_UNCHANGED"
+}

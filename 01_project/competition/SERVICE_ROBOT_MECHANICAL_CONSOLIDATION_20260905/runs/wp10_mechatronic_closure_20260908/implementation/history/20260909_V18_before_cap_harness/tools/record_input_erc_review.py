@@ -1,0 +1,23 @@
+"""Root records the independent read-only review; reviewer did not modify sources."""
+from pathlib import Path
+import hashlib,json
+A=Path(__file__).resolve().parents[1]
+expected={
+'tools/input_passive_footprint.py':'a6a7c84e42a871602a418e32cf76f24e712bc71e0b0ff26a8bd709e50d42d1d6',
+'tools/integrate_power_loop.py':'64e1df0245fc628d7001bdf7ae4669dbc156dbe0f5ffff65839ed7b3cd04a525',
+'tools/check_input_passives.py':'76446617909512ab15514abaaab3e0de61aa823de9e9956663495662b8ccf8f1',
+'tools/input_passive_definition.py':'ee4abbdae3a5dddfb54f69066c35c7eb57739c21e7498dc791286352f0e0b35c',
+'tools/build_input_passive_revision.py':'9bfff10eef223721d85729073b4269bdf65b7a557271b27ba20beafee8aa78ac',
+'tools/verify_power_loop.py':'427728ffcc76f38bd76513697c6eb12c7e3b1bcf0e9206a8b684cd995da02d99',
+'results/POWER_LOOP_VERIFICATION.json':'64fe07a0fa33df16ebd49b8045b71b4007fdfc65fe014511c07727f85736c5b9',
+'results/POWER_LOOP_ERC.json':'13ba7d1ff3a0b9d46a4652c27b6e8d3ab3f04020a3f59d09700b253de3c5b1f8',
+'power/INPUT_PASSIVE_CALCULATIONS.json':'1acac4f7e71170f8cca9a56a79042e8e922daa6eacc6dc6db8d7e62cee6d119d',
+'power/INPUT_PASSIVE_SELECTION.json':'09781831f23f6f971e25d44a7ecead9a0433ad133058683f8a02f6e133163523',
+'power/POWER_LOOP_CALCULATIONS.json':'693f10bd7daa705bb748bc57aefe0d9efb77a5435818ab12347fd26d1637afc2',
+'power/SELECTED_BOM.csv':'9a23343f9b0bb7ba8db20b3f71e8a044e499ffa6fc1b9fd0cbf48e8f7ac3f7e0',
+'ecad/wp10_system.xml':'6041892d0444899151e9a24f7354f551ebe4a4ffb82311d5665c3e501c226d49',
+'ecad/fp-lib-table':'ac18f3560ff6b981f694ff409edf2d6ba2e8846591ea3fd87f977b46a716dbb1',
+'ecad/WP10_PASSIVES.pretty/CP_ChemiCon_VS_D30_P10_2mm_Candidate.kicad_mod':'ff9ab152d3e4d17a4668317facb31282a90b8077b6f274dac4772f325cf8ecca'}
+assert all(hashlib.sha256((A/q).read_bytes()).hexdigest()==h for q,h in expected.items())
+out=dict(schema='WP10_INPUT_PASSIVE_READONLY_REVIEW_V2',reviewer='/root/thermal_layout_readonly',recorded_by='root from independent read-only messages; no reviewer source writes or CAD runs',reviewed_files=expected,review_complete=True,unrepaired_findings=[],scope='ERC footprint-library generation-order repair; scalar model equivalence to previously reviewed V13, not new independent full-physics qualification',findings=['Native library now generated before export/verify','8 violations =7errors+1warning became7errors; only footprint_link_issues removed; ignore/severity configuration unchanged','Other434 verification rows identical; passive/shared calculation changes confined to SHA references','Actual C203 native pad1 positive and pad2 isolated input return preserved'],historical_math_review='history/20260909_V13_before_cap_mount/results/INPUT_PASSIVE_READONLY_REVIEW.json',physical_tests_executed=False,whole_design_complete=False)
+(A/'results/INPUT_PASSIVE_READONLY_REVIEW.json').write_text(json.dumps(out,indent=2),encoding='utf-8');print('ERC same-source read-only review recorded')

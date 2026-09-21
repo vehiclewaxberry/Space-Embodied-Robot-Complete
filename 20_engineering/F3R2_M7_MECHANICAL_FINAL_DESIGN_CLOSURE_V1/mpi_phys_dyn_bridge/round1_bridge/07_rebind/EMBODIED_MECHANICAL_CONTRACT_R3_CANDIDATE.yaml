@@ -1,0 +1,164 @@
+schema: EMBODIED_MECHANICAL_CONTRACT_R3_CANDIDATE
+candidate: true
+generated_local: '2026-08-23T20:00:00+08:00'
+generator: KIMI M7 Wave-2a AGENT-1 MPI-FB-07 (pure python; base files untouched)
+status: CANDIDATE_ONLY__NOT_RELEASE_NOT_PRODUCTION_NOT_FLIGHT__PENDING_OWNER_REVIEW
+base_document:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp13_embodied_contract/EMBODIED_MECHANICAL_CONTRACT_R2.yaml
+  sha256: 5DDA627794A4B29D087D7489BECC7A98ED632BC6EAC0413CD9F7226C03AE1E7C
+  inheritance_rule: every section NOT listed under replaced_sections below is inherited with byte-identical semantics from the base R2 contract; the base file is never modified
+  relation_to_base: 'BRIDGE_REBINDING_ONLY: binds the ODR-43 mount-level installation bridge alongside the existing link-level D_i calibration; changes nothing else'
+replaced_sections:
+  authority_hierarchy:
+    carried_from_r2:
+      kinematics: ACCEPTED_URDF (L0) - UNCHANGED
+      mass_and_inertia_of_the_arm: ACCEPTED_URDF (L0), never overridden - UNCHANGED
+      physical_geometry: M7 CAD + SOLAR_ARRAY_R2_CANDIDATE_V1 - UNCHANGED
+      solar_flexibility: FLEXIBLE_APPENDAGE_R2 (PROVISIONAL_DERIVED, ODR-21) - UNCHANGED
+    new_in_this_candidate:
+      system_mass_configurations_candidate_overlay:
+        path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/06_mass_propagation/SYSTEM_MASS_PROPERTIES_BRIDGED_V1.yaml
+        sha256: E5D13A8D105B78C703EFA963BCF73714586E564F9951228AFBA9AF81ECB71528
+        base:
+          path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+          sha256: 3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB
+        note: single-consumption-semantics bridged candidate; V3_R2 untouched
+      mount_level_installation_bridge:
+        bridge_id: T_PHYSICAL_TO_DYNAMIC
+        path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml
+        sha256: 0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C
+        classification: FROZEN_CANDIDATE_PENDING_OWNER_CONFIRMATION_AND_MPI_FB08_GATE
+        semantics: unique explicit bridge per ODR-43; WP11 physical installation = PHYSICAL_INSTALLATION_AUTHORITY; ODR-01 T_SM = DYNAMICS_FRAME_AUTHORITY; physical-installation quantities enter dynamics
+          ONLY through this bridge
+        closed_form: B = Trans(z_A0, +0.02275 m) . Rot(z_A0, +25.000014 deg)
+        validation:
+        - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/03_validation/MPI03_BRIDGE_NUMERICAL_VALIDATION.json
+          sha256: CEBCF446F788555AFDF19D1F81A06BE64B2DC3D59B5350AED1C9EFCCD2F99D68
+          role: ROUNDTRIP_ORTHO_CHIRALITY_QUATERNION_VALIDATION
+        - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/04_mass/MPI04_MASS_INERTIA_BRIDGE_VALIDATION.json
+          sha256: 41FCE5D7947D52A86A4A7953C360EA5A56D63E9F9635DCC4A87B4E2BB3766855
+          role: MASS_CG_INERTIA_TRANSFORM_VALIDATION
+        - path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/05_e21_bridged/E21_BRIDGED_ARM_PLACEMENT_GATE_V2.json
+          sha256: 7F670C69C6EDCF6CBF783DC22843C9EF53FD82FA88313E913C855FEB0A47E707
+          role: E21_SINGLE_CONSUMER_BRIDGED_RERUN
+        explicitly_not_in_bridge:
+        - M3R as-built datum 210.405 mm and yz pattern offsets (GEOMETRY rail; separate ruling required)
+        - M3R_TSM_FRAME_TO_FLANGE_TRANSFORM.json (composition convention pinned inside the bridge file)
+        - link-level D_i calibration (composes with this mount-level bridge, never substitutes)
+      bridge_composition_rule: the mount-level T_PHYSICAL_TO_DYNAMIC and the link-level D_i calibration COMPOSE (mount first, then per-link D_i); neither substitutes the other
+      single_consumption_semantics_block:
+        single_consumption_semantics: PHYSICAL_AUTHORITY_BRIDGED_INTO_ODR01_DYNAMICS_FRAME
+        resolved_by: ODR-43 bridge (NOT by selection, NOT by averaging, NOT by uncertainty re-label)
+        consumer_ambiguity_count: 0
+        evidence:
+          path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/05_e21_bridged/E21_BRIDGED_ARM_PLACEMENT_GATE_V2.json
+          sha256: 7F670C69C6EDCF6CBF783DC22843C9EF53FD82FA88313E913C855FEB0A47E707
+        single_authoritative_m07_peak_base_attitude_deviation_deg: 29.41085537835705
+        legacy_dual_lane_values_retained_as_evidence_not_anchors:
+          odr01_lane_deg: 29.041965867604112
+          wp11_lane_deg: 29.41085537835705
+          delta_deg: 0.3688895107529362
+          delta_nature: frame-consumption difference carried explicitly by the bridge; standard_uncertainty=null
+  mounting_M3R_dynamics_frame_note:
+    carried_from_r2: T_SM = [185.25,0,0] mm + Ry(90 deg), EXACT_BY_DEFINITION, ODR-01 - UNCHANGED; the 198.0/208.0/210.405 mm feature stack warning is carried UNCHANGED
+    new_in_this_candidate: consumers needing the physical installation inside dynamics must apply the mount-level bridge (above); the M3R as-built datum 210.405 mm remains GEOMETRY-rail only and is NOT
+      inside the bridge
+sections_explicitly_untouched_by_reference:
+- consumer_contract
+- kinematics
+- dynamics
+- collision
+- grasp
+- flexibility
+- failure_states
+- authority_and_uncertainty
+- source_register
+carried_verbatim_from_r2_base:
+  source:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp13_embodied_contract/EMBODIED_MECHANICAL_CONTRACT_R2.yaml
+    sha256: 5DDA627794A4B29D087D7489BECC7A98ED632BC6EAC0413CD9F7226C03AE1E7C
+  retained_holds:
+  - FLIGHT_QUALIFICATION_HOLD
+  - LAUNCHER_AND_SEPARATION_LOAD_HOLD
+  - AS_BUILT_MASS_CORRELATION_HOLD
+  - AS_BUILT_ARM_METROLOGY_HOLD
+  - FLIGHT_MATERIAL_ALLOWABLE_HOLD
+  - QUALIFICATION_TEST_HOLD
+  - CONTACT_MODEL_AUTHORITY_HOLD
+  - MECH_RL_COLLISION_MESH_CALIBRATION_APPLICATION_OPEN
+  - R2_WING_AS_BUILT_MEASUREMENT_PENDING_HOLD
+  - R2_HINGE_STIFFNESS_WP5_HARDWARE_SELECTION_HOLD
+  - R2_B601_HARNESS_ROUTING_REDESIGN_REQUIRED (R2-HRN-04 full-FK sweep FAIL)
+  prohibitions_honored:
+  - L0 accepted-URDF masses not overridden
+  - no candidate promoted to authority
+  - no PROVISIONAL promoted to AUTHORITY
+  - no zero-fill of unknowns
+  - no flight / launcher / manufacturing-release / qualification claim
+  - no measured_mass field anywhere
+  - frozen V1 contract / V4 interface / URDF / calibration not modified
+  - legacy R1 panel mass not used in the R2 binding
+carried_verbatim_from_v5_gate:
+  source:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/15_loop_continuation_v5/MECHANICAL_LOOP_ENGINEERING_CONTINUATION_GATE_V5.json
+    sha256: EB7F9AA14E5F455831711089D3ED3A2C5014783E5D103E144E164AFE9CC8379B
+  fail_closed_invariants:
+  - all V4 current-release fields remain byte-semantic exact
+  - mixed placement contexts are detected but no single dynamics consumption rule is selected
+  - the ODR-01 and WP11 placement branches are not selected averaged merged or treated as uncertainty
+  - the e21 free-floating execution uses current R2 deployed-locked rigid-wing residual properties and is arm-only
+  - fixed-base leaf-only ROM reproduction does not close moving-hinge mass allocation damping participation forced response or full R2 flexibility
+  - e15 remains REPEAT_ANCF_CERTIFICATION
+  - R2-HRN-04 remains FAIL_REDESIGN_REQUIRED
+  - Route-C C1.5 freezes only predicate qualification and a parameter-space contract
+  - all physical capacity-frontier measurands remain null and UNKNOWN/HOLD
+  - ODR-42 MPI product vendor CAD mission production hardware and flight authority remain HOLD
+  - test PASS grants no authority
+carried_verbatim_from_e21_authority:
+  source:
+    path: 30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/00_authority/E21_AUTHORITY_CONTRACT_V1.yaml
+    sha256: 7D2E0792B3FF6BAB9BD9AE11A605341B20BAAB821961A7BA8E119996D1515D81
+  mandatory_holds:
+    single_arm_placement_consumption_semantics: UNRESOLVED
+    r2_full_flexible_coupling: NOT_EVALUATED
+    e15_ancf_certification: REPEAT_ANCF_CERTIFICATION
+    r2_harness_R2_HRN_04: FAIL_REDESIGN_REQUIRED
+    owner_review: PENDING_OWNER_REVIEW
+    collision: HOLD_NOT_EVALUATED
+    contact: HOLD_NOT_EVALUATED
+    target_attachment: HOLD_NOT_EVALUATED
+    mission_capture: HOLD_NOT_EVALUATED
+    production: HOLD
+    flight: HOLD
+standing_prohibitions_reaffirmed:
+- no selection or averaging of the two placement frames
+- no per-module frame mixing
+- branch delta is not an uncertainty
+- no silent reuse of the legacy 24 kg mass model or the legacy R1 panel flexibility model
+- collision geometry still consumed THROUGH the calibration chain, never naive substitution
+- no Route-C CAD before MPI-FB-01..08 all closed (ODR-44)
+required_acknowledgement: I_ACKNOWLEDGE_R3_CANDIDATE_IS_A_BRIDGE_REBINDING_CANDIDATE_NOT_RELEASE_NOT_PRODUCTION_NOT_FLIGHT
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+release_credit: false
+source_register:
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml
+  sha256: 0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/06_mass_propagation/SYSTEM_MASS_PROPERTIES_BRIDGED_V1.yaml
+  sha256: E5D13A8D105B78C703EFA963BCF73714586E564F9951228AFBA9AF81ECB71528
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/03_validation/MPI03_BRIDGE_NUMERICAL_VALIDATION.json
+  sha256: CEBCF446F788555AFDF19D1F81A06BE64B2DC3D59B5350AED1C9EFCCD2F99D68
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/04_mass/MPI04_MASS_INERTIA_BRIDGE_VALIDATION.json
+  sha256: 41FCE5D7947D52A86A4A7953C360EA5A56D63E9F9635DCC4A87B4E2BB3766855
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/05_e21_bridged/E21_BRIDGED_ARM_PLACEMENT_GATE_V2.json
+  sha256: 7F670C69C6EDCF6CBF783DC22843C9EF53FD82FA88313E913C855FEB0A47E707
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp10_mech_rl_v4/MECH_DYNAMICS_INTERFACE_V5_R2.yaml
+  sha256: 9B6D8025D3318A66AB7DD9BD15F7EEE2CDE31DD7A0A9A4FDB5CE4AEB60DE8203
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp13_embodied_contract/EMBODIED_MECHANICAL_CONTRACT_R2.yaml
+  sha256: 5DDA627794A4B29D087D7489BECC7A98ED632BC6EAC0413CD9F7226C03AE1E7C
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/15_loop_continuation_v5/MECHANICAL_LOOP_ENGINEERING_CONTINUATION_GATE_V5.json
+  sha256: EB7F9AA14E5F455831711089D3ED3A2C5014783E5D103E144E164AFE9CC8379B
+- path: 30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/00_authority/E21_AUTHORITY_CONTRACT_V1.yaml
+  sha256: 7D2E0792B3FF6BAB9BD9AE11A605341B20BAAB821961A7BA8E119996D1515D81
+- path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml
+  sha256: 3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB

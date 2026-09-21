@@ -1,0 +1,160 @@
+{
+  "review": "R07_E2_INDEPENDENT_REVERIFY",
+  "review_run": "r07_e2_endplug_retention_review_20260918",
+  "reviewed_run": "r07_e2_endplug_retention_20260918",
+  "reviewed_commit": "90cd8d1f",
+  "reviewer_role": "WP03 R07-E2 独立审阅者（只读；不改候选；不执行 git 提交）",
+  "scope": "仅 R07 父票 E2 一边（纵梁→端塞横向保持，8 站 28 件分段短销/栓+垫圈+翼侧压装销）数字几何候选的独立复验；E1/E3/E4 与 A/B 支承不在本次范围",
+  "basis_pins": {
+    "params_sha256": "486e0c451a5c109c52e59fc7abd1820cc11a645eb51246b60c4ef42b74f3432f",
+    "params_sha256_pin_ok": true,
+    "source_sha256": "f020f2179dfdffe319458b61968c6aee707572b82d438f87f12e120c285b31f0",
+    "source_pin_ok": true,
+    "export_hash_pin": {
+      "checked": 40,
+      "mismatches": []
+    },
+    "snapshot_vs_git_old_state": {
+      "spacecraft_model.py": {
+        "rev": "90cd8d1f^",
+        "lf_normalized_content_identical_to_snapshot": true
+      },
+      "root_structure.py": {
+        "rev": "90cd8d1f^",
+        "lf_normalized_content_identical_to_snapshot": true
+      },
+      "plug_rebuild_line": {
+        "current_hits": [
+          [
+            253,
+            "s=box((20,7.8,7.8));s=bore(s,3.3,24,(0,0,0),(1,0,0));s=bore(s,4.5,12,(-np.sign(xyz[0])*3,0,0))"
+          ]
+        ],
+        "snapshot_hits": [
+          [
+            195,
+            "s=box((20,7.8,7.8));s=bore(s,3.3,24,(0,0,0),(1,0,0));s=bore(s,4.5,12,(-np.sign(xyz[0])*3,0,0))"
+          ]
+        ],
+        "line_content_identical": true,
+        "note": "塞 WP03 重建几何定义行；E2 未触碰 → 49.71 mm³ 惯例非 E2 引入"
+      }
+    }
+  },
+  "sub_verdicts": {
+    "readback": "PASS",
+    "negative_controls": "PASS",
+    "preexisting_check": "PASS",
+    "new_interference_scan": "PASS",
+    "spotcheck": "PASS"
+  },
+  "key_results": {
+    "readback": {
+      "coaxial_max_axis_offset_mm": 0.0,
+      "stations_checked": 8,
+      "export_hash_pin_40_of_40": {
+        "checked": 40,
+        "mismatches": []
+      },
+      "registration_audit": {
+        "rows": {
+          "dual_hole_pairs": 8,
+          "fastener_stacks": 8,
+          "mounting_surfaces": 8,
+          "tool_paths": 8
+        },
+        "pair_id_set_match": true,
+        "unknown_fields_preserved": true,
+        "axis_match": true,
+        "short_engagement_registered": true,
+        "issues": []
+      },
+      "t1_plug_section_truth": {
+        "wp02_literal_box_20_9_8_9_8": true,
+        "wp03_rebuild_box_20_7_8_7_8": true,
+        "measured_plug_section": "7.8x7.8 (见 stations[*].plug_section_xy)",
+        "ticket_text_consistent_with_wp03": true
+      },
+      "cross_run_longeron_4of4_identical": true
+    },
+    "negative_controls": {
+      "NC_a_full_pin_vs_screw_positives": 8,
+      "NC_a_full_pin_sample_mm3": 48.735206054801836,
+      "NC_a_real_stubs_16of16_zero": true,
+      "NC_a_ligament_analytic_mm_per_side": 0.20000000000000018,
+      "NC_b_missing_hole_mutation_detected": true,
+      "NC_c1_wing_pad_conflict_mutation_mm3": 6.842388799518387,
+      "NC_c1_real_pin_zero": 0.0,
+      "NC_c2_shifted_stub_conflict_mutation_mm3": 27.369555198074433,
+      "NC_c2_real_stub_zero": 0.0
+    },
+    "preexisting_interference": {
+      "conclusion": "PRE_EXISTING_CONFIRMED",
+      "A_e1_carried_forward_pairs": 2,
+      "A_build123d_path_bit_identical": true,
+      "B_thread_convention_pairs": 8,
+      "B_all_pass": true,
+      "boolean_path_attribution": "登记布尔值由被审方 build123d Shape.intersect 路径产生；审阅方独立路径 OCP.BRepAlgoAPI_Common 对同一几何给出系统差 1.9e-3~2.6e-3 mm³ （≈5e-5 相对，OCC 圆柱-圆柱相交曲线剖分的实现路径依赖）。A 对为 1ulp(2.2e-16) 漂移；B 对 build123d 路径复现登记值（H03 逐位、H01 6.7e-5）。"
+    },
+    "new_interference_scan": {
+      "pairs": {
+        "A_e2_vs_other": 68,
+        "B_e2_vs_e2": 12,
+        "C_affected_vs_other": 188
+      },
+      "new_positives": 0,
+      "thread_convention_positives_registered": 8,
+      "named_clearance_checks": 64,
+      "named_clearance_fail": 0,
+      "e2_vs_e1_anchor_bbox_pairs": 0,
+      "errors": 0
+    },
+    "spotcheck_pass_ratio": "10/10"
+  },
+  "observations": [
+    {
+      "id": "O1",
+      "topic": "十字开孔全长销韧带数值定义差异",
+      "detail": "NC-a 解析韧带 (Ø4.4-Ø4.0)/2=0.2 mm/边；候选方登记 0.1 mm。两者同量级且均结构无效，全长销几何不可共存结论双方一致（分段短销方案的否决依据不受影响）。"
+    },
+    {
+      "id": "O2",
+      "topic": "工具勘误：build123d Shape.intersect 静默 None 陷阱",
+      "detail": "import_step 读回件作第一参数时，Shape.intersect 对部分组合选择性静默返回 None（实测：导入栓.intersect(导入塞)=None，而同对几何 OCC 原生 BRepAlgoAPI_Common 正常出值）。把 None 当 0.0 会把失败布尔伪装成零干涉。本审阅全部布尔已切换 OCP.BRepAlgoAPI_Common 原生路径（Build 失败返回 error dict，绝不当 0），r30/r31 已在修复后整轮重跑，结论不变。对 E1 已交付审阅的影响：仅 NC-c 真实栓对照 0.0（导入栓.intersect(剪力板螺钉包络)）走过受影响路径；该对解析可证真零——G03_0 栓 z∈[102.55,108.05]（头 Ø5.5 @ z=105.3±2.75），剪力板螺钉包络 z∈[92.5,95.5]（Ø3 绕 z=94），z 向区间不相交（最小间距 7.05 mm），E1 结论不受影响。建议后续所有审阅/被审脚本统一 OCC 原生布尔路径。"
+    },
+    {
+      "id": "O3",
+      "topic": "登记布尔值的实现路径依赖（≈5e-5 相对）",
+      "detail": "49.71 mm³ 螺纹咬合惯例八对：被审方 build123d 路径登记值 vs 本审阅 OCC 路径复算值 系统差 1.9e-3~2.6e-3 mm³（OCC 圆柱-圆柱相交曲线剖分的路径依赖；探针 _work/probe_boolean_path_attribution.py 已归因，build123d 路径可复现登记值：sx=+1 四站逐位、sx=-1 四站 6.7e-5 内）。该对为登记性数值（WP02 螺纹啮合表示惯例），非 Gate 判据；全部 Gate 相关对的零/非零语义 在两条路径下一致，不影响任何 Gate 结论。E1 结转 0.461 mm³ 对存在同型 1ulp(2.2e-16) 漂移。"
+    },
+    {
+      "id": "O4",
+      "topic": "入塞 1.8 mm 保持有效性（SHORT_ENGAGEMENT_1.8MM_REGISTERED）",
+      "detail": "短销/栓每枚仅入塞 1.8 mm 承压；剪/承压许用、滑移、振动脱出全部 UNKNOWN/NOT_RUN，已如实登记于 e2_mounting_surfaces.json 与 ACCEPTANCE_SUMMARY not_run。本复验仅覆盖数字几何候选，不构成保持有效性证明。"
+    },
+    {
+      "id": "O5",
+      "topic": "翼侧无头销装后更换须拆翼根叉（NEEDS_SEQUENCE_REVIEW）",
+      "detail": "已在 e2_tool_paths.json 登记（翼侧销须在 wing_root_fork 装入前压装；装后更换须先拆翼根叉）；装序审查 NOT_RUN。压配保持力 PRESS_FIT_UNKNOWN 保留。"
+    },
+    {
+      "id": "O6",
+      "topic": "0.05/0.1/0.2 mm 公差堆叠制造性审查 NOT_RUN",
+      "detail": "栓孔配合隙 0.05 mm/边、尖端让 M4 螺钉包络 0.1 mm、翼销让垫板 0.2 mm 的公差堆叠制造性审查 NOT_RUN；材料/配合等级/防松/紧固件选型 UNSELECTED/UNKNOWN 保留，零填充禁止已遵守（净分配质量增量 0.0 为 NOT_ALLOCATED 如实登记，铝当量仅供预算）。"
+    }
+  ],
+  "limitations_carried_from_candidate": [
+    "载荷/强度校核 NOT_RUN（短销剪切、承压（入塞 1.8 mm SHORT_ENGAGEMENT_REGISTERED）、滑移、压配保持力、振动脱出）",
+    "紧固件选型/配合等级/防松/材料全部 UNSELECTED/UNKNOWN 保留，零填充禁止",
+    "制造性审查 NOT_RUN（0.05 mm/边配合隙、0.1 mm 尖端让隙、0.2 mm 翼侧间隙公差堆叠；无头销压装工艺）",
+    "工具路径仅几何可达性登记，实物回放 NOT_RUN（舱内件建议根框阶段施装）",
+    "翼侧无头销装后更换须拆翼根叉（NEEDS_SEQUENCE_REVIEW），装序审查 NOT_RUN",
+    "实物试配/装配 NOT_RUN"
+  ],
+  "whole_design_complete": false,
+  "manufacturing_release": false,
+  "parent_ticket_r07_closure": "NOT_CLOSED（本复验不构成父票关闭依据）",
+  "verdict": "R07_E2_INDEPENDENT_REVERIFY_PASS_WITH_OBSERVATIONS",
+  "verdict_semantics": "PASS_WITH_OBSERVATIONS=全部独立机器核查通过（读回/三负控/既有核查/新增扫描/抽验 10 项）；观察项 O1-O6 为登记/定义/工具类备注，不构成阻断；候选维持 DIGITAL_GEOMETRY_CANDIDATE 等级，不升级为制造放行或全设计完成",
+  "generated_at": "2026-09-18T22:25:52"
+}

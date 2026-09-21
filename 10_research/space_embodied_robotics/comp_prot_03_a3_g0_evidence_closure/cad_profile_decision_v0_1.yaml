@@ -1,0 +1,91 @@
+schema_version: comp-prot-03-cad-profile-decision-v0.1
+decision_id: competition_geometry_profile_selection_v0_1
+phase: COMP-PROT-03-A3-G0-EVIDENCE-CLOSURE
+decided_on: "2026-07-23"
+status: DESIGN_AUTHORITY_SELECTED_FOR_GEOMETRY_ONLY_INPUT
+
+authority:
+  scientific_gate: false
+  cad_generation_authorized: false
+  urdf_generation_authorized: false
+  dynamics_use_authorized: false
+  launch_compliance_claim_authorized: false
+  selection_applies_only_to: A3_GEOMETRY_ONLY_REQUEST_PREPARATION
+
+exactly_one_rule:
+  candidate_count: 2
+  selected_count: 1
+  result: PASS
+  selected_profile_id: COMPETITION_DISPLAY_V0
+
+decision_basis:
+  approval_record: approval_scope_record.md
+  selection_reason:
+    - preserves_the_existing_competition_display_baseline
+    - preserves_the_only_current_single_valued_T_SM
+    - avoids_inventing_T_S_RCDS_or_T_SM_for_the_366mm_reference_profile
+    - minimizes_evidence_drift_before_geometry_only_CAD_review
+  superiority_claimed: false
+  flight_representativeness_claimed: false
+
+profiles:
+  COMPETITION_DISPLAY_V0:
+    selected: true
+    role: COMPETITION_GEOMETRY_ONLY_HOST
+    envelope_mm_S: [340.5, 226.3, 226.3]
+    long_axis: +X_S
+    task_face: +X_S
+    T_SM:
+      convention: T_XY_expresses_Y_in_X
+      translation_mm_S: [185.25, 0.0, 0.0]
+      rotation:
+        type: passive_frame_to_frame_matrix
+        matrix_rows:
+          - [0.0, 0.0, 1.0]
+          - [0.0, 1.0, 0.0]
+          - [-1.0, 0.0, 0.0]
+        urdf_rpy_rad: [0.0, 1.5707963, 0.0]
+        quaternion_wxyz: [0.70710678, 0.0, 0.70710678, 0.0]
+      status: BOUND_TO_SELECTED_PROFILE
+    evidence:
+      - path: 20_engineering/config/geometry/frame_tree_v1.yaml
+        sha256: 958bff23bf83434c773854fd0e78da3b09be4a3a213eb81a0741514750b3e55b
+      - path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/coordinate_frame_definition_v0.md
+        sha256: 6afcb4fb6f1cd53580c5a1561788142e17df7c16a1aeec548dbeafef7efabec1
+    limitations:
+      - non_flight_display_profile
+      - no_deployer_or_launch_compliance_claim
+      - physical_adapter_stackup_and_clearance_are_A3_exit_evidence
+
+  CDS_12U_REFERENCE:
+    selected: false
+    role: RETAINED_REFERENCE_NOT_CONSUMED
+    envelope_mm_drawing: [226.3, 226.3, 366.0]
+    T_S_RCDS: null
+    T_SM: null
+    exclusion_reason:
+      - project_axis_mapping_not_signed
+      - unique_T_SM_not_available
+      - selecting_it_would_require_unverified_geometry_reconciliation
+    reentry_requirement:
+      - signed_T_S_RCDS
+      - profile_specific_T_SM
+      - rail_and_protrusion_fit_review
+
+blocker_disposition:
+  DB-BLK-010:
+    input_part: CLOSED_BY_AUTHORITY_FOR_GEOMETRY_ONLY_PROFILE
+    physical_part: A3_EXIT_PENDING
+  DB-BLK-013:
+    geometry_only_scope: CLOSED_BY_AUTHORITY_AND_EXISTING_T_SM_EVIDENCE
+    full_flight_reference_scope: OPEN
+
+claim_boundary:
+  allowed:
+    - one_competition_display_geometry_profile_is_selected
+    - selected_profile_has_a_single_valued_T_SM
+  forbidden:
+    - selected_profile_is_CDS_12U_compliant
+    - selected_profile_is_flight_ready
+    - adapter_clearance_is_verified
+    - selected_profile_is_optimal

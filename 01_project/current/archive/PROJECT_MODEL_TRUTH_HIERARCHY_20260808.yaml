@@ -1,0 +1,98 @@
+# PROJECT_MODEL_TRUTH_HIERARCHY.yaml
+# PL1-G consolidation, 2026-08-08. Per-domain CURRENT authority of record.
+# Sources: PL1-B (mechanical), PL1-C (dynamics/sim), PL1-E (control/safety/embodied) recon at git HEAD 5c5adde.
+# Rule: L0 DYNAMICS_TRUTH > L1 ENGINEERING_NATIVE_CAD > L2 SIMULATION_MODEL > L3 REFERENCE/DONOR.
+#       CAD mass never overrides URDF mass; detail level never confers authority; ROOT B never owns authority.
+schema: PROJECT_MODEL_TRUTH_HIERARCHY_V1
+generated_by: PL1-G (SEI-PL1-PROJECT-MAINLINE-RECONSTRUCTION)
+date: "2026-08-08"
+repo_head: 5c5adde
+
+domains:
+
+  spacecraft_geometry:
+    authority: "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/F3R2_SPACE_EMBODIED_ROBOT_OPERATIONAL_BASELINE.SLDASM"
+    layer: L1
+    status: CURRENT_CANDIDATE_PENDING_RATIFICATION
+    identity: "sha256 19D85E9C703BEC107396AE84DAB7B12DE5722434FC7D5474B3A5A144A1B590D0; byte-identical to F3R1 V3_CONFIGURED; 82 comp / 6 top mates 0 err / 8 configs"
+    gate: "F3R2 final 11/14, F3R2_DEPLOYED_OPERATIONAL_BASELINE_CLOSED + 4 HOLDs, PENDING_HUMAN_REVIEW (2026-08-07)"
+    notes: "salvaged into ROOT A by PL1-G 2026-08-08 (sha-verified); skeleton driver = 00_Master_Skeleton_V2_2.SLDPRT (in F3R1 tree); parametric SSOT = freecad_authoritative B51R1_MASTER_SKELETON_FREECAD.FCStd"
+
+  b601_kinematics_mass:
+    authority: "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf"
+    layer: L0
+    status: FROZEN_VERIFIED
+    identity: "raw sha256 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164; LF 408147ddc9cc0bba0facbf864c559a54d1712262703ba41251514a4303b5a3a4; mass 4.695555949342986 kg (arm 4.4293 + gripper 0.2665); 6R+1F+2P"
+    supporting: "geometry SSOT 20_engineering/config/geometry/arm_b601_v1.yaml; frame_tree_v1.yaml (T_SM [185.25,0,0] mm + Ry90); arm_mount_v1.yaml (D-1); mass ledger rule cad_mass_override_authorized=false"
+    confidence: "medium; physical weighing of the real arm still open (evidence-rank-1 upgrade)"
+    modification: PROHIBITED_EVERYWHERE
+
+  b601_visual:
+    authority: "20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/ (10 STL, ~27 MB, git-untracked pending LFS decision)"
+    layer: L1
+    status: CURRENT
+    donors: "HAGA_HIFI_FREECAD C1-B (20_engineering/cad/reference_donors/, visual-only, mass EXCLUDED); engineering carrier B51_B601_ARTICULATED_ENGINEERING_ARM.SLDASM (F3R1 tree, 6 joints ALIGNED vs URDF)"
+    notes: "URDF collision = same 10 STLs as visual (no hulls/primitives)"
+
+  collision:
+    authority: "sim_09 capsule model: 20_engineering/config/grasp_evaluator/collision_geometry_v1.yaml (capsules r=0.045 m over FK chain; bus=box; panels=thin boxes; assumptions A1-A7)"
+    layer: L2
+    status: CURRENT_WITH_HOLDS
+    verdict: "sim_09 E1 LIMITED+FROZEN (72 cases: 69 IK / 24 admissible / 16 Pareto); E1.5 SAFE=0 NEGATIVE frozen"
+    holds: "sim_05 b601_model.py:39 URDF path broken at HEAD (one-line fix pending governance); native CAD pair attribution HOLD (SW2024 IInterference unreachable; offline mesh measurement is interim authority)"
+
+  capture_dynamics:
+    authority: "30_simulation/common/capture_impulse.py + 30_simulation/sim_06_capture_impulse/"
+    layer: L2
+    status: VERIFIED_FROZEN
+    verdict: "Gate A passed <=2026-07-11; 40 cases; debris 150 kg @3 dps -> 3.06 dps post-capture; capture != detumbling"
+    notes: "sim_11 capture_solver rigid limit machine-asserted == sim_06; sim_04 v0 heuristic superseded (24 false-safe points)"
+
+  coupled_dynamics:
+    authority: "30_simulation/sim_11_coupled_dynamics/ (v1.1: floating-base tree multibody - central rigid + 2x FFR panels + B601 6R)"
+    layer: L2
+    status: LIMITED_FROZEN
+    verdict: "SIM11_GATES_PASS_WITH_PROVISIONAL_PARAMS (2026-07-18); rigid anchor sim_05 VERIFIED (22/22, peak 19.20 deg)"
+    provisional: "panel modal params (f1=0.7/1.0/1.3 Hz envelope, zeta=0.01) + contact T_c=20 ms; rerun triggers BLOCKED pending measurements"
+
+  contact:
+    authority: "30_simulation/sim_11_coupled_dynamics/src/contact_window.py v1.1 (finite contact bandwidth)"
+    layer: L2
+    status: LIMITED_PROVISIONAL
+    notes: "T_c=20 ms PROVISIONAL awaiting B601 gripper measurement; sustained contact/jamming (KV/Hunt-Crossley) = ASM-01 PLAN_ONLY, not implemented; no project-integrated/authoritative MuJoCo/LCP engine (SpaceRobotEnv exists only as a reference checkout)"
+
+  flexible:
+    authority: "system level: sim_11 FFR panels (placeholder modal params); component level: 30_simulation/sim_07_ancf_flexible/ (planar gradient-deficient ANCF beam)"
+    layer: L2
+    status: LIMITED_FROZEN
+    verdict: "e15 ANCF certification NEGATIVE (REPEAT_ANCF_CERTIFICATION: cross-solver 5.637% > 5%); L2 ANCF citations barred until GR5 re-pass"
+    ssot: "20_engineering/config/geometry/flexible_appendage_v1.yaml (m_panel=0.3483933 kg placeholder, 5-10x off real areal density; mass closure ==24.000 kg enforced)"
+
+  safe_decision:
+    authority: "30_simulation/safety_00_runtime_gate/ (SAFE-00; hash-bound fail-closed decision core; consumes NO mechanical model)"
+    layer: L2
+    status: VERIFIED_FROZEN
+    verdict: "PASS (16 deterministic cases; 47/47 checks; bypass 12/0; unknown_allow=0) @284c882; PENDING_REVIEW; next_stage_authorized=false"
+    contracts: "20_engineering/config/safety_gate/ (policy v1.2 FROZEN_FOR_SAFE_00_WAVE1; candidate binding A_low-S1_passive only)"
+    holds: "LOOP-6 independent re-review outstanding (08_REVIEWS empty); AG5 assembly-safety extension not implemented"
+
+  control:
+    authority: "30_simulation/control_02_base_attitude/ (CTRL-02 base attitude / momentum attribution)"
+    layer: L2
+    status: DONE_LIMITED_FROZEN
+    verdict: "PASS_WITH_PROVISIONAL_SCOPE (GC0-GC7; transient 7/16 stabilized); PENDING_REVIEW; unmerged awaiting integrator-R + PI ruling"
+    provisional: "actuator layer (wheel 0.01 N.m/axis, thruster min pulse 20 ms) not hardware-qualified; W1-R12 conflict logged for ASM-02"
+    negative_companion: "CTRL-01 end-effector tracking = REPEAT (NEGATIVE frozen: strict 6D nullspace zero; frozen gains exceed limits); design-constraint input to ASM-02"
+
+  gripper:
+    authority: "kinematics: accepted URDF (gripper_link fixed + 2 prismatic, 71.5 mm each, no mimic); hardware: 80_third_party/vendor/reBot-DevArm/ (STEP reBot_B601_DM_v1.1_20260425.step, sha 87a0537d, CERN-OHL-W-2.0)"
+    layer: L0/L1
+    status: CURRENT_WITH_HOLDS
+    native_cad: "58-solid mirrored set (L24/R24/palm10), F3R2 G33 mesh-verified OPEN 82.23 / PREGRASP 50.50 mm; two independent finger components NOT modelled (G3-05 residual)"
+    holds: "vendor tree gitignored, no cold backup (DR P0); gripper T_c measurement pending hardware team"
+    identity_ruling: "SAME_BASE_ARM_WITH_GRIPPER_EXTENSION; stable copy F:/SEI_PROJECT_ARCHIVE/CONFIGURATION_MANAGEMENT/20260807_CONSOLIDATION/CM3/CM3A/B601_GRIPPER_SUBSYSTEM_IDENTITY_RULING.md (6/6 CM3A files copy-verified 2026-08-08)"
+
+  reference_donor:
+    authority: NONE
+    status: "reference_only - no reference/donor asset holds project authority"
+    notes: "ROOT B (F:\\SPACE_ROBOTICS_REFERENCE_LIBRARY) = pure reference (R1-R7 overlay, zero runtime dependency verified); donors V2_2_NATIVE/B51/wings/HAGA/reBot-DevArm feed L1 by ratified selection, never override L0"

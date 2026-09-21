@@ -1,0 +1,77 @@
+{
+  "architecture": "Two independently protected battery/converter channels; no unprotected raw-battery parallel; preserve separate P60 low-power branch",
+  "battery": {
+    "pn": "Inventus MB-2590-300 / manufacturer 07-52590",
+    "quantity": 2,
+    "series_output_range_v": [
+      20,
+      33.6
+    ],
+    "max_discharge_a_each": 12.5,
+    "energy_min_wh_each": 288,
+    "mass_nom_kg_each": 1.5,
+    "bbox_mm_each": [
+      127,
+      62.6,
+      111.8
+    ],
+    "source": {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp09_interfaces_20260907_1525\\system_completion\\sources\\power_intake\\Inventus_MB2590_300.pdf",
+      "sha256": "6cc4e7010995a79153865321e48fe63ef053a4d1b3dec9d4f2193a8b1cdcfb6c"
+    },
+    "qualification": "industrial/tactical module; vacuum/radiation suitability not established"
+  },
+  "converter": {
+    "pn": "TDK i7C4W012A050V-PC3-R",
+    "quantity": 2,
+    "feature": "Itrim; baseplate; negative-logic enable",
+    "input_v": [
+      9,
+      53
+    ],
+    "rated_output_a_each": 12.5,
+    "max_output_w_each": 300,
+    "set_v": 24,
+    "voltage_tolerance_fraction": 0.04,
+    "Itrim_min_max_over_all_temp_vin": "NOT_GUARANTEED_BY_PUBLIC_TABLE",
+    "source": "https://product.tdk.com/system/files/dam/doc/product/power/switching-power/dc-dc-converter/specification/i7c_spec.pdf",
+    "source_revision": "March 4 2024 v9; web parser viewed, binary download HTTP403"
+  },
+  "charging": {
+    "candidate_controller": "LTC4020",
+    "status": "CONTROLLER_ONLY_NOT_COMPLETE_CHARGER",
+    "source": {
+      "path": "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp09_interfaces_20260907_1525\\system_completion\\sources\\power_intake\\LTC4020_datasheet.pdf",
+      "sha256": "82cfef2de7f519b6a66660bf5d65e2795b396f02c956e354329b3c8c518cbfc9"
+    },
+    "open": [
+      "battery-specific charge limits and enable mating-view connector ICD",
+      "PV-to-two-charge-channels routing and protection",
+      "thermal/input-current-loop detailed design"
+    ]
+  },
+  "selection_status": "CANDIDATE_REJECTED_AS_FINAL_COMPLETE_SOLUTION_UNTIL_INTERFACE_AND_ENVIRONMENT_BOUNDS_EXIST",
+  "replacement_comparisons": [
+    {
+      "pn": "Single MB-2590-300",
+      "decision": "REJECT_FOR_FULL_VOLTAGE_360W",
+      "reason": "At20V,12.5A allows250W even at ideal conversion"
+    },
+    {
+      "pn": "P60/BPX existing branch",
+      "decision": "REJECT_FOR_ARM_360W",
+      "reason": "Dock4A and PDU3.75A below demand; do not bypass"
+    },
+    {
+      "pn": "GomSpace P80 as a drop-in whole replacement",
+      "decision": "NOT_SELECTED",
+      "reason": "300W and12A aggregate do not by themselves close360W arm plus spacecraft; changing name does not close budget",
+      "source": "https://gomspace.com/product/nanopower-p80/"
+    },
+    {
+      "pn": "TDK i7C -001 / -0C1 normal variants",
+      "decision": "REJECT_FOR_UNQUALIFIED_PARALLEL",
+      "reason": "Itrim parallel option is Px3; ordinary suffix must not inherit it"
+    }
+  ]
+}

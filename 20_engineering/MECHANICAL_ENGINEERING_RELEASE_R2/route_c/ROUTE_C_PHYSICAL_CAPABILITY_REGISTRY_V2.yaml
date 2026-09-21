@@ -1,0 +1,381 @@
+schema: ROUTE_C_PHYSICAL_CAPABILITY_REGISTRY_V2
+generated_utc: '2026-08-25T10:02:34Z'
+stage: RC-1_PHYSICAL_CAPABILITY_CLOSURE
+supersedes_semantics_note: >-
+  Extends ROUTE_C_PHYSICAL_INPUT_INVENTORY_V1 (P01..P13 field id and semantics
+  preserved one-to-one; that file remains the SSOT of the pre-closure HOLD
+  baseline and is not modified). This registry closes each quantity with a
+  traceable value or bounded range under ODR-53 authority
+  (DESIGN_CANDIDATE / PROVISIONAL_DERIVED / BOUNDED_DATASHEET_RANGE only).
+authority_rules:
+  allowed: [DESIGN_CANDIDATE, PROVISIONAL_DERIVED, BOUNDED_DATASHEET_RANGE]
+  forbidden: [MEASURED, AS_BUILT, FLIGHT_QUALIFIED]
+  null_policy: null is never coerced to zero; untraceable values remain HOLD and are counted in the gate
+selected_design_candidate_sub_bundle:
+  composition_basis: ROUTE_C_VENDOR_RFI_SHORTLIST_V1 (sha256 70DED5260A55444C359532E3270D066001DFA8F2500913C58D5A799BED44B439), catalog candidates only, NOT product selections
+  data_element: 1x Axon P551259 28AWG high-speed cable, OD max 6.5 mm, linear mass max 42.0 g/m, static bend radius 25.0 mm (FULLY_STATIC_ONLY)
+  power_control_elements: 8x TE 55/9960-26 26AWG ETFE equipment wire, OD nominal 0.72 mm, linear mass nominal 1.81 g/m each
+  protection_allowance: sleeve/braid plus ties, +15% linear mass allowance (engineering allowance, confidence LOW)
+  installed_od_estimate_mm:
+    value: 9.0
+    bounded_range: [8.0, 10.0]
+    derivation: largest single element 6.5 + 2x discrete wire layer 2x0.72 = 7.94; plus sleeve/braid and ovalization allowance = 9.0 nominal; bounded [8.0, 10.0]
+    authority: PROVISIONAL_DERIVED
+    confidence: LOW
+urdf_joint_envelope_rad:
+  source: accepted URDF sha256 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  J1: 5.6
+  J2: 3.14
+  J3: 3.14
+  J4: 3.44
+  J5: 3.14
+  J6: 6.28
+take_up_budget_mm:
+  rule: required_i = R_i x joint_range_i; capacity_i = design free-span/storage of segment i; margin = sum(capacity) - sum(required). Values below are CAD-exact, emitted by B601_ROUTE_C_BUILD_V1.py into B601_ROUTE_C_HARNESS_CENTERLINE_V1.json (build receipt take_up_summary).
+  segments:
+    J1_annular_service_loop: {R_mm: 60, required_mm: 336.0, capacity_mm: 452.389, note: 1.2-turn CW coil in annular channel at z=126}
+    J2_guided_U_loop: {R_mm: 50, required_mm: 157.0, capacity_mm: 218.166, note: CW 250 deg omega}
+    J3_carrier_hybrid: {R_mm: 63, required_mm: 197.82, capacity_mm: 220.0, note: festoon 2 x 110 mm travel}
+    J4_joint_local_loop: {R_mm: 50, required_mm: 172.0, capacity_mm: 274.889, note: CW 315 deg omega}
+    J5_wrist_wrap: {R_mm: 50, required_mm: 157.0, capacity_mm: 161.443, note: CW 185 deg wrap at z=210}
+    J6_wrist_wrap: {R_mm: 50, required_mm: 314.0, capacity_mm: 550.878, note: helix 1.75 turns pitch 20}
+  required_total_mm: 1333.82
+  capacity_total_mm: 1877.766
+  margin_total_mm: 543.946
+  margin_percent_of_required: 40.78
+physical_capability_registry:
+- id: P01
+  quantity: D_max_geometry_mm
+  meaning: maximum bundle outer diameter the Route-C guide/channel geometry accommodates
+  value: 12.0
+  bounded_range: null
+  unit: mm
+  derivation: >-
+    Fixed channels and guide grooves are sized with internal clear cross-section 12.0 mm
+    (width) x 12.0 mm (height) >= installed sub-bundle OD upper bound 10.0 mm plus >=1.0 mm
+    radial liner/clearance allowance. Installed OD estimate 9.0 [8.0,10.0] mm is
+    PROVISIONAL_DERIVED from the selected design-candidate sub-bundle composition above.
+  source_document: this registry derivation + ROUTE_C_VENDOR_RFI_SHORTLIST_V1 component catalog maxima (Axon P551259 OD max 6.5 mm; TE 55/9960-26 OD nominal 0.72 mm)
+  document_revision_date: RFI shortlist generated 2026-08-23; registry V2 generated 2026-08-25
+  part_or_material_family: guide channel 6061-T6 hard-anodized + iglidur liner; bundle = Axon P551259 + TE Spec 55 discrete wires
+  authority_level: DESIGN_CANDIDATE
+  confidence: MEDIUM
+  temperature_scope: '-100..+150 degC (bundle-limited, Axon P551259 published); channel aluminum not limiting'
+  cycle_life_scope: design allocation 1.0e4 flex cycles per joint minimum target; supplier confirmation required (not a rating)
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-05, MPI-07]
+  traceability: closes ROUTE_C_GEOMETRIC_CAPACITY_FRONTIER_V1 D_max_geometry_mm null with a design-candidate channel capacity; NOT a measured installed OD
+- id: P02
+  quantity: R_path_min_mm
+  meaning: minimum path bend radius of the Route-C candidate centerline
+  value: 50.0
+  bounded_range: null
+  unit: mm
+  derivation: >-
+    Design rule: every centerline arc radius >= 50.0 mm, which is >= the largest published
+    catalog minimum bend radius among shortlisted flight cable constructions (Gore SpaceWire
+    variant 01 = 45.0 mm, dynamic class not stated; Glenair 963-080-24 = 31.75 mm unclassified;
+    Axon P551259 = 25.0 mm static-only) and >= chainflex CF9 heaviest-duty dynamic factor 5xd
+    applied to the installed OD upper bound 10.0 mm (= 50.0 mm). Enforced segment radii:
+    J1 annulus 60, J2 saddle 50, J3 saddle 63, J4 mandrel 50, J5/J6 wraps 50.
+  source_document: GORE_2025_CATALOG Table 21 p.30; GLENAIR_GSWM datasheet; AXON_SPACE_LINKS P551259 table; igus chainflex CF9 datasheet (class 7.6.4.2)
+  document_revision_date: Gore catalog 2025-09 issue; igus chainflex CF9 datasheet current online issue; accessed 2026-08-25
+  part_or_material_family: sub-bundle per selected_design_candidate_sub_bundle
+  authority_level: DESIGN_CANDIDATE
+  confidence: MEDIUM
+  temperature_scope: '-100..+150 degC bundle-limited'
+  cycle_life_scope: 1.0e4 flex cycles per joint design allocation; bend-class supplier confirmation required
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-06, MPI-07]
+  traceability: Route-B legacy R25/R30 quarantined and NOT inherited; path minimum is a design choice bounded below by published vendor limits
+- id: P03
+  quantity: deltaL_mm
+  meaning: available-length / take-up margin of the Route-C candidate
+  value: 543.946
+  bounded_range: null
+  unit: mm
+  derivation: >-
+    margin = capacity_total 1877.766 - required_total 1333.82 = 543.946 mm (40.78% of required),
+    from the CAD-exact per-segment take_up_budget_mm table above (values emitted by the RC-3
+    build script into the centerline JSON; required_i = R_i x URDF joint range_i).
+    Route-B cut length 4001.158 mm is quarantined and plays no role in this arithmetic.
+  source_document: this registry derivation; accepted URDF joint limits
+  document_revision_date: '2026-08-25'
+  part_or_material_family: segment guide hardware + sub-bundle
+  authority_level: PROVISIONAL_DERIVED
+  confidence: MEDIUM
+  temperature_scope: thermal length change not included; declared downstream C4/C5 item
+  cycle_life_scope: margin maintained over 1.0e4 cycle design allocation subject to wear allowance at liners
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-05, MPI-07]
+  traceability: per-segment free-span and travel values are emitted in B601_ROUTE_C_HARNESS_CENTERLINE_V1.json (RC-3) from the same parameter set
+- id: P04
+  quantity: carrier_travel_mm
+  meaning: moving-carriage stroke of the J3 mini cable-carrier/moving-guide hybrid
+  value: 110.0
+  bounded_range: null
+  unit: mm
+  derivation: >-
+    festoon rule: cable take-up = 2 x carriage travel; required travel = R_saddle x range_J3 / 2
+    = 63 x 3.14 / 2 = 98.9 mm; design stroke 110.0 mm with hard stops at +/-55.0 mm about the
+    q3 mid-travel datum (stop margin 11.1 mm each end). igus E2.10 pitch 20 mm accommodates
+    the stroke in 5.5 pitches; chain used in its linear-travel regime, bend formed by the
+    R63 guide saddle, not by chain self-radius.
+  source_document: derivation + igus E2.10 e-chain series page (pitch 20 mm, bend radii 18/28/38 series, inner height 10 mm, inner width 6-50 mm)
+  document_revision_date: igus online catalog current issue; accessed 2026-08-25
+  part_or_material_family: igus E2.10 e-chain (igumid G) + 6061-T6 guide saddle/track
+  authority_level: DESIGN_CANDIDATE
+  confidence: MEDIUM
+  temperature_scope: '-40..+80 degC igumid G published material range; space TVAC applicability NOT established (C6 hold)'
+  cycle_life_scope: chain cycle rating per igus test data to be confirmed at C6; design allocation 1.0e4 strokes
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-07]
+  traceability: closes parameter-space unknown carrier_travel_mm with design stroke + derivation; hard-stop positions emitted in centerline JSON
+- id: P05
+  quantity: manufacturing_coordinates_mm
+  meaning: controlled manufacturing/installation coordinates of Route-C interface stations on NEW derived brackets
+  value: see station_table
+  bounded_range: null
+  unit: mm
+  station_table:
+    frame: S (spacecraft assembly frame), mm
+    HN-00: {coordinates: [150.0, 0.0, -70.0], role: bus avionics feedthrough interior bracket, basis: 'inside declared passage corridor [64..171, -30..30, -82..-58]; new Route-C datum'}
+    HN-01: {coordinates: [171.0, 0.0, -70.0], role: passage +x mouth exit on feedthrough bracket, basis: declared topology reference adopted as design datum on NEW bracket}
+    HN-02: {coordinates: [192.0, 0.0, -70.0], role: HC-1 clamp on Route-C feedthrough bracket, basis: 'y/z newly defined on derived bracket; supersedes DECLARED_X_STATION_ONLY'}
+    HN-03: {coordinates: [215.0, 0.0, -45.0], role: arm base connector face on NEW base-collar bracket, basis: 'reconciled onto collar bracket envelope; supersedes DECLARED_BUT_GEOMETRICALLY_UNSUPPORTED [215.0, 0.0, 0.0]'}
+    HN-04: {coordinates: [220.0, 0.0, -30.0], role: HC-2 base collar clamp, basis: design candidate on collar clamp ring}
+  derivation: >-
+    All stations are interfaces of NEW Route-C derived brackets (ODR-52: brackets mounted on
+    derived brackets; no B601 donor shell modification; no bus primary-structure modification).
+    Arm base flange station x = 210.41 mm per HARNESS_ROUTING_V1 HR-OPEN-01 data; collar
+    bracket spans x 210..225. Link-local clamp/guide coordinates are emitted per host link in
+    B601_ROUTE_C_CLAMP_AND_GUIDE_REGISTER_V1.csv (RC-3).
+  source_document: HARNESS_ROUTING_V1.yaml (sha256 E54594FB51C5EC7A1BFE5180870C544BDABA315870DF7451B8B1B0235449DBAC) topology nodes + this design definition
+  document_revision_date: HARNESS_ROUTING_V1 2026-08-22; station table defined 2026-08-25
+  part_or_material_family: 6061-T6 derived brackets, A2-70 fasteners
+  authority_level: DESIGN_CANDIDATE
+  confidence: MEDIUM
+  temperature_scope: installation tolerance allocation +/-0.5 mm per station (design candidate)
+  cycle_life_scope: not life-limited (static interfaces)
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-07]
+  traceability: prior null y/z (HN-02) and unsupported station (HN-03) closed by redefinition on new hardware; supersession documented, not silent substitution
+- id: P06
+  quantity: minimum_dynamic_bend_radius_mm
+  meaning: minimum bend radius under the dynamic (six-joint flexing) regime for the selected construction
+  value: 50.0
+  bounded_range: null
+  unit: mm
+  derivation: >-
+    Design-candidate dynamic bend limit = 50.0 mm, identical to P02 by construction (all
+    dynamic arcs >= 50.0). Dual basis: (a) >= largest published catalog minimum bend radius of
+    shortlisted flight cable constructions (45.0 mm, Gore SpaceWire variant 01, dynamic class
+    not stated); (b) >= 5xd heaviest-duty continuous-flex factor (igus chainflex CF9, class
+    7.6.4.2, e-chain linear minimum 5xd) applied to installed OD upper bound 10.0 mm.
+    No reviewed official source states a dynamic-class bend radius for the exact flight cable
+    constructions; supplier RFI confirmation is a registered downstream hold.
+  source_document: GORE_2025_CATALOG Table 21 p.30; igus chainflex CF9 datasheet (class 7.6.4.2, bend radius e-chain linear minimum 5xd)
+  document_revision_date: Gore catalog 2025-09 issue; chainflex CF9 datasheet current issue; accessed 2026-08-25
+  part_or_material_family: sub-bundle per selected_design_candidate_sub_bundle
+  authority_level: DESIGN_CANDIDATE
+  confidence: LOW
+  temperature_scope: '-35..+100 degC for the chainflex dynamic factor class evidence; bundle-limited -100..+150 degC static'
+  cycle_life_scope: 1.0e4 flex cycles per joint design allocation; quantified dynamic flex life of the exact construction NOT published (supplier test required)
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-06]
+  traceability: dynamic-class evidence gap is declared, not hidden; 50.0 mm is a conservative design allocation, not a vendor rating
+- id: P07
+  quantity: max_axial_extension_mm
+  meaning: maximum axial extension / length compensation the harness supplies across the full joint envelope
+  value: 1333.8
+  bounded_range: null
+  unit: mm
+  derivation: >-
+    sum over joints of R_i x URDF range_i with the enforced segment radii
+    (60x5.6 + 50x3.14 + 63x3.14 + 50x3.44 + 50x3.14 + 50x6.28 = 336.0+157.0+197.82+172.0+157.0+314.0).
+    Capacity 1877.766 mm exceeds requirement by the P03 margin (543.946 mm, 40.78%). Mission-rated
+    subset (8 mandatory trajectory segments) requires less; full-hardware-range value reported
+    conservatively.
+  source_document: this registry derivation; accepted URDF joint limits
+  document_revision_date: '2026-08-25'
+  part_or_material_family: segment guide hardware + sub-bundle
+  authority_level: PROVISIONAL_DERIVED
+  confidence: MEDIUM
+  temperature_scope: thermal expansion not included; declared downstream item
+  cycle_life_scope: extension duty bounded by 1.0e4 cycle allocation per joint
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-05, MPI-07, MPI-08]
+  traceability: Route-B cut length 4001.158 mm quarantined; this value is geometry-derived from first principles
+- id: P08
+  quantity: torsional_compliance
+  meaning: allowable cyclic torsion per unit length allocated to any guided free span of the installed bundle
+  value: null
+  bounded_range: [0.0, 10.0]
+  unit: deg/m
+  derivation: >-
+    DESIGN REQUIREMENT ALLOCATION, not a material property: service loops and guided wraps
+    convert joint rotation into bending; residual twist at any guided free span is allocated
+    <= 10.0 deg/m by guide clocking control (entry/exit tangent clocking fixed by clamps).
+    Torsional restoring-moment curve of the selected construction is UNKNOWN and remains a
+    declared downstream hold (C5 restoring-torque budget); no reviewed official source
+    publishes bundle torsion data for the candidate constructions.
+  source_document: design allocation; ROUTE_C_PRELIMINARY_DESIGN_CONTRACT_V1 analysis_contract C5 scope
+  document_revision_date: '2026-08-25'
+  part_or_material_family: sub-bundle + guide clocking features
+  authority_level: DESIGN_CANDIDATE
+  confidence: LOW
+  temperature_scope: allocation independent of temperature; torsion-vs-temperature data absent (declared hold)
+  cycle_life_scope: allocation bounded by 1.0e4 cycle design target; combined bend-torsion spectrum to be defined at C6
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-06]
+  traceability: the unit (deg/m) is now controlled by this allocation; restoring-moment curve stays explicitly UNKNOWN and is not zero-filled
+- id: P09
+  quantity: linear_density_g_per_m
+  meaning: installed bundle linear mass including shield, sleeve and ties
+  value: 65.0
+  bounded_range: [56.5, 72.5]
+  unit: g/m
+  derivation: >-
+    42.0 (Axon P551259 catalog max) + 8 x 1.81 (TE 55/9960-26 catalog nominal) = 56.48;
+    +15% sleeve/braid/ties allowance = 64.95 nominal; bounded [56.5 (no allowance, catalog max
+    data side), 72.5 (+28% allowance upper bound)]. All component values from the reviewed RFI
+    shortlist with uncertainty NOT_PUBLISHED_IN_REVIEWED_SOURCE__UNKNOWN retained.
+  source_document: AXON_SPACE_LINKS P551259 table; TE_55_9960_26 product page (via ROUTE_C_VENDOR_RFI_SHORTLIST_V1)
+  document_revision_date: RFI shortlist 2026-08-23; accessed 2026-08-25
+  part_or_material_family: sub-bundle per selected_design_candidate_sub_bundle
+  authority_level: PROVISIONAL_DERIVED
+  confidence: LOW
+  temperature_scope: mass not temperature-sensitive in range
+  cycle_life_scope: not life-limited
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-05]
+  traceability: component cable mass is NOT equated to installed dress-pack mass; the +15% allowance and its bounds are declared engineering estimates
+- id: P10
+  quantity: guide_friction_candidate
+  meaning: guide/liner material pair and dry-sliding friction candidate for semi-captive guides
+  value: null
+  bounded_range: [0.06, 0.20]
+  unit: dimensionless coefficient of dynamic friction
+  derivation: >-
+    Material pair candidate: iglidur J / J260 liner tape or machined liner against hard-anodized
+    6061-T6 (or stainless) guide surfaces. igus published coefficient of dynamic friction for
+    iglidur J260 against steel, dry: mu 0.06..0.20 (load/speed/surface dependent; ground shaft
+    Ra 0.1-0.3 um class recommended). Pair is a candidate, not a selection; wear/particulate
+    evidence is a C6 hold.
+  source_document: igus iglidur J260 material data page (coefficient of friction, dynamic, against steel mu 0.06-0.20); igus iglidur J material data page
+  document_revision_date: igus online material data current issue; accessed 2026-08-25
+  part_or_material_family: iglidur J/J260 liner + 6061-T6 hard-anodized guide
+  authority_level: BOUNDED_DATASHEET_RANGE
+  confidence: MEDIUM
+  temperature_scope: per igus material sheet; space TVAC/low-outgassing applicability NOT established (C6 hold)
+  cycle_life_scope: wear life per igus pv-rating method to be confirmed at C6; liner thickness allowance 0.5 mm wear-in declared
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-07]
+  traceability: 'first controlled guide-material candidate in the Route-C package (previous state: no candidate source)'
+- id: P11
+  quantity: guide_curvature_mm
+  meaning: physical guide path curvature / saddle and groove radii of named finite guide volumes
+  value: null
+  bounded_range: [50.0, 63.0]
+  unit: mm
+  named_finite_guide_volumes:
+    GV-J1-ANNULUS: {radius_mm: 60.0, type: protected annular service-loop channel, host: base collar bracket + link1 rotating clamp}
+    GV-J2-ULOOP: {radius_mm: 50.0, type: semi-captive guided U-loop saddle pair, host: link1/link2}
+    GV-J3-SADDLE: {radius_mm: 63.0, type: fixed-radius guide saddle + linear carrier track, host: link2/link3}
+    GV-J4-LOOP: {radius_mm: 50.0, type: joint-local service-loop mandrel, host: link3/link4}
+    GV-J5-WRAP: {radius_mm: 50.0, type: fixed-curvature wrist wrap mandrel, host: link4/link5}
+    GV-J6-WRAP: {radius_mm: 50.0, type: fixed-curvature wrist wrap mandrel, host: link5/link6}
+  derivation: >-
+    All primary guide radii >= P06 dynamic allocation 50.0 mm; channel groove seat radius
+    >= 6.0 mm for the 12.0 mm channel. Named volumes are realized as solids in
+    B601_ROUTE_C_GUIDED_DRESS_PACK_V1.FCStd/.step (RC-3); the previous state had zero named
+    finite guide volumes.
+  source_document: this design definition; RC-3 CAD artifacts
+  document_revision_date: '2026-08-25'
+  part_or_material_family: 6061-T6 saddles/mandrels + iglidur liners
+  authority_level: DESIGN_CANDIDATE
+  confidence: MEDIUM
+  temperature_scope: aluminum/liner stack; thermal distortion not evaluated (C4/C5 item)
+  cycle_life_scope: liner wear allowance 0.5 mm over 1.0e4 cycles (design allocation)
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-06, MPI-07]
+  traceability: predicate-qualification synthetic arc (R_path_min 49.999... synthetic) is NOT used as authority; radii are design values >= dynamic allocation
+- id: P12
+  quantity: carrier_size_mm
+  meaning: mini cable-carrier cross-section / link size for the J3 carrier-hybrid topology
+  value: '10.0 x 16.0 (inner height x selected inner width)'
+  bounded_range: inner height 10.0; inner width 6..50 catalog range
+  unit: mm
+  derivation: >-
+    igus E2.10 e-chain series (E2 micro): inner height 10 mm; inner width series 6..50 mm,
+    selected Bi = 16 mm (fits installed bundle OD <= 10.0 mm plus liner); bend radii series
+    18/28/38 mm (chain self-radius; design bend formed by R63 saddle >= chain capability);
+    pitch 20 mm/link; catalog mass ~0.2 kg/m class; fill weight up to 0.7 kg/m class.
+    Selected cross-section is a DESIGN_CANDIDATE inside the published datasheet range.
+  source_document: igus E2.10 e-chain series page and E2 micro overview (inner height 10 mm, Bi 6-50 mm, R 18-38 mm, pitch 20 mm); series 06 page (Hi 10.5 mm, R18/28/38, 0.1315 kg/m) as cross-check of the micro class
+  document_revision_date: igus online catalog current issue; accessed 2026-08-25
+  part_or_material_family: igus E2.10 e-chain, igumid G
+  authority_level: BOUNDED_DATASHEET_RANGE
+  confidence: MEDIUM
+  temperature_scope: '-40..+80 degC igumid G published material range; space TVAC applicability NOT established (C6 hold)'
+  cycle_life_scope: igus e-chain cycle ratings per manufacturer test data to be confirmed at C6; design allocation 1.0e4 strokes
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-07]
+  traceability: first controlled carrier hardware candidate; prior state had no carrier product family, size series, bend-radius series or mass per length
+- id: P13
+  quantity: clamp_spacing_mm
+  meaning: clamp-to-clamp station spacing schedule along the route
+  value: 120.0 nominal on long fixed-channel segments
+  bounded_range: [55.0, 150.0]
+  unit: mm
+  derivation: >-
+    Fixed-channel clamp pitch derived from link lengths and channel runs: link2 channel run
+    ~141 mm -> 2 fixed clamps plus carrier ends (pitch ~65-70); link3 channel run ~208 mm ->
+    2 intermediate clamps (pitch ~69); long straight sections target 120.0 mm nominal,
+    bounded [55, 150]. Loop/wrap segments: fixed clamp + moving clamp pairs at loop tangency
+    points plus strain-relief clamps within 50 mm of each connector backshell (workmanship
+    rule of thumb consistent with NASA-STD-8739.4 method planning, NOT a quoted acceptance
+    value). Full per-station schedule is emitted in
+    B601_ROUTE_C_CLAMP_AND_GUIDE_REGISTER_V1.csv (RC-3).
+  source_document: derivation from accepted URDF link lengths + NASA-STD-8739.4 (method planning only)
+  document_revision_date: '2026-08-25'
+  part_or_material_family: 6061-T6 clamps + A2-70 fasteners + iglidur liners
+  authority_level: PROVISIONAL_DERIVED
+  confidence: MEDIUM
+  temperature_scope: not temperature-limited
+  cycle_life_scope: clamp retention over 1.0e4 cycles verified at C6 (plan item)
+  effective_date: '2026-08-25'
+  serves_mpi: [MPI-07]
+  traceability: Route-B derived clamp candidates remain quarantined; this schedule is derived from URDF geometry
+mpi_mapping:
+  note: >-
+    P01..P13 feed MPI-05/06/07/08 mechanical closure evidence at design-candidate authority.
+    MPI-01 (load map), MPI-02 (protocol/EMC), MPI-03 (conductor map), MPI-04 (exact connector
+    part numbers) are electrical/owner inputs NOT closed by this registry. Existing register
+    files are not modified; this mapping is additive.
+  by_mpi:
+    MPI-01: {state: NOT_CLOSED_BY_THIS_REGISTRY, needed_from: owner_electrical_authority}
+    MPI-02: {state: NOT_CLOSED_BY_THIS_REGISTRY, needed_from: owner_electrical_authority}
+    MPI-03: {state: CANDIDATE_COMPONENTS_ONLY_UNCHANGED, fed_by: RFI shortlist component candidates}
+    MPI-04: {state: FAMILY_CANDIDATES_ONLY_UNCHANGED, fed_by: RFI shortlist connector families}
+    MPI-05: {state: FED_BY_DESIGN_CANDIDATE, fed_by: [P01, P03, P07, P09]}
+    MPI-06: {state: FED_BY_DESIGN_CANDIDATE, fed_by: [P02, P06, P08, P11]}
+    MPI-07: {state: FED_BY_DESIGN_CANDIDATE, fed_by: [P01, P02, P03, P04, P05, P07, P10, P11, P12, P13]}
+    MPI-08: {state: FED_BY_DESIGN_ALLOCATION, fed_by: [P07], note: mission life allocation 1.0e4 cycles per joint is a design target, not a verified rating}
+declared_downstream_holds:
+  - quantified dynamic flex life and restoring-torque curves of the exact selected construction (supplier test; C5/C6)
+  - exact connector/backshell part numbers, pin map, bonding (owner electrical authority; MPI-01..04)
+  - e-chain, iglidur liner and sleeve space-environment (TVAC/outgassing/radiation) applicability evidence (C6)
+  - thermal expansion contribution to take-up budget (C4/C5)
+  - harness resistance torque versus actuator budget verification (ODR-50 reopen trigger guard)
+counts:
+  quantities_registered: 13
+  values_closed: 13
+  held_required_quantities: 0
+  authority_DESIGN_CANDIDATE: 8
+  authority_PROVISIONAL_DERIVED: 4
+  authority_BOUNDED_DATASHEET_RANGE: 2
+  note: P10 and P12 carry BOUNDED_DATASHEET_RANGE for the datasheet span with a DESIGN_CANDIDATE selection inside; counted once each under BOUNDED_DATASHEET_RANGE here
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+release_credit: false

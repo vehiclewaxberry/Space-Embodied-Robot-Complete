@@ -1,0 +1,90 @@
+{
+  "schema": "SIM13_V4B4G_R2_FULL_RAW_INTEGRITY_BACKEND_CONTRACT_V1",
+  "scope": "SOURCE_ONLY_BACKEND_AND_TECHNICAL_FIXTURE_DISCRIMINATION_NO_NUMERICAL_EXECUTION",
+  "frozen_external_contracts": [
+    {
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v4_synthetic_contact_capture_diagnostic/phase_b4g_r2_raw_evidence_adapter_source_freeze/contracts/PHASE_B4G_R2_RAW_ARRAY_CONTRACT_V1.json",
+      "bytes": 13426,
+      "sha256": "0DAD5B322A209C57230C8C9722F65329E5B457D6965CD7D33DB9167A686B9EF4"
+    },
+    {
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v4_synthetic_contact_capture_diagnostic/phase_b4g_r2_numerical_preflight_contract/contracts/PHASE_B4G_R2_NUMERICAL_ACCEPTANCE_V1.json",
+      "bytes": 16024,
+      "sha256": "4A81B9998638E23B024C0EFFF239F519FB9A872B87FF207A0148929ED9AC32B1"
+    },
+    {
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v4_synthetic_contact_capture_diagnostic/phase_b4f_synthetic_jaw_retraction_reachability_contract/contracts/PHASE_B4F_MODEL_AND_ENERGY_CONTRACT_V1.json",
+      "bytes": 4501,
+      "sha256": "37DF6373B69EFCB3F434789C909347CEE209412A1D20D4392BAD649C705354CD"
+    },
+    {
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v4_synthetic_contact_capture_diagnostic/phase_b4f_synthetic_jaw_retraction_reachability_contract/contracts/PHASE_B4F_NUMERICAL_ACCEPTANCE_V1.json",
+      "bytes": 3663,
+      "sha256": "1240AA92BE0AB110DC1C88D791F369FB5F8668535B5563797DB8AE1AD8517D73"
+    },
+    {
+      "path": "30_simulation/sim_13_physics_gated_embodied_grasping/v4_synthetic_contact_capture_diagnostic/phase_b4g_post_freeze_synthetic_jaw_retraction_execution/contracts/PHASE_B4G_REFERENCE_FORCE_V1.json",
+      "bytes": 1474,
+      "sha256": "E31ABDAEBC03FC71C40EB6274304395850A8B2E8DCB293569DDF1A5850C45AD7"
+    }
+  ],
+  "global_constants": {
+    "SI_units_required": true,
+    "quaternion_order": "WXYZ",
+    "allowed_generalized_force_indices_zero_based": [12, 13],
+    "reference_force_per_finger_N": 0.024542335689275555,
+    "registered_opening_sign_left_right": [1, 1],
+    "P_domain_m": [[0.0, 0.0715], [0.0, 0.0715]],
+    "centered_step_m": 1e-7,
+    "gap_minimum_m": 1e-6,
+    "gap_rate_minimum_m_s": -1e-6,
+    "continuous_dwell_s": 0.001,
+    "post_release_window_s": 0.005,
+    "linear_momentum_drift_limit_N_s": 1e-9,
+    "angular_momentum_drift_limit_N_m_s": 1e-9,
+    "energy_residual_or_drift_limit_J": 1e-7,
+    "contact_force_limit_N": 1e-12,
+    "contact_torque_limit_N_m": 1e-12,
+    "ideal_constraint_power_shared_limit_W": 1e-10,
+    "geometry_target_gap_rate_jacobian_limit": 1e-12,
+    "geometry_stage_P_limit_m": 1e-15
+  },
+  "case_context": {
+    "schema": "SIM13_V4B4G_R2_FULL_RAW_INTEGRITY_CONTEXT_V1",
+    "raw_binding_required": true,
+    "acquisition_payload_canonical_sha256_required": true,
+    "raw_initial_service_target_and_time_exact_binding_required": true,
+    "attached_target_snapshot_consumed_only_for_active_geometry": true,
+    "fixed_B4E_template_credit_in_this_package": false,
+    "finite_case_compact_parent_trace_file_binding_required": true,
+    "authorized_evidence_class_accepted": false
+  },
+  "gate_rules": {
+    "B4F-G03-P-ONLY-INTERNAL-GENERALIZED-FORCE": "saved and mechanical-stage command columns 0:12 are bit-exact zero; post force is evaluated under G04 and G11",
+    "B4F-G04-ACTUATOR-WORK-LEDGER": "reuse hash-bound R2 raw work evaluator; no upstream gate boolean input",
+    "B4F-G05-P-H-CONSERVATION": "active and post native ledgers each satisfy max Euclidean drift from their first sample <=1e-9 in native units",
+    "B4F-G06-ENERGY-MINUS-WORK-IDENTITY": "reuse hash-bound R2 actual-final-dt raw stage evaluator; no upstream gate boolean input",
+    "B4F-G07-CONTACT-CONSTRAINT-MUTUAL-EXCLUSION": "active and post contact force and torque maxima <=1e-12; ideal constraint power remains a shared integrity precondition",
+    "B4F-G08-COMMAND-ZERO-BEFORE-REMOVAL": "reconstruct sample and mechanical-stage sin-squared P command from hash-bound Q_ref plus registered alpha and duration; rtol=0, atol=2e-15 and theoretical zeros bit-exact",
+    "B4F-G09-CONTINUOUS-BILATERAL-CLEARANCE": "piecewise cubic Hermite all-root partition on both gap and rate thresholds; recomputed adjacent-sample ledger AND raw interval ledger; earliest continuous 1ms dwell; sidecar outcome and time crosscheck only",
+    "B4F-G10-EXACT-ZERO-JUMP-REMOVAL": "at raw event index, post[0] service and target exact; six native velocity groups, linear impulse, angular impulse and kinetic jump <=1e-12; ideal constraint stored energy exactly zero by frozen no-storage model semantics",
+    "B4F-G11-INDEPENDENT-POST-RELEASE-5MS": "exact 5ms lane-step post window, zero Q, carried work, contact-free, P-H-energy limits, all-root clearance, independent post geometry and compact parent mapping/terminal crosscheck",
+    "B4F-G16-SYNTHETIC-GEOMETRY-DOMAIN": "sample closed P domain, every mechanical stage centered domain and registered sign, active snapshot target rebuild, fixed independent post target replay, no clipping or extrapolation"
+  },
+  "input_oracles_forbidden": [
+    "gate_predicates",
+    "selector_case_integrity_pass",
+    "post_release_passed_from_child",
+    "clearance.integrity_pass",
+    "sidecar.outcome_as_branch_oracle",
+    "sidecar.removal_time_s_as_event_oracle",
+    "command_peak_as_reference_force_oracle"
+  ],
+  "output_state_separation": {
+    "technical_fixture_full_raw_integrity_predicate_pass": "backend discrimination only",
+    "actual_case_full_raw_integrity_recomputed": false,
+    "source_only_candidate_predicate_pass": false,
+    "trajectory_count": 0,
+    "r2_numerical_preflight_executed": false
+  }
+}

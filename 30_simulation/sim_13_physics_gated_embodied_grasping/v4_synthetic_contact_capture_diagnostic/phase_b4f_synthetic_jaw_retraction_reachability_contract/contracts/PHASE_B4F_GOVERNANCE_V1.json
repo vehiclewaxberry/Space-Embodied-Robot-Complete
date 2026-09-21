@@ -1,0 +1,62 @@
+{
+  "schema": "SIM13_V4B4F_GOVERNANCE_V1",
+  "scope": "CONTRACT_FREEZE_ONLY_NO_SOLVER_EXECUTION",
+  "allowed_true_after_contract_audit": [
+    "b4f_contract_frozen",
+    "b4f_contract_audited",
+    "parent_b4e_recursively_verified"
+  ],
+  "required_false": {
+    "b4f_solver_implemented": false,
+    "b4f_campaign_executed": false,
+    "synthetic_reachability_passed": false,
+    "minimum_required_synthetic_force_identified": false,
+    "physical_actuator_force_identified": false,
+    "physical_actuator_timing_identified": false,
+    "physical_release_implemented": false,
+    "physical_recontact_implemented": false,
+    "held_capture_passed": false,
+    "grasp_success_claimed": false,
+    "current_system_bound": false,
+    "formal_nc19_credit": false,
+    "owner_authorized": false,
+    "production_ready": false,
+    "release_authorized": false,
+    "next_stage_authorized": false,
+    "hardware_specification_released": false,
+    "physical_gripper_stroke_identified": false,
+    "measurement_uncertainty_model_available": false
+  },
+  "required_null_physical_inputs": [
+    "physical_left_actuator_force_capacity_N",
+    "physical_right_actuator_force_capacity_N",
+    "physical_opening_time_s",
+    "physical_braking_time_s",
+    "physical_motor_current_A",
+    "physical_transmission_efficiency",
+    "physical_contact_frame_left",
+    "physical_contact_frame_right",
+    "physical_lock_transform",
+    "physical_retention_capacity_N",
+    "physical_release_energy_J"
+  ],
+  "formal_sim13_v2_state_unchanged": {
+    "passed": 15,
+    "declared": 20,
+    "hold_ids": ["NC15", "NC16", "NC18", "NC19", "NC20"]
+  },
+  "memory_governance": {
+    "unified_r2_or_v5_cad_memory_gate_applicable": false,
+    "memory_gate_credit_allowed": false,
+    "historical_owner_override_reuse_allowed": false,
+    "future_b4f_run_records_memory_as_diagnostic_only": true
+  },
+  "forbidden_artifacts": [
+    "*.urdf",
+    "MECH_RL_SYSTEM_INTERFACE_V2.yaml",
+    "UNIFIED_R2_URDF_EXECUTION_AUTHORIZATION_V2.json",
+    "execution.lock",
+    "release.marker"
+  ],
+  "result_rule": "contract audit can authorize later implementation planning only; a future discrete scan may report only the lowest tested reachable level in the registered grid, never a minimum required force; neither contract nor scan can authorize physical actuator parameters, physical stroke, release capability, current binding, formal NC19, production or next-stage credit"
+}

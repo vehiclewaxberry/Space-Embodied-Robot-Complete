@@ -1,0 +1,120 @@
+{
+  "scenario_id": "S00_UNIT_FRAME_INERTIA_INVARIANCE",
+  "positive_total": 10,
+  "positive_passed": 10,
+  "negative_total": 8,
+  "negative_passed": 8,
+  "all_passed": true,
+  "checks": [
+    {
+      "check": "units.mm_m_roundtrip",
+      "kind": "positive",
+      "passed": true,
+      "detail": "m->mm->m exact"
+    },
+    {
+      "check": "units.kg_g_roundtrip",
+      "kind": "positive",
+      "passed": true,
+      "detail": "kg->g->kg exact"
+    },
+    {
+      "check": "units.rad_deg_roundtrip",
+      "kind": "positive",
+      "passed": true,
+      "detail": "rad->deg->rad to machine precision"
+    },
+    {
+      "check": "units.inertia_gmm2_kgm2",
+      "kind": "positive",
+      "passed": true,
+      "detail": "1 kg*m^2 == 1e9 g*mm^2"
+    },
+    {
+      "check": "frames.parallel_axis_point_mass",
+      "kind": "positive",
+      "passed": true,
+      "detail": "I_perp = m d^2, I_axis = 0"
+    },
+    {
+      "check": "frames.quat_R_roundtrip_x50",
+      "kind": "positive",
+      "passed": true,
+      "detail": "max |R - R(q(R))| = 1.887e-15"
+    },
+    {
+      "check": "frames.quat_normalization",
+      "kind": "positive",
+      "passed": true,
+      "detail": "norm restored, recorded drift=1.0"
+    },
+    {
+      "check": "frames.transform_inverse",
+      "kind": "positive",
+      "passed": true,
+      "detail": "|T T^-1 - I| = 2.220e-16"
+    },
+    {
+      "check": "spatial.inertia_shift_roundtrip",
+      "kind": "positive",
+      "passed": true,
+      "detail": "round-trip error 1.332e-15"
+    },
+    {
+      "check": "spatial.momentum_transform_vs_direct",
+      "kind": "positive",
+      "passed": true,
+      "detail": "max component error 5.551e-17"
+    },
+    {
+      "check": "neg.mm_data_in_si_channel",
+      "kind": "negative",
+      "passed": true,
+      "detail": "mm lengths injected as SI; detected: joint 'joint1' origin offset 84.65 m exceeds 2.0 m: suspected mm data in SI channel"
+    },
+    {
+      "check": "neg.gram_masses_in_si_channel",
+      "kind": "negative",
+      "passed": true,
+      "detail": "gram masses injected as SI; detected: link 'base_link' mass 836.6 kg outside [0.0001, 50.0]: suspected unit mis-scale"
+    },
+    {
+      "check": "neg.gmm2_inertia_in_si_channel",
+      "kind": "negative",
+      "passed": true,
+      "detail": "g*mm^2 inertia injected as SI; detected: joint 'joint1' origin offset 84.65 m exceeds 2.0 m: suspected mm data in SI channel"
+    },
+    {
+      "check": "neg.deg_limits_in_rad_channel",
+      "kind": "negative",
+      "passed": true,
+      "detail": "degree limits injected as rad; detected: joint joint1 limit lower=-160.42818263663048 rad exceeds 6.597: suspected degrees"
+    },
+    {
+      "check": "neg.non_rotation_matrix",
+      "kind": "negative",
+      "passed": true,
+      "detail": "non-orthonormal matrix passed as rotation; detected: matrix is not a proper rotation: orthogonality error 3.000e+00, det 2.000000000000"
+    },
+    {
+      "check": "neg.zero_quaternion",
+      "kind": "negative",
+      "passed": true,
+      "detail": "zero quaternion; detected: zero quaternion cannot be normalized"
+    },
+    {
+      "check": "neg.motion_xform_on_momentum_detected",
+      "kind": "negative",
+      "passed": true,
+      "detail": "X_motion vs X_force discrepancy 4.205e-01 (must be visible)"
+    },
+    {
+      "check": "neg.composition_order_detected",
+      "kind": "negative",
+      "passed": true,
+      "detail": "wrong-order composition differs by 4.155e-01"
+    }
+  ],
+  "rng_seed": 20260827,
+  "generated_utc": "2026-08-27T06:53:32.410398+00:00"
+}

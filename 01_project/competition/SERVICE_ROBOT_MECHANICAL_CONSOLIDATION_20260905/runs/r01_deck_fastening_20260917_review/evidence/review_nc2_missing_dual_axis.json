@@ -1,0 +1,63 @@
+{
+  "review": "r01_deck_fastening_20260917_review",
+  "check": "ACC6_NC2_missing_dual_or_axis_offset_detectable",
+  "negative_control": "变异角材 x=-150 甲板侧孔偏移 +1mm -> 配对检查必须报缺对偶且错轴线 1.0mm",
+  "mutant": {
+    "part": "lower_deck_angle_-1_0（隔离重建）",
+    "mutation": "deck-side hole x=-150 -> -149 (+1mm)",
+    "step_file": "mutant_lower_deck_angle_-1_0_hole150_shifted_1mm.step",
+    "step_sha256": "da69825f454bfe76a82ab5677717de2418bda144932b18cb9126880732093d0e",
+    "geometry_source": "工程源 spacecraft_model.py deck_fastening_parts 角材段逐义复刻；未改原文件"
+  },
+  "reference_deck": "exports/lower_equipment_deck.step（真实读回）",
+  "tolerances": {
+    "axis_match_mm": 0.05,
+    "coaxial_mm": 0.001
+  },
+  "pair_checks": [
+    {
+      "expected_xy": [
+        -150,
+        -92.65
+      ],
+      "deck_axis": [
+        -150.0,
+        -92.65
+      ],
+      "nearest_angle_axis": [
+        -149.0,
+        -92.65
+      ],
+      "dual_missing_at_expected_position": true,
+      "coaxial_deviation_mm": 1.0,
+      "flagged": true
+    },
+    {
+      "expected_xy": [
+        -50,
+        -92.65
+      ],
+      "deck_axis": [
+        -50.0,
+        -92.65
+      ],
+      "nearest_angle_axis": [
+        -50.0,
+        -92.65
+      ],
+      "dual_missing_at_expected_position": false,
+      "coaxial_deviation_mm": 0.0,
+      "flagged": false
+    }
+  ],
+  "detection": {
+    "missing_dual_detected_at_x-150": true,
+    "measured_axis_deviation_mm": 1.0,
+    "expected_deviation_mm": 1.0,
+    "false_positives_on_unmutated_pairs": []
+  },
+  "failures": [],
+  "detected": true,
+  "verdict": "NC2_PASS_missing_dual_and_axis_offset_detected",
+  "elapsed_s": 0.195
+}

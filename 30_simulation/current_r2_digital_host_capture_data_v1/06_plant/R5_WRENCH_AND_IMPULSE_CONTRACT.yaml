@@ -1,0 +1,47 @@
+schema: R5_WRENCH_AND_IMPULSE_CONTRACT_V1
+system_boundary: 06_plant/R5_SYSTEM_BOUNDARY_CONTRACT.yaml
+external_force_status: FROZEN_ZERO_BY_MODEL_SCOPE
+external_torque_about_O_status: FROZEN_ZERO_BY_MODEL_SCOPE
+event_monitor_status: VERIFIED
+allowed_classifications:
+- INTERNAL
+- EXTERNAL
+- EVENT
+- ABSENT
+- UNKNOWN
+classifications:
+- action: joint actuator torque
+  classification: INTERNAL
+  basis: equal system-level reaction through coupled equations
+- action: ideal joint constraint reaction
+  classification: INTERNAL
+  basis: tree-joint reaction is internal to the declared system boundary
+- action: reaction-wheel torque
+  classification: ABSENT
+  basis: wheel state not in plant; null, not zero
+- action: thruster force
+  classification: ABSENT
+  basis: thruster model not in plant; null, not zero
+- action: thruster torque
+  classification: ABSENT
+  basis: thruster model not in plant; null, not zero
+- action: contact force
+  classification: ABSENT
+  basis: T_E_T missing; contact not run
+- action: gravity
+  classification: ABSENT
+  basis: frozen no-gravity model scope
+- action: event impulse
+  classification: EVENT
+  basis: verified monitor, event_count=0
+- action: numerical velocity reset
+  classification: ABSENT
+  basis: velocity_discontinuity_count=0
+- action: quaternion renormalization
+  classification: INTERNAL
+  basis: orientation-only coordinate projection; audited nonimpulsive with no velocity
+    reset
+- action: prescribed motion
+  classification: ABSENT
+  basis: all generalized coordinates dynamically integrated
+fail_closed: UNKNOWN or unregistered velocity discontinuity => FAIL_UNACCOUNTED_EVENT_IMPULSE

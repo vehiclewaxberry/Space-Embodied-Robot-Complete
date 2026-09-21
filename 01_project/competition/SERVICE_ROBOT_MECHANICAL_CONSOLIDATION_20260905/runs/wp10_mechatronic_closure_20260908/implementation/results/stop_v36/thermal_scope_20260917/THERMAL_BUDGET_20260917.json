@@ -1,0 +1,179 @@
+{
+ "schema": "WP10_V36_STOP_THERMAL_BUDGET",
+ "date": "2026-09-17",
+ "extends": "THERMAL_SCOPE_20260917.json (closure criterion T2)",
+ "board_sha256": "d58b0240e63de229a4d64b3863b4b775a5507f75349d44feb258b0a19d0627e6",
+ "method": "static 0..50C conditional load budget; every line classed CALCULATED_STATIC / CALCULATED_FROM_EXISTING_BUDGET / ESTIMATE_DECLARED_SCREEN / OUT_OF_SCOPE_DECLARED; no transient, no airflow credit",
+ "rail_3V3": {
+  "lines": [
+   {
+    "line": "R124 bleed 24R",
+    "I_mA": 137.5,
+    "class": "CALCULATED_STATIC",
+    "basis": "3.3V/24ohm"
+   },
+   {
+    "line": "R101 pullup 4.7k (worst-case driven low)",
+    "I_mA": 0.702,
+    "class": "CALCULATED_STATIC",
+    "basis": "3.3V/4.7k"
+   },
+   {
+    "line": "NTC sense dividers x3 (R341/344/347 8.2k + NTC)",
+    "I_mA": 0.9,
+    "class": "CALCULATED_STATIC_SCREEN",
+    "basis": "3.3V/(8.2k+NTC) swept 0..50C, screen 0.3mA each"
+   },
+   {
+    "line": "TLV6700 x3 quiescent (U311-313)",
+    "I_mA": 0.075,
+    "class": "ESTIMATE_DECLARED_SCREEN",
+    "basis": "screen 25uA each; datasheet value not in PUBLIC_SOURCES"
+   },
+   {
+    "line": "TPS3431 U101 quiescent",
+    "I_mA": 0.05,
+    "class": "ESTIMATE_DECLARED_SCREEN",
+    "basis": "screen 50uA"
+   },
+   {
+    "line": "TPS3808 VDD/sense leakage (U104 on 3V3; U102/103 sense pins)",
+    "I_mA": 0.1,
+    "class": "ESTIMATE_DECLARED_SCREEN",
+    "basis": "screen 100uA total"
+   },
+   {
+    "line": "LVC logic x14 static ICC (U105-111, U113-118)",
+    "I_mA": 0.28,
+    "class": "ESTIMATE_DECLARED_SCREEN",
+    "basis": "screen 20uA each over-temp static"
+   },
+   {
+    "line": "LVC dynamic/switching average",
+    "I_mA": 0.0,
+    "class": "OUT_OF_SCOPE_DECLARED",
+    "basis": "watchdog/logic rates; average dynamic current negligible at these node counts and rates; no transient claim"
+   }
+  ],
+  "I_total_mA": 139.607,
+  "P_out_W": 0.4607
+ },
+ "rail_5V": {
+  "lines": [
+   {
+    "line": "R125 bleed 39R",
+    "I_mA": 128.205,
+    "class": "CALCULATED_STATIC",
+    "basis": "5.0V/39ohm"
+   },
+   {
+    "line": "R180 10k (worst-case driven low)",
+    "I_mA": 0.5,
+    "class": "CALCULATED_STATIC",
+    "basis": "5.0V/10k"
+   },
+   {
+    "line": "R181 47k",
+    "I_mA": 0.106,
+    "class": "CALCULATED_STATIC",
+    "basis": "5.0V/47k"
+   },
+   {
+    "line": "UCC27517 U112 quiescent",
+    "I_mA": 1.0,
+    "class": "ESTIMATE_DECLARED_SCREEN",
+    "basis": "screen 1mA; gate-drive average negligible (IRL630 Qg nC-scale, contactor actuation rare)"
+   },
+   {
+    "line": "LV1T04 U119 deltaICC screen",
+    "I_mA": 1.5,
+    "class": "CALCULATED_FROM_EXISTING_BUDGET",
+    "basis": "CALCULATIONS.json LV1T04_additional_ICC_screen_A=1.5mA"
+   },
+   {
+    "line": "TPS3808 U102/U103 VDD",
+    "I_mA": 0.05,
+    "class": "ESTIMATE_DECLARED_SCREEN",
+    "basis": "screen 25uA each"
+   }
+  ],
+  "I_total_mA": 131.361,
+  "P_out_W": 0.6568
+ },
+ "converter_losses": {
+  "U120_TSR_1_2433": {
+   "I_out_mA": 139.61,
+   "P_out_W": 0.4607,
+   "eta_screen": 0.75,
+   "P_diss_screen_W": 0.1776,
+   "basis": "eta 0.75 conservative light-load screen (datasheet 91% typ at Vin min, full load); plus 24V x 1mA typ no-load input current term; TSR-1 requires no heatsink per datasheet"
+  },
+  "U121_TSR_1_2450": {
+   "I_out_mA": 131.36,
+   "P_out_W": 0.6568,
+   "eta_screen": 0.8,
+   "P_diss_screen_W": 0.1882,
+   "basis": "eta 0.80 conservative light-load screen (datasheet 94% typ); plus no-load term"
+  }
+ },
+ "q101_scenarios": {
+  "status": "PROVISIONAL_SCENARIO_NOT_A_VERDICT",
+  "missing_inputs": [
+   "K1 coil steady current / resistance and duty (owner/hardware team)",
+   "IRL630 Rds(on) at Vgs=5V over temp from datasheet (not yet in PUBLIC_SOURCES)"
+  ],
+  "model": "conduction-only: P = I_coil^2 x Rds(on)_hot; TO-220 theta-JA screen 62 C/W (ESTIMATE_DECLARED_SCREEN); switching/flyback loss excluded (actuation rare)",
+  "scenarios": [
+   {
+    "I_coil_A": 0.25,
+    "Rds_hot_ohm": 0.6,
+    "P_W": 0.0375,
+    "deltaT_C": 2.3,
+    "Tj_at_50C_ambient_C": 52.3
+   },
+   {
+    "I_coil_A": 0.5,
+    "Rds_hot_ohm": 0.6,
+    "P_W": 0.15,
+    "deltaT_C": 9.3,
+    "Tj_at_50C_ambient_C": 59.3
+   },
+   {
+    "I_coil_A": 1.0,
+    "Rds_hot_ohm": 0.6,
+    "P_W": 0.6,
+    "deltaT_C": 37.2,
+    "Tj_at_50C_ambient_C": 87.2
+   }
+  ],
+  "rating_C": 175,
+  "note": "all three scenarios below rating with large margin, but coil current unverified - UNKNOWN stands until T1 input arrives"
+ },
+ "board_heat_summary_W": {
+  "bleed_resistors": 1.0947,
+  "U120_screen": 0.1776,
+  "U121_screen": 0.1882,
+  "logic_and_ic_static": 0.0227,
+  "subtotal_excluding_Q101": 1.483,
+  "Q101": "scenario table, pending T1"
+ },
+ "closure_criteria_update": {
+  "T2": "CLOSED_2026-09-17 (this budget)",
+  "T1": "OPEN (K1 coil current/duty - external input)",
+  "T3": "BOUNDED_2026-09-17 (heat paths declared; verdict requires WP-level mounting/sink/emissivity inputs, enumerated)",
+  "T4": "OPEN (contingent on T1-T3 margins)"
+ },
+ "whole_design_complete": false,
+ "manufacturing_release": false,
+ "heat_path_declaration_T3_inputs": {
+  "ground_test_environment": "natural convection + mounting conduction; still-air component theta-JA screens in this file apply only here",
+  "on_orbit_vacuum": "convection = 0; heat leaves via (a) conduction through 4 mounting holes into chassis/structure, (b) radiation from board surfaces. Still-air theta-JA figures are NOT valid on orbit.",
+  "required_inputs_for_T3_verdict": [
+   "mounting interface thermal conductance per hole (screw torque, washer/TIM disposition, chassis material) - WP-level mechanical interface data",
+   "chassis/structure sink temperature boundary condition at the STOP board mounting location - WP-level thermal model output",
+   "board surface emissivity and radiation view factors to surrounding structure/panels - WP-level model",
+   "declared operating environment for the 0..50C conditional static budget (ground bench vs on-orbit) - owner disposition"
+  ],
+  "status": "T3_REQUIRES_WP_LEVEL_INPUTS; component-level screens in this file bound dissipation but a board-level steady-state temperature verdict cannot be issued locally"
+ }
+}

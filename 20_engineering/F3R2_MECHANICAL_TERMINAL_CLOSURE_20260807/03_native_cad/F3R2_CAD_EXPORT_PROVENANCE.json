@@ -1,0 +1,37 @@
+{
+  "schema": "F3R2_CAD_EXPORT_PROVENANCE_V1",
+  "purpose": "State exactly where the F3R2 STEP and FCStd deliverables came from, so neither is mistaken for a fresh SolidWorks export of the F3R2 baseline.",
+  "deliverables": {
+    "F3R2_SPACE_EMBODIED_ROBOT_OPERATIONAL_BASELINE.SLDASM": {
+      "origin": "per-file copy of the whole dependency closure of F3R1_SPACE_EMBODIED_ROBOT_INTEGRATION_V3_CONFIGURED.SLDASM, with paired SHA-256 proof",
+      "n_dependency_files": 73,
+      "all_copies_bit_identical": true,
+      "evidence": "03_native_cad/F3R2_PACK_AND_GO_PROOF.json, F3R2_DEPENDENCY_INVENTORY.csv",
+      "verified_in_solidworks": "yes -- opened, all eight configurations activated and rebuilt, 82 components, 6 top-level mates, 0 mate errors, hash unchanged (F3R2_REFERENCE_AUDIT.json)",
+      "authored_in_this_session": "NO new geometry, mates or configurations were authored into it"
+    },
+    "F3R2_SPACE_EMBODIED_ROBOT_OPERATIONAL_BASELINE.step": {
+      "origin": "byte-for-byte copy of F3R1_V3_DEPLOYED_NOMINAL.step (the G2 per-configuration export of the SAME assembly tree, configuration DEPLOYED_NOMINAL)",
+      "why_not_re_exported": "SolidWorks could not be driven on this machine -- four reproduced failures, see 05_clearance/G3A_NATIVE_ATTEMPTS.json",
+      "configuration_represented": "DEPLOYED_NOMINAL, arm at its default (as-built) configuration",
+      "what_it_does_NOT_contain": [
+        "the frozen Q_DEPLOYED_HOME / Q_RELEASE_CLEAR / Q_SERVICE_READY poses (those are joint vectors in F3R2_ARM_INITIAL_POSE.yaml, not baked geometry)",
+        "the wing-root lug (defined, not modelled)",
+        "the real G07/G08/Mid supports (defined, not modelled)",
+        "ARM HDRM, camera, harness, separated gripper fingers (defined, not modelled)"
+      ],
+      "honest_label": "SAME GEOMETRY AS THE F3R2 BASELINE, DERIVED FROM THE HASH-BOUND G2 EXPORT -- NOT A FRESH F3R2 EXPORT"
+    },
+    "F3R2_SPACE_EMBODIED_ROBOT_OPERATIONAL_BASELINE.FCStd": {
+      "origin": "FreeCAD 1.1.3 import of the STEP above, saved as a native FreeCAD document",
+      "purpose": "reviewable, viewer-friendly form of the same geometry",
+      "authoritative": false
+    }
+  },
+  "not_overwritten": {
+    "F3R1_SPACE_EMBODIED_ROBOT_INTEGRATION_V3_CONFIGURED.SLDASM": {
+      "sha256": "19D85E9C703BEC107396AE84DAB7B12DE5722434FC7D5474B3A5A144A1B590D0",
+      "unchanged_through_campaign": true
+    }
+  }
+}

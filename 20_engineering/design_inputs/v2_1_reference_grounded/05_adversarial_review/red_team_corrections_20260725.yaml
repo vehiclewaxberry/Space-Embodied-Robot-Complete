@@ -1,0 +1,49 @@
+record_id: V2_1_B4_RED_TEAM_CORRECTIONS_20260725
+date: "2026-07-25"
+authority: evidence_red_team_correction
+controls:
+  - 05_adversarial_review/adversarial_design_record.yaml
+
+corrections:
+  - id: RTC-01
+    withdrawn_claim: B601_q0_bbox_proves_solar_root_unreachable
+    corrected_state: NOT_EVALUATED_UNKNOWN_PARAM
+    reason: q0 轴对齐静态近似盒不是机械臂工作空间、构型间轨迹扫掠或末端执行器可达集合。
+    release_evidence:
+      - signed_task_pose_set
+      - kinematic_workspace_or_trajectory_sweep
+      - end_effector_release_interface_and_tool_access
+
+  - id: RTC-02
+    withdrawn_claim: panel_X_projection_proves_dynamic_arm_solar_clearance
+    corrected_state: NOT_EVALUATED_UNKNOWN_PARAM
+    retained_fact: 参考翼自身绕 X 向铰线的 X 投影不越过冻结弦带 [-170.25,+56.75]。
+    claim_limit: retained_fact 只约束翼自身参考扫掠的 X 投影，不能推出机械臂动态安全。
+    release_evidence:
+      - full_resolved_solar_geometry
+      - full_resolved_B601_geometry
+      - signed_task_pose_sweep
+      - interference_report_bound_to_task_state_and_full_resolved_configuration
+
+  - id: RTC-03
+    withdrawn_claim: nominal_X_separation_proves_vision_clear
+    corrected_state: NOT_EVALUATED_UNKNOWN_PARAM
+    reason: 相机安装帧、视轴、FOV 和任务观察姿态未签发。
+    release_evidence:
+      - camera_frame
+      - vision_boresight
+      - field_of_view_cone
+      - task_observation_pose_set
+
+  - id: RTC-04
+    terminology: dual_hold_release_points
+    prohibited_synonym: redundant_release_points
+    corrected_state: UNKNOWN_INDEPENDENCE_LOGIC
+    reason: Hyperion 的两点布置未证明本项目的供电、触发或故障独立性。
+
+gate_effect:
+  semantic_reference_scaffold: PASS_CONDITIONAL
+  physical_interference_clearance: HOLD
+  dynamic_arm_solar_safety: NOT_EVALUATED_UNKNOWN_PARAM
+  vision_occlusion: NOT_EVALUATED_UNKNOWN_PARAM
+  in_orbit_self_maintenance: PROHIBITED_CLAIM

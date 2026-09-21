@@ -1,0 +1,134 @@
+{
+  "schema": "V5R_LOOP1E_PATCH_RECEIPT_V1",
+  "task": "V5_LOOP1E_NATIVE_RECOVERY_R1",
+  "owner_ruling_in_effect": "AUTHORIZE_LOW_MEMORY_EXECUTION_WITH_BOUNDED_NATIVE_ATTEMPTS_20260820",
+  "milestone": "M2_M3_M4_COMBINED",
+  "timestamp_utc": "2026-08-20T08:30:00Z",
+
+  "memory_gate_passed": false,
+  "owner_override_used": true,
+  "execution_authorized": true,
+  "owner_override_receipt_untouched": true,
+  "labelling_note": "this is NOT a MEMORY_GATE_PASS. The 6.0 GiB gate was not met and was not re-evaluated as a launch precondition, per owner ruling.",
+  "available_gib_samples_during_phase_c": [1.9598, 0.8462, 0.4525],
+  "available_gib_note": "memory fell as SolidWorks loaded; 0.4525 GiB / 97% load was the state during the live probes, all of which completed without COM timeout",
+
+  "phase_c0_attach": {
+    "verdict": "ATTACH_CONFIRMED_EMPTY_SESSION",
+    "solidworks_revision": "32.5.0",
+    "document_count": 0,
+    "attach_mechanism": "win32com.client.GetActiveObject - attach only, never Dispatch/DispatchEx",
+    "note": "operator started SolidWorks manually; this session cannot launch processes (tool-layer restriction, not a project gate)"
+  },
+
+  "root_cause_CORRECTED": {
+    "headline": "the defect is NOT specific to IInverse and NOT a binding-style problem. On this SW2024 SP5 install the I-prefixed IMathTransform members are not invocable through IDispatch at all, while their non-prefixed siblings work.",
+    "evidence_receipt": "04_validation/LOOP1E_STEP_ISOLATION_RECEIPT.json",
+    "observed_pairs": [
+      {"dispid": 10, "member": "IInverse", "result": "FAIL 61836"},
+      {"dispid": 9, "member": "Inverse", "result": "OK"},
+      {"dispid": 2, "member": "IMultiply", "result": "FAIL 61836"},
+      {"dispid": 1, "member": "Multiply", "result": "OK"}
+    ],
+    "why_earlier_rounds_misattributed_it": "rounds 1 and 2 wrapped the whole inverse-then-multiply chain in a single try/except. Round-1 candidate C2 (Inverse, dispid 9) actually SUCCEEDED and then died on the IMultiply inside the same try block, so the failure was blamed on the inverse. Round-2 D6a/D6b computed the inverse numerically in Python - never touching IInverse - and still failed 61836, which is what exposed the misattribution.",
+    "distinct_error_that_was_informative": "round-1 C4 (late-bound 'Inverse') failed with DISP_E_MEMBERNOTFOUND, a DIFFERENT error, proving the late-bound name does not exist while every path genuinely reaching dispid 9/10 got 61836 from inside SolidWorks",
+    "project_precedent": "identical dual-name class already handled at line 1435 selection_manager(), where the polarity is reversed (ISelectionManager works, SelectionManager fails). The patch follows that established idiom rather than inventing a pattern."
+  },
+
+  "retracted_prior_claims": [
+    {
+      "claim": "IMultiply WORKS - called successfully on the same object at line 2617",
+      "where_recorded": "02_interfaces/LOOP1E_IINVERSE_PATCH_DESIGN.json, root_cause_established_without_solidworks.findings[2]",
+      "status": "DISPROVEN_BY_DIRECT_OBSERVATION",
+      "why_it_was_wrong": "inferred from reading source, never observed. It could not have been true: production raised at line 2613, so line 2617 was never reached in that run. IMultiply is in fact the SECOND broken call.",
+      "consequence_had_it_been_trusted": "a single-line patch to IInverse alone would have failed at line 2617 and consumed a native attempt for nothing"
+    },
+    {
+      "claim": "candidates C5/C6 test explicit DISPATCH_METHOD instead of makepy wFlags=1",
+      "where_recorded": "02_interfaces/LOOP1E_IINVERSE_PATCH_DESIGN.json, candidate_inverse_paths",
+      "status": "DESIGN_DEFECT_IN_MY_OWN_PROBE",
+      "why_it_was_wrong": "pythoncom.DISPATCH_METHOD == 1, which is exactly makepy's wFlags=1. C5/C6 were byte-identical duplicates of C1/C2. Round 1 tested 4 distinct paths, not 6, and never tested DISPATCH_PROPERTYGET.",
+      "corrected_in": "04_validation/LOOP1E_IINVERSE_PROBE_ROUND2_RECEIPT.json (D1-D5 flag family)"
+    }
+  ],
+
+  "critical_finding_silent_corruption_averted": {
+    "severity": "HIGH",
+    "finding": "dispid-1 Multiply composes in the OPPOSITE order from dispid-2 IMultiply: X.Multiply(Y) == M_Y x M_X, verified residual 1.11e-16",
+    "consequence_of_a_name_only_swap": "inverse.Multiply(second) would compute B x A^-1 instead of the intended A^-1 x B - off by 0.354 on the test pair",
+    "why_it_would_NOT_have_been_caught": "relative_transform is called at line 2807 to record expected_link6_to_gripper_transform_16 and again at line 3185 to re-measure after cold reopen, and the two are compared at 1e-7 (line 3187-3190). A consistently-wrong order cancels out in that self-comparison and PASSES the gate, while writing a physically meaningless link6->gripper transform into the motion contract that sim_13 later consumes.",
+    "how_it_was_caught": "verified replacement semantics against an independent 4x4 Gauss-Jordan computation BEFORE patching, instead of trusting that a working call is a correct call",
+    "evidence": ["04_validation/LOOP1E_REPLACEMENT_SEMANTICS_RECEIPT.json", "04_validation/LOOP1E_CORRECTED_ORDER_RECEIPT.json"]
+  },
+
+  "patch": {
+    "files_changed": 1,
+    "authorized_file": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py",
+    "function_changed": "relative_transform (single function)",
+    "executable_lines_changed": 4,
+    "changes": [
+      {"line": 2613, "from": "first_transform.IInverse()", "to": "first_transform.Inverse()"},
+      {"line": 2615, "from": "\"IInverse returned null\"", "to": "\"Inverse returned null\"", "kind": "error message text only"},
+      {"line": 2617, "from": "inverse.IMultiply(second_transform)", "to": "second_transform.Multiply(inverse)", "kind": "member swap AND operand swap - the operand swap is load-bearing"},
+      {"line": 2619, "from": "\"IMultiply returned null\"", "to": "\"Multiply returned null\"", "kind": "error message text only"}
+    ],
+    "docstring_added": true,
+    "docstring_rationale": "records the dispid pair table, the composition-order trap, and the fact that a wrong order self-cancels in the 1e-7 comparison - so the next person cannot re-break it by 'simplifying' to a name-only swap",
+    "collateral_changes": "none - no renaming, no reformatting, no other COM call touched",
+    "diff": "02_interfaces/LOOP1E_PATCH.diff",
+    "diff_lines": 42,
+    "diff_baseline_source": "E:/V5R_RAPID_COLD_BACKUP mirror, independently confirmed to hold the exact pre-patch bytes 1F8E83AC...0419 (git diff was empty because this round's directory is untracked)"
+  },
+
+  "verification_before_patch": [
+    {"id": "V1", "test": "inv(A) round trip vs identity", "result": "0.000e+00", "tolerance": "1e-12", "pass": true},
+    {"id": "V2", "test": "composition order vs independent 4x4", "result": "1.110e-16 for M_B x M_invA; the assumed invA x B was 3.536e-01", "conclusion": "order semantics established, patch operands corrected accordingly"},
+    {"id": "V3", "test": "ArrayData storage layout", "result": "column-major - previously an open question that round-2 could not resolve"},
+    {"id": "V4", "test": "corrected call on 3 independent transform pairs vs independent A^-1 B", "result": "1.110e-16 / 0.0 / 0.0", "pass": true},
+    {"id": "V5", "test": "line-2621 rigid-shape guard accepts the result on all 3 pairs", "pass": true}
+  ],
+
+  "hashes": {
+    "loop1e_pre_patch_sha256": "1F8E83AC067A2C4218BCECADBD192A68D55D09A2DC2C4B896E1BD475141B0419",
+    "loop1e_pre_patch_bytes": 242313,
+    "loop1e_post_patch_sha256": "0D66FCDE114F40E3A339692FA93F2DACE426740952AA362EE73C2B983F61072A",
+    "loop1e_post_patch_bytes": 243627,
+    "base_helper_root_sha256": "E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906",
+    "base_helper_run_root_sha256": "E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906",
+    "base_helper_unchanged": true,
+    "base_helper_pinned_value_matches": true,
+    "py_compile_post_patch": "OK",
+    "remaining_I_prefixed_member_invocations_in_file": 0,
+    "remaining_I_prefixed_invocation_scan_note": "the only two .IXxx( invocations in all 3635 lines were 2613 and 2617; every other 'I...' string in the file is a wrap()/QueryInterface interface NAME, which is unaffected by this defect class"
+  },
+
+  "probe_tooling_created": [
+    "99_tools/V5R_PHASE_C0_ATTACH_ONESHOT.py",
+    "99_tools/V5R_PHASE_C0_ATTACH_WAIT.py",
+    "99_tools/V5R_PHASE_C_IINVERSE_PROBE_ROUND2.py",
+    "99_tools/V5R_PHASE_C_STEP_ISOLATION.py",
+    "99_tools/V5R_PHASE_C_REPLACEMENT_SEMANTICS.py",
+    "99_tools/V5R_PHASE_C_CORRECTED_ORDER.py"
+  ],
+  "probe_tooling_defects_fixed_during_the_round": [
+    "GetDocumentCount arrives as a bound method on raw dispatch but as a property under static binding - normalised via a value() helper mirroring base.value()",
+    "gencache typelib GUID must carry braces; GetGeneratedFileName does clsid[1:-1] and silently mangled the brace-less form",
+    "CreateTransform must receive VARIANT(VT_ARRAY|VT_R8, ...) not a bare list - bare lists silently corrupt non-identity transforms (project memory f3r1-stow-pose-com-traps-2026-08). Guarded with a creation-drift readback that aborts rather than reporting a bogus winner.",
+    "wrap() assumed ._oleobj_, which raw InvokeTypes returns lack - would have reported false failures for the raw-invoke candidates"
+  ],
+
+  "solidworks_opened": true,
+  "solidworks_opened_by": "OPERATOR_MANUALLY",
+  "documents_opened_by_probes": 0,
+  "documents_mutated_by_probes": 0,
+  "frozen_assets_modified": false,
+  "donor_modified": false,
+  "loop1e_attempts_consumed": 1,
+  "loop1e_attempts_remaining": 1,
+  "attempt_1_status": "LAUNCHED_RUNNING_IN_BACKGROUND",
+  "hard_stop_triggered": false,
+
+  "review_status": "PENDING_HUMAN_REVIEW",
+  "next_stage_authorized": false,
+  "verdict": "LOOP1E_PATCH_APPLIED_SEMANTICS_VERIFIED_ATTEMPT_1_RUNNING"
+}

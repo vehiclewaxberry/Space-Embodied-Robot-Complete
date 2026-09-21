@@ -1,0 +1,24 @@
+asset_id,category,path,provides_for_evaluator,evidence,status
+A01,grasp_candidates,20_engineering/cad/spacecraft_layout/target_satellite_v0/target_satellite_v0.json,3 named grasp points (launch_adapter_ring primary + 2 solar_panel_yoke secondary) + keepout metadata,spot-checked 2026-07-11 (json features.grasp_points_mm),VERIFIED
+A02,grasp_candidates,20_engineering/cad/spacecraft_layout/target_debris_v0/target_debris_v0.json,6 nozzle-rim grasp points + grasp_region + keepout + tumble_axis,spot-checked 2026-07-11,VERIFIED
+A03,grasp_ssot,20_engineering/config/geometry/target_models_v1.yaml,grasp single-source rule (D-6) + lever arms,commit 1b1c64b,VERIFIED
+A04,target_motion,30_simulation/common/rigid_body.py::propagate_torque_free,target attitude at capture_time (torque-free propagation; H/E conserved to machine eps),sim_01 diagnostics + reruns,VERIFIED
+A05,target_visibility,30_simulation/sim_04_capture_corridor/sim_04_capture_corridor.py::visibility,grasp-feature visibility ratio + capture window vs tumble,claim C01/C02 verified 2026-07-11,VERIFIED
+A06,capture_impulse_6dof,30_simulation/common/capture_impulse.py::rigidize,exact plastic rigidization: omega_plus / impulses / junction couple / dT,25/25 tests rerun 2026-07-11 (claim C04/C05),VERIFIED
+A07,capture_impulse_3dof,30_simulation/common/capture_impulse.py::rigidize_point_contact,point-capture (no couple) variant for soft-capture mode,tests incl dT_point<=dT_rigid rerun 2026-07-11,VERIFIED
+A08,capture_scenario,30_simulation/common/capture_impulse.py::build_capture_scenario,scenario builder BUT parameterized only by (target/tumble/v_app/grasp_scale/inertia_scale); approach axis fixed +X; grasp point fixed to primary,signature check 2026-07-11,VERIFIED(limited)
+A09,arm_kinematics,30_simulation/sim_05_free_floating_arm/b601_model.py,FK / J(6x6) / Jp / J5 / tool_axis / link_com_states / joint limits; NO IK; NO manipulability fn,API grep 2026-07-11; 22/22 tests rerun,VERIFIED
+A10,free_floating_dynamics,30_simulation/sim_05_free_floating_arm/dynamics.py,H_bb/H_bm / zero-momentum base solution / generalized Jacobian / trajectory integration -> base attitude change,momentum conservation 7.3e-17 rerun 2026-07-11 (claim C09/C10),VERIFIED
+A11,base_reaction_baseline,30_simulation/sim_05_free_floating_arm/results/sim_05_base_attitude.csv,Case A baseline: 19.20 deg peak; |Hbm qdot| history,claim C09/C15 verified,VERIFIED
+A12,nullspace_evidence,scratchpad nullspace_feasibility_check.py (2026-07-11),3DOF exact zero-attitude-reaction exists all configs; 5DOF 1-dim null (1.03-1.47x); 6DOF none,run log in audit 00 sec6,VERIFIED(scratchpad - promote to repo in Phase C)
+A13,flexible_response,30_simulation/sim_07_ancf_flexible/{ancf_beam.py; sim_07a_task_response.py},ANCF beam (benchmarks 5/5) + task response to base velocity jump; rigid-lock vs point 92x; f1 envelope,claims C11/C12/C13 verified 2026-07-11,VERIFIED
+A14,actuator_budget,30_simulation/sim_08_detumble_actuator_budget/actuator_budget.py,|H_c| -> torque/force/impulse/propellant + wheel classes (placeholder tiers),claims C06/C07/C08 verified,VERIFIED
+A15,corridor_classifier,30_simulation/sim_04_capture_corridor/{v0; sim_04_v2_exact_impulse.py},multi-gate SAFE/FAIL incl pose-uncertainty gate (fixed 3 deg assumption),claims C01-C03 verified,VERIFIED
+A16,mass_ssot,docs/.../mass_inertia_budget_v1.csv + 20_engineering/config/geometry/*.yaml,all mass/inertia inputs incl bus/panel split (closure err 0.0),claim C16 rerun 2026-07-11,VERIFIED
+A17,keepout_defs,20_engineering/stage1_spacecraft_layout/05_workspace_and_clearance/collision_keepout_zone_plan_v0.md,6 keepout zone DEFINITIONS (no computed margins; checklists all open),landing audit + 07-11 dir check,VERIFIED(definitions only)
+A18,clearance_crude,30_simulation/sim_03_arm_reaction/sim_03_arm_reaction.py,EE-to-body-AABB clearance (planar 2DOF era; not B601),code read,VERIFIED(legacy)
+A19,contact_impedance,NONE,peak contact force / impedance / grasp probability,grep impedance|contact_force over sim+config = empty 2026-07-11,MISSING
+A20,ik_solver,NONE,inverse kinematics for grasp_pose -> q,grep def ik|inverse_kin = empty 2026-07-11,MISSING
+A21,uncertainty_propagation,NONE (only fixed 3-deg pose gate in sim_04),covariance -> risk propagation,code read,MISSING
+A22,score_aggregation,NONE,weighted overall_score layer,-,MISSING
+A23,vision_estimation,NONE (AprilTag fields in JSON unfilled),target_pose_covariance source,audit 00 sec3,MISSING

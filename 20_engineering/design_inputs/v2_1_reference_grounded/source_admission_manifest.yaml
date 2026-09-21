@@ -1,0 +1,66 @@
+# B4-0 公开来源准入清单（只读核验完成，2026-07-25）
+# 规则：借原理不借尺寸；NO_DIRECT_SCALE=TRUE 全局强制；CERN-OHL-S 源只读参考、
+# 禁止复制文件/派生几何进项目 CAD；逐特征借鉴登记见 open_source_feature_adoption_matrix.yaml。
+manifest_id: V2_1_SOURCE_ADMISSION
+generated: "2026-07-25"
+
+sources:
+  CDS_REV14_1:
+    title: CubeSat Design Specification Rev 14.1 (2022-02-09)
+    authority: Cal Poly CubeSat Program
+    local_path: 20_engineering/stage1_spacecraft_layout/01_standards/CubeSat_Design_Specification_Rev14_1_2022-02-09.pdf
+    sha256: 221fbbbd4f632b16f3e219d1a5e2c2b04e1998c12025b793e6dfc6181af66b5d
+    bytes: 8001529
+    license: Cal Poly 版权规格文档（约束参考用途）
+    admission: 只管外边界（导轨/接触面/突出物/包络）；不给内部结构设计
+    boundary: 项目保持 COMPETITION_DISPLAY_V0 340.5x226.3x226.3；366mm 12U 参考仅归未来 V3_CDS_REFERENCE
+  ORESAT_STRUCTURE:
+    url: https://github.com/oresat/oresat-structure
+    local_path: 80_third_party/external/spacecraft_layout_refs/oresat/oresat-structure
+    commit: 4c02299f908e8b60afd23ca562b4ec418d51ce56
+    license: CERN-OHL-S-2.0 (LICENSE/cern_ohl_s_v2.pdf)
+    status: 上游自 2022 弃用（现行机械 CAD 已迁 Onshape）——只作历史架构参考
+    admission: 借鉴端框-纵梁-卡笼分解、endcap/服务接口组织、volume keepout、装配夹具与维护顺序、按子系统分目录
+    boundary: 禁止 1U/2U/3U 等比例放大到 12U；禁止作为 canonical CAD；禁止继承质量/惯量/板距/载荷结论；OHL-S 强互惠→不复制文件不派生几何
+  ORESAT_SOLAR:
+    url: https://github.com/oresat/oresat-solar-hardware
+    local_path: 80_third_party/external/spacecraft_layout_refs/oresat/oresat-solar-hardware
+    commit: af8f6f3def958309f3864055bd1944e20f51357d
+    license: 根目录未见许可证文件——按最严格假设（CERN-OHL-S 同族）只读参考
+    admission: 借鉴 1U 太阳能模块化、面板连接器/线束入口、同板型复用、太阳能模块独立子装配、电气/机械板身份一致
+    boundary: 项目 200x227x6 翼板不改成 1U 板型；只借模块接口思想
+  BIRDSX_CAD:
+    url: https://github.com/BIRDSOpenSource/BIRDSX-CAD
+    local_path: 80_third_party/external/spacecraft_layout_refs/birdsx/BIRDSX-CAD
+    commit: 36bceeacc9f899477f2f10e36f8a65f7b58cb4ed
+    license: MIT (c) 2024 BIRDS Project, Kyushu Institute of Technology
+    admission: 借鉴工程图包组织——零件号体系、装配图-零件图层级、紧固件登记、爆炸图、剖视/局部详图、CAD-图纸-采购追溯
+    boundary: 2U 尺寸/质量/板厚不得线性放大到 12U+B601
+  HYPERION_SOLAR:
+    url: https://github.com/AlbertaSat/ex2_hyperion_solar_panel_hardware
+    local_path: 80_third_party/external/spacecraft_layout_refs/albertasat/ex2_hyperion_solar_panel_hardware
+    commit: 8860d493125f0cea17049e519a6e9751b4dd9422
+    license: Apache-2.0
+    paper: arXiv 2407.19356（弹簧铰链+burnwire 收拢保持；振动+热真空实测；Northern SPIRIT 三星入轨）
+    admission: 借鉴基板/电池区分层、根部铰链块、弹簧展开概念、收拢约束与释放点、本体板与展开翼分离、跨铰链线缆、单翼失败与部分展开配置、展开/收拢测试思路
+    boundary: 不继承电池布局/铰链尺寸/弹簧参数/burnwire 尺寸/翼板质量/功率温度数据
+  LIBRECUBE_LC2102:
+    url: https://gitlab.com/librecube/components/LC2102
+    local_path: 80_third_party/external/spacecraft_layout_refs/librecube/LC2102
+    commit: 5b1afaaa54973923adea0ed85e94a315dd549261
+    license: CERN-OHL-W-2.0 (LICENSE.txt)
+    admission: 借鉴标准化接口与板卡栈、可替换模块思想
+    boundary: 不作为 12U 外结构主模型
+
+incidental_local:
+  ORESAT_BACKPLANE:
+    local_path: 80_third_party/external/spacecraft_layout_refs/oresat/oresat-backplane
+    commit: 0e1550cbe3b0e067658dcee3cd9b2c91e98c84d7
+    license: CERN-OHL-S-2.0
+    note: 库中既有；本轮未列白名单，仅登记存在，不进入借鉴矩阵
+
+global_rules:
+  - NO_DIRECT_SCALE: true
+  - reference_morphing_chain: 提取设计模式→映射项目约束→重新参数化→项目自有结构
+  - v2_0_baseline: 全冻结不修改
+  - solidworks_in_b4_0: 禁止

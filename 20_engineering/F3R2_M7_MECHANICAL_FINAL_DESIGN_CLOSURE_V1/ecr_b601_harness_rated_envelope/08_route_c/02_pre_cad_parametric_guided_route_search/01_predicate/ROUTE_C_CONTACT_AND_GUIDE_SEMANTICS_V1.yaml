@@ -1,0 +1,113 @@
+{
+  "schema": "ROUTE_C_CONTACT_AND_GUIDE_SEMANTICS_V1",
+  "version": "1.0",
+  "authority_class": "SYNTHETIC_PREDICATE_QUALIFICATION_ONLY",
+  "units": {
+    "length": "mm",
+    "angle": "deg",
+    "joint_state": "rad"
+  },
+  "closed_solid_signed_distance": {
+    "supported_qualification_primitive": "FINITE_AXIS_ALIGNED_CLOSED_BOX",
+    "sign_convention": "positive outside, zero on boundary, negative inside",
+    "cable_margin_definition": "signed_distance(centerline_point, solid) - cable_radius",
+    "deep_penetration_requirement": "an interior point must retain a negative depth and must never be reduced to unsigned zero",
+    "surface_sampling_claim": "synthetic qualification only; not a CAD/B-rep replacement"
+  },
+  "segment_contact_classes": {
+    "FREE_SPAN": {
+      "allowed_contact_classes": [],
+      "contact_rule": "ANY_SOLID_CONTACT_FAILS"
+    },
+    "GUIDED_SPAN": {
+      "allowed_contact_classes": ["GUIDE"],
+      "contact_rule": "CONTACT_ALLOWED_ONLY_INSIDE_A_NAMED_FINITE_VOLUME_WITH_MATCHING_OWNER_SEGMENT"
+    },
+    "CLAMPED_SPAN": {
+      "allowed_contact_classes": ["CLAMP"],
+      "contact_rule": "CONTACT_ALLOWED_ONLY_INSIDE_A_NAMED_FINITE_VOLUME_WITH_MATCHING_OWNER_SEGMENT"
+    },
+    "CONNECTOR_TRANSITION": {
+      "allowed_contact_classes": ["CONNECTOR"],
+      "contact_rule": "CONTACT_ALLOWED_ONLY_INSIDE_A_NAMED_FINITE_VOLUME_WITH_MATCHING_OWNER_SEGMENT"
+    }
+  },
+  "finite_contact_volume_schema": {
+    "required_fields": ["object_id", "object_class", "scope_kind", "owner_segment", "bounds_min_mm", "bounds_max_mm"],
+    "allowed_object_classes": ["GUIDE", "CLAMP", "CONNECTOR", "OBSTACLE"],
+    "requirements": [
+      "object_id is non-empty and unique within the scene object registry",
+      "samples are unique named registry records carrying sample_id segment_id point_mm and cable_radius_mm",
+      "comparisons contain only sample_id and object_id references and do not inline geometry segment class or pose",
+      "without a qualified broad-phase exclusion authority the comparison pair set equals the exact Cartesian product of sample registry and object registry",
+      "missing or duplicate sample-object pairs fail closed",
+      "multiple centerline samples may reference one unique registry object",
+      "scope_kind equals LOCAL_FINITE_CONTACT_VOLUME",
+      "owner_segment is one grammar-valid segment id present in the scene segment registry",
+      "bounds are finite three-vectors with min strictly below max",
+      "GUIDE CLAMP and CONNECTOR have one explicit owner_segment",
+      "OBSTACLE has no contact exemption"
+    ],
+    "forbidden_exemptions": [
+      "WHOLE_LINK",
+      "WHOLE_ROBOT",
+      "INFINITE_VOLUME",
+      "UNBOUNDED_HALFSPACE",
+      "OBJECT_CLASS_ONLY_WITHOUT_OBJECT_ID",
+      "OWNER_WILDCARD"
+    ],
+    "identifier_rule": "uppercase hyphen-delimited identifiers only; wildcard, delimiter-packed multi-owner and disguised whole-link names fail closed",
+    "scene_segment_registry_rule": "segment_id values are unique; sample segment class and pose come only from the scene registries and scene state/q",
+    "scene_sample_registry_rule": "sample_id values are unique and grammar-valid; every sample is compared exactly once against every registered solid"
+  },
+  "failure_serialization": {
+    "required_for_collision_or_pinch": ["state", "q", "segment", "point", "object_pair", "margin"],
+    "state_format": "non-empty string",
+    "q_format": "six finite joint values in rad",
+    "segment_format": "non-empty segment identifier",
+    "point_format": "three finite coordinates in mm",
+    "object_pair_format": "two non-empty object identifiers",
+    "margin_format": "finite signed value in mm",
+    "pinch_input_rule": "segment and both object_pair identifiers must be present before serialization",
+    "missing_required_field_result": "UNKNOWN"
+  },
+  "comparison_and_state_semantics": {
+    "empty_comparison_set": "UNKNOWN",
+    "missing_state": "UNKNOWN",
+    "missing_q": "UNKNOWN",
+    "source_hash_drift": "UNKNOWN",
+    "unknown_is_safe": false,
+    "unknown_terminal_action": "HOLD"
+  },
+  "curve_semantics": {
+    "unconstrained_catmull_rom": "FAIL",
+    "cusp_or_zero_length_tangent": "FAIL",
+    "self_intersection": "FAIL",
+    "carrier_travel_outside_declared_bounds": "FAIL",
+    "accepted_synthetic_continuity_classes": ["C2", "CURVATURE_CONTINUOUS"],
+    "continuity_label_is_sufficient": false,
+    "qualified_generator": "ANALYTIC_CIRCULAR_ARC_WITH_C_INFINITY_EVIDENCE_AND_DISCRETE_RADIUS_CROSSCHECK",
+    "circular_arc_crosscheck": "all points share one plane, one computed center and one radius; equal-step helix is rejected",
+    "circular_arc_parameterization": "project samples onto a frozen in-plane basis, unwrap polar angles, require every nonzero adjacent angular increment to have one sign, reject pi-sized ambiguous steps and require total sweep strictly below 2*pi",
+    "piecewise_linear_with_C2_label": "FAIL",
+    "self_intersection_algorithm": "MINIMUM_DISTANCE_BETWEEN_NONADJACENT_FINITE_3D_SEGMENTS",
+    "self_intersection_cases": ["skew-frame true intersection", "parallel or collinear overlap", "nonadjacent endpoint touch"],
+    "minimum_bend_rule": "R_path_min must be greater than or equal to the demanded minimum bend radius",
+    "note": "Synthetic C2 qualification does not prove manufacturability, abrasion life, torsion or physical guide geometry."
+  },
+  "monotonicity_property": {
+    "outer_diameter_worsens_when": "bundle OD increases",
+    "bend_requirement_worsens_when": "required minimum bend radius increases",
+    "keepout_worsens_when": "keepout inflation increases",
+    "required_relation": "feasible_set(worse) is a subset of feasible_set(better)",
+    "branch_averaging": "FORBIDDEN"
+  },
+  "physical_authority_boundary": {
+    "guide_volumes_present": false,
+    "HN_02_present": false,
+    "HN_03_present": false,
+    "physical_route_c_cad_branch_present": false,
+    "manufacturing_coordinates_mm": null,
+    "predicate_test_pass_grants_design_authority": false
+  }
+}

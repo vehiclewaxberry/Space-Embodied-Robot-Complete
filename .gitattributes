@@ -1,0 +1,57 @@
+# Preserve the byte-level VIZ-Gate 0 evidence contract across fresh worktrees.
+# The frozen snapshot intentionally contains a mix of LF and CRLF text files;
+# these per-file rules reproduce the SHA-256 values recorded at acceptance.
+
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/* text eol=lf
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/*.png binary
+
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_ancf_attempts.csv text eol=crlf
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_ancf_crosschecks.csv text eol=crlf
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_ancf_legacy_attempts.csv text eol=crlf
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_ancf_legacy_retry_forensics.csv text eol=crlf
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_geometry_roll_details.csv text eol=crlf
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_results_72cases.csv text eol=crlf
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_top3_bdf_attempts.csv text eol=crlf
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_top3_bdf_crosschecks.csv text eol=crlf
+
+40_evidence/artifacts/visualization/viz_gate0_acceptance_report.md text eol=lf
+40_evidence/artifacts/visualization/VIZ_GATE0_FREEZE_20260714.md text eol=lf
+40_evidence/artifacts/visualization/viz_gate0_python_environment_20260714.txt text eol=lf
+70_tools/project_visualization/src/build_visual_dashboard.py text eol=lf
+70_tools/project_visualization/tests/run_all.py text eol=lf
+
+20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/*.STL binary
+*.step filter=lfs diff=lfs merge=lfs -text
+*.stp filter=lfs diff=lfs merge=lfs -text
+*.STEP filter=lfs diff=lfs merge=lfs -text
+*.glb filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.FCStd filter=lfs diff=lfs merge=lfs -text
+*.SLDPRT filter=lfs diff=lfs merge=lfs -text
+*.SLDASM filter=lfs diff=lfs merge=lfs -text
+*.SLDDRW filter=lfs diff=lfs merge=lfs -text
+
+# --- Added 2026-09-21 for public GitHub hosting ---
+# Move remaining heavy regenerable binaries to LFS so the git object store stays
+# clonable. Working-tree bytes are unchanged by LFS, so recorded SHA-256 values
+# over checked-out files remain valid.
+*.stl filter=lfs diff=lfs merge=lfs -text
+*.STL filter=lfs diff=lfs merge=lfs -text
+*.ply filter=lfs diff=lfs merge=lfs -text
+*.PLY filter=lfs diff=lfs merge=lfs -text
+*.npy filter=lfs diff=lfs merge=lfs -text
+*.npz filter=lfs diff=lfs merge=lfs -text
+*.parquet filter=lfs diff=lfs merge=lfs -text
+*.odb filter=lfs diff=lfs merge=lfs -text
+*.bmp filter=lfs diff=lfs merge=lfs -text
+*.brep filter=lfs diff=lfs merge=lfs -text
+*.cab filter=lfs diff=lfs merge=lfs -text
+*.dll filter=lfs diff=lfs merge=lfs -text
+*.pyd filter=lfs diff=lfs merge=lfs -text
+
+# --- Re-assert VIZ-Gate 0 byte-level evidence contract (must remain last) ---
+# These files carry SHA-256 values recorded at acceptance; keep them out of LFS
+# and preserve their exact recorded line endings.
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/* text eol=lf -filter -diff -merge
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/*.png binary -filter -diff -merge
+40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/*.csv text eol=crlf -filter -diff -merge

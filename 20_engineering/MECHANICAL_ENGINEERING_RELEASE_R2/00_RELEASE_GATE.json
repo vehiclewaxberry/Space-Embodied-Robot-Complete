@@ -1,0 +1,127 @@
+{
+  "schema": "TERMINAL_MECHANICAL_GATE_A_V1",
+  "generated_utc": "2026-08-25T08:51:20.842809Z",
+  "owner_directive": "TERMINAL MECHANICAL ONE-SHOT CLOSURE (2026-08-25)",
+  "decision_rule": "Authority > Evidence > Independent reproduction > Agent opinion",
+  "fail_closed_invariants": [
+    "UNKNOWN is never PASS",
+    "15/20 is never written 20/20",
+    "null is never zero",
+    "hash_mismatch=0 required",
+    "empty_comparison_set=0 required",
+    "unexplained_positive_interference=0 required"
+  ],
+  "tmg": [
+    {
+      "id": "TMG-1",
+      "name": "Product Definition",
+      "state": "PASS",
+      "basis": "M7 criteria 01-08/10-17 PASS lineage + release package files 01-16 complete"
+    },
+    {
+      "id": "TMG-2",
+      "name": "Frames/Mass",
+      "state": "PASS",
+      "basis": "frame tree V2 frozen; mass V3 R2 + bridged mass consumed; total mass exact in emitted URDF; as-built metrology EXTERNAL hold"
+    },
+    {
+      "id": "TMG-3",
+      "name": "Mechanisms",
+      "state": "PASS",
+      "basis": "Solar R2 mechanism/HDRM/deployment ledgers current; gripper R1 candidate with declared null physical limits"
+    },
+    {
+      "id": "TMG-4",
+      "name": "Harness Mission Envelope",
+      "state": "HOLD",
+      "basis": "E_HRN 0/75 SAFE, 11/11 key states UNSAFE, mission coverage FAIL_AT_MANDATORY_KEY_STATES; Route-B REJECTED; ODR-42 APPROVE_BOUNDED_DETAILED_DESIGN issued 2026-08-25; physical Route-C mission-first design is the remaining internal blocker; full-range DEFERRED_HOLD"
+    },
+    {
+      "id": "TMG-5",
+      "name": "R2 Full-Flex",
+      "state": "PASS_WITH_DECLARED_PROVISIONAL_PHYSICS",
+      "basis": "Round4 V3 17/17 + E23 18/18; seven-mode HF reconstruction 0.2714% <= 1%; cross-solver 1.81e-05 <= 5%; provisional EI/GJ/k/zeta declared"
+    },
+    {
+      "id": "TMG-6",
+      "name": "Mechanical-to-Embodied Handoff",
+      "state": "FAIL_15_OF_20",
+      "basis": "Sim13 NC 15/20 (NC15/16/18/19/20 dependency_hold); handoff V2 11/12 G12 harness; 1-of-2 absent intake paths resolved (unified URDF emitted); backends registered in SIM13_BACKEND_WORK_ORDERS_V1"
+    },
+    {
+      "id": "TMG-7",
+      "name": "Adversarial Integrity",
+      "state": "HIGH_0",
+      "basis": "Loop C red team + falsifier HIGH_0"
+    }
+  ],
+  "invariants_check": {
+    "internal_design_HOLD_except_TMG4_TM6_registered": true,
+    "hash_mismatch": 0,
+    "empty_comparison_set": 0,
+    "unexplained_positive_interference": 0
+  },
+  "external_only_holds": [
+    "launcher/deployer ICD",
+    "separation ICD",
+    "flight material allowables",
+    "as-built mass/CG/inertia",
+    "hardware contact calibration (CT01-CT05, gripper closing time, F/T)",
+    "qualification vibration",
+    "TVAC",
+    "flight HDRM reliability",
+    "full-range Route-C harness enhancement (DEFERRED_HOLD)",
+    "SolidWorks native reintegration",
+    "M3R as-installed mass properties"
+  ],
+  "internal_open_items": [
+    {
+      "item": "Route-C mission-first physical dress-pack design",
+      "blocks": "TMG-4",
+      "work_order": "ODR-42 approved; P01-P13 physical inputs, route design, physical CAD branch, predicate evaluation, mission coverage re-issue"
+    },
+    {
+      "item": "Sim13 five NC backends (NC15/16/18/19/20)",
+      "blocks": "TMG-6",
+      "work_order": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/loop_b/SIM13_BACKEND_WORK_ORDERS_V1.json"
+    }
+  ],
+  "gate_a_pass": false,
+  "verdict": "TERMINAL_CLOSURE_EXECUTED__GATE_A_NOT_PASSED__TMG4_TM6_INTERNAL_BLOCKERS_REGISTERED__NO_RELEASE_CREDIT",
+  "e23_key_metrics": {
+    "cross_solver_max_relative": 1.8136532292893113e-05,
+    "rigid_degeneration_max_relative": 0.0,
+    "hf_to_rom_seven_mode_max_relative": 0.0027143911284986865,
+    "hf_to_rom_limit": 0.01,
+    "independent_best_any_5D_HF_subset_max_relative": 0.010829637562359794,
+    "independent_minimum_passing_dimension": 6,
+    "executed_rom_dimension_preserving_three_bending_modes": 7,
+    "linearity_all_current_R2": true,
+    "three_lane_comparison_state": "COMPLETE_CURRENT_SCOPE__LEGACY_HISTORICAL_REFERENCE_GUARDED",
+    "current_max_linear_momentum_absolute_Ns": 8.222661409824415e-14,
+    "current_max_angular_momentum_absolute_Nms": 1.7772978511113677e-13,
+    "current_max_contact_energy_relative": 1.400052292878299e-09,
+    "22kg_nominal_omega_plus_equiv_dps": 0.1603671648970606,
+    "22kg_nominal_Hc_Nms": 0.011782323851997206,
+    "150kg_nominal_omega_plus_equiv_dps": 3.042713056507504,
+    "150kg_nominal_Hc_Nms": 3.6466119549031752
+  },
+  "sim13_state": {
+    "nc": "15/20",
+    "max_operational_state": "ABORT_ONLY_WITH_SOURCE_ONLY_ANALYTIC_PREBIND_DIAGNOSTICS",
+    "urdf_absent_path_resolved": true
+  },
+  "harness_state": {
+    "terminal_gate": "NOT_RELEASED",
+    "coverage": "FAIL_AT_MANDATORY_KEY_STATES"
+  },
+  "documented_defects": [
+    {
+      "id": "TMC-F01",
+      "disposition": "documented; Red Team adjudicated; owner review pending"
+    }
+  ],
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

@@ -1,0 +1,181 @@
+contract_id: COMP-PROT-01-CONTRACT-LANDING
+status: PROTOTYPE_CONTRACT
+classification: PROTOTYPE_CONTRACT_ONLY
+approval_state: APPROVED_WITH_SCOPE_LIMIT
+acceptance_kind: DOCUMENT_AND_SCHEMA_ONLY
+scientific_gate: false
+engineering_gate: false
+execution_authority: false
+
+scope:
+  allowed:
+    - research_contract
+    - json_schema
+    - interface_definition
+    - state_flow_definition
+    - permission_boundary
+    - acceptance_rule_definition
+    - navigation_entry
+  prohibited:
+    - executable_code
+    - scientific_simulation
+    - controller_implementation
+    - safe_v2_implementation
+    - physics_tool_implementation
+    - reinforcement_learning
+    - isaac_sim_project
+    - ros_node
+    - gate_json_change
+    - frozen_config_change
+    - scientific_result_change
+    - paper_status_change
+
+artifacts:
+  contract:
+    path: 10_research/space_embodied_robotics/space_embodied_agent_v1_contract.md
+    required_status: PROTOTYPE_CONTRACT
+  schemas:
+    - path: 20_engineering/config/competition_prototype/target_state_envelope.schema.json
+      interface: TARGET_STATE_ENVELOPE
+      required_status: PROTOTYPE_CONTRACT
+    - path: 20_engineering/config/competition_prototype/candidate_bundle.schema.json
+      interface: CANDIDATE_BUNDLE
+      required_status: PROTOTYPE_CONTRACT
+    - path: 20_engineering/config/competition_prototype/skill_contract.schema.json
+      interface: TWO_LEVEL_SKILL_CONTRACT
+      required_status: PROTOTYPE_CONTRACT
+    - path: 20_engineering/config/competition_prototype/physics_tool_response.schema.json
+      interface: PHYSICS_TOOL_RESPONSE
+      required_status: PROTOTYPE_CONTRACT
+    - path: 20_engineering/config/competition_prototype/experience_memory.schema.json
+      interface: EXPERIENCE_MEMORY
+      required_status: PROTOTYPE_CONTRACT
+
+canonical_vocabularies:
+  level_0_task_skills:
+    - INTERCEPT_TARGET
+    - APPROACH_TARGET
+    - CAPTURE_TARGET
+    - STABILIZE_TARGET
+    - REDUCE_ROTATION
+    - TRANSFER_TARGET
+  level_1_physics_primitives:
+    - approach_trajectory
+    - velocity_matching
+    - momentum_exchange
+    - grasp_closure
+    - attitude_compensation
+  physics_tool_verdicts:
+    - FEASIBLE
+    - INFEASIBLE
+    - OUT_OF_COVERAGE
+    - UNKNOWN
+  safe_runtime_decisions:
+    - ALLOW
+    - MODIFY
+    - WAIT
+    - BACKOFF
+    - ABORT
+
+conflict_adjudications:
+  geometry_class:
+    canonical: G3_compact
+    rejected_alias: G3_dense
+    frozen_legacy_asset_policy: DO_NOT_MODIFY_ADAPT_IN_FUTURE_SAFE_EXTENSION
+  evidence_binding:
+    canonical: EXACT
+    interpolation_allowed: false
+    miss_policy:
+      - OUT_OF_COVERAGE
+      - UNKNOWN
+  vocabulary_separation:
+    physics_tool_may_emit_safe_decision: false
+    candidate_may_emit_safe_decision: false
+    skill_may_emit_safe_decision: false
+  legacy_skill_names:
+    APPROACH: APPROACH_TARGET
+    CAPTURE: CAPTURE_TARGET
+    POST_CAPTURE_STABILIZE: STABILIZE_TARGET
+    DETUMBLE: REDUCE_ROTATION
+    ALIGN: PRECONDITION_OR_FUTURE_CONTROL_PHASE_ONLY
+
+acceptance_rules:
+  - id: CP01-A01
+    requirement: ALL_LISTED_FILES_EXIST
+    expected: true
+  - id: CP01-A02
+    requirement: ALL_JSON_FILES_PARSE
+    expected: true
+  - id: CP01-A03
+    requirement: ALL_JSON_SCHEMAS_PASS_DRAFT_2020_12_META_VALIDATION
+    expected: true
+  - id: CP01-A04
+    requirement: YAML_FILE_PARSES
+    expected: true
+  - id: CP01-A05
+    requirement: ALL_SCHEMAS_ARE_CLOSED_AT_THE_TOP_LEVEL
+    expected: true
+  - id: CP01-A06
+    requirement: ALL_RUNTIME_RECORDS_DECLARE_CONTRACT_STATUS_PROTOTYPE_CONTRACT
+    expected: true
+  - id: CP01-A07
+    requirement: TASK_SKILL_VOCABULARY_IS_UNIQUE
+    expected: true
+  - id: CP01-A08
+    requirement: PHYSICS_PRIMITIVE_VOCABULARY_IS_UNIQUE
+    expected: true
+  - id: CP01-A09
+    requirement: PHYSICS_AND_SAFE_VOCABULARIES_ARE_SEPARATE
+    expected: true
+  - id: CP01-A10
+    requirement: G3_COMPACT_IS_THE_ONLY_NEW_G3_TOKEN
+    expected: true
+  - id: CP01-A11
+    requirement: INTERPOLATION_IS_FORBIDDEN_IN_V1
+    expected: true
+  - id: CP01-A12
+    requirement: CANDIDATE_AND_SKILL_SCHEMAS_EXCLUDE_EXECUTION_AUTHORITY
+    expected: true
+  - id: CP01-A13
+    requirement: PHYSICS_RESPONSE_EXECUTION_AUTHORITY_IS_ALWAYS_FALSE
+    expected: true
+  - id: CP01-A14
+    requirement: EXPERIENCE_MEMORY_IS_ADVISORY_AND_REQUIRES_REVALIDATION
+    expected: true
+  - id: CP01-A15
+    requirement: NO_EXECUTABLE_CODE_CREATED
+    expected: true
+  - id: CP01-A16
+    requirement: NO_SCIENTIFIC_SIMULATION_RUN
+    expected: true
+  - id: CP01-A17
+    requirement: GATE_JSON_HASHES_UNCHANGED
+    expected: true
+  - id: CP01-A18
+    requirement: FROZEN_CONFIG_HASHES_UNCHANGED_EXCLUDING_NEW_COMPETITION_PROTOTYPE_DIRECTORY
+    expected: true
+  - id: CP01-A19
+    requirement: NO_30_SIMULATION_OR_40_EVIDENCE_TASK_DIFF
+    expected: true
+  - id: CP01-A20
+    requirement: NO_PAPER_STATUS_CHANGE
+    expected: true
+
+forbidden_claims:
+  - 已实现空间具身智能
+  - 已完成自主捕获
+  - 已完成VLA
+  - 已完成安全控制
+
+allowed_claim:
+  text: 已完成Space Embodied Agent Prototype V1研究合同与数据接口落盘，当前仅为PROTOTYPE_CONTRACT_ONLY。
+  requires_limitations: true
+
+evaluation_record:
+  status: PLANNED
+  note: This file defines acceptance rules; it is not a machine Gate or scientific result.
+
+next_gate:
+  id: COMP-PROT-02-ARCHITECTURE-DESIGN
+  status: PLANNED
+  authorized: false

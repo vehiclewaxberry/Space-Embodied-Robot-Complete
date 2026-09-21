@@ -1,0 +1,218 @@
+{
+  "verdict_id": "NATIVE01_PHASE1_MACHINE_VERDICT",
+  "generated_utc": "2026-07-27T16:59:10.960593+00:00",
+  "scope": "A Master Skeleton / B Primary Structure / C B601 Mount / D Arm-Stow Support / E Solar Root L,R / F Top Assembly",
+  "gates": {
+    "N1_NATIVE_FILES_EXIST": {
+      "status": "PASS",
+      "evidence": "55 SLDPRT + 8 SLDASM；全部由 SolidWorks 2024 原生创建，零伪造"
+    },
+    "N2_TOP_ASSEMBLY_COLD_REOPEN": {
+      "status": "PASS",
+      "evidence": "SolidWorks 完全退出后重开；断链 0；顶层组件 7"
+    },
+    "N3_NO_DUPLICATE_COMPONENTS": {
+      "status": "PASS",
+      "evidence": "重复装入 0（D-NATIVE-01 修复后）"
+    },
+    "N4_CONFIG_PERSISTENCE": {
+      "status": "PASS",
+      "evidence": "9 配置冷启动读回；失配 0；枚举 0=Suppressed/2=FullyResolved（D-NATIVE-03 修正后）"
+    },
+    "N5_ZERO_UNADJUDICATED_INTERFERENCE": {
+      "status": "PASS",
+      "evidence": "全树干涉 0 处 / 0 mm³（接触共面不计）"
+    },
+    "N6_PRIMARY_STRUCTURE_IS_FRAMEWORK": {
+      "status": "PASS",
+      "evidence": "5 环框 + 4 纵梁 + 3 舱甲板 + 6 可拆外板；非单一方盒"
+    },
+    "N7_SOLAR_ROOT_IS_SOLID": {
+      "status": "PASS",
+      "evidence": "每侧 9 实体零件（支座/双耳带销孔/销包络/叶片/止挡/HDRM 座/释放包络/线束环）；零实体 named-only 已消除"
+    },
+    "N8_AUTHORITY_AND_LICENSE": {
+      "status": "PASS",
+      "evidence": "全部零件 GEOMETRY_AUTHORITY=NATIVE_SW_THIS_FILE、MASS_AUTHORITY=EXCLUDED_URDF_ONLY；本阶段未含第三方几何；accepted URDF 字节未改（SOURCES_AND_LICENSES.md）"
+    },
+    "N9_CODEX_SOLAR_ROOT_ALIGNMENT": {
+      "status": "PASS",
+      "evidence": "O9：每侧 14 件按 Codex SOLAR-ROOT-01 重建（Root_Base X[-79,-43]/Y[113.15,121.15]、双耳 X[-75,-65]&[-57,-47] 外缘 |Y|=151.15、Ø8 通销、Ø16×18 扭簧、HDRM 24方×8+Ø10×20@X=-160/40、硬止挡 14方×8、脊板穿板）；原 X[126,174] 内置版本全删"
+    },
+    "N10_NEGATIVE_RESULTS_PRESERVED": {
+      "status": "PASS",
+      "evidence": "O10：C5 收拢包宽 238.3>226.3（超 12.0）与机构下限宽 302.3 写入Master Skeleton PARAM_* 及两翼根子装配属性；返工后耳片外缘几何实测达 |Y|=151.15，负结果由纸面变可测事实"
+    },
+    "N11_O11_CLOCKING_ADJUDICATED": {
+      "status": "PASS",
+      "evidence": "七项判据量化（design/o11_clocking_adjudication.json）；F-O11-1：clock+q1 恒为 168.322° → 冗余自由度，c_min=7.894°；clock=0 时臂 |Y|=151.74 破 113.15"
+    },
+    "N12_O13_STOW_VECTOR_V3": {
+      "status": "PASS",
+      "evidence": "v3 q_deg=[145.572, -168.0, -57.0, -41.143, -20.954, -3.0]（clock=25°）；可动段间隙 15.56mm ≥8 ✅；|Y| 107.87 ≤113.15 ✅；三鞍座塔高 [147.93, 101.77, 96.27] 全 ≤150 ✅；首动 q2+5deg → 39.0mm"
+    },
+    "N13_NATIVE_DRAWINGS": {
+      "status": "PASS",
+      "evidence": "原生 .SLDDRW × 2（STOWED / MAINTENANCE），GB A2 图框，每张 4 视图（前/上/右/等轴测）+ **A-A 真剖视**（SolidWorks 原生剖切）；PDF 由 SolidWorks 自身导出；取代此前 matplotlib 渲染作为视觉交付"
+    }
+  },
+  "summary": {
+    "native_parts": 55,
+    "native_assemblies": 8,
+    "broken_links": 0,
+    "config_persistence": "PASS",
+    "interference_count": 0,
+    "gates_pass": 13,
+    "gates_fail": 0
+  },
+  "deviations": {
+    "D-NATIVE-01": "外板组置于顶层而非嵌入 01（子装配子件配置抑制不可持久）；同时消除重复装入",
+    "D-NATIVE-02": "SolidWorks SaveBMP 固定内部相机，视角 API 全失效 → 评审出图改走 STEP 导出 + 外部渲染（辅助证据）",
+    "D-NATIVE-03": "SetSuppression2 枚举 0=Suppressed/2=FullyResolved（实测）；用反会把整装配抑制成空——此前 0 干涉/配置 PASS 均已作废重测",
+    "D-EQ-01": "方程 API 不可用（继承 V2.0）；参数经 native_spec.py + PARAM_* 属性",
+    "D-NATIVE-08": "工程图 GB 模板「重量」栏直接解析系统属性 SW-Mass，显示 6.159kg（SolidWorks 默认密度产物，**无权威**）。自定义属性覆盖、注释遍历改写均无效（各试 1 次）。已在图面加注 'MASS_AUTHORITY = EXCLUDED … title-block weight void'；唯一质量权威仍为 accepted URDF 4.6955559493429862 kg。**引用本图时必须无视该栏数字**",
+    "D-NATIVE-09": "爆炸视图不可达：IConfiguration 无 GetExplodedViewCount、IAssemblyDoc 无 NewExplodedView/CreateExplodedView（makepy 早绑定）。有界尝试 1 次即停；以 MAINTENANCE 抑制态 + A-A 真剖视替代",
+    "D-NATIVE-04": "FeatureCut3 的 Dir=False 沿 -X（与 FeatureExtrusion2 的 +X 相反）——外板开槽曾切反方向（体积正确 6384mm³、位置差 14mm），靠干涉抓出",
+    "D-NATIVE-05": "SolidWorks 在右侧翼根子装配步骤连续 3 次崩溃（低内存）；构建器可重入",
+    "D-NATIVE-06": "finalize_native.py 会从头重写裁决——人工裁决/衔接/O9-O11 结论须由本脚本在其后重新施加",
+    "D-RECON-03": "对 Codex 三处必要偏离：①脊板 Y 缩至 [110.15,113.15] 并在外板开真实穿板槽（原值与 Root_Base 重叠 7680mm³）②扭簧 X 外移（原位与耳2 重叠）③两段销合并为单根通销（原重叠 301.6mm³）"
+  },
+  "open_items": [
+    "O1 收拢态 Z 包络未定义（STOW_Z_LIMIT_REFERENCE=UNKNOWN）",
+    "O2 B601 三表示（HIFI/KINEMATIC_PROXY/MASS_SURROGATE）待第二阶段",
+    "O3 T_SM 双轨冲突（185.25 动力学轨 vs 198 显示轨）待人工裁决",
+    "O4 铰链销轴 Y=±76 偏离冻结 ±110（后者为翼板根缘）；伸臂段 TBD",
+    "O5 25° 时钟角未定案，两比较配置并存",
+    "O6 爆炸视图未创建（组件变换持久性缺陷）",
+    "O7 L_FAIL/R_FAIL/PARTIAL 第一阶段几何等同（翼板不在范围）",
+    "O8 材料/强度/公差/紧固件/热/FEA/动力学全部未定义",
+    "O11 已裁决：CLOCKING_REQUIRED_VALUE_FREE_ABOVE_7.894DEG（待人工批准 25°）",
+    "O12 流程修正：冻结只读目录必须先读正文再锁哈希",
+    "O13 已完成：v3 向量 + 三鞍座站位（仍 CANDIDATE_HOLD，接触资格未定）",
+    "O14 已随 O13 定案：鞍座 X 窗口 [-20,0]/[80,100]/[160,180]",
+    "O15 爆炸视图不可达（API 缺失，D-NATIVE-09）——如硬性需要须换绑定或手工建",
+    "O16 工程图重量栏 6.159kg 无权威且无法经 API 抹除（D-NATIVE-08）——对外发图前须人工在模板中清空该栏"
+  ],
+  "final_verdict": "NATIVE01_PHASE1_BUILT_PASS",
+  "review_status": "PENDING_HUMAN_REVIEW",
+  "next_stage_authorized": false,
+  "prohibitions": [
+    "不提交 Git（需另行人工授权）",
+    "不据此升级科学结论",
+    "PNG/STEP/JSON 不得替代原生文件作为模型交付"
+  ],
+  "human_rulings_2026_07_27": {
+    "T_SM": "MOUNT_FACE_X=198.0 显示轨（人工批准；与 Codex adapter_outer_face_x 一致）",
+    "STOW_Z_LIMIT": "暂不定义，保持 UNKNOWN——禁止默认判合规",
+    "SEQUENCE": "先 O9/O10 翼根返工，后 O11 时钟角量化（均已执行）"
+  },
+  "codex_reconciliation": {
+    "file": "CODEX_CONTINUATION_RECONCILIATION.md",
+    "codex_deliverable": "100_Mechanical_Continuation/v22_mechanical_continuation.step（c844c071…，132 occ/122 solids，16PASS/6HOLD/2NA/0FAIL）",
+    "codex_format": "STEP_ONLY_NOT_NATIVE（其自述内存不足未启可见 SolidWorks）",
+    "aligned": [
+      "160x160x12 安装板",
+      "Ø100 中央接口",
+      "adapter_outer_face_x=198.0",
+      "bus 226.3",
+      "载荷路径链",
+      "mass=EXCLUDED/URDF 唯一"
+    ],
+    "root_cause_of_break": "120 阶段把该目录锁哈希当冻结只读却从未读正文（→O12）"
+  },
+  "o11_ruling": {
+    "ruling": "CLOCKING_REQUIRED_VALUE_FREE_ABOVE_7.894DEG",
+    "minimum_required_clock_deg": 7.894,
+    "recommended_clock_deg": 25.0,
+    "q1_margin_at_25deg": 17.106,
+    "rationale": "时钟角必需（无时钟角横向破包络 38.59mm）；具体数值不由七判据决定而由 joint1 限位余量决定",
+    "comparator_status": "STOW_NO_CLOCK_COMPARATOR 降级为已证伪对照组（保留为反例证据）",
+    "stow_vector_status": "仍 CANDIDATE_HOLD——三候选均不能同时满足可动段间隙≥8mm ∧ 鞍座塔高≤150mm",
+    "measured": {
+      "clock0": {
+        "max_abs_y": 151.74,
+        "movable_clearance": 0.02
+      },
+      "clock25_optimum": {
+        "max_abs_y": 106.34,
+        "movable_clearance": 0.0,
+        "tower_max": 117.8
+      },
+      "delivered_v2": {
+        "max_abs_y": 104.24,
+        "movable_clearance": 6.4,
+        "tower_max": 182.9,
+        "first_motion_clearance": 36.37
+      }
+    },
+    "report": "O11_CLOCKING_ADJUDICATION_REPORT.md",
+    "review_status": "PENDING_HUMAN_REVIEW"
+  },
+  "o13_result": {
+    "stow_vector_v3": {
+      "clock_deg": 25.0,
+      "q_deg": [
+        145.572,
+        -168.0,
+        -57.0,
+        -41.143,
+        -20.954,
+        -3.0
+      ],
+      "status": "CANDIDATE_HOLD"
+    },
+    "saddles": [
+      {
+        "tag": "AFT",
+        "x_window": [
+          -20.0,
+          0.0
+        ],
+        "contact_z": 261.08,
+        "tower_h": 147.93,
+        "y_range": [
+          -71.33,
+          77.7
+        ]
+      },
+      {
+        "tag": "MID",
+        "x_window": [
+          80.0,
+          100.0
+        ],
+        "contact_z": 214.92,
+        "tower_h": 101.77,
+        "y_range": [
+          7.72,
+          87.87
+        ]
+      },
+      {
+        "tag": "FWD",
+        "x_window": [
+          160.0,
+          180.0
+        ],
+        "contact_z": 209.42,
+        "tower_h": 96.27,
+        "y_range": [
+          2.99,
+          80.11
+        ]
+      }
+    ],
+    "usable_stations": 10,
+    "usable_span_mm": 200.0,
+    "method": "4mm 占据栅格 EDT 距离场加速搜索 + 点-三角精确复核",
+    "traps_caught": {
+      "T1": "代价缺下界→优化器把臂折到舱体下方(z≈-450)压低 maxZ",
+      "T2": "塔高口径错（全部跨舱面分箱 vs 支承站位存在性）",
+      "T3": "距离场按格心量化，比真值乐观 CELL·√3/2≈3.5mm",
+      "T4": "释放净空包络下沿被最高鞍座垫顶穿 5763mm³"
+    },
+    "report": "O13_STOW_VECTOR_V3_REPORT.md",
+    "review_status": "PENDING_HUMAN_REVIEW"
+  },
+  "solar_root_status": "O9_REWORK_COMPLETE_CODEX_ALIGNED"
+}

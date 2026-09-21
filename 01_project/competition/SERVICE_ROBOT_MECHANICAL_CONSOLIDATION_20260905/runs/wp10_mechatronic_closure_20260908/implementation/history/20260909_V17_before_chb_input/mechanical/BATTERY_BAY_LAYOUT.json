@@ -1,0 +1,281 @@
+{
+  "schema": "WP10_BATTERY_BAY_RELAYOUT_DESIGN_V1",
+  "status": "CANDIDATE_PLACEMENTS_FOR_EXACT_SCREEN_NOT_INTEGRATED",
+  "source_plan": "mechanical/FIXED_HEAT_INSTANCE_PLAN.json",
+  "source_plan_sha256": "3f8dfab8c337fd2ef77f6a83659e1ac9ec655dcfbaa1ea067bed320409b47817",
+  "frame": "S mm, active proper rigid transforms",
+  "battery": {
+    "id": "WP10_RRC3570_4_D_MAX_ENVELOPE",
+    "MPN": "RRC3570-4",
+    "revision": "D",
+    "min_S_mm": [
+      -54,
+      -55.2,
+      7
+    ],
+    "size_S_mm": [
+      189.5,
+      82.2,
+      85.5
+    ],
+    "representation_role": "MANUFACTURER_MAX_OUTER_ENVELOPE_NOT_OEM_BREP",
+    "hardware_datum_and_socket_binding": false,
+    "minimum_nominal_body_clearance_mm": 2
+  },
+  "rigid_group_moves": [
+    {
+      "group": "compute_communications",
+      "ids": [
+        "adapter_compute_communications",
+        "thermal_interface_compute_communications",
+        "equipment_compute_communications",
+        "connector_compute_communications"
+      ],
+      "rotation_S": [
+        [
+          0,
+          -1,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "from_center_S_mm": [
+        10,
+        -48,
+        14
+      ],
+      "to_center_S_mm": [
+        -115,
+        39,
+        14
+      ],
+      "role": "Retain current proxy and functional responsibility; no vendor or mass upgrade"
+    },
+    {
+      "group": "navigation_electronics",
+      "ids": [
+        "adapter_navigation_electronics",
+        "thermal_interface_navigation_electronics",
+        "equipment_navigation_electronics",
+        "connector_navigation_electronics"
+      ],
+      "rotation_S": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          -1
+        ],
+        [
+          0,
+          1,
+          0
+        ]
+      ],
+      "from_center_S_mm": [
+        10,
+        48,
+        14
+      ],
+      "to_center_S_mm": [
+        100,
+        74,
+        35
+      ],
+      "role": "Move current proxy to +Y wall; adapter outer face nominally y96.5, actual retention hardware pending"
+    },
+    {
+      "group": "arm_drive",
+      "ids": [
+        "adapter_arm_drive",
+        "thermal_interface_arm_drive",
+        "equipment_arm_drive",
+        "connector_arm_drive"
+      ],
+      "rotation_S": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "from_center_S_mm": [
+        -100,
+        -48,
+        14
+      ],
+      "to_center_S_mm": [
+        -113.5,
+        -51,
+        14
+      ],
+      "role": "Shift13.5mm-X and3mm-Y to leave nominal2mm from both P60 front posts; retain all four group members"
+    },
+    {
+      "group": "P60",
+      "id_prefix": "P60_",
+      "rotation_S": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "from_center_S_mm": [
+        0,
+        0,
+        0
+      ],
+      "to_center_S_mm": [
+        -12,
+        0,
+        0
+      ],
+      "role": "Translate existing reference, tray and24 support items together; host bores must follow"
+    }
+  ],
+  "source_overrides": {
+    "upper_equipment_deck_B": {
+      "step_path": "mechanical/upper_deck_battery_layout.step",
+      "coordinate_basis": "S_WORLD_MM",
+      "only_material_removed": true
+    },
+    "shear_web_1": {
+      "step_path": "mechanical/wall_navigation_bosses.step",
+      "coordinate_basis": "S_WORLD_MM",
+      "only_material_removed": false
+    },
+    "adapter_arm_drive": {
+      "step_path": "mechanical/arm_adapter_battery_layout.step",
+      "coordinate_basis": "S_WORLD_MM_AFTER_GROUP_MOVE",
+      "only_material_removed": true
+    }
+  },
+  "upper_deck_edit": {
+    "baseline_step": "mechanical/upper_deck_relocated.step",
+    "baseline_sha256": "f62a72edd0ddb07f9f0febab7e4151544154218c2325a84d9bcd8c6f6c86767b",
+    "P60_new_through_hole_xy_mm": [
+      [
+        -166,
+        -8
+      ],
+      [
+        -61,
+        -8
+      ],
+      [
+        -166,
+        80
+      ],
+      [
+        -64,
+        80
+      ]
+    ],
+    "hole_diameter_mm": 3.4,
+    "deck_z_mm": [
+      -11.5,
+      -8.5
+    ],
+    "old_holes_retained": true,
+    "strength_and_hole_tolerance_qualified": false
+  },
+  "mandatory_reroute_ids": [
+    "internal_harness_proxy_0",
+    "internal_harness_proxy_1",
+    "internal_harness_proxy_2",
+    "PROP_PWR_ROUTE",
+    "PROP_DATA_ROUTE"
+  ],
+  "mandatory_rework_id_prefixes": [
+    "trunk_clip_",
+    "trunk_clip_standoff_",
+    "CLAMP_DUAL_",
+    "POST_DUAL_",
+    "TIEROD_DUAL_"
+  ],
+  "host_source_changes_required": [
+    "upper_equipment_deck_B",
+    "shear_web_1"
+  ],
+  "old_battery_function_retained": true,
+  "root_arm_and_hold_interfaces_moved": false,
+  "arm_task_W": 360,
+  "full_design_or_fit_pass": false,
+  "navigation_wall_edit": {
+    "baseline_step": "mechanical/fixed_heat_wall_pos.step",
+    "baseline_sha256": "69b90eb2920e0e5908d562ce40a3567d1f1a573716a2a45ef1b7ef4b0e583b76",
+    "boss_centers_xz_mm": [
+      [
+        72,
+        7
+      ],
+      [
+        128,
+        7
+      ],
+      [
+        72,
+        63
+      ],
+      [
+        128,
+        63
+      ]
+    ],
+    "boss_y_mm": [
+      96.5,
+      101.15
+    ],
+    "boss_diameter_mm": 10,
+    "nominal_thread_major_diameter_mm": 3,
+    "blind_hole_end_y_mm": 105.5,
+    "role": "Four integral wall supports close actual4.65mm carrier-to-wall gap; bolts and module hold-down pending",
+    "full_thread_or_load_path_verified": false
+  },
+  "arm_adapter_relief": {
+    "center_xy_mm": [
+      -150,
+      -92.65
+    ],
+    "diameter_mm": 10,
+    "z_mm": [
+      -8.5,
+      -6.5
+    ],
+    "reason": "Clear retained R01 upper deck screw and washer; preserve drive carrier mounting holes and all root fasteners"
+  }
+}

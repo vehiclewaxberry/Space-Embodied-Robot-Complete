@@ -1,0 +1,166 @@
+{
+  "scenario_id": "S07_FAILCLOSED_FAULT_INJECTION_PREBIND_SUBSET",
+  "cases_total": 16,
+  "cases_passed": 16,
+  "all_passed": true,
+  "never_execute_confirmed": true,
+  "cases": [
+    {
+      "case_id": "INJ01_T_E_T_missing",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "authoritative T_E_T absent",
+      "reasons": [
+        "T_E_T=MISSING -> fail-closed ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ02a_stale_pose_within_budget",
+      "expected": "WAIT",
+      "got": "WAIT",
+      "passed": true,
+      "detail": "pose stale 1.0s <= 2.0s budget",
+      "reasons": [
+        "TARGET_POSE_MEASUREMENT stale 1.000s <= budget 2.0s -> WAIT"
+      ]
+    },
+    {
+      "case_id": "INJ02b_stale_pose_beyond_budget",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "pose stale 10.0s > 2.0s budget",
+      "reasons": [
+        "TARGET_POSE_MEASUREMENT stale 10.000s > budget 2.0s -> ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ03_frame_mismatch",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "frame graph mismatch",
+      "reasons": [
+        "FRAME_CONTRACT=MISMATCH -> fail-closed ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ04_unit_mismatch",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "unit contract mismatch",
+      "reasons": [
+        "UNIT_CONTRACT=MISMATCH -> fail-closed ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ06_collision_assets_missing",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "no registered collision assets",
+      "reasons": [
+        "COLLISION_ASSETS=MISSING -> fail-closed ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ07_contact_provisional_not_admissible",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "synthetic/provisional contact where real authority required",
+      "reasons": [
+        "CONTACT_AUTHORITY=PROVISIONAL not admissible here -> ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ08_wheel_saturation",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "wheel margin violated",
+      "reasons": [
+        "WHEEL_MOMENTUM_MARGIN=MISMATCH -> fail-closed ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ09_M01_certificate_missing",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "no continuous-motion certificate",
+      "reasons": [
+        "M01_MOTION_CERTIFICATE=MISSING -> fail-closed ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ10_step_state_unknown",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "current STEP state unknown",
+      "reasons": [
+        "CURRENT_STEP_STATE=UNKNOWN -> fail-closed ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ11_not_evaluated_contact",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "NOT_EVALUATED contact authority must not enable execution",
+      "reasons": [
+        "CONTACT_AUTHORITY=NOT_EVALUATED -> fail-closed ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ05_asset_hash_tamper",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "byte-flip on URDF copy; sha match=False",
+      "reasons": [
+        "ACCEPTED_URDF=MISMATCH -> fail-closed ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ12a_nan_state",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "solver non-convergence maps to ABORT; detected: non-finite state at t=0.001000s",
+      "reasons": [
+        "SolverNonConvergence -> fail-closed ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ12b_torque_blowup",
+      "expected": "ABORT",
+      "got": "ABORT",
+      "passed": true,
+      "detail": "solver non-convergence maps to ABORT; detected: base angular rate implausible at t=0.010000s",
+      "reasons": [
+        "SolverNonConvergence -> fail-closed ABORT"
+      ]
+    },
+    {
+      "case_id": "INJ13a_not_evaluated_label",
+      "expected": "NOT_EVALUATED",
+      "got": "NOT_EVALUATED",
+      "passed": true,
+      "detail": "unevaluated episode labels as NOT_EVALUATED, not as negative sample",
+      "reasons": []
+    },
+    {
+      "case_id": "INJ13b_execute_with_missing_tet_rejected",
+      "expected": "REJECTED",
+      "got": "REJECTED",
+      "passed": true,
+      "detail": "writer rejected forbidden manifest: EXECUTE label with missing/unknown T_E_T is forbidden",
+      "reasons": []
+    }
+  ],
+  "generated_utc": "2026-08-27T06:29:44.210106+00:00"
+}

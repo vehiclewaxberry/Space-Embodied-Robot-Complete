@@ -1,0 +1,111 @@
+{
+  "G3a": {
+    "pass": true,
+    "worst_tip_rel_diff": 0.003799719782140739,
+    "worst_freq_rel_diff": 5.416315653216968e-05,
+    "thresholds": {
+      "tip": 0.05,
+      "freq": 0.02
+    },
+    "cases": [
+      {
+        "case": "6dof_rigid_lock/flexible_low",
+        "tip_peak_mm_ffr": 5.2556835310384145,
+        "tip_peak_mm_ancf": 5.235789,
+        "tip_rel_diff": 0.003799719782140739,
+        "f1_hz_ffr": 0.7001379196258881,
+        "f_dom_hz_ancf": 0.7001,
+        "freq_rel_diff": 5.416315653216968e-05
+      },
+      {
+        "case": "6dof_rigid_lock/nominal",
+        "tip_peak_mm_ffr": 3.6789539622804277,
+        "tip_peak_mm_ancf": 3.674004,
+        "tip_rel_diff": 0.001347293655757494,
+        "f1_hz_ffr": 1.000203676127154,
+        "f_dom_hz_ancf": 1.0002,
+        "freq_rel_diff": 3.6753920756024295e-06
+      },
+      {
+        "case": "6dof_rigid_lock/flexible_high",
+        "tip_peak_mm_ffr": 2.830021227867315,
+        "tip_peak_mm_ancf": 2.827378,
+        "tip_rel_diff": 0.0009348689376925158,
+        "f1_hz_ffr": 1.3002173405192092,
+        "f_dom_hz_ancf": 1.3002,
+        "freq_rel_diff": 1.3336809113373314e-05
+      },
+      {
+        "case": "3dof_point/flexible_low",
+        "tip_peak_mm_ffr": 0.05665965565712883,
+        "tip_peak_mm_ancf": 0.056821,
+        "tip_rel_diff": 0.0028395195943608288,
+        "f1_hz_ffr": 0.7001379196258881,
+        "f_dom_hz_ancf": 0.7001,
+        "freq_rel_diff": 5.416315653216968e-05
+      },
+      {
+        "case": "3dof_point/nominal",
+        "tip_peak_mm_ffr": 0.03966105433362665,
+        "tip_peak_mm_ancf": 0.039768,
+        "tip_rel_diff": 0.0026892392469661415,
+        "f1_hz_ffr": 1.000203676127154,
+        "f_dom_hz_ancf": 1.0002,
+        "freq_rel_diff": 3.6753920756024295e-06
+      },
+      {
+        "case": "3dof_point/flexible_high",
+        "tip_peak_mm_ffr": 0.03050851614197318,
+        "tip_peak_mm_ancf": 0.030597,
+        "tip_rel_diff": 0.0028919128681511273,
+        "f1_hz_ffr": 1.3002173405192092,
+        "f_dom_hz_ancf": 1.3002,
+        "freq_rel_diff": 1.3336809113373314e-05
+      }
+    ],
+    "evidence_scope": "帆板组件级退化对比；非自由漂浮整星逐点等价",
+    "note": "FFR(3模态,模态阻尼取sim_07a.ZETA) vs ANCF(8单元,Rayleigh) 在sim_07固支根部同激励口径下对比；整星锁关节路径另由A2/G1/G5与回归测试覆盖",
+    "repro": "python src/run_gates.py --inline"
+  },
+  "G3b": {
+    "pass": true,
+    "peak_deg_sim11_rigid": 19.199850770410567,
+    "peak_deg_sim05_ref": 19.2,
+    "peak_rel_diff": 7.77237444959944e-06,
+    "pointwise_max_diff_deg": 1.3213725011951283e-06,
+    "thresholds": {
+      "peak_rel": 0.001,
+      "pointwise_deg": 0.001
+    },
+    "residual_source": "servicer_12U_bus_v1/panel 行 7 位小数舍入（H_bb 差 ~1e-6）",
+    "repro": [
+      "python src/scene_a1_arm_slew.py --rigid-panels --tag rigid",
+      "python src/run_gates.py --inline"
+    ]
+  },
+  "G3c": {
+    "pass": true,
+    "max_attitude_diff_deg": 2.4148365394514667e-06,
+    "momentum_max_drift": 1.249000902703301e-16,
+    "w0_dps": [
+      1.0,
+      5.0,
+      2.0
+    ],
+    "t_end_s": 60.0,
+    "composite": {
+      "mass_kg": 29.895555949342995,
+      "I_diag_kgm2": [
+        0.300672,
+        0.915042,
+        0.882904
+      ]
+    },
+    "thresholds": {
+      "angle_deg": 1e-05,
+      "momentum": 1e-12
+    },
+    "evidence_scope": "同一全刚化组合体退化为sim_01式单刚体无力矩传播；不是与24 kg sim_01冻结工件逐点同构",
+    "repro": "python src/run_gates.py --inline"
+  }
+}

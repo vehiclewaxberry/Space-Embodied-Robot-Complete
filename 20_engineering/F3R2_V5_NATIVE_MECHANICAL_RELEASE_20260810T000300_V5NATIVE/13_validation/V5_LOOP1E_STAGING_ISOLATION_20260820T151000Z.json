@@ -1,0 +1,54 @@
+{
+  "schema": "F3R2_V5_LOOP1E_STAGING_ISOLATION_V1",
+  "timestamp_utc": "2026-08-20T15:10:00.0000000Z",
+  "intended_target": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/03_top_assembly/SEI_MECH_B601_V5_NATIVE_BASELINE.SLDASM",
+  "intended_target_existed_at_isolation": false,
+  "staging_artifact": {
+    "path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/03_top_assembly/SEI_MECH_B601_V5_NATIVE_BASELINE__LOOP1E_STAGING_20260820T140708.895028Z_PID31664.SLDASM",
+    "bytes": 27121219,
+    "sha256": "9F14C3A5363697298532C27A752B953BA0DAE3AF853BD764475ADFCADA52BD7F"
+  },
+  "source_failure_receipt": {
+    "path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/13_validation/V5_LOOP1E_FAIL_20260820T145637.214317Z.json",
+    "bytes": 2026015,
+    "sha256": "E675EC459F18438174EE5BE0307D734FE653B52991AF4AB3D0C5EA5E763DEE21",
+    "transaction_entry_state": "PENDING_NEW",
+    "execution_pid": 31664,
+    "verdict": "V5_LOOP1E_UNEXPECTED_EXCEPTION"
+  },
+  "source_script": {
+    "path": "F:/China Graduate Future Flight Vehicle Innovation Competition/20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py",
+    "bytes": 243627,
+    "sha256": "0D66FCDE114F40E3A339692FA93F2DACE426740952AA362EE73C2B983F61072A"
+  },
+  "failure_classification": {
+    "code": "SW2024_MAKEPY_FEATUREBYNAME_ABSENT_FROM_IMODELDOC2_LIVES_ON_IASSEMBLYDOC",
+    "python_exception": "AttributeError",
+    "observed_message": "'IModelDoc2 instance' object has no attribute 'FeatureByName'",
+    "failing_call_site": "99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py:2691 owner_model.FeatureByName(feature_name)",
+    "root_cause_note": "the generated typelib exposes FeatureByName only on the document-type-specific interfaces (IAssemblyDoc, IPartDoc, IDrawingDoc) and on IComponent2, NOT on IModelDoc2. LOCAL_ARM is a sub-assembly, so the lookup must go through IAssemblyDoc. Same defect CLASS as the IInverse/IMultiply issue: a member called through a wrapper that does not expose it.",
+    "cad_save_completed_before_failure": true,
+    "staging_cold_reopen_completed": false,
+    "precommit_written": false,
+    "promotion_performed": false,
+    "progress_note": "this attempt got substantially FURTHER than any prior run: the full top assembly was built and saved to a proper staging path, and the patched relative_transform (IInverse/IMultiply -> Inverse/Multiply) executed successfully in production at line 2807. The 61836 error did not recur."
+  },
+  "isolation_policy": {
+    "disposition": "LOGICALLY_ISOLATED_IN_PLACE_EXCLUDED_FROM_ACTIVE_LOOP1E_TRANSACTION",
+    "delete_allowed": false,
+    "overwrite_allowed": false,
+    "promotion_allowed": false,
+    "resume_allowed": false,
+    "physical_file_retained": true,
+    "exact_fact_must_remain_unchanged": true
+  },
+  "authoring_context": {
+    "authored_by_round": "20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820",
+    "owner_ruling": "AUTHORIZE_LOW_MEMORY_EXECUTION_WITH_BOUNDED_NATIVE_ATTEMPTS_20260820",
+    "why_authored": "Attempt 2 failed after its SaveAs, leaving a third unreceipted staging artifact. Without an isolation receipt the next audit would return HOLD_UNRECEIPTED_STAGING, exactly as before.",
+    "why_not_deleted_or_moved": "preserved byte-for-byte as failure evidence and as a potential Fallback-A candidate; the isolation contract forbids delete/overwrite/promote/resume.",
+    "no_science_upgraded": "records a disposition for one orphaned file. Changes no engineering value, threshold, or scientific conclusion.",
+    "note_on_fallback_value": "this artifact is the most complete top assembly produced to date and is a stronger Fallback-A candidate than the two 2026-08-13 artifacts, but it has NOT been graded, cold-verified, or promoted, and this receipt explicitly does not authorise promotion."
+  },
+  "verdict": "V5_LOOP1E_FAILED_STAGING_WRITE_ONCE_LOGICAL_ISOLATION_PASS"
+}

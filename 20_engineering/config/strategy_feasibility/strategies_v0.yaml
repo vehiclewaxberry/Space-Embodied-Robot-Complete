@@ -1,0 +1,16 @@
+# sim_12 Phase 1 参数卡 v0 — 16 例证明集（PI 工单 10_research/sim_12/phase1_workorder.md）
+# 阈值/执行机构继承 20_engineering/config/mission_feasibility/scan_v0.yaml（同一冻结 registry，哈希由其校验）
+version: v0
+base_config: 20_engineering/config/mission_feasibility/scan_v0.yaml
+cases:                       # 4 任务（几何类 G1_slender 统一，除 A 用 G2 卫星标定）
+  A_low:      {cls: G2_cubesat, m_t_kg: 22.0,  omega_dps: 0.5, note: 证明 Passive 区}
+  B_anchor:   {cls: G1_slender, m_t_kg: 150.0, omega_dps: 3.0, note: 碎片锚点(REPEAT_CORE 口径)}
+  C_transition: {cls: G1_slender, m_t_kg: 48.0, omega_dps: 2.0, note: μ=2 过渡带找策略切换}
+  D_extreme:  {cls: G1_slender, m_t_kg: 150.0, omega_dps: 5.0, note: 证明 Abort}
+strategies: [S1_passive, S2_velocity_matching, S3a_wheel_bias, S4_post_capture_detumble]
+s3a:
+  theta_pred_error_deg: 0.0        # 名义：方向预测精确；敏感性扫 [0,15,30,45,60]
+tier: default                      # sim_10 default_tier（wheels_large 0.3 / cold_gas / l_T 0.17）
+flex_energy: PROVISIONAL_NOT_EVALUATED   # 柔性门未入判据（帆板参数占位），列位保留
+output: {csv: strategy_results.csv, gate_json: sim_12_gate_check.json,
+         fig: strategy_ladder_initial.png}

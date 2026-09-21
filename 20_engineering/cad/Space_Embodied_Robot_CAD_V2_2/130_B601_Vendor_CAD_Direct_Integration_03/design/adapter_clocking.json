@@ -1,0 +1,25 @@
+{
+  "decision_id": "VENDORCAD03_ADAPTER_CLOCKING",
+  "date": "2026-07-27",
+  "clock_deg": 25.0,
+  "axis": "J1 轴（∥ +X_S）；适配器内置底座预转，属'按应用修改底座'授权范围",
+  "rationale_REVISED_2026_07_27": [
+    "F1/F3：joint1 限位 ±160.428° 距越顶所需 180° 平面翻转缺 19.572°，强制平面倾斜",
+    "真实几何下按 120 候选向量收拢，STOW Y_max≈154.7mm > ±113.15 整星半宽（S5a 实测）",
+    "时钟角的真实收益=高度：多族扫描（s8_stow_family_study）显示无时钟角族最低塔高 520.8mm，25° 族 365.7mm，低 155mm",
+    "附带收益：解除 F3 的 q1 限位饱和（q1=144.57°，裕度 15.86°）",
+    "备选 c=19.572°（q1 恰在限位）被弃：q1 零裕度违反展开策略稳健性"
+  ],
+  "retracted_rationale": {
+    "claim": "倾斜下 Y≤113.15 与 X≤430 不可同时满足（低仰角 X 悬出/高仰角 Y 超限）",
+    "status": "REFUTED_BY_SELF_AUDIT_2026_07_27",
+    "counterexample": "无时钟角、q_deg≈[0.07,0,-180,-99.6,0.3,0] 时 max|Y|=93.6, maxX=370.6（Y/X 双满足，但 maxZ=520.8）",
+    "root_cause": "S5a 以 120 候选为唯一初值并沿用种子方向代价，把越顶族拓扑这一隐含假设当成几何必然性",
+    "evidence": "design/stow_family_study.json; reviews/SELF_AUDIT_REVIEW.md HIGH-1"
+  },
+  "tradeoffs": [
+    "展开态工作空间绕 J1 整体偏转 25°（J1 行程 ±160.4° 仍覆盖前向任务扇区）",
+    "Q0 参考位形同样带 25° 时钟角（与 q0_boxes 未时钟显示轨的差异登记于 repose 报告）"
+  ],
+  "status": "DESIGN_PROPOSAL_PENDING_HUMAN_RATIFICATION"
+}

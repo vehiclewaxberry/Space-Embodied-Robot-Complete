@@ -1,0 +1,122 @@
+{
+  "schema": "M6_WP2_MASS_PROPERTIES_RECEIPT_V1",
+  "generated_local": "2026-08-21T20:55:00+08:00",
+  "phase": "M6_CANDIDATE_AUTHORITY_CLOSURE",
+  "work_package": "WP2_MASS9",
+  "status": "COMPLETE_DIAGNOSTIC_CANDIDATE_ONLY",
+  "formal_fea_run_count": 0,
+  "freecad_used": false,
+  "release_aggregation_active": false,
+  "deliverables": [
+    {
+      "path": "wp2_mass_properties/CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml",
+      "bytes": 20434,
+      "sha256": "F43D871FAA6831652441C75916B1E890D760EAE3D5781DDF3650CFB65159DE51"
+    },
+    {
+      "path": "wp2_mass_properties/aggregate_m6_mass_properties.py",
+      "bytes": 31962,
+      "sha256": "69CEF5CA60896883FC618702636DCC8592900C30CF0700F24DA5F61FC9F2BB76"
+    },
+    {
+      "path": "wp2_mass_properties/SYSTEM_MASS_PROPERTIES_V4_DIAGNOSTIC.yaml",
+      "bytes": 64704,
+      "sha256": "8D5C75FE320992395245F1395095683DA3FC651223BEF65B2785640DD9BC5A7D"
+    }
+  ],
+  "key_results": {
+    "diagnostic_mass_9_of_9": "Branch A and Branch B mass reproduced per configuration, max abs regression error vs M4 ledger 2.84e-14 kg (18/18 PASS at 1e-12 tolerance)",
+    "diagnostic_cg_inertia_branch_A_9_of_9": "numeric per configuration under candidate transforms; Branch B CG/inertia kept null/HOLD (M3R COM/inertia unknown, bus-core allocation unratified)",
+    "whole_sat_closure_check": "bus + 2 deployed panels rebuild servicer_12U_v0 row: mass err 0.0 kg, CG max err 4.22e-08 m, inertia max err 3.05e-08 kg*m^2 (PASS within CSV rounding)",
+    "branch_A_inertia_symmetric_positive_definite_9_of_9": true,
+    "target_capture_transforms_match_m5_display_rows_3_of_3": true,
+    "urdf_arm_mass_pinned_kg": 4.695555949342986,
+    "uncertainty_fields_all_null": true,
+    "repeatable": "two consecutive runs produce byte-identical content except generated_local"
+  },
+  "holds_preserved": [
+    "HOLD_M3R_COMPONENT_COM_INERTIA_AND_EXCLUDED_HARDWARE (Branch B CG/inertia null)",
+    "HOLD_LEGACY_FLANGE_OWNERSHIP_ALLOCATION_AND_LOAD_BRIDGE_GEOMETRY (ADR M4-ADR-001 rev2 ruling referenced, not relitigated)",
+    "HOLD_PANEL_FULL_HINGE_KINEMATICS (F_L/F_R full orientation officially HOLD in M4 frame tree; candidates only)",
+    "HOLD_PANEL_FAILURE_RETAINED_OR_JETTISONED_SEMANTICS (retained-at-stowed-endpoint is the selected candidate rule; jettison rule documented NOT_SELECTED)",
+    "HOLD_Q_STOW_ENGINEERING_CANDIDATE FK regression fail 567.734 mm and support-contact hold",
+    "HOLD_Q_SERVICE_READY service-configuration ratification",
+    "HOLD_PREGRASP scene candidate not dynamics-validated for 22 kg or 150 kg capture",
+    "HOLD_TARGET_CAPTURE_TRANSFORMS (M5 display-only rows adopted as candidates; no writeback)",
+    "HOLD_ROOT_TO_M_FRAME and SPACECRAFT_LOAD_BRIDGE transforms unresolved and unused",
+    "HOLD_TRACEABLE_STANDARD_UNCERTAINTIES_AND_CORRELATIONS (all uncertainty fields null)",
+    "HOLD_WHOLE_ASSEMBLY_BBOX_AND_COLLISION (aggregation-scope bbox is bus+flange+panel primitives only; M5 broadphase contract referenced)",
+    "HOLD_COMPLETE_COMPONENT_COVERAGE (camera/HDRM/sensor/harness ownership unresolved in Branch A and B)",
+    "CDR Phase-1 Q0/Q1/Q2 gates remain HOLD; structural entry gate untouched"
+  ],
+  "rules_honored": [
+    "no baseline file modified; writes confined to wp2_mass_properties/ (baseline pins re-verified PASS after the run)",
+    "no zero fill; every unknown kept null with explicit HOLD status strings",
+    "no FEA, no RL training, no manufacturing/procurement/launch/flight/qualification claims",
+    "L0 URDF mass 4.695555949342986 kg used as-is, never overridden by CAD or candidate values",
+    "no FreeCAD launched (WP2 not authorized)",
+    "all values classified DIGITAL_MODEL_DERIVED/BUDGETED/PROVISIONAL with per-component source_ref; transforms classified CANDIDATE_TRANSFORM/CANDIDATE_BINDING",
+    "strict SI units; tensor rotation + parallel-axis theorem; inertia taken about each configuration system CG"
+  ],
+  "integration_notes": [
+    "V4 diagnostic_branch_A CG/inertia are computable end-to-end from CONFIGURATION_TRANSFORM_CANDIDATES_V1.yaml + the pinned M4 inputs via aggregate_m6_mass_properties.py (rerun command recorded in the V4 file)",
+    "M5 per-configuration whole-assembly diagnostic bboxes and snapshot hashes are cross-referenced under each configuration bbox.cross_references; WP2 primitive-scope extents intentionally differ from STL-scope extents (documented in diagnostic_scope)",
+    "Branch B unblocks only when M3R COM/inertia and the legacy-flange/bus-core allocation close; the aggregator already carries the Branch B mass path for that event",
+    "panel fail-state candidate = retained at stowed endpoint (V5N R2B oracle angle semantics); if integration prefers jettison semantics, Branch A mass decreases by 0.3483933 kg per failed panel and CG/inertia must be recomputed",
+    "C05 panel state binding is a declared candidate (deployed-retained); M5 snapshot intentionally shows no solar geometry for C05"
+  ],
+  "source_register": [
+    {
+      "path": "20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/SYSTEM_MASS_PROPERTIES_V3.yaml",
+      "sha256": "3F88318666C8A7DA57A74D65F94E8B27A7D84E32741039A893C21FC247A9FE9F"
+    },
+    {
+      "path": "20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/CONFIGURATION_LIBRARY_V1.yaml",
+      "sha256": "DCE40C1DB8A318A077F0DD92A47F236BE55EAF2FD32B4E514D2BB67C9B19B4A2"
+    },
+    {
+      "path": "20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml",
+      "sha256": "67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA"
+    },
+    {
+      "path": "20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/11_validation/B601_NAMED_POSE_REVALIDATION_V1.json",
+      "sha256": "68D0356F889E5888399631E6C735D404140AC5933B7FA172AB1F9E26BA26B844"
+    },
+    {
+      "path": "20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/02_configurations/M5_CONFIGURATION_GEOMETRY_CONTRACT_V1.yaml",
+      "sha256": "DA18F5A6E2F553FC709E90BA1035CDD7770A6FCEECA13EDC1FDB448CAF75838D"
+    },
+    {
+      "path": "20_engineering/config/geometry/service_spacecraft_v1.yaml",
+      "sha256": "8DD8F22FF1F893273DE2215EA12819E4D41CC0E20B853ADC0774052237881432"
+    },
+    {
+      "path": "20_engineering/config/geometry/flexible_appendage_v1.yaml",
+      "sha256": "52FA88084C628CE8845E05DE0C0A892BCA5347B7146C8D1C6B99093927153786"
+    },
+    {
+      "path": "20_engineering/config/geometry/frame_tree_v1.yaml",
+      "sha256": "958BFF23BF83434C773854FD0E78DA3B09BE4A3A213EB81A0741514750B3E55B"
+    },
+    {
+      "path": "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv",
+      "sha256": "073C802527E35C9495188EEFD5D8BA51F524D326142CF2AB31E436BAD0899392"
+    },
+    {
+      "path": "20_engineering/config/geometry/target_models_v1.yaml",
+      "sha256": "45666D9D37460FD825F0ED7301BF69113016689FDF00A13DFF8046358A76AE45"
+    },
+    {
+      "path": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/00_authority/V5_SOLAR_STATE_AUTHORITY_R2B.json",
+      "sha256": "BA639C6BF4F0875B6FD9AFFF2E6CA7A5AA3BA1AF77C6BD5FEC07A8EB62D8E6D8"
+    },
+    {
+      "path": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/13_validation/V5_SOLAR_R2B_STATIC_KINEMATIC_ORACLE_20260812T181333.205056Z.json",
+      "sha256": "F4E5E0CD5A8559991B60826C6221294948CD07889836500D81527AE0982196F6"
+    },
+    {
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+      "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164"
+    }
+  ]
+}

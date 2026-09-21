@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence_bundle.schema.json",
+  "title": "IndependentEvidenceBundle",
+  "$defs": {
+    "candidateRowBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_path",
+        "source_hash_mode",
+        "source_sha256",
+        "key",
+        "row_hash_mode",
+        "row_sha256",
+        "case_config_path",
+        "case_config_hash_mode",
+        "case_config_sha256",
+        "case_key",
+        "case_sha256",
+        "mu_reference_path",
+        "mu_reference_hash_mode",
+        "mu_reference_sha256"
+      ],
+      "properties": {
+        "source_path": {"type": "string", "minLength": 1},
+        "source_hash_mode": {"const": "CANONICAL_CSV_TABLE_SHA256_V1"},
+        "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "key": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["case", "strategy"],
+          "properties": {
+            "case": {"type": "string", "pattern": "^[A-Za-z0-9_:-]{1,96}$"},
+            "strategy": {"type": "string", "pattern": "^[A-Za-z0-9_:-]{1,96}$"}
+          }
+        },
+        "row_hash_mode": {"const": "CANONICAL_CSV_ROW_SHA256_V1"},
+        "row_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "case_config_path": {"type": "string", "minLength": 1},
+        "case_config_hash_mode": {"const": "CANONICAL_YAML_SHA256_V1"},
+        "case_config_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "case_key": {"type": "string", "pattern": "^[A-Za-z0-9_.:-]{1,160}$"},
+        "case_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "mu_reference_path": {"type": "string", "minLength": 1},
+        "mu_reference_hash_mode": {"const": "CANONICAL_YAML_SHA256_V1"},
+        "mu_reference_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "source_channel",
+    "decision_time",
+    "physical_state",
+    "reason_codes",
+    "required_modification",
+    "scenario_hash",
+    "artifact_records"
+  ],
+  "properties": {
+    "contract_version": {"const": "safety-gate-v1"},
+    "source_channel": {"type": "string", "enum": ["HARNESS_TRUTH", "INDEPENDENT_PHYSICS_GATE"]},
+    "decision_time": {"type": "string", "format": "date-time"},
+    "physical_state": {"type": "string", "enum": ["SAFE", "UNSAFE", "UNKNOWN"]},
+    "reason_codes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z0-9_]{1,96}$"}
+    },
+    "required_modification": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "solver", "boundary_policy_id"],
+          "properties": {
+            "kind": {"const": "USE_EXACT_SOLVER"},
+            "solver": {"const": "EXACT_SOLVER"},
+            "boundary_policy_id": {"const": "MOD-EXACT-SOLVER-V1"}
+          }
+        }
+      ]
+    },
+    "scenario_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifact_records": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_id",
+          "artifact_scope",
+          "gate_json_path",
+          "gate_json_hash_mode",
+          "gate_json_sha256",
+          "gate_verdict",
+          "registry_sha256",
+          "scenario_hash",
+          "data_row_refs",
+          "row_binding",
+          "valid_until",
+          "model_level",
+          "certification",
+          "provisional_flags",
+          "flex_status"
+        ],
+        "properties": {
+          "artifact_id": {"type": "string", "enum": ["sim10", "sim11", "sim12", "e15_ancf"]},
+          "artifact_scope": {"type": "string", "enum": ["GLOBAL_GATE_NON_SCENARIO", "SCENARIO_ROW"]},
+          "gate_json_path": {"type": "string", "minLength": 1},
+          "gate_json_hash_mode": {"const": "CANONICAL_JSON_SHA256_V1"},
+          "gate_json_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "SHA-256 of RFC-style canonical JSON: UTF-8, sorted object keys, compact separators; whitespace, indentation and CRLF/LF are ignored."
+          },
+          "gate_verdict": {"type": "string", "minLength": 1},
+          "registry_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "Frozen raw-byte SHA-256 of threshold_registry_core_v1.yaml."
+          },
+          "scenario_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "data_row_refs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[A-Za-z0-9_./|:-]{1,160}$"}
+          },
+          "row_binding": {
+            "oneOf": [
+              {"type": "null"},
+              {"$ref": "#/$defs/candidateRowBinding"}
+            ]
+          },
+          "valid_until": {"type": "string", "format": "date-time"},
+          "model_level": {"type": "string", "enum": ["L0", "L1", "L2"]},
+          "certification": {"type": "string", "enum": ["CERTIFIED", "PROVISIONAL", "SCREENING_ONLY", "FAILED", "UNAVAILABLE"]},
+          "provisional_flags": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[A-Za-z0-9_:-]{1,96}$"}
+          },
+          "flex_status": {"type": "string", "enum": ["VALIDATED", "PROVISIONAL", "UNKNOWN_NOT_IN_CRITERIA"]}
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {"artifact_id": {"const": "sim12"}},
+              "required": ["artifact_id"]
+            },
+            "then": {
+              "properties": {
+                "artifact_scope": {"const": "SCENARIO_ROW"},
+                "row_binding": {"$ref": "#/$defs/candidateRowBinding"}
+              }
+            },
+            "else": {
+              "properties": {
+                "artifact_scope": {"const": "GLOBAL_GATE_NON_SCENARIO"},
+                "row_binding": {"type": "null"}
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

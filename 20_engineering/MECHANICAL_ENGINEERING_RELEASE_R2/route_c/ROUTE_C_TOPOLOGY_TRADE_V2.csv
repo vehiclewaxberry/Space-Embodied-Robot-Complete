@@ -1,0 +1,25 @@
+candidate,criterion_rank,criterion,verdict,evidence
+C1_joint_local_guided_loops,1,safety_constraints_no_uncontrolled_fold_or_snag,FAIL_HARD,"J2/J3 have 3.14 rad range; joint-local loops there require unconstrained free spans between link ends, recreating the Route-B failure mechanisms documented in NRB-01 (clearance -11.8667 mm, bend 1.081 mm, pinch -11.3573 mm) and NRB-02 (clearance -11.9938 mm, bend 0.1 mm, pinch -11.9902 mm); without link-mounted channels the loop shape at extreme joint angles is uncontrolled"
+C1_joint_local_guided_loops,2,mission_coverage_capability,NOT_EVALUATED,"eliminated at criterion 1; lexicographic rule forbids averaging over a hard failure"
+C1_joint_local_guided_loops,3,frozen_interface_compatibility,NOT_EVALUATED,eliminated upstream
+C1_joint_local_guided_loops,4,thermal_tolerance_margin,NOT_EVALUATED,eliminated upstream
+C1_joint_local_guided_loops,5,maintainability,NOT_EVALUATED,eliminated upstream
+C1_joint_local_guided_loops,6,joint_added_torque,NOT_EVALUATED,eliminated upstream
+C1_joint_local_guided_loops,7,mass,NOT_EVALUATED,eliminated upstream
+C1_joint_local_guided_loops,8,complexity,NOT_EVALUATED,eliminated upstream
+C2_semi_captive_link_mounted_dress_pack,1,safety_constraints_no_uncontrolled_fold_or_snag,PASS,"continuous semi-captive channels/carriers on every joint fully contain the bundle; no free span exists; Route-B fold/pinch mechanisms eliminated by construction"
+C2_semi_captive_link_mounted_dress_pack,2,mission_coverage_capability,PASS_WITH_REGISTERED_RISK,"coverable in principle, but wrist carriers at J4-J6 add collision volume exactly where NRB-02 recorded worst pinch (HARDSTOP_joint4_hi, joint5, -11.9902 mm); mandatory contact/capture states carry the highest interference sensitivity"
+C2_semi_captive_link_mounted_dress_pack,3,frozen_interface_compatibility,HIGH_RISK_FAIL,"carrier tracks required on ALL links; link4/link5/link6 usable lengths (78.3/23.7/40.0 mm from accepted URDF joint origins) are shorter than one E2.10-class carrier stroke plus end fittings (pitch 20 mm); wrist carriers approach gripper keepout and base carriers approach Solar R2 deployment corridor; frozen keepout volumes cannot be modified"
+C2_semi_captive_link_mounted_dress_pack,4,thermal_tolerance_margin,NOT_EVALUATED,eliminated upstream
+C2_semi_captive_link_mounted_dress_pack,5,maintainability,NOT_EVALUATED,eliminated upstream
+C2_semi_captive_link_mounted_dress_pack,6,joint_added_torque,NOT_EVALUATED,eliminated upstream
+C2_semi_captive_link_mounted_dress_pack,7,mass,NOT_EVALUATED,eliminated upstream
+C2_semi_captive_link_mounted_dress_pack,8,complexity,NOT_EVALUATED,eliminated upstream
+C3_segmented_guided_dress_pack_hybrid,1,safety_constraints_no_uncontrolled_fold_or_snag,PASS,"every dynamic span is guided: J1 protected annular service loop, J2 semi-captive guided U-loop with R50 saddles, J3 carrier/moving-guide hybrid with R63 saddle, J4-J6 short joint-local loops with R50 mandrels, wrist strain relief; no global free-hanging harness (ODR-52 principle)"
+C3_segmented_guided_dress_pack_hybrid,2,mission_coverage_capability,PASS,"take-up budget closes with 40.78 percent margin over the full hardware envelope (required 1333.82 mm, capacity 1877.766 mm, CAD-exact values from the RC-3 build); wrist envelope minimized by short J4-J6 wraps, directly addressing the NRB-02 wrist pinch region"
+C3_segmented_guided_dress_pack_hybrid,3,frozen_interface_compatibility,PASS,"fixed channels only on long links (link1/2/3); one carrier at J3 sized 110.0 mm stroke on link2/3 with 249.5-264.0 mm spans; wraps on wrist links need no track; all brackets on derived brackets; accepted URDF/Solar R2/M3R/gripper untouched"
+C3_segmented_guided_dress_pack_hybrid,4,thermal_tolerance_margin,MEDIUM_HIGH,"fixed channels give deterministic path under tolerance stack; fixed-curvature mandrels bound loop shape; iglidur liner wear allowance 0.5 mm declared; thermal expansion contribution registered as downstream C4/C5 item, not zero-filled"
+C3_segmented_guided_dress_pack_hybrid,5,maintainability,HIGH,"segmented per-joint service loops and clamp-level access per ODR-52 per-segment service interface requirement; connector split at wrist strain relief allows gripper/sensor service without disturbing bus feedthrough"
+C3_segmented_guided_dress_pack_hybrid,6,joint_added_torque,LOW_MEDIUM,"single carrier at J3 plus fixed-curvature wraps; restoring-torque curves remain a declared C5 hold and an ODR-50 reopen-trigger guard item; no carrier mass at J5/J6 keeps wrist torque increments minimal"
+C3_segmented_guided_dress_pack_hybrid,7,mass,MEDIUM,"estimated dress-pack hardware plus bundle order 1.0-1.5 kg registered as mass_delta_by_link candidates only (RC-5 propagation scope); heavier than C1 loops-only but far below C2 all-joint carriers"
+C3_segmented_guided_dress_pack_hybrid,8,complexity,MEDIUM,"six guide volume types plus channels; more part types than C1, far fewer carrier mechanisms than C2"

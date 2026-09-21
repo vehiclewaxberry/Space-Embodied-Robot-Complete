@@ -1,0 +1,13 @@
+from pathlib import Path
+import json,math,hashlib,csv
+A=Path(__file__).resolve().parents[1]
+area=55.9*59-4*math.pi*(4.5/2)**2
+cases=[dict(pressure_psi=p,area_impedance_K_in2_per_W=z,assembly_R_K_per_W_typical=z*645.16/area,total_force_N_if_uniform=p*6894.757293168*area*1e-6) for p,z in [(10,.95),(25,.75),(50,.61),(100,.47),(200,.41)]]
+d=dict(schema='WP10_REAL_TIM_INTERFACE_V1',part='BERGQUIST SIL PAD TSP1600S',source_pdf='sources/tsp1600s.pdf',source_sha256=hashlib.sha256((A/'sources/tsp1600s.pdf').read_bytes()).hexdigest(),source_revision='November2018',stock_thickness_mm=.229,thickness_tolerance_mm=None,compressed_thickness_mm=None,PSA=False,project_cut_xy_mm=[55.9,59.],project_holes_xy_mm=[[-24.15,-25.4],[-24.15,25.4],[24.15,-25.4],[24.15,25.4]],project_hole_d_mm=4.5,net_area_mm2=area,edge_ligament_mm=[1.55,1.85],case_source_coordinates='OEM Y=-1.6 mapped to assembly Z=4.229',carrier_plane_z_mm=4.,k_W_mK_typical=1.6,k_W_mK_min=None,impedance_includes_two_interfaces=True,source_values_are_reference_not_specification=True,pressure_cases=cases,selected_assembly_pressure_target_psi=25,pressure_target_verified=False,pressure_max_allowed_psi=None,bulk_only_R_K_per_W=.000229/(1.6*area*1e-6),bulk_only_is_not_assembly_R=True,source_M3_torque_Nm=[4*.0980665,8*.0980665],torque_does_not_prove_pressure=True,metal_fasteners_bypass_material_electrical_isolation=True,component_isolation_credit=False,chassis_bond_implementation='UNBOUND_FASTENER_AND_STRAP_SELECTION',TML_pct=None,CVCM_pct=None,vacuum_qualification=False,new_TIM_mass_kg=None,mass_not_zero_filled=True,temperature_range_C=[-60,180],heat_path_nodes=['CHB_CASE','ACTUAL_TIM','EXISTING_CARRIER','STRUCTURAL_THERMAL_CONNECTION_OPEN','EXTERNAL_FIXED_RADIATOR_NOT_INSTALLED'],thermal_closure=False,manufacturing_release=False)
+(A/'power/THERMAL_INTERFACE_CONTRACT.json').write_text(json.dumps(d,ensure_ascii=False,indent=2),encoding='utf-8')
+print(json.dumps(dict(net_area_mm2=area,R_typical_at25psi=cases[1]['assembly_R_K_per_W_typical'],total_target_force_N=cases[1]['total_force_N_if_uniform'],whole_thermal_closed=False)))
+bp=A/'power/SELECTED_BOM.csv';rows=list(csv.DictReader(bp.open(encoding='utf-8-sig')))
+rows=[r for r in rows if r['role']!='TIM201: converter thermal interface']
+rows.append(dict(role='TIM201: converter thermal interface',manufacturer='Henkel stock / project cut',MPN='BERGQUIST SIL PAD TSP1600S 0.229mm noPSA; project cut55.9x59mm',quantity=1,status='STOCK_SELECTED_LOCAL_CAD_INSTALLED__THERMAL_PRESSURE_UNVERIFIED',source='power/THERMAL_INTERFACE_CONTRACT.json;mechanical/converter_tim.step.py'))
+with bp.open('w',encoding='utf-8-sig',newline='') as f:
+ w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)

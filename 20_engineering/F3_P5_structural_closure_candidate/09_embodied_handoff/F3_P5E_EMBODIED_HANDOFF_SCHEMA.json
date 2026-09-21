@@ -1,0 +1,51 @@
+{
+  "schema": "F3_P5E_EMBODIED_HANDOFF_SCHEMA_V1",
+  "handoff_id": "F3_P5E_EMBODIED_HANDOFF_20260805",
+  "meshes": {
+    "packages": ["B601_HIFI_VISUAL_BASE_LINK.FCStd", "B601_HIFI_VISUAL_LINK1.FCStd", "B601_HIFI_VISUAL_LINK2.FCStd", "B601_HIFI_VISUAL_LINK3.FCStd", "B601_HIFI_VISUAL_LINK4.FCStd", "B601_HIFI_VISUAL_LINK5.FCStd", "B601_HIFI_VISUAL_LINK6.FCStd", "B601_HIFI_VISUAL_GRIPPER_LINK.FCStd", "B601_HIFI_VISUAL_GRIPPER_LEFT.FCStd", "B601_HIFI_VISUAL_GRIPPER_RIGHT.FCStd"],
+    "source": "F:\\Space-Embodied-Robot-HAG_A_20260804\\12_f3_p1_hifi_attachment\\01_visual_packages",
+    "objects": 133,
+    "volume_mm3": 2727847,
+    "status": "FROZEN",
+    "export_pending": "STL/GLB conversion by simulation environment before use"
+  },
+  "frames": {
+    "register": "00_audit/F3_P5_COORDINATE_FRAME_REGISTER.yaml",
+    "formal_transforms": 8,
+    "all_right_handed_det_plus1": true
+  },
+  "assembly_closure": {
+    "matched": 139,
+    "unassigned": 0,
+    "accessory": 256,
+    "status": "CLOSED"
+  },
+  "observation_schema": {
+    "camera_end": "RGB+Depth 60deg gripper_link",
+    "camera_wrist": "RGB 90deg link6 (partial occlusion on gripper close accepted)",
+    "camera_base": "RGB 120deg base_link",
+    "joint_state": "6R + gripper 0/1 (URDF truth)",
+    "hdrm_state": "LOCKED/RELEASING/RELEASED (micro switch)",
+    "contact_state": "G07/G08 boolean (reaction sign change = loss)"
+  },
+  "action_masks": {
+    "ARM_MOTION_ENABLE": {"allowed": ["DEPLOYED_NOMINAL", "SERVICE_DOCKING", "SERVICE_GRASP", "SERVICE_TRANSPORT", "SERVICE_ASSEMBLY", "RETRIEVED_NOMINAL"], "masked": ["STOW_STORAGE", "STOW_TRANSPORT", "HDRM_RELEASE_SEQUENCE", "SAFE_STOP"]},
+    "HDRM_RELEASE": {"allowed": ["STOW_STORAGE"], "masked": ["ALL_OTHER"]},
+    "GRIPPER_CLOSE": {"allowed": ["SERVICE_GRASP"], "masked": ["ALL_OTHER"]}
+  },
+  "negative_cases": {
+    "NEG-01": "arm motion before HDRM released confirmed -> interlock rejected",
+    "NEG-02": "deploy command in STOW -> interlock rejected",
+    "NEG-03": "G07 contact loss -> SAFE_STOP",
+    "NEG-04": "G08 contact loss -> SAFE_STOP",
+    "NEG-05": "gripper close without target confirmation -> interlock rejected",
+    "NEG-06": "Mode A envelope assertion -> rejected NON_COMPLIANT_EXCLUDED",
+    "NEG-07": "flight qualification / AL margin claim -> data unavailable rejected TBD"
+  },
+  "state_machine_ref": "07_configuration/F3_P5C_STATE_MACHINE_FROZEN.yaml",
+  "named_limits": [
+    "mesh STL/GLB export pending simulation environment",
+    "real camera calibration pending vision team",
+    "handoff does not grant flight qualification claims"
+  ]
+}

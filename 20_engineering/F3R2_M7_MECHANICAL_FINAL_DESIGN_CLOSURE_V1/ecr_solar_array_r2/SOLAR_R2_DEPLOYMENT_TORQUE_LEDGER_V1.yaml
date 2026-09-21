@@ -1,0 +1,68 @@
+schema: SOLAR_R2_DEPLOYMENT_TORQUE_LEDGER_V1
+generated_local: '2026-08-22T21:20:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: PASS_WITH_PROVISIONAL_COMPONENTS (ODR-23)
+authority: ODR-23 / HDRM-hinge analytical closure
+non_inheritance: >-
+  R1 WP5 MAV-01 preload margin 0.217 @ 5g is NOT inherited. All R2 numbers
+  below are PROVISIONAL_DERIVED candidates until hinge/spring/damper
+  hardware is selected.
+
+inputs:
+  leaf_mass_kg: 0.18
+  leaf_span_m: 0.200
+  tip_speed_ceiling_m_per_s: 2.0 (R1-heritage design ceiling)
+  end_stop_energy_per_leaf_J: 0.12
+    derivation: E = 0.5 * I_root * w^2, I_root = m L^2/3 = 2.4e-3 kg m2,
+      w_max = v_tip/L = 10 rad/s -> E_max = 0.12 J
+
+resisting_torques_Nm_per_hinge:
+  hinge_friction: {low: 0.005, high: 0.02, status: PROVISIONAL_DERIVED}
+  harness_jumper_bend: {low: 0.001, high: 0.01, status: PROVISIONAL_DERIVED,
+    note: flex-PCB bending about knuckle radius 4 mm, 40 mm jumper}
+  latch_engagement_final_5deg: {nominal: 0.01, status: PROVISIONAL_DERIVED}
+  gravity_ground_test_only:
+    value: 0.177
+    derivation: m g L/2 = 0.18 x 9.81 x 0.1
+    applicability: GROUND_TEST_ONLY - not an on-orbit load; ground
+      deployment tests require an offload rig or test-specific springs
+
+driving_torque_candidate:
+  torsion_spring_per_hinge_Nm: {nominal: 0.05, status: PROVISIONAL_DERIVED,
+    note: constant-torque candidate over full travel}
+
+deployment_margin_on_orbit:
+  mid_travel:
+    T_available: 0.05
+    T_resisting_worst: 0.030   # friction high + harness high
+    margin_Nm: +0.020
+  final_5deg:
+    T_available: 0.05
+    T_resisting_worst: 0.040   # + latch engagement
+    margin_Nm: +0.010
+  verdict: MARGIN_POSITIVE_WITH_PROVISIONAL_COMPONENTS
+  ground_test_warning: >-
+    With the 0.05 N m candidate spring the 0.177 N m gravity torque makes
+    ground deployment impossible without offload; this is a TEST-CONFIG
+    finding, not an on-orbit defect.
+
+end_stop_analysis:
+  energy_per_leaf_J: 0.12
+  stop_stroke_candidate_mm: 1.0 (elastomer/damped stop)
+  peak_stop_force_N: 240   # F ~ 2E/s
+  peak_root_reaction_moment_Nm: 48.0   # F x L, transient
+  status: PROVISIONAL_DERIVED - final values follow stop material/shape
+    selection; feeds WP5 R2 update and root-hinge FEA check list
+
+hdrm_tie_down:
+  architecture: D-R2-05 inboard-retracting rods, 2 stations per wing
+  preload: OPEN - to be derived against 3-leaf stack (0.54 kg leaves +
+    hardware per wing) under the WP5 quasi-static family; R1 0.217@5g
+    margin not inherited
+  release_reliability: qualitative fail-closed per ODR-19 state machine;
+    quantified reliability allocation OPEN
+
+verdict:
+  R2_MECHANISM_ANALYTICAL_DESIGN: CLOSED_PASS_WITH_PROVISIONAL_COMPONENTS
+  FLIGHT_HDRM_QUALIFICATION: HOLD
+  blocking_for_gate_a: false

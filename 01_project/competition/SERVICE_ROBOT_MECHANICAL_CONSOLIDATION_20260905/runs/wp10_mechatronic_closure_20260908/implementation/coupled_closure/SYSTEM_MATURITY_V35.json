@@ -1,0 +1,115 @@
+{
+  "revision": "V35",
+  "stage": "系统详细设计与子系统局部验证",
+  "whole_design_complete": false,
+  "completion_percentage": null,
+  "reason_no_percentage": "不同模块成熟度与外部依赖不同；不存在受控权重可生成可信完成百分比",
+  "electrical": {
+    "system_refs": 237,
+    "explicit_MPN_field_refs": 55,
+    "explicit_footprint_field_refs": 68,
+    "board_electrical_footprints": {
+      "MAIN_INPUT_PCB": 43,
+      "AUX_PROTECTION_SEQUENCE_PCB": 26
+    },
+    "meaning": "237 is a system netlist count, including module ports and detailed circuits. Missing MPN fields do not prove no part was selected; part codes may be in Value. It is not a ready-to-order 237-part PCB BOM.",
+    "system_BOM_order_ready": false,
+    "complete_system_PCB_parity_checked": false
+  },
+  "mechanical": {
+    "native_host_instances": 873,
+    "fixed_pose_count": 3,
+    "planned_instances": 974,
+    "planned_pose_records": 2922,
+    "latest_geometry_revision": "V30/V28",
+    "native_whole_integration_updated": false,
+    "V30_module_uninstalled_parts": 56,
+    "V30_module_uninstalled_solids": 60,
+    "parking_is_launch_stowed": false,
+    "whole_mass_COM_inertia_bound": false
+  },
+  "propulsion": {
+    "catalog_resource_screen_available": true,
+    "controlled_same_revision_ICD_bound": false,
+    "actual_thruster_geometry_bound": false,
+    "actual_six_DOF_mission_capability": "UNKNOWN"
+  },
+  "thermal": {
+    "V33_trial_accepted": false,
+    "board_heat_scenario_CHB_C": [
+      105.83691696291373,
+      107.21357253174898
+    ],
+    "CHB_limit_C": 105,
+    "three_shortlisted_placements_intersections": [
+      8,
+      7,
+      7
+    ]
+  },
+  "source_bindings": {
+    "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\baseline_load_closure_v31\\DELIVERY_STATUS_V31.json": "b2a963218453ec70b354c24d4cc4d7da8589d17ed6ac1e40730caa82261e5884",
+    "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\baseline_load_closure_v31\\mechanical\\MECHANICAL_BASELINE.json": "5b40f9bd09a587f2abae70d5f5333842df5527bef129d8e89887f3b2e8acfd96",
+    "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\baseline_load_closure_v31\\mechanical\\BODY_PARAMETER_CARD.json": "671d31aab865dc53cf511e40823ec8e58aec3676c327f0363298beddac5191b1",
+    "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\baseline_load_closure_v31\\actuators\\ACTUATOR_CONTRACT.json": "dd68472e9a2c331154090125a668b4c4d1657dad9a64779cb5c9221df46fb641",
+    "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\coupled_closure\\PROPULSION_RESOURCE_SCREEN.json": "06dbfe1dc7710552265280923d74115c65623ef8401dca278d6965dbf51d6075",
+    "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\coupled_closure\\DELIVERY_STATUS_V33.json": "b625f0e37701e9e59511f7a86945cc221eb62204d6dbb70b22eac290400aa68d",
+    "F:\\China Graduate Future Flight Vehicle Innovation Competition\\01_project\\competition\\SERVICE_ROBOT_MECHANICAL_CONSOLIDATION_20260905\\runs\\wp10_mechatronic_closure_20260908\\implementation\\SYSTEM_CLOSURE_MATRIX.csv": "bb70e5447f908ecc36dd1390a810c494b6be4988c74e3115bb18d83d01cb2a97"
+  },
+  "next_steps": [
+    {
+      "order": 1,
+      "domain": "电气故障行为",
+      "actual_change": "完成STOP失电默认关闭、短掉电复位、人工再启动；落实负载侧回生吸收与温度联锁；形成剩余原理图与PCB",
+      "outputs": "同版本STOP/回生PCB、针脚表、故障时序矩阵、负控与故障能量账",
+      "acceptance": "启动/关断/欠压/短掉电/卡键/断线的行为有依据；未测情况保持未知",
+      "external_dependency": "THN输入启动特性、DM停止与回生边界；实际波形需另行试验",
+      "status": "内部设计继续，硬件验证未执行"
+    },
+    {
+      "order": 2,
+      "domain": "储供电与全周期能量",
+      "actual_change": "保留360W筛查需求，核定电池/保护路径；补太阳阵列到电池的稳压充电与任务功率调度",
+      "outputs": "统一选型BOM、源到臂端电流/能量账、充电与动作互锁合同",
+      "acceptance": "最低带载电压、峰值与持续电流、补能及任务时长均有同一边界",
+      "external_dependency": "真实负载谱、电池/PMM受控接口及太阳阵列输出",
+      "status": "条件计算已有，完整能量周期未闭合"
+    },
+    {
+      "order": 3,
+      "domain": "热结构与舱内布置",
+      "actual_change": "重排主输入模块与60x70mm辅助板；补23个未建模主输入位号；建立CHB—TIM—承载件—固定辐射面热路",
+      "outputs": "器件实体/高度、压紧TIM与紧固结构、CAD布置、热网络及线束端接表",
+      "acceptance": "相同完整热边界下不超过器件限值；净空、安装和工具通道满足要求",
+      "external_dependency": "界面材料压紧/热阻数据与真实发热/温升验证",
+      "status": "V33加厚试验拒绝；须实际改件"
+    },
+    {
+      "order": 4,
+      "domain": "机械构型与物性",
+      "actual_change": "在原873宿主逐项回装已接受模块；建立真实收拢/工作构型、关节与配合；解释DM质量差异并回写材料/COM/惯量",
+      "outputs": "可冷重开的SLDASM/STEP、配置与配合、质量惯量参数卡、连续路径与线束检查",
+      "acceptance": "计划与原生装配一致；parking不能代称发射收拢；未知物性不填占位真值",
+      "external_dependency": "DM同修订组成/图纸、部分实测质量与COM",
+      "status": "固定姿态数字布局已有，完整工程装配未完成"
+    },
+    {
+      "order": 5,
+      "domain": "推进与姿控接口",
+      "actual_change": "以完整商业模块复用为主，绑定同修订喷口/电气/脉冲/并发/羽流接口，按当前COM重建推力分配",
+      "outputs": "受控ICD映射、安装接口、真实喷口分配器、任务冲量/能量/窗口预算",
+      "acceptance": "真实6自由度能力、禁喷与脉冲限制可评价；合成阵列不可冒充实物",
+      "external_dependency": "C-POD受控ICD；轮组轴系及力矩/速度/功率包络",
+      "status": "接口与目录资源筛查已有，真实任务能力未知"
+    },
+    {
+      "order": 6,
+      "domain": "同版本整机验收",
+      "actual_change": "统一CAD/ECAD/线束/BOM/物性/推进数据并从干净环境重开复算",
+      "outputs": "整机交付清单、版本哈希、装配/干涉/连续运动/电热/故障验收报告",
+      "acceptance": "所有必要设计项通过或精确列出外部待验证项；设计交付与制造/接电/飞行放行分开",
+      "external_dependency": "前序接口与必要实物证据",
+      "status": "尚未开始最终验收"
+    }
+  ]
+}

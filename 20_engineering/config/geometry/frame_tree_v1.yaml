@@ -1,0 +1,26 @@
+# Geometry SSOT v1 — frame tree (2026-07-10, decisions D-1/D-2 adopted)
+# Single source for ALL downstream consumers (SolidWorks / URDF / Python / ANCF).
+# SolidWorks is a consumer, never the truth source. Units: mm here; sims use m (D-3).
+# Rotation convention: passive frame-to-frame; R columns = child axes expressed in parent.
+version: v1
+status: nominal_frozen_v1
+parent_doc: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/coordinate_frame_definition_v0.md
+frames:
+  S: {parent: null, note: servicer body frame, origin: 12U geometric centre}
+  M:
+    parent: S
+    transform_S_M:
+      translation_mm: [185.25, 0.0, 0.0]
+      rotation: {type: R_y, deg: +90, urdf_rpy: [0, 1.5707963, 0],
+                 quat_wxyz: [0.70710678, 0, 0.70710678, 0]}
+      axes: {Z_M: +X_S (reach direction), Y_M: +Y_S, X_M: -Z_S}
+      status: nominal_frozen_v1
+      source: servicer_12U_v0.json features.mount_face_M (decision D-2)
+    note: arm mounting-face = new-arm URDF base; legacy 2DOF arm extends +X_M (deprecated)
+  F_L: {parent: S, origin_mm: [-56.75, +113.15, 0.0], axes: {Y_F: +Y_S (deploy), Z_F: +Z_S (panel normal)}}
+  F_R: {parent: S, origin_mm: [-56.75, -113.15, 0.0], axes: {Y_F: -Y_S (deploy), Z_F: +Z_S}}
+  E: {parent: arm_link7, note: tool centre point, Z_E: approach direction}
+  C_sat: {parent: T, origin_mm: [290, 0, 0], normal: +X_T, lever_to_com_m: 0.2517}
+  C_deb: {parent: D, origin_mm: [660, 0, 950], normal: ~+X_D, lateral_lever_m: 1.02}
+  B_int: {parent: S, note: berthing interface placeholder (P2), origin_mm: TBD}
+grasp_point_single_source: CAD JSON grasp_points_mm (decision D-6; sim_02 legacy value deprecated)

@@ -1,0 +1,119 @@
+schema_version: v2-master-skeleton-feature-tree-plan-v0.1
+plan_id: SV2_MASTER_SKELETON_FEATURE_TREE
+created_on: "2026-07-24"
+status: PLAN_ONLY_CAD_NOT_CREATED
+
+future_document:
+  file_name: Master_Skeleton_V2_0.SLDPRT
+  naming_exception_reason: inherited_B2_5_reserved_output_path
+  CAD_ID: SV2-REF-000
+  unit_system: MMGS
+  material: null
+  mass_authority: false
+  solid_body_required: false
+  active_external_references_allowed: false
+
+feature_order:
+  - order: 10
+    feature_id: PROP_IDENTITY
+    feature_type: custom_properties
+    publishes: [OBJECT_ID, SYSTEM_OWNER, EVIDENCE_STATE, SOURCE_REFERENCE, CLAIM_LIMIT]
+
+  - order: 20
+    feature_id: EQ_GLOBAL_PARAMETERS
+    feature_type: equations
+    source: 20_engineering/design_inputs/v2_system_mechanical/07_cad_preparation/V2_master_skeleton_parameter_contract.yaml
+
+  - order: 30
+    feature_id: CS_S
+    feature_type: coordinate_system
+    definition: document_origin
+
+  - order: 40
+    feature_id: SK_BODY_ENVELOPE
+    feature_type: reference_sketch
+    depends_on: [EQ_GLOBAL_PARAMETERS, CS_S]
+
+  - order: 50
+    feature_id: PLN_BODY_AND_BAY_STATIONS
+    feature_type: reference_plane_group
+    depends_on: [EQ_GLOBAL_PARAMETERS, CS_S]
+    members:
+      - PLN_REAR_BODY_FACE
+      - PLN_REAR_MID_FRAME
+      - PLN_MID_FRONT_FRAME
+      - PLN_FRONT_TASK_FACE
+
+  - order: 60
+    feature_id: CS_M_A0
+    feature_type: coordinate_system_group
+    depends_on: [CS_S, EQ_GLOBAL_PARAMETERS]
+    members: [CS_M, CS_A0]
+
+  - order: 70
+    feature_id: CS_DISABLED_FUTURE
+    feature_type: suppressed_coordinate_system_group
+    members: [CS_B, CS_SENSOR, CS_TCP_CONTACT]
+    zero_default_allowed: false
+
+  - order: 80
+    feature_id: SK_PRIMARY_FRAME_STATIONS
+    feature_type: reference_sketch
+    depends_on: [PLN_BODY_AND_BAY_STATIONS]
+
+  - order: 90
+    feature_id: SK_LONGERON_REFERENCE
+    feature_type: reference_sketch
+    depends_on: [SK_BODY_ENVELOPE, SK_PRIMARY_FRAME_STATIONS]
+
+  - order: 100
+    feature_id: DATUM_ROBOT_MOUNT
+    feature_type: interface_datum
+    depends_on: [CS_M_A0, PLN_FRONT_TASK_FACE]
+
+  - order: 110
+    feature_id: DATUM_SOLAR_ROOTS
+    feature_type: interface_datum_group
+    depends_on: [CS_S, PLN_REAR_MID_FRAME]
+    members: [DATUM_IF_SA_L, DATUM_IF_SA_R]
+
+  - order: 120
+    feature_id: SK_ROBOT_LOAD_PATH
+    feature_type: reference_sketch
+    depends_on: [DATUM_ROBOT_MOUNT, SK_LONGERON_REFERENCE]
+    load_values_allowed: false
+
+  - order: 130
+    feature_id: SK_BAY_OWNER_BOUNDARIES
+    feature_type: reference_sketch
+    depends_on: [PLN_BODY_AND_BAY_STATIONS, SK_BODY_ENVELOPE]
+
+  - order: 140
+    feature_id: SK_SERVICE_AND_HARNESS_OWNER
+    feature_type: reference_sketch
+    depends_on: [SK_BAY_OWNER_BOUNDARIES]
+    physical_harness_geometry_allowed: false
+
+  - order: 150
+    feature_id: DATUM_UNKNOWN_AND_EXCLUDED
+    feature_type: suppressed_interface_group
+    members: [DATUM_IF_PL_001, DATUM_IF_EE_001, DATUM_IF_TG_001]
+    active_geometry_allowed: false
+
+  - order: 160
+    feature_id: CONFIG_PUBLICATION
+    feature_type: display_state_and_configuration_group
+    members:
+      - STRUCTURAL_REVIEW
+      - SERVICE_ACCESS_REVIEW
+      - DEPLOYED_REFERENCE_Q0
+      - STOWED_PROPOSAL
+      - EVIDENCE_STATE_REVIEW
+
+dependency_rules:
+  child_to_parent_back_reference_allowed: false
+  circular_reference_allowed: false
+  V1_active_reference_allowed: false
+  OreSat_or_vendor_active_reference_allowed: false
+  unknown_parameter_zero_fill_allowed: false
+  root_assembly_drives_skeleton_allowed: false

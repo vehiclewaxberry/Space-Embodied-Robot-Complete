@@ -1,0 +1,67 @@
+{
+  "schema": "ROUTE_C_C9_FRAME_UNIT_AND_MOTION_LEDGER_V1",
+  "generated_utc": "DETERMINISTIC_CONTRACT_NO_WALLCLOCK",
+  "centerline_frame": "A0 = accepted B601 base_link at q=0",
+  "centerline_length_unit": "mm",
+  "urdf_length_unit": "m",
+  "urdf_angle_unit": "rad",
+  "runtime_output_frame": "spacecraft_bus_S",
+  "runtime_output_length_unit": "mm",
+  "mount_semantics": "p_S = R_S_A0 p_A0 + t_S_A0",
+  "mount_translation_conversion": "canonical 12dp metres multiplied by exactly 1000 once",
+  "ordinary_pose_rule": "p_S(q)=T_S_A0*T_A0_h(q)*inv(T_A0_h(0))*p_A0",
+  "urdf_rotation_rule": "R_origin=Rz(yaw)*Ry(pitch)*Rx(roll); joint motion is about axis expressed in joint frame",
+  "joint_order": ["joint1", "joint2", "joint3", "joint4", "joint5", "joint6"],
+  "q_payload_contract": "C9_Q_STATE_V1 canonical JSON payload plus SHA256; finite and accepted-URDF limits required",
+  "collision_query_radius_contract": {
+    "design_radius_mm": 5.0,
+    "design_radius_lineage": "10 mm design upper OD / 2; already includes the 0.5 mm nominal-to-design radial increment",
+    "required_per_representation_field": "effective_radius_mm",
+    "effective_radius_rule": "design_radius_mm + hausdorff_bound_mm exactly once",
+    "raw_design_radius_query_for_curved_chord": "FORBIDDEN_FAIL_CLOSED",
+    "second_hausdorff_debit": "FORBIDDEN_FAIL_CLOSED"
+  },
+  "j4_motion": {
+    "q4_limits_rad": [-1.87, 1.57],
+    "x_c_mm": "-205.0 - 27.5*(q4_rad + 0.15)",
+    "beta_rad": "radians(20.0) + (1.57 - q4_rad)",
+    "section_classes": {
+      "0": "RIGID_LINK3",
+      "1": "PLANE_A_LINEAR_EXCHANGE_LINK3",
+      "2": "TRANSLATING_U_LINK3",
+      "3": "PLANE_B_LINEAR_EXCHANGE_LINK3",
+      "4": "RIGID_LINK3",
+      "5": "VARIABLE_NEGATIVE_ANNULAR_ARC_LINK3",
+      "6": "RIGID_LINK4_FOLLOWER_DOWNSTREAM"
+    },
+    "sign_guard": "q4 increasing makes x_c more negative and beta smaller",
+    "section5_full_domain_topology": {
+      "capsule_count": 139,
+      "worst_q4_rad": -1.87,
+      "worst_beta_rad": 3.7890658503988663,
+      "worst_curve_arclength_step_mm": 1.4992706602297674,
+      "q0_uses_full_domain_topology": true
+    },
+    "full_hardware_annular_coverage": "DEFERRED_HOLD"
+  },
+  "j3_motion": {
+    "sections_with_dual_host": [0, 1, 2],
+    "primary_host": "link2",
+    "alternate_host": "link3",
+    "continuous_q3_carrier_law": "UNKNOWN",
+    "production_union_acceptance": "UNKNOWN",
+    "required_runtime_behavior": "OUTPUT_BOTH_CONSERVATIVE_REPRESENTATIONS__NO_INTERPOLATED_LAW"
+  },
+  "forbidden_unit_or_frame_operations": [
+    "MM_AS_M",
+    "M_AS_MM",
+    "MOUNT_APPLIED_ZERO_OR_TWICE",
+    "HISTORICAL_D6_MOUNT",
+    "FRESH_TRIGONOMETRIC_25_DEG_RECONSTRUCTION",
+    "RAW_5MM_QUERY_RADIUS_FOR_CURVED_CHORD",
+    "HAUSDORFF_IGNORED_OR_DEBITED_TWICE",
+    "J4_SECTION5_Q0_ONLY_SUBDIVISION",
+    "J4_SIGN_REVERSAL",
+    "J3_CONTINUOUS_LAW_INVENTION"
+  ]
+}

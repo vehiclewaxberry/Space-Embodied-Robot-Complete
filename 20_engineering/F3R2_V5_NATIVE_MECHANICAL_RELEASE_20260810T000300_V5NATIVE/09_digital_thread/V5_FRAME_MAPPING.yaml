@@ -1,0 +1,93 @@
+schema: F3R2_V5_FRAME_MAPPING_V1
+authority: "V5 frame mapping is an engineering mapping seed, not an optical calibration or flight authority"
+root_frame: spacecraft_assembly_frame
+units: "mm, radians"
+top_assembly: SEI_MECH_B601_V5_NATIVE_BASELINE.SLDASM
+levels:
+  L0: accepted_B601_URDF_IMMUTABLE_DYNAMICS_TRUTH
+  L1: native_SolidWorks_V5_components
+  L2: simulation_visual_collision_mesh_assets
+  L3: donor_or_reference_assets
+accepted_urdf_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+frames:
+  spacecraft_assembly_frame:
+    parent: null
+    definition: "top-level assembly origin of SEI_MECH_B601_V5_NATIVE_BASELINE.SLDASM"
+  arm_base_frame:
+    parent: spacecraft_assembly_frame
+    transform_mm_rows:
+      -
+        - 0.0
+        - 0.0
+        - 1.0
+        - 208.0
+      -
+        - 0.422618
+        - 0.906308
+        - 0.0
+        - 0.0
+      -
+        - -0.906308
+        - 0.422618
+        - 0.0
+        - 0.0
+      -
+        - 0.0
+        - 0.0
+        - 0.0
+        - 1.0
+    equals: "URDF base_link frame"
+    clock_deg: 25.0
+    source: "F3R1_TOP_INTEGRATION_REPORT.json arm_mount_transform_mm"
+  stage_a_mount_frame:
+    parent: spacecraft_assembly_frame
+    definition: "B601 4 x M4-class 64 x 64 mm square pattern origin; native face measurement pending"
+  stage_b_mount_frame:
+    parent: spacecraft_assembly_frame
+    definition: "Stage-B 4 x M6 140 x 140 mm load-bridge pattern origin; native counterpart measurement pending"
+  hinge_axis_left:
+    parent: spacecraft_assembly_frame
+    axis:
+      - 1.0
+      - 0.0
+      - 0.0
+    point_mm:
+      - -61.0
+      - 143.15
+      - 0.0
+    source: "B-rep probe of Hinge_Pin_Left; V5 native hinge assembly re-measurement pending"
+  hinge_axis_right:
+    parent: spacecraft_assembly_frame
+    axis:
+      - 1.0
+      - 0.0
+      - 0.0
+    point_mm:
+      - -61.0
+      - -143.15
+      - 0.0
+    source: "B-rep probe of Hinge_Pin_Right; V5 native hinge assembly re-measurement pending"
+  camera_optical_frame:
+    parent: link6
+    status: PROPOSED_NOT_CALIBRATED
+    source: "F3R2_CAMERA_HARNESS_GRIPPER.json; CAMERA_MODEL_SELECTION_HOLD"
+urdf_link_frames:
+  base_link: "URDF-defined, see accepted arm_b601_v1.urdf"
+  link1: "URDF-defined, see accepted arm_b601_v1.urdf"
+  link2: "URDF-defined, see accepted arm_b601_v1.urdf"
+  link3: "URDF-defined, see accepted arm_b601_v1.urdf"
+  link4: "URDF-defined, see accepted arm_b601_v1.urdf"
+  link5: "URDF-defined, see accepted arm_b601_v1.urdf"
+  link6: "URDF-defined, see accepted arm_b601_v1.urdf"
+  gripper_link: "URDF-defined, see accepted arm_b601_v1.urdf"
+  gripper_left: "URDF-defined prismatic finger frame; native V5 gripper assembly pending"
+  gripper_right: "URDF-defined prismatic finger frame; native V5 gripper assembly pending"
+native_component_frames:
+  B601_INTERFACE_STAGE_A_REV_B2: stage_a_mount_frame
+  B601_LOAD_ADAPTER_STAGE_B_REV_B2: stage_b_mount_frame
+  LEFT_WING_PANEL_PHYSICAL: hinge_axis_left
+  RIGHT_WING_PANEL_PHYSICAL: hinge_axis_right
+  SERVICE_CAMERA_ENVELOPE: camera_optical_frame
+  B601_OD9_STATIC_HARNESS_ENVELOPE: spacecraft_assembly_frame
+  ARM_HDRM_60MM_MOUNT_ENVELOPE: spacecraft_assembly_frame
+  ARM_HDRM_RELEASE_SWEEP_ENVELOPE: spacecraft_assembly_frame

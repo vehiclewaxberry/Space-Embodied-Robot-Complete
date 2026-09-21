@@ -1,0 +1,151 @@
+{
+  "schema": "R5E_NEXT_ELECTRICAL_WORK_V1",
+  "scope": "未采购的地面工程样机；本轮候选可评审，功能性ECAD/PCB尚待实现",
+  "completed": [
+    "45项历史问题逐项处置",
+    "249行候选BOM",
+    "46位号KiCad候选属性",
+    "受检249-ref原生导出与独立比较",
+    "R202电热输入修正"
+  ],
+  "tasks": [
+    {
+      "id": "E01",
+      "priority": 1,
+      "title": "有效电容与电路阈值校核",
+      "inputs": [
+        "C301/C302/C305工作点电容",
+        "C209/C210偏压与X7S温漂",
+        "R305+R306及参考源/偏置/迟滞/TCR"
+      ],
+      "acceptance": [
+        "C301有效容量>=1uF",
+        "C302有效容量>=10uF at12V",
+        "C305有效容量>=1uF at12V",
+        "THN含所有负载的电容/ESR和瞬态稳定性有证据",
+        "R305保证阈值范围绑定实际元件全角"
+      ],
+      "status": "OPEN",
+      "can_start_from_current_files": true
+    },
+    {
+      "id": "E02",
+      "priority": 1,
+      "title": "封装与空间复核",
+      "inputs": [
+        "C204原厂焊盘",
+        "C301薄膜电容及1210器件",
+        "U301 DE12带EP封装"
+      ],
+      "acceptance": [
+        "原厂焊盘/引脚/极性逐项对照",
+        "高度与维护间隙进入布局约束"
+      ],
+      "status": "OPEN",
+      "can_start_from_current_files": true
+    },
+    {
+      "id": "E03",
+      "priority": 2,
+      "title": "功能性原理图ECO与新PCB落板",
+      "depends_on": [
+        "E01",
+        "E02"
+      ],
+      "acceptance": [
+        "R305两串新增中间节点与两个封装",
+        "候选MPN/Value/Footprint升级为实现字段",
+        "39项未处于已审3PCB的旧缺口落实去向",
+        "ERC/DRC、焊盘网络和可装配性复验"
+      ],
+      "status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "E04",
+      "priority": 1,
+      "title": "主路20A与保护配合",
+      "inputs": [
+        "Q201颈部62.9086A/mm2既有筛查",
+        "MOSFET SOA",
+        "熔断器、电池源阻抗",
+        "制动再生能量"
+      ],
+      "acceptance": [
+        "颈部重新布局并与35A/mm2筛查比较",
+        "SOA与保护清除时间在负载范围内有证据",
+        "制动电阻能量/温度通过"
+      ],
+      "status": "OPEN",
+      "actual_load_current_A": null
+    },
+    {
+      "id": "E05",
+      "priority": 3,
+      "title": "AUX/STOP电源与停止链验证",
+      "depends_on": [
+        "E01",
+        "E03",
+        "E04"
+      ],
+      "acceptance": [
+        "TPS26600浪涌、限流、锁止、恢复",
+        "看门狗/NTC滤波/失联STOP",
+        "欠压、上电时序及禁止自动重启"
+      ],
+      "status": "NOT_VALIDATED"
+    },
+    {
+      "id": "E06",
+      "priority": 3,
+      "title": "V36紧凑载板与电热布局",
+      "depends_on": [
+        "E02",
+        "E03"
+      ],
+      "acceptance": [
+        "绑定新PCBA真实外形与热点",
+        "R202 0.5mOhm与2.95+/-0.2mm外形",
+        "解决4.5mm热接触间隙及CF1干涉",
+        "使用实测电流和安装热阻复算"
+      ],
+      "status": "LAYOUT_PENDING",
+      "whole_board_power_W": null,
+      "host_thermal_contact_K_W": null
+    },
+    {
+      "id": "E07",
+      "priority": 4,
+      "title": "线缆端接与整星装配更新",
+      "depends_on": [
+        "E03",
+        "E06"
+      ],
+      "acceptance": [
+        "J200/J203连接器、端子、线径、极性",
+        "J202复位接口；J201不默认短接",
+        "全动作线束包络与端接BOM",
+        "SolidWorks装配、材料和质量账更新"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "E08",
+      "priority": 5,
+      "title": "冻结采购与受控台架",
+      "depends_on": [
+        "E04",
+        "E05",
+        "E07"
+      ],
+      "acceptance": [
+        "精确订货码、供货与第二来源复核",
+        "R2上电输入合同所需实测输入完整",
+        "绝缘、连续性、短路、停止与再生试验"
+      ],
+      "status": "NOT_STARTED",
+      "procurement_release": false,
+      "ready_to_power": false
+    }
+  ],
+  "flight_qualification": "SEPARATE_OPEN_SCOPE"
+}

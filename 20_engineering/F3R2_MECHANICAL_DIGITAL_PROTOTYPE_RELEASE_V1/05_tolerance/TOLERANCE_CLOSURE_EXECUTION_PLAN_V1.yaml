@@ -1,0 +1,72 @@
+schema_version: TOLERANCE_CLOSURE_EXECUTION_PLAN_V1
+generated_local: '2026-08-21T14:56:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M4_SPACECRAFT_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE
+overall_status: EXECUTABLE_PLAN_INPUT_ACQUISITION_HOLD
+
+priority_order:
+  - INTERFACE_STACKUP_B601_M3R_V1
+  - GRIPPER_FUNCTIONAL_TOLERANCE_MAP_V1
+  - HINGE_DEPLOYMENT_TOLERANCE_CHAIN_V1
+
+common_measurement_contract:
+  coordinate_units: mm_and_rad
+  raw_data_retention_required: true
+  configuration_identification_required: true
+  instrument_calibration_and_validity_required: true
+  environmental_conditions_required: true
+  estimate_standard_uncertainty_distribution_degrees_of_freedom_required: true
+  shared_instrument_and_datum_correlations_reviewed: true
+  worst_case_limit_analysis_required: true
+  GUM_covariance_propagation_required: true
+  Monte_Carlo_required_for_nonlinear_datum_mobility_contact_and_thermal_models: true
+  expanded_uncertainty_requires_coverage_factor_and_probability: true
+  conformity_decision_rule_and_guard_band_required: true
+  zero_fill_forbidden: true
+
+work_packages:
+  - id: TOL-WP1
+    scope: B601_M3R_AND_SPACECRAFT_LOAD_BRIDGE
+    entry_evidence: [released datum scheme, controlled drawings, exact fastener and locator stack, live spacecraft mating geometry]
+    execution:
+      - inspect hole sizes axis positions face flatness parallelism spigot bore pocket and locator features
+      - calculate worst-case radial axial pattern and angular stacks
+      - propagate metrology and process uncertainty with correlations
+      - evaluate thermal extrema only after material and environmental approval
+      - perform controlled physical fitup and torque-access witness
+    exit: all six chains accepted under a documented decision rule
+    status: HOLD_ENTRY_EVIDENCE
+  - id: TOL-WP2
+    scope: GRIPPER_R1_RAIL_PALM
+    entry_evidence: [released slot and rail drawings, selected coating and guide pair, authorized load and temperature, inspection method]
+    execution:
+      - measure slot rail straightness parallelism coating and assembly datum shift
+      - characterize elastic deflection and wear contribution
+      - calculate guarded clearance at closed partial pregrasp open and limiting intermediate travel
+      - rerun full-stroke digital and physical sweep at tolerance and environmental extrema
+    exit: positive guarded minimum functional clearance demonstrated over approved states
+    status: HOLD_ENTRY_EVIDENCE
+  - id: TOL-WP3
+    scope: LEFT_AND_RIGHT_SOLAR_HINGES
+    entry_evidence: [released hinge hardware and stop drawings, selected tribology pair, authorized deployment angle torque environment and cycle life]
+    execution:
+      - measure radial and axial fits plus hinge-axis and stop datums
+      - calculate deployment angle and thermal wear stacks
+      - execute torque time angle repeatability and life tests
+      - verify left right nominal and failed-state sweep including harness
+    exit: deployment and failure-state tolerances accepted with uncertainty
+    status: HOLD_ENTRY_EVIDENCE
+
+current_metrics:
+  priority_work_packages: 3
+  work_packages_with_complete_entry_evidence: 0
+  accepted_functional_chains: 0
+  functional_chain_counting_basis:
+    B601_M3R_spacecraft_interface_chains: 6
+    gripper_guarded_clearance_models: 1
+    gripper_evaluation_states_not_separate_chains: 4
+    solar_hinge_tolerance_chains: 3
+    formula: 6 + 1 + 3
+  open_functional_chains: 10
+  formal_conformity_decision_rules: 0
+  overall_gate: HOLD

@@ -1,0 +1,88 @@
+{
+  "schema": "ROUTE_C_R121_FRAME_AND_UNIT_LEDGER_V1",
+  "generated_utc": "DETERMINISTIC_CONTRACT_NO_WALLCLOCK",
+  "source_storage": {
+    "frame": "A0_Q0_REFERENCE",
+    "definition": "A0 = B601 base_link frame at q=0",
+    "length_unit": "mm",
+    "evidence": "rc_parts_mass_geometry.json frame field and V9F mesh-preparer assembly coordinates",
+    "is_S": false,
+    "is_host_local": false,
+    "is_segment_local": false
+  },
+  "phase_A_root_static_R20": {
+    "selection_rule": "category=R AND parent_frame IN {bus,base_link} AND motion_class=HOST_FIXED_UNLESS_REGISTERED_OTHERWISE",
+    "required_count": 20,
+    "target_frame": "spacecraft_bus_S",
+    "target_step_length_unit": "mm",
+    "runtime_sidecar_length_unit": "m",
+    "source_to_target_transform_name": "T_S_A0",
+    "source_to_target_transform_semantics": "p_S=R_S_A0*p_A0+t_S_A0",
+    "canonical_matrix_decimal_strings_mm": [
+      [
+        "0.000000000000",
+        "0.000000000000",
+        "1.000000000000",
+        "208.000000000000"
+      ],
+      [
+        "0.422618483193",
+        "0.906307683772",
+        "0.000000000000",
+        "0.000000000000"
+      ],
+      [
+        "-0.906307683772",
+        "0.422618483193",
+        "0.000000000000",
+        "0.000000000000"
+      ],
+      [
+        "0.000000000000",
+        "0.000000000000",
+        "0.000000000000",
+        "1.000000000000"
+      ]
+    ],
+    "transform_application_count_per_object": 1,
+    "step_to_runtime_scale": 0.001,
+    "step_to_runtime_scale_application_count": 1,
+    "joint_state_required": false,
+    "host_motion_adapter_required": false
+  },
+  "remaining_R101": {
+    "status": "HOLD_FOR_HOST_MOTION_ADAPTER",
+    "required_count": 101,
+    "source_frame": "A0_Q0_REFERENCE",
+    "generic_host_motion_rule_candidate": "P_A0(q)=T_A0_host(q)*inverse(T_A0_host(0))*P_A0(q0)",
+    "generic_rule_is_current_operational_authority": false,
+    "special_motion_classes_present": [
+      "J3_CARRIAGE_ADDITIONAL_TRANSLATION",
+      "ONE_THIRD_TRAVEL",
+      "TWO_THIRDS_TRAVEL",
+      "FULL_TRAVEL",
+      "FOLLOWER_LINK4"
+    ],
+    "reason": "Parent-frame labels alone do not define the required q-dependent adapter; current registry explicitly requires an independent adapter."
+  },
+  "forbidden_transform_mutations": [
+    "IDENTITY_A0_AS_S",
+    "T_S_A0_APPLIED_TWICE",
+    "INVERSE_T_A0_S_SUBSTITUTION",
+    "ROUNDED_25_DEG_RECONSTRUCTION",
+    "HISTORICAL_D6_6DP_MATRIX",
+    "TRANSLATION_0P208_INTERPRETED_AS_MM",
+    "TRANSLATION_208_INTERPRETED_AS_M",
+    "SOURCE_FCSTD_INTERPRETED_AS_HOST_LOCAL",
+    "R101_HOST_FIXED_INFERENCE_WITHOUT_ADAPTER"
+  ],
+  "uncertainty_and_derating": {
+    "primary_numeric_derate_mm_per_object": 1e-06,
+    "runtime_mesh_chordal_derate_mm_per_object": 0.05,
+    "manufacturing_as_built_derate_mm": null,
+    "manufacturing_as_built_status": "MEASUREMENT_PENDING_SYSTEM_BIND_HOLD",
+    "zero_fill_for_missing_as_built_forbidden": true
+  },
+  "maximum_legal_claim": "R20_CAN_BE_MAPPED_FROM_FROZEN_A0_Q0_TO_S_WITH_ONE_EXACT_STATIC_TRANSFORM__R101_REMAINS_ADAPTER_HOLD",
+  "verdict": "ROOT_STATIC_R20_FRAME_UNIT_CONTRACT_FROZEN__DYNAMIC_R101_FAIL_CLOSED"
+}

@@ -1,0 +1,124 @@
+schema: M4_DIGITAL_PROTOTYPE_ASSEMBLY_ARCHITECTURE_V1
+status: PASS_DEFAULT_CONFIGURATION_GEOMETRY_WITH_RELEASE_HOLDS
+lifecycle: competition_digital_prototype_not_manufacturing_not_flight
+length_unit: mm
+
+master_artifacts:
+  native:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/02_parameterized_cad/SEI_DIGITAL_PROTOTYPE_V1.FCStd
+    architecture: embedded_Part_Feature_sources_plus_internal_App_Link_instances
+    external_file_links: false
+  neutral:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/02_parameterized_cad/SEI_DIGITAL_PROTOTYPE_V1.step
+    composition: default_configuration_installed_geometry_only
+    scenario_assets_included: false
+    unresolved_slots_included: false
+
+default_configuration:
+  id: DEPLOYED_NOMINAL__ARM_TASK_READY
+  installed_component_count: 6
+  installed:
+    - INST_BUS_12U_CORE
+    - INST_SOLAR_ARRAY_LEFT_DEPLOYED
+    - INST_SOLAR_ARRAY_RIGHT_DEPLOYED
+    - INST_B601_ARM_CORE_Q0
+    - INST_M3R_INTERFACE_ASSEMBLY
+    - INST_GRIPPER_R1_PALM
+  geometry_audit:
+    pair_count: 15
+    unclassified_positive_overlap_count: 0
+    bus_to_M3R_common_volume_mm3: 0.0
+    bus_to_M3R_minimum_distance_mm: 10.75
+    continuous_motion_sweep_evaluated: false
+
+component_classes:
+  INST_BUS_12U_CORE:
+    source_class: source_bound_analytic_primitives
+    geometry_fidelity: block_proxy_with_legacy_flange_no_internal_structure
+    installed: true
+    material: null
+    tolerance: null
+    mass_from_volume_permitted: false
+  INST_SOLAR_ARRAY_LEFT_DEPLOYED:
+    source_class: source_bound_box_proxy
+    installed: true
+    state: deployed_only
+    stowed_geometry: null
+  INST_SOLAR_ARRAY_RIGHT_DEPLOYED:
+    source_class: source_bound_box_proxy
+    installed: true
+    state: deployed_only
+    stowed_geometry: null
+  INST_B601_ARM_CORE_Q0:
+    source_class: frame_axis_witness
+    installed: true
+    physical_arm_BRep: false
+    collision_or_mass_use: prohibited
+  INST_M3R_INTERFACE_ASSEMBLY:
+    source_class: M3_parameterized_working_BRep
+    installed: true
+    physical_connection_to_bus: false
+    reason: spacecraft_load_bridge_geometry_absent
+  INST_GRIPPER_R1_PALM:
+    source_class: corrected_neutral_derivative_BRep
+    installed: true
+    scope: palm_only
+    fingers_present: false
+
+unresolved_slots:
+  SLOT_SPACECRAFT_LOAD_BRIDGE__UNRESOLVED:
+    geometry: null
+    impact: structural_load_path_from_bus_to_M3R_not_closed
+    status: HARD_HOLD
+  SLOT_SENSOR_PACKAGE__UNRESOLVED:
+    geometry_source_available: true
+    rejected_candidate_pose: [190.25, 0.0, 80.0]
+    impact: candidate_geometry_penetrates_M3R
+    status: HARD_HOLD
+  SLOT_ARM_HDRM__UNRESOLVED:
+    hidden_skeleton_available: true
+    skeleton_physical_fidelity: false
+    transform: null
+    status: HARD_HOLD
+  SLOT_TARGET_INTERFACE__UNRESOLVED:
+    target_proxy_sources_available: true
+    relative_pose: null
+    status: HARD_HOLD
+  SLOT_GRIPPER_R1_FINGERS__UNRESOLVED:
+    palm_available: true
+    separated_valid_finger_BReps: false
+    status: HARD_HOLD
+
+scenario_assets:
+  TARGET_SATELLITE_22KG:
+    installed: false
+    source: model_specs_v0.json_millimetre_primitives
+    geometry: fused_analytic_proxy
+    relative_pose: null
+  TARGET_DEBRIS_150KG:
+    installed: false
+    source: model_specs_v0.json_millimetre_primitives
+    geometry: exact_six_primitive_compound
+    boolean_union: HOLD_tangent_marker_bracket_non_manifold
+    relative_pose: null
+
+required_configuration_registry:
+  DEPLOYED_NOMINAL: ACTIVE_GEOMETRY
+  LEFT_PANEL_FAIL: HOLD_STOWED_PANEL_GEOMETRY_UNKNOWN
+  RIGHT_PANEL_FAIL: HOLD_STOWED_PANEL_GEOMETRY_UNKNOWN
+  BOTH_PANEL_FAIL: HOLD_STOWED_PANEL_GEOMETRY_UNKNOWN
+  ARM_STOWED_ONORBIT: WITNESS_SOURCE_EXISTS_ACTIVE_CONFIGURATION_NOT_BUILT
+  ARM_TASK_READY: ACTIVE_Q0_GEOMETRY
+  PREGRASP: HOLD_PALM_ONLY_FINGER_BREP_UNKNOWN
+  TARGET_CAPTURE_22KG: HOLD_RELATIVE_POSE_AND_CONTACT_GEOMETRY_UNKNOWN
+  TARGET_CAPTURE_150KG: HOLD_RELATIVE_POSE_AND_CONTACT_GEOMETRY_UNKNOWN
+
+release_nonclaims:
+  - no_complete_physical_B601_geometry
+  - no_spacecraft_to_M3R_load_bridge
+  - no_system_mass_or_inertia_authority
+  - no_material_fastener_finish_or_tolerance_release
+  - no_formal_FEA
+  - no_continuous_collision_or_interference_release
+  - no_manufacturing_flight_or_launch_qualification
+

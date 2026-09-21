@@ -1,0 +1,54 @@
+{
+  "schema": "F3_P5E_CONTROL_HANDOFF_SCHEMA_V1",
+  "handoff_id": "F3_P5E_CONTROL_HANDOFF_20260805",
+  "truth_hierarchy": {
+    "mass_inertia_authority": "accepted B601 URDF sha256=408147DDC9CC0BBA0FACBF864C559A54D1712262703BA41251514A4303B5A3A4",
+    "mass_kg": 4.695556,
+    "com_m": [-1.708877, 0.255519, 0.246888]
+  },
+  "stiffness_6x6": {
+    "source": "04_fea/08_matrices/F3_P5A_STIFFNESS_6X6_SI.csv",
+    "diag_translational_N_per_mm": [1.497, 1.497, 3.333],
+    "diag_rotational_Nmm_per_rad": [375216, 375216, 375216],
+    "condition_number": 2.506e+05,
+    "model_grade": "ENGINEERING_SIMPLIFIED_DIAGONAL_DOMINANT",
+    "coupling_terms": "NOT_EXTRACTED_ABSENT",
+    "usage_restriction": "do not use for cross-coupling dependent control law verification"
+  },
+  "compliance_6x6": {
+    "source": "04_fea/08_matrices/F3_P5A_COMPLIANCE_6X6_SI.csv",
+    "diag_translational_mm_per_N": [0.668, 0.668, 0.300],
+    "diag_rotational_rad_per_Nmm": [2.67e-6, 2.67e-6, 2.67e-6],
+    "model_grade": "ENGINEERING_SIMPLIFIED_DIAGONAL_DOMINANT"
+  },
+  "rom_modal": {
+    "source": "04_fea/09_modal/F3_P5A_MODAL_REPORT.md",
+    "modes_hz": [61.13, 200.90, 429.00],
+    "model_grade": "BARE_STRUCTURE_MODES",
+    "b601_inertia_coupling": "PENDING_CONNECTION",
+    "usage": "control bandwidth reference only"
+  },
+  "contact_model": {
+    "g07": {"normal_stiffness_N_per_mm": 10, "tangential_stiffness_N_per_mm": 5, "status": "COMPETITION_GRADE_PENDING_CALIBRATION"},
+    "g08": {"normal_stiffness_N_per_mm": 5, "tangential_stiffness_N_per_mm": 2, "status": "COMPETITION_GRADE_PENDING_CALIBRATION"},
+    "loss_criterion": "reaction force sign change = contact loss -> SAFE_STOP"
+  },
+  "release_state_machine": {
+    "source": "07_configuration/F3_P5C_STATE_MACHINE_FROZEN.yaml",
+    "id": "F3_P5C_SM_FROZEN_V1",
+    "interlocks": ["ARM_MOTION_ENABLE", "HDRM_RELEASE", "GRIPPER_CLOSE"]
+  },
+  "hdrm_demonstrator": {
+    "type": "electromagnet_hold_plus_spring",
+    "stroke_mm": 6,
+    "release_time_s": 0.5,
+    "fail_safe": "spring_hold_plus_mechanical_stop",
+    "status": "COMPETITION_DEMONSTRATOR"
+  },
+  "named_limits": [
+    "6x6 matrix is analytical approximation, no coupling terms",
+    "modal is bare structure only, B601 inertia not coupled",
+    "contact stiffness nominal until bench calibration",
+    "this package does not replace sim_05/sim_12 dynamics truth"
+  ]
+}

@@ -1,0 +1,473 @@
+schema_version: SYSTEM_MASS_PROPERTIES_V3
+generated_local: '2026-08-21T14:56:48+08:00'
+phase: M4_SPACECRAFT_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE
+scope: WORKING_DIGITAL_MASS_PROPERTY_LEDGER
+release_status: HOLD_NOT_RELEASED_TO_SIM13_PRODUCTION_FLIGHT_OR_QUALIFICATION
+overall_status: PARTIAL_COMPONENT_AUTHORITY_NINE_CONFIGURATION_RELEASE_PROPERTIES_HOLD
+
+units:
+  mass: kg
+  center_of_mass: m
+  inertia: kg*m^2
+  linear_dimension: m
+  angle: rad
+
+source_precedence_high_to_low:
+  - MEASURED
+  - CAD_DERIVED
+  - DIGITAL_MODEL_DERIVED
+  - MATERIAL_DERIVED
+  - BUDGETED
+  - PROVISIONAL
+  - UNKNOWN
+
+classification_vocabulary:
+  MEASURED: controlled physical measurement with traceable uncertainty
+  CAD_DERIVED: controlled released CAD geometry with controlled material assignment
+  DIGITAL_MODEL_DERIVED: computed from a hash-bound digital model in a declared configuration
+  MATERIAL_DERIVED: controlled volume multiplied by a candidate density; not a weighing result
+  BUDGETED: owner-selected or source-bound design allocation; not measured truth
+  PROVISIONAL: scenario or comparison value inactive for release aggregation
+  UNKNOWN: no acceptable numerical source exists
+
+aggregation_contract:
+  target_frame: spacecraft_assembly_frame
+  mass_model: m_system = sum(m_i) over one complete non-overlapping component set
+  center_of_mass_model: r_system = sum(m_i*r_i)/sum(m_i) after authoritative transforms
+  inertia_model: rotate each tensor into target frame and apply the parallel-axis theorem
+  tensor_matrix_order:
+    - [Ixx, Ixy, Ixz]
+    - [Ixy, Iyy, Iyz]
+    - [Ixz, Iyz, Izz]
+  required_uncertainty_inputs_per_quantity:
+    - estimate
+    - standard_uncertainty
+    - distribution
+    - degrees_of_freedom
+    - source
+  component_quantity_source_resolution:
+    source_token: component_source_ref
+    resolves_to: component_records.<component_id>.source_ref
+    applies_to: [center_of_mass, inertia_about_own_com, zero_joint_diagnostic_properties, named_pose_digital_properties]
+    rule: each listed CG or inertia uncertainty record carries source=component_source_ref and the enclosing component source_ref resolves through source_register
+  correlation_review_required: true
+  zero_fill_forbidden: true
+  partial_component_release_aggregation_forbidden: true
+  candidate_density_as_measurement_forbidden: true
+  diagnostic_values_authoritative_for_simulation: false
+
+source_register:
+  M4_composition_and_mass_boundary_decision:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/00_authority/M4_COMPOSITION_AND_MASS_BOUNDARY_DECISION.yaml
+    sha256: 61363950041E1352F3D9A65E081D84F1C50ACD1D70B7CB8ACBAA355D945BCFF7
+    authority: ACTIVE_FAIL_CLOSED_COMPOSITION_RULE_REVISION_2
+  bus_and_panel_split:
+    path: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+    sha256: 8DD8F22FF1F893273DE2215EA12819E4D41CC0E20B853ADC0774052237881432
+    authority: LOW_CONFIDENCE_DIGITAL_BUDGET_RECOMPOSITION
+  stage1_mass_budget:
+    path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+    sha256: 073C802527E35C9495188EEFD5D8BA51F524D326142CF2AB31E436BAD0899392
+    authority: LOW_CONFIDENCE_BUILD123D_BLOCK_MODEL
+  mass_ownership:
+    path: 20_engineering/design_inputs/v2_system_mechanical/05_mass_budget/V2_mass_ownership_table.csv
+    sha256: 096144350B1585A96B6981B14C7B94F0D1D483B98F09CF3B5596A26E8CF96880
+    authority: PROVISIONAL_SOURCE_BOUND_OWNERSHIP_LEDGER
+  accepted_b601_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    authority: ACCEPTED_DIGITAL_MODEL
+  b601_zero_joint_recomputation:
+    path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/B601_EQUIVALENT_INERTIA_RECOMPUTED.yaml
+    sha256: 3F24B27A1C7E758F2FEAB18C415FEAC2866FD4F1010375E39173487A591505CF
+    authority: STANDALONE_DIGITAL_RECOMPUTATION
+  b601_named_pose_revalidation:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/11_validation/B601_NAMED_POSE_REVALIDATION_V1.json
+    sha256: 68D0356F889E5888399631E6C735D404140AC5933B7FA172AB1F9E26BA26B844
+    authority: M4_DIGITAL_MODEL_DERIVED_NAMED_POSE_RECOMPUTATION
+    receipt_status: PASS_RUNTIME_DIGITAL_KINEMATICS_WITH_HELD_CANDIDATE_FAILURES
+  m3r_mass_ruling:
+    path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/M3R_MASS_RULING.json
+    sha256: 4DDFD3F160E448FEF614A27C9A96957118C2A785533D811EAD503CEA340B4FCB
+    authority: OWNER_FROZEN_DIGITAL_BUDGET
+  frame_tree:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+    sha256: 67293323A45237FB9B415871A4160732EFB156DE74776C9E11ABA9C4202134CA
+    authority: M4_WORKING_FRAME_AUTHORITY_WITH_SPACECRAFT_ASSEMBLY_FRAME_IDENTITY_ALIAS_TO_S_AND_OPEN_TRANSFORMS
+
+component_records:
+  spacecraft_bus_no_panels:
+    quantity: 1
+    release_aggregation_active: false
+    diagnostic_aggregation_active: true
+    mass:
+      estimate_kg: 23.3032134
+      classification: BUDGETED
+      derivation_kind: DIGITAL_MODEL_RECOMPOSITION
+      standard_uncertainty_kg: null
+      distribution: null
+      degrees_of_freedom: null
+      uncertainty_status: HOLD_NO_TRACEABLE_PHYSICAL_OR_DIGITAL_INPUT_UNCERTAINTY
+    center_of_mass:
+      estimate_xyz_m: [-0.0007955, 0.0, 0.0005870]
+      reference_frame: S
+      classification: DIGITAL_MODEL_DERIVED
+      standard_uncertainty_xyz_m: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    inertia_about_own_com:
+      matrix_kg_m2:
+        - [0.1935850, 0.0, -0.0007228]
+        - [0.0, 0.3485384, 0.0]
+        - [-0.0007228, 0.0, 0.3470720]
+      reference_frame: S
+      classification: DIGITAL_MODEL_DERIVED
+      standard_uncertainty_matrix_kg_m2: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    coverage:
+      includes: [SERVICER_12U_BLOCK_MODEL_REMAINDER_AFTER_TWO_PANEL_SPLIT, LEGACY_140_X_140_X_15_MM_FLANGE]
+      excludes: [LEFT_SOLAR_PANEL, RIGHT_SOLAR_PANEL, B601_ARM, M3R]
+      ambiguous: [CAMERA, HDRM, SENSOR_PACKAGE, INTERNAL_SUBSYSTEM_PLACEHOLDERS, HARNESS]
+    confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+    source_ref: bus_and_panel_split
+    status: HOLD_COVERAGE_AND_PHYSICAL_VALIDATION
+
+  solar_array_left:
+    quantity: 1
+    release_aggregation_active: false
+    diagnostic_aggregation_active: true
+    mass:
+      estimate_kg: 0.3483933
+      classification: BUDGETED
+      standard_uncertainty_kg: null
+      distribution: null
+      degrees_of_freedom: null
+      uncertainty_status: HOLD
+    center_of_mass:
+      estimate_xyz_m: [0.0, 0.0, 0.0]
+      reference_frame: F_LEFT_LOCAL_COM
+      classification: DIGITAL_MODEL_DERIVED
+      transform_to_spacecraft_assembly_frame: null
+      standard_uncertainty_xyz_m: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    inertia_about_own_com:
+      matrix_kg_m2:
+        - [0.0011623561, 0.0, 0.0]
+        - [0.0, 0.0014970750, 0.0]
+        - [0.0, 0.0, 0.0026573408]
+      reference_frame: F_LEFT_LOCAL_COM
+      classification: DIGITAL_MODEL_DERIVED
+      standard_uncertainty_matrix_kg_m2: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+    source_ref: stage1_mass_budget
+    status: HOLD_DEPLOYED_FAILED_AND_STOWED_TRANSFORMS_AND_UNCERTAINTY
+
+  solar_array_right:
+    quantity: 1
+    release_aggregation_active: false
+    diagnostic_aggregation_active: true
+    same_numeric_source_as: solar_array_left
+    mass:
+      estimate_kg: 0.3483933
+      classification: BUDGETED
+      standard_uncertainty_kg: null
+      distribution: null
+      degrees_of_freedom: null
+      uncertainty_status: HOLD
+    center_of_mass:
+      estimate_xyz_m: [0.0, 0.0, 0.0]
+      reference_frame: F_RIGHT_LOCAL_COM
+      classification: DIGITAL_MODEL_DERIVED
+      transform_to_spacecraft_assembly_frame: null
+      standard_uncertainty_xyz_m: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    inertia_about_own_com:
+      matrix_kg_m2:
+        - [0.0011623561, 0.0, 0.0]
+        - [0.0, 0.0014970750, 0.0]
+        - [0.0, 0.0, 0.0026573408]
+      reference_frame: F_RIGHT_LOCAL_COM
+      classification: DIGITAL_MODEL_DERIVED
+      standard_uncertainty_matrix_kg_m2: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+    source_ref: stage1_mass_budget
+    status: HOLD_DEPLOYED_FAILED_AND_STOWED_TRANSFORMS_AND_UNCERTAINTY
+
+  b601_complete_arm_including_gripper_urdf_links:
+    quantity: 1
+    release_aggregation_active: false
+    diagnostic_aggregation_active: true
+    mass:
+      estimate_kg: 4.695555949342986
+      classification: BUDGETED
+      standard_uncertainty_kg: null
+      distribution: null
+      degrees_of_freedom: null
+      uncertainty_status: HOLD_NOT_A_TRACEABLE_PHYSICAL_MEASUREMENT
+    zero_joint_diagnostic_properties:
+      configuration: URDF_ZERO_JOINT_CONFIGURATION
+      named_M4_configuration_mapping: null
+      center_of_mass_xyz_m: [-0.022053771798613855, 0.0002835900065300791, 0.15274567150787113]
+      inertia_about_system_com_kg_m2:
+        - [0.02437125609329333, 0.00011839137893314333, -0.004870009662921864]
+        - [0.00011839137893314333, 0.08718922274045429, 0.00000027196011839104257]
+        - [-0.004870009662921864, 0.00000027196011839104257, 0.06715545859441158]
+      reference_frame: base_link
+      classification: DIGITAL_MODEL_DERIVED
+      standard_uncertainty: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      status: STANDALONE_DIAGNOSTIC_ONLY
+    named_pose_digital_properties:
+      source_ref: b601_named_pose_revalidation
+      receipt_status: PASS_RUNTIME_DIGITAL_KINEMATICS_WITH_HELD_CANDIDATE_FAILURES
+      mapped_pose_status:
+        Q_DEPLOYED_HOME: PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD
+        Q_RELEASE_CLEAR: PASS_RUNTIME_FK_AND_INERTIA_WITH_SOURCE_RELEASE_SEQUENCE_HOLD
+        Q_SERVICE_READY: PASS_RUNTIME_FK_AND_INERTIA_WITH_SOURCE_CONFIGURATION_RATIFICATION_HOLD
+        Q_STOW_ENGINEERING_CANDIDATE: HELD_CANDIDATE_FK_REGRESSION_FAIL_MAX_RESIDUAL_567P734_MM
+        PREGRASP_SCENE_CANDIDATE: DIAGNOSTIC_CANDIDATE_HOLD_FOR_CAPTURE_DYNAMICS
+      status_mapping_basis: direct mapping of receipt source_runtime source_hold fk_regression_pass gate_role and status fields
+      classification: DIGITAL_MODEL_DERIVED
+      standard_uncertainty: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      physical_measurement_claimed: false
+    coverage:
+      includes: [TEN_ACCEPTED_URDF_LINK_MASSES, URDF_GRIPPER_LINKS]
+      excludes: [M3R, SPACECRAFT_BUS, SOLAR_ARRAYS, EXTERNAL_TARGET]
+    confidence: HIGH_DIGITAL_SCOPE_ONLY
+    source_ref: accepted_b601_urdf
+    status: HOLD_NAMED_JOINT_VECTORS_AND_PHYSICAL_RECONCILIATION
+
+  m3r_stage_a_plus_stage_b_budget_envelope:
+    quantity: 1
+    release_aggregation_active: false
+    diagnostic_aggregation_active: CONDITIONAL_ONLY_AFTER_LEGACY_FLANGE_SUBTRACTION_CLOSES
+    mass:
+      estimate_kg: 0.7619
+      classification: BUDGETED
+      standard_uncertainty_kg: null
+      distribution: null
+      degrees_of_freedom: null
+      uncertainty_status: HOLD_NO_CONTROLLED_MEASUREMENT_OR_UNCERTAINTY_BUDGET
+    center_of_mass:
+      estimate_xyz_m: null
+      reference_frame: M3R_ASSEMBLY_FRAME
+      classification: UNKNOWN
+      standard_uncertainty_xyz_m: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    inertia_about_own_com:
+      matrix_kg_m2: null
+      reference_frame: M3R_ASSEMBLY_FRAME
+      classification: UNKNOWN
+      standard_uncertainty_matrix_kg_m2: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    coverage:
+      includes: [STAGE_A_RING_BUDGET_ENVELOPE, STAGE_B_LOAD_DIFFUSION_PLATE_BUDGET_ENVELOPE]
+      excludes: [FASTENERS, LOCATOR_OR_DOWEL, CABLES_OR_HARNESS, MATING_SPACECRAFT_STRUCTURE]
+    confidence: HIGH_DIGITAL_SCOPE_ONLY
+    source_ref: m3r_mass_ruling
+    status: HOLD_COMPONENT_ALLOCATION_COM_INERTIA_AND_EXCLUDED_HARDWARE
+
+  target_22kg_scenario:
+    quantity: 1
+    release_aggregation_active: false
+    diagnostic_aggregation_active: only_in_TARGET_CAPTURE_22KG
+    mass:
+      estimate_kg: 22.0
+      classification: PROVISIONAL
+      standard_uncertainty_kg: null
+      distribution: null
+      degrees_of_freedom: null
+      uncertainty_status: HOLD
+    center_of_mass:
+      estimate_xyz_m: [0.03827, 0.0, 0.00021]
+      reference_frame: T
+      classification: DIGITAL_MODEL_DERIVED
+      transform_to_spacecraft_assembly_frame: null
+      standard_uncertainty_xyz_m: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    inertia_about_own_com:
+      matrix_kg_m2:
+        - [0.231629, 0.0, 0.000649]
+        - [0.0, 0.422149, 0.0]
+        - [0.000649, 0.0, 0.489336]
+      reference_frame: T
+      classification: DIGITAL_MODEL_DERIVED
+      standard_uncertainty_matrix_kg_m2: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    confidence: LOW_SCENARIO_SCOPE_ONLY
+    source_ref: stage1_mass_budget
+    status: HOLD_TARGET_IDENTITY_CAPTURE_TRANSFORM_AND_UNCERTAINTY
+
+  target_150kg_scenario:
+    quantity: 1
+    release_aggregation_active: false
+    diagnostic_aggregation_active: only_in_TARGET_CAPTURE_150KG
+    mass:
+      estimate_kg: 150.0
+      classification: PROVISIONAL
+      standard_uncertainty_kg: null
+      distribution: null
+      degrees_of_freedom: null
+      uncertainty_status: HOLD
+    center_of_mass:
+      estimate_xyz_m: [0.00027, 0.0, -0.07054]
+      reference_frame: D
+      classification: DIGITAL_MODEL_DERIVED
+      transform_to_spacecraft_assembly_frame: null
+      standard_uncertainty_xyz_m: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    inertia_about_own_com:
+      matrix_kg_m2:
+        - [74.805599, 0.0, -0.014769]
+        - [0.0, 74.829903, 0.0]
+        - [-0.014769, 0.0, 26.592617]
+      reference_frame: D
+      classification: DIGITAL_MODEL_DERIVED
+      standard_uncertainty_matrix_kg_m2: null
+      distribution: null
+      degrees_of_freedom: null
+      source: component_source_ref
+      uncertainty_status: HOLD
+    confidence: LOW_SCENARIO_SCOPE_ONLY
+    source_ref: stage1_mass_budget
+    status: HOLD_TARGET_IDENTITY_CAPTURE_TRANSFORM_AND_UNCERTAINTY
+
+diagnostic_derived_components:
+  spacecraft_bus_core_no_panels_no_legacy_flange:
+    derived_from_component: spacecraft_bus_no_panels
+    derivation_operation: SUBTRACT_NONAUTHORITATIVE_LEGACY_FLANGE_MATERIAL_MODEL
+    base_estimate_kg: 23.3032134
+    adjustment_kg: -0.376019184652
+    estimate_kg: 22.927194215348
+    measurement_model: m_bus_core_diag = 23.3032134 kg - 0.376019184652 kg
+    classification: MATERIAL_DERIVED_DIAGNOSTIC_ONLY
+    standard_uncertainty_kg: null
+    distribution: null
+    degrees_of_freedom: null
+    source_refs: [bus_and_panel_split, M4_composition_and_mass_boundary_decision]
+    release_aggregation_active: false
+    status: PROVISIONAL_LOW_CONFIDENCE_UNCERTAINTY_HOLD
+
+diagnostic_nonrelease_branches:
+  member_resolution_contract:
+    allowed_namespaces: [component_records, diagnostic_derived_components]
+    unresolved_member_count: 0
+    release_authority_created: false
+  legacy_flange_boundary_ruling:
+    finding: BUS_NO_PANELS_CONTAINS_LEGACY_140_X_140_X_15_MM_FLANGE_WITH_AMBIGUOUS_OWNERSHIP_AND_MASS_ALLOCATION
+    corrected_frame_semantics: M_FRAME_AT_X_185P25_MM_IS_NONPHYSICAL_WHILE_M3R_OCCUPIES_X_APPROX_196_TO_210P405_MM_AND_LEGACY_FLANGE_OCCUPIES_X_170P25_TO_185P25_MM
+    consequence: DIRECT_BUS_PLUS_M3R_SUM_IS_NOT_SELECTED_FOR_ACTIVE_DERIVED_COMPOSITION_UNTIL_LEGACY_FLANGE_OWNERSHIP_AND_LOAD_BRIDGE_GEOMETRY_CLOSE
+    bus_plus_panels_plus_b601_plus_m3r_unadjusted_sum_kg: 29.457455949342986
+    unadjusted_sum_status: NOT_SELECTED_AS_RELEASE_OR_PRIMARY_DIAGNOSTIC_LEGACY_FLANGE_OWNERSHIP_AMBIGUOUS
+    prior_frame_interpretation: REJECTED_BY_PHYSICAL_STACK_AUDIT
+    analytic_bus_proxy_geometry_disposition: RETAIN_SOURCE_BOUND_LEGACY_FLANGE_AS_VISIBLE_TAGGED_REFERENCE_ONLY
+    analytic_bus_proxy_prohibitions: [NO_STRUCTURAL_CONTINUITY, NO_LOAD_BRIDGE_CLAIM, NO_RELEASED_MASS_INFERENCE, NO_REPLACEMENT_SEMANTICS]
+  branch_A_legacy_bus_as_is_plus_b601:
+    branch_id: M4-DIAG-LEGACY-A
+    members:
+      - spacecraft_bus_no_panels
+      - solar_array_left
+      - solar_array_right
+      - b601_complete_arm_including_gripper_urdf_links
+    explicitly_excluded: [M3R_STAGE_A_PLUS_STAGE_B_BECAUSE_BRANCH_A_PRESERVES_THE_LEGACY_FLANGE_COMPOSITION]
+    nominal_mass_sum_kg: 28.695555949342986
+    measurement_model: m_diag_A = 23.3032134 kg + 2*(0.3483933 kg) + 4.695555949342986 kg
+    standard_uncertainty_kg: null
+    use_authorization: LEGACY_DIAGNOSTIC_WIRING_AND_RANGE_CHECK_ONLY
+    status: PROVISIONAL_LOW_CONFIDENCE_NOT_CURRENT_M3R_GEOMETRY
+  branch_B_bus_minus_legacy_flange_plus_m3r_plus_b601:
+    branch_id: M4-DIAG-M3R-B
+    members:
+      - spacecraft_bus_core_no_panels_no_legacy_flange
+      - solar_array_left
+      - solar_array_right
+      - b601_complete_arm_including_gripper_urdf_links
+      - m3r_stage_a_plus_stage_b_budget_envelope
+    nominal_mass_sum_kg: 29.081436764691
+    measurement_model: m_diag_B = 29.457455949342986 kg - 0.376019184652 kg
+    diagnostic_bus_core_no_panels_no_legacy_flange_kg: 22.927194215348
+    m_legacy_flange_kg: 0.376019184652
+    m_legacy_flange_model: m_flange = 24 kg * (0.015 m * 0.140 m * 0.140 m) / 0.018765 m^3
+    m_legacy_flange_classification: MATERIAL_DERIVED_FROM_LEGACY_UNIFORM_DENSITY_MODEL
+    m_legacy_flange_standard_uncertainty_kg: null
+    geometry_mass_separation_rule: TAGGED_LEGACY_FLANGE_MAY_REMAIN_IN_ANALYTIC_BUS_PROXY_BUT_IS_EXCLUDED_FROM_BRANCH_B_DIAGNOSTIC_MASS
+    closure_required: [CONTROLLED_LEGACY_FLANGE_OWNERSHIP_AND_MASS_ALLOCATION, CONTROLLED_SPACECRAFT_LOAD_BRIDGE_GEOMETRY, AS_BUILT_COMPONENT_MASS_PROPERTIES]
+    use_authorization: NONAUTHORITATIVE_DIAGNOSTIC_DYNAMICS_LAYER_ONLY
+    status: PROVISIONAL_LOW_CONFIDENCE_UNCERTAINTY_HOLD
+  common_coverage_limitations:
+    - bus budget internal subsystem coverage is not configuration controlled
+    - M3R fasteners locator and harness are excluded from Branch B
+    - spacecraft load bridge geometry and mass ownership are unresolved
+    - camera HDRM and sensor package ownership is unresolved
+    - panel failure states have no accepted retained-or-jettisoned semantics
+  release_status: HOLD_BOTH_BRANCHES_NONAUTHORITATIVE
+
+nine_configuration_delivery:
+  path: 03_mass_properties/CONFIGURATION_LIBRARY_V1.yaml
+  configuration_count: 9
+  released_mass_count: 0
+  released_center_of_mass_count: 0
+  released_inertia_count: 0
+  diagnostic_mass_count: 9
+  diagnostic_mass_scope: TWO_NONAUTHORITATIVE_BRANCHES_BRANCH_A_LEGACY_AND_BRANCH_B_ADR_REV2_BUS_CORE
+  numeric_mass_diagnostic_available_count: 9
+  full_mass_properties_loader_ready_count: 0
+  diagnostic_use_authorization: MASS_VALUE_WIRING_AND_RANGE_CHECK_ONLY_NOT_CG_INERTIA_BBOX_OR_COLLISION_LOADING
+  status: HOLD_RELEASE_FIELDS_NULL_NUMERIC_MASS_DIAGNOSTICS_ONLY
+
+missing_authorities:
+  - COMPLETE_COMPONENT_COVERAGE_AND_OWNERSHIP
+  - STOW_AND_CAPTURE_ARM_CONFIGURATION_RELEASE_PLUS_GRIPPER_JOINT_VECTORS
+  - PANEL_DEPLOYED_FAILED_AND_STOWED_TRANSFORMS
+  - M3R_COMPONENT_MASS_COM_INERTIA_AND_EXCLUDED_HARDWARE
+  - TARGET_CAPTURE_TRANSFORMS_AND_PHYSICAL_MASS_PROPERTIES
+  - ROOT_TO_M_FRAME
+  - TRACEABLE_STANDARD_UNCERTAINTIES_AND_CORRELATIONS
+  - WHOLE_ASSEMBLY_BBOX_AND_COLLISION_EVALUATION
+  - LEGACY_FLANGE_OWNERSHIP_ALLOCATION_AND_SPACECRAFT_LOAD_BRIDGE_GEOMETRY
+
+release_prohibitions:
+  - DO_NOT_LABEL_ANY_NUMERIC_VALUE_IN_THIS_FILE_AS_MEASURED_OR_AS_INSTALLED
+  - DO_NOT_PROMOTE_DIAGNOSTIC_MASS_SUMS_TO_RELEASED_SYSTEM_MASS
+  - DO_NOT_ZERO_FILL_UNKNOWN_COM_INERTIA_TRANSFORM_OR_UNCERTAINTY
+  - DO_NOT_USE_FOR_FORMAL_LOADS_FEA_MARGIN_OR_QUALIFICATION
+  - DO_NOT_BIND_TO_SIM13_PRODUCTION_UNTIL_THE_M4_GATE_EXPLICITLY_RELEASES_A_CONFIGURATION

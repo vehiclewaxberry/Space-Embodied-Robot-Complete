@@ -1,0 +1,142 @@
+{
+  "review": "R07_E3_INDEPENDENT_REVERIFY",
+  "review_run": "r07_e3_retention_joints_review_20260918",
+  "reviewed_run": "r07_e3_retention_joints_20260918",
+  "reviewed_commit": "f130d873",
+  "reviewer_role": "WP03 R07-E3 独立审阅者（只读；不改候选；不执行 git 提交）",
+  "scope": "仅 R07 父票 E3 两条边（保持横梁→上纵梁 4 组 8 栓位 16 件；足叉→屋顶耳座 2 组 4 栓位 8 件）数字几何候选的独立复验；E1/E2/E4 与 A/B 支承不在本次范围",
+  "basis_pins": {
+    "params_sha256": "0470d647d17b1779784123156963f5ce84aa1f259ba810f5b25454c54b2514c4",
+    "params_pin_ok": true,
+    "source_sha256": "4276a2da2c0a753f1b2734f140376b72b124f2cd25e0985b78dbb85107c70b3f",
+    "source_pin_ok": true,
+    "export_hash_pin": {
+      "parts": 32,
+      "all_sha256_ok": true,
+      "n_ok": 32
+    },
+    "snapshot_vs_git_old_state": {
+      "spacecraft_model.py": {
+        "rev": "f130d873^",
+        "lf_normalized_content_identical_to_snapshot": true
+      },
+      "root_structure.py": {
+        "rev": "f130d873^",
+        "lf_normalized_content_identical_to_snapshot": true
+      }
+    }
+  },
+  "sub_verdicts": {
+    "readback": "PASS",
+    "negative_controls": "PASS",
+    "preexisting_check": "PASS",
+    "new_interference_scan": "PASS",
+    "spotcheck": "PASS"
+  },
+  "key_results": {
+    "readback": {
+      "coaxial_max_axis_offset_mm": 0.0,
+      "stations_checked": 12,
+      "hole_census_ok": true,
+      "clearance_recompute_ok": {
+        "lug_edge_1.25": true,
+        "spare_edge_2.03": true,
+        "in_beam_hole_hole_1.25": true,
+        "shank_shank_3.5": true
+      },
+      "blind_depth_engagement": "边1 盲孔深 7/贯入 5、边2 啮合 5/尖距槽底 2 全站实测通过",
+      "pivot_vs_chain_interlock": true,
+      "geometric_truth_registration": {
+        "fit_band_5mm": true,
+        "no_anti_crush_sleeve": true,
+        "mast_hub_exclusion": true,
+        "pivot_vs_foot_chain": true,
+        "existing_spare_hole": true
+      }
+    },
+    "negative_controls": {
+      "NC_a_v1_replay_4pairs_mm3": {
+        "E3P-J02-0": 16.370042182855656,
+        "E3P-J02-1": 16.370132204695462,
+        "E3P-J04-0": 16.370042181704193,
+        "E3P-J04-1": 16.370132203247618
+      },
+      "NC_a_v2_real_controls_zero": true,
+      "NC_b1_missing_dual_hole_mm3": 150.79644737231004,
+      "NC_b2_axis_shift_mm3": 13.39317474853961,
+      "NC_c_e1_anchor_mm3": 194.97509406341666,
+      "NC_c_pillar_tierod_mm3": 339.29200658769736,
+      "NC_c_r01_shear_web_mm3": 101.14583339028317
+    },
+    "preexisting_interference": {
+      "conclusion": "PRE_EXISTING_CONFIRMED",
+      "A_attribution_all_closed": true,
+      "A_plus1_side_2p5e-16_drift_attributed": true,
+      "B_thread_convention_8pairs_not_introduced_by_e3": true,
+      "plug_rebuild_line_unchanged": true
+    },
+    "new_interference_scan": {
+      "pairs": {
+        "A_e3_vs_other": 64,
+        "B_e3_vs_e3": 12,
+        "C_affected_vs_other": 126
+      },
+      "new_positives": 0,
+      "named_clearance_checks": 80,
+      "named_clearance_fail": 0,
+      "e3_vs_e1_bbox_pairs": 0,
+      "e3_vs_e2_bbox_pairs": 0,
+      "e1_avoidance_analytic_pass": true,
+      "errors": 0
+    },
+    "spotcheck_pass_ratio": "11/11",
+    "removed_volume_recompute_mm3": 2827.194257
+  },
+  "observations": [
+    {
+      "id": "O1",
+      "topic": "贯入 5mm（边1）/啮合 5mm（边2）短啮合强度 NOT_RUN",
+      "detail": "边1 栓名义贯入横梁盲孔 5mm、边2 栓名义啮合足叉脚座 5mm，均 SHORT_ENGAGEMENT_REGISTERED；剪切/承压/拉伸/滑移/振动脱出全部 UNKNOWN/NOT_RUN，已如实登记于 e3_fastener_stacks_12.json、e3_mounting_surfaces.json 与 ACCEPTANCE_SUMMARY not_run。登记充分性确认；本复验仅覆盖数字几何候选，不构成保持有效性证明。"
+    },
+    {
+      "id": "O2",
+      "topic": "边1 无防压套（OMITTED_REGISTERED）管壁压溃风险登记",
+      "detail": "E1 式防压套(OD4)要求栓位 z≥105.15 与孔缘闭合要求 z≤104.45 不可兼得 → 边1 不带套，纵梁管壁压溃控制 NOT_RUN 登记（参数块 bolt_z_rationale + ACCEPTANCE truth registration no_anti_crush_sleeve + not_run 载荷项）。论证链独立复核成立（贴合带 z∈[101.15,106.15] 仅 5mm 已实测），压溃风险为已登记未评估项。"
+    },
+    {
+      "id": "O3",
+      "topic": "边2 栓链自下向上装入的舱内工具可达性",
+      "detail": "边2 头/垫圈置于横梁底面下（舱内侧），自下向上施装；e3_tool_paths.json 仅几何可达性登记（舱内件须在甲板/设备装入前施装），工具路径实物回放 NOT_RUN。登记充分性确认。"
+    },
+    {
+      "id": "O4",
+      "topic": "孔数登记计数口径（柱面 vs 轴位）",
+      "detail": "被审登记纵梁孔数 \"14/根 = E2 基线 10 + 4\" 为圆柱面计数口径（基线 5 轴位×双壁=10 柱面，E3 新增 4 轴位×单柱面=4 柱面）；本审阅独立轴位去重口径为 9 = 5 + 4。两口径各自自洽，差异为计数口径非几何缺陷；建议后续登记注明口径以免歧读。"
+    },
+    {
+      "id": "O5",
+      "topic": "备用孔缘登记 2.03 vs 独立复算 2.0192",
+      "detail": "备用中心孔实测位于 (站心, ±94.15)，新孔 (站心±5.5, -90.65)：中心距 6.5192，边缘净距 6.5192−4.5=2.0192 mm；被审登记 2.03 为圆整值（差 0.011）。净距量级与\"既有中心孔留备用 UNUSED_EXISTING_SPARE 不干涉\"结论一致，不构成阻断。"
+    },
+    {
+      "id": "O6",
+      "topic": "布尔工具链口径确认（E2 勘误 O2 已被被审采纳）",
+      "detail": "被审 acc_interference_boolean.json authoritative_method 已登记 OCP BRepAlgoAPI_Common 原生路径（E2 审阅勘误 O2）；本审阅同口径独立复算全部互锁（零/非零语义一致）。E1 结转 +1 侧 0.461 mm³ 对被审登记 bit_identical=false（差 2.5e-16）：本审阅三路径复算归因闭环——OCC 原生复算 == 被审 now 值，build123d 路径 == E1 登记值，差异为求积路径漂移非几何变化，被审\"如实登记不覆盖\"处置正确。"
+    }
+  ],
+  "limitations_carried_from_candidate": [
+    "载荷/强度校核 NOT_RUN（边1 栓剪切/承压（贯入 5mm SHORT_ENGAGEMENT_REGISTERED）、纵梁管壁压溃（无防压套 REGISTERED）；边2 栓拉伸/剪切、脚座盲孔啮合 5mm SHORT_ENGAGEMENT_REGISTERED、耳座孔缘 1.25 承压）",
+    "紧固件选型/配合等级/防松/材料全部 UNSELECTED/UNKNOWN 保留，零填充禁止",
+    "保持器接触刚度 NOT_RUN（捕获载荷路径，§4.2 不属本包）",
+    "制造性审查 NOT_RUN（0.2/0.25mm 每边配合隙、1.25mm 孔缘、2.03mm 备用孔距公差堆叠；端面盲孔攻丝工艺）",
+    "工具路径仅几何可达性登记，实物回放 NOT_RUN（边2 舱内件须在甲板/设备装入前施装）",
+    "释放互锁顺序实物验证 NOT_RUN（栓链未拆则机构不可折 INTERLOCK_REGISTERED）",
+    "实物试配/装配 NOT_RUN"
+  ],
+  "whole_design_complete": false,
+  "manufacturing_release": false,
+  "parent_ticket_r07_closure": "NOT_CLOSED（本复验不构成父票关闭依据）",
+  "verdict": "R07_E3_INDEPENDENT_REVERIFY_PASS_WITH_OBSERVATIONS",
+  "verdict_semantics": "PASS_WITH_OBSERVATIONS=全部独立机器核查通过（读回/三负控/既有核查/新增扫描/抽验 11 项）；观察项 O1-O6 为登记/口径/圆整类备注，不构成阻断；候选维持 DIGITAL_GEOMETRY_CANDIDATE 等级，不升级为制造放行或全设计完成",
+  "generated_at": "2026-09-18T23:58:02"
+}

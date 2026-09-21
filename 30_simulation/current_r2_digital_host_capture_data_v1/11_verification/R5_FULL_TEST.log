@@ -1,0 +1,322 @@
+.....E............................E...............                       [100%]
+=================================== ERRORS ====================================
+_________ ERROR at setup of test_episode_writer_roundtrip_and_guards __________
+
+path = '\\\\?\\F:\\China Graduate Future Flight Vehicle Innovation Competition\\30_simulation\\current_r2_digital_host_capture_data_v1\\.pytest-tmp'
+onexc = functools.partial(<function on_rm_rf_error at 0x00000189ABAB6AC0>, start_path=WindowsPath('//?/F:/China Graduate Future Flight Vehicle Innovation Competition/30_simulation/current_r2_digital_host_capture_data_v1/.pytest-tmp'))
+
+    def _rmtree_unsafe(path, onexc):
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+>           os.rmdir(path)
+E           PermissionError: [WinError 5] 拒绝访问。: '\\\\?\\F:\\China Graduate Future Flight Vehicle Innovation Competition\\30_simulation\\current_r2_digital_host_capture_data_v1\\.pytest-tmp'
+
+G:\Windows_program_file\Anaconda\Lib\shutil.py:631: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\F:\\China Graduate Future Flight Vehicle Innovation Competition\\30_simulation\\current_r2_digital_host_capture_data_v1\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+    
+        if _use_fd_functions:
+            # While the unsafe rmtree works fine on bytes, the fd based does not.
+            if isinstance(path, bytes):
+                path = os.fsdecode(path)
+            stack = [(os.lstat, dir_fd, path, None)]
+            try:
+                while stack:
+                    _rmtree_safe_fd(stack, onexc)
+            finally:
+                # Close any file descriptors still on the stack.
+                while stack:
+                    func, fd, path, entry = stack.pop()
+                    if func is not os.close:
+                        continue
+                    try:
+                        os.close(fd)
+                    except OSError as err:
+                        onexc(os.close, path, err)
+        else:
+            if dir_fd is not None:
+                raise NotImplementedError("dir_fd unavailable on this platform")
+            try:
+                st = os.lstat(path)
+            except OSError as err:
+                onexc(os.lstat, path, err)
+                return
+            try:
+                if _rmtree_islink(st):
+                    # symlinks to directories are forbidden, see bug #1669
+                    raise OSError("Cannot call rmtree on a symbolic link")
+            except OSError as err:
+                onexc(os.path.islink, path, err)
+                # can't continue even if onexc hook returns
+                return
+>           return _rmtree_unsafe(path, onexc)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+G:\Windows_program_file\Anaconda\Lib\shutil.py:790: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+path = '\\\\?\\F:\\China Graduate Future Flight Vehicle Innovation Competition\\30_simulation\\current_r2_digital_host_capture_data_v1\\.pytest-tmp'
+onexc = functools.partial(<function on_rm_rf_error at 0x00000189ABAB6AC0>, start_path=WindowsPath('//?/F:/China Graduate Future Flight Vehicle Innovation Competition/30_simulation/current_r2_digital_host_capture_data_v1/.pytest-tmp'))
+
+    def _rmtree_unsafe(path, onexc):
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+            os.rmdir(path)
+        except FileNotFoundError:
+            pass
+        except OSError as err:
+>           onexc(os.rmdir, path, err)
+E           PermissionError: [WinError 5] 拒绝访问。: '\\\\?\\F:\\China Graduate Future Flight Vehicle Innovation Competition\\30_simulation\\current_r2_digital_host_capture_data_v1\\.pytest-tmp'
+
+G:\Windows_program_file\Anaconda\Lib\shutil.py:635: PermissionError
+__________ ERROR at setup of test_runner_rejects_output_root_escape ___________
+
+path = '\\\\?\\F:\\China Graduate Future Flight Vehicle Innovation Competition\\30_simulation\\current_r2_digital_host_capture_data_v1\\.pytest-tmp'
+onexc = functools.partial(<function on_rm_rf_error at 0x00000189ABAB6AC0>, start_path=WindowsPath('//?/F:/China Graduate Future Flight Vehicle Innovation Competition/30_simulation/current_r2_digital_host_capture_data_v1/.pytest-tmp'))
+
+    def _rmtree_unsafe(path, onexc):
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+>           os.rmdir(path)
+E           PermissionError: [WinError 5] 拒绝访问。: '\\\\?\\F:\\China Graduate Future Flight Vehicle Innovation Competition\\30_simulation\\current_r2_digital_host_capture_data_v1\\.pytest-tmp'
+
+G:\Windows_program_file\Anaconda\Lib\shutil.py:631: PermissionError
+
+During handling of the above exception, another exception occurred:
+
+path = '\\\\?\\F:\\China Graduate Future Flight Vehicle Innovation Competition\\30_simulation\\current_r2_digital_host_capture_data_v1\\.pytest-tmp'
+ignore_errors = False, onerror = None
+
+    def rmtree(path, ignore_errors=False, onerror=None, *, onexc=None, dir_fd=None):
+        """Recursively delete a directory tree.
+    
+        If dir_fd is not None, it should be a file descriptor open to a directory;
+        path will then be relative to that directory.
+        dir_fd may not be implemented on your platform.
+        If it is unavailable, using it will raise a NotImplementedError.
+    
+        If ignore_errors is set, errors are ignored; otherwise, if onexc or
+        onerror is set, it is called to handle the error with arguments (func,
+        path, exc_info) where func is platform and implementation dependent;
+        path is the argument to that function that caused it to fail; and
+        the value of exc_info describes the exception. For onexc it is the
+        exception instance, and for onerror it is a tuple as returned by
+        sys.exc_info().  If ignore_errors is false and both onexc and
+        onerror are None, the exception is reraised.
+    
+        onerror is deprecated and only remains for backwards compatibility.
+        If both onerror and onexc are set, onerror is ignored and onexc is used.
+        """
+    
+        sys.audit("shutil.rmtree", path, dir_fd)
+        if ignore_errors:
+            def onexc(*args):
+                pass
+        elif onerror is None and onexc is None:
+            def onexc(*args):
+                raise
+        elif onexc is None:
+            if onerror is None:
+                def onexc(*args):
+                    raise
+            else:
+                # delegate to onerror
+                def onexc(*args):
+                    func, path, exc = args
+                    if exc is None:
+                        exc_info = None, None, None
+                    else:
+                        exc_info = type(exc), exc, exc.__traceback__
+                    return onerror(func, path, exc_info)
+    
+        if _use_fd_functions:
+            # While the unsafe rmtree works fine on bytes, the fd based does not.
+            if isinstance(path, bytes):
+                path = os.fsdecode(path)
+            stack = [(os.lstat, dir_fd, path, None)]
+            try:
+                while stack:
+                    _rmtree_safe_fd(stack, onexc)
+            finally:
+                # Close any file descriptors still on the stack.
+                while stack:
+                    func, fd, path, entry = stack.pop()
+                    if func is not os.close:
+                        continue
+                    try:
+                        os.close(fd)
+                    except OSError as err:
+                        onexc(os.close, path, err)
+        else:
+            if dir_fd is not None:
+                raise NotImplementedError("dir_fd unavailable on this platform")
+            try:
+                st = os.lstat(path)
+            except OSError as err:
+                onexc(os.lstat, path, err)
+                return
+            try:
+                if _rmtree_islink(st):
+                    # symlinks to directories are forbidden, see bug #1669
+                    raise OSError("Cannot call rmtree on a symbolic link")
+            except OSError as err:
+                onexc(os.path.islink, path, err)
+                # can't continue even if onexc hook returns
+                return
+>           return _rmtree_unsafe(path, onexc)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+G:\Windows_program_file\Anaconda\Lib\shutil.py:790: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+path = '\\\\?\\F:\\China Graduate Future Flight Vehicle Innovation Competition\\30_simulation\\current_r2_digital_host_capture_data_v1\\.pytest-tmp'
+onexc = functools.partial(<function on_rm_rf_error at 0x00000189ABAB6AC0>, start_path=WindowsPath('//?/F:/China Graduate Future Flight Vehicle Innovation Competition/30_simulation/current_r2_digital_host_capture_data_v1/.pytest-tmp'))
+
+    def _rmtree_unsafe(path, onexc):
+        def onerror(err):
+            if not isinstance(err, FileNotFoundError):
+                onexc(os.scandir, err.filename, err)
+        results = os.walk(path, topdown=False, onerror=onerror, followlinks=os._walk_symlinks_as_files)
+        for dirpath, dirnames, filenames in results:
+            for name in dirnames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.rmdir(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.rmdir, fullname, err)
+            for name in filenames:
+                fullname = os.path.join(dirpath, name)
+                try:
+                    os.unlink(fullname)
+                except FileNotFoundError:
+                    continue
+                except OSError as err:
+                    onexc(os.unlink, fullname, err)
+        try:
+            os.rmdir(path)
+        except FileNotFoundError:
+            pass
+        except OSError as err:
+>           onexc(os.rmdir, path, err)
+E           PermissionError: [WinError 5] 拒绝访问。: '\\\\?\\F:\\China Graduate Future Flight Vehicle Innovation Competition\\30_simulation\\current_r2_digital_host_capture_data_v1\\.pytest-tmp'
+
+G:\Windows_program_file\Anaconda\Lib\shutil.py:635: PermissionError
+============================== warnings summary ===============================
+tests/test_contracts_and_safety.py::test_episode_writer_roundtrip_and_guards
+tests/test_r5_momentum_and_runner.py::test_runner_rejects_output_root_escape
+  G:\Windows_program_file\Anaconda\Lib\site-packages\_pytest\pathlib.py:103: PytestWarning: (rm_rf) unknown function <built-in function scandir> when removing \\?\F:\China Graduate Future Flight Vehicle Innovation Competition\30_simulation\current_r2_digital_host_capture_data_v1\.pytest-tmp:
+  <class 'PermissionError'>: [WinError 5] 拒绝访问。: '\\\\?\\F:\\China Graduate Future Flight Vehicle Innovation Competition\\30_simulation\\current_r2_digital_host_capture_data_v1\\.pytest-tmp'
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+ERROR tests/test_contracts_and_safety.py::test_episode_writer_roundtrip_and_guards
+ERROR tests/test_r5_momentum_and_runner.py::test_runner_rejects_output_root_escape
+48 passed, 2 warnings, 2 errors in 96.42s (0:01:36)

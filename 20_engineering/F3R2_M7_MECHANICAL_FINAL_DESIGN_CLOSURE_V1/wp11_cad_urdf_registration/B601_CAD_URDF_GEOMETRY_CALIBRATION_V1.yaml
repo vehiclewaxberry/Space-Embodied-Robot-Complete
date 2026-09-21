@@ -1,0 +1,971 @@
+schema: B601_CAD_URDF_GEOMETRY_CALIBRATION_V1
+generated_local: '2026-08-22T04:37:35+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+authority_basis:
+- ODR-09
+- ODR-10 option O2-A
+review_status: PENDING_OWNER_REVIEW
+next_stage_authorized: false
+authority_level: DESIGN_CALIBRATION_NOT_METROLOGY_NOT_FLIGHT
+confidence: B
+definition:
+  D_i: inv(T_URDF_i) * T_CAD_i
+  meaning: D_i maps a point expressed in the CAD part's body coordinates (as tessellated into the accepted-URDF
+    link frame by inv(T_URDF_i(q0))) into the accepted-URDF link_i frame
+  usage_forward: p_urdf_link_i = D_i * p_cad_body_i
+  usage_inverse: p_cad_body_i = inv(D_i) * p_urdf_link_i
+  model: pure translation; rotation identity (tested and rejected)
+  units: mm
+frame_context:
+  mount: T_S_B601_ARM_BASE, station x = 208.0 mm, 25 deg clocking
+  mount_rows:
+  - - 0.0
+    - 0.0
+    - 1.0
+    - 208.0
+  - - 0.422618483193
+    - 0.906307683772
+    - 0.0
+    - 0.0
+  - - -0.906307683772
+    - 0.422618483193
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  dynamics_M_frame_is_separate: 'ODR-01: T_SM = [185.25,0,0] + Ry(90 deg) remains the single dynamics
+    mounting reference; 198.0 / 208.0 / 210.405 mm stay a geometric feature stack and this calibration
+    does not create a second dynamics frame'
+acceptance:
+  source_tessellation_linear_deflection_mm: 0.5
+  coincidence_threshold_mm: 1.0
+  physical_clearance_or_metrology_claim: false
+links:
+  base_link:
+    D_i_model: PURE_TRANSLATION_ROTATION_IDENTITY
+    D_i_translation_mm:
+    - -0.05732750272995675
+    - -0.03253727084589079
+    - 0.05006764302725364
+    D_i_translation_norm_mm: 0.08277611637215504
+    D_i_rotation: IDENTITY
+    rotation_was_tested_and_rejected:
+      free_rigid_fit_rotation_deg: 0.09716160856503882
+      residual_median_free_rigid_mm: 0.03903991633251495
+      residual_median_same_translation_rotation_dropped_mm: 0.03248579311124497
+      rotation_is_necessary: false
+      conclusion: the free-rigid fit's small rotation does not reduce the residual, so it is fit noise,
+        not a datum rotation
+    residual_after_D_i_cad_to_urdf:
+      n: 15000
+      mean_mm: 0.1095769028333448
+      median_mm: 0.04493400980954654
+      p95_mm: 0.13763270515942566
+      p99_mm: 2.608506202625188
+      max_mm: 5.305081764559688
+      rms_mm: 0.42414934076199695
+      frac_le_0p5mm: 0.9720666666666666
+      frac_le_1mm: 0.9769333333333333
+      frac_le_2mm: 0.9856
+    residual_after_D_i_urdf_to_cad:
+      n: 15000
+      mean_mm: 10.039751746304853
+      median_mm: 0.054531168933078314
+      p95_mm: 53.015951206977874
+      p99_mm: 62.868396152191416
+      max_mm: 68.43796024771959
+      rms_mm: 19.992768753166473
+      frac_le_0p5mm: 0.6558
+      frac_le_1mm: 0.6602
+      frac_le_2mm: 0.6639333333333334
+    residual_at_D_identity_cad_to_urdf:
+      n: 12000
+      mean_mm: 0.1355418986584741
+      median_mm: 0.09308805787931942
+      p95_mm: 0.15818572525572225
+      p99_mm: 2.622975432709026
+      max_mm: 5.25501412153244
+      rms_mm: 0.440966655123914
+      frac_le_0p5mm: 0.9726666666666667
+      frac_le_1mm: 0.9771666666666666
+      frac_le_2mm: 0.9855833333333334
+      unverified_bound_points: 0
+    numerical_uncertainty_over_fit_restarts:
+      criterion: p95 residual within max(1.5x, +0.02 mm) of best
+      accepted_fit_count: 6
+      norm_min_mm: 0.08277611637215504
+      norm_max_mm: 0.09487040666097289
+      norm_spread_mm: 0.012094290288817852
+      component_min_mm:
+      - -0.09206161406312373
+      - -0.032537270845892176
+      - -0.022900408348114906
+      component_max_mm:
+      - -0.05732750272995675
+      - 0.018794496396904822
+      - 0.05006764302725364
+      superseded_median_based_band_note: a median-based acceptance band admitted a 4.96 mm translation
+        on link2 because sliding a long prismatic body along its own axis barely changes the median; the
+        p95 criterion rejects it
+    independent_reproduction:
+      prior_2026_07_vendorcad03_translation_dev_mm: 0.072
+      wp11_2026_08_translation_norm_mm: 0.08277611637215504
+      delta_mm: 0.010776116372155045
+    validated_configurations:
+    - q0 (CAD export parts_DEPLOYED)
+    - Q_STOW_C05 deg [145.572,-168.0,-57.0,-41.143,-20.954,-3.0] (CAD export parts_STOWED)
+    cross_configuration_evidence:
+      urdf_predicted_pose_surface_residual_median_mm: 9.71311919910957e-12
+      urdf_predicted_pose_surface_residual_max_mm: 6.922077793351929e-10
+    axis_observability_mm:
+      baseline_p95_mm: 0.13372206956875252
+      degradation_threshold_p95_mm: 0.20058310435312876
+      admissible_offset_along_link_x_mm:
+      - 0.0
+      - 0.0
+      admissible_offset_along_link_y_mm:
+      - 0.0
+      - 0.0
+      admissible_offset_along_link_z_mm:
+      - 0.0
+      - 0.0
+      meaning: range over which D_i may be shifted along each link axis before the p95 surface residual
+        degrades past the threshold; a wide range means that component of D_i is weakly observable from
+        surface geometry alone
+      interpretation: TIGHT
+    post_D_i_partition_tolerant_residual:
+      neighbourhood:
+      - base_link
+      - link1
+      residual_cad_to_urdf_union:
+        n: 15000
+        mean_mm: 0.07091663900129817
+        median_mm: 0.044934143919995506
+        p95_mm: 0.12740088566904578
+        p99_mm: 1.1084460873139041
+        max_mm: 2.2674146771339188
+        rms_mm: 0.17968358073531435
+        frac_le_0p5mm: 0.9809333333333333
+        frac_le_1mm: 0.9881333333333333
+        frac_le_2mm: 0.9996
+  link1:
+    D_i_model: PURE_TRANSLATION_ROTATION_IDENTITY
+    D_i_translation_mm:
+    - -0.2895478576888231
+    - 0.1526793079462422
+    - -3.8957677522070404
+    D_i_translation_norm_mm: 3.909495531664338
+    D_i_rotation: IDENTITY
+    rotation_was_tested_and_rejected:
+      free_rigid_fit_rotation_deg: 0.08743288700964143
+      residual_median_free_rigid_mm: 0.07960762942072955
+      residual_median_same_translation_rotation_dropped_mm: 0.05753566019850213
+      rotation_is_necessary: false
+      conclusion: the free-rigid fit's small rotation does not reduce the residual, so it is fit noise,
+        not a datum rotation
+    residual_after_D_i_cad_to_urdf:
+      n: 15000
+      mean_mm: 0.16256313672471837
+      median_mm: 0.004249914609677052
+      p95_mm: 0.8949631428437431
+      p99_mm: 3.8679938642065563
+      max_mm: 7.611376912977745
+      rms_mm: 0.6953921092567078
+      frac_le_0p5mm: 0.9402666666666667
+      frac_le_1mm: 0.9528
+      frac_le_2mm: 0.9702666666666667
+    residual_after_D_i_urdf_to_cad:
+      n: 15000
+      mean_mm: 0.013400462463638163
+      median_mm: 0.004249914609677052
+      p95_mm: 0.05571152167059144
+      p99_mm: 0.09838492189304232
+      max_mm: 0.19231995899401078
+      rms_mm: 0.025768135605039304
+      frac_le_0p5mm: 1.0
+      frac_le_1mm: 1.0
+      frac_le_2mm: 1.0
+    residual_at_D_identity_cad_to_urdf:
+      n: 12000
+      mean_mm: 1.1136600417884446
+      median_mm: 0.9000189829617966
+      p95_mm: 3.9000189829617966
+      p99_mm: 3.900352268752227
+      max_mm: 5.149009367259524
+      rms_mm: 1.6457816245490273
+      frac_le_0p5mm: 0.4235
+      frac_le_1mm: 0.6356666666666667
+      frac_le_2mm: 0.819
+      unverified_bound_points: 0
+    numerical_uncertainty_over_fit_restarts:
+      criterion: p95 residual within max(1.5x, +0.02 mm) of best
+      accepted_fit_count: 6
+      norm_min_mm: 3.909495531664338
+      norm_max_mm: 3.9236464195533185
+      norm_spread_mm: 0.014150887888980446
+      component_min_mm:
+      - -0.31533242772853853
+      - 0.15045999673305135
+      - -3.9078753500523757
+      component_max_mm:
+      - -0.2589752244722201
+      - 0.15516743907605626
+      - -3.894832311160249
+      superseded_median_based_band_note: a median-based acceptance band admitted a 4.96 mm translation
+        on link2 because sliding a long prismatic body along its own axis barely changes the median; the
+        p95 criterion rejects it
+    independent_reproduction:
+      prior_2026_07_vendorcad03_translation_dev_mm: 3.943
+      wp11_2026_08_translation_norm_mm: 3.909495531664338
+      delta_mm: 0.03350446833566201
+    validated_configurations:
+    - q0 (CAD export parts_DEPLOYED)
+    - Q_STOW_C05 deg [145.572,-168.0,-57.0,-41.143,-20.954,-3.0] (CAD export parts_STOWED)
+    cross_configuration_evidence:
+      urdf_predicted_pose_surface_residual_median_mm: 2.001034262591551e-06
+      urdf_predicted_pose_surface_residual_max_mm: 3.062056039440271e-05
+    axis_observability_mm:
+      baseline_p95_mm: 0.9629817216461327
+      degradation_threshold_p95_mm: 1.444472582469199
+      admissible_offset_along_link_x_mm:
+      - -1.0
+      - 1.5
+      admissible_offset_along_link_y_mm:
+      - -1.0
+      - 1.0
+      admissible_offset_along_link_z_mm:
+      - -1.0
+      - 1.0
+      meaning: range over which D_i may be shifted along each link axis before the p95 surface residual
+        degrades past the threshold; a wide range means that component of D_i is weakly observable from
+        surface geometry alone
+      interpretation: MODERATE
+    post_D_i_partition_tolerant_residual:
+      neighbourhood:
+      - base_link
+      - link1
+      - link2
+      residual_cad_to_urdf_union:
+        n: 15000
+        mean_mm: 0.03823262841294687
+        median_mm: 0.004249914609677052
+        p95_mm: 0.10880020599269877
+        p99_mm: 0.6551237411865817
+        max_mm: 2.438603965674801
+        rms_mm: 0.15152129987075008
+        frac_le_0p5mm: 0.9871333333333333
+        frac_le_1mm: 0.9936666666666667
+        frac_le_2mm: 0.9989333333333333
+  link2:
+    D_i_model: PURE_TRANSLATION_ROTATION_IDENTITY
+    D_i_translation_mm:
+    - -0.32485525192192577
+    - 0.05674317813140584
+    - 0.06553089811299043
+    D_i_translation_norm_mm: 0.3362216851620452
+    D_i_rotation: IDENTITY
+    rotation_was_tested_and_rejected:
+      free_rigid_fit_rotation_deg: 0.25064103400973214
+      residual_median_free_rigid_mm: 0.04507368121438896
+      residual_median_same_translation_rotation_dropped_mm: 0.01187449668763732
+      rotation_is_necessary: false
+      conclusion: the free-rigid fit's small rotation does not reduce the residual, so it is fit noise,
+        not a datum rotation
+    residual_after_D_i_cad_to_urdf:
+      n: 15000
+      mean_mm: 0.03239701535533562
+      median_mm: 0.01059678058003044
+      p95_mm: 0.09271893878442428
+      p99_mm: 0.14711844875957095
+      max_mm: 3.3644358435321053
+      rms_mm: 0.09622456431657628
+      frac_le_0p5mm: 0.9974666666666666
+      frac_le_1mm: 0.9985333333333334
+      frac_le_2mm: 0.9992666666666666
+    residual_after_D_i_urdf_to_cad:
+      n: 15000
+      mean_mm: 0.04380356119685343
+      median_mm: 0.012552989214414223
+      p95_mm: 0.09238464596185929
+      p99_mm: 0.1522274989229859
+      max_mm: 4.446124539202277
+      rms_mm: 0.20781074609989314
+      frac_le_0p5mm: 0.9923333333333333
+      frac_le_1mm: 0.9938
+      frac_le_2mm: 0.9962
+    residual_at_D_identity_cad_to_urdf:
+      n: 12000
+      mean_mm: 0.08915475638996431
+      median_mm: 0.054976472053542835
+      p95_mm: 0.24855560060048745
+      p99_mm: 0.3253868672066813
+      max_mm: 3.4540933011668367
+      rms_mm: 0.1330641751631486
+      frac_le_0p5mm: 0.99725
+      frac_le_1mm: 0.9990833333333333
+      frac_le_2mm: 0.9995833333333334
+      unverified_bound_points: 0
+    numerical_uncertainty_over_fit_restarts:
+      criterion: p95 residual within max(1.5x, +0.02 mm) of best
+      accepted_fit_count: 5
+      norm_min_mm: 0.302152180457395
+      norm_max_mm: 0.33695411339042647
+      norm_spread_mm: 0.034801932933031465
+      component_min_mm:
+      - -0.32579314269835913
+      - 0.05409454784222976
+      - 0.06553089811299043
+      component_max_mm:
+      - -0.28488622983711626
+      - 0.07882842563256982
+      - 0.07255047537282076
+      superseded_median_based_band_note: a median-based acceptance band admitted a 4.96 mm translation
+        on link2 because sliding a long prismatic body along its own axis barely changes the median; the
+        p95 criterion rejects it
+    independent_reproduction:
+      prior_2026_07_vendorcad03_translation_dev_mm: 0.225
+      wp11_2026_08_translation_norm_mm: 0.3362216851620452
+      delta_mm: 0.1112216851620452
+    validated_configurations:
+    - q0 (CAD export parts_DEPLOYED)
+    - Q_STOW_C05 deg [145.572,-168.0,-57.0,-41.143,-20.954,-3.0] (CAD export parts_STOWED)
+    cross_configuration_evidence:
+      urdf_predicted_pose_surface_residual_median_mm: 2.2181300120958945e-05
+      urdf_predicted_pose_surface_residual_max_mm: 0.00015177517219331117
+    axis_observability_mm:
+      baseline_p95_mm: 0.09003212636443704
+      degradation_threshold_p95_mm: 0.14003212636443704
+      admissible_offset_along_link_x_mm:
+      - 0.0
+      - 0.0
+      admissible_offset_along_link_y_mm:
+      - 0.0
+      - 0.0
+      admissible_offset_along_link_z_mm:
+      - 0.0
+      - 0.0
+      meaning: range over which D_i may be shifted along each link axis before the p95 surface residual
+        degrades past the threshold; a wide range means that component of D_i is weakly observable from
+        surface geometry alone
+      interpretation: TIGHT
+    post_D_i_partition_tolerant_residual:
+      neighbourhood:
+      - link1
+      - link2
+      - link3
+      residual_cad_to_urdf_union:
+        n: 15000
+        mean_mm: 0.030444702217716363
+        median_mm: 0.010595850884563163
+        p95_mm: 0.09307866364209239
+        p99_mm: 0.16337424749788423
+        max_mm: 1.2894110898609856
+        rms_mm: 0.05855407140861373
+        frac_le_0p5mm: 0.9983333333333333
+        frac_le_1mm: 0.9995333333333334
+        frac_le_2mm: 1.0
+  link3:
+    D_i_model: PURE_TRANSLATION_ROTATION_IDENTITY
+    D_i_translation_mm:
+    - 0.025261953313863442
+    - -1.1647747617269926
+    - -0.08329298499497297
+    D_i_translation_norm_mm: 1.1680223170773651
+    D_i_rotation: IDENTITY
+    rotation_was_tested_and_rejected:
+      free_rigid_fit_rotation_deg: 0.10200292621905105
+      residual_median_free_rigid_mm: 0.03483127229869698
+      residual_median_same_translation_rotation_dropped_mm: 0.06044635251395292
+      rotation_is_necessary: false
+      conclusion: the free-rigid fit's small rotation does not reduce the residual, so it is fit noise,
+        not a datum rotation
+    residual_after_D_i_cad_to_urdf:
+      n: 15000
+      mean_mm: 0.060444907915978306
+      median_mm: 0.005556086794444109
+      p95_mm: 0.07879212803748978
+      p99_mm: 1.559511014371472
+      max_mm: 6.854778299162933
+      rms_mm: 0.4004842223156194
+      frac_le_0p5mm: 0.9822666666666666
+      frac_le_1mm: 0.9875333333333334
+      frac_le_2mm: 0.9927333333333334
+    residual_after_D_i_urdf_to_cad:
+      n: 15000
+      mean_mm: 0.014900972852776787
+      median_mm: 0.003751980657659822
+      p95_mm: 0.055792193008950136
+      p99_mm: 0.09188529254812762
+      max_mm: 0.16249312896627402
+      rms_mm: 0.025041289209558143
+      frac_le_0p5mm: 1.0
+      frac_le_1mm: 1.0
+      frac_le_2mm: 1.0
+    residual_at_D_identity_cad_to_urdf:
+      n: 12000
+      mean_mm: 0.4270782113648649
+      median_mm: 0.08606017438258706
+      p95_mm: 1.1720011209759416
+      p99_mm: 1.698229072228764
+      max_mm: 7.103579997128875
+      rms_mm: 0.7066116318002034
+      frac_le_0p5mm: 0.66575
+      frac_le_1mm: 0.8301666666666667
+      frac_le_2mm: 0.991
+      unverified_bound_points: 0
+    numerical_uncertainty_over_fit_restarts:
+      criterion: p95 residual within max(1.5x, +0.02 mm) of best
+      accepted_fit_count: 5
+      norm_min_mm: 1.1675016005373657
+      norm_max_mm: 1.2033090046886934
+      norm_spread_mm: 0.03580740415132766
+      component_min_mm:
+      - -0.04542190056103686
+      - -1.2001688837486817
+      - -0.08624992884872758
+      component_max_mm:
+      - 0.025261953313863442
+      - -1.1641555201544838
+      - -0.07405445426009706
+      superseded_median_based_band_note: a median-based acceptance band admitted a 4.96 mm translation
+        on link2 because sliding a long prismatic body along its own axis barely changes the median; the
+        p95 criterion rejects it
+    independent_reproduction:
+      prior_2026_07_vendorcad03_translation_dev_mm: 1.14
+      wp11_2026_08_translation_norm_mm: 1.1680223170773651
+      delta_mm: 0.028022317077365244
+    validated_configurations:
+    - q0 (CAD export parts_DEPLOYED)
+    - Q_STOW_C05 deg [145.572,-168.0,-57.0,-41.143,-20.954,-3.0] (CAD export parts_STOWED)
+    cross_configuration_evidence:
+      urdf_predicted_pose_surface_residual_median_mm: 5.839619020043997e-05
+      urdf_predicted_pose_surface_residual_max_mm: 0.0001629909138996286
+    axis_observability_mm:
+      baseline_p95_mm: 0.08324437612535279
+      degradation_threshold_p95_mm: 0.13324437612535278
+      admissible_offset_along_link_x_mm:
+      - 0.0
+      - 0.0
+      admissible_offset_along_link_y_mm:
+      - 0.0
+      - 0.0
+      admissible_offset_along_link_z_mm:
+      - 0.0
+      - 0.0
+      meaning: range over which D_i may be shifted along each link axis before the p95 surface residual
+        degrades past the threshold; a wide range means that component of D_i is weakly observable from
+        surface geometry alone
+      interpretation: TIGHT
+    post_D_i_partition_tolerant_residual:
+      neighbourhood:
+      - link2
+      - link3
+      - link4
+      residual_cad_to_urdf_union:
+        n: 15000
+        mean_mm: 0.02231461081478215
+        median_mm: 0.00587813772880408
+        p95_mm: 0.06777229047516015
+        p99_mm: 0.2601165179272446
+        max_mm: 2.012987909631704
+        rms_mm: 0.08092627086434441
+        frac_le_0p5mm: 0.9957333333333334
+        frac_le_1mm: 0.9982666666666666
+        frac_le_2mm: 0.9999333333333333
+  link4:
+    D_i_model: PURE_TRANSLATION_ROTATION_IDENTITY
+    D_i_translation_mm:
+    - 1.471097998758072
+    - -1.692867554401522
+    - -0.02328679547815263
+    D_i_translation_norm_mm: 2.2428714081594237
+    D_i_rotation: IDENTITY
+    rotation_was_tested_and_rejected:
+      free_rigid_fit_rotation_deg: 0.063224686434511
+      residual_median_free_rigid_mm: 0.02488856093653169
+      residual_median_same_translation_rotation_dropped_mm: 0.03486746500236291
+      rotation_is_necessary: false
+      conclusion: the free-rigid fit's small rotation does not reduce the residual, so it is fit noise,
+        not a datum rotation
+    residual_after_D_i_cad_to_urdf:
+      n: 15000
+      mean_mm: 0.06577597572238855
+      median_mm: 0.025830849242947096
+      p95_mm: 0.07212717427094581
+      p99_mm: 1.1926240971031634
+      max_mm: 8.776702947337327
+      rms_mm: 0.42411225827159427
+      frac_le_0p5mm: 0.9834666666666667
+      frac_le_1mm: 0.9884666666666667
+      frac_le_2mm: 0.9941333333333333
+    residual_after_D_i_urdf_to_cad:
+      n: 15000
+      mean_mm: 0.11511739964555487
+      median_mm: 0.025833638806120936
+      p95_mm: 0.08296625273530402
+      p99_mm: 3.9888233636430264
+      max_mm: 7.054808531335594
+      rms_mm: 0.6141764328743072
+      frac_le_0p5mm: 0.9739333333333333
+      frac_le_1mm: 0.9761333333333333
+      frac_le_2mm: 0.9799333333333333
+    residual_at_D_identity_cad_to_urdf:
+      n: 12000
+      mean_mm: 0.7612752248694896
+      median_mm: 0.667024300545151
+      p95_mm: 1.6670307007384733
+      p99_mm: 2.114696683504863
+      max_mm: 8.610003041694688
+      rms_mm: 1.055458751681003
+      frac_le_0p5mm: 0.42091666666666666
+      frac_le_1mm: 0.63725
+      frac_le_2mm: 0.9889166666666667
+      unverified_bound_points: 0
+    numerical_uncertainty_over_fit_restarts:
+      criterion: p95 residual within max(1.5x, +0.02 mm) of best
+      accepted_fit_count: 9
+      norm_min_mm: 2.203241878111899
+      norm_max_mm: 2.24833491861656
+      norm_spread_mm: 0.04509304050466101
+      component_min_mm:
+      - 1.4275423325089416
+      - -1.6993797009371132
+      - -0.042169958471920024
+      component_max_mm:
+      - 1.4726005171901881
+      - -1.677682734298549
+      - -0.02135816112593746
+      superseded_median_based_band_note: a median-based acceptance band admitted a 4.96 mm translation
+        on link2 because sliding a long prismatic body along its own axis barely changes the median; the
+        p95 criterion rejects it
+    independent_reproduction:
+      prior_2026_07_vendorcad03_translation_dev_mm: 2.214
+      wp11_2026_08_translation_norm_mm: 2.2428714081594237
+      delta_mm: 0.028871408159423684
+    validated_configurations:
+    - q0 (CAD export parts_DEPLOYED)
+    - Q_STOW_C05 deg [145.572,-168.0,-57.0,-41.143,-20.954,-3.0] (CAD export parts_STOWED)
+    cross_configuration_evidence:
+      urdf_predicted_pose_surface_residual_median_mm: 2.6950921615237933e-05
+      urdf_predicted_pose_surface_residual_max_mm: 7.911055230606531e-05
+    axis_observability_mm:
+      baseline_p95_mm: 0.06920208294703893
+      degradation_threshold_p95_mm: 0.11920208294703893
+      admissible_offset_along_link_x_mm:
+      - 0.0
+      - 0.0
+      admissible_offset_along_link_y_mm:
+      - 0.0
+      - 0.0
+      admissible_offset_along_link_z_mm:
+      - 0.0
+      - 0.0
+      meaning: range over which D_i may be shifted along each link axis before the p95 surface residual
+        degrades past the threshold; a wide range means that component of D_i is weakly observable from
+        surface geometry alone
+      interpretation: TIGHT
+    post_D_i_partition_tolerant_residual:
+      neighbourhood:
+      - link3
+      - link4
+      - link5
+      residual_cad_to_urdf_union:
+        n: 15000
+        mean_mm: 0.04011933307495926
+        median_mm: 0.025831240452546922
+        p95_mm: 0.07001920197479602
+        p99_mm: 0.4913559687147211
+        max_mm: 3.0845937382985533
+        rms_mm: 0.15956840504040803
+        frac_le_0p5mm: 0.9902
+        frac_le_1mm: 0.9940666666666667
+        frac_le_2mm: 0.9979333333333333
+  link5:
+    D_i_model: PURE_TRANSLATION_ROTATION_IDENTITY
+    D_i_translation_mm:
+    - -1.1649631578700426
+    - 0.07977190961354959
+    - -1.2096733424135466
+    D_i_translation_norm_mm: 1.6813126752938894
+    D_i_rotation: IDENTITY
+    rotation_was_tested_and_rejected:
+      free_rigid_fit_rotation_deg: 0.04926049624390009
+      residual_median_free_rigid_mm: 0.04130101834572564
+      residual_median_same_translation_rotation_dropped_mm: 0.038515008132291584
+      rotation_is_necessary: false
+      conclusion: the free-rigid fit's small rotation does not reduce the residual, so it is fit noise,
+        not a datum rotation
+    residual_after_D_i_cad_to_urdf:
+      n: 15000
+      mean_mm: 0.060595410078673834
+      median_mm: 0.03222831690590766
+      p95_mm: 0.07101550224508521
+      p99_mm: 1.0415391750658372
+      max_mm: 5.155850015265682
+      rms_mm: 0.266642345665849
+      frac_le_0p5mm: 0.9831333333333333
+      frac_le_1mm: 0.9894666666666667
+      frac_le_2mm: 0.9946666666666667
+    residual_after_D_i_urdf_to_cad:
+      n: 15000
+      mean_mm: 0.08733970056182194
+      median_mm: 0.032227585109875494
+      p95_mm: 0.06802653062931874
+      p99_mm: 2.667550700450186
+      max_mm: 7.067776124820971
+      rms_mm: 0.48163568113630184
+      frac_le_0p5mm: 0.9785333333333334
+      frac_le_1mm: 0.9824
+      frac_le_2mm: 0.9864666666666667
+    residual_at_D_identity_cad_to_urdf:
+      n: 12000
+      mean_mm: 0.8272548966778662
+      median_mm: 1.0391648120218568
+      p95_mm: 1.2327333805651814
+      p99_mm: 1.6629360479328321
+      max_mm: 4.1254054401695015
+      rms_mm: 0.9446206001423676
+      frac_le_0p5mm: 0.28725
+      frac_le_1mm: 0.4855833333333333
+      frac_le_2mm: 0.9960833333333333
+      unverified_bound_points: 0
+    numerical_uncertainty_over_fit_restarts:
+      criterion: p95 residual within max(1.5x, +0.02 mm) of best
+      accepted_fit_count: 9
+      norm_min_mm: 1.6813126752938892
+      norm_max_mm: 1.7055833491730328
+      norm_spread_mm: 0.02427067387914361
+      component_min_mm:
+      - -1.1738902072380346
+      - 0.05114197578165633
+      - -1.2352031274810946
+      component_max_mm:
+      - -1.1649631578700426
+      - 0.09437104123608539
+      - -1.2096733424135464
+      superseded_median_based_band_note: a median-based acceptance band admitted a 4.96 mm translation
+        on link2 because sliding a long prismatic body along its own axis barely changes the median; the
+        p95 criterion rejects it
+    independent_reproduction:
+      prior_2026_07_vendorcad03_translation_dev_mm: 1.609
+      wp11_2026_08_translation_norm_mm: 1.6813126752938894
+      delta_mm: 0.0723126752938894
+    validated_configurations:
+    - q0 (CAD export parts_DEPLOYED)
+    - Q_STOW_C05 deg [145.572,-168.0,-57.0,-41.143,-20.954,-3.0] (CAD export parts_STOWED)
+    cross_configuration_evidence:
+      urdf_predicted_pose_surface_residual_median_mm: 2.3346481501548685e-05
+      urdf_predicted_pose_surface_residual_max_mm: 6.472034615173047e-05
+    axis_observability_mm:
+      baseline_p95_mm: 0.07835188818374794
+      degradation_threshold_p95_mm: 0.12835188818374793
+      admissible_offset_along_link_x_mm:
+      - 0.0
+      - 0.0
+      admissible_offset_along_link_y_mm:
+      - 0.0
+      - 0.0
+      admissible_offset_along_link_z_mm:
+      - 0.0
+      - 0.0
+      meaning: range over which D_i may be shifted along each link axis before the p95 surface residual
+        degrades past the threshold; a wide range means that component of D_i is weakly observable from
+        surface geometry alone
+      interpretation: TIGHT
+    post_D_i_partition_tolerant_residual:
+      neighbourhood:
+      - link4
+      - link5
+      - link6
+      residual_cad_to_urdf_union:
+        n: 15000
+        mean_mm: 0.04728265128220575
+        median_mm: 0.03222822481826171
+        p95_mm: 0.06777644028031657
+        p99_mm: 0.6379918401166728
+        max_mm: 2.0302387276106515
+        rms_mm: 0.15030804786011306
+        frac_le_0p5mm: 0.9882
+        frac_le_1mm: 0.9938666666666667
+        frac_le_2mm: 0.9974
+  link6:
+    D_i_model: PURE_TRANSLATION_ROTATION_IDENTITY
+    D_i_translation_mm:
+    - 0.03852329987594306
+    - -0.0011448375572261137
+    - -0.08814447225370395
+    D_i_translation_norm_mm: 0.0962018881064621
+    D_i_rotation: IDENTITY
+    fit_direction: URDF_SUBSET_ONTO_CAD_SUPERSET
+    residual_after_D_i_urdf_to_cad:
+      n: 25000
+      mean_mm: 0.03754937342120576
+      median_mm: 0.04239909964862766
+      p95_mm: 0.07492004001804775
+      p99_mm: 0.14459091029767487
+      max_mm: 0.22451792812269822
+      rms_mm: 0.04511350637167911
+      frac_le_0p5mm: 1.0
+      frac_le_1mm: 1.0
+      frac_le_2mm: 1.0
+    residual_at_D_identity_urdf_to_cad:
+      n: 12000
+      mean_mm: 0.04305660958314288
+      median_mm: 0.04566371300056417
+      p95_mm: 0.08538181612476549
+      p99_mm: 0.15181010356498728
+      max_mm: 0.250305063190818
+      rms_mm: 0.050632395866070046
+      frac_le_0p5mm: 1.0
+      frac_le_1mm: 1.0
+      frac_le_2mm: 1.0
+      unverified_bound_points: 0
+    free_rigid_fit_rejected:
+      reason: the free ICP is dragged by the link-content partition difference (URDF link6 = 9.5 mm tool-flange
+        disc, CAD link6 = 61.5 mm wrist body) and produced a 6.41 deg / 4.77 mm transform that made the
+        containment residual worse
+      free_rigid_rotation_deg: 6.414591728706677
+      free_rigid_residual_urdf_to_cad_median_mm: 0.6003392879766163
+      identity_residual_urdf_to_cad_median_mm: 0.04566371300056417
+    independent_reproduction:
+      prior_2026_07_method: CHAIN_DERIVED (B5_0 G05)
+      prior_2026_07_direct_nn_mm: 16.408
+      prior_note: direct 配准不可靠（内容划分/开度差异）；链推导锁定 -- the same partition boundary, reached independently
+        in 2026-07
+    validated_configurations:
+    - q0 (CAD export parts_DEPLOYED)
+    - Q_STOW_C05 deg [145.572,-168.0,-57.0,-41.143,-20.954,-3.0] (CAD export parts_STOWED)
+    cross_configuration_evidence:
+      urdf_predicted_pose_surface_residual_median_mm: 2.2781837363339513e-05
+      urdf_predicted_pose_surface_residual_max_mm: 5.335659126271006e-05
+    numerical_uncertainty_over_fit_restarts: null
+    axis_observability_mm:
+      baseline_p95_mm: 47.457481952097034
+      degradation_threshold_p95_mm: 71.18622292814555
+      admissible_offset_along_link_x_mm:
+      - -4.0
+      - 4.0
+      admissible_offset_along_link_y_mm:
+      - -4.0
+      - 4.0
+      admissible_offset_along_link_z_mm:
+      - -4.0
+      - 4.0
+      meaning: range over which D_i may be shifted along each link axis before the p95 surface residual
+        degrades past the threshold; a wide range means that component of D_i is weakly observable from
+        surface geometry alone
+      interpretation: 'TIGHT (0.0 mm admissible at the 0.5 mm sweep step): base_link, link2, link3, link4,
+        link5 -- D_i uniquely determined.  MODERATE: link1, +-1.0 to +1.5 mm.  NOT_ESTABLISHED_BY_THIS_SWEEP:
+        link6 -- the reported +-4.0 mm is a DIRECTION ARTEFACT, not a physical uncertainty: the sweep
+        runs CAD->URDF, and for link6 the CAD is the superset, so its baseline p95 (dominated by unshared
+        wrist material) is far larger than any +-4 mm shift can change.  link6''s real bound comes from
+        the containment measurement instead: at |t| = 0.0962 mm the entire accepted-URDF link6 mesh lies
+        within 0.2245 mm of the CAD wrist body, and D = identity already gives median 0.0457 mm, so D_link6
+        is identity to within about 0.1 mm along the flange axis.  Its in-plane components are NOT independently
+        observable from the link6 subset alone, which is one more reason link6 and gripper_link must be
+        consumed as a union.'
+    post_D_i_partition_tolerant_residual:
+      neighbourhood:
+      - link5
+      - link6
+      - gripper_link
+      - gripper_left
+      - gripper_right
+      residual_cad_to_urdf_union:
+        n: 15000
+        mean_mm: 0.13560412768770777
+        median_mm: 0.0431079477063147
+        p95_mm: 0.8281151385734034
+        p99_mm: 2.4568922371177173
+        max_mm: 3.8609805709275027
+        rms_mm: 0.446457204437236
+        frac_le_0p5mm: 0.9419333333333333
+        frac_le_1mm: 0.96
+        frac_le_2mm: 0.9828
+validated_over_configurations:
+  q0:
+    q_rad:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    q_deg:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    note: URDF zero pose
+    cad_geometry_available: CAD_EXPORT_parts_DEPLOYED
+    inside_joint_limits: true
+  Q_STOW_C05_ARM_STOWED_ONORBIT:
+    q_rad:
+    - 2.5407106987131853
+    - -2.9321531433504737
+    - -0.9948376736367679
+    - -0.718080814148027
+    - -0.3657162914628918
+    - -0.05235987755982989
+    q_deg:
+    - 145.572
+    - -168.0
+    - -57.00000000000001
+    - -41.143
+    - -20.954
+    - -3.0000000000000004
+    note: O13-v3 stow, deg [145.572,-168,-57,-41.143,-20.954,-3]
+    cad_geometry_available: CAD_EXPORT_parts_STOWED
+    inside_joint_limits: true
+  Q_TASK_READY_C06:
+    q_rad:
+    - -1.570796
+    - -1.047198
+    - -2.094395
+    - -0.523599
+    - 0.0
+    - 0.0
+    q_deg:
+    - -89.99998127603166
+    - -60.00002571454079
+    - -119.99999413330205
+    - -30.000012857270395
+    - 0.0
+    - 0.0
+    note: ARM_TASK_READY
+    cad_geometry_available: NO_CAD_EXPORT
+    inside_joint_limits: true
+  Q_INTERMEDIATE_C07_PREGRASP:
+    q_rad:
+    - -1.4722592995215e-05
+    - -1.0482002296028672
+    - -1.3989828152470143
+    - -1.220010067943876
+    - 3.673218594813444e-06
+    - 1.8395811591278994e-05
+    q_deg:
+    - -0.0008435424421146889
+    - -60.05744924088815
+    - -80.15581092498411
+    - -69.9014278566529
+    - 0.00021045992271178515
+    - 0.0010540023648981252
+    note: representative intermediate
+    cad_geometry_available: NO_CAD_EXPORT
+    inside_joint_limits: true
+  Q_DEPLOYED_HOME_C01:
+    q_rad:
+    - -1.570796
+    - -2.094395
+    - -1.047198
+    - 0.0
+    - -0.523599
+    - 0.0
+    q_deg:
+    - -89.99998127603166
+    - -119.99999413330205
+    - -60.00002571454079
+    - 0.0
+    - -30.000012857270395
+    - 0.0
+    note: deployed home
+    cad_geometry_available: NO_CAD_EXPORT
+    inside_joint_limits: true
+  Q_JOINT_LOWER_LIMITS:
+    q_rad:
+    - -2.8
+    - -3.14
+    - -3.14
+    - -1.87
+    - -1.57
+    - -3.14
+    q_deg:
+    - -160.42818263663048
+    - -179.9087476710785
+    - -179.9087476710785
+    - -107.14310768946395
+    - -89.95437383553924
+    - -179.9087476710785
+    note: all joints at lower limit
+    cad_geometry_available: NO_CAD_EXPORT
+    inside_joint_limits: true
+  Q_JOINT_UPPER_LIMITS:
+    q_rad:
+    - 2.8
+    - 0.0
+    - 0.0
+    - 1.57
+    - 1.57
+    - 3.14
+    q_deg:
+    - 160.42818263663048
+    - 0.0
+    - 0.0
+    - 89.95437383553924
+    - 89.95437383553924
+    - 179.9087476710785
+    note: all joints at upper limit
+    cad_geometry_available: NO_CAD_EXPORT
+    inside_joint_limits: true
+cross_configuration_proof:
+  empirical_configurations_with_independent_cad_geometry:
+  - q0
+  - Q_STOW_C05_ARM_STOWED_ONORBIT
+  worst_urdf_predicted_pose_surface_residual_mm: 0.0001629909138996286
+  analytic_extension: 'D_i is body-fixed, so its application at ARM_TASK_READY (C06), the C07 intermediate,
+    DEPLOYED_HOME (C01) and all joint lower / upper limits is exact by rigid-body composition (residual
+    0 by construction).  Those four are ANALYTIC, not measured: the CAD has no independent geometry export
+    at them.  Declared, not claimed as empirical.'
+  per_configuration_chain_closure:
+    q0: 0.0
+    Q_STOW_C05_ARM_STOWED_ONORBIT: 0.0
+    Q_TASK_READY_C06: 0.0
+    Q_INTERMEDIATE_C07_PREGRASP: 0.0
+    Q_DEPLOYED_HOME_C01: 0.0
+    Q_JOINT_LOWER_LIMITS: 0.0
+    Q_JOINT_UPPER_LIMITS: 0.0
+consumption_rules:
+- 'kinematics, joint limits, topology and mass/inertia: accepted URDF only (L0), never overridden by CAD'
+- 'physical geometry, clearance, interference and manufacturing intent: M7 CAD, placed into URDF link
+  frames through D_i'
+- operational collision meshes must be re-exported from CAD through D_i; the raw accepted-URDF base_link
+  collision STL must not be used (see finding WP11-F-01 phantom desktop base plate)
+- any volume or mass read from parts_DEPLOYED / parts_STOWED STLs must be halved (doubled shell, finding
+  WP11-F-02); the M5 link-local PLY assets are single shell and need no correction
+- 'link6 and gripper_link are a CONTENT PARTITION pair: compare or collide them as the union, never link6
+  against link6 alone'
+- the flight gripper is the neutral R1 design (ODR-04); the vendor gripper_detail geometry is retained
+  here only as the wrist-partition witness and is not gripper shape authority
+carried_open_items:
+- WP11-F-01 collision-mesh re-export (phantom desktop base plate)
+- WP11-F-02 doubled-shell volume rule
+- WP11-F-03 duplicate spelling of the 25 deg clocking
+- AS_BUILT_ARM_METROLOGY_HOLD -- no measured hardware exists; this calibration is CAD-to-CAD, not CAD-to-hardware
+post_D_i_whole_arm_aggregate_q0:
+  residual_cad_to_urdf:
+    n: 25000
+    mean_mm: 0.04751275529338185
+    median_mm: 0.0207384085003617
+    p95_mm: 0.09267107835802942
+    p99_mm: 0.6843042015470264
+    max_mm: 6.257772024130845
+    rms_mm: 0.2000767301001817
+    frac_le_0p5mm: 0.98796
+    frac_le_1mm: 0.99304
+    frac_le_2mm: 0.99744
+  residual_urdf_to_cad:
+    n: 25000
+    mean_mm: 2.0606985844863845
+    median_mm: 0.022128041644327832
+    p95_mm: 14.335632600981166
+    p99_mm: 53.086561961246446
+    max_mm: 68.19241441282381
+    rms_mm: 9.070726045395254
+    frac_le_0p5mm: 0.92792
+    frac_le_1mm: 0.9296
+    frac_le_2mm: 0.93132
+  seconds: 187.5

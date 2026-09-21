@@ -1,0 +1,80 @@
+schema: M7_OWNER_DECISION_REGISTER_V1
+generated_local: '2026-08-22T09:00:00+08:00'
+source_of_decisions: OWNER_DIRECTIVE_2026-08-21_MECHANICAL_FINAL_CLOSURE
+register_role: >-
+  These are owner rulings. They convert former HOLDs into design authority
+  inside the stated scope only. Nothing here grants flight, launcher,
+  manufacturing-release, or qualification authority.
+
+decisions:
+  - id: ODR-01
+    subject: ROOT_TO_M_FRAME
+    ruling: >-
+      The dynamics mounting reference M frame authority is the existing chain
+      T_SM = [185.25, 0, 0] mm followed by Ry(90 deg). The physical feature
+      stations 198.0 (plate outer face), 208.0 (physical mounting face) and
+      210.405 mm (screw end faces) are a geometric feature stack and must not
+      become a second dynamics frame definition.
+    closes: [ROOT_TO_M_FRAME_AUTHORITY_HOLD]
+    scope: DESIGN_AND_DYNAMICS_AUTHORITY
+    supersedes_hold: M_DYNAMICS_VS_PHYSICAL_ARM_BASE_FRAME_ALIAS_RECONCILIATION_HOLD
+
+  - id: ODR-02
+    subject: PANEL_FAILURE_SEMANTICS
+    ruling: >-
+      LEFT_PANEL_FAIL / RIGHT_PANEL_FAIL / BOTH_PANEL_FAIL mean the failed
+      panel(s) remain mechanically attached to the spacecraft, stuck or not
+      normally deployed. Jettison interpretation is forbidden unless a
+      dedicated jettison device is later designed and authorized.
+    closes: [PANEL_RETAINED_OR_JETTISONED_SEMANTICS_HOLD]
+    scope: CONFIGURATION_AUTHORITY
+
+  - id: ODR-03
+    subject: SOLIDWORKS_NATIVE_LINE
+    ruling: >-
+      The SolidWorks native line is permanently removed from the critical
+      path with status NATIVE_REINTEGRATION_HOLD. The FreeCAD/STEP neutral
+      design chain is the system-level geometry authority.
+    closes: [NATIVE_LINE_BLOCKS_DESIGN_RELEASE]
+    scope: TOOLCHAIN_AUTHORITY
+
+  - id: ODR-04
+    subject: NATIVE_V5_GRIPPER_INTERFERENCE_FINDINGS
+    ruling: >-
+      The 36 legacy native gripper interference findings are superseded
+      (SUPERSEDED_NATIVE_REINTEGRATION_HOLD) because the neutral R1
+      authority geometry passes continuous-stroke validation. They must not
+      block FreeCAD-chain detailed-design release.
+    closes: [NATIVE_G33_GRIPPER_BLOCKS]
+    scope: TOOLCHAIN_AUTHORITY
+
+  - id: ODR-05
+    subject: M3R_MASS_AUTHORITY
+    ruling: >-
+      0.7619 kg is the M3R design-budget authority (DESIGN_BUDGET, confidence
+      B). It may enter design analysis now. It is not a measured or as-built
+      authority; the as-built measurement remains an open correlation item.
+    closes: [M3R_DESIGN_MASS_INDEFINITE]
+    scope: DESIGN_MASS_MODEL
+    retained: [M3R_AS_BUILT_MEASUREMENT_OPEN]
+
+  - id: ODR-06
+    subject: FEA_STRATEGY_SPLIT
+    ruling: >-
+      Formal structural FEA is authorized for on-orbit operational load
+      cases only (arm maneuver, emergency stop, 22 kg capture, 150 kg
+      capture, gripper clamp, panel deployment, single-panel-failure,
+      M3R interface, on-orbit system modal). Launch-qualification FEA
+      (quasi-static launch, sine, random, acoustic, shock) remains HOLD
+      pending launcher ICD. Absence of a launcher ICD no longer freezes
+      operational structural analysis.
+    closes: [OPERATIONAL_FEA_ENTRY]
+    scope: OPERATIONAL_STRUCTURAL_VERIFICATION
+    retained: [LAUNCH_QUALIFICATION_FEA_HOLD]
+
+standing_prohibitions_unchanged:
+  - no_flight_or_launcher_or_manufacturing_release_claims
+  - no_zero_fill_of_unknowns
+  - no_cad_mass_override_of_accepted_urdf_masses
+  - no_typical_property_as_design_allowable_for_flight_margin
+  - memory_gate_6gib_remains_failed

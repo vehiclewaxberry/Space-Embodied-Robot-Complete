@@ -1,0 +1,207 @@
+{
+  "schema": "V5R_RAPID_INPUT_MANIFEST_V1",
+  "round": "V5R_RAPID_MECHANICAL_CLOSURE",
+  "timestamp_utc": "2026-08-20T04:52:28Z",
+  "git_head": "5c5addea00ddb70d86a5cc37a88bbcda50350e43",
+  "git_branch": "publication/stage3-integrity-closure",
+  "hash_algorithm": "SHA-256",
+  "full_manifest_csv": "07_evidence/PRE_EXECUTION_HASHES_SRC.csv",
+  "full_manifest_scope": "every file under 20_engineering at snapshot time: 6568 files / 8946146178 bytes",
+  "manifest_enumeration_method": "os.walk over Win32 extended-length path; NOT git ls-files (see BACKUP_RECEIPT P0-F2)",
+
+  "authority_precedence": [
+    {
+      "rank": 1,
+      "domain": "arm kinematics, joint topology, joint origins/axes/limits, arm mass truth",
+      "authority": "accepted_B601_URDF",
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+      "sha256_disk_crlf": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+      "sha256_lf_normalized": "408147DDC9CC0BBA0FACBF864C559A54D1712262703BA41251514A4303B5A3A4",
+      "mutable": false,
+      "note": "CAD-computed mass may be recorded as comparison only and must never overwrite this file"
+    },
+    {
+      "rank": 2,
+      "domain": "B601 arm-side physical mounting interface",
+      "authority": "M3R_INTERFACE_AUTHORITY_GATE + M3R_ADAPTER_INTERFACE_SSOT",
+      "paths": {
+        "gate": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_INTERFACE_AUTHORITY_GATE.json",
+        "ssot": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_ADAPTER_INTERFACE_SSOT.yaml"
+      },
+      "sha256": {
+        "gate": "875F967DF910F164C4C82517D85D8BA27E15E4AD456730E35ECB2ADD10CC848A",
+        "ssot": "591958F3A3BD06F5BD26B8218BFE145B4894031EC5005BC58C638B56D77F6E51"
+      },
+      "mutable": false,
+      "binding_values": {
+        "fastener_stack": "4_x_M4_CLASS",
+        "pattern": "64_x_64_mm_square",
+        "equivalent_pcd_mm": 90.509641772,
+        "clocking_about_spacecraft_x_deg": 25.000014,
+        "best_fit_center_yz_mm": [0.015994151, -0.08636607],
+        "continuous_mount_face_present_in_active_top": false,
+        "adapter_clearance_hole_diameter_mm": 4.6,
+        "adapter_counterbore_diameter_mm": 7.5,
+        "superseded_and_prohibited_claim": "8 x M3 at PCD 90.51 mm"
+      }
+    },
+    {
+      "rank": 3,
+      "domain": "system mass ledger",
+      "authority": "mass_inertia_budget_v1",
+      "path": "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv",
+      "sha256": "073C802527E35C9495188EEFD5D8BA51F524D326142CF2AB31E436BAD0899392",
+      "mutable": false
+    }
+  ],
+
+  "geometry_inputs": [
+    {
+      "name": "V4_neutral_delta_geometry",
+      "root": "20_engineering/F3R2_V4_COMPETITION_MECHANICAL_CANDIDATE_20260809/02_neutral_cad/",
+      "gate": "11_release/MFINAL_GATE.json",
+      "gate_sha256": "59A6E212D0BC717B7906CA68092F8A6616545E2DC93CE2850BA047AB491AF99E",
+      "gate_verdict": "MFINAL_V4_NEUTRAL_MECHANICAL_DESIGN_BASIS_ESTABLISHED_NATIVE_RELEASE_HOLD",
+      "accepted_scope": "F3R2_V4_COMPETITION_NEUTRAL_MECHANICAL_DESIGN_BASIS",
+      "actual_content": {
+        "step_part_files": 23,
+        "subdomains": ["adapter", "camera_harness", "gripper", "hdrm", "supports", "wing_root"],
+        "contains_spacecraft_bus_structure": false,
+        "contains_solar_array_panels": false,
+        "contains_arm_link_geometry": false
+      },
+      "CORRECTION_TO_ROUND_PLAN": "V4 is NOT 'global geometry'. It is a delta/interface set: two-stage adapter, keep-out envelopes, stow supports, wing-root clevises, gripper STL. Any V5R architecture that names V4 as the source of the bus and solar arrays is unsatisfiable as written.",
+      "key_parts": [
+        {"file": "adapter/V4_B601_TWO_STAGE_ADAPTER_REVB2.step", "sha256": "70EAA051CC5486CE8D7FF5B18D3095853FC32859196296D0518E8EF8C53BC425", "size_bytes": 73939},
+        {"file": "adapter/V4_B601_STAGE_A_INTERFACE_RING_REVB.step", "sha256": "DD37083EE41F714B25CAA08FFF456B4291606B557EEA1F11CD2504491A4636DF", "size_bytes": 35879},
+        {"file": "adapter/V4_B601_STAGE_B_LOAD_ADAPTER_REVB2.step", "sha256": "AA042A883803682FC6799D29F6330C486BE28E579E94CDD4535CAF8F62038DDB", "size_bytes": 37779}
+      ]
+    },
+    {
+      "name": "V2_2_NATIVE_donor_bus_and_panels",
+      "root": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2_NATIVE/",
+      "top": "Assembly/Space_Embodied_Service_Spacecraft_V2_2.SLDASM",
+      "top_sha256": "30C09B50A0D2967EC1F48050CAAC34D12A43565C44978D54E3785595202DEF7A",
+      "native_sldprt_count": 61,
+      "subdomains": ["00_Master_Skeleton", "01_Primary_Structure", "02_B601_Mount_and_Load_Path", "04_ARM_STOW_SUPPORT"],
+      "mutable": false,
+      "role": "THIS is the actual source of primary structure, equipment decks and removable panels - not V4",
+      "caution": "several ~$ lock files present in Removable_Panels/parts; these are SolidWorks session artifacts, not geometry"
+    },
+    {
+      "name": "V5_native_output_already_produced",
+      "root": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/",
+      "mutable": false,
+      "role": "FAILURE EVIDENCE AND MODELLING REFERENCE ONLY - not the current authoritative assembly",
+      "CORRECTION_TO_ROUND_PLAN": "V5 is not an empty failure. It already contains 49 native SLDPRT and 10 native SLDASM subassemblies, plus two 27 MB LOOP1E staging top assemblies. The round plan's cost assumption ('rebuild from scratch, V5 top assembly does not exist') is materially wrong.",
+      "inventory": {
+        "native_parts_sldprt": 49,
+        "native_subassemblies_sldasm": 10,
+        "subassembly_list": [
+          "ARM_HDRM_FUNCTIONAL_ENVELOPE.SLDASM",
+          "B601_BASE_ADAPTER_REV_B2.SLDASM",
+          "B601_GRIPPER.SLDASM",
+          "B601_HARNESS_STATIC_INTERFACE_HOLD.SLDASM",
+          "G07_PRIMARY_SUPPORT_V2.SLDASM",
+          "G08_PRIMARY_SUPPORT_V2.SLDASM",
+          "LEFT_WING_ROOT_TRUE_HINGE.SLDASM",
+          "MID_BACKUP_SUPPORT_V2.SLDASM",
+          "RIGHT_WING_ROOT_TRUE_HINGE.SLDASM",
+          "SERVICE_CAMERA_INTERFACE_HOLD.SLDASM"
+        ],
+        "top_assembly_target_name_exists": false,
+        "top_assembly_staging_files_exist": true,
+        "staging_files": [
+          "03_top_assembly/SEI_MECH_B601_V5_NATIVE_BASELINE__LOOP1E_STAGING_20260813T135409.336570Z_PID46496.SLDASM",
+          "03_top_assembly/SEI_MECH_B601_V5_NATIVE_BASELINE__LOOP1E_STAGING_20260813T151206.356571Z_PID25968.SLDASM"
+        ],
+        "drawings_files": 0,
+        "screenshots_files": 0,
+        "pack_and_go_files": 0,
+        "fail_receipts_total": 110,
+        "fail_receipts_loop1e": 39
+      },
+      "gripper_subassembly": {
+        "path": "02_native_subassemblies/B601_GRIPPER.SLDASM",
+        "sha256": "21E74251D58A957A81F659311DFE892B642ED8565B0C26490A95EA8E52459EE4",
+        "size_bytes": 3254152,
+        "provenance": "Loop1C1 product; four configurations OPEN/PREGRASP/CLOSED/HOLDING with driven prismatic jaw"
+      }
+    }
+  ],
+
+  "loop1c1_state": {
+    "contract": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/00_authority/V5_LOOP1C1_EXCEPTION_CONTRACT.yaml",
+    "contract_sha256": "63516D69D2FEA5FC7E5231DD8D93EF758EBF61AA307F6C24AB8E7E3232E9C4AF",
+    "final_receipt": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/13_validation/V5_LOOP1C1_FINAL_RECEIPT.json",
+    "final_receipt_sha256": "ED643785373B070E5FBEC087C86B73D5ACFB0E7C04B674301252F0F3BBE52445",
+    "register": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/04_configurations/V5_LOOP1C1_INTERFERENCE_FINGERPRINT_REGISTER.csv",
+    "register_sha256": "1C0D38F986827BFA093A508717AC96CBBD8DD6039508AD01A2E5322A9484AA30",
+    "abc_source_document": "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/99_tools/V5_LOOP1C1_FIX_PROPOSAL_20260810.md",
+    "abc_source_sha256": "CF0ABD3EC79D3A00B2E94B5FE6BCD1252F15B2793F035CCF901F015B227BCDE9",
+    "abc_source_section": "5",
+    "option_already_selected": "A_CONTRACT_AMENDMENT",
+    "signed_off_by": "user",
+    "signed_off_date": "2026-08-11",
+    "user_instruction_verbatim": "现在先执行A",
+    "CORRECTION_TO_ROUND_PLAN": "The round plan treats A/B/C as an unread, undecided unlock key. It is neither: Option A was read, selected, signed by the owner on 2026-08-11, and executed. The live blocker is a narrower residual ruling - see LOOP1C1_OWNER_RULING_DRAFT.json.",
+    "residual_blocker_verdict": "V5_LOOP1C1_OPTION_A_STRICT_REVISION_PARTIAL_POSE_INDUCED_ROWS_PENDING_HUMAN_RULING",
+    "next_stage_authorized": false
+  },
+
+  "loop1e_state": {
+    "last_receipt": "13_validation/V5_LOOP1E_FAIL_20260813T154720.118687Z.json",
+    "last_receipt_sha256": "8EEF6AE803456515D9F0962471DF26A04476F0A18E704CFB8E841E631ACC7F34",
+    "canonical_script": "99_tools/F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py",
+    "canonical_script_sha256": "1F8E83AC067A2C4218BCECADBD192A68D55D09A2DC2C4B896E1BD475141B0419",
+    "canonical_script_size_bytes": 242313,
+    "canonical_script_mtime": "2026-08-13 22:28",
+    "verdict": "V5_LOOP1E_UNEXPECTED_EXCEPTION",
+    "root_cause_class": "COM_BINDING_DEFECT_NOT_MEMORY_NOT_GEOMETRY",
+    "failure_site": "F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py:2613 relative_transform -> IMathTransform.IInverse()",
+    "com_error": "(-2147352567, '发生意外。', (61836, 'SOLIDWORKS', '无法读只写属性。', ..., 455052, 0), None)",
+    "call_chain": "execute:3509 -> build_top:3013 -> build_motion_contract:2807 -> relative_transform:2613 -> IInverse",
+    "stages_that_passed_before_failure": [
+      "explicit G0 session-B smoke receipt PASS",
+      "static execution readiness PASS",
+      "LOOP1C / LOOP1D stage audits",
+      "SOLAR_R2B_P9 promotion checks",
+      "six native joint limit-angle drivers on the local arm PASS with cold_open errors 0 warnings 0"
+    ],
+    "CORRECTION_TO_ROUND_PLAN": "The round plan attributes V5's failure partly to low memory and calls for abandoning the line. The last Loop1E run died on a makepy static-binding defect - the SAME class of defect this project already diagnosed and worked around twice (IMateEntity2.Reference via late-bound dynamic dispatch, per FIX_PROPOSAL section 2 item 6). It is a plausible small fix, not evidence that the native line is unreachable.",
+    "known_workaround_precedent": "use late-bound dynamic dispatch instead of the makepy static binding for the failing member"
+  },
+
+  "hygiene_findings": [
+    {
+      "id": "P0-F4",
+      "severity": "MEDIUM",
+      "finding": "A stray copy of the Loop1E script sits at the REPOSITORY ROOT: F3R2_V5_NATIVE_LOOP1E_TOP_ASSEMBLY_ATTACH_ONLY.py (141954 bytes, 2026-08-10, sha256 675EBCC3...F0A2). The canonical 99_tools copy is 242313 bytes, 2026-08-13, sha256 1F8E83AC...0419. They are DIFFERENT scripts, 100 KB apart.",
+      "consequence": "receipt-to-code traceability is ambiguous if anyone runs the root copy; also violates the REORG04 root-directory freeze",
+      "action_this_round": "recorded only; no move or delete performed (out of this round's write boundary)"
+    },
+    {
+      "id": "P0-F5",
+      "severity": "HIGH",
+      "finding": "Available physical memory measured at 1.14 GiB of 15.21 GiB total, with zero SLDWORKS processes running. The project's own threshold for full native assembly work is >= 6.0 GiB.",
+      "consequence": "the memory gate BLOCKS native SolidWorks work at this instant regardless of any other decision; a prior manual override does not count as a gate pass",
+      "action": "must be re-measured immediately before any SolidWorks launch and written into the receipt"
+    }
+  ],
+
+  "logically_read_only_this_round": [
+    "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+    "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv",
+    "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2_NATIVE/",
+    "20_engineering/cad/B5_1_B601_interface_closure_candidate/",
+    "20_engineering/F3R1_MECHANICAL_INTEGRATION_RECOVERY_20260806/",
+    "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/",
+    "20_engineering/F3R2_V4_COMPETITION_MECHANICAL_CANDIDATE_20260809/",
+    "20_engineering/F3R2_V5_NATIVE_MECHANICAL_RELEASE_20260810T000300_V5NATIVE/",
+    "all pre-existing *_gate_check.json and Gate JSON and threshold registries"
+  ],
+
+  "only_writable_path": "20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/",
+  "solidworks_opened": false,
+  "verdict": "V5R_INPUT_AUTHORITY_MAP_COMPLETE_THREE_PLAN_PREMISES_CORRECTED"
+}

@@ -1,0 +1,314 @@
+{
+  "title": "WP09F成熟模块复用来源与执行边界",
+  "research_date": "2026-09-07",
+  "artifact_kind": "RESEARCH_MANIFEST_NOT_DOWNLOADED_VENDOR_SOURCE_BUNDLE",
+  "verification_scope": "读取上传报告及公开来源；未连接用户F盘、未重开用户CAD、未运行原工程脚本、未完成本地ECAD重建或硬件试验。",
+  "input_copies": [
+    {
+      "uploaded_copy": "README(20260907-095250).md",
+      "sha256": "91ad87aeacd636cebf1c9d86647795c71c955cc002d14d8f29dfe2b13753b4a6",
+      "scope": "本次上传副本；不代表对F盘原文件或其引用资产重新验真"
+    },
+    {
+      "uploaded_copy": "FUNCTIONAL_DESIGN_REPORT_ZH.md",
+      "sha256": "8ced6edf7b47595293e992f4c6db4342fa15deaf21b9ee167029819cca034342",
+      "scope": "本次上传副本；不代表对F盘原文件或其引用资产重新验真"
+    },
+    {
+      "uploaded_copy": "PORT_INSTALLATION_AND_CONTROL_ZH.md",
+      "sha256": "15d81ad6d3dedceeb6e9869e875ff873aa7bcb00970119b9ee81b220fbace634",
+      "scope": "本次上传副本；不代表对F盘原文件或其引用资产重新验真"
+    },
+    {
+      "uploaded_copy": "PROPULSION_CAPABILITY_ZH.md",
+      "sha256": "7d48e28e43cf725ce23b13f3c66f33bcce6b4d6b4a7cbcec7ec8f6c6dbebb645",
+      "scope": "本次上传副本；不代表对F盘原文件或其引用资产重新验真"
+    }
+  ],
+  "current_parent": {
+    "path_hint": "runs/wp09_interfaces_20260907_1525",
+    "components_per_state": 701,
+    "bodies_per_state": 1082,
+    "states": "父版三态有效，具体范围以原报告为准"
+  },
+  "wp09f": {
+    "directory_hint": "functional_closure",
+    "local_ports_assembly": "5组件/5实体已报告通过",
+    "expected_whole_assembly": "705/1086未验收，SERVICE中断，另两态未生成",
+    "physical_checks": "0/24",
+    "approved_circuits": 0
+  },
+  "sources": [
+    {
+      "id": "R01",
+      "name": "Seeed reBot-DevArm DM V4",
+      "class": "OFFICIAL_OPEN_REFERENCE_HARDWARE",
+      "decision": "KEEP_EXISTING_PINNED_REFERENCE",
+      "url": "https://github.com/Seeed-Projects/reBot-DevArm",
+      "reference_commit": "c9b893aa26c7d89019dd3d0a28ff8f6a7d47ccf9",
+      "entry": "hardware/reBot_B601_DM/readme.md",
+      "observed": "附件锁定该提交；本轮GitHub接口确认该提交树可访问。",
+      "reuse": [
+        "DM原厂线束边界",
+        "100045091分线板",
+        "100011896 USB-CAN",
+        "型号与装配接口资料"
+      ],
+      "unverified": [
+        "实际出货修订",
+        "V4全部配对面针位",
+        "实际驱动固件与终端清单"
+      ],
+      "license_action": "读取锁定提交LICENSE及具体子目录声明，分别登记硬件/软件范围。"
+    },
+    {
+      "id": "R02",
+      "name": "MotorBridge",
+      "class": "OPEN_SOURCE_DRIVER_CANDIDATE",
+      "decision": "EVALUATE_PINNED_DRIVER_WITH_FAKE_TRANSPORT",
+      "url": "https://github.com/motorbridge/motorbridge",
+      "reference_commit": null,
+      "official_linking_source": "https://wiki.seeedstudio.com/rebot_b601_dm_getting_started/",
+      "observed": "已读取README；Seeed快速入门推荐MotorBridge；库列出Damiao 4310、4340P和dm-serial等路径。",
+      "license_declared_in_readme": "MIT",
+      "reuse": [
+        "协议编码与解析",
+        "与现有USB-CAN相符的传输适配",
+        "设备反馈与错误语义"
+      ],
+      "unverified": [
+        "当前项目适配器与该版本端到端兼容",
+        "假传输接口是否现成可注入",
+        "实时和安全性能"
+      ],
+      "execution_boundary": "先锁版本并阅读代码；不导入会自动打开设备的示例，不扫描、使能、改ID、校零或刷固件。"
+    },
+    {
+      "id": "R03",
+      "name": "OreSat FlatSat",
+      "class": "OPEN_HARDWARE_ECAD_DONOR",
+      "decision": "PRIMARY_GROUND_INTERFACE_DONOR",
+      "url": "https://github.com/oresat/oresat-flatsat",
+      "reference_commit": null,
+      "license_declared_in_readme": "CERN-OHL-S-2.0-or-later",
+      "observed": "已读取README、目录API和辅助KiCad源文件；主项目尚未在本环境打开/执行ERC。",
+      "files": [
+        {
+          "path": "flatsat-breakout/flatsat-breakout-main.kicad_sch",
+          "git_blob_id": "6b450277981d4aa57686e8ac53977167b383d214",
+          "bytes_from_api": 125354,
+          "content_status": "LISTED_NOT_REBUILT"
+        },
+        {
+          "path": "flatsat-breakout/flatsat-breakout-main.kicad_pcb",
+          "git_blob_id": "37ffaa6333d3aad5f29b2e8a16a796a47ddf51ba",
+          "bytes_from_api": 982157,
+          "content_status": "LISTED_NOT_REBUILT"
+        },
+        {
+          "path": "flatsat-breakout/flatsat-breakout-main.kicad_pro",
+          "git_blob_id": "f1c62558fb3210929fda82c84764e08a218a6168",
+          "content_status": "LISTED_NOT_REBUILT"
+        },
+        {
+          "path": "flatsat-breakout/fp-lib-table",
+          "content_status": "LISTED_NOT_REBUILT"
+        },
+        {
+          "path": "flatsat-breakout/sym-lib-table",
+          "content_status": "LISTED_NOT_REBUILT"
+        },
+        {
+          "path": "flatsat-breakout/flatsat-breakout-main-bom.xlsx",
+          "content_status": "LISTED_CONTENT_NOT_READ"
+        },
+        {
+          "path": "flatsat-breakout/flatsat-breakout-aux.kicad_sch",
+          "git_blob_id": "c15c2f860d571dd4dece9c5ccee46751704cf821",
+          "bytes_from_api": 232,
+          "content_status": "READ_EMPTY_SCHEMATIC_NO_PLACED_CIRCUIT"
+        },
+        {
+          "path": "flatsat-breakout/flatsat-breakout-aux.sch",
+          "content_status": "LEGACY_SOURCE_LISTED_NOT_REBUILT"
+        },
+        {
+          "path": "flatsat-breakout/flatsat-breakout-aux.brd",
+          "content_status": "LEGACY_SOURCE_LISTED_NOT_REBUILT"
+        }
+      ],
+      "reuse": [
+        "展开式台架组织",
+        "调试/转接板原生EDA",
+        "接口可测性与线束组织"
+      ],
+      "prohibited_inferences": [
+        "40线排线与P60针位相同",
+        "原版适用24V大电流DM",
+        "空辅助原理图代表设计完成",
+        "本轮已下载完整源包或ERC通过"
+      ],
+      "note": "git_blob_id是远端Git对象标识，不是本地文件SHA256，也不是整个仓库的提交锁。"
+    },
+    {
+      "id": "R04",
+      "name": "OreSat Battery Card",
+      "class": "OPEN_HARDWARE_EPS_REFERENCE",
+      "decision": "REFERENCE_ONLY_NO_AUTOMATIC_8S_REPLACEMENT",
+      "url": "https://github.com/oresat/oresat-batteries",
+      "reference_commit": null,
+      "license_declared_in_readme": "CERN-OHL-1.2",
+      "observed": "已读取README。2S母线6.0–8.4V；每卡两个独立2S1P包；说明区分v3.0 EAGLE与v3.1 KiCad迁移。",
+      "reuse": [
+        "保护/温度/加热/荷电状态/充放电使能的完整功能组织"
+      ],
+      "unverified": [
+        "具体复用修订的原理图与BOM一致性",
+        "当前KiCad修订是否继承飞行验证",
+        "对本项目功率与环境适用性"
+      ],
+      "note": "README日期和部分器件名称存在不一致线索，不按README手工抄芯片型号；以锁定设计文件和试验记录为准。"
+    },
+    {
+      "id": "R05",
+      "name": "OreSat Solar Hardware",
+      "class": "OPEN_HARDWARE_EPS_REFERENCE",
+      "decision": "REFERENCE_ONLY_COHERENT_MPPT_ARCHITECTURE",
+      "url": "https://github.com/oresat/oresat-solar-hardware",
+      "reference_commit": null,
+      "license_declared_in_readme": "CERN-OHL-S-2.0-or-later",
+      "observed": "已读取README；独立1U面板MPPT；GaAs设计与开发中的硅设计分开描述。",
+      "reuse": [
+        "阵列/MPPT/遥测/电池母线的功能链研究"
+      ],
+      "unverified": [
+        "具体修订电路与固件",
+        "与P60 ACU连接的电气边界"
+      ],
+      "note": "不把已调节输出直接当裸PV接入另一MPPT，也不把1U设计按面积线性放大视为12U验证。"
+    },
+    {
+      "id": "R06",
+      "name": "P60/BPX/A3200现行商业模块候选",
+      "class": "COMMERCIAL_PUBLIC_INTERFACE",
+      "decision": "KEEP_CURRENT_FAMILY_AND_COMPLETE_SYSTEM_CONTRACT",
+      "url": "https://gomspace.com/product/nanopower-p60/",
+      "observed": "厂家页面描述Dock+ACU+PDU模块体系及数据表/选件表入口。",
+      "reuse": [
+        "模块级采购候选/外部ICD/安装接口，不逆向商业内部PCB"
+      ],
+      "unverified": [
+        "本地实物拥有与订单配置",
+        "BPX-Dock-PDU全链保证",
+        "A3200供电最坏情况",
+        "充电/太阳阵列/温度线束"
+      ],
+      "note": "不是开源硬件。页面汇总值不覆盖附件采用的精确选件；重新锁同版本数据表。"
+    },
+    {
+      "id": "R07",
+      "name": "ATMOS / KTH DISCOWER",
+      "class": "OPEN_GROUND_FREE_FLYER_REFERENCE",
+      "decision": "PRIMARY_GROUND_PROPULSION_CONTROL_REFERENCE",
+      "url": "https://atmos.discower.io/",
+      "repository": "https://github.com/DISCOWER/w3_atmos",
+      "paper": "https://arxiv.org/html/2501.16973v2",
+      "avionics": "https://atmos.discower.io/jekyll/2024-11-23-avionics.html",
+      "firmware_guide": "https://atmos.discower.io/pages/PX4/",
+      "reference_commit": null,
+      "observed": "项目说明、论文、控制器设置和仓库目录已查阅；地面平面自由漂浮平台。",
+      "reuse": [
+        "实际平台控制分层",
+        "推力分配及输出通道定义",
+        "电气接口与台架验证方法"
+      ],
+      "unverified": [
+        "所有子资产许可证范围",
+        "与现行PX4提交匹配",
+        "实际板卡在本项目中的运行"
+      ],
+      "execution_boundary": "本轮仅数字接口与离线参考实现；不复制承压制造/充装操作，不把地面平台称为六自由度真空推进器。"
+    },
+    {
+      "id": "R08",
+      "name": "PX4 Spacecraft / KTH-ATMOS",
+      "class": "OPEN_SOURCE_SOFTWARE_REFERENCE",
+      "decision": "REUSE_PINNED_COMPONENTS_NOT_WHOLE_ENVIRONMENT_MIGRATION",
+      "url": "https://github.com/PX4/PX4-Autopilot",
+      "official_airframe_reference": "https://docs.px4.io/main/en/airframes/airframe_reference",
+      "reference_commit": null,
+      "observed": "官方main文档列Spacecraft/Free-Flyer/KTH-ATMOS，SYS_AUTOSTART=70000和八个推力输出方向；ATMOS当前文档指向上游PX4。",
+      "reuse": [
+        "实际公开编号/方向基准",
+        "分配器接口",
+        "实际消息定义"
+      ],
+      "unverified": [
+        "位置坐标和完整匹配构型",
+        "当前稳定版本适配",
+        "与px4_msgs及地面站的版本组合"
+      ],
+      "note": "文档main不是版本锁；不把地面八喷口编号当作VACCO ICD，不执行文档中的upload或自动配置指令。"
+    },
+    {
+      "id": "R09",
+      "name": "VACCO MiPS / C-POD RCM",
+      "class": "COMMERCIAL_PROPULSION_INTERFACE",
+      "decision": "KEEP_TWO_PINNED_CANDIDATES_NO_SPEC_MIXING",
+      "url": "https://cubesat-propulsion.com/reaction-control-propulsion-module/",
+      "report_bound_sources": [
+        {
+          "url": "https://www.vacco.com/images/uploads/pdfs/MiPS_standard_0714.pdf",
+          "version": "X14029003-1 / Rev6/15"
+        },
+        {
+          "url": "https://cubesat-propulsion.com/wp-content/uploads/2022/04/X13003000-01_RCM_2016update.pdf",
+          "version": "X13003000-01 / PDF footer Rev7/14"
+        }
+      ],
+      "observed": "本轮沿用用户PROPULSION_CAPABILITY_ZH.md明确绑定的两份版本；没有新下载或重做PDF数值验真。",
+      "reuse": [
+        "完整推进单元的外部集成，不自制其内部储罐阀路"
+      ],
+      "unverified": [
+        "完整厂商喷口ICD与命令",
+        "实际当前任务能力",
+        "采购可得性",
+        "许可及鉴定条件"
+      ],
+      "note": "174Ns/1330g/<10ms与网页另一参数卡不得拼接。"
+    },
+    {
+      "id": "R10",
+      "name": "PyCubed",
+      "class": "OPEN_HARDWARE_ALTERNATIVE",
+      "decision": "BACKUP_ONLY_NOT_PARALLEL_OBC_MIGRATION",
+      "url": "https://github.com/pycubed/hardware",
+      "software": "https://github.com/pycubed/software",
+      "reference_commit": null,
+      "observed": "硬件README列PC104主板设计、各版制造文件和BOM入口，说明EAGLE到KiCad迁移。",
+      "license_declared_in_readme": {
+        "hardware": "CC-BY-SA-4.0",
+        "software": "MIT unless otherwise indicated"
+      },
+      "reuse": [
+        "未来整个平台更换时的一体化航电备选参考"
+      ],
+      "unverified": [
+        "本项目供电/机械/任务兼容"
+      ],
+      "note": "不加入现行主线；不是直接替换A3200/P60的已验证方案。"
+    },
+    {
+      "id": "R11",
+      "name": "KiCad CLI official documentation",
+      "class": "TOOL_DOCUMENTATION",
+      "decision": "USE_LOCAL_VERSION_MATCHED_ERC_DRC_EXPORTS",
+      "url": "https://docs.kicad.org/9.0/en/cli/cli.html",
+      "observed": "官方文档提供sch erc、pcb drc等入口。",
+      "note": "9.0文档不是本地安装版本声明，也不是最新版本推荐；先检查本地版本，不自动升级全局环境。"
+    }
+  ],
+  "global_download_rule": "优先复用本地已有缓存；只读父资料，按本轮需要取原理图、库、PCB、BOM、驱动和ICD。主分支来源在本地使用前解析提交并计算下载文件SHA256。不得把本索引当作完成下载或验证的回执。",
+  "source_license_rule": "以上为来源声明的记录，不替代具体文件及修订的许可核对；保留上游署名、许可证、源位置与修改记录。"
+}

@@ -1,0 +1,86 @@
+** F3-P5A M1 Refined Beam Engineering Model
+** UL_FZ: Unit load Fz = 1 N in +Z direction
+** Units: mm, N, MPa
+** Refined beam model for base adapter + load bridge + saddle supports
+** Using B31 elements with RECT section (same as M0 but refined)
+**
+*HEADING
+F3-P5A M1 Refined Beam Engineering Model - UL_FZ
+**
+** Nodes (non-collinear for beam normal definition)
+*NODE
+1, 0.0, 0.0, 0.0
+2, 0.0, 0.0, 100.0
+3, 0.0, 0.0, 200.0
+4, 0.0, 0.0, 300.0
+5, 0.0, 0.0, 400.0
+6, 0.0, 0.0, 500.0
+7, 0.0, 0.0, 600.0
+8, 0.0, 0.0, 700.0
+9, 0.0, 0.0, 800.0
+10, 0.0, 0.0, 900.0
+11, 0.0, 0.0, 1000.0
+100, 1.0, 0.0, 0.0
+** Beam elements (base adapter + load bridge, refined)
+*ELEMENT, TYPE=B31
+1, 1, 2
+2, 2, 3
+3, 3, 4
+4, 4, 5
+5, 5, 6
+6, 6, 7
+7, 7, 8
+8, 8, 9
+9, 9, 10
+10, 10, 11
+** Spring elements (G07/G08/Mid support)
+*ELEMENT, TYPE=SPRING1
+11, 5
+12, 9
+** Mass element for B601 equivalent mass
+*ELEMENT, TYPE=MASS
+13, 11
+** Mass
+*MASS, ELSET=B601_MASS
+13
+4.695556
+** Boundary conditions
+*BOUNDARY
+1, 1, 3, 0.0
+** G07 spring stiffness (10 N/mm in Z direction)
+*SPRING, ELSET=G07_SPRING
+11
+10.0, 3
+** G08 spring stiffness (5 N/mm in Z direction)
+*SPRING, ELSET=G08_SPRING
+12
+5.0, 3
+** Material (Al 7075-T6)
+*MATERIAL, NAME=AL7075
+*ELASTIC
+71700.0, 0.33
+*DENSITY
+2.81E-9
+** Beam section (rectangular, 17x17 mm)
+*BEAM SECTION, ELSET=BEAM_SET, MATERIAL=AL7075, SECTION=RECT
+17.0, 17.0
+100
+** Element sets
+*ELSET, ELSET=BEAM_SET
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+*ELSET, ELSET=G07_SPRING
+11
+*ELSET, ELSET=G08_SPRING
+12
+*ELSET, ELSET=B601_MASS
+13
+** Step
+*STEP
+*STATIC
+*CLOAD
+11, 3, 1.0
+*NODE FILE
+U
+*EL FILE
+S
+*END STEP

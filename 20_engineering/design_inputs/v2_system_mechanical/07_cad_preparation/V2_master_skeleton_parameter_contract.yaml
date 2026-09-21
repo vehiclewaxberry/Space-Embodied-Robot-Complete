@@ -1,0 +1,201 @@
+schema_version: v2-master-skeleton-parameter-contract-v0.1
+contract_id: V2_MASTER_SKELETON_PRE_CAD_INPUT
+created_on: "2026-07-24"
+status: PARAMETER_CONTRACT_READY_CAD_NOT_AUTHORIZED
+
+authority:
+  create_SLDPRT_or_SLDASM_now: false
+  modify_V1_now: false
+  export_URDF_now: false
+  calculate_mass_properties_now: false
+  run_interference_now: false
+
+units:
+  length: mm
+  angle: deg
+  mass: kg
+
+parameter_states:
+  - EVIDENCE_BOUND
+  - DERIVED
+  - DESIGN_PROPOSAL
+  - UNKNOWN_BLOCKED
+  - EXCLUDED
+
+global_parameters:
+  PROFILE_ID:
+    value: COMPETITION_DISPLAY_V0
+    state: EVIDENCE_BOUND
+  BODY_X_MM:
+    value: 340.5
+    state: EVIDENCE_BOUND
+  BODY_Y_MM:
+    value: 226.3
+    state: EVIDENCE_BOUND
+  BODY_Z_MM:
+    value: 226.3
+    state: EVIDENCE_BOUND
+  BODY_HALF_X_MM:
+    value: 170.25
+    derivation: BODY_X_MM_div_2
+    state: DERIVED
+  BODY_HALF_Y_MM:
+    value: 113.15
+    derivation: BODY_Y_MM_div_2
+    state: DERIVED
+  BODY_HALF_Z_MM:
+    value: 113.15
+    derivation: BODY_Z_MM_div_2
+    state: DERIVED
+  BAY_COUNT:
+    value: 3
+    state: EVIDENCE_BOUND
+  BAY_LENGTH_NOMINAL_MM:
+    value: 113.5
+    derivation: BODY_X_MM_div_3
+    state: DERIVED
+  TASK_FACE_X_MM:
+    value: 170.25
+    derivation: positive_X_body_face
+    state: DERIVED
+  REAR_MID_BOUNDARY_X_MM:
+    value: -56.75
+    derivation: negative_BODY_X_div_6
+    state: DERIVED
+  MID_FRONT_BOUNDARY_X_MM:
+    value: 56.75
+    derivation: positive_BODY_X_div_6
+    state: DERIVED
+  MOUNT_ORIGIN_X_MM:
+    value: 185.25
+    state: EVIDENCE_BOUND
+  MOUNT_OFFSET_FROM_TASK_FACE_MM:
+    value: 15.0
+    derivation: MOUNT_ORIGIN_X_MM_minus_TASK_FACE_X_MM
+    state: DERIVED
+  MOUNT_RY_DEG:
+    value: 90.0
+    state: EVIDENCE_BOUND
+  SERVICER_FLANGE_X_Y_Z_MM:
+    value: [15.0, 160.0, 160.0]
+    state: EVIDENCE_BOUND
+  ADAPTER_PLATE_X_Y_Z_MM:
+    value: [12.0, 160.0, 160.0]
+    state: EVIDENCE_BOUND
+  ADAPTER_BOSS_D_H_MM:
+    value: [100.0, 15.0]
+    state: EVIDENCE_BOUND
+  DEPLOYED_REFERENCE_ENVELOPE_MM:
+    value: [440.5, 626.3, 276.3]
+    source: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+    state: EVIDENCE_BOUND
+    drives_body_envelope: false
+    claim_limit: V1_deployed_STL_reference_only
+
+reference_planes:
+  - id: PLANE_REAR_BODY_FACE
+    offset_X_S_mm: -170.25
+    state: DERIVED
+  - id: PLANE_REAR_MID_BOUNDARY
+    offset_X_S_mm: -56.75
+    state: DERIVED
+  - id: PLANE_MID_FRONT_BOUNDARY
+    offset_X_S_mm: 56.75
+    state: DERIVED
+  - id: PLANE_TASK_FACE
+    offset_X_S_mm: 170.25
+    state: DERIVED
+  - id: PLANE_MOUNT_M
+    transform_ref: T_SM
+    state: EVIDENCE_BOUND
+  - id: PLANE_SOLAR_ROOT_L
+    origin_mm_S: [-56.75, 113.15, 0.0]
+    frame_ref: F_L
+    state: EVIDENCE_BOUND
+  - id: PLANE_SOLAR_ROOT_R
+    origin_mm_S: [-56.75, -113.15, 0.0]
+    frame_ref: F_R
+    state: EVIDENCE_BOUND
+
+coordinate_systems:
+  CS_S:
+    definition: body_envelope_center
+    state: EVIDENCE_BOUND
+  CS_M:
+    parent: CS_S
+    transform_ref: T_SM
+    state: EVIDENCE_BOUND
+  CS_A0:
+    parent: CS_M
+    transform_ref: T_MA0_identity
+    state: EVIDENCE_BOUND
+  CS_B:
+    parent: CS_S
+    transform_ref: T_SB
+    state: UNKNOWN_BLOCKED
+    enabled: false
+  CS_E_VIRTUAL:
+    parent: B601_link6
+    state: EVIDENCE_BOUND
+    global_pose_without_q: null
+  CS_TCP_CONTACT:
+    parent: CS_E_VIRTUAL
+    transform_ref: T_E_TCP
+    state: UNKNOWN_BLOCKED
+    enabled: false
+  CS_SENSOR:
+    parent: CS_S
+    transform_ref: T_SC
+    state: UNKNOWN_BLOCKED
+    enabled: false
+
+structure_topology_inputs:
+  primary_longeron_count:
+    value: 4
+    state: DESIGN_PROPOSAL
+    source_role: inherited_A4_B1_visual_topology
+  transverse_ring_count:
+    value: 4
+    state: DESIGN_PROPOSAL
+    source_role: inherited_A4_B1_visual_topology
+  bay_boundary_deck_count:
+    value: 2
+    state: DESIGN_PROPOSAL
+  removable_panel_set:
+    value: [front, rear, left, right, top, bottom]
+    state: DESIGN_PROPOSAL
+  material:
+    value: null
+    state: UNKNOWN_BLOCKED
+  section_dimensions:
+    value: null
+    state: UNKNOWN_BLOCKED
+  wall_thickness:
+    value: null
+    state: UNKNOWN_BLOCKED
+  joints_and_fasteners:
+    value: null
+    state: UNKNOWN_BLOCKED
+
+interface_refs:
+  robot_mount: IF-RM-001
+  B601_insertion: IF-RM-002
+  solar_left: IF-SA-L
+  solar_right: IF-SA-R
+  perception_payload: IF-PL-001
+  end_effector_contact: IF-EE-001
+
+suppressed_or_excluded_branches:
+  - free_flyer_dynamics_frame
+  - physical_contact_TCP
+  - target_and_debris_active_assembly
+  - selected_camera_hardware
+  - selected_propulsion_hardware
+  - vendor_exact_B601_STEP
+
+future_output:
+  reserved_cad_root: 20_engineering/cad/Space_Embodied_Robot_CAD_V2_0
+  master_skeleton_file: 00_Master_Skeleton/Master_Skeleton_V2_0.SLDPRT
+  root_assembly_file: Assembly/Spacecraft_Service_Vehicle_V2_0.SLDASM
+  current_status: NOT_CREATED
+  requires_gate: COMP-PROT-03-A4-B3-V2-SYSTEM-MECHANICAL-CAD

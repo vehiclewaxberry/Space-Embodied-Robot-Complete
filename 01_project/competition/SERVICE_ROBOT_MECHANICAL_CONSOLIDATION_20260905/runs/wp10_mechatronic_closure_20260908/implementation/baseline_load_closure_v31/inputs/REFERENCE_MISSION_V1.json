@@ -1,0 +1,225 @@
+{
+  "schema": "V31_REFERENCE_MISSION",
+  "status": "DESIGN_REFERENCE_NOT_APPROVED_OPERATION",
+  "engineering_goal": "可装配地面工程样机；在轨能力另作有界设计研究",
+  "no_hardware_commands": true,
+  "source_candidate_sha256": "4393045b5f71b63029490aaeeefdd52176f988f9cd7822bca18c7d8fa229abd2",
+  "reference_selection": "Owner requested autonomous engineering refinement; timeline selected by designer, not a measured/approved mission.",
+  "ground": {
+    "id": "GROUND_DM_INTAKE_V1",
+    "gravity": "EARTH_GROUND",
+    "cooling": "AMBIENT_AIR",
+    "supply_role": "EXTERNAL_24V_BENCH_SUPPLY",
+    "phases": [
+      {
+        "id": "BENCH_STANDBY",
+        "start_s": 0,
+        "duration_s": 60,
+        "power_class": "standby",
+        "illumination": "laboratory",
+        "hardware_command": false
+      },
+      {
+        "id": "BENCH_MOTION",
+        "start_s": 60,
+        "duration_s": 30,
+        "power_class": "motion",
+        "illumination": "laboratory",
+        "hardware_command": false
+      },
+      {
+        "id": "BENCH_HOLD",
+        "start_s": 90,
+        "duration_s": 180,
+        "power_class": "hold",
+        "illumination": "laboratory",
+        "hardware_command": false
+      },
+      {
+        "id": "BENCH_STOP_WINDOW",
+        "start_s": 270,
+        "duration_s": 10,
+        "power_class": "unbound_stop",
+        "illumination": "laboratory",
+        "hardware_command": false
+      },
+      {
+        "id": "BENCH_POST_STANDBY",
+        "start_s": 280,
+        "duration_s": 60,
+        "power_class": "standby",
+        "illumination": "laboratory",
+        "hardware_command": false
+      }
+    ],
+    "duration_s": 340,
+    "actual_trajectory": null,
+    "fixture_and_stop_review_complete": false,
+    "data_use": "Identify baseline/holding/transient terms; do not transfer ground gravity or cooling to orbit."
+  },
+  "orbital_reference": {
+    "id": "ORBITAL_PHASE_REFERENCE_V1",
+    "period_s": 5700,
+    "sunlit_s": 3600,
+    "eclipse_s": 2100,
+    "orbit_elements": null,
+    "sun_earth_attitude_history": null,
+    "phases": [
+      {
+        "id": "LIT_INSPECTION",
+        "start_s": 0,
+        "duration_s": 900,
+        "power_class": "standby",
+        "illumination": "sunlit",
+        "hardware_command": false
+      },
+      {
+        "id": "LIT_ARM_MOTION",
+        "start_s": 900,
+        "duration_s": 600,
+        "power_class": "motion",
+        "illumination": "sunlit",
+        "hardware_command": false
+      },
+      {
+        "id": "LIT_CONTACT_HOLD",
+        "start_s": 1500,
+        "duration_s": 180,
+        "power_class": "hold",
+        "illumination": "sunlit",
+        "hardware_command": false
+      },
+      {
+        "id": "LIT_STOP_WINDOW",
+        "start_s": 1680,
+        "duration_s": 10,
+        "power_class": "unbound_stop",
+        "illumination": "sunlit",
+        "hardware_command": false,
+        "note": "Scheduling allocation only; not measured stopping time or regenerative pulse width."
+      },
+      {
+        "id": "LIT_SAFE_HOLD",
+        "start_s": 1690,
+        "duration_s": 1200,
+        "power_class": "hold",
+        "illumination": "sunlit",
+        "hardware_command": false,
+        "note": "Retains holding consumption; no zero-power restraint assumption."
+      },
+      {
+        "id": "LIT_REPOSITION",
+        "start_s": 2890,
+        "duration_s": 300,
+        "power_class": "motion",
+        "illumination": "sunlit",
+        "hardware_command": false
+      },
+      {
+        "id": "LIT_STANDBY",
+        "start_s": 3190,
+        "duration_s": 410,
+        "power_class": "standby",
+        "illumination": "sunlit",
+        "hardware_command": false
+      },
+      {
+        "id": "ECLIPSE_STANDBY",
+        "start_s": 3600,
+        "duration_s": 1500,
+        "power_class": "standby",
+        "illumination": "eclipse",
+        "hardware_command": false
+      },
+      {
+        "id": "ECLIPSE_COLD_HOLD",
+        "start_s": 5100,
+        "duration_s": 600,
+        "power_class": "standby",
+        "illumination": "eclipse",
+        "hardware_command": false,
+        "heater_thermal_output_W": 20.0,
+        "heater_efficiency": 0.8,
+        "heater_note": "Explicit full-on heater sensitivity; no thermostat/physical heater claim."
+      }
+    ],
+    "period_basis": "95 min / 35 min inherited illustration; not a selected physical orbit.",
+    "recharge_Wh": null,
+    "recharge_credit_allowed": false,
+    "mission_feasibility": null
+  },
+  "targets": [
+    {
+      "id": "TARGET_22KG_REFERENCE",
+      "mass": {
+        "value": 22,
+        "unit": "kg",
+        "evidence_class": "PROJECT_TARGET",
+        "basis": "Existing user project target",
+        "standard_uncertainty": null,
+        "distribution": "NOT_ESTABLISHED",
+        "degrees_of_freedom": null,
+        "uncertainty_note": "Design scenarios are not confidence intervals or measured limits."
+      },
+      "pre_capture_rate": {
+        "value": 3,
+        "unit": "deg/s",
+        "evidence_class": "DESIGN_ASSUMPTION",
+        "basis": "Designer reference scenario; not measured target state",
+        "standard_uncertainty": null,
+        "distribution": "NOT_ESTABLISHED",
+        "degrees_of_freedom": null,
+        "uncertainty_note": "Design scenarios are not confidence intervals or measured limits."
+      },
+      "inertia_COM_kg_m2": null,
+      "capture_geometry": null,
+      "postcapture_state": null
+    },
+    {
+      "id": "TARGET_150KG_REFERENCE",
+      "mass": {
+        "value": 150,
+        "unit": "kg",
+        "evidence_class": "PROJECT_TARGET",
+        "basis": "Existing user project target",
+        "standard_uncertainty": null,
+        "distribution": "NOT_ESTABLISHED",
+        "degrees_of_freedom": null,
+        "uncertainty_note": "Design scenarios are not confidence intervals or measured limits."
+      },
+      "pre_capture_rate": {
+        "value": 3,
+        "unit": "deg/s",
+        "evidence_class": "DESIGN_ASSUMPTION",
+        "basis": "Historical stress anchor reused as a declared input",
+        "standard_uncertainty": null,
+        "distribution": "NOT_ESTABLISHED",
+        "degrees_of_freedom": null,
+        "uncertainty_note": "Design scenarios are not confidence intervals or measured limits."
+      },
+      "inertia_COM_kg_m2": null,
+      "capture_geometry": null,
+      "postcapture_state": null
+    }
+  ],
+  "constraints": {
+    "postcapture_rate_reference": {
+      "value": 2,
+      "unit": "deg/s",
+      "evidence_class": "DESIGN_ASSUMPTION",
+      "basis": "Legacy screening threshold; revised mission acceptance pending",
+      "standard_uncertainty": null,
+      "distribution": "NOT_ESTABLISHED",
+      "degrees_of_freedom": null,
+      "uncertainty_note": "Design scenarios are not confidence intervals or measured limits."
+    },
+    "mechanical_launch_stow_verified": false,
+    "actual_orbit_ready": false
+  },
+  "missing": [
+    "Real orbit/attitude thermal boundaries",
+    "Target inertia/capture configuration",
+    "Stopping dynamics and regenerative waveform",
+    "Onboard charging and energy replenishment"
+  ]
+}

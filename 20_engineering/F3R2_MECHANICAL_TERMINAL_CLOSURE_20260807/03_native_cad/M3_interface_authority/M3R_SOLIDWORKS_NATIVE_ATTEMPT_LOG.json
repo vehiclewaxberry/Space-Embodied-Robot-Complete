@@ -1,0 +1,54 @@
+{
+  "schema": "M3R_SOLIDWORKS_NATIVE_ATTEMPT_LOG_V1",
+  "timestamp_final_check": "2026-08-08T21:37:53.1433789+08:00",
+  "solidworks_installation": {
+    "product": "SOLIDWORKS 2024 SP05",
+    "executable": "F:/Windows_profile/solidworks/SOLIDWORKS/SLDWORKS.exe",
+    "com_progid": "SldWorks.Application.32"
+  },
+  "scope": {
+    "inputs": [
+      "cad/B601_BASE_INTERFACE_RING_F3R2.step",
+      "cad/B601_LOAD_SPREADING_ADAPTER_F3R2.step"
+    ],
+    "permitted_outputs": [
+      "cad/B601_BASE_INTERFACE_RING_F3R2.SLDPRT",
+      "cad/B601_LOAD_SPREADING_ADAPTER_F3R2.SLDPRT",
+      "cad/B601_BASE_ADAPTER_F3R2.SLDASM"
+    ],
+    "protected_baselines_opened_for_write": false
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "method": "pythoncom Dispatch(SldWorks.Application.32)",
+      "available_physical_memory_gib_approx": 1.637,
+      "result": "FAIL",
+      "error_hresult": -2146959355,
+      "error": "COM server execution failed",
+      "partial_native_files_created": 0,
+      "residual_sldworks_processes": 0
+    },
+    {
+      "attempt": 2,
+      "method": "Start-Process registered SLDWORKS executable with hidden window, then attach",
+      "available_physical_memory_gib_before_attempt": 2.21,
+      "result": "FAIL",
+      "error": "OS PermissionDenied: access denied while starting server",
+      "partial_native_files_created": 0,
+      "residual_sldworks_processes": 0
+    }
+  ],
+  "retry_policy": {
+    "maximum_attempts": 2,
+    "attempts_used": 2,
+    "further_automatic_retry_authorized": false
+  },
+  "required_to_clear": [
+    "make at least 6 GiB physical memory available",
+    "start SOLIDWORKS 2024 interactively under the current user",
+    "run 99_tools/m3r_solidworks_native.py only after confirming no partial native outputs exist",
+    "cold-reopen the resulting assembly read-only and record zero missing references and native interference result"
+  ],
+  "verdict": "SOLIDWORKS_COM_SERVER_RESOURCE_PERMISSION_HOLD"
+}

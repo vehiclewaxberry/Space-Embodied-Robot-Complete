@@ -1,0 +1,18 @@
+schema: CAD_OUTPUT_CONTRACT_V1
+per_state_outputs:   # C01..C09 每状态
+  step: {path_pattern: "04_step_states/C{nn}/C{nn}_CURRENT_SYSTEM_V1.step", requirements: [cold_reopen_verified, unit_recorded, bbox_recorded, solid_count_recorded, sha256, bytes]}
+  views:
+    - {name: front, file: "C{nn}_VIEW_FRONT.png"}
+    - {name: side, file: "C{nn}_VIEW_SIDE.png"}
+    - {name: top, file: "C{nn}_VIEW_TOP.png"}
+    - {name: iso, file: "C{nn}_VIEW_ISO.png"}
+  state_record: {file: "C{nn}_STATE_RECORD.json", fields: [state_id, state_name, joint_vector_source, solar_state, hdrm_state, gripper_state, target_state, unresolved_refs, claim_ceiling]}
+aggregate_outputs:
+  step_manifest: 04_step_states/CURRENT_STEP_MANIFEST.json
+  four_view_manifest: 04_step_states/FOUR_VIEW_MANIFEST.csv
+invariants:
+  - "fixed-q0 / 固定姿态 STEP 只证明该姿态几何，不得写为可运动关节真值（claim ceiling 内置于 STATE_RECORD）"
+  - "STEP 单位必须显式记录；mm 导出必须在消费端经 UNIT_CONTRACT 换算"
+  - "输出目录只增不改；重跑生成新版本目录，不覆盖"
+  - "任何输出不修改 H1 accepted URDF 或其哈希"
+acceptance_gate: DH-G1（9/9 状态 STEP+四视图+SHA+冷校验 → 才可翻转 HOLD_CURRENT_STEP_0_OF_9）

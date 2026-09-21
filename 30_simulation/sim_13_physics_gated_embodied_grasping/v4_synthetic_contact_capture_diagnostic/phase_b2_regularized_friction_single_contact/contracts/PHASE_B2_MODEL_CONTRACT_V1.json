@@ -1,0 +1,33 @@
+{
+  "schema": "SIM13_V4B2_SYNTHETIC_REGULARIZED_FRICTION_SINGLE_CONTACT_MODEL_CONTRACT_V1",
+  "scope": "SYNTHETIC_DIAGNOSTIC_ONLY",
+  "upstream": {
+    "phase_a": "SIM13_V4A_PHASE_A_AUDITED_GATE_V3",
+    "phase_b1": "SIM13_V4B1_AUDITED_GATE_V1"
+  },
+  "service_velocity_order": ["v_base_I_3", "omega_base_I_3", "qdot_R_6", "qdot_P_2"],
+  "target_velocity_order": ["v_target_I_3", "omega_target_I_3"],
+  "contact": {
+    "geometry": "synthetic sphere versus fixed link7 pad",
+    "normal_law": "Fn=k*delta+c*max(-v_rel_n,0), Fn=0 for delta<=0",
+    "friction_law": "Ft=-mu*Fn*vt/sqrt(vt_dot_vt+v_eps^2)",
+    "common_inertial_point": "p_c=p_target+R*n",
+    "service_effort": "Jv_pad^T*F+Jw_link^T*((p_c-p_pad)xF)",
+    "target_effort": "force=-F; torque=(p_c-p_target)x(-F)",
+    "friction_bound": "norm(Ft)<=mu*Fn",
+    "dissipation": "Dn_dot=c*closing_speed^2; Dt_dot=-Ft_dot_vt>=0"
+  },
+  "units": {
+    "R_coordinate": "rad",
+    "R_rate": "rad/s",
+    "R_effort": "N*m",
+    "P_coordinate": "m",
+    "P_rate": "m/s",
+    "P_effort": "N",
+    "linear_impulse": "N*s",
+    "angular_impulse": "N*m*s",
+    "energy": "J"
+  },
+  "allowed_state_sequence": ["SEPARATED", "APPROACH", "SINGLE_CONTACT", "SEPARATING_AFTER_CONTACT"],
+  "forbidden_states": ["DUAL_CONTACT", "SOFT_CAPTURE", "LOCKED", "GRASP_SUCCESS"]
+}

@@ -1,0 +1,154 @@
+[setup] f1 per case: flexible_low=0.7001 Hz, nominal=1.0002 Hz, flexible_high=1.3002 Hz; stiffest discrete mode 3528 Hz (beta*K overdamps it: stability-limits explicit methods -> damped scan uses Radau rtol=1e-06)
+[R1] undamped energy drift (5 s, DOP853 rtol 1e-10): 1.96e-09  PASS (<1e-6)
+[R3] Radau(rtol 1e-06) vs DOP853(rtol 1e-8), damped 2 s: max tip diff 2.01e-10 rel  PASS (<1e-3); wall 35.8s vs 15.5s, nfev 827114 vs 149735
+[case] 6dof_rigid_lock  flexible_low   tip   5.2358 mm  Mroot   2.5981 mNm  f 0.700 Hz  t5   68.9 s (fit_extrapolated)  nfev 397772
+[case] 6dof_rigid_lock  nominal        tip   3.6740 mm  Mroot   3.7269 mNm  f 1.000 Hz  t5   45.7 s (fit_extrapolated)  nfev 420430
+[case] 6dof_rigid_lock  flexible_high  tip   2.8274 mm  Mroot   4.7713 mNm  f 1.300 Hz  t5   37.0 s (fit_extrapolated)  nfev 444408
+[case] 3dof_point       flexible_low   tip   0.0568 mm  Mroot   0.0316 mNm  f 0.700 Hz  t5   75.2 s (fit_extrapolated)  nfev 25172
+[case] 3dof_point       nominal        tip   0.0398 mm  Mroot   0.0450 mNm  f 1.000 Hz  t5   47.3 s (fit_extrapolated)  nfev 29711
+[case] 3dof_point       flexible_high  tip   0.0306 mm  Mroot   0.0568 mNm  f 1.300 Hz  t5   37.7 s (fit_extrapolated)  nfev 33925
+[R2] damped energy monotonic decay: PASS
+{
+  "scenario": {
+    "target": "target_debris_v0",
+    "tumble_dps": 3.0,
+    "v_app_m_s": 0.01,
+    "panel": "+Y_S (root F at [-0.05675,+0.11315,0] in S)",
+    "n_el": 8,
+    "zeta": 0.01,
+    "t_end_s": 15.0,
+    "integrator": "Radau rtol=1e-06 (scan; stiff via Rayleigh beta*K), DOP853 for regressions"
+  },
+  "excitation_comparison_3dof_vs_6dof": {
+    "6dof_rigid_lock": {
+      "|dv_B|_m_s": 0.012772064655582364,
+      "|dw_B|_rad_s": 0.053465203207179644,
+      "dw_B_rad_s": [
+        0.045501184419975686,
+        0.002202351601762055,
+        0.02798785125347408
+      ],
+      "v0_transverse_root_mm_s": 7.893611303528893,
+      "v0_transverse_tip_mm_s": 16.99384818752403,
+      "v0_axial_mm_s": -4.554492886156558,
+      "ignored_inplane_X_S_root_mm_s": 13.5744033895493,
+      "ignored_inplane_X_S_tip_mm_s": 19.171973640244115,
+      "dT_capture_J": 0.005274149862913816
+    },
+    "3dof_point": {
+      "|dv_B|_m_s": 0.01135779320401631,
+      "|dw_B|_rad_s": 0.04673854163685774,
+      "dw_B_rad_s": [
+        -6.726756380543496e-05,
+        -0.0027687037386705977,
+        0.046656414661036864
+      ],
+      "v0_transverse_root_mm_s": -0.1441274521343811,
+      "v0_transverse_tip_mm_s": -0.15758096489546813,
+      "v0_axial_mm_s": 2.2145644043655475,
+      "ignored_inplane_X_S_root_mm_s": 16.505182005801636,
+      "ignored_inplane_X_S_tip_mm_s": 25.836464938009012,
+      "dT_capture_J": 0.003425606800194575
+    }
+  },
+  "conclusion_3dof_vs_6dof": "|dw_B| is similar (0.047 vs 0.053 rad/s) but its DIRECTION differs: the 6DOF rigid lock transmits a couple that puts ~0.046 rad/s about X_inertial (bending direction of the panel) while the 3DOF point capture's dw is almost purely about Z (in-plane) -> out-of-plane transverse excitation and response are ~2 orders of magnitude smaller for the point capture.",
+  "regressions": {
+    "R1_undamped_drift": 1.9594249664579335e-09,
+    "R1_PASS": true,
+    "R2_damped_monotonic_PASS": true,
+    "R3_integrator_crosscheck_rel": 2.0060284108923574e-10,
+    "R3_PASS": true
+  },
+  "cases": {
+    "6dof_rigid_lock/flexible_low": {
+      "f1_hz": 0.7001394199613159,
+      "tip_peak_mm": 5.235788679467414,
+      "Mroot_peak_mNm": 2.5981317575662235,
+      "U_max_J": 2.324290947995362e-05,
+      "f_dom_hz": 0.7001031332642866,
+      "t5pct_s": 68.89116493903272,
+      "t5_method": "fit_extrapolated",
+      "E_monotonic": true,
+      "nfev": 397772,
+      "centrifugal_tip_m": 1.8162602763708714e-05,
+      "centrifugal_over_peak": 0.0034689335027853372,
+      "coriolis_ratio_2w_over_w1": 0.024307305462976075
+    },
+    "6dof_rigid_lock/nominal": {
+      "f1_hz": 1.0002058194768397,
+      "tip_peak_mm": 3.674003503054177,
+      "Mroot_peak_mNm": 3.726862907010519,
+      "U_max_J": 2.344378953465958e-05,
+      "f_dom_hz": 1.0001523103146006,
+      "t5pct_s": 45.66519599599365,
+      "t5_method": "fit_extrapolated",
+      "E_monotonic": true,
+      "nfev": 420430,
+      "centrifugal_tip_m": 8.899557047018387e-06,
+      "centrifugal_over_peak": 0.0024223049977008023,
+      "coriolis_ratio_2w_over_w1": 0.0170150007291221
+    },
+    "6dof_rigid_lock/flexible_high": {
+      "f1_hz": 1.3002201267838007,
+      "tip_peak_mm": 2.8273780854927257,
+      "Mroot_peak_mNm": 4.771278623449521,
+      "U_max_J": 2.3536673315864404e-05,
+      "f_dom_hz": 1.300150745660731,
+      "t5pct_s": 37.02655935436903,
+      "t5_method": "fit_extrapolated",
+      "E_monotonic": true,
+      "nfev": 444408,
+      "centrifugal_tip_m": 5.26639435489208e-06,
+      "centrifugal_over_peak": 0.0018626424183995566,
+      "coriolis_ratio_2w_over_w1": 0.013088939631912353
+    },
+    "3dof_point/flexible_low": {
+      "f1_hz": 0.7001394199613159,
+      "tip_peak_mm": 0.0568210876592484,
+      "Mroot_peak_mNm": 0.03157666352052355,
+      "U_max_J": 2.93867634966315e-09,
+      "f_dom_hz": 0.700107508640114,
+      "t5pct_s": 75.16737362415509,
+      "t5_method": "fit_extrapolated",
+      "E_monotonic": true,
+      "nfev": 25172,
+      "centrifugal_tip_m": 2.6591476086941227e-06,
+      "centrifugal_over_peak": 0.046798604501216555,
+      "coriolis_ratio_2w_over_w1": 0.021249110455238404
+    },
+    "3dof_point/nominal": {
+      "f1_hz": 1.0002058194768397,
+      "tip_peak_mm": 0.03976807267523756,
+      "Mroot_peak_mNm": 0.04500084770360043,
+      "U_max_J": 2.921382054065057e-09,
+      "f_dom_hz": 1.000154577001651,
+      "t5pct_s": 47.31815582043766,
+      "t5_method": "fit_extrapolated",
+      "E_monotonic": true,
+      "nfev": 29711,
+      "centrifugal_tip_m": 1.3029650071575726e-06,
+      "centrifugal_over_peak": 0.03276409741548505,
+      "coriolis_ratio_2w_over_w1": 0.014874278452615065
+    },
+    "3dof_point/flexible_high": {
+      "f1_hz": 1.3002201267838007,
+      "tip_peak_mm": 0.0305969086591177,
+      "Mroot_peak_mNm": 0.05684273723223981,
+      "U_max_J": 2.9386916811940505e-09,
+      "f_dom_hz": 1.3001521171957875,
+      "t5pct_s": 37.668968111579545,
+      "t5_method": "fit_extrapolated",
+      "E_monotonic": true,
+      "nfev": 33925,
+      "centrifugal_tip_m": 7.7104147117249e-07,
+      "centrifugal_over_peak": 0.025199979506515414,
+      "coriolis_ratio_2w_over_w1": 0.011442170108245324
+    }
+  },
+  "outputs": [
+    "results/tip_response_matrix.png",
+    "results/root_moment_and_energy.png",
+    "results/task_response_summary.csv"
+  ],
+  "wall_time_s": 123.7
+}

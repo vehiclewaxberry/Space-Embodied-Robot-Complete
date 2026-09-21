@@ -1,0 +1,103 @@
+schema: E20_SIM11_INDEPENDENT_MASS_BRANCH_COUPLED_DIAGNOSTIC_AUTHORITY_V1
+generated_local: '2026-08-23T23:10:00+08:00'
+authority_class: NON_RELEASE_SURROGATE_MASS_COMPLETION_COUPLED_ARM_ONLY_DIAGNOSTIC_ONLY
+upstream_loop:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/13_loop_continuation_v3/MECHANICAL_LOOP_ENGINEERING_CONTINUATION_GATE_V3.json
+  sha256: A10FF303EE2B58DBA47339C2DC4267343CC934328C526FD9011D7C7A84869D8C
+  required_state: HASH_BOUND_ISOLATED_NON_RELEASE_NUMERIC_DIAGNOSTIC_EXECUTION_AND_REPRODUCIBILITY_CLOSED
+sim11_historical_gate:
+  path: 30_simulation/sim_11_coupled_dynamics/results/sim_11_gate_check.json
+  sha256: 9309F5325271BF5EFDAA7ECAC2BCF20B4FECA3FCA771D22391A7D7D576F9366F
+  required_verdict: SIM11_GATES_PASS_WITH_PROVISIONAL_PARAMS
+  historical_gate_verdict_preserved: true
+  current_artifact_manifest_bytewise_complete: false
+  reorg_route_only_semantic_diff: true
+  next_stage_authorized_inherited: false
+e15_certification_debt:
+  path: 30_simulation/e15_ancf_certification/results/gate_summary.json
+  sha256: AAB4D609E219279C2563C8A38743AC1784BBF16DE399D5B8798439B0AC2DCA80
+  required_overall: REPEAT_ANCF_CERTIFICATION
+  max_relative_difference: 0.05637349419858036
+  gate_limit: 0.05
+  final_candidate_available: false
+  ancf_certified: false
+mass_branch_rule:
+  mass_completion_rule: UNIFORM_BUS_DENSITY_SCALAR_CLOSURE_SURROGATE
+  target_scenario_mass_subtracted_kg: 22.0
+  bus_only_mass_and_inertia_scaled: true
+  bus_geometry_and_cg_fixed: true
+  bus_inertia_scaled_linearly_with_mass: true
+  branch_selection_allowed: false
+  branch_averaging_allowed: false
+  branch_difference_is_measurement_uncertainty: false
+  released_mass_cg_inertia_authority: false
+  branch_lifecycle: LEGACY_TRANSITIONAL_SENSITIVITY_ONLY
+  current_M7_design_mass_authority_consumed: false
+  current_M7_design_mass_authority_superseded: false
+execution_lanes:
+  - lane_id: LEGACY_A__M01
+    mass_branch: M4_DIAG_LEGACY_A
+    trajectory: M01
+    cross_lane_state_input: null
+  - lane_id: LEGACY_A__M07_ARM_ONLY
+    mass_branch: M4_DIAG_LEGACY_A
+    trajectory: M07_ARM_ONLY
+    cross_lane_state_input: null
+  - lane_id: M3R_B__M01
+    mass_branch: M4_DIAG_M3R_B
+    trajectory: M01
+    cross_lane_state_input: null
+  - lane_id: M3R_B__M07_ARM_ONLY
+    mass_branch: M4_DIAG_M3R_B
+    trajectory: M07_ARM_ONLY
+    cross_lane_state_input: null
+lane_isolation:
+  cross_lane_chaining_allowed: false
+  state_transfer_between_lanes_allowed: false
+  attached_target_allowed: false
+  scene_A2_allowed: false
+  contact_window_allowed: false
+  lockup_allowed: false
+  stock_sim11_loader_used: false
+  e20_narrow_arm_only_loader_used: true
+  target_capture_metadata_read: false
+mount_frame_boundary:
+  mount_frame_model: M_DYNAMICS_LEGACY_NUMERICAL
+  numerical_translation_m: [0.18525, 0.0, 0.0]
+  numerical_rotation: Ry(+90deg)
+  physical_entity: false
+  current_M7_unique_dynamics_M_consumed: false
+  current_M7_design_dynamics_closure_claimed: false
+  geometric_feature_stack_id: B601_ARM_BASE_PHYSICAL
+  geometric_feature_stack_x_mm: 208.0
+  geometric_feature_stack_clock_deg: 25.000014
+  geometric_feature_stack_is_dynamics_M_alias: false
+  physical_mount_frame_applied: false
+  physical_mount_transform: null
+  m4_digital_prototype_installation_dynamics_claimed: false
+allowed:
+  - execute four independent reduced-momentum Radau ARM-ONLY sim11 sensitivity lanes
+  - apply the preregistered bus-only uniform-density scalar closure surrogate independently per mass branch
+  - compute branch-local momentum energy quaternion SPD and modal observations
+  - run bounded undamped rigid modal-refinement and BDF local numerical checks
+  - report Legacy-A versus M3R-B differences only as surrogate model sensitivity
+prohibited:
+  - invoke scene A2 contact window target attachment capture lock or post-capture recovery
+  - select merge average or uncertainty-combine the two diagnostic mass branches
+  - use Sim15 diag(5,6,7) inertia or combined center of mass as a C08 or S-frame property
+  - claim released service mass center of mass inertia or measured panel properties
+  - treat either old M4 A or B branch as the current M7 design-mass authority
+  - apply M_DYNAMICS as the physical B601 installation frame
+  - treat the x=208 mm plus 25.000014 degree geometric feature stack as a replacement dynamics M frame
+  - claim M4 digital-prototype installation dynamics production mission hardware or flight authority
+  - modify sim11 sim05 accepted URDF CAD STEP mesh or any historical Gate
+physical_contact_computed: false
+attached_target_propagated: false
+mission_segment_execution: false
+cad_or_mesh_generation_authorized: false
+hardware_command_emitted: false
+testing_pass_grants_authority: false
+released_segments: 0
+gate: HOLD
+next_stage_authorized: false
+release_credit: false

@@ -1,0 +1,991 @@
+{
+  "title": "F4R1 C3 候选内部结构架构 质量/CG 机器复算 V1",
+  "generated_at": "2026-08-27",
+  "status": "DESIGN_RESEARCH_CANDIDATE",
+  "method": "构件=长方体×密度×count×fill_factor；CG=替换 C1 CG 中性 1.0 kg@[0,0,0] 二级结构占位为构件质点组；两口径 (SCENARIO_A / CDS_VARIANT) 分别复算",
+  "inputs": {
+    "equipment_list": {
+      "path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/50_c1_layout/EQUIPMENT_LIST_V1.yaml",
+      "sha256_12": "2f6b5163f5f5"
+    },
+    "cg_baseline": {
+      "path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/50_c1_layout/CG_INERTIA_CHECK_V1.json",
+      "sha256_12": "c7759162f54d",
+      "note": "基线数值硬编码引用 (SCENARIO_A / CDS_VARIANT 总质量与 CG)"
+    },
+    "capture_csv": {
+      "path": "30_simulation/sim_06_capture_impulse/results/capture_impulse_matrix_v0.csv",
+      "sha256_12": "8cbad84b8ff6"
+    },
+    "candidate_yaml": {
+      "path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/55_c3_design_basis/CANDIDATE_ARCHITECTURES_V1.yaml",
+      "sha256_12": "77c932a87169"
+    }
+  },
+  "densities": {
+    "al6061": {
+      "rho_kg_m3": 2700.0,
+      "provenance": "repo:20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/02_PRODUCT_STRUCTURE.yaml#SPACECRAFT_LOAD_BRIDGE MATERIAL_DERIVED 6061-T6 2700 kg/m3 (sha256_12 0f9897ef4e41)"
+    },
+    "al7075": {
+      "rho_kg_m3": 2810.0,
+      "provenance": "ASSUMED: 工程手册常规值 2810 kg/m3 (CDS §2.2.12 许可材料, B1 §1.2)"
+    },
+    "cfrp": {
+      "rho_kg_m3": 1600.0,
+      "provenance": "ASSUMED: 准各向同性 CFRP 板典型 1550-1650 kg/m3 取中值"
+    },
+    "steel": {
+      "rho_kg_m3": 7800.0,
+      "provenance": "ASSUMED: 普通结构钢 7800 kg/m3 (压载块)"
+    },
+    "isolator": {
+      "rho_kg_m3": 3000.0,
+      "provenance": "ASSUMED: 金属-弹性体隔振器等效密度 3000 kg/m3"
+    }
+  },
+  "cds_envelope_mm": {
+    "x": 70.0,
+    "y": 45.0,
+    "z": 45.0
+  },
+  "system_margin": 0.15,
+  "capture_loads": {
+    "j_max_N_s": 0.774862,
+    "couple_max_N_m_s": 0.223578,
+    "t_c_s": 0.02,
+    "peak_force_N_half_sine": 60.85751916864736,
+    "peak_moment_N_m_half_sine": 17.559775057607467,
+    "source": "30_simulation/sim_06_capture_impulse/results/capture_impulse_matrix_v0.csv (max |J|, max |couple| over 40 cases)"
+  },
+  "candidates": {
+    "CA-A": {
+      "concept_zh": "中央堆栈+托盘：中舱 PC/104 双堆栈笼 + 前/后托盘，COTS 兼容优先",
+      "members": [
+        {
+          "name": "stack_cage_rails",
+          "type": "rail",
+          "dims_mm": [
+            120,
+            6,
+            6
+          ],
+          "material": "al6061",
+          "count": 8,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            0,
+            -60,
+            30
+          ],
+          "function": "PC/104 双堆栈笼角轨 (OBC+EPS 堆栈 A)",
+          "mass_g": 93.312,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "stack_cage_endplates",
+          "type": "plate",
+          "dims_mm": [
+            96,
+            90,
+            1.5
+          ],
+          "material": "al6061",
+          "count": 4,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            0,
+            -60,
+            30
+          ],
+          "function": "堆栈笼端板，先成组件整体入框 (B1 R5)",
+          "mass_g": 139.968,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "battery_plate",
+          "type": "plate",
+          "dims_mm": [
+            180,
+            96,
+            2
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            -10,
+            0,
+            -75
+          ],
+          "function": "双 BPX 电池独立 -z 安装面 (B1 R9)",
+          "mass_g": 93.312,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "rw_cluster_bracket",
+          "type": "bracket",
+          "dims_mm": [
+            70,
+            70,
+            4
+          ],
+          "material": "al6061",
+          "count": 2,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            0,
+            0,
+            0
+          ],
+          "function": "4xRW400 金字塔轮组支架 (近几何中心, B1 R6)",
+          "mass_g": 105.84,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "front_tray",
+          "type": "plate",
+          "dims_mm": [
+            200,
+            210,
+            2
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            120,
+            0,
+            0
+          ],
+          "function": "前舱任务托盘 (CAM-NAV/ILLUM/SS5)",
+          "mass_g": 226.8,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "rear_tray",
+          "type": "plate",
+          "dims_mm": [
+            220,
+            210,
+            2.5
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            -113.5,
+            0,
+            0
+          ],
+          "function": "后舱服务托盘 (MiPS/电台/GPS)",
+          "mass_g": 311.85,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "mid_deck",
+          "type": "plate",
+          "dims_mm": [
+            100,
+            210,
+            1.5
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            50,
+            0,
+            0
+          ],
+          "function": "中舱甲板 (MTQ-X/Z 等)",
+          "mass_g": 85.05,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "corner_posts",
+          "type": "rail",
+          "dims_mm": [
+            60,
+            8,
+            8
+          ],
+          "material": "al6061",
+          "count": 8,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            0,
+            0,
+            0
+          ],
+          "function": "托盘/甲板与主结构连接角柱",
+          "mass_g": 82.944,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "panel_root_hinge_brackets",
+          "type": "bracket",
+          "dims_mm": [
+            40,
+            30,
+            6
+          ],
+          "material": "al6061",
+          "count": 4,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            -61,
+            0,
+            0
+          ],
+          "function": "帆板根铰/HDRM 站位安装座 (F_L/F_R, 每翼 2 站)",
+          "mass_g": 77.76,
+          "density_kg_m3": 2700.0
+        }
+      ],
+      "structure_mass_kg": 1.216836,
+      "structure_mass_proper_excl_ballast_kg": 1.216836,
+      "est_mass_growth_vs_budget_pct": 21.68,
+      "budget_ref": "C1 MASS_BUDGET_V1.csv EQ-SEC-STRUCT = 1.0 kg (ASSUMED 行, sha256_12 365c9ebf9493)",
+      "scenarios": {
+        "SCENARIO_A_DESIGN_POINT": {
+          "new_total_mass_kg": 31.239700807342988,
+          "structure_mass_kg": 1.216836,
+          "new_cg_S_mm": [
+            62.49614326100993,
+            -27.14216180795294,
+            -18.889822349973386
+          ],
+          "cg_delta_mm": [
+            -0.7463646205447816,
+            -0.2614652854461994,
+            0.13203144018180168
+          ],
+          "cds_margins_mm": {
+            "x": 7.503856738990073,
+            "y": 17.85783819204706,
+            "z": 26.110177650026614
+          },
+          "mass_with_15pct_margin_kg": 35.925655928444435,
+          "cds_mass_pass": false,
+          "baseline_total_mass_kg": 31.022864807342987,
+          "baseline_cg_S_mm": [
+            63.24250788155471,
+            -26.880696522506742,
+            -19.021853790155188
+          ],
+          "note": "C1 主口径（读法 A 切出），ODR 登记 31.0229 kg；结构质量变化按新候选差异声明登记，不改 ODR 值"
+        },
+        "SCENARIO_CDS_VARIANT_24KG": {
+          "new_total_mass_kg": 15.573487407342986,
+          "structure_mass_kg": 1.216836,
+          "new_cg_S_mm": [
+            125.43019355609859,
+            -54.44593057205322,
+            -38.55799604009685
+          ],
+          "cg_delta_mm": [
+            -2.3964037128780404,
+            -0.14267187164453077,
+            0.5444391102967074
+          ],
+          "cds_margins_mm": {
+            "x": -55.43019355609859,
+            "y": -9.445930572053221,
+            "z": 6.442003959903147
+          },
+          "mass_with_15pct_margin_kg": 17.90951051844443,
+          "cds_mass_pass": true,
+          "baseline_total_mass_kg": 15.356651407342985,
+          "baseline_cg_S_mm": [
+            127.82659726897663,
+            -54.30325870040869,
+            -39.10243515039356
+          ],
+          "note": "C1 CDS 合规变体（干重，未含 15% 余量）；现状 x 超差 -57.83 mm / y -9.30 mm（GATE_C1 OI-1）"
+        }
+      }
+    },
+    "CA-B": {
+      "concept_zh": "三舱隔框+剪切板盒式：双隔框 + 纵向长梁 + 中舱剪切盒 + 前后剪切腹板，刚度/传力优先",
+      "members": [
+        {
+          "name": "bulkhead_front",
+          "type": "bulkhead",
+          "dims_mm": [
+            3,
+            220,
+            220
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 0.65,
+          "pos_mm": [
+            56.75,
+            0,
+            0
+          ],
+          "function": "front/mid 舱界隔框 (x=+56.75), 35% 挖空",
+          "mass_g": 254.826,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "bulkhead_rear",
+          "type": "bulkhead",
+          "dims_mm": [
+            3,
+            220,
+            220
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 0.65,
+          "pos_mm": [
+            -56.75,
+            0,
+            0
+          ],
+          "function": "mid/rear 舱界隔框 (x=-56.75), 35% 挖空",
+          "mass_g": 254.826,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "longerons",
+          "type": "rail",
+          "dims_mm": [
+            340,
+            10,
+            10
+          ],
+          "material": "al6061",
+          "count": 4,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            0,
+            0,
+            0
+          ],
+          "function": "四角纵向长梁 (避开 CDS 8.5 mm 导轨带, B1 R1)",
+          "mass_g": 367.2,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "shear_mid_top",
+          "type": "plate",
+          "dims_mm": [
+            113.5,
+            220,
+            1.5
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 0.85,
+          "pos_mm": [
+            0,
+            0,
+            111
+          ],
+          "function": "中舱剪切盒顶板",
+          "mass_g": 85.959,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "shear_mid_bottom",
+          "type": "plate",
+          "dims_mm": [
+            113.5,
+            220,
+            1.5
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 0.85,
+          "pos_mm": [
+            0,
+            0,
+            -111
+          ],
+          "function": "中舱剪切盒底板",
+          "mass_g": 85.959,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "shear_mid_left",
+          "type": "plate",
+          "dims_mm": [
+            113.5,
+            1.5,
+            220
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 0.85,
+          "pos_mm": [
+            0,
+            111,
+            0
+          ],
+          "function": "中舱剪切盒 +y 侧板",
+          "mass_g": 85.959,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "shear_mid_right",
+          "type": "plate",
+          "dims_mm": [
+            113.5,
+            1.5,
+            220
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 0.85,
+          "pos_mm": [
+            0,
+            -111,
+            0
+          ],
+          "function": "中舱剪切盒 -y 侧板",
+          "mass_g": 85.959,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "front_shear_web",
+          "type": "plate",
+          "dims_mm": [
+            110,
+            200,
+            3
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 0.7,
+          "pos_mm": [
+            125,
+            0,
+            0
+          ],
+          "function": "前舱剪切腹板: 隔框→前法兰站传力 (臂基座载荷)",
+          "mass_g": 124.74,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "rear_shear_web",
+          "type": "plate",
+          "dims_mm": [
+            110,
+            200,
+            3
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 0.7,
+          "pos_mm": [
+            -125,
+            0,
+            0
+          ],
+          "function": "后舱剪切腹板: 隔框→后面板传力",
+          "mass_g": 124.74,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "arm_base_gussets",
+          "type": "bracket",
+          "dims_mm": [
+            40,
+            40,
+            5
+          ],
+          "material": "al6061",
+          "count": 4,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            170,
+            0,
+            0
+          ],
+          "function": "臂基座/前法兰角撑 (x=196-210 载荷扩散, 配合冻结 M3R+bridge)",
+          "mass_g": 86.4,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "stack_frame_rails",
+          "type": "rail",
+          "dims_mm": [
+            120,
+            6,
+            6
+          ],
+          "material": "al6061",
+          "count": 8,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            0,
+            -60,
+            30
+          ],
+          "function": "中舱设备堆栈笼角轨",
+          "mass_g": 93.312,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "stack_frame_endplates",
+          "type": "plate",
+          "dims_mm": [
+            96,
+            90,
+            1.5
+          ],
+          "material": "al6061",
+          "count": 4,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            0,
+            -60,
+            30
+          ],
+          "function": "堆栈笼端板",
+          "mass_g": 139.968,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "battery_plate",
+          "type": "plate",
+          "dims_mm": [
+            180,
+            96,
+            2
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            -10,
+            0,
+            -75
+          ],
+          "function": "双 BPX 电池独立 -z 安装面 (B1 R9)",
+          "mass_g": 93.312,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "rw_cluster_bracket",
+          "type": "bracket",
+          "dims_mm": [
+            70,
+            70,
+            4
+          ],
+          "material": "al6061",
+          "count": 2,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            0,
+            0,
+            0
+          ],
+          "function": "4xRW400 金字塔轮组支架",
+          "mass_g": 105.84,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "panel_root_hinge_brackets",
+          "type": "bracket",
+          "dims_mm": [
+            40,
+            30,
+            6
+          ],
+          "material": "al6061",
+          "count": 4,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            -61,
+            0,
+            0
+          ],
+          "function": "帆板根铰/HDRM 站位安装座",
+          "mass_g": 77.76,
+          "density_kg_m3": 2700.0
+        }
+      ],
+      "structure_mass_kg": 2.06676,
+      "structure_mass_proper_excl_ballast_kg": 2.06676,
+      "est_mass_growth_vs_budget_pct": 106.68,
+      "budget_ref": "C1 MASS_BUDGET_V1.csv EQ-SEC-STRUCT = 1.0 kg (ASSUMED 行, sha256_12 365c9ebf9493)",
+      "scenarios": {
+        "SCENARIO_A_DESIGN_POINT": {
+          "new_total_mass_kg": 32.08962570734299,
+          "structure_mass_kg": 2.0667609,
+          "new_cg_S_mm": [
+            61.420949875267056,
+            -26.423275293950084,
+            -18.389507060594827
+          ],
+          "cg_delta_mm": [
+            -1.8215580062876526,
+            0.4574212285566581,
+            0.6323467295603606
+          ],
+          "cds_margins_mm": {
+            "x": 8.579050124732944,
+            "y": 18.576724706049916,
+            "z": 26.610492939405173
+          },
+          "mass_with_15pct_margin_kg": 36.90306956344443,
+          "cds_mass_pass": false,
+          "baseline_total_mass_kg": 31.022864807342987,
+          "baseline_cg_S_mm": [
+            63.24250788155471,
+            -26.880696522506742,
+            -19.021853790155188
+          ],
+          "note": "C1 主口径（读法 A 切出），ODR 登记 31.0229 kg；结构质量变化按新候选差异声明登记，不改 ODR 值"
+        },
+        "SCENARIO_CDS_VARIANT_24KG": {
+          "new_total_mass_kg": 16.423412307342986,
+          "structure_mass_kg": 2.0667609,
+          "new_cg_S_mm": [
+            120.07249029270271,
+            -51.62830953015991,
+            -36.562588489259966
+          ],
+          "cg_delta_mm": [
+            -7.754106976273917,
+            2.67494917024878,
+            2.539846661133595
+          ],
+          "cds_margins_mm": {
+            "x": -50.07249029270271,
+            "y": -6.62830953015991,
+            "z": 8.437411510740034
+          },
+          "mass_with_15pct_margin_kg": 18.886924153444433,
+          "cds_mass_pass": true,
+          "baseline_total_mass_kg": 15.356651407342985,
+          "baseline_cg_S_mm": [
+            127.82659726897663,
+            -54.30325870040869,
+            -39.10243515039356
+          ],
+          "note": "C1 CDS 合规变体（干重，未含 15% 余量）；现状 x 超差 -57.83 mm / y -9.30 mm（GATE_C1 OI-1）"
+        }
+      }
+    },
+    "CA-C": {
+      "concept_zh": "混合集成压载：中舱框架堆栈 + 后舱推进/压载一体化模块 + 前舱任务设备隔振安装，CG 优先 (针对 CDS 变体 OI-1)",
+      "members": [
+        {
+          "name": "mid_frame_rails",
+          "type": "rail",
+          "dims_mm": [
+            120,
+            8,
+            8
+          ],
+          "material": "al6061",
+          "count": 8,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            0,
+            -40,
+            20
+          ],
+          "function": "中舱框架堆栈角轨",
+          "mass_g": 165.888,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "mid_frame_decks",
+          "type": "plate",
+          "dims_mm": [
+            200,
+            180,
+            1.5
+          ],
+          "material": "cfrp",
+          "count": 2,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            0,
+            0,
+            0
+          ],
+          "function": "中舱 CFRP 设备甲板 x2 (轻量)",
+          "mass_g": 172.8,
+          "density_kg_m3": 1600.0
+        },
+        {
+          "name": "battery_plate",
+          "type": "plate",
+          "dims_mm": [
+            180,
+            96,
+            2
+          ],
+          "material": "al6061",
+          "count": 1,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            -10,
+            0,
+            -75
+          ],
+          "function": "双 BPX 电池独立 -z 安装面 (B1 R9)",
+          "mass_g": 93.312,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "rw_cluster_bracket",
+          "type": "bracket",
+          "dims_mm": [
+            70,
+            70,
+            4
+          ],
+          "material": "al6061",
+          "count": 2,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            0,
+            0,
+            0
+          ],
+          "function": "4xRW400 金字塔轮组支架",
+          "mass_g": 105.84,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "rear_module_deck",
+          "type": "plate",
+          "dims_mm": [
+            220,
+            210,
+            3
+          ],
+          "material": "al7075",
+          "count": 1,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            -150,
+            0,
+            0
+          ],
+          "function": "后舱推进/压载一体化模块主甲板 (MiPS 升级 2U 兼容, OI-7)",
+          "mass_g": 389.466,
+          "density_kg_m3": 2810.0
+        },
+        {
+          "name": "rear_module_sideplates",
+          "type": "plate",
+          "dims_mm": [
+            40,
+            210,
+            2
+          ],
+          "material": "al7075",
+          "count": 2,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            -150,
+            0,
+            0
+          ],
+          "function": "后舱模块侧板 x2",
+          "mass_g": 94.416,
+          "density_kg_m3": 2810.0
+        },
+        {
+          "name": "ballast_steel",
+          "type": "plate",
+          "dims_mm": [
+            15,
+            140,
+            220
+          ],
+          "material": "steel",
+          "count": 1,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            -163,
+            40,
+            0
+          ],
+          "function": "后部压载钢块 (~3.2 kg 级, C1 OI-1 补救; +y 偏移配平 y 超差; 贴后面板 x∈[-170.25,-155.75])",
+          "mass_g": 3603.6,
+          "density_kg_m3": 7800.0
+        },
+        {
+          "name": "front_iso_brackets",
+          "type": "bracket",
+          "dims_mm": [
+            40,
+            40,
+            3
+          ],
+          "material": "al6061",
+          "count": 4,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            150,
+            0,
+            40
+          ],
+          "function": "前舱任务设备隔振安装支架 x4",
+          "mass_g": 51.84,
+          "density_kg_m3": 2700.0
+        },
+        {
+          "name": "isolator_elements",
+          "type": "bracket",
+          "dims_mm": [
+            20,
+            20,
+            15
+          ],
+          "material": "isolator",
+          "count": 4,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            150,
+            0,
+            40
+          ],
+          "function": "金属-弹性体隔振器 x4 (相机/照明与臂扰动隔离, sim_05 19.2°)",
+          "mass_g": 72.0,
+          "density_kg_m3": 3000.0
+        },
+        {
+          "name": "front_deck",
+          "type": "plate",
+          "dims_mm": [
+            200,
+            210,
+            1.5
+          ],
+          "material": "cfrp",
+          "count": 1,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            120,
+            0,
+            0
+          ],
+          "function": "前舱 CFRP 轻甲板",
+          "mass_g": 100.8,
+          "density_kg_m3": 1600.0
+        },
+        {
+          "name": "panel_root_hinge_brackets",
+          "type": "bracket",
+          "dims_mm": [
+            40,
+            30,
+            6
+          ],
+          "material": "al6061",
+          "count": 4,
+          "fill_factor": 1.0,
+          "pos_mm": [
+            -61,
+            0,
+            0
+          ],
+          "function": "帆板根铰/HDRM 站位安装座",
+          "mass_g": 77.76,
+          "density_kg_m3": 2700.0
+        }
+      ],
+      "structure_mass_kg": 4.927722,
+      "structure_mass_proper_excl_ballast_kg": 1.324122,
+      "est_mass_growth_vs_budget_pct": 392.77,
+      "budget_ref": "C1 MASS_BUDGET_V1.csv EQ-SEC-STRUCT = 1.0 kg (ASSUMED 行, sha256_12 365c9ebf9493)",
+      "scenarios": {
+        "SCENARIO_A_DESIGN_POINT": {
+          "new_total_mass_kg": 34.95058680734299,
+          "structure_mass_kg": 4.927722,
+          "new_cg_S_mm": [
+            37.9676083666784,
+            -19.925494755888586,
+            -16.847769731674898
+          ],
+          "cg_delta_mm": [
+            -25.27489951487631,
+            6.955201766618156,
+            2.1740840584802896
+          ],
+          "cds_margins_mm": {
+            "x": 32.0323916333216,
+            "y": 25.074505244111414,
+            "z": 28.152230268325102
+          },
+          "mass_with_15pct_margin_kg": 40.193174828444434,
+          "cds_mass_pass": false,
+          "baseline_total_mass_kg": 31.022864807342987,
+          "baseline_cg_S_mm": [
+            63.24250788155471,
+            -26.880696522506742,
+            -19.021853790155188
+          ],
+          "note": "C1 主口径（读法 A 切出），ODR 登记 31.0229 kg；结构质量变化按新候选差异声明登记，不改 ODR 值"
+        },
+        "SCENARIO_CDS_VARIANT_24KG": {
+          "new_total_mass_kg": 19.284373407342986,
+          "structure_mass_kg": 4.927722,
+          "new_cg_S_mm": [
+            68.86482058788705,
+            -36.11254145699996,
+            -31.072282885513186
+          ],
+          "cg_delta_mm": [
+            -58.961776681089574,
+            18.190717243408727,
+            8.030152264880375
+          ],
+          "cds_margins_mm": {
+            "x": 1.1351794121129473,
+            "y": 8.887458543000037,
+            "z": 13.927717114486814
+          },
+          "mass_with_15pct_margin_kg": 22.177029418444434,
+          "cds_mass_pass": true,
+          "baseline_total_mass_kg": 15.356651407342985,
+          "baseline_cg_S_mm": [
+            127.82659726897663,
+            -54.30325870040869,
+            -39.10243515039356
+          ],
+          "note": "C1 CDS 合规变体（干重，未含 15% 余量）；现状 x 超差 -57.83 mm / y -9.30 mm（GATE_C1 OI-1）"
+        }
+      }
+    }
+  },
+  "checks": {
+    "equipment_mounting_map_coverage": {
+      "CA-A": {
+        "faces_required": 31,
+        "faces_mapped": 31,
+        "missing": [],
+        "pass": true
+      },
+      "CA-B": {
+        "faces_required": 31,
+        "faces_mapped": 31,
+        "missing": [],
+        "pass": true
+      },
+      "CA-C": {
+        "faces_required": 31,
+        "faces_mapped": 31,
+        "missing": [],
+        "pass": true
+      }
+    },
+    "equipment_rows_parsed": 40,
+    "yaml_mass_consistency": {
+      "pass": true,
+      "diffs": []
+    }
+  }
+}

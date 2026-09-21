@@ -1,0 +1,773 @@
+schema_version: comp-prot-03-a1-digital-body-manifest-v1
+manifest_id: digital_space_robot_body_v1
+phase: COMP-PROT-03-A0_A1
+created_on: "2026-07-23"
+status: DIGITAL_MODEL_ARCHITECTURE_ONLY
+
+manifest_meta:
+  baseline_git_head: b75352c1c226c0f3e9a4bc9c469b766e06f41616
+  hash_contract:
+    algorithm: SHA-256
+    mode: RAW_BYTES
+    normalized_content_hash_accepted_as_substitute: false
+  package_form: COMPONENT_PACKAGE_NOT_INTEGRATED_DIGITAL_BODY
+  current_model_conformance: BLOCKED_BY_EVIDENCE
+  note: this_manifest_is_a_design_and_evidence_ledger_not_a_runtime_configuration
+
+authority:
+  scientific_gate: false
+  runtime_configuration: false
+  implementation_authorized: false
+  candidate_model_accepted: false
+  cad_generation_authorized: false
+  urdf_generation_authorized: false
+  external_asset_download_authorized: false
+  simulation_authorized: false
+  controller_or_safe_authorized: false
+  cannot_override:
+    - human_scope_authorization
+    - original_gate_json
+    - frozen_geometry_config
+    - accepted_urdf
+    - mass_inertia_budget
+    - license_gate
+
+baseline:
+  name: servicer_12U_v0_plus_arm_b601_v1_plus_target_library_v0
+  selection_reason: minimum_evidence_drift_from_existing_12U_and_reBot_hardware_mapping
+  rejected_parallel_variants:
+    - id: generic_7dof_arm
+      status: REJECTED_VARIANT
+      reason: conflicts_with_B601_6R_hardware_baseline
+    - id: alternate_12_to_15kg_servicer
+      status: REJECTED_VARIANT
+      reason: conflicts_with_existing_24kg_reference_anchor
+
+truth_order:
+  - latest_human_scope_authorization
+  - original_scientific_gate_and_bound_config
+  - geometry_and_frame_ssot
+  - accepted_b601_urdf
+  - mass_inertia_budget
+  - project_object_json_cad_step_stl
+  - derived_importer_assets
+  - visualization_and_narrative
+
+source_bindings:
+  - source_id: arm_geometry_ssot
+    path: 20_engineering/config/geometry/arm_b601_v1.yaml
+    sha256: c81bd3696ce1ee789574aa3b143ea0057ffc286305a1aa18802829e9f038b188
+    role: CANONICAL_PROJECT_SOURCE
+  - source_id: frame_tree_ssot
+    path: 20_engineering/config/geometry/frame_tree_v1.yaml
+    sha256: 958bff23bf83434c773854fd0e78da3b09be4a3a213eb81a0741514750b3e55b
+    role: CANONICAL_PROJECT_SOURCE
+  - source_id: servicer_geometry_ssot
+    path: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+    sha256: 8dd8f22ff1f893273de2215ea12819e4d41cc0e20b853adc0774052237881432
+    role: CANONICAL_PROJECT_SOURCE
+  - source_id: flexible_appendage_ssot
+    path: 20_engineering/config/geometry/flexible_appendage_v1.yaml
+    sha256: 52fa88084c628ce8845e05de0c0a892bca5347b7146c8d1c6b99093927153786
+    role: CANONICAL_PROJECT_SOURCE
+  - source_id: target_geometry_ssot
+    path: 20_engineering/config/geometry/target_models_v1.yaml
+    sha256: 45666d9d37460fd825f0ed7301bf69113016689fdf00a13dff8046358a76ae45
+    role: CANONICAL_PROJECT_SOURCE
+  - source_id: arm_mount_ssot
+    path: 20_engineering/config/geometry/arm_mount_v1.yaml
+    sha256: b08a0f28e4c4f458cd79e6e907f06389ba6a4280c0c7db2b91e36f76134c985c
+    role: CANONICAL_PROJECT_SOURCE
+  - source_id: capture_interface_ssot
+    path: 20_engineering/config/geometry/capture_interface_v1.yaml
+    sha256: 54dd2ef8ea0ddd682f1617a8788dbff9a61055d4816b5f09e21c34ba86e5ce85
+    role: CANONICAL_PROJECT_SOURCE
+  - source_id: mass_inertia_budget
+    path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+    sha256: 073c802527e35c9495188eefd5d8ba51f524d326142cf2ab31e436bad0899392
+    role: CANONICAL_PROJECT_SOURCE
+  - source_id: coordinate_frame_definition
+    path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/coordinate_frame_definition_v0.md
+    sha256: 6afcb4fb6f1cd53580c5a1561788142e17df7c16a1aeec548dbeafef7efabec1
+    role: CANONICAL_PROJECT_SOURCE
+  - source_id: accepted_b601_urdf
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+    role: ACCEPTED_DERIVED_SOURCE
+  - source_id: external_source_manifest
+    path: 20_engineering/stage1_spacecraft_layout/00_source_manifest/source_manifest.md
+    sha256: cc9ed1110e6a27106f0054356bc7f97bdca5ff70339528cf23ee42029b7834b3
+    role: SOURCE_GOVERNANCE
+  - source_id: external_license_gate
+    path: 20_engineering/stage1_spacecraft_layout/02_open_bus_reference/license_gate_v0.md
+    sha256: 0ff7ff8ec2eab183a6ee0a92ae2eb45857027eca053b30edb47e25222dfe77fd
+    role: LICENSE_GOVERNANCE
+  - source_id: e16_historical_gate
+    path: 30_simulation/e16_sync_capture/results/gate_check.json
+    sha256: 5538b054805781f7717d316bfc81c9f79cbc6b3b4d6cc9fdc72905d80984cc6f
+    role: HISTORICAL_SCIENTIFIC_GATE
+  - source_id: cad_model_specs_v0
+    path: 20_engineering/cad/spacecraft_layout/model_specs_v0.json
+    sha256: 712f4b6411b241f37676eee3f45813c981ee5699238017cb0bc4bb5fa50d4666
+    role: DERIVED_GEOMETRY_CONSUMER
+  - source_id: visualization_scene_manifest
+    path: 20_engineering/config/visualization/scene_manifest_v1.yaml
+    sha256: 24cbe73492950333e5c498ca59e2cb15fb049a7cf14fe4c04e340807fa14fb4c
+    role: DERIVED_VISUALIZATION_CONSUMER
+  - source_id: target_debris_object_json
+    path: 20_engineering/cad/spacecraft_layout/target_debris_v0/target_debris_v0.json
+    sha256: 6da57979ae1b34bf7e18733a256f7264d40cabec22d99598801f721ff4737270
+    role: DERIVED_GEOMETRY_CONSUMER
+  - source_id: servicer_12u_object_json
+    path: 20_engineering/cad/spacecraft_layout/servicer_12U_v0/servicer_12U_v0.json
+    sha256: 014abf228f2c00a67b2e70b1515ae307a96e4153abf4298363bf80f273df64a1
+    role: DERIVED_GEOMETRY_CONSUMER
+  - source_id: robot_mount_adapter_object_json
+    path: 20_engineering/cad/spacecraft_layout/robot_mount_adapter_v0/robot_mount_adapter_v0.json
+    sha256: 293052c047d34cf42a08f21f9fd370c4e3bb9c931caeacfb8b7541ec957ef2c7
+    role: DERIVED_GEOMETRY_CONSUMER
+  - source_id: target_satellite_object_json
+    path: 20_engineering/cad/spacecraft_layout/target_satellite_v0/target_satellite_v0.json
+    sha256: ec57c05efee44b6a704369874420ee065f9a710a2cd18d7c3fd3ce35cd2edfdf
+    role: DERIVED_GEOMETRY_CONSUMER
+  - source_id: rebot_hardware_license_external
+    path: F:/Robotic arm/High_performance_robotics_arm/vendor/reBot-DevArm/LICENSE
+    sha256: 54cf85b09c46e5ba8229aec1ca631a1e4c522e1459f73c10114cf82ce40481f9
+    role: EXTERNAL_LICENSE_EVIDENCE_NOT_PORTABLE_WITH_CURRENT_PROJECT_PACKAGE
+
+asset_inventory_snapshot:
+  inspected_on: "2026-07-23"
+  root: 20_engineering/cad/spacecraft_layout
+  total_files: 40
+  non_gitkeep_files: 35
+  git_tracked_files: 40
+  extension_counts:
+    gitkeep: 5
+    json: 6
+    md: 1
+    sldprt: 1
+    step: 5
+    stl: 15
+    urdf: 7
+  integrated_12u_b601_target_cad_exists: false
+  integrated_12u_b601_target_urdf_exists: false
+  package_status: COMPONENT_ASSETS_ONLY
+  acceptance_status: BLOCKED_BY_EVIDENCE
+  representative_assets:
+    - asset_id: servicer_12u_json
+      object_id: servicer_12U_v0
+      path: 20_engineering/cad/spacecraft_layout/servicer_12U_v0/servicer_12U_v0.json
+      bytes: 6524
+      sha256: 014abf228f2c00a67b2e70b1515ae307a96e4153abf4298363bf80f273df64a1
+      asset_role: geometry_metadata
+      git_tracked: true
+      conformance_status: LIMITED_BY_DB_BLK_010
+    - asset_id: servicer_12u_step
+      object_id: servicer_12U_v0
+      path: 20_engineering/cad/spacecraft_layout/servicer_12U_v0/servicer_12U_v0.step
+      bytes: 78000
+      sha256: f114d416abb0e7e125f5d23fb7bcc0e7affd90b7f454668acd72f16a66425616
+      asset_role: geometry_reference
+      git_tracked: true
+      conformance_status: LIMITED_BY_DB_BLK_010
+    - asset_id: servicer_12u_urdf
+      object_id: servicer_12U_v0
+      path: 20_engineering/cad/spacecraft_layout/servicer_12U_v0/servicer_12U_v0.urdf
+      bytes: 796
+      sha256: 2ecb4b1c778ca309632714d13cabf09033e424ee646ca85fdebc776e1d74e8da
+      asset_role: coarse_visual_and_collision_description
+      git_tracked: true
+      conformance_status: LIMITED_BY_DB_LIM_001_AND_DB_LIM_003
+    - asset_id: accepted_b601_urdf_asset
+      object_id: arm_b601_v1
+      path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+      bytes: 11321
+      sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+      asset_role: accepted_kinematic_and_inertial_description
+      git_tracked: true
+      root_link: base_link
+      link_count: 10
+      joint_count: 9
+      mesh_reference_count: 20
+      missing_mesh_reference_count: 0
+      conformance_status: LIMITED_BY_DB_BLK_002_DB_BLK_008_AND_DB_BLK_014
+    - asset_id: robot_mount_adapter_json
+      object_id: robot_mount_adapter_v0
+      path: 20_engineering/cad/spacecraft_layout/robot_mount_adapter_v0/robot_mount_adapter_v0.json
+      bytes: 7323
+      sha256: 293052c047d34cf42a08f21f9fd370c4e3bb9c931caeacfb8b7541ec957ef2c7
+      asset_role: geometry_metadata
+      git_tracked: true
+      conformance_status: BLOCKED_BY_DB_BLK_013
+    - asset_id: target_satellite_json
+      object_id: target_satellite_v0
+      path: 20_engineering/cad/spacecraft_layout/target_satellite_v0/target_satellite_v0.json
+      bytes: 7424
+      sha256: ec57c05efee44b6a704369874420ee065f9a710a2cd18d7c3fd3ce35cd2edfdf
+      asset_role: geometry_metadata
+      git_tracked: true
+      conformance_status: LIMITED_BY_DB_BLK_011_AND_DB_LIM_001
+    - asset_id: target_debris_json
+      object_id: target_debris_v0
+      path: 20_engineering/cad/spacecraft_layout/target_debris_v0/target_debris_v0.json
+      bytes: 6801
+      sha256: 6da57979ae1b34bf7e18733a256f7264d40cabec22d99598801f721ff4737270
+      asset_role: geometry_metadata
+      git_tracked: true
+      conformance_status: LIMITED_BY_DB_BLK_011_DB_BLK_012_AND_DB_LIM_007
+    - asset_id: legacy_minimal_rebot_urdf
+      object_id: reBot_arm_v0_min
+      path: 20_engineering/cad/spacecraft_layout/robot_mount_adapter_v0/reBot_arm_v0_min.urdf
+      bytes: 1673
+      sha256: a2090dde8494923dbda75a020ba3f662649565debb817debb1c3416168cc7c62
+      asset_role: historical_placeholder
+      git_tracked: true
+      conformance_status: REJECTED_VARIANT
+  future_candidate_asset_record_required_fields:
+    - asset_id
+    - object_id
+    - path
+    - exists
+    - format
+    - bytes
+    - sha256
+    - git_tracked
+    - lfs_managed
+    - asset_role
+    - canonical_or_derived
+    - unit_in_file
+    - frame
+    - configuration_state
+    - source_path
+    - source_hash
+    - upstream_repository
+    - upstream_commit
+    - generator
+    - tool_version
+    - generator_script
+    - license_id
+    - license_gate
+    - license_evidence
+    - collision_policy
+    - conformance_status
+    - mismatch_ids
+    - portable
+    - review_required
+
+object_registry:
+  - object_id: servicer_12U_v0
+    ontology_type: Body
+    architecture_classification: [FROZEN, LIMITED]
+    model_roles: [M0_ANALYTICAL_IDENTITY, M1_COMPETITION_GEOMETRY]
+    parent_id: null
+    primary_frame: S
+    source_ids: [servicer_geometry_ssot, frame_tree_ssot, mass_inertia_budget, servicer_12u_object_json]
+    geometry:
+      deployed_envelope_mm: [440.5, 626.3, 276.3]
+      status: FROZEN_MODEL_ANCHOR
+      confidence: low
+      limitation: deployed_block_model_not_launch_interface_qualification
+      flange_contract:
+        ssot_footprint_mm: [160, 160, 15]
+        cad_spec_observed_footprint_mm: [140, 140, 15]
+        conformance: BLOCKED_BY_FLANGE_GEOMETRY_CONFLICT
+    mass_models:
+      - model_id: whole_sat_reference
+        mass_kg: 24.0
+        status: PROVISIONAL
+        confidence: low
+        inclusion_scope: legacy_rigid_body_reference
+        includes_arm: UNKNOWN
+        includes_mount_adapter: UNKNOWN
+      - model_id: rigid_bus_without_panels
+        mass_kg: 23.3032134
+        status: FROZEN_MODEL_ANCHOR
+        confidence: low
+        inclusion_scope: bus_only_for_existing_mass_split
+    system_mass_kg: null
+    system_mass_null_reason: BLOCKED_BY_COMPONENT_OWNERSHIP
+    blocker_ids: [DB-BLK-001, DB-BLK-005, DB-BLK-010]
+
+  - object_id: solar_panel_left_v1
+    ontology_type: FlexibleBody
+    architecture_classification: [LIMITED, PLANNED]
+    model_roles: [M0_FLEXIBLE_APPENDAGE_IDENTITY]
+    parent_id: servicer_12U_v0
+    primary_frame: F_L
+    source_ids: [flexible_appendage_ssot, frame_tree_ssot]
+    mass_kg: 0.3483933
+    status: PROVISIONAL
+    confidence: low
+    fidelity_limit: frequency_assigned_design_model_not_measured_hardware
+
+  - object_id: solar_panel_right_v1
+    ontology_type: FlexibleBody
+    architecture_classification: [LIMITED, PLANNED]
+    model_roles: [M0_FLEXIBLE_APPENDAGE_IDENTITY]
+    parent_id: servicer_12U_v0
+    primary_frame: F_R
+    source_ids: [flexible_appendage_ssot, frame_tree_ssot]
+    mass_kg: 0.3483933
+    status: PROVISIONAL
+    confidence: low
+    fidelity_limit: frequency_assigned_design_model_not_measured_hardware
+
+  - object_id: robot_mount_adapter_v0
+    ontology_type: MountInterface
+    architecture_classification: [LIMITED, BLOCKED]
+    model_roles: [M0_INTERFACE_IDENTITY, M1_GEOMETRY_REFERENCE]
+    parent_id: servicer_12U_v0
+    primary_frame: M
+    source_ids: [arm_mount_ssot, frame_tree_ssot, mass_inertia_budget, robot_mount_adapter_object_json]
+    mass_kg: 1.2
+    status: PROVISIONAL
+    confidence: low
+    included_in_servicer_mass: UNKNOWN
+    geometry_overlap_observed_in_visualization_manifest: true
+    geometry_overlap_scope: display_only_asset_conflict_not_resolved
+    blocker_ids: [DB-BLK-001, DB-BLK-010, DB-BLK-013]
+
+  - object_id: arm_b601_v1
+    ontology_type: ArticulatedRobot
+    architecture_classification: [FROZEN, LIMITED]
+    model_roles: [M0_ROBOT_TOPOLOGY, M1_COMPETITION_GEOMETRY, GROUND_HARDWARE_MAPPING]
+    parent_id: robot_mount_adapter_v0
+    primary_frame: M
+    source_ids: [arm_geometry_ssot, accepted_b601_urdf, frame_tree_ssot, rebot_hardware_license_external]
+    topology:
+      link_count: 10
+      joint_count_total: 9
+      revolute_joint_count: 6
+      prismatic_joint_count: 2
+      fixed_joint_count: 1
+      joint_order: [joint1, joint2, joint3, joint4, joint5, joint6, gripper_joint1, gripper_joint2]
+      gripper_mount_joint: gripper_joint
+      value_source: accepted_b601_urdf
+      required_future_link_fields:
+        - link_name
+        - inertial_origin_xyz_m
+        - inertial_origin_rpy_rad
+        - mass_kg
+        - inertia_full_tensor_kgm2
+        - inertia_about
+        - inertia_expressed_in
+        - visual_mesh_uri
+        - collision_mesh_uri
+      required_future_joint_fields:
+        - joint_name
+        - joint_type
+        - parent_link
+        - child_link
+        - origin_xyz_m
+        - origin_rpy_rad
+        - axis_xyz
+        - lower_limit
+        - upper_limit
+        - effort_limit
+        - velocity_limit
+    mass_models:
+      arm_without_gripper_kg: 4.4293
+      gripper_kg: 0.2665
+      dynamics_total_kg: 4.6956
+      status: PROVISIONAL
+      confidence: medium
+      measurement_pending: physical_weighing
+      exact_accepted_urdf_audit:
+        arm_without_gripper_kg: 4.4291
+        gripper_kg: 0.266455949343
+        total_kg: 4.695555949343
+        yaml_arm_without_gripper_kg: 4.4293
+        yaml_gripper_kg: 0.2665
+        conflict_status: BLOCKED_BY_MASS_SUBTOTAL_CONFLICT
+        note: exact_urdf_sum_does_not_equal_yaml_subtotals_but_total_rounds_to_4_6956
+      representation_policy:
+        full_urdf:
+          description: base_link_through_link6_plus_three_separate_gripper_bodies
+          may_coexist_with_locked_gripper_collapsed_in_one_mass_sum: false
+        locked_gripper_collapsed:
+          description: gripper_bodies_rigidly_collapsed_into_terminal_arm_body_for_specific_consumers
+          may_coexist_with_full_urdf_in_one_mass_sum: false
+    hardware_source:
+      upstream_repository: https://github.com/Seeed-Projects/reBot-DevArm
+      local_pinned_head: 71a1a6e662c3935c83d46e11c8d610d1e92b0486
+      ssot_declared_step_path_exists: false
+      observed_candidate_step_path: F:/Robotic arm/High_performance_robotics_arm/vendor/reBot-DevArm/hardware/reBot_B601_DM/reBot_B601_DM_v1.1_20260425.step
+      observed_candidate_step_sha256: 87a0537d1afd50c04fc441fde11dd4f2ebbb368fe27f6c10fda8567be696d968
+      observed_candidate_is_canonical: false
+      license_hardware: CERN-OHL-W-2.0
+      license_software: Apache-2.0
+      license_evidence:
+        external_path: F:/Robotic arm/High_performance_robotics_arm/vendor/reBot-DevArm/LICENSE
+        sha256: 54cf85b09c46e5ba8229aec1ca631a1e4c522e1459f73c10114cf82ce40481f9
+        colocated_with_project_asset: false
+        portable_with_current_project_package: false
+        attribution_in_accepted_urdf_header: true
+        full_license_text_in_project_asset_package: false
+    root_attachment_contract:
+      arm_root_link: base_link
+      arm_root_parent_frame: M
+      arm_to_mount_mode: fixed
+      platform_dynamics_mode: free_floating
+      spacecraft_body_frame: B
+      geometry_reference_frame: S
+      T_SB_binding_status: UNKNOWN
+      may_default_B_equal_S: false
+    tool_frame_binding: BLOCKED_BY_FRAME_BINDING
+    blocker_ids: [DB-BLK-002, DB-BLK-003, DB-BLK-007, DB-BLK-008, DB-BLK-014, DB-BLK-015]
+
+  - object_id: target_satellite_v0
+    ontology_type: TargetBody
+    architecture_classification: [FROZEN, LIMITED]
+    model_roles: [M0_TARGET_HYPOTHESIS, M1_COMPETITION_GEOMETRY]
+    parent_id: null
+    primary_frame: T
+    source_ids: [target_geometry_ssot, frame_tree_ssot, mass_inertia_budget, target_satellite_object_json]
+    mass_kg: 22.0
+    inertia_diag_kgm2: [0.231629, 0.422149, 0.489336]
+    grasp_frame: C_sat
+    status: PROVISIONAL
+    confidence: low
+    limitation: block_model_not_measured_failed_spacecraft
+
+  - object_id: target_debris_v0
+    ontology_type: TargetBody
+    architecture_classification: [FROZEN, LIMITED]
+    model_roles: [M0_TARGET_HYPOTHESIS, M1_COMPETITION_GEOMETRY]
+    parent_id: null
+    primary_frame: D
+    source_ids: [target_geometry_ssot, frame_tree_ssot, mass_inertia_budget, target_debris_object_json]
+    mass_kg: 150.0
+    inertia_diag_kgm2: [74.805599, 74.829903, 26.592617]
+    grasp_frame: C_deb
+    grasp_semantics:
+      point_mm_D: [660, 0, 950]
+      geometry_yaml_label: nozzle_rim
+      capture_interface_label: nozzle_rim
+      object_json_geometry: forward_end_ring_grasp_at_positive_Z
+      object_json_keepout: aft_engine_region_z_less_than_minus_1000_is_forbidden_contact
+      conformance: BLOCKED_BY_GRASP_SEMANTIC_CONFLICT
+    status: PROVISIONAL
+    confidence: low
+    limitation: solid_placeholder_density_is_nonphysical_shell_fix_not_implemented
+    blocker_ids: [DB-BLK-011, DB-BLK-012]
+
+excluded_object_registry:
+  - object_id: servicer_6U_v0
+    architecture_classification: [LIMITED, NEGATIVE_RESULT]
+    baseline_role: NON_MAINLINE_LAYOUT_REFERENCE
+    may_replace_servicer_12U_v0: false
+    reason: conflicts_with_current_12U_baseline
+  - object_id: reBot_arm_v0_min
+    architecture_classification: [NEGATIVE_RESULT]
+    baseline_role: HISTORICAL_2R_PLACEHOLDER
+    may_replace_arm_b601_v1: false
+    reason: does_not_preserve_B601_6R_plus_2P_topology
+  - object_id: generic_7dof_arm
+    architecture_classification: [PLANNED, BLOCKED]
+    baseline_role: FUTURE_THEORY_COMPARATOR_ONLY
+    asset_exists_in_current_cad_root: false
+    may_replace_arm_b601_v1: false
+    reason: parallel_variant_not_authorized
+
+frame_registry:
+  convention:
+    transform_name: T_parent_child
+    rotation: passive_frame_to_frame
+    translation_unit_in_ssot: mm
+    dynamics_unit: m
+  frames:
+    - {frame_id: S, parent: null, binding_status: BOUND}
+    - {frame_id: B, parent: S, binding_status: BLOCKED_UNKNOWN_T_SB, blocker_id: DB-BLK-009}
+    - {frame_id: M, parent: S, binding_status: BOUND_IN_FRAME_TREE_CONFLICTED_IN_ADAPTER_JSON, translation_mm: [185.25, 0.0, 0.0], rotation: R_y_plus_90_deg, blocker_id: DB-BLK-013}
+    - {frame_id: A0, parent: M, binding_status: NOMINAL_IDENTITY_FROM_ARM_SSOT_NOT_IN_FRAME_TREE, blocker_id: DB-BLK-011}
+    - {frame_id: F_L, parent: S, binding_status: BOUND}
+    - {frame_id: F_R, parent: S, binding_status: BOUND}
+    - frame_id: E
+      parent: arm_link7
+      binding_status: BLOCKED_BY_DEFINITION_CONFLICT
+      blocker_id: DB-BLK-002
+      frame_tree_statement: parent_is_arm_link7
+      accepted_urdf_observation: arm_link7_absent
+      sim05_statement: origin_at_gripper_link_joint_but_axes_aligned_with_link6
+      resolution: UNKNOWN_NOT_GUESSED
+    - {frame_id: T, parent: runtime_scene, binding_status: REFERENCED_BUT_UNDEFINED_IN_FRAME_TREE, blocker_id: DB-BLK-011}
+    - {frame_id: D, parent: runtime_scene, binding_status: REFERENCED_BUT_UNDEFINED_IN_FRAME_TREE, blocker_id: DB-BLK-011}
+    - {frame_id: C_sat, parent: T, binding_status: PARTIAL_ORIGIN_AND_NORMAL_ONLY, full_rotation_status: UNKNOWN, blocker_id: DB-BLK-011}
+    - {frame_id: C_deb, parent: D, binding_status: PARTIAL_ORIGIN_AND_NORMAL_ONLY, full_rotation_status: UNKNOWN, blocker_id: DB-BLK-011}
+    - {frame_id: B_int, parent: S, binding_status: UNKNOWN_ORIGIN}
+  required_transforms:
+    - {transform_id: T_SB, parent: S, child: B, binding_status: UNKNOWN_NOT_IN_FRAME_TREE, blocker_id: DB-BLK-009}
+    - transform_id: T_SM
+      parent: S
+      child: M
+      binding_status: CONFLICTING_SOURCES
+      frame_tree_statement: BOUND_AT_185_25MM_WITH_R_Y_PLUS_90_DEG
+      adapter_json_statement: TBD_NOT_FIXED
+      blocker_id: DB-BLK-013
+    - {transform_id: T_ME, parent: M, child: E, binding_status: BLOCKED_BY_DB_BLK_002}
+
+capture_interface:
+  source_id: capture_interface_ssot
+  status: GEOMETRY_TBD
+  frame_semantics: capture_frame_coincides_with_C_sat_or_C_deb
+  constraint_modes:
+    - {mode_id: point_capture_3dof, locks: [tx, ty, tz], rotation: free}
+    - {mode_id: rigid_lock_6dof, locks: [tx, ty, tz, rx, ry, rz]}
+  end_effector_tool_envelope_qualified: false
+  hard_capture_interface_qualified: false
+  blocker_ids: [DB-BLK-004, DB-BLK-012]
+
+mass_ownership_contract:
+  status: BLOCKED_BY_COMPONENT_OWNERSHIP
+  declared_system_mass_kg: null
+  no_silent_sum: true
+  required_future_fields:
+    - component_id
+    - mass_owner
+    - included_in
+    - source_hash
+    - reference_frame
+    - reference_point
+    - confidence
+  required_future_checks:
+    - unique_component_mass_sum_equals_declared_system_mass
+    - no_component_counted_more_than_once
+    - recomposed_com_and_inertia_match_runtime_mass_properties
+  exclusive_representation_groups:
+    - group_id: servicer_whole_body_vs_split_bus_panels
+      allowed_exactly_one:
+        - whole_sat_reference_24kg
+        - rigid_bus_23_3032134kg_plus_two_panel_components
+      rule: never_sum_whole_sat_reference_with_split_bus_or_panel_masses
+    - group_id: b601_full_urdf_vs_locked_gripper_collapse
+      allowed_exactly_one:
+        - full_urdf_with_three_gripper_bodies
+        - consumer_specific_locked_gripper_collapsed_representation
+      rule: never_count_both_representations_in_one_mass_sum
+  tensor_contract_for_future_candidate:
+    required_fields:
+      - mass_kg_exact
+      - center_of_mass_xyz_m
+      - inertia_full_tensor_kgm2
+      - inertia_reference_point
+      - inertia_expressed_in_frame
+      - configuration_state
+      - source_hash
+  blocker_ids: [DB-BLK-001]
+
+evidence_constraints:
+  sim11_coupled_dynamics:
+    gate_path: 30_simulation/sim_11_coupled_dynamics/results/sim_11_gate_check.json
+    gate_sha256: 287aa84824ced51fb4480dfc3d39e9dafc8ee41b37c9de0f73e2d927263fec10
+    historical_gate_may_be_rewritten: false
+    provisional_params: true
+    provisional_fields:
+      - n_modes
+      - mode_shape
+      - stiffness_case
+      - zeta_modal
+      - contact_T_c
+    allowed_inference: historical_result_with_provisional_parameter_watermark_only
+  e16_sync_capture:
+    gate_path: 30_simulation/e16_sync_capture/results/gate_check.json
+    gate_sha256: 5538b054805781f7717d316bfc81c9f79cbc6b3b4d6cc9fdc72905d80984cc6f
+    historical_gate_may_be_rewritten: false
+    run_ancf: false
+    flexible_status_for_new_alpha_cases: UNKNOWN
+    safe_claim_when_flexible_unknown: false
+    allowed_inference: preserve_historical_verdict_and_do_not_rebind_current_mismatched_bundle
+  rule: module_local_next_stage_text_does_not_authorize_project_level_implementation
+
+open_source_admission:
+  knowledge_base: 10_research/space_embodied_robotics/comp_prot_03_a0_a1/open_source_model_knowledge_base.md
+  allowed_roles: [STANDARD_REFERENCE, GROUND_HARDWARE_SOURCE, ARCHITECTURE_REFERENCE, TOOL_CANDIDATE, VISUAL_REFERENCE_ONLY, LEGACY_LAYOUT_REFERENCE]
+  current_asset_imports: []
+  external_downloads_this_phase: []
+  rule: no_external_asset_becomes_physical_truth_without_source_license_semantic_and_conflict_review
+
+review_contract:
+  protocol: 10_research/space_embodied_robotics/comp_prot_03_a0_a1/model_review_protocol.md
+  record_template: 10_research/space_embodied_robotics/comp_prot_03_a0_a1/model_review_record_template.yaml
+  architecture_review_record: 10_research/space_embodied_robotics/comp_prot_03_a0_a1/a0_a1_architecture_review_record.yaml
+  required_independent_roles: [geometry, dynamics, robotics_urdf, mission, red_team]
+  chair_role: digital_body_model_review_chair
+  builder_may_self_accept: false
+  majority_vote_can_override_blocker: false
+  acceptance_vocabulary: [REVIEW_READY, REVIEW_READY_WITH_LIMITATIONS, REVISION_REQUIRED, BLOCKED_BY_EVIDENCE, OUT_OF_SCOPE]
+
+historical_gate_bindings:
+  - gate_id: e16_sync_capture
+    source_id: e16_historical_gate
+    historical_verdict: PASS_WITH_GEOMETRY_AND_FLEX_LIMITATIONS
+    historical_gate_is_modified: false
+    hash_policy: RAW_BYTE_SHA256_EXACT
+    protected_source_current_checkout_audit:
+      checked_on: "2026-07-23"
+      total: 8
+      raw_matches: 2
+      raw_mismatches: 6
+      current_bundle_reusable_as_historical_verified_bundle: false
+      interpretation: current_checkout_mismatch_does_not_rewrite_historical_gate_but_blocks_current_model_binding
+      mismatches:
+        - path: 40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_gate_check.json
+          expected_sha256: 63f6c6035960afcbb4389a85073c12a7dab0dad5c71188461ecbdd6deb9db84e
+          current_sha256: e98272bb347ca647125baa3d25b541e94477f854c30cfdcc4f0559e0c08c1f15
+          difference_class: CONTENT_DIFFERENCE
+        - path: 20_engineering/config/grasp_evaluator/hard_constraints_v1.yaml
+          expected_sha256: bc4acfab2251afab650f4e5e19578e66fabc6fe965b33b0edff106f693107443
+          current_sha256: 343fb0cf0f9c6b6fa773521373668bc374e6b765a5a2f21d26c7ea28ad7f46d1
+          difference_class: EOL_ONLY
+        - path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+          expected_sha256: 4bd29cd3e583862bc2dc41e5cca4aac3c572ea6a258fe99e0396ccd2bd66a273
+          current_sha256: 073c802527e35c9495188eefd5d8ba51f524d326142cf2ab31e436bad0899392
+          difference_class: EOL_ONLY
+        - path: 30_simulation/sim_05_free_floating_arm/dynamics.py
+          expected_sha256: 8ff7660f6606bd9435378802649ca597dddf7748a835873b07e8ffacaf4b1b11
+          current_sha256: 86c512dffc9aec2c7840f4af3e1a7380f613d302a56c9021f10bdb40f0d705e9
+          difference_class: EOL_ONLY
+        - path: 30_simulation/common/capture_impulse.py
+          expected_sha256: 93a55881a0d784efa8d4faa433c522370c657ee6e4472d4be05369a1db5d8ba6
+          current_sha256: db0aefbd35032268bc38bc8a18c0a8afe7bdf9208be6acfbc8e2f4b58f9ae089
+          difference_class: CONTENT_DIFFERENCE
+        - path: 30_simulation/common/rigid_body.py
+          expected_sha256: 5cd85ff021c51c9e0ceda42b7db6377fd44763b1dc85a6987b98681296c52dd2
+          current_sha256: 6ce88e6d0fa45b29694c43fdb6e2fae6e8e61f309c9c1dc89a6a33fd5f32bc99
+          difference_class: EOL_ONLY
+      matches:
+        - path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+          sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+        - path: 40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714/results__sim_09_grasp_evaluator__e15_geometry_roll_details.csv
+          sha256: 8580332f252a564d8e0be05b4d1b3cd5e2b25e11cb1eb816781ab66b693479cc
+    blocker_ids: [DB-BLK-006]
+
+consumer_path_audit:
+  - consumer_id: sim05_b601_model_loader
+    path: 30_simulation/sim_05_free_floating_arm/b601_model.py
+    declared_relative_urdf_path: ../../cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    resolved_path_exists: false
+    current_canonical_urdf_path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    current_consumer_ready: false
+    historical_results_are_modified: false
+    blocker_ids: [DB-BLK-007]
+
+known_blockers:
+  - blocker_id: DB-BLK-001
+    severity: CRITICAL
+    domain: mass_ownership
+    statement: system_component_mass_ownership_is_not_closed
+    blocks: [candidate_model_acceptance, dynamics_execution, system_mass_claim]
+  - blocker_id: DB-BLK-002
+    severity: CRITICAL
+    domain: frame_binding
+    statement: frame_E_parent_arm_link7_is_absent_from_accepted_b601_urdf
+    blocks: [tool_frame_binding, urdf_conformance, sim2real_mapping]
+  - blocker_id: DB-BLK-003
+    severity: MAJOR
+    domain: provenance
+    statement: ssot_declared_vendor_step_path_does_not_exist
+    blocks: [vendor_step_reproducibility, cad_source_binding]
+  - blocker_id: DB-BLK-004
+    severity: CRITICAL
+    domain: capture_interface
+    statement: end_effector_and_hard_capture_geometry_are_not_qualified
+    blocks: [capture_geometry_acceptance, hard_capture_claim]
+  - blocker_id: DB-BLK-005
+    severity: MAJOR
+    domain: standards
+    statement: cubesat_appendix_b_drawing_dimensions_need_manual_review
+    blocks: [launch_interface_conformance_claim]
+  - blocker_id: DB-BLK-006
+    severity: CRITICAL
+    domain: protected_source_integrity
+    statement: current_checkout_does_not_match_e16_historical_protected_source_bundle
+    blocks: [current_verified_bundle_claim, direct_e16_reuse_as_current_model_binding]
+  - blocker_id: DB-BLK-007
+    severity: CRITICAL
+    domain: consumer_path
+    statement: sim05_b601_loader_resolves_to_missing_legacy_root_cad_path
+    blocks: [current_sim05_loader_use, executable_model_package_claim]
+  - blocker_id: DB-BLK-008
+    severity: MAJOR
+    domain: arm_mass_closure
+    statement: b601_yaml_subtotals_do_not_exactly_close_to_accepted_urdf_component_sum
+    blocks: [exact_arm_mass_ledger, final_system_mass_closure]
+  - blocker_id: DB-BLK-009
+    severity: CRITICAL
+    domain: free_flyer_frame
+    statement: frame_B_and_T_SB_are_defined_in_coordinate_contract_but_not_numerically_bound_in_frame_tree
+    blocks: [free_flyer_base_binding, basilisk_or_gjm_adapter, dynamics_execution]
+  - blocker_id: DB-BLK-010
+    severity: CRITICAL
+    domain: flange_geometry
+    statement: cad_spec_uses_deprecated_140mm_flange_while_geometry_ssot_requires_160mm_and_visualization_records_interpenetration
+    blocks: [cad_conformance, adapter_assembly_acceptance, collision_clearance_claim]
+  - blocker_id: DB-BLK-011
+    severity: CRITICAL
+    domain: frame_tree_completeness
+    statement: target_base_and_capture_frames_lack_complete_parent_and_rotation_bindings_for_6dof_use
+    blocks: [six_dof_rigid_lock_frame_binding, target_pose_round_trip, urdf_to_mission_mapping]
+  - blocker_id: DB-BLK-012
+    severity: CRITICAL
+    domain: grasp_and_keepout_semantics
+    statement: positive_z_end_ring_point_is_labeled_nozzle_rim_while_actual_aft_nozzle_region_is_forbidden_contact
+    blocks: [debris_grasp_region_binding, contact_geometry_implementation, nozzle_rim_claim]
+  - blocker_id: DB-BLK-013
+    severity: CRITICAL
+    domain: mount_transform_authority
+    statement: T_SM_is_frozen_in_frame_tree_but_marked_TBD_and_not_fixed_in_adapter_json
+    blocks: [integrated_assembly_transform, geometry_round_trip, candidate_model_acceptance]
+  - blocker_id: DB-BLK-014
+    severity: CRITICAL
+    domain: license_portability
+    statement: B601_hardware_license_text_is_not_colocated_with_the_project_asset_package
+    blocks: [portable_competition_asset_package, provenance_complete_acceptance]
+  - blocker_id: DB-BLK-015
+    severity: CRITICAL
+    domain: integrated_model_presence
+    statement: no_integrated_12U_B601_target_CAD_or_URDF_exists_in_the_current_project
+    blocks: [integrated_digital_body_claim, formal_candidate_model_review]
+
+known_limitations:
+  - limitation_id: DB-LIM-001
+    domain: collision_geometry
+    statement: current_servicer_and_target_URDF_collision_shapes_are_coarse_envelope_boxes_and_do_not_encode_grasp_or_keepout_semantics
+  - limitation_id: DB-LIM-002
+    domain: arm_collision_geometry
+    statement: B601_visual_and_collision_reuse_the_same_high_detail_mesh_set
+  - limitation_id: DB-LIM-003
+    domain: flexible_topology
+    statement: current_12U_URDF_is_a_single_rigid_body_and_has_no_F_L_or_F_R_link_joint_topology
+  - limitation_id: DB-LIM-004
+    domain: grasp_frame_export
+    statement: target_grasp_metadata_is_not_exported_as_named_URDF_links_or_frames
+  - limitation_id: DB-LIM-005
+    domain: generator_reproducibility
+    statement: block_model_metadata_names_build123d_but_no_active_generator_script_was_found
+  - limitation_id: DB-LIM-006
+    domain: metadata_drift
+    statement: B601_README_and_geometry_metadata_still_describe_meshes_as_untracked_or_pending_LFS_while_all_current_assets_are_git_tracked
+  - limitation_id: DB-LIM-007
+    domain: target_fidelity
+    statement: target_debris_is_a_low_confidence_solid_equivalent_model_and_not_a_measured_shell_or_manufacturing_asset
+  - limitation_id: DB-LIM-008
+    domain: interface_engineering
+    statement: widened_flange_protrusion_rule_and_native_SLDPRT_path_hygiene_remain_pending_manual_review
+
+phase_verdict:
+  value: COMP_PROT_03_A0_A1_COMPLETE
+  status: DIGITAL_MODEL_ARCHITECTURE_ONLY
+  basis: knowledge_base_manifest_and_review_contract_exist_and_are_machine_parseable
+  document_verdict: DOCUMENT_COMPLETE_WITH_RECORDED_DOWNSTREAM_BLOCKS
+  current_model_conformance: BLOCKED_BY_EVIDENCE
+  downstream_readiness: BLOCKED_BY_EVIDENCE
+  open_critical_blocker_count: 12
+  open_major_blocker_count: 3
+  registered_limitation_count: 8
+  does_not_mean:
+    - candidate_digital_body_accepted
+    - engineering_model_generated
+    - dynamics_validated
+    - simulation_completed
+    - space_embodied_intelligence_implemented
+  next_gate: COMP-PROT-03-A2-CANDIDATE-MODEL-REVIEW
+  next_gate_authorized: false

@@ -1,0 +1,449 @@
+{
+  "schema": "B601_HARNESS_TERMINAL_INDEPENDENT_VALIDATION_V1",
+  "validation_basis_generation": "2026-08-23T11:22:00.413552+08:00",
+  "validator_sha256": "7FB27C279611F58B465817CEAE0C93C331ABAB2454B69FAF1205F4641E6263F6",
+  "checks": [
+    {
+      "id": "A00",
+      "name": "FROZEN_INPUT_HASH_GUARD_REPLAY",
+      "pass": true,
+      "evidence": {
+        "pin_file_expected": "6BB8E9C5FF6910BE07D1720D320C4CB560A2CF07AD254DEB83E931AF4731C588",
+        "pin_file_actual": "6BB8E9C5FF6910BE07D1720D320C4CB560A2CF07AD254DEB83E931AF4731C588",
+        "independent_checks": 36,
+        "independent_mismatches": [],
+        "runtime_guard": {
+          "pin_file_match": true,
+          "checks_total": 36,
+          "checks_passed": 36,
+          "integrity_ok": true,
+          "mismatches": []
+        },
+        "negative_hash_control": {
+          "status": "UNKNOWN",
+          "action": "ABORT",
+          "reason": "FROZEN_INPUT_HASH_MISMATCH",
+          "pass": true
+        }
+      }
+    },
+    {
+      "id": "A01",
+      "name": "ACCEPTED_URDF_AND_FULL_RANGE_NEGATIVE_IMMUTABLE",
+      "pass": true,
+      "evidence": {
+        "urdf_sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+        "full_v2_sha256": "DB86348B8276FB2DCEB48DA30D1969948B37AAC4DF6D67D7588D928CF8281FAE",
+        "joint_limits_rad": [
+          [
+            -2.8,
+            2.8
+          ],
+          [
+            -3.14,
+            0.0
+          ],
+          [
+            -3.14,
+            0.0
+          ],
+          [
+            -1.87,
+            1.57
+          ],
+          [
+            -1.57,
+            1.57
+          ],
+          [
+            -3.14,
+            3.14
+          ]
+        ],
+        "full_v2_verdict": "FAIL"
+      }
+    },
+    {
+      "id": "A02",
+      "name": "OUTPUT_AND_GENERATOR_MANIFEST_HASH_CLOSURE",
+      "pass": true,
+      "evidence": {
+        "files": 17,
+        "file_mismatches": [],
+        "generator_sources": 4,
+        "generator_source_mismatches": [],
+        "frozen_pin_manifest_match": true,
+        "accepted_urdf_manifest_match": true
+      }
+    },
+    {
+      "id": "A03",
+      "name": "ENVELOPE_MAP_CSV_NPZ_CONSISTENT_FAIL_CLOSED",
+      "pass": true,
+      "evidence": {
+        "rows": 75,
+        "safe": 0,
+        "unsafe": 75,
+        "unknown": 0,
+        "npz_shape": [
+          75,
+          11
+        ]
+      }
+    },
+    {
+      "id": "A04",
+      "name": "NO_SAFE_COMPONENT_NO_RATED_ENVELOPE_RELEASE",
+      "pass": true,
+      "evidence": {
+        "sample_counts": {
+          "SAFE": 0,
+          "UNSAFE": 75,
+          "UNKNOWN": 0
+        },
+        "conservative_box": null,
+        "release_status": "NOT_RELEASED",
+        "route_b": "REJECTED"
+      }
+    },
+    {
+      "id": "A05",
+      "name": "MANDATORY_MISSION_SET_PRESERVED_AND_FAILS_HONESTLY",
+      "pass": true,
+      "evidence": {
+        "required_states": [
+          "ARM_STOWED_ONORBIT_C05",
+          "ARM_RELEASE_CLEAR",
+          "Q_DEPLOYED_HOME",
+          "ARM_TASK_READY_C06",
+          "PREGRASP",
+          "CONTACT",
+          "CAPTURE_22KG",
+          "POST_CAPTURE_22KG",
+          "PHYSICS_VETO_150KG",
+          "SAFE_RECOVERY_TARGET"
+        ],
+        "segments": [
+          "M01",
+          "M02",
+          "M03",
+          "M04",
+          "M05_22",
+          "M06_22",
+          "M07_22",
+          "M05_150"
+        ],
+        "released_segments": 0,
+        "pose_rebind": "PASS_CURRENT_URDF_LOADABILITY_SCOPE",
+        "22kg": "EXECUTE_NOMINAL_CAPTURE_CHAIN_REQUIRED",
+        "150kg": "INFEASIBLE_RATE__PHYSICS_VETO_ABORT_RECOVERY_REQUIRED",
+        "mission_coverage": "FAIL"
+      }
+    },
+    {
+      "id": "A06",
+      "name": "HARNESS_MASS_FORMULA_AND_UNCERTAINTY_RECOMPUTE",
+      "pass": true,
+      "evidence": {
+        "recomputed_kg": 0.6840676218400001,
+        "reported_kg": 0.6840676218400001,
+        "standard_uncertainty_kg": 0.05220174952271859,
+        "expanded_uncertainty_k2_kg": 0.10440349904543718,
+        "pose_count": 9,
+        "input_dimension": 12,
+        "field_level_input_ledger_complete": true,
+        "pose_uncertainty_receipts_complete": true
+      }
+    },
+    {
+      "id": "A07",
+      "name": "DIAGNOSTIC_MASS_OVERLAY_ALGEBRA_AND_INERTIA_VALID",
+      "pass": true,
+      "evidence": {
+        "status": "DIAGNOSTIC_OVERLAY_NOT_CURRENT_SSOT_ROUTE_B_REJECTED",
+        "configurations": [
+          {
+            "configuration_id": "C01",
+            "mass_addend_kg": 0.6840676218400006,
+            "uncertainty_complete": true,
+            "base_input_sources_complete": true,
+            "base_rejection_draws": 9919,
+            "base_rejection_acceptance_rate": 0.8258897066236516,
+            "physical_domain": {
+              "sample_count": 8192,
+              "positive_mass_pass_count": 8192,
+              "positive_mass_pass_rate": 1.0,
+              "positive_definite_pass_count": 8192,
+              "positive_definite_pass_rate": 1.0,
+              "triangle_inequality_pass_count": 8192,
+              "triangle_inequality_pass_rate": 1.0,
+              "min_principal_moment": 0.13740547398547062,
+              "min_principal_moment_kg_m2": 0.13740547398547062,
+              "min_triangle_margin": 0.005839802531514726,
+              "min_triangle_margin_kg_m2": 0.005839802531514726,
+              "triangle_tolerance_kg_m2": 1e-12,
+              "all_samples_in_physical_domain": true
+            },
+            "valid": true
+          },
+          {
+            "configuration_id": "C02",
+            "mass_addend_kg": 0.6840676218400006,
+            "uncertainty_complete": true,
+            "base_input_sources_complete": true,
+            "base_rejection_draws": 11113,
+            "base_rejection_acceptance_rate": 0.7371546837037704,
+            "physical_domain": {
+              "sample_count": 8192,
+              "positive_mass_pass_count": 8192,
+              "positive_mass_pass_rate": 1.0,
+              "positive_definite_pass_count": 8192,
+              "positive_definite_pass_rate": 1.0,
+              "triangle_inequality_pass_count": 8192,
+              "triangle_inequality_pass_rate": 1.0,
+              "min_principal_moment": 0.10992997160795823,
+              "min_principal_moment_kg_m2": 0.10992997160795823,
+              "min_triangle_margin": 0.005620367503980983,
+              "min_triangle_margin_kg_m2": 0.005620367503980983,
+              "triangle_tolerance_kg_m2": 1e-12,
+              "all_samples_in_physical_domain": true
+            },
+            "valid": true
+          },
+          {
+            "configuration_id": "C03",
+            "mass_addend_kg": 0.6840676218400006,
+            "uncertainty_complete": true,
+            "base_input_sources_complete": true,
+            "base_rejection_draws": 10145,
+            "base_rejection_acceptance_rate": 0.8074913750616067,
+            "physical_domain": {
+              "sample_count": 8192,
+              "positive_mass_pass_count": 8192,
+              "positive_mass_pass_rate": 1.0,
+              "positive_definite_pass_count": 8192,
+              "positive_definite_pass_rate": 1.0,
+              "triangle_inequality_pass_count": 8192,
+              "triangle_inequality_pass_rate": 1.0,
+              "min_principal_moment": 0.14625781611554362,
+              "min_principal_moment_kg_m2": 0.14625781611554362,
+              "min_triangle_margin": 0.005946042248725192,
+              "min_triangle_margin_kg_m2": 0.005946042248725192,
+              "triangle_tolerance_kg_m2": 1e-12,
+              "all_samples_in_physical_domain": true
+            },
+            "valid": true
+          },
+          {
+            "configuration_id": "C04",
+            "mass_addend_kg": 0.6840676218400006,
+            "uncertainty_complete": true,
+            "base_input_sources_complete": true,
+            "base_rejection_draws": 11782,
+            "base_rejection_acceptance_rate": 0.6952979120692582,
+            "physical_domain": {
+              "sample_count": 8192,
+              "positive_mass_pass_count": 8192,
+              "positive_mass_pass_rate": 1.0,
+              "positive_definite_pass_count": 8192,
+              "positive_definite_pass_rate": 1.0,
+              "triangle_inequality_pass_count": 8192,
+              "triangle_inequality_pass_rate": 1.0,
+              "min_principal_moment": 0.0962087677765206,
+              "min_principal_moment_kg_m2": 0.0962087677765206,
+              "min_triangle_margin": 0.005401673920699679,
+              "min_triangle_margin_kg_m2": 0.005401673920699679,
+              "triangle_tolerance_kg_m2": 1e-12,
+              "all_samples_in_physical_domain": true
+            },
+            "valid": true
+          },
+          {
+            "configuration_id": "C05",
+            "mass_addend_kg": 0.6840676218400006,
+            "uncertainty_complete": true,
+            "base_input_sources_complete": true,
+            "base_rejection_draws": 10336,
+            "base_rejection_acceptance_rate": 0.7925696594427245,
+            "physical_domain": {
+              "sample_count": 8192,
+              "positive_mass_pass_count": 8192,
+              "positive_mass_pass_rate": 1.0,
+              "positive_definite_pass_count": 8192,
+              "positive_definite_pass_rate": 1.0,
+              "triangle_inequality_pass_count": 8192,
+              "triangle_inequality_pass_rate": 1.0,
+              "min_principal_moment": 0.10142554197949864,
+              "min_principal_moment_kg_m2": 0.10142554197949864,
+              "min_triangle_margin": 0.004499986949650037,
+              "min_triangle_margin_kg_m2": 0.004499986949650037,
+              "triangle_tolerance_kg_m2": 1e-12,
+              "all_samples_in_physical_domain": true
+            },
+            "valid": true
+          },
+          {
+            "configuration_id": "C06",
+            "mass_addend_kg": 0.6840676218400006,
+            "uncertainty_complete": true,
+            "base_input_sources_complete": true,
+            "base_rejection_draws": 12385,
+            "base_rejection_acceptance_rate": 0.6614452967299153,
+            "physical_domain": {
+              "sample_count": 8192,
+              "positive_mass_pass_count": 8192,
+              "positive_mass_pass_rate": 1.0,
+              "positive_definite_pass_count": 8192,
+              "positive_definite_pass_rate": 1.0,
+              "triangle_inequality_pass_count": 8192,
+              "triangle_inequality_pass_rate": 1.0,
+              "min_principal_moment": 0.10238564590345049,
+              "min_principal_moment_kg_m2": 0.10238564590345049,
+              "min_triangle_margin": 0.0044499240691773245,
+              "min_triangle_margin_kg_m2": 0.0044499240691773245,
+              "triangle_tolerance_kg_m2": 1e-12,
+              "all_samples_in_physical_domain": true
+            },
+            "valid": true
+          },
+          {
+            "configuration_id": "C07",
+            "mass_addend_kg": 0.6840676218400006,
+            "uncertainty_complete": true,
+            "base_input_sources_complete": true,
+            "base_rejection_draws": 11054,
+            "base_rejection_acceptance_rate": 0.7410891984801882,
+            "physical_domain": {
+              "sample_count": 8192,
+              "positive_mass_pass_count": 8192,
+              "positive_mass_pass_rate": 1.0,
+              "positive_definite_pass_count": 8192,
+              "positive_definite_pass_rate": 1.0,
+              "triangle_inequality_pass_count": 8192,
+              "triangle_inequality_pass_rate": 1.0,
+              "min_principal_moment": 0.09914290876071633,
+              "min_principal_moment_kg_m2": 0.09914290876071633,
+              "min_triangle_margin": 0.002932647561138424,
+              "min_triangle_margin_kg_m2": 0.002932647561138424,
+              "triangle_tolerance_kg_m2": 1e-12,
+              "all_samples_in_physical_domain": true
+            },
+            "valid": true
+          },
+          {
+            "configuration_id": "C08",
+            "mass_addend_kg": 0.6840676218400006,
+            "uncertainty_complete": true,
+            "base_input_sources_complete": true,
+            "base_rejection_draws": 153390,
+            "base_rejection_acceptance_rate": 0.05340634982723776,
+            "physical_domain": {
+              "sample_count": 8192,
+              "positive_mass_pass_count": 8192,
+              "positive_mass_pass_rate": 1.0,
+              "positive_definite_pass_count": 8192,
+              "positive_definite_pass_rate": 1.0,
+              "triangle_inequality_pass_count": 8192,
+              "triangle_inequality_pass_rate": 1.0,
+              "min_principal_moment": 0.33280058844381827,
+              "min_principal_moment_kg_m2": 0.33280058844381827,
+              "min_triangle_margin": 0.00782211971152691,
+              "min_triangle_margin_kg_m2": 0.00782211971152691,
+              "triangle_tolerance_kg_m2": 1e-12,
+              "all_samples_in_physical_domain": true
+            },
+            "valid": true
+          },
+          {
+            "configuration_id": "C09",
+            "mass_addend_kg": 0.6840676218400006,
+            "uncertainty_complete": true,
+            "base_input_sources_complete": true,
+            "base_rejection_draws": 28428,
+            "base_rejection_acceptance_rate": 0.28816659631349373,
+            "physical_domain": {
+              "sample_count": 8192,
+              "positive_mass_pass_count": 8192,
+              "positive_mass_pass_rate": 1.0,
+              "positive_definite_pass_count": 8192,
+              "positive_definite_pass_rate": 1.0,
+              "triangle_inequality_pass_count": 8192,
+              "triangle_inequality_pass_rate": 1.0,
+              "min_principal_moment": 1.5911655840314354,
+              "min_principal_moment_kg_m2": 1.5911655840314354,
+              "min_triangle_margin": 0.03340865727878395,
+              "min_triangle_margin_kg_m2": 0.03340865727878395,
+              "triangle_tolerance_kg_m2": 1e-12,
+              "all_samples_in_physical_domain": true
+            },
+            "valid": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "A08",
+      "name": "HARNESS_RESTORING_TORQUE_UNKNOWN_REMAINS_HOLD",
+      "pass": true,
+      "evidence": {
+        "joint_count": 6,
+        "dynamic_effect": "UNKNOWN_FAIL_CLOSED",
+        "verdict": "HOLD"
+      }
+    },
+    {
+      "id": "A09",
+      "name": "EMBODIED_CONTRACT_FAIL_CLOSED",
+      "pass": true,
+      "evidence": {
+        "status": "CANDIDATE_NOT_RELEASED_ROUTE_B_REJECTED",
+        "fail_closed": {
+          "UNKNOWN": "ABORT",
+          "UNSAFE": "ABORT"
+        },
+        "physical_contact": "HOLD",
+        "production_dynamics": "HOLD"
+      }
+    },
+    {
+      "id": "A10",
+      "name": "TERMINAL_DECISION_COHERENT_AND_ROUTE_C_TRIGGERED",
+      "pass": true,
+      "evidence": {
+        "handoff": "11/12",
+        "failed_checks": [
+          "G12"
+        ],
+        "internal_holds": [
+          "ROUTE_B_KEY_STATES_OR_MISSION_COVERAGE_FAILED",
+          "MANDATORY_MISSION_TRAJECTORY_AUTHORITY_INCOMPLETE",
+          "HARNESS_JOINT_RESISTANCE_TORQUE_UNKNOWN"
+        ],
+        "g12_terms": {
+          "mission_coverage_pass": false,
+          "map_contains_safe_sample": false,
+          "exact_validator_exists": true,
+          "runtime_frozen_input_integrity": true,
+          "unknown_fail_closed": true,
+          "rl_action_mask_binds_harness": true
+        },
+        "red_team": {
+          "CRITICAL": 0,
+          "HIGH": 0,
+          "MEDIUM": 0,
+          "LOW": 0
+        },
+        "route_b": "REJECTED",
+        "route_c": "TRIGGERED_PENDING_DETAILED_DESIGN_AUTHORIZATION",
+        "next_stage_authorized": false
+      }
+    }
+  ],
+  "checks_total": 11,
+  "checks_passed": 11,
+  "checks_failed": 0,
+  "failed_checks": [],
+  "verdict": "INDEPENDENT_VALIDATION_PASS",
+  "validated_terminal_decision": "ROUTE_B_REJECTED__ROUTE_C_TRIGGERED",
+  "next_stage_authorized": false
+}

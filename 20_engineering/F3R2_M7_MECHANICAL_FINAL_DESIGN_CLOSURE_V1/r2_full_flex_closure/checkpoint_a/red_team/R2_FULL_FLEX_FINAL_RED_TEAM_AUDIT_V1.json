@@ -1,0 +1,449 @@
+{
+  "schema": "R2_FULL_FLEX_FINAL_RED_TEAM_AUDIT_V1",
+  "evidence_id": "CHECKPOINT_A_R2_FULL_FLEX_FINAL_RED_TEAM_AUDIT_V1",
+  "generated_local": "2026-08-24T00:18:31+08:00",
+  "audit_mode": "INDEPENDENT_FINAL_READ_ONLY_RECOMPUTE_PLUS_SINGLE_AUTHORIZED_AUDIT_ARTIFACT",
+  "scope": "Final red-team audit of 30_simulation/e22_r2_full_flex_coupled_diagnostics for CHECKPOINT-A only; this artifact does not alter any upstream model, Gate, threshold, authority or release state.",
+  "write_scope": {
+    "authorized_new_file_only": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/checkpoint_a/red_team/R2_FULL_FLEX_FINAL_RED_TEAM_AUDIT_V1.json",
+    "other_files_modified_by_this_audit": false,
+    "self_hash_policy": "EXTERNAL_SHA256_ONLY__SELF_REFERENCE_EXCLUDED"
+  },
+  "primary_disposition": {
+    "audit_conclusion": "NO_NEW_BLOCKER_BEYOND_DECLARED_G11_AND_G17",
+    "technical_verdict": "HOLD_R2_HF_TO_ROM_DYNAMIC_VALIDATION_FAILED",
+    "gate_summary": {
+      "passed": 16,
+      "total": 18,
+      "failed": [
+        "G11",
+        "G17"
+      ]
+    },
+    "ten_point_audit_summary": {
+      "pass": 8,
+      "fail": 2,
+      "failed_items": [
+        "A07_MODE_RECONSTRUCTION_AND_HF_ROM_FALSIFIER",
+        "A08_LEGACY_R1_SAME_SCOPE_COMPLETENESS"
+      ]
+    },
+    "implementation_or_traceability_residual_blockers": [],
+    "checkpoint_A_release_authorized": false
+  },
+  "audited_artifacts": {
+    "e22_gate": {
+      "path": "30_simulation/e22_r2_full_flex_coupled_diagnostics/results/E22_R2_FULL_FLEX_COUPLED_GATE_V1.json",
+      "sha256": "472ADA4A7ABF98BBD5F72B0459400704A86FAF2B13DACCD562025C0CC356AA5E"
+    },
+    "independent_recompute": {
+      "path": "30_simulation/e22_r2_full_flex_coupled_diagnostics/results/E22_INDEPENDENT_RECOMPUTE_V1.json",
+      "sha256": "893021646F2FFB2A5637A49748A43A016999A92CBC7DC8649580DD49D186C6BB"
+    },
+    "determinism_replay": {
+      "path": "30_simulation/e22_r2_full_flex_coupled_diagnostics/results/E22_DETERMINISM_REPLAY_V1.json",
+      "sha256": "16B930602D642E6B7D58B986205620D8624B0E8C34B72ED2959C1EA53A12F6D2"
+    },
+    "package_manifest": {
+      "path": "30_simulation/e22_r2_full_flex_coupled_diagnostics/results/E22_PACKAGE_MANIFEST_V1.json",
+      "sha256": "639C2E3D453E2AA1BDAD8A56CF0A52CAC9C710F1D3011F6DCA7497911C1D8E4C"
+    },
+    "round3_gate": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round3_hf_rom_v2/R2_FULL_FLEX_HF_ROM_GATE_V2.json",
+      "sha256": "F8E5696FF3D9EFAD2737E056CF29C9B9D0940DAB4188AFB095DAE53C01785537"
+    },
+    "round3_rom_npz": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round3_hf_rom_v2/R2_HF_ROM_NUMERICAL_DATA_V2.npz",
+      "sha256": "8D10E085385EDF2FACE92B9B48D1172939A31FD3B57E55242ED11C9EEEDF50DA"
+    },
+    "rom5_dimension_falsifier": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/checkpoint_a/red_team/ROM5_DIMENSION_FALSIFIER_V1.json",
+      "sha256": "D219E69FE8D3555228BB007774F0B59F4F5BDFAD7711569EB7CD074130104E18"
+    },
+    "rom5_dimension_falsifier_script": {
+      "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/checkpoint_a/red_team/recompute_rom5_dimension_falsifier.py",
+      "sha256": "2CEEA915A5A4B0D29891DA96FEA21816E855C4D380A2692BB526369E41E5C3EC"
+    }
+  },
+  "hash_recompute": {
+    "configured_source_pins": {
+      "matched": 25,
+      "total": 25,
+      "mismatch": 0
+    },
+    "gate_evidence_hashes": {
+      "matched": 14,
+      "total": 14,
+      "mismatch": 0
+    },
+    "package_manifest_assets": {
+      "matched": 8,
+      "total": 8,
+      "mismatch": 0
+    }
+  },
+  "audit_items": [
+    {
+      "id": "A01_C07_R2_MASS_AND_SOLAR_DOUBLE_COUNT",
+      "verdict": "PASS",
+      "blocking": false,
+      "evidence": {
+        "C07_mass_kg": 31.022864807342987,
+        "solar_R2_mass_total_kg": 1.56,
+        "nonsolar_residual_mass_kg": 29.46286480734299,
+        "C07_Mbb_subtract_readd_max_abs": 3.552713678800501e-15,
+        "source_vs_bridged_C07_C08_C09_max_abs": 0.0,
+        "wrong_total_if_solar_added_again_kg": 32.582864807342986,
+        "double_count_negative_control": "DOUBLE_COUNT_SOLAR_R2_DETECTED"
+      },
+      "scientific_interpretation": "C07 already includes both 0.78 kg Solar R2 members and their rigid transport terms. Gamma and Mqq are relative-coordinate blocks and must not add rigid solar mass again.",
+      "disposition": "CLOSED_NO_ACTION"
+    },
+    {
+      "id": "A02_GAMMA_WING_SIGN_AND_COUPLED_SPD",
+      "verdict": "PASS",
+      "blocking": false,
+      "evidence": {
+        "eta_order": "LEFT_5_THEN_RIGHT_5",
+        "base_twist_order": "v_S_THEN_omega_S",
+        "Mbq_shape": [
+          6,
+          10
+        ],
+        "Mqq_shape": [
+          10,
+          10
+        ],
+        "Gamma_t_L_minus_Gamma_t_R_max_abs": 0.0,
+        "Gamma_r_L_plus_Gamma_r_R_max_abs": 0.0,
+        "Mrom_minus_identity_max_abs": 2.220446049250313e-15,
+        "coupled_matrix_shape": [
+          16,
+          16
+        ],
+        "coupled_matrix_symmetry_max_abs": 1.0050554138940626e-16,
+        "coupled_matrix_min_eigenvalue": 0.21274617164987195,
+        "coupled_matrix_condition_number": 147.2632668196728,
+        "schur_complement_min_eigenvalue": 0.5560347387744818
+      },
+      "sign_interpretation": "Left and right translational participation are equal; rotational participation is antisymmetric under the wing mirror. The assembled 16x16 mass matrix and its modal Schur complement are positive definite.",
+      "disposition": "CLOSED_NO_ACTION"
+    },
+    {
+      "id": "A03_TARGET_FULL_TENSOR_RFLIP_AND_POST_ASSEMBLY",
+      "verdict": "PASS",
+      "blocking": false,
+      "evidence": {
+        "Rflip_diag": [
+          -1.0,
+          -1.0,
+          1.0
+        ],
+        "Rflip_determinant": 1.0,
+        "TARGET_22KG_0P5DPS": {
+          "mass_residual_kg": 0.0,
+          "CAD_raw_Ixz_kgm2": 0.000649,
+          "S_frame_Ixz_kgm2": -0.000649,
+          "Rflip_full_tensor_residual_kgm2": 0.0,
+          "post_assembly_spatial_residual": 7.105427357601002e-15,
+          "grasp_alignment_residual_m": 1.300139995663585e-10
+        },
+        "TARGET_150KG_3DPS": {
+          "mass_residual_kg": 0.0,
+          "CAD_raw_Ixz_kgm2": -0.014769,
+          "S_frame_Ixz_kgm2": 0.014769,
+          "Rflip_full_tensor_residual_kgm2": 0.0,
+          "post_assembly_spatial_residual": 1.1368683772161603e-13,
+          "grasp_alignment_residual_m": 1.3001411058866097e-10
+        },
+        "mass_1e_minus_10_kg_mutation_rejected": true,
+        "tensor_1e_minus_10_kgm2_mutation_rejected": true
+      },
+      "disposition": "CLOSED_NO_ACTION"
+    },
+    {
+      "id": "A04_DIMENSIONAL_CONSERVATION_AND_LOCKUP_LEDGER",
+      "verdict": "PASS",
+      "blocking": false,
+      "unit_contract": {
+        "linear_impulse_and_momentum": "N*s",
+        "couple_impulse_and_angular_momentum": "N*m*s",
+        "linear_lock_residual": "m/s",
+        "angular_lock_residual": "rad/s",
+        "energy": "J",
+        "modal_canonical_momentum": "generalized units; never concatenated with P or L"
+      },
+      "evidence_across_38_undamped_current_cases": {
+        "contact_linear_momentum_absolute_max_Ns": 4.99652315892127e-16,
+        "contact_angular_momentum_absolute_max_Nms": 4.0091197218190075e-15,
+        "contact_energy_relative_max": 1.2826650324105737e-09,
+        "attach_linear_momentum_absolute_max_Ns": 2.5560783987196892e-15,
+        "attach_angular_momentum_absolute_max_Nms": 3.204296758965566e-15,
+        "attach_modal_canonical_momentum_absolute_max_generalized": 1.1024841317020498e-17,
+        "post_linear_momentum_absolute_max_Ns": 7.496210229742338e-14,
+        "post_angular_momentum_absolute_max_Nms": 1.6642643081245588e-13,
+        "post_energy_relative_max": 5.599677072733975e-10,
+        "post_lock_linear_velocity_residual_max_mps": 6.952433221959954e-18,
+        "post_lock_angular_velocity_residual_max_radps": 6.938893903907228e-18,
+        "lockup_force_delta_lambda_ratio_max": 0.003262808734333443,
+        "lockup_couple_delta_lambda_ratio_max": 0.06862498644841178
+      },
+      "qualification": "Force and couple delta-lambda ratios are reported as separate diagnostics. No unregistered pass threshold or mixed-dimension norm is applied to them.",
+      "disposition": "CLOSED_WITH_REPORTED_DIAGNOSTIC"
+    },
+    {
+      "id": "A05_TUMBLE_AXIS_CLASSIFICATION_AND_THRESHOLD_DRIFT",
+      "verdict": "PASS",
+      "blocking": false,
+      "evidence": {
+        "normalized_common_tumble_axis": [
+          0.9196009797434057,
+          0.13794014696151086,
+          0.36784039189736234
+        ],
+        "classification_semantics": "omega_plus_equiv = norm(I_combined_CG_inverse * L_about_combined_CG); Hc = norm(L_about_combined_CG)",
+        "TARGET_22KG_0P5DPS_nominal": {
+          "omega_plus_equiv_dps": 0.1603671648970604,
+          "Hc_Nms": 0.011782323851997198,
+          "classification": "WHEELS_SMALL_TIER"
+        },
+        "TARGET_150KG_3DPS_nominal": {
+          "omega_plus_equiv_dps": 3.0427130565075022,
+          "Hc_Nms": 3.646611954903172,
+          "classification": "INFEASIBLE_RATE"
+        },
+        "live_threshold_registry_sha256": "75AF082AB45A4029C753978686A41CF1DC49B72EE9418CF2E0F1127126D71C82",
+        "historical_sim10_pinned_registry_sha256": "400BCEDCE5AF6AD5C4135E67F87BB524EE2FDAFB1C26AEAE07E495FF387B2873",
+        "threshold_hash_drift_detected": true,
+        "sim10_authority_inheritance": "NOT_INHERITED_THRESHOLD_HASH_DRIFT"
+      },
+      "qualification": "These are PROVISIONAL_E22_DIAGNOSTIC classifications, not inherited sim10 scientific Gate results and not mission release evidence.",
+      "disposition": "CLOSED_WITH_SCOPE_BOUNDARY"
+    },
+    {
+      "id": "A06_UNDAMPED_MAIN_AND_PROVISIONAL_DAMPING_ISOLATION",
+      "verdict": "PASS",
+      "blocking": false,
+      "evidence": {
+        "undamped_main_cases": 6,
+        "undamped_lane": "UNDAMPED_CONSERVATION_GATE",
+        "undamped_contact_damping_dissipation_max_J": 0.0,
+        "undamped_post_damping_dissipation_max_J": 0.0,
+        "provisional_damped_cases": 6,
+        "provisional_damped_lane": "PROVISIONAL_DAMPED_SENSITIVITY",
+        "all_provisional_damped_cases_gate_credit_false": true,
+        "provisional_contact_damping_dissipation_range_J": [
+          1.5999606665416154e-09,
+          4.252510070447523e-06
+        ],
+        "provisional_post_damping_dissipation_range_J": [
+          9.530916014667801e-07,
+          0.0002098612003563657
+        ],
+        "projected_long_horizon_modal_rate_correction_relative_peak_max": 0.0003716719679953292,
+        "projected_long_horizon_energy_alpha_deviation_peak_max": 0.0003718061945023887,
+        "bounded_0p5s_projected_vs_implicit_readonly_witness_approx_max_relative": 1.59e-05
+      },
+      "projection_scope": "G07 machine-binds Radau versus BDF only on the bounded implicit-ODE window. The PROJECTED_EXPONENTIAL witness is not machine-bound and is not claimed as an independent long-horizon algorithm validation; conservation under projection is a consistency audit, not proof of raw integrator conservation.",
+      "disposition": "CLOSED_FOR_CHECKPOINT_A_DIAGNOSTIC_SCOPE__LONG_HORIZON_ALGORITHM_VALIDATION_NOT_CLAIMED"
+    },
+    {
+      "id": "A07_MODE_RECONSTRUCTION_AND_HF_ROM_FALSIFIER",
+      "verdict": "FAIL",
+      "blocking": true,
+      "evidence": {
+        "round3_stored_mode_order": [
+          "BENDING_1",
+          "BENDING_2",
+          "BENDING_3",
+          "TORSION_1",
+          "TORSION_2"
+        ],
+        "e22_nested_dynamic_order": [
+          "BENDING_1",
+          "TORSION_1",
+          "TORSION_2",
+          "BENDING_2",
+          "BENDING_3"
+        ],
+        "e22_stored_indices_for_nested_order": [
+          0,
+          3,
+          4,
+          1,
+          2
+        ],
+        "five_reconstruction_operator_backcheck_max_abs": 0.0,
+        "m4_to_m5_max_relative_TARGET_22KG_0P5DPS": 0.00610898909326537,
+        "m4_to_m5_max_relative_TARGET_150KG_3DPS": 0.007349435741183175,
+        "HF_183DOF_to_ROM5_max_relative": 0.035058706034330304,
+        "HF_183DOF_to_ROM5_limit": 0.01,
+        "governing_metric": "torsion_peak_rad",
+        "independent_writer_match_relative_max": 1.984609846033726e-15,
+        "red_team_first12_all_5D_subsets_tested": 792,
+        "red_team_best_any_5D_max_relative": 0.010829637562359794,
+        "red_team_minimum_passing_6D_max_relative": 0.006575808515557166,
+        "red_team_passing_7D_preserving_three_bending_max_relative": 0.002714391128536163,
+        "G11": "FAIL",
+        "linear_subset_verdict": "E15_R2_LINEAR_SUBSET_FAIL"
+      },
+      "scientific_interpretation": "Mode ordering and reconstruction are correct, but the five-mode dimension is insufficient for the registered full-field 1 percent dynamic contract. The negative result is independently reproduced and must not be removed by threshold relaxation, silent basis reselection or silent mode-count extension.",
+      "disposition": "OPEN_BLOCKING_OWNER_P2_CONTRACT_CHANGE_AND_UPSTREAM_ROM_REGENERATION_REQUIRED"
+    },
+    {
+      "id": "A08_LEGACY_R1_SAME_SCOPE_COMPLETENESS",
+      "verdict": "FAIL",
+      "blocking": true,
+      "evidence": {
+        "TARGET_22KG_0P5DPS": {
+          "availability": "NOT_AVAILABLE_SAME_SCOPE",
+          "numeric_comparison_authorized": false
+        },
+        "TARGET_150KG_3DPS": {
+          "availability": "HISTORICAL_REPRODUCTION_RECORD_ONLY",
+          "numeric_comparison_authorized": false,
+          "legacy_scope": "R1 placeholder stack and 0.348kg-per-panel parameters"
+        },
+        "three_lane_two_scenario_state": "PARTIAL_FAIL_CLOSED",
+        "legacy_lane_as_current_solver_source_rejected": true,
+        "G17": "FAIL"
+      },
+      "scientific_interpretation": "The fail-closed implementation is correct. No interpolation, 24 kg reuse, 0.348 kg substitution or R1-to-R2 causal attribution is allowed, but the requested same-scope comparison remains unavailable.",
+      "disposition": "OPEN_BLOCKING_UNTIL_SAME_SCOPE_LEGACY_R1_EVIDENCE_EXISTS_OR_REQUIREMENT_IS_OWNER_RESCOPED"
+    },
+    {
+      "id": "A09_E15_HARNESS_AND_NONRELEASE_GUARDS",
+      "verdict": "PASS",
+      "blocking": false,
+      "evidence": {
+        "G18": "DYNAMIC_PASS",
+        "G18_hardcoded": false,
+        "e15_current": "REPEAT_ANCF_CERTIFICATION",
+        "e15_inheritance": "NOT_INHERITED",
+        "harness_state": "UNSAFE_INDEPENDENT_FACT",
+        "harness_machine_gate": "FAIL_AT_MANDATORY_KEY_STATES",
+        "review_status": "PENDING_OWNER_REVIEW",
+        "next_stage_authorized": false,
+        "release_credit": false,
+        "next_stage_true_mutation_rejected": true
+      },
+      "scientific_interpretation": "PASS means the negative authority states and nonrelease guards are retained and mutation-sensitive; it does not mean e15 certification or the harness mission Gate passed.",
+      "disposition": "CLOSED_GOVERNANCE_GUARD__NEGATIVE_UPSTREAM_STATES_RETAINED"
+    },
+    {
+      "id": "A10_GATE_HASH_MANIFEST_AND_DETERMINISM",
+      "verdict": "PASS",
+      "blocking": false,
+      "evidence": {
+        "gate_recount": {
+          "passed": 16,
+          "total": 18,
+          "failed": [
+            "G11",
+            "G17"
+          ]
+        },
+        "independent_recompute": {
+          "passed": 33,
+          "total": 33,
+          "failed": [],
+          "pass": true
+        },
+        "determinism_replay": {
+          "passed": 5,
+          "total": 5,
+          "unique_independent_report_hashes": 1,
+          "five_mode_max_relative_spread": 0.0,
+          "writer_response_match_relative_max": 1.984609846033726e-15,
+          "BLAS_threads_each_run": 1
+        },
+        "preloaded_outer_BLAS_red_team": {
+          "outer_thread_counts": [
+            2,
+            4,
+            16
+          ],
+          "identical_physical_response_payload_sha256": "C24303BD0CEBD4B896F03EFE7C87013A1FAD79A81CA6969DD7876291AF7B055B",
+          "all_payload_hashes_identical": true,
+          "recomputed_HF_ROM5_max_relative_each_run": 0.035058706034330304,
+          "interpretation": "The in-call threadpool=1 guard is effective even when the BLAS runtime was preloaded with 2, 4 or 16 threads."
+        },
+        "pytest": {
+          "passed": 7,
+          "total": 7,
+          "cache_or_pyc_created": 0
+        },
+        "manifest_cycle_contract": "ACYCLIC__GATE_TO_INDEPENDENT_TO_REPLAY_TO_OUTER_MANIFEST__SELF_HASHES_EXCLUDED",
+        "red_team_falsifier_direct_gate_pins": true,
+        "red_team_falsifier_field_binding": true,
+        "red_team_falsifier_score_mutation_rejected": true
+      },
+      "disposition": "CLOSED_NO_ACTION"
+    }
+  ],
+  "findings": [
+    {
+      "id": "F-BLOCK-01",
+      "severity": "BLOCKING_SCIENTIFIC",
+      "state": "OPEN",
+      "title": "ROM5 fails the registered 183-DOF full-field dynamic truncation contract",
+      "linked_gate": "G11",
+      "disposition": "OWNER_P2_CONTRACT_CHANGE_AND_UPSTREAM_ROM_REGENERATION_REQUIRED"
+    },
+    {
+      "id": "F-BLOCK-02",
+      "severity": "BLOCKING_EVIDENCE_COMPLETENESS",
+      "state": "OPEN",
+      "title": "Legacy R1 same-scope three-lane/two-scenario comparison is incomplete",
+      "linked_gate": "G17",
+      "disposition": "PROVIDE_SAME_SCOPE_EVIDENCE_OR_OWNER_RESCOPE; KEEP_FAIL_CLOSED"
+    },
+    {
+      "id": "F-OBS-01",
+      "severity": "NONBLOCKING_SCOPE_LIMITATION",
+      "state": "DECLARED_AND_CONTAINED",
+      "title": "Long-horizon PROJECTED_EXPONENTIAL is not independently validated by G07",
+      "disposition": "RETAIN_EXPLICIT_NONCLAIM; DO_NOT USE_PROJECTED_CONSERVATION_AS_RAW_INTEGRATOR_VALIDATION"
+    },
+    {
+      "id": "F-OBS-02",
+      "severity": "INFORMATIONAL_CAUSAL_PRECISION",
+      "state": "NONBLOCKING",
+      "title": "Determinism fix is proven; a unique near-degenerate-mode mechanism is not required by the evidence",
+      "disposition": "Attribute the resolved drift to threaded LAPACK/BLAS numerical variability in this high-bandwidth generalized eigenproblem; do not claim a uniquely proven modal-degeneracy cause."
+    },
+    {
+      "id": "F-RESOLVED-01",
+      "severity": "RESOLVED_IMPLEMENTATION_DEFECT",
+      "state": "CLOSED",
+      "title": "G18 was previously hardcoded",
+      "resolution": "G18 now evaluates e15, harness, review, next-stage and release fields dynamically; next_stage=true mutation fails."
+    },
+    {
+      "id": "F-RESOLVED-02",
+      "severity": "RESOLVED_TRACEABILITY_DEFECT",
+      "state": "CLOSED",
+      "title": "Independent report and red-team falsifier were not fully reverse-pinned",
+      "resolution": "Acyclic package manifest now reverse-pins Gate, independent report and replay; Gate directly pins falsifier JSON/script and binds fields."
+    },
+    {
+      "id": "F-RESOLVED-03",
+      "severity": "RESOLVED_REPRODUCIBILITY_DEFECT",
+      "state": "CLOSED",
+      "title": "Thread-count-dependent generalized-eigen response drift",
+      "resolution": "Single-thread BLAS plus explicit generalized symmetric-definite gvd driver is enforced before import and in-call; five isolated runs and outer-thread red-team replay are identical without widening the 1e-9 writer contract."
+    }
+  ],
+  "nonclaims": [
+    "This audit does not authorize CHECKPOINT-A release or any subsequent simulation, CDR or qualification stage.",
+    "Round3 component Gate 17/17 does not override E22 G11 or e15 REPEAT_ANCF_CERTIFICATION.",
+    "PROVISIONAL_E22_DIAGNOSTIC classifications do not inherit sim10 authority while threshold hashes differ.",
+    "Provisional damping does not receive conservation Gate credit or decay qualification.",
+    "Legacy R1, 24 kg, 0.348 kg-per-panel or null-to-zero substitutes are not current R2 evidence.",
+    "The projected long-horizon propagator is not claimed as independently validated by the bounded Radau/BDF cross-check."
+  ],
+  "review_status": "PENDING_OWNER_REVIEW",
+  "owner_accepted": false,
+  "next_stage_authorized": false,
+  "release_credit": false
+}

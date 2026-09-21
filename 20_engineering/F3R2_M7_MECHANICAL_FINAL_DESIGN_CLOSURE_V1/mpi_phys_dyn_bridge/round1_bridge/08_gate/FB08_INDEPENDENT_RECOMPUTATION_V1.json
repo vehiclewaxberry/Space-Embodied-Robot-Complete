@@ -1,0 +1,653 @@
+{
+  "schema": "FB08_INDEPENDENT_RECOMPUTATION_V1",
+  "generated_local": "2026-08-23T19:33:54+08:00",
+  "generator": "KIMI M7 MPI-FB-08 gate assembly agent (pure python 3.13.9 + numpy 2.3.5 + pyyaml 6.0.3; read-only upstream; no CAD/FEA)",
+  "checks": [
+    {
+      "id": "V01-01",
+      "name": "bridge file T_S_A0_dynamics == authority contract (max-abs)",
+      "value": 0.0,
+      "limit": 0.0,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V01-02",
+      "name": "bridge file T_S_A0_physical == authority contract (max-abs)",
+      "value": 0.0,
+      "limit": 0.0,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V01-03",
+      "name": "B rebuilt from hash-pinned contract vs stored bridge (max-abs)",
+      "value": 0.0,
+      "limit": 1e-15,
+      "status": "PASS",
+      "detail": {
+        "dense_vs_rigid_path_max_abs": 0.0
+      }
+    },
+    {
+      "id": "V01-04",
+      "name": "closure T_dyn @ B == T_phys (max-abs)",
+      "value": 0.0,
+      "limit": 1e-12,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V01-05",
+      "name": "det(R_B) - 1 (chirality +1)",
+      "value": 5.195843755245733e-13,
+      "limit": 1e-09,
+      "status": "PASS",
+      "detail": {
+        "det_R_B": 1.0000000000005196
+      }
+    },
+    {
+      "id": "V01-06",
+      "name": "max|R^T R - I|",
+      "value": 5.195843755245733e-13,
+      "limit": 1e-09,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V01-07",
+      "name": "roundtrip max(inv(B)@B, B@inv(B)) - I",
+      "value": 5.195843755245733e-13,
+      "limit": 1e-12,
+      "status": "PASS",
+      "detail": {
+        "invB_at_B": 5.195843755245733e-13,
+        "B_at_invB": 5.195843755245733e-13
+      }
+    },
+    {
+      "id": "V01-08",
+      "name": "C_S conjugate rebuilt vs stored (max-abs)",
+      "value": 0.0,
+      "limit": 1e-12,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V01-09",
+      "name": "rotation angle/axis/quaternion vs stored",
+      "value": 3.0001001682933293e-13,
+      "limit": 1e-09,
+      "status": "PASS",
+      "detail": {
+        "angle_deg": 25.000013999932346,
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "quat_rebuilt": [
+          0.9762959806769667,
+          0.0,
+          0.0,
+          0.21643973321458343
+        ]
+      }
+    },
+    {
+      "id": "V01-10",
+      "name": "negative controls fire (theta flip / t flip / frame averaging det)",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "theta_flipped_closure": 0.8452369663864557,
+        "t_flipped_closure": 0.045499999999999985,
+        "averaged_frame_det": 0.9531538418861297
+      }
+    },
+    {
+      "id": "V02-01",
+      "name": "FB-03 report 21/21 PASS fields",
+      "value": 21,
+      "limit": 21,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V02-02",
+      "name": "FB-03 headline metrics == FB-08 recomputation",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "mismatched_fields": []
+      }
+    },
+    {
+      "id": "V02-03",
+      "name": "FB-03 six mutation negative controls all fired",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "mutations": [
+          "theta_sign_flipped",
+          "translation_sign_flipped",
+          "translation_12p75mm_stack_station",
+          "translation_2p405mm_stack_station",
+          "rotation_transposed",
+          "frame_matrix_averaged_det"
+        ]
+      }
+    },
+    {
+      "id": "V03-01",
+      "name": "Steiner witness m*t_bridge^2 (kg m^2)",
+      "value": 0.0024302436760318276,
+      "limit": "== 0.0024302436760318276",
+      "status": "PASS",
+      "detail": {
+        "fb04_published": 0.0024302436760318276,
+        "diff": 0.0
+      }
+    },
+    {
+      "id": "V03-02",
+      "name": "arm CG map r_A0dyn == B @ r_A0phys (max-abs m)",
+      "value": 1.734723475976807e-18,
+      "limit": 1e-12,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V03-03",
+      "name": "about-CG pure-rotation principal invariance (arm)",
+      "value": 1.3072876114961218e-13,
+      "limit": 1e-12,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V03-04",
+      "name": "literal un-conjugated reading clearly nonzero (forbidden guard)",
+      "value": 0.007710680881610109,
+      "limit": ">1e-4",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V03-05",
+      "name": "WP11 physical lane re-aggregated via C_S_inv == FB-04 published",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "mass_diff": 0.0,
+        "cg_max_abs": 6.049848122469115e-17,
+        "inertia_max_abs": 1.1587952819525071e-15,
+        "cg_vs_wp11_published_max_abs": 6.03900610074426e-17,
+        "lane_delta_cg_norm_recomputed": 0.003524348142565545,
+        "lane_delta_inertia_recomputed": 0.1031195352284735
+      }
+    },
+    {
+      "id": "V03-06",
+      "name": "mass invariant exact zero (FB-04 objects)",
+      "value": 0.0,
+      "limit": 0.0,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V04-01",
+      "name": "FB-05 consumer_ambiguity_count == 0",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "single_rule": "PHYSICAL_AUTHORITY_BRIDGED_INTO_DYNAMICS_FRAME",
+        "mount_used": "T_S_A0_dyn @ B",
+        "mount_equals_T_phys_max_abs": 0.0,
+        "audit_mount_sites": 1
+      }
+    },
+    {
+      "id": "V04-02",
+      "name": "FB-05 single authoritative peak (deg) == physical lane value",
+      "value": 29.41085537835705,
+      "limit": "== 29.41085537835705 (NOT an acceptance anchor)",
+      "status": "PASS",
+      "detail": {
+        "bridged_minus_odr01_deg": 0.3688895107529362,
+        "acceptance_rule": "acceptance NEVER uses proximity to 29.041965867604112 or 29.41085537835705; those are the pre-bridge dual-lane outputs, not truth anchors"
+      }
+    },
+    {
+      "id": "V04-03",
+      "name": "FB-05 numerical invariants within limits",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "momentum_max_norm_dP": 2.582350176184633e-16,
+        "momentum_max_norm_dL": 2.3686440571016716e-16,
+        "energy_audit_relative": 4.0484963084180175e-11,
+        "quaternion_norm_max_error_after_normalization": 2.220446049250313e-16,
+        "quaternion_norm_max_error_before_output_normalization": 2.1760371282653068e-13,
+        "mass_matrix_min_eigenvalue": 0.00039091914924673215
+      }
+    },
+    {
+      "id": "V04-04",
+      "name": "FB-05 mandatory_holds == e21 authority contract (verbatim)",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "holds": {
+          "single_arm_placement_consumption_semantics": "UNRESOLVED",
+          "r2_full_flexible_coupling": "NOT_EVALUATED",
+          "e15_ancf_certification": "REPEAT_ANCF_CERTIFICATION",
+          "r2_harness_R2_HRN_04": "FAIL_REDESIGN_REQUIRED",
+          "owner_review": "PENDING_OWNER_REVIEW",
+          "collision": "HOLD_NOT_EVALUATED",
+          "contact": "HOLD_NOT_EVALUATED",
+          "target_attachment": "HOLD_NOT_EVALUATED",
+          "mission_capture": "HOLD_NOT_EVALUATED",
+          "production": "HOLD",
+          "flight": "HOLD"
+        }
+      }
+    },
+    {
+      "id": "V04-05",
+      "name": "RT2 independent e21 bridged rerun 23/23 PASS",
+      "value": 23,
+      "limit": 23,
+      "status": "PASS",
+      "detail": {
+        "watch_files_count": 77,
+        "peak": 29.41085537835705
+      }
+    },
+    {
+      "id": "V05-01",
+      "name": "FB-06 mass invariant all 9 configs (candidate - V3_R2 stated)",
+      "value": 0.0,
+      "limit": 0.0,
+      "status": "PASS",
+      "detail": {
+        "C01": 0.0,
+        "C02": 0.0,
+        "C03": 0.0,
+        "C04": 0.0,
+        "C05": 0.0,
+        "C06": 0.0,
+        "C07": 0.0,
+        "C08": 0.0,
+        "C09": 0.0
+      }
+    },
+    {
+      "id": "V05-02",
+      "name": "FB-06 spot re-aggregation + bridge action C01/C05/C07",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "C01": {
+          "arm_row_reexpression_cg_max_abs": 0.0,
+          "arm_row_reexpression_inertia_max_abs": 0.0,
+          "arm_nonbridged_fields_mismatch": [],
+          "non_arm_member_mismatch": [],
+          "reagg_mass_diff": 0.0,
+          "reagg_cg_max_abs": 0.0,
+          "reagg_inertia_max_abs": 8.673617379884035e-19,
+          "delta_cg_explained_residual": 0.0,
+          "delta_inertia_explained_residual": 0.0,
+          "pose_status_carried": "PASS_RUNTIME_FK_AND_INERTIA_NO_SOURCE_HOLD",
+          "pose_status_matches_v3r2": true,
+          "reagg_candidate_min_eigenvalue": 0.5540137712665387
+        },
+        "C05": {
+          "arm_row_reexpression_cg_max_abs": 0.0,
+          "arm_row_reexpression_inertia_max_abs": 0.0,
+          "arm_nonbridged_fields_mismatch": [],
+          "non_arm_member_mismatch": [],
+          "reagg_mass_diff": 0.0,
+          "reagg_cg_max_abs": 0.0,
+          "reagg_inertia_max_abs": 0.0,
+          "delta_cg_explained_residual": 0.0,
+          "delta_inertia_explained_residual": 0.0,
+          "pose_status_carried": "HELD_CANDIDATE_FK_REGRESSION_FAIL_MAX_RESIDUAL_567P734_MM_RETAINED_FACT_NOT_ABSORBED_BY_UNCERTAINTY",
+          "pose_status_matches_v3r2": true,
+          "reagg_candidate_min_eigenvalue": 0.3959580329303229
+        },
+        "C07": {
+          "arm_row_reexpression_cg_max_abs": 0.0,
+          "arm_row_reexpression_inertia_max_abs": 0.0,
+          "arm_nonbridged_fields_mismatch": [],
+          "non_arm_member_mismatch": [],
+          "reagg_mass_diff": 0.0,
+          "reagg_cg_max_abs": 0.0,
+          "reagg_inertia_max_abs": 0.0,
+          "delta_cg_explained_residual": 0.0,
+          "delta_inertia_explained_residual": 0.0,
+          "pose_status_carried": "DIAGNOSTIC_CANDIDATE_HOLD_FOR_CAPTURE_DYNAMICS",
+          "pose_status_matches_v3r2": true,
+          "reagg_candidate_min_eigenvalue": 0.4878488955467539
+        }
+      }
+    },
+    {
+      "id": "V05-03",
+      "name": "C07..C09 candidate totals identical to stated (exact 0)",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V05-04",
+      "name": "FK residuals: C01/C05 in registered spelling band; C07 machine-zero",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "C01": [
+          1.1314151618148656e-07,
+          6.416106501563185e-08
+        ],
+        "C02": [
+          1.1314151618148656e-07,
+          6.416106501563185e-08
+        ],
+        "C03": [
+          1.1314151618148656e-07,
+          6.416106501563185e-08
+        ],
+        "C04": [
+          1.1314151618148656e-07,
+          6.416106501563185e-08
+        ],
+        "C05": [
+          1.0857568217800054e-07,
+          4.3951612627157743e-08
+        ],
+        "C06": [
+          2.721296838154532e-08,
+          1.5094543712179664e-08
+        ],
+        "C07": [
+          0.0,
+          6.776263578034403e-21
+        ],
+        "C08": [
+          0.0,
+          6.776263578034403e-21
+        ],
+        "C09": [
+          0.0,
+          6.776263578034403e-21
+        ]
+      }
+    },
+    {
+      "id": "V05-05",
+      "name": "FB-06 gate_checks 8/8 PASS fields",
+      "value": 8,
+      "limit": 8,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V06-01",
+      "name": "V6/R3 candidates: flags + bridge sha pin",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V06-02",
+      "name": "V6/R3 verbatim carries (e21 holds 11, V5 invariants 11, R2 holds 11, R2 prohibitions 8)",
+      "value": 6,
+      "limit": 6,
+      "status": "PASS",
+      "detail": {
+        "v6_e21_holds": true,
+        "r3_e21_holds": true,
+        "v6_v5_invariants": true,
+        "r3_v5_invariants": true,
+        "r3_r2_holds": true,
+        "r3_r2_prohibitions": true
+      }
+    },
+    {
+      "id": "V06-03",
+      "name": "R2 base files (V5_R2 / R2) byte-unchanged vs round0 receipt pins",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V07-01",
+      "name": "numeric blacklist scan on 7 main-chain products (avg/midpoint/legacy values)",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "V07-02",
+      "name": "keyword scan (averag*/midpoint/blend) all in prohibition/negation context",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "total_hits": 14,
+        "unclassified_hits": [],
+        "hits": [
+          {
+            "file": "B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml",
+            "line": 6,
+            "text": "ODR-43: 'B601_ARM_PLACEMENT_RULE: DUAL_FRAME_EXPLICIT_BRIDGE - unique explicit T_PHYSICAL_TO_DYNAMIC; no selection, no per-module mixing, no averaging, delta is..."
+          },
+          {
+            "file": "B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml",
+            "line": 239,
+            "text": "- averaging the frames or their outputs (the 0.36889 deg branch delta is NOT an uncertainty)"
+          },
+          {
+            "file": "B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml",
+            "line": 272,
+            "text": "- this bridge does not select or average the two placement hypotheses; it connects them"
+          },
+          {
+            "file": "MPI03_BRIDGE_NUMERICAL_VALIDATION.json",
+            "line": 255,
+            "text": "\"frame_matrix_averaged_det\": {"
+          },
+          {
+            "file": "MPI03_BRIDGE_NUMERICAL_VALIDATION.json",
+            "line": 264,
+            "text": "\"name\": \"blacklist averaged-value scan on bridge file\","
+          },
+          {
+            "file": "E21_BRIDGED_ARM_PLACEMENT_GATE_V2.json",
+            "line": 16,
+            "text": "\"averaging\": false,"
+          },
+          {
+            "file": "E21_BRIDGED_ARM_PLACEMENT_GATE_V2.json",
+            "line": 132,
+            "text": "\"interpretation\": \"CONSISTENT_WITH_PHYSICAL_LANE: the bridged mount T_dyn@B equals T_phys to 0.000e+00 (exact 0 in double precision here), so the single bridged..."
+          },
+          {
+            "file": "SYSTEM_MASS_PROPERTIES_BRIDGED_V1.yaml",
+            "line": 13,
+            "text": "consumption_semantics: SINGLE_ODR01_DYNAMICS_CONSUMPTION; physical-rail arm rows (C01..C06) re-expressed via C_S conjugate of the frozen bridge; no selection, n..."
+          },
+          {
+            "file": "MECH_DYNAMICS_INTERFACE_V6_CANDIDATE.yaml",
+            "line": 44,
+            "text": "resolved_by: ODR-43 bridge (NOT by selection, NOT by averaging, NOT by uncertainty re-label)"
+          },
+          {
+            "file": "MECH_DYNAMICS_INTERFACE_V6_CANDIDATE.yaml",
+            "line": 84,
+            "text": "- the ODR-01 and WP11 placement branches are not selected averaged merged or treated as uncertainty"
+          },
+          {
+            "file": "MECH_DYNAMICS_INTERFACE_V6_CANDIDATE.yaml",
+            "line": 110,
+            "text": "- no selection or averaging of the two placement frames"
+          },
+          {
+            "file": "EMBODIED_MECHANICAL_CONTRACT_R3_CANDIDATE.yaml",
+            "line": 51,
+            "text": "resolved_by: ODR-43 bridge (NOT by selection, NOT by averaging, NOT by uncertainty re-label)"
+          },
+          {
+            "file": "EMBODIED_MECHANICAL_CONTRACT_R3_CANDIDATE.yaml",
+            "line": 108,
+            "text": "- the ODR-01 and WP11 placement branches are not selected averaged merged or treated as uncertainty"
+          },
+          {
+            "file": "EMBODIED_MECHANICAL_CONTRACT_R3_CANDIDATE.yaml",
+            "line": 134,
+            "text": "- no selection or averaging of the two placement frames"
+          }
+        ]
+      }
+    },
+    {
+      "id": "V07-03",
+      "name": "branch delta never re-labeled as uncertainty (standard_uncertainty stays null)",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V07-04",
+      "name": "no measured_mass field introduced in V6/R3 (hits only in prohibition text)",
+      "value": 1,
+      "limit": "prohibition-only",
+      "status": "PASS",
+      "detail": [
+        {
+          "file": "EMBODIED_MECHANICAL_CONTRACT_R3_CANDIDATE.yaml",
+          "line": 98,
+          "text": "- no measured_mass field anywhere"
+        }
+      ]
+    },
+    {
+      "id": "V08-01",
+      "name": "hash chain: 26 upstream pins + 5 package product pins recomputed",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "checked": 31,
+        "mismatches": []
+      }
+    },
+    {
+      "id": "V08-02",
+      "name": "OI-R1-01: solar build report self-hash DRIFT reproduced as registered (no new drift)",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "recomputed": "6160C1D0970B7EA19075B4A83C988C16CA2F1AFCA782BCAD90A89B14F17E6586",
+        "self_recorded_never_matchable": "AFE4CA26A2CC7A1838DEF4FAD3E068DB1F364F4265A85903D9407D462711CEC9",
+        "disposition": "AWAITING_UPSTREAM_ERRATUM (registered open item; both real artifacts recompute PASS per receipt)"
+      }
+    },
+    {
+      "id": "V09-01",
+      "name": "frame_ambiguity: exactly one bridge definition file; all others cite it",
+      "value": 1,
+      "limit": 1,
+      "status": "PASS",
+      "detail": {
+        "definition_file": [
+          "20_engineering\\F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1\\mpi_phys_dyn_bridge\\round1_bridge\\02_bridge\\B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml"
+        ],
+        "citing_files_count": 23
+      }
+    },
+    {
+      "id": "V09-02",
+      "name": "consumer_ambiguity_count field == 0 in FB-05/V6/R3 (semantic audit: single mount site, single rule)",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "occurrences": [
+          [
+            "E21_BRIDGED_ARM_PLACEMENT_GATE_V2.json",
+            0
+          ],
+          [
+            "MECH_DYNAMICS_INTERFACE_V6_CANDIDATE.yaml",
+            0
+          ],
+          [
+            "EMBODIED_MECHANICAL_CONTRACT_R3_CANDIDATE.yaml",
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "V09-03",
+      "name": "FB-06 9/9 configs single consumption semantics via unique bridge",
+      "value": 9,
+      "limit": 9,
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "V10-01",
+      "name": "gate-level states: V5 HOLD / e15 REPEAT / MC-A engineering-effective / C2-01 all null+HOLD",
+      "value": 0,
+      "limit": 0,
+      "status": "PASS",
+      "detail": {
+        "v5_gate": {
+          "gate": "HOLD",
+          "next_stage_authorized": false,
+          "single_consumption_rule_resolved": false
+        },
+        "e15_overall": "REPEAT_ANCF_CERTIFICATION",
+        "decision_status": "ISSUED_AND_EFFECTIVE_AT_ENGINEERING_LEVEL__PENDING_OWNER_CONFIRMATION__REVERSIBLE_VIA_ECR",
+        "c2_01": {
+          "contains_HOLD": true,
+          "contains_null": true,
+          "contains_AVAILABLE": false
+        }
+      }
+    }
+  ],
+  "criterion_counts": {
+    "total": 42,
+    "pass": 42,
+    "fail": 0
+  },
+  "overall": "PASS",
+  "bottom_line_metrics": {
+    "frame_ambiguity": 0,
+    "mass_inconsistency": 0.0,
+    "inertia_inconsistency_unexplained_residual": 0.0,
+    "consumer_ambiguity": 0,
+    "hash_mismatch": 0
+  },
+  "next_stage_authorized": false,
+  "release_credit": false
+}

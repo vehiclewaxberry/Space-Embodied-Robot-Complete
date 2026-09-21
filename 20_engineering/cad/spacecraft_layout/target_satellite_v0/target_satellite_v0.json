@@ -1,0 +1,155 @@
+{
+  "object_id": "target_satellite_v0",
+  "frame": "T",
+  "reference_point": "CoM",
+  "geom_reference_point": "T_origin (main-body geometric center; CoM recorded separately via features.com_offset_mm)",
+  "n_primitives": 5,
+  "volume_m3": 0.022598,
+  "density_kg_m3": 973.5,
+  "mass_kg": 22.0,
+  "cg_m": [
+    0.03827,
+    -0.0,
+    0.00021
+  ],
+  "inertia_kg_m2_about_com": {
+    "Ixx": 0.231629,
+    "Iyy": 0.422149,
+    "Izz": 0.489336,
+    "Ixy": 0.0,
+    "Ixz": 0.000649,
+    "Iyz": -0.0
+  },
+  "features": {
+    "com_offset_mm": [
+      40,
+      0,
+      0
+    ],
+    "com_note": "self-defined; shifted +X toward denser adapter/propulsion end; recorded separately from T_origin per SSOT sec4; low confidence, never measured",
+    "grasp_points_mm": [
+      {
+        "name": "launch_adapter_ring",
+        "point_mm": [
+          290,
+          0,
+          0
+        ],
+        "ring_outer_radius_mm": 100,
+        "approach_axis": "+X_T",
+        "type": "rigid_separation_ring",
+        "priority": "primary",
+        "note": "far +X face rim of Agena-like adapter cylinder; servicer approaches along -X_T into ring; rigid structural capture interface"
+      },
+      {
+        "name": "solar_panel_yoke_+Y",
+        "point_mm": [
+          0,
+          113,
+          0
+        ],
+        "approach_axis": "+Z_T",
+        "type": "structural_yoke_root",
+        "priority": "secondary",
+        "note": "panel hinge/yoke root fitting at +Y body face; grasp the structural yoke only, NEVER the panel laminate"
+      },
+      {
+        "name": "solar_panel_yoke_-Y",
+        "point_mm": [
+          0,
+          -113,
+          0
+        ],
+        "approach_axis": "+Z_T",
+        "type": "structural_yoke_root",
+        "priority": "secondary",
+        "note": "mirror of +Y yoke"
+      }
+    ],
+    "marker_points_mm": [
+      {
+        "name": "AprilTag_front",
+        "id": 0,
+        "point_mm": [
+          170,
+          90,
+          90
+        ],
+        "normal": "+X_T",
+        "size_mm": 60,
+        "note": "servicer-facing +X body face, corner clear of adapter cylinder footprint (radial 127mm > cyl radius 100mm); visible along approach axis"
+      },
+      {
+        "name": "AprilTag_top",
+        "id": 1,
+        "point_mm": [
+          -60,
+          0,
+          113
+        ],
+        "normal": "+Z_T",
+        "size_mm": 60,
+        "note": "redundant marker on +Z top face, offset from antenna root"
+      }
+    ],
+    "keepout": [
+      {
+        "name": "solar_panel_+Y",
+        "type": "fragile_non_grasp",
+        "primitive_ref": "solar_panel@[0,213,0]"
+      },
+      {
+        "name": "solar_panel_-Y",
+        "type": "fragile_non_grasp",
+        "primitive_ref": "solar_panel@[0,-213,0]"
+      },
+      {
+        "name": "antenna",
+        "type": "slender_non_grasp",
+        "primitive_ref": "antenna@[-100,0,213]"
+      }
+    ],
+    "tumble_axis": {
+      "axis": "+Z_T",
+      "nominal_rate_deg_s": [
+        2,
+        5
+      ],
+      "basis": "self_defined_nominal_non_cooperative_flat_spin",
+      "confidence": "low",
+      "note": "failed non-cooperative satellite assumed slowly tumbling; axis/rate are placeholders to be set by Stage 2 scenario matrix; never measured"
+    },
+    "frame_axes": {
+      "+X_T": "long body axis toward primary grasp interface / servicer approach direction",
+      "+Z_T": "toward solar-panel deploy normal / upper surface",
+      "+Y_T": "completes right-handed frame (toward +Y solar-panel side)"
+    }
+  },
+  "assumptions": [
+    "Mapping: target_satellite_v0 = Target-1 failed non-cooperative small satellite per cad_asset_mapping_v0 sec3 and target_models_requirements sec3; open assets inform GEOMETRY ONLY, geometry re-authored (no BIRDS/OreSat copy).",
+    "Frame T per coordinate_frame_definition_v0 SSOT: right-handed; origin at main-body geometric center; +X_T toward primary grasp interface / servicer approach; +Z_T toward panel-deploy normal; +Y_T completes RH. CoM differs from origin and is recorded separately (features.com_offset_mm).",
+    "Chose 12U class over 6U for v0; body simplified to a 340 x 226 x 226 mm box (long axis along X_T) from the CDS 12U envelope. These are v0 PLACEHOLDERS, not verified Appendix B dimensions (12U outer dims flagged manual_review_required, APPB-004).",
+    "Agena-like cylindrical section modeled as a launch-adapter / separation-ring stub: radius 100mm (~8-inch/203mm sep-ring class), length 120mm, protruding from the +X body face and unioned to it; geometry informed by NASA-3D Agena only, NO inertia inherited.",
+    "Solar panels modeled as two deployable flat stub plates (300 x 200 x 12 mm) along +/-Y, one plate per side, rooted at the body Y faces (y=+/-213 center so root touches +/-113 face); hinge/yoke abstracted to a point; panels are fragile keepout, not a default grasp target.",
+    "Antenna modeled as a single slender monopole rod (radius 6mm, length 200mm) along +Z rooted on the top face; abstracts a VHF/UHF whip; slender keepout, not a grasp target.",
+    "Mass self-defined at 22.0 kg (~12U upper-mass class ~2 kg/U plus adapter and panels); NOT measured; deterministic builder sizes an effective uniform density to hit this target. confidence low.",
+    "Inertia is self-defined downstream and NEVER claimed as measured (risk RA-003 / R-014); this spec provides geometry + mass target only, no inertia tensor asserted here.",
+    "CoM assumed offset +40mm along +X_T toward the denser adapter/propulsion end; low confidence, to be replaced by the mass-inertia CSV after component assignment.",
+    "Primary grasp = rigid launch-adapter ring at the far +X face of the adapter cylinder (approach along +X_T); secondary grasp = solar-panel structural yoke/root at the +/-Y body faces; the panel laminate itself is explicitly forbidden as a grasp surface.",
+    "AprilTag markers self-placed on the servicer-facing +X body face (clear of the adapter-cylinder footprint) and on the +Z top face; IDs and 60mm size are placeholders; markers denote demonstration/perception NARRATIVE only, no completed perception claimed.",
+    "Non-cooperative failed satellite assumed slowly tumbling; nominal tumble axis self-defined about +Z_T at ~2-5 deg/s placeholder rate, to be finalized by the Stage 2 scenario matrix; low confidence.",
+    "Block model only: boxes + cylinders unioned, all primitives mutually touching/overlapping for a single solid; NO fillets, holes, thin-wall, or mechanism detail; grasp/marker/keepout/tumble entries are annotation metadata, not solid geometry.",
+    "All dimensions in millimeters; center_offset_mm is measured from the frame T origin."
+  ],
+  "open_asset_refs": [
+    "NASA-3D Agena (cylindrical docking/adapter section geometry, form only; no inertia inherited)",
+    "ESA SCIFLEET (large-satellite geometry reference, form only)",
+    "SwissCube per-part CAD (CubeSat geometry reference, form only)",
+    "CDS 12U envelope 226.3x226.3x340.5mm (bounding-box reference; exact dims are manual_review_required per APPB-004)",
+    "OreSat frame/solar/antenna assets (subsystem form reference)"
+  ],
+  "source": "build123d block model (spec-driven)",
+  "confidence": "low",
+  "status": "usable_for_v0",
+  "note": "inertia about CoM in frame T; tensor convention (URDF/Basilisk)"
+}

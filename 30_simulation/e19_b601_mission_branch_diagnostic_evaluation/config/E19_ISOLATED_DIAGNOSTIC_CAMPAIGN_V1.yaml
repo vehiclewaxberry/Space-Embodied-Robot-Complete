@@ -1,0 +1,63 @@
+schema: E19_ISOLATED_DIAGNOSTIC_CAMPAIGN_V1
+generated_local: '2026-08-23T20:10:00+08:00'
+units_policy: STRICT_SI_AT_ALL_EXECUTION_BOUNDARIES
+quaternion_conventions:
+  sim05_base_history: wxyz
+  sim13_target_history: xyzw
+global_invariants:
+  cross_lane_chaining_allowed: false
+  branch_merging_allowed: false
+  unknown_zero_fill_allowed: false
+  accepted_urdf_modification_allowed: false
+  cad_or_mesh_generation_allowed: false
+M01:
+  candidate_path: 30_simulation/e18_b601_mission_input_branches/02_candidates/M01_HELD_STOW_TO_RELEASE_CLEAR_QUINTIC_V1.csv
+  duration_s: 11.5
+  sample_period_s: 0.01
+  sample_count: 1151
+  interpolation: QUINTIC_MINIMUM_JERK_10_15_6
+  base_reaction_model: SIM05_RIGID_FREE_FLOATING_ALGORITHM_WITH_EXPLICIT_REORG_NAMESPACE_ADAPTER
+  integration_rtol: 1.0e-11
+  integration_atol: 1.0e-13
+  momentum_residual_limit: 1.0e-12
+  path_rebind_only: true
+  physical_release_execution: false
+M05:
+  branch_register_path: 30_simulation/e18_b601_mission_input_branches/02_candidates/M05_22_TARGET_STATE_BRANCHES_V1.json
+  sim13_anchor: ANCHOR_22KG_0P5DPS
+  timestep_s: 0.05
+  maximum_steps: 1000
+  diagnostic_horizon_s: 50.0
+  randomization_enabled: false
+  action: ABORT
+  quaternion_norm_error_limit: 1.0e-12
+  analytic_quaternion_error_limit: 1.0e-12
+  static_transform_residual_limit_m: 1.0e-12
+  branches_merge_allowed: false
+M06:
+  stimulus_matrix_path: 30_simulation/e18_b601_mission_input_branches/02_candidates/M06_22_HALF_SINE_EQUAL_IMPULSE_STIMULUS_MATRIX_V1.csv
+  expected_case_count: 20
+  approach_speeds_m_s: [0.005, 0.01, 0.02, 0.03]
+  solver_windows_ms: [5, 10, 20, 50, 100]
+  waveform: F(t)=Fpeak*sin(pi*t/Tc)
+  measurement_model: Fpeak=pi*J/(2*Tc)
+  high_resolution_samples_per_case: 10001
+  saved_samples_per_case: 201
+  relative_impulse_error_limit: 1.0e-8
+  physical_contact_interpretation: false
+M07:
+  branch_register_path: 30_simulation/e18_b601_mission_input_branches/02_candidates/M07_22_ATTACHED_TARGET_RECOVERY_BRANCHES_V1.json
+  arm_only_candidate_path: 30_simulation/e17_b601_mission_trajectory_candidates/results/candidates/M07_22_ARM_ONLY_QUINTIC_V1.csv
+  arm_only_duration_s: 4.5
+  arm_only_sample_period_s: 0.01
+  arm_only_sample_count: 451
+  attached_target_propagated: false
+  sim15_anchor: ANCHOR_22KG_0P5DPS
+  sim15_approach_speeds_m_s: [0.005, 0.01, 0.02, 0.03]
+  required_full_state_speed_m_s: 0.01
+  linear_momentum_residual_limit: 1.0e-11
+  angular_momentum_residual_limit: 1.0e-11
+  selected_post_capture_model_branch: null
+  locked_transform_gripper_to_target: null
+  released_mass_cg_inertia: null
+

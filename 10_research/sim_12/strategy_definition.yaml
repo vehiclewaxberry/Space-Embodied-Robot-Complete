@@ -1,0 +1,37 @@
+# sim_12 策略库定义 v0 — Gate 0 批准口径（2026-07-18）
+# 账本依据 momentum_ledger.md；数字勿手抄，实现时由公式/求解器复算
+version: v0
+frame: system_com_inertial          # H 一律对系统质心（惯性系）
+strategies:
+  S1_passive:
+    pre_state: {chaser_v: -v_app*approach_axis, wheels_h0: 0}
+    delta_H_external_Nms: 0
+    anchor: sim_06 nominal (3.06333 dps @debris)
+  S2_velocity_matching:
+    pre_state: {chaser_v: -v_app*approach_axis + omega_t x r_g, wheels_h0: 0}
+    delta_H_external: m_c*(r_c-r_com) x v_match   # 接近段推力器建立，捕获前
+    cost_rows: [approach_dV_propellant_g]         # = m_c*|v_match|/(Isp*g0)*1e3；基准 1.69 g（|v_match|=|omega_t x r_g|=0.037475）
+    anchor: e16 alpha grid（引用须复述其 flex/geometry 限制条款）
+    claim_discipline: "J下降与H上升并存；binding gate 决定优劣"
+  S3a_wheel_bias:
+    pre_state: {wheels_h0: -h_max*H_pred_unit}    # 容量区间平移，非动量创造
+    gate2_prime: "|h_rw0 + H_c| <= h_max"
+    cost_rows: [bias_load_propellant_g]           # = h_max/(l_T*Isp*g0)*1e3
+    sensitivity: direction_error_deg sweep [0,15,30,45,60]   # 60=归零悬崖点
+  S3b_arm_transient:
+    pre_state: {arm_swing: theta_dot_pre != 0}
+    delta_H_total: 0                              # 预注册断言：与 S1 终态一致；须 sim_11 多体路径固化为机器事实
+    effect_scope: transient_only                  # 接触点速度/冲量方向/基座扰动
+    claim_discipline: "禁止宣称改善终态 H 或捕获后角速率"
+  S3c_thruster_assist:
+    delta_H_external: integral(r x F_ext dt)
+    budget_shared_with: S4                        # 54.73 g registry 派生链
+  S4_post_capture_detumble:
+    mechanism: sim_08 thruster couple
+    anchor: 3.65 N·m·s = 12x wheels (sim_08)
+gates_before_phase1:
+  - ledger_identity: "|H_capture_minus - H_after| <= 1e-12 per strategy"
+  - s3b_equals_s1_final_H: bitwise
+  - s2_delta_H_closure: "矢量 ΔH_vec=m_c(r_c-r_com)x v_match 与 H(a1)-H(a0) 闭合，|ΔH_vec|=1.43508 Nms；标量差 +0.873 仅展示"
+  - cost_formula_recompute: no_hand_copy
+phase1_scope: 16_case_proof_set_only              # 4 任务 x 4 策略；9000 点延后

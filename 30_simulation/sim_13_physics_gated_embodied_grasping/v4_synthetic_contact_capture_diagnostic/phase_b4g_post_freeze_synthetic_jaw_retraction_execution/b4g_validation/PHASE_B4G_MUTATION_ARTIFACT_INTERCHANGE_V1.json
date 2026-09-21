@@ -1,0 +1,213 @@
+{
+  "schema": "SIM13_V4B4G_MUTATION_ARTIFACT_INTERCHANGE_V1",
+  "scope": "INDEPENDENT_BYTE_BOUND_MUTATION_REPLAY_WITHOUT_IMPORTING_MUTATION_EXECUTOR",
+  "receipt_required_additional_fields": ["base_artifact", "mutant_artifact", "patch_artifact", "replay"],
+  "evidence_required_fail_closed_fields": {
+    "scope": "REAL_RAW_ARTIFACT_OR_EXECUTED_PATH_MUTATIONS_ONLY",
+    "final": false,
+    "audited": false,
+    "validator_pass_claimed": false,
+    "dictionary_flag_only_mutation_used": false,
+    "campaign_or_scientific_credit_from_mutations": false,
+    "memory": {"memory_gate_applicable": false, "memory_gate_passed": false, "owner_override_used": false, "classification": "DIAGNOSTIC_ONLY"}
+  },
+  "artifact_record_required_fields": ["path", "bytes", "sha256", "media_type", "replay_type"],
+  "artifact_record_rules": {
+    "path": "project-relative or B4G-phase-relative existing regular file",
+    "bytes": "exact nonnegative integer",
+    "sha256": "uppercase 64-hex SHA-256 of actual bytes",
+    "media_type": "application/json",
+    "replay_type": "must equal the frozen parent-to-replay-type map"
+  },
+  "replay_bundle": {
+    "schema": "SIM13_V4B4G_MUTATION_REPLAY_BUNDLE_V1",
+    "canonical_json": "UTF-8 sorted compact separators comma-colon, allow_nan false, LF terminal newline",
+    "required_fields": ["schema", "receipt_id", "parent_id", "mutation_id", "gate_id", "replay_type", "execution_provenance", "artifact_records", "payload", "claim_boundary"],
+    "execution_provenance_required_fields": ["producer_entrypoint_path", "producer_entrypoint_sha256", "execution_mode", "real_path_id", "source_manifest_sha256", "underlying_artifact_inventory_sha256"],
+    "artifact_records_required_fields": ["role", "path", "bytes", "sha256"],
+    "minimum_artifact_records": 2,
+    "artifact_records_rule": "must contain the exact EXECUTION_SOURCE_MANIFEST plus at least one distinct non-manifest raw campaign, contract, frozen fixture or executed harness source; every record must exist and byte-match, paths must be unique, and canonical inventory SHA must equal execution_provenance.underlying_artifact_inventory_sha256"
+  },
+  "nominal_payload_derivation": {
+    "authority": "b4g_validation/artifact_derivation.py independently rebuilds every nominal payload from the byte-bound artifact_records without importing b4g_solver, b4g_execution, run_phase_b4g_solver.py or run_phase_b4g_mutation_audit.py",
+    "acceptance_rule": "base.payload canonical JSON bytes must equal the independently derived nominal payload exactly; a valid-looking payload, receipt flag or random SHA without the exact artifacts fails closed",
+    "mutant_acceptance_rule": "mutant.payload canonical JSON bytes must equal the independently derived preregistered mutant for the exact parent_id and 1-based subvariant_index; the validator derives both mutation target and amplitude from frozen contracts plus byte-bound raw artifacts",
+    "coordinated_forgery_rule": "a coordinated base plus patch plus mutant rewrite, including one that still kills the expected Gate, fails unless both the nominal and the preregistered mutant are independently artifact-derived",
+    "base_mutant_common_fields_rule": "base and mutant bundles must be identical in every top-level field except payload; the restricted patch must be the sole transformation",
+    "exact_role_counts_by_parent": {
+      "B4FNC01": {"EXECUTION_SOURCE_MANIFEST": 1, "BOUND_PARENT_SOURCE": 1, "MUTANT_RAW_BYTES": 1},
+      "B4FNC02_B4FNC03_B4FNC04_B4FNC05_B4FNC06": {"EXECUTION_SOURCE_MANIFEST": 1, "REGISTERED_CASE_METADATA": 1, "REGISTERED_CASE_RAW_NPZ": 1},
+      "B4FNC07_B4FNC11_B4FNC12_B4FNC13_B4FNC14": {"EXECUTION_SOURCE_MANIFEST": 1, "EXECUTED_FINITE_HARNESS_RAW_OUTPUT": 1},
+      "B4FNC08": {"EXECUTION_SOURCE_MANIFEST": 1, "EXECUTED_FINITE_HARNESS_RAW_OUTPUT": 1, "MUTANT_DWELL_FORCE_TRACE": 1},
+      "B4FNC09_B4FNC10": {"EXECUTION_SOURCE_MANIFEST": 1, "FROZEN_CLASSIFIER_FIXTURE_CONTRACT": 1},
+      "B4FNC15": {"EXECUTION_SOURCE_MANIFEST": 1, "RK4_REFERENCE_CASE_METADATA": 1, "MIDPOINT_REFERENCE_CASE_METADATA": 1},
+      "B4FNC16": {"EXECUTION_SOURCE_MANIFEST": 1, "FROZEN_REGISTERED_SCHEDULE": 1},
+      "B4FNC17_FALLBACK": {"EXECUTION_SOURCE_MANIFEST": 1, "FROZEN_MUTATION_FALLBACK_CONTRACT": 1, "FROZEN_REGISTERED_SCHEDULE": 1, "A2_DETECTOR_SIX_LANE_TRACE": 1},
+      "B4FNC17_EXECUTED": {"EXECUTION_SOURCE_MANIFEST": 1, "CAMPAIGN_SUMMARY": 1, "REGISTERED_A2_CASE_METADATA": 24},
+      "B4FNC18_B4FNC19_B4FNC20": {"EXECUTION_SOURCE_MANIFEST": 1, "FROZEN_GOVERNANCE_CONTRACT": 1},
+      "B4FNC21": {"EXECUTION_SOURCE_MANIFEST": 1, "REGISTERED_CASE_METADATA": 1, "REGISTERED_CASE_RAW_NPZ": 1, "GEOMETRY_CLIP_EXTRAPOLATE_TRACE": 1},
+      "B4FNC22": {"EXECUTION_SOURCE_MANIFEST": 1, "FROZEN_GOVERNANCE_CONTRACT": 1, "FROZEN_REGISTERED_SCHEDULE": 1}
+    },
+    "finite_raw_replay": {
+      "schema": "SIM13_V4B4G_MUTATION_FINITE_HARNESS_RAW_V1",
+      "one_byte_identity_for_dependent_receipts": 7,
+      "independent_checks": [
+        "exact top/raw/event/acquisition/post/trace/source field sets",
+        "event-acquisition initial state and native z-plus binding",
+        "active target, gap and rate reconstruction from service state plus immutable acquisition snapshot",
+        "every active and post stage 2x2 centered P-gap Jacobian, opening sign, command and power",
+        "sample momentum drift, energy-minus-work and signed-work trapezoidal quadrature",
+        "piecewise cubic Hermite all-root earliest bilateral dwell removal",
+        "componentwise removal mapping with raw impulse and kinetic jump cross-check",
+        "independent post target/gap/rate/clearance/contact and parent cross-check",
+        "derived NC07, NC08 and NC11-NC14 source payloads"
+      ],
+      "top_precondition_rule": "the evidence finite_event_harness_precondition must equal the validator reconstruction exactly, including finite event, signed and absolute work, removal time, post pass and all no-credit fields"
+    }
+  },
+  "authoritative_supplemental_raw_artifacts": {
+    "acceptance_rule": "the listed role is a required hash-bound artifact in both base and mutant bundles; execution_detail cannot substitute, and every reported branch or outcome is independently recomputed",
+    "MUTANT_DWELL_FORCE_TRACE": {
+      "parents": ["B4FNC08"],
+      "one_per_receipt": true,
+      "schema": "SIM13_V4B4G_MUTANT_DWELL_FORCE_TRACE_V1",
+      "top_exact_fields": ["schema", "parent_id", "subvariant_index", "side", "q_index", "source_finite_harness", "injection_window_s", "injection_N", "nominal_finite_clearance", "execution_branch", "mutant_run", "claim_boundary"],
+      "source_finite_harness_exact_fields": ["path", "bytes", "sha256"],
+      "execution_branch": "PATCHED_FORCE_VECTOR_THEN_FORCED_PROPAGATION",
+      "complete_propagation_rule": "require the exact event-to-one-step-past-nominal-removal frozen time grid; fresh event configuration plus acquisition eta_plus and exact zero initial work; complete RK4 or midpoint stage label/code/time pattern; every stored stage state/Q/power exact to its raw sample; positive mass diagnostics; nonstatic selected P velocity response; terminal no-removal/no-domain-exit semantics",
+      "ledger_rule": "require all 16 frozen sample ledgers, independently recompute linear/angular drift and energy-minus-work from raw arrays, enforce closed thresholds and exact-zero active contact arrays",
+      "rule": "bind the nominal finite clearance interval to EXECUTED_FINITE_HARNESS_RAW_OUTPUT; from the complete forced_run_to_raw samples, stages and ledgers independently rebuild the frozen branched mass/bias, attached-target reduction, patched force, Cholesky RHS, RK4 or midpoint tableau, every accepted and internal-stage state, target, momentum, kinetic energy, signed work, all 16 full/reduced ledgers, geometry, diagonal derivatives, exact-zero contact and selected nonzero P-side dwell force; a coordinated fabricated trajectory, static state, empty ledger, shortened grid, fabricated stored stage, diagonal drift or nonzero contact fails closed"
+    },
+    "A2_DETECTOR_SIX_LANE_TRACE": {
+      "parents": ["B4FNC17"],
+      "required_branch": "FROZEN_SIX_LANE_A2_NO_PARENT_FALLBACK",
+      "shared_by_two_receipts": true,
+      "schema": "SIM13_V4B4G_A2_DETECTOR_SIX_LANE_TRACE_V1",
+      "top_exact_fields": ["schema", "parent_id", "harness_id", "source_schedule", "parent_level", "lane_order", "trace_order", "detector_model", "lanes", "capabilities", "claim_boundary"],
+      "source_schedule_exact_fields": ["path", "bytes", "sha256"],
+      "harness_id": "ALGORITHM_ONLY_A2_DETECTOR_HARNESS",
+      "lane_exact_fields": ["lane_id", "method", "step_s", "relative_time_s", "traces"],
+      "trace_exact_fields": ["trace_id", "pair_kind", "side", "command_variant", "command_Q_14", "left_gap_m", "right_gap_m", "left_gap_rate_m_s", "right_gap_rate_m_s", "signed_W_act_J", "outcome"],
+      "outcome_exact_fields": ["finite_removal_event", "removal_time_s", "post_release_passed", "terminal_status"],
+      "lane_order": ["RK4_COARSE", "RK4_FINE", "RK4_REFERENCE", "MIDPOINT_COARSE", "MIDPOINT_FINE", "MIDPOINT_REFERENCE"],
+      "trace_order": ["RIGHT_HALF_DELAY_BASE", "RIGHT_HALF_DELAY_MUTANT", "LEFT_HALF_DELAY_MIRROR", "RIGHT_COMMAND_OFF_BASE", "RIGHT_COMMAND_OFF_MUTANT", "LEFT_COMMAND_OFF_MIRROR"],
+      "detector_model": {"model_id": "SYMMETRIC_DETERMINISTIC_BILATERAL_COMMAND_RESPONSE_V1", "initial_gap_m": 0.000002, "symmetric_mobility_m_s_N": 0.01, "integration": "CUMULATIVE_TRAPEZOID_ON_FROZEN_RELATIVE_GRID", "terminal_status": "ALGORITHM_ONLY_DETECTOR_HORIZON_COMPLETE_NO_PHYSICAL_OUTCOME"},
+      "capabilities": {"a1_outcome_credit": false, "a2_outcome_credit": false, "physical_credit": false, "current_system_bound": false},
+      "branch_authority": "the independently validated official campaign summary selector is authoritative: selected_parent_level null requires this fallback role and forbids the executed-A2 role set; a non-null selected parent forbids this role and requires CAMPAIGN_SUMMARY plus 24 official A2 metadata artifacts",
+      "rule": "the no-parent fallback is an algorithm-only symmetric detector harness, never a B3 dynamics run: require six lanes times six traces on each frozen step through exactly 0.08 s; independently reconstruct command_for_slot and force_vector Q, symmetric rate=mobility*Q, trapezoidal gap/work histories and no-credit outcome; production-equivalent direct mirror comparison must give PASS for both base pairs and FAIL only after the registered 0.75 or 0.25 right-side mutation"
+    },
+    "GEOMETRY_CLIP_EXTRAPOLATE_TRACE": {
+      "parents": ["B4FNC21"],
+      "one_per_receipt": true,
+      "schema": "SIM13_V4B4G_GEOMETRY_CLIP_EXTRAPOLATE_TRACE_V1",
+      "top_exact_fields": ["schema", "parent_id", "subvariant_index", "source_case_metadata", "source_case_npz", "stage_index", "mutation_target", "nominal_service_state_29", "acquisition_snapshot", "raw_P_coordinates_m", "transformed_P_coordinates_m", "branch", "domain_exit_record", "branch_trace", "no_domain_guard_evaluation", "claim_boundary"],
+      "source_record_exact_fields": ["path", "bytes", "sha256"],
+      "branches": ["DIRECT_DOMAIN_REJECT_NO_TRANSFORM", "CLIP_TO_UPPER_BOUND", "EXTRAPOLATE_AFTER_UPPER_BOUND"],
+      "clip_and_extrapolate_probe": {"side": "left", "raw_value_m": 0.071500001, "clipped_value_m": 0.0715},
+      "branch_trace_exact_fields": ["ordinal", "operation", "P_coordinates_m", "outcome"],
+      "no_domain_guard_evaluation_exact_fields": ["schema", "evaluator_id", "mutation_audit_only", "domain_guard_bypassed", "selector_or_scientific_credit", "service_state_29", "P_coordinates_m", "pad_positions_inertial_m_left_right", "target_state_13", "nominal_gap_m_left_right", "nominal_gap_rate_m_s_left_right", "centered_step_m", "centered_minus_P_coordinates_m_by_column", "centered_plus_P_coordinates_m_by_column", "centered_minus_gap_m_by_column", "centered_plus_gap_m_by_column", "raw_gap_jacobian_P"],
+      "no_domain_guard_evaluation_schema": "SIM13_V4B4G_MUTATION_ONLY_NO_DOMAIN_GUARD_FK_V1",
+      "no_domain_guard_evaluator_id": "INDEPENDENT_B601_6R2P_ACTIVE_GEOMETRY_NO_P_DOMAIN_GUARD_V1",
+      "nonnull_rule": "no_domain_guard_evaluation is null for SV01-SV04 and is the complete exact-field object for SV05 clipping and SV06 extrapolation",
+      "rule": "bind state and acquisition snapshot to the registered case; independently reproduce the raw frozen DomainExit; for SV05 and SV06 require the actually executed mutation-only no-domain-guard B601 6R+2P pad/attached-target FK, nominal gap/rate, complete centered plus/minus probes and 2x2 Jacobian; reject clipping/extrapolation by policy even when the diagnostic equations are finite; this evaluator never supplies selector, scientific, physical, or current-system credit"
+    }
+  },
+  "patch_artifact": {
+    "schema": "SIM13_V4B4G_MUTATION_PATCH_V1",
+    "format": "RFC6902_JSON_V1_RESTRICTED",
+    "required_fields": ["schema", "receipt_id", "target", "format", "base_sha256", "mutant_sha256", "operations"],
+    "allowed_operations": ["add", "remove", "replace"],
+    "root_replacement_forbidden": true,
+    "pointer_rule": "RFC6901 escapes are limited to ~0 and ~1; list indices are canonical unsigned decimal without leading zero, negative indices are forbidden, and '-' is valid only for list append by add",
+    "exact_top_level_fields_only": true,
+    "operation_required_fields": {"add": ["op", "path", "value"], "remove": ["op", "path"], "replace": ["op", "path", "value"]},
+    "operation_exact_fields_only": true,
+    "replay_rule": "apply operations in order to parsed base bundle; canonical JSON result must equal the parsed mutant bundle and its canonical bytes plus LF must equal the mutant artifact bytes"
+  },
+  "receipt_replay_binding": {
+    "schema": "SIM13_V4B4G_RECEIPT_INDEPENDENT_REPLAY_BINDING_V1",
+    "required_fields": ["schema", "evaluator_id", "independent_validator_path", "independent_validator_sha256"],
+    "exact_fields_only": true,
+    "evaluator_id": "B4G_VALIDATION::{replay_type}",
+    "executor_forbidden_receipt_fields": ["actual_failed_gate", "nominal_gate_sha256", "mutant_gate_sha256"],
+    "executor_forbidden_replay_fields": ["base_gate_record", "mutant_gate_record"],
+    "frozen_each_receipt_requires_resolution": "the frozen names actual_failed_gate, nominal_gate_sha256 and mutant_gate_sha256 are satisfied only in the validator-generated augmented receipt records; they are forbidden in the unaudited executor evidence to avoid circular self-attestation",
+    "rule": "gate records, actual failed gate and gate-record hashes are generated only by the read-only validator and emitted in its validation report observations"
+  },
+  "replay_type_by_parent": {
+    "B4FNC01": "BOUND_SOURCE_BYTES",
+    "B4FNC02": "COMMAND_TRACE",
+    "B4FNC03": "COMMAND_TRACE",
+    "B4FNC04": "GEOMETRY_SIGN_TRACE",
+    "B4FNC05": "WORK_TRACE",
+    "B4FNC06": "WORK_TRACE",
+    "B4FNC07": "REMOVAL_WORK_MAPPING",
+    "B4FNC08": "COMMAND_TRACE",
+    "B4FNC09": "CLEARANCE_TRACE",
+    "B4FNC10": "CLEARANCE_TRACE",
+    "B4FNC11": "REMOVAL_MAPPING",
+    "B4FNC12": "ENERGY_MAPPING",
+    "B4FNC13": "POST_RELEASE_TARGET_TRACE",
+    "B4FNC14": "CONTACT_TRACE",
+    "B4FNC15": "REFERENCE_PAIR",
+    "B4FNC16": "REGISTERED_SCHEDULE",
+    "B4FNC17": "A2_COMMAND_OR_TRACE_PAIR",
+    "B4FNC18": "GOVERNANCE_CANDIDATE",
+    "B4FNC19": "GOVERNANCE_CANDIDATE",
+    "B4FNC20": "GOVERNANCE_CANDIDATE",
+    "B4FNC21": "GEOMETRY_SIGN_TRACE",
+    "B4FNC22": "SELECTOR_REPORT"
+  },
+  "payload_required_fields_by_replay_type": {
+    "BOUND_SOURCE_BYTES": ["source_id", "source_record", "candidate_record", "candidate_bytes_path", "xor_mutation"],
+    "COMMAND_TRACE": ["arm", "slot", "acquisition_time_s", "sample_time_s", "Q_ref_N", "command_parameters", "observed_Q_14", "clearance_dwell_active", "trace_origin", "harness_id", "harness_command"],
+    "GEOMETRY_SIGN_TRACE": ["P_coordinates_m", "centered_step_m", "raw_gap_jacobian_P", "registered_signs", "consumed_signs", "clipping_used", "extrapolation_used", "terminal_status"],
+    "WORK_TRACE": ["time_s", "Q_P_N", "eta_P_m_s", "signed_W_act_J", "energy_minus_work_residual_J"],
+    "REMOVAL_WORK_MAPPING": ["finite_removal_event", "W_before_removal_J", "W_after_mapping_J"],
+    "CLEARANCE_TRACE": ["time_s", "acquisition_time_s", "left_gap_m", "right_gap_m", "left_gap_rate_m_s", "right_gap_rate_m_s", "ledger_interval_certified", "observed_finite_event", "classifier_mode"],
+    "REMOVAL_MAPPING": ["z_before", "z_after", "linear_impulse_N_s", "angular_impulse_N_m_s", "kinetic_energy_jump_J", "ideal_constraint_stored_energy_J"],
+    "ENERGY_MAPPING": ["z_before", "z_after", "mass_20x20", "D_switch_J", "reported_kinetic_increment_J"],
+    "POST_RELEASE_TARGET_TRACE": ["time_s", "independent_target_state_13", "candidate_target_state_13", "candidate_target_source", "parent_crosscheck_terminal_max_abs"],
+    "CONTACT_TRACE": ["contact_kernel_enabled", "contact_force_N", "contact_torque_N_m"],
+    "REFERENCE_PAIR": ["rk4", "midpoint", "event_time_tolerance_s", "work_relative_tolerance", "work_absolute_floor_J"],
+    "REGISTERED_SCHEDULE": ["schedule"],
+    "A2_COMMAND_OR_TRACE_PAIR": ["lanes", "pair_kind", "parent_level", "left_variant", "right_variant"],
+    "GOVERNANCE_CANDIDATE": ["candidate"],
+    "SELECTOR_REPORT": ["report"]
+  },
+  "semantic_patch_rules": {
+    "target_authority": "validator independently rebuilds the exact RFC6902 pointer or ordered pointer list from frozen parent_id plus 1-based subvariant_index; receipt and patch target must both equal it",
+    "operation_authority": "all operations are replace except the two NC16 schedule append operations, which are add; operation order and count must exactly equal the rebuilt target list",
+    "value_authority": "frozen scalar/list values and every trajectory-derived mutant value are independently rebuilt; exact frozen paths plus an independently rejected Gate are necessary but do not substitute for canonical equality to the artifact-derived preregistered mutant",
+    "nc08_command_trace": {"registered_slot": "deterministic_targets_and_amplitudes.default_registered_forced_slot exact frozen slot", "trace_origin": "FROZEN_FINITE_EVENT_HARNESS", "harness_id": "finite_event_harness.id", "harness_command": {"force_pulse": "finite_event_harness.force_pulse exact object", "dwell_hold_N": {"left": 0.0, "right": 0.0}}, "mutant_atomic_paths": ["observed_Q_14 selected P side", "harness_command.dwell_hold_N same side"]},
+    "nc09_nc10_classifier_trace": {"base_classifier_mode": "BILATERAL_HERMITE_ALL_ROOT_EARLIEST_DWELL", "mutant_modes": ["SINGLE_SIDE_LEFT", "SINGLE_SIDE_RIGHT", "ENDPOINT_ONLY"], "history_rule": "exact corresponding hash-bound frozen canonical fixture; history and ledger are not mutable"},
+    "nc17_lane_order": ["RK4_COARSE", "RK4_FINE", "RK4_REFERENCE", "MIDPOINT_COARSE", "MIDPOINT_FINE", "MIDPOINT_REFERENCE"]
+  },
+  "independent_replay_acceptance": {
+    "base_exact_gate_result": "PASS",
+    "mutant_exact_gate_result": "FAIL",
+    "mutant_failed_gate_ids": "exact singleton [expected_gate]",
+    "nominal_gate_sha256": "SHA-256 of validator canonical base gate record",
+    "mutant_gate_sha256": "SHA-256 of validator canonical mutant gate record",
+    "receipt_flags_or_hashes_are_authoritative": false,
+    "missing_artifact_or_unreplayable_patch_action": "FAIL_CLOSED"
+  },
+  "independent_gate_record_exact_schema": {
+    "schema": "SIM13_V4B4G_INDEPENDENT_MUTATION_GATE_REPLAY_V1",
+    "key_set": ["schema", "gate_id", "evaluation_status", "scientific_predicate", "failed_gate_ids", "replay_type"],
+    "pass_values": {"evaluation_status": "PASS", "scientific_predicate": true, "failed_gate_ids": []},
+    "fail_values": {"evaluation_status": "FAIL", "scientific_predicate": false, "failed_gate_ids": ["the exact expected gate id"]},
+    "hash_rule": "uppercase SHA-256 of UTF-8 sorted compact canonical JSON without terminal newline"
+  },
+  "structured_source_binding": {
+    "required_file_records": ["mutation_spec", "preregistration_gate", "preregistration_terminal", "preregistration_source_manifest", "campaign_summary", "execution_source_manifest", "execution_source_freeze_terminal", "mutation_executor", "independent_validator"],
+    "required_non_file_fields": ["execution_source_freeze_expected_terminal_sha256", "artifact_inventory", "all_required_files_byte_bound"],
+    "file_record_fields": ["path", "bytes", "sha256"],
+    "artifact_inventory_fields": ["receipt_count", "base_sha256s", "mutant_sha256s", "patch_sha256s", "supplemental_role_records", "inventory_sha256"],
+    "supplemental_role_record_exact_fields": ["receipt_id", "role", "path", "bytes", "sha256"],
+    "supplemental_role_record_rule": "sorted by receipt_id then role and conditional on the independently validated official selector: no-parent fallback has exactly ten bindings (two NC08, two NC17 references to one shared six-lane artifact, six NC21); selected-parent executed-A2 has exactly eight bindings (two NC08 and six NC21, with no NC17 supplemental); every path is the canonical project-relative formal path",
+    "inventory_hash_rule": "canonical SHA256 of receipt_count, sorted base/mutant/patch SHA lists and sorted supplemental_role_records before adding inventory_sha256",
+    "string_contains_binding_forbidden": true
+  },
+  "claim_boundary": "mutation replay evidence only; no A1/A2 outcome, physical, current-system, formal NC19, Owner, production, release or next-stage credit"
+}

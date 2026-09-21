@@ -1,0 +1,123 @@
+schema: M7_OWNER_DECISION_ODR20_TO_ODR26_TERMINAL_R2_V1
+generated_local: '2026-08-22T21:05:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: OWNER_DECISION_REGISTER_ENTRY
+extends: M7_OWNER_DECISION_REGISTER_V1.yaml
+authority: OWNER_DIRECTIVE_2026-08-22_SOLAR_ARRAY_R2_TERMINAL_MECHANICAL_CLOSURE
+review_status: RECORDED_AS_DIRECTED
+next_stage_authorized: false
+
+numbering_note: >-
+  The owner directive labeled these rulings ODR-19..ODR-25, but ODR-19 is
+  already registered as the SOLAR_ARRAY_R2 architecture ruling
+  (M7_OWNER_DECISION_ODR19_SOLAR_ARRAY_R2_ECR_V1.yaml). To avoid dual
+  authority the seven new rulings are registered as ODR-20..ODR-26 with the
+  mapping below. The directive text is otherwise carried verbatim in
+  substance.
+directive_to_register_map:
+  directive_ODR-19_mass: ODR-20
+  directive_ODR-20_flex: ODR-21
+  directive_ODR-21_harness: ODR-22
+  directive_ODR-22_hdrm: ODR-23
+  directive_ODR-23_envelope: ODR-24
+  directive_ODR-24_propagation: ODR-25
+  directive_ODR-25_terminal: ODR-26
+
+geometry_freeze: >-
+  SOLAR_ARRAY_R2 300 x 200 mm x 3 leaves/wing, 8.5 mm stowed stack,
+  0.78 kg/wing, continuous sweep 0 violations is FROZEN as the Terminal
+  Engineering Candidate. No further planform/leaf-count/hinge-architecture
+  change unless WI-07 proves post thermal/tolerance functional clearance
+  <= 0.
+
+decisions:
+
+  - id: ODR-20
+    subject: MASS_AUTHORITY_NO_FAKE_24KG_CLOSURE
+    ruling: >-
+      24.000 kg is demoted to LEGACY_SIMULATION_REFERENCE (historical
+      sim_07/sim_11 reproduction only). R2 system mass 24.863 kg is
+      CURRENT_DESIGN_MASS_CANDIDATE. Artificially deducting 0.863 kg from
+      the bus or any component to restore 24 kg is FORBIDDEN. AS_BUILT_MASS
+      remains HOLD until measurement. If a future launcher/deployer ICD
+      imposes a hard mass limit, mass reduction executes only via a
+      separate ECR (required_reduction >= 0.863 kg + margin).
+
+  - id: ODR-21
+    subject: FLEXIBLE_APPENDAGE_R2_NEW_CARD
+    ruling: >-
+      The three-leaf wing gets a NEW flexible parameter card
+      FLEXIBLE_APPENDAGE_R2.yaml; the legacy single-panel card is never
+      overwritten and serves historical reproduction only. Two-layer model:
+      L1 engineering model (3 flexible leaves + root hinge compliance + 2
+      inter-panel hinge compliances + latch stiffness) and L2 reduced model
+      (3-5 dominant modes/wing) for sim consumption. All parameters without
+      measurement source are PROVISIONAL_DERIVED with uncertainty
+      intervals; single-value fake truth is forbidden.
+
+  - id: ODR-22
+    subject: HARNESS_TWO_INDEPENDENT_GATES
+    ruling: >-
+      B601_HARNESS_FUNCTIONAL_GATE and SOLAR_R2_HARNESS_FUNCTIONAL_GATE are
+      independent. B601 >= 347.49 mm is a requirement, not closure: a real
+      3D centreline must be swept over full joint travel proving length
+      margin, bend-radius margin, keep-out, clamp points, strain relief,
+      no pinch/abrasion. The solar 40 mm jumpers and 110 mm root loop must
+      be swept through the full deployment sequence. Empty comparison sets
+      remain automatic FAIL.
+
+  - id: ODR-23
+    subject: HDRM_HINGE_ANALYTICAL_CLOSURE
+    ruling: >-
+      R1 preload margin 0.217@5g is NOT inherited. Build the R2 deployment
+      torque/energy ledger: spring torque, hinge friction, harness
+      resistance, latch resistance, end-stop energy (0.12 J/leaf candidate
+      input), stop reaction, deployment margin T_available(theta) >
+      T_resisting(theta) over the whole angular travel. May close as
+      R2_MECHANISM_ANALYTICAL_DESIGN_CLOSED with
+      PASS_WITH_PROVISIONAL_COMPONENTS; FLIGHT_HDRM_QUALIFICATION stays
+      HOLD and must not block Gate A.
+
+  - id: ODR-24
+    subject: FLIGHT_ENVELOPE_LOCK
+    ruling: >-
+      8.5 mm stowed stack / 9.0 mm external protrusion stay as designed.
+      MODE_OP = PASS; MODE_FLIGHT = HOLD_PENDING_DEPLOYER_ICD. No redesign
+      of the operational baseline against undecided generic dispenser
+      limits.
+
+  - id: ODR-25
+    subject: R2_MASS_DYNAMIC_PROPAGATION
+    ruling: >-
+      Regenerate nine-configuration mass/CG/inertia with no null fields
+      (mass, CG, full tensor, principal moments+axes, source, authority,
+      uncertainty; component-sum, mirror-consistency, symmetry, positive
+      definiteness, triangle inequalities, frame consistency checks).
+      Run MASS_DELTA_SENSITIVITY_R2 comparing Legacy 24.000 kg vs R2
+      24.863 kg on the 22 kg/0.5 dps and 150 kg/3 dps anchors: post-capture
+      rate, base attitude response, wheel momentum, stabilization proxy,
+      feasibility/safety classification. Using 24 kg results to describe
+      R2 is forbidden. C02/C03 mirror CG = +/-0.1143 m is fixed as a
+      regression anchor in tests.
+
+  - id: ODR-26
+    subject: TERMINAL_RELEASE_PATH
+    ruling: >-
+      After WI-05.2 aggregation, FLEXIBLE_APPENDAGE_R2, both harness
+      functional gates, HDRM analytical closure, thermo-mechanical
+      clearance closure (CLEARANCE_MARGIN = nominal - manufacturing -
+      thermal - hinge_error > 0), collision asset regeneration,
+      EMBODIED_MECHANICAL_CONTRACT_R2 binding, handoff gate 11/11 and
+      scoped Red Team + Falsifier: require internal_mechanical_HOLD = 0,
+      HIGH findings = 0, empty_comparison_sets = 0, unexplained positive
+      interference = 0, handoff 11/11 PASS; then issue
+      MECHANICAL_ENGINEERING_DESIGN_RELEASED_FOR_OPERATIONAL_DIGITAL_TWIN_AND_EMBODIED_CONTROL_WITH_FLIGHT_QUALIFICATION_HOLD.
+      No M8/M9. ACTIVE_MECHANICAL_DESIGN = false after release; later
+      changes only via ECR.
+
+execution_order_ruling: >-
+  WI-05.2 (nine-config aggregation) and WI-06 (flexible card) run in
+  parallel; harness geometry closure and HDRM torque/end-stop analytical
+  closure open immediately as two lightweight side lines; all four converge
+  before WI-07 (thermal/collision), then WI-08 (contract rebind) -> handoff
+  11/11 -> Terminal Release.

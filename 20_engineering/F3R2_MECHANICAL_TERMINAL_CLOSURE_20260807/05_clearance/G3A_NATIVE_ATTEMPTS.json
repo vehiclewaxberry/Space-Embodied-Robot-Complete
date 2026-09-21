@@ -1,0 +1,61 @@
+{
+  "schema": "F3R2_G3A_NATIVE_ATTEMPTS_V1",
+  "purpose": "Record, as negative evidence, every attempt to obtain the AUTHORITATIVE SolidWorks native B-rep interference result on the F3R2 baseline, so that the offline mesh measurement can never be mistaken for it.",
+  "machine": {
+    "total_ram_gb": 15.2,
+    "available_ram_mb_observed_range": [
+      500,
+      2046
+    ],
+    "note": "SolidWorks 2024 (revision 32.5.0), single instance policy, headless (visible=false)."
+  },
+  "attempts": [
+    {
+      "id": "A1",
+      "utc": "2026-08-06T16:47:38Z",
+      "script": "r2a_create_baseline.py (previous session)",
+      "scope": "open the copied F3R2 baseline for reference-ownership verification",
+      "outcome": "RPC_DEATH",
+      "detail": "MemoryDialogWatchdog dismissed a SOLIDWORKS dialog with button 确定, then OpenDoc6 raised (-2147023170) 远程过程调用失败; the SLDWORKS process was gone.",
+      "evidence": "F3R2_PACK_AND_GO_PROOF.json (traceback), F3R1/99_tools/logs/r2a_baseline.jsonl"
+    },
+    {
+      "id": "A2",
+      "utc": "2026-08-07T01:28:00Z",
+      "script": "r2b2_g3a_interference.py",
+      "scope": "whole-assembly interference, all eight configurations, one session",
+      "outcome": "RPC_DEATH",
+      "detail": "avail_mb 1058 at session start; fatal memory dialog dismissed at 01:28:00; RPC failure immediately after.",
+      "evidence": "F3R2/99_tools/logs/r2b2_g3a.jsonl"
+    },
+    {
+      "id": "A3",
+      "utc": "2026-08-07T01:33:34Z",
+      "script": "r2b3_g3a_chunked.py DEPLOYED_NOMINAL (attempt 1)",
+      "scope": "one configuration per process, top-level interference first",
+      "outcome": "HANG",
+      "detail": "SLDWORKS reached Responding=False with CPU flat at 56.1 s and working set 856 MB for ~17 minutes; the COM call never returned. Killed manually. This is a SECOND failure mode, distinct from the memory death.",
+      "evidence": "F3R2/99_tools/logs/g3a_DEPLOYED_NOMINAL.txt"
+    },
+    {
+      "id": "A4",
+      "utc": "2026-08-07T01:54:30Z",
+      "script": "r2b3_g3a_chunked.py DEPLOYED_NOMINAL (attempt 2)",
+      "scope": "same, fresh session after kill",
+      "outcome": "RPC_DEATH",
+      "detail": "avail_mb 713 at session start; memory dialog at 01:54:29; RPC failure at 01:54:30 with avail_mb 557.",
+      "evidence": "F3R2/99_tools/logs/g3a_DEPLOYED_NOMINAL.txt"
+    }
+  ],
+  "mitigations_applied": [
+    "silent OpenDoc6 (swOpenDocOptions_Silent) so modal dialogs cannot block COM",
+    "one configuration per process, SolidWorks killed between configurations",
+    "stale ~$ lock sweep before every session (a crash leaves one per loaded document; 70 were found)",
+    "two-stage detection: sub-assemblies as components first, leaf expansion only for flagged pairs",
+    "ProgressWatchdog: kills an unresponsive SolidWorks so the pending COM call raises instead of hanging forever",
+    "per-configuration journalling so a death costs one configuration, not the run"
+  ],
+  "conclusion": "The authoritative native interference check could not be completed on this machine in this session. It is NOT reported as passed, NOT reported as zero, and NOT substituted by the offline measurement. The offline CAD-mesh measurement (G3A_NATIVE_INTERFERENCE_RESULTS.json) is reported in its own right, with its instrument self-check, and the native check remains an open item.",
+  "open_item": "G3A_NATIVE_BREP_INTERFERENCE_NOT_OBTAINED",
+  "what_would_close_it": "Run r2b3_g3a_chunked.py per configuration on a machine with >= 6 GB free RAM, or on this machine after closing the other applications holding ~4 GB (opencode, Code x3, chrome, ChatGPT x3). Journal resumes per configuration, so it can be finished incrementally."
+}

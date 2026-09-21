@@ -1,0 +1,359 @@
+{
+  "schema_version": "control-01-gate-v2",
+  "task_id": "CTRL-01",
+  "remediation_loop": "CTRL-01-R",
+  "repeat_preregistration": "10_research/partner_requirement_closure/wave1_repeat/repeat_preregistration.md",
+  "verdict": "REPEAT",
+  "next_stage_authorized": false,
+  "tests_are_not_gate": true,
+  "PROVISIONAL_PARAMS": true,
+  "independent_red_team_status": "PENDING_REVIEW",
+  "evidence_complete": true,
+  "scenario_count": 18,
+  "gates": {
+    "GC1_A1_open_loop_flexible_anchor": {
+      "status": "PASS",
+      "delta_deg": 3.509370571919135e-11,
+      "threshold_deg": 1e-06
+    },
+    "GC1_A2_closed_loop_C1_T1_anchor": {
+      "status": "REPEAT",
+      "delta_deg": 0.15504136331859542,
+      "threshold_deg": 0.05,
+      "C2_T1_delta_deg_plant_fidelity_diagnostic": 0.006448261681828882,
+      "diagnostic_note": "C2 (feedforward, near-exact tracking) probes plant fidelity; a C1 delta with a small C2 delta attributes the residual to frozen-gain feedback lag physics, not to the integrator"
+    },
+    "GC1_A3_open_loop_rigid_anchor": {
+      "status": "PASS",
+      "delta_deg": 3.6137137726655055e-10,
+      "threshold_deg": 0.05
+    },
+    "GC1_B_conservation_and_energy": {
+      "status": "PASS",
+      "momentum_max_abs": 7.216449660063518e-16,
+      "momentum_threshold": 1e-12,
+      "energy_audit_relative_max": 5.6325998524987115e-12,
+      "energy_threshold": 1e-09,
+      "momentum_subcheck": "PASS",
+      "energy_subcheck": "PASS",
+      "energy_ledger": {
+        "v0_defect_diagnosis": "W_ctrl was present in the v0 ledger; the residual was the first-order rectangle-rule ledger accumulated over a first-order state map (accounting/discretization defect, not physics)",
+        "remediation": "first-order-hold command ramp + per-interval DOP853 integration of state and W_ctrl/damping ledgers (threshold unchanged at 1e-9)"
+      }
+    },
+    "GC1_C_C0_C1_differentiation": {
+      "status": "PASS",
+      "T2_position_p95_ratio_C0_over_C1": 1238.4228941020472,
+      "threshold_ratio": 3.0,
+      "direction_map_identity": "Jstar-Jm=-Jb*Hbb^-1*Hbm",
+      "direction_map_identity_max_abs_error": 3.469446951953614e-18,
+      "direction_map_identity_threshold": 1e-12,
+      "direction_matches_Jstar_model_correction": true
+    },
+    "GC1_D_incremental_effectiveness": {
+      "status": "REPEAT",
+      "C2_vs_C1_T2_position_improvement_pct": -38.26038923416019,
+      "C2_threshold_pct": 30.0,
+      "C2_vs_C1_T2_orientation_improvement_context_pct": 99.84551517883183,
+      "isolated_nullspace_comparator": "C2_MATCH5",
+      "C3_vs_C2_MATCH5_T2_base_rate_improvement_pct": 1.8387128071932317e-05,
+      "C3_vs_C2_MATCH5_isolates_nullspace_effect": true,
+      "C3_vs_C1_MATCH5_T2_overall_scheme_base_rate_change_context_pct": -7.950553216043602,
+      "C3_T2_nullspace_reaction_command_reduction_pct": 9.980546108717781e-06,
+      "C3_threshold_pct": 5.0,
+      "C3_threshold_config_key": "c3_vs_c1_matched5_reaction_improvement_min_pct (frozen value reapplied to the preregistered C2_MATCH5 comparator per repeat preregistration R-3)",
+      "C3_tracking_degradation_vs_C2_MATCH5_pct": -1.490840241866537e-05,
+      "C3_tracking_degradation_max_pct": 10.0,
+      "previous_loop_negative_results_preserved": {
+        "source_commit": "7aecf6e36069823f0a0e6094f3c1f71407784ed5",
+        "C2_vs_C1_T2_position_improvement_pct": -51.9137123236204,
+        "C3_vs_C1_MATCH5_T2_overall_scheme_base_rate_change_pct": -7.989562016686814,
+        "C3_T2_nullspace_reaction_command_reduction_pct": 9.98006962488238e-06,
+        "energy_audit_relative_max_v0": 0.0789595238864667,
+        "energy_audit_v0_diagnosis": "W_ctrl was present in the v0 ledger; the residual was the first-order rectangle-rule ledger accumulated over a first-order state map (accounting/discretization defect, not physics)"
+      },
+      "negative_result_published": true
+    },
+    "GC1_E_constraints": {
+      "status": "REPEAT",
+      "values": {
+        "joint_limit_margin_min_rad": -1.4728426913978847,
+        "task_sigma_min": 6.639830276911244e-05,
+        "joint_speed_max_radps": 1.8365906028735075,
+        "joint_acceleration_max_radps2": 9.108554855103153,
+        "joint_torque_max_Nm": 0.35366532132567613,
+        "t3_collision_static_margin_min_m": 0.01461760187499997,
+        "t3_collision_target_margin_min_m": 0.11475899847849909,
+        "t3_collision_combined_margin_min_m": 0.01461760187499997,
+        "t3_collision_margin_min_m": 0.01461760187499997
+      },
+      "per_scenario": {
+        "C0_T1": {
+          "joint_limit_margin_min_rad": -1.0442967810645334,
+          "task_sigma_min": 0.0001840043118886669,
+          "joint_speed_max_radps": 0.2622304776697425,
+          "joint_acceleration_max_radps2": 0.6194808002575382,
+          "joint_torque_max_Nm": 0.02301833880250836,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C0_T2": {
+          "joint_limit_margin_min_rad": 0.22242386572657624,
+          "task_sigma_min": 0.06406909789163903,
+          "joint_speed_max_radps": 0.0956295018568401,
+          "joint_acceleration_max_radps2": 0.08343164149579912,
+          "joint_torque_max_Nm": 0.0006370692103404585,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C0_T3": {
+          "joint_limit_margin_min_rad": -1.4728426913978847,
+          "task_sigma_min": 0.09558605642861306,
+          "joint_speed_max_radps": 1.3383129516055312,
+          "joint_acceleration_max_radps2": 7.502847395626238,
+          "joint_torque_max_Nm": 0.28013754593789597,
+          "t3_collision_combined_margin_min_m": 0.05465000000000002
+        },
+        "C1_T1": {
+          "joint_limit_margin_min_rad": -1.045800811565142,
+          "task_sigma_min": 0.00014612708338265323,
+          "joint_speed_max_radps": 0.22987842163044847,
+          "joint_acceleration_max_radps2": 0.9520660013480459,
+          "joint_torque_max_Nm": 0.0333596742296332,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C1_T2": {
+          "joint_limit_margin_min_rad": 0.2460868636257425,
+          "task_sigma_min": 0.024197337480362992,
+          "joint_speed_max_radps": 0.14331520951817944,
+          "joint_acceleration_max_radps2": 0.0910855485510315,
+          "joint_torque_max_Nm": 0.001449182980461071,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C1_T3": {
+          "joint_limit_margin_min_rad": -0.9792175662479305,
+          "task_sigma_min": 0.05787044572984562,
+          "joint_speed_max_radps": 1.3809149859825978,
+          "joint_acceleration_max_radps2": 7.5011430133916495,
+          "joint_torque_max_Nm": 0.33815519032453256,
+          "t3_collision_combined_margin_min_m": 0.027460507368447157
+        },
+        "C2_T1": {
+          "joint_limit_margin_min_rad": -1.0476050054654487,
+          "task_sigma_min": 6.639830276911244e-05,
+          "joint_speed_max_radps": 0.24536080567155782,
+          "joint_acceleration_max_radps2": 0.09498139895294383,
+          "joint_torque_max_Nm": 0.017193121769741464,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C2_T2": {
+          "joint_limit_margin_min_rad": 0.2460868209072562,
+          "task_sigma_min": 0.012357482418534464,
+          "joint_speed_max_radps": 0.2837035690196268,
+          "joint_acceleration_max_radps2": 9.108554855103153,
+          "joint_torque_max_Nm": 0.144918298046107,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C2_T3": {
+          "joint_limit_margin_min_rad": -0.9092928459507101,
+          "task_sigma_min": 0.05934717372194172,
+          "joint_speed_max_radps": 1.8364844446715105,
+          "joint_acceleration_max_radps2": 7.234490987418789,
+          "joint_torque_max_Nm": 0.35366532132567613,
+          "t3_collision_combined_margin_min_m": 0.015515677731418043
+        },
+        "C3_T1": {
+          "joint_limit_margin_min_rad": -1.047605005053306,
+          "task_sigma_min": 0.00010230229745424484,
+          "joint_speed_max_radps": 0.24536080608881727,
+          "joint_acceleration_max_radps2": 0.09498139879871026,
+          "joint_torque_max_Nm": 0.017193122104068863,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C3_T2": {
+          "joint_limit_margin_min_rad": 0.24601692656473872,
+          "task_sigma_min": 0.01245568456769995,
+          "joint_speed_max_radps": 0.281383362074447,
+          "joint_acceleration_max_radps2": 4.686983777550236,
+          "joint_torque_max_Nm": 0.14482155327927138,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C3_T3": {
+          "joint_limit_margin_min_rad": -0.9094244970997609,
+          "task_sigma_min": 0.06757568139738808,
+          "joint_speed_max_radps": 1.8365905984859638,
+          "joint_acceleration_max_radps2": 4.658251563642383,
+          "joint_torque_max_Nm": 0.35331400527954016,
+          "t3_collision_combined_margin_min_m": 0.014617641451400112
+        },
+        "C1_MATCH5_T1": {
+          "joint_limit_margin_min_rad": -1.0455865930074209,
+          "task_sigma_min": 0.00014042881698930846,
+          "joint_speed_max_radps": 0.23094873234867486,
+          "joint_acceleration_max_radps2": 1.746146010132056,
+          "joint_torque_max_Nm": 0.061011749068016756,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C1_MATCH5_T2": {
+          "joint_limit_margin_min_rad": 0.24603841444606256,
+          "task_sigma_min": 0.02430824574904921,
+          "joint_speed_max_radps": 0.142463996079448,
+          "joint_acceleration_max_radps2": 0.05247565299127399,
+          "joint_torque_max_Nm": 0.0014472780685906381,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C1_MATCH5_T3": {
+          "joint_limit_margin_min_rad": -0.9787870902973004,
+          "task_sigma_min": 0.0693989139545722,
+          "joint_speed_max_radps": 1.3803772286026943,
+          "joint_acceleration_max_radps2": 4.396584012236775,
+          "joint_torque_max_Nm": 0.33720049685598524,
+          "t3_collision_combined_margin_min_m": 0.02708061027054838
+        },
+        "C2_MATCH5_T1": {
+          "joint_limit_margin_min_rad": -1.047605005053306,
+          "task_sigma_min": 0.00010230229745424484,
+          "joint_speed_max_radps": 0.24536080608881727,
+          "joint_acceleration_max_radps2": 0.09498139879871026,
+          "joint_torque_max_Nm": 0.017193122104068863,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C2_MATCH5_T2": {
+          "joint_limit_margin_min_rad": 0.24601692473837078,
+          "task_sigma_min": 0.012455683049011491,
+          "joint_speed_max_radps": 0.28138340810575047,
+          "joint_acceleration_max_radps2": 4.68698455193567,
+          "joint_torque_max_Nm": 0.1448215484624028,
+          "t3_collision_combined_margin_min_m": null
+        },
+        "C2_MATCH5_T3": {
+          "joint_limit_margin_min_rad": -0.909424499804425,
+          "task_sigma_min": 0.06757568151730278,
+          "joint_speed_max_radps": 1.8365906028735075,
+          "joint_acceleration_max_radps2": 4.658251563306228,
+          "joint_torque_max_Nm": 0.3533140040169753,
+          "t3_collision_combined_margin_min_m": 0.01461760187499997
+        }
+      },
+      "collision_evaluation": {
+        "status": "PASS",
+        "static_status": "EVALUATED",
+        "target_status": "EVALUATED",
+        "combined_status": "EVALUATED",
+        "plan_contract_status": "MATCHED_T2_T15_TRIGGER_AND_CONST_OMEGA_CONTINUATION",
+        "all_fixed_node_coverage": true,
+        "coverage_issues": [],
+        "trigger": {
+          "source": "method_specific_T2_closed_loop_full_state",
+          "time_s": 15.0,
+          "method_specific": true,
+          "target_phase_continuation": true,
+          "frozen_state_fields": [
+            "theta",
+            "theta_dot",
+            "base_position_I",
+            "base_quaternion_BI",
+            "eta",
+            "eta_dot"
+          ],
+          "authorized_by": "repeat_preregistration_R2"
+        }
+      },
+      "conservative_global_limits": {
+        "joint_speed_radps": 0.7,
+        "joint_acceleration_radps2": 2.0,
+        "joint_torque_Nm": 3.0,
+        "singular_value_min": 0.0001,
+        "collision_margin_m": 0.0
+      },
+      "T1_anchor_joint_limit_conflict_preregistered": true
+    },
+    "GC1_F_bounded_error_C1_C2_C3": {
+      "status": "REPEAT",
+      "violations": [
+        {
+          "scenario_id": "C1_T3",
+          "position_p95_m": 0.19020933129999656,
+          "position_bound_m": 0.11,
+          "orientation_p95_rad": 0.0007810573701880773,
+          "orientation_bound_rad": 0.38
+        },
+        {
+          "scenario_id": "C1_MATCH5_T3",
+          "position_p95_m": 0.19020905519485568,
+          "position_bound_m": 0.11,
+          "orientation_p95_rad": 0.0006175923266493406,
+          "orientation_bound_rad": 0.38
+        }
+      ],
+      "C0_excluded_per_red_team_T6": true
+    },
+    "GC1_G_hash_lock": {
+      "status": "PASS",
+      "text_hash_mode_for_gate": "normalized_semantic_sha256",
+      "binary_hash_mode_for_gate": "raw_sha256",
+      "config": {
+        "raw_sha256": "bfacf8d1d511c394cf5dfe99b2fde34e6c68cd13746d7d3ba9b61d2174721acb",
+        "normalized_semantic_sha256": "bfacf8d1d511c394cf5dfe99b2fde34e6c68cd13746d7d3ba9b61d2174721acb",
+        "expected_normalized_semantic_sha256": "bfacf8d1d511c394cf5dfe99b2fde34e6c68cd13746d7d3ba9b61d2174721acb"
+      },
+      "matrix": {
+        "raw_sha256": "278dc59f696b9313ea067ff56ab2a2b2545e6284dbb56e3ba312eab6c1d2575b",
+        "normalized_semantic_sha256": "278dc59f696b9313ea067ff56ab2a2b2545e6284dbb56e3ba312eab6c1d2575b",
+        "expected_normalized_semantic_sha256": "278dc59f696b9313ea067ff56ab2a2b2545e6284dbb56e3ba312eab6c1d2575b"
+      },
+      "thresholds_widened": false,
+      "gains_tuned_on_plant": false
+    },
+    "GC1_H_fast_plant_ssot_equivalence": {
+      "tolerance": 1e-09,
+      "n_samples": 12,
+      "seed": 20260719,
+      "worst_normalized_abs_error": {
+        "M": 1.188375183529102e-16,
+        "A": 1.188375183529102e-16,
+        "bias": 2.4561402464620035e-16,
+        "udot": 7.968290823854409e-17,
+        "tau": 4.440892098500626e-16
+      },
+      "overall_worst": 4.440892098500626e-16,
+      "ssot": "30_simulation/sim_11_coupled_dynamics/src/coupled_dynamics.py",
+      "cross_check_result": "PASS",
+      "status": "PASS"
+    }
+  },
+  "confirmed_results": {
+    "momentum_conservation_all_scenarios": 7.216449660063518e-16,
+    "energy_audit_relative_max": 5.6325998524987115e-12,
+    "C0_C1_T2_machine_differentiation_ratio": 1238.4228941020472,
+    "C2_T2_position_increment_pct": -38.26038923416019,
+    "C2_T2_orientation_increment_context_pct": 99.84551517883183,
+    "C3_vs_C2_MATCH5_T2_isolated_base_rate_improvement_pct": 1.8387128071932317e-05,
+    "C3_T2_nullspace_command_reduction_pct": 9.980546108717781e-06,
+    "T3_static_collision_all_fixed_nodes_min_m": 0.01461760187499997,
+    "T3_target_collision_all_fixed_nodes_min_m": 0.11475899847849909,
+    "T3_combined_collision_all_fixed_nodes_min_m": 0.01461760187499997,
+    "T3_collision_plan_contract_status": "MATCHED_T2_T15_TRIGGER_AND_CONST_OMEGA_CONTINUATION",
+    "T1_frame_contract": "A1_true_base_motion_plus_FK_composed_in_inertial_frame",
+    "T2_rate_before_capture_deg_per_s": 3.0,
+    "T3_trigger_time_s": 15.0,
+    "C3_pose6_contract_error": "TASK_NULLITY_ZERO"
+  },
+  "claim_scope": {
+    "allowed": [
+      "C0 and C1 are machine-distinguishable on frozen T2",
+      "all frozen runs satisfy the <=1e-12 momentum audit",
+      "the discrete energy ledger closes to <=1e-9 relative when it does",
+      "C2/C3 preregistered incremental hypotheses adjudicated as recorded",
+      "C3 versus C2_MATCH5 isolates the nullspace term on frozen T2",
+      "T3 static, target and combined keep-out margins were evaluated at every 0.01 s node under the frozen T2 t=15 s trigger and const-omega continuation"
+    ],
+    "forbidden": [
+      "general controller superiority",
+      "C3 versus C1_MATCH5 isolates the nullspace effect",
+      "between-node continuous collision clearance",
+      "absolute flexible response hardware meaning",
+      "flight or hardware performance",
+      "promotion to the next stage while verdict is not PASS"
+    ]
+  },
+  "artifact_manifest": "30_simulation/control_01_end_effector_tracking/results/artifacts_sha256.json"
+}

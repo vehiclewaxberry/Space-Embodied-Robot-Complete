@@ -1,0 +1,157 @@
+{
+  "object_id": "target_debris_v0",
+  "frame": "D",
+  "reference_point": "CoM",
+  "geom_reference_point": "D_axis_mid (cylinder axis mid-point per coordinate_frame_definition_v0 SSOT; +Z_D = nominal tumble/symmetry axis)",
+  "n_primitives": 6,
+  "volume_m3": 2.461156,
+  "density_kg_m3": 60.9,
+  "mass_kg": 150.0,
+  "cg_m": [
+    0.00027,
+    0.0,
+    -0.07054
+  ],
+  "inertia_kg_m2_about_com": {
+    "Ixx": 74.805599,
+    "Iyy": 74.829903,
+    "Izz": 26.592617,
+    "Ixy": -0.0,
+    "Ixz": -0.014769,
+    "Iyz": -0.0
+  },
+  "features": {
+    "tumble_axis": {
+      "axis_unit_D": [
+        0,
+        0,
+        1
+      ],
+      "label": "+Z_D",
+      "role": "nominal symmetry / spin (tumble) axis",
+      "rate_context": "magnitude order only from MMT/RoBo6/LCDC upper-stage light-curve datasets (~few deg/s up to tens of deg/s); used ONLY for Stage-2 angular-rate initial condition, NOT for geometry",
+      "note": "real spent stages precess/nutate and can flat-spin; Z_D is the nominal principal/spin axis, not a guaranteed pure single-axis rotation"
+    },
+    "symmetry_axis_D": [
+      0,
+      0,
+      1
+    ],
+    "grasp_region": "rim / ring: the two proud end rings (forward_end_ring_grasp at +Z, aft_end_ring_flange at -Z) are the stiffest capture features; a mid-body reinforced band at the rib ring is a secondary option. Smooth shell wall is NOT a grasp surface.",
+    "grasp_points_mm": [
+      [
+        660,
+        0,
+        950
+      ],
+      [
+        -660,
+        0,
+        950
+      ],
+      [
+        0,
+        660,
+        950
+      ],
+      [
+        0,
+        -660,
+        950
+      ],
+      [
+        660,
+        0,
+        -950
+      ],
+      [
+        0,
+        660,
+        -950
+      ]
+    ],
+    "marker_points_mm": [
+      {
+        "loc_mm": [
+          630,
+          0,
+          300
+        ],
+        "normal_D": [
+          1,
+          0,
+          0
+        ],
+        "surface": "AprilTag bracket plate on +X_D shell (servicer-approach-visible)"
+      },
+      {
+        "loc_mm": [
+          0,
+          0,
+          1000
+        ],
+        "normal_D": [
+          0,
+          0,
+          1
+        ],
+        "surface": "forward end-cap flat, inside forward ring rim"
+      }
+    ],
+    "keepout": [
+      {
+        "zone": "smooth_shell_wall",
+        "approx_bounds_mm": "radius ~600, |z| < 900 (excluding rib/rings)",
+        "reason": "thin unreinforced shell, crush/puncture risk - forbidden grasp/contact"
+      },
+      {
+        "zone": "aft_engine_region",
+        "approx_bounds_mm": "z < -1000 (nozzle stub + aft cap)",
+        "reason": "fragile engine bell, assumed possible residual propellant - forbidden contact"
+      }
+    ],
+    "collision_envelope": {
+      "primary_cylinder": {
+        "axis": "z",
+        "radius_mm": 660,
+        "z_min_mm": -1000,
+        "z_max_mm": 1000
+      },
+      "nozzle_cylinder": {
+        "axis": "z",
+        "radius_mm": 300,
+        "z_min_mm": -1500,
+        "z_max_mm": -1000
+      },
+      "note": "cylinder axis (Z_D) must be renderable in sim per Target-2 requirement"
+    },
+    "mount_face_M": "N/A - non-cooperative debris has no defined mechanical mounting/servicing interface (frame M applies only to servicer arm-mount adapter, not to a target)"
+  },
+  "assumptions": [
+    "No manufacturing/measured CAD of a cylindrical upper-stage/adapter debris exists in the asset pool (gap RA-003); this is an ORIGINAL simplified block model, not copied from any open asset. Tsinghua space_robot debris URDF is license-gate D and explicitly NOT used.",
+    "Representative envelope chosen: body Ø1200 mm x 2000 mm long = a 'small spent upper-stage / large payload-adapter shell segment' scale, not tied to any specific vehicle (Agena-class ~1.5 m dia noted only as an upper bound reference).",
+    "True structure is a thin-walled hollow shell; here it is modeled as solid boxes+cylinders. Inertia is SELF-DEFINED via effective density (builder sizes density to hit target_mass_kg), never claimed as measured (RA-003 / R-014).",
+    "target_mass_kg = 150 kg is a STATED ASSUMPTION for a depleted/empty thin-wall aluminum shell of this envelope (lateral+cap area ~9.8 m^2 x ~3 mm Al ~= 80 kg shell + rings/nozzle/residual ~= 150 kg); confidence LOW.",
+    "+Z_D = nominal tumble/symmetry axis per SSOT; real debris precesses/nutates and may flat-spin - Z_D is the nominal spin/principal axis only.",
+    "Tumble-rate magnitude taken as ORDER-OF-MAGNITUDE context from MMT/RoBo6/LCDC light-curve data for Stage-2 angular-rate IC; it informs dynamics, NOT geometry.",
+    "Non-cooperative target: no standard servicing/mount interface, so mount_face_M (frame M) is N/A; grasp is on native structure (end rings / reinforced band), never on a defined docking port.",
+    "Grasp region = the two proud end rings (rim/ring), the stiffest features; smooth thin cylindrical shell wall is keepout (crush risk).",
+    "Aft nozzle stub added to represent a spent engine bell (simplified as a plain cylinder); aft region flagged keepout as fragile / possible residual propellant.",
+    "AprilTag/marker features are NOT debris-native - the +X_D shell bracket plate and the flat forward end-cap are provided as CANDIDATE marker locations for the servicer scenario; real debris carries no cooperative marker.",
+    "Reinforcement rib ring at z=+300 is a nominal stiffener placeholder (jiagou jin / flange); its exact location is assumed.",
+    "D origin placed at the body-cylinder axis mid-point per SSOT; geometric center assumed ~= CoM for the symmetric shell. The nozzle biases CoM slightly toward -Z; this small offset is ignored at v0 (record separately when inertia is estimated).",
+    "+X_D chosen as the nominal servicer approach / marker-visible direction (analogous to the +X_T convention in target_models_requirements).",
+    "All dimensions in millimeters; primitives are boxes + cylinders only, unioned; no fillets, holes, wall thickness, or manufacturing detail."
+  ],
+  "open_asset_refs": [
+    "42 (NASA GSFC) - tumbling rigid-body + contact dynamics reuse, custom inertia/omega",
+    "SmallSatSim (JPL/UMich) - MuJoCo contact/RPO test harness",
+    "MMT/RoBo6/LCDC (kyselica/RoBo6) - upper-stage real tumble-rate calibration CONTEXT ONLY, no geometry",
+    "NASA SmallSat SOA - active debris removal narrative (Target-2 reference)",
+    "NASA-3D Agena - cylindrical upper-stage geometry-level reference only (per-model check, not copied)"
+  ],
+  "source": "build123d block model (spec-driven)",
+  "confidence": "low",
+  "status": "usable_for_v0",
+  "note": "inertia about CoM in frame D; tensor convention (URDF/Basilisk)"
+}

@@ -1,0 +1,188 @@
+{
+  "identity": "WP09F_POWER_MASTER_EXTERNAL_ENDPOINT_REVIEW_V1",
+  "reviewed_on": "2026-09-07",
+  "reviewer": "eps_closure",
+  "verdict": "PASS_SCOPED_EXTERNAL_ENDPOINT_REVIEW_WITH_OPEN_HARDWARE",
+  "material_electrical_defects": [],
+  "checks": [
+    {
+      "id": "ROW_ID_UNIQUE",
+      "pass": true,
+      "detail": "70 master rows; wire IDs must be unique."
+    },
+    {
+      "id": "NO_DUPLICATE_PHYSICAL_PAIR",
+      "pass": true,
+      "detail": "Same unordered pair may not be duplicated under a new ID."
+    },
+    {
+      "id": "POWER_ENDPOINT_PRESERVATION",
+      "pass": true,
+      "detail": {
+        "missing": [],
+        "power_rows": 60,
+        "excluded_rows": 8,
+        "merged_equivalents": [
+          "K1_PWR=A02",
+          "K1_OUT=A03",
+          "L01 aliases",
+          "L02 aliases"
+        ]
+      }
+    },
+    {
+      "id": "A04_CONTINUOUS_RETURN_A05_REMOVED",
+      "pass": true,
+      "detail": "K1 switches positive only; removed old negative switched return."
+    },
+    {
+      "id": "K1_POLARITY",
+      "pass": true,
+      "detail": "GX11CAB polarized main A2 input / A1 output."
+    },
+    {
+      "id": "K1_COIL",
+      "pass": true,
+      "detail": "Upstream protected 24 V logical endpoints; controller unbound, no external flyback diode."
+    },
+    {
+      "id": "AUX_TWO_NETS",
+      "pass": true,
+      "detail": {
+        "K1_FB1_net": "W033",
+        "K1_FB2_net": "W034",
+        "same_signal_text_is_not_electrical_short": true
+      }
+    },
+    {
+      "id": "A3200_POLARITY_AND_FINAL_LIMIT",
+      "pass": true,
+      "detail": "Final 180 mOhm hot loop and 3.29..3.32 V plus/minus 20 mV; no superseded 70/140 mOhm assumption."
+    },
+    {
+      "id": "NC_AND_OVERRIDE_ISOLATED",
+      "pass": true,
+      "detail": {
+        "prohibited_connected_endpoints": [],
+        "required_isolated": [
+          "BPX.PBAT2.13",
+          "BPX.PBAT2.14",
+          "DOCK.P13.5",
+          "DOCK.P14.4",
+          "DOCK.P5.5",
+          "DOCK.P5.6",
+          "DOCK.P5.7"
+        ]
+      }
+    },
+    {
+      "id": "P1_ONLY_NO_FSI",
+      "pass": true,
+      "detail": "This master is the conditional ground P1-only OBC route; factory mother-board route is an alternative, not parallel feed."
+    },
+    {
+      "id": "CHARGER_DEPLOY_NOT_BUILD_WIRES",
+      "pass": true,
+      "detail": "External charger and deployment switches remain excluded requirements until actual parts/configuration bound."
+    },
+    {
+      "id": "ALL_BUILD_FLAGS_FALSE",
+      "pass": true,
+      "detail": "All 70 rows are schematic/interface candidate records, no cut lengths or physical-test credit."
+    },
+    {
+      "id": "OLD_ROWS_ACCOUNTED",
+      "pass": true,
+      "detail": "23 old rows have lineage; physical master retains 22 after A05 merge."
+    },
+    {
+      "id": "NO_EXTERNAL_ARM_EPS_NET_TIE",
+      "pass": true,
+      "detail": {
+        "cross_components": [],
+        "scope": "external wires only; no inferred device-internal edges"
+      }
+    },
+    {
+      "id": "NO_POSITIVE_RETURN_NET_SHORT",
+      "pass": true,
+      "detail": "No direct external positive/return short in reviewed endpoint graph."
+    },
+    {
+      "id": "ALL_ENDPOINT_MAP_WIRES_MATCH",
+      "pass": true,
+      "detail": "Every master row has endpoints on its same exported endpoint-map net. Full native netlist/ERC remain separate root checks."
+    },
+    {
+      "id": "INPUTS_UNCHANGED",
+      "pass": true,
+      "detail": "Read-only review; only POWER_MASTER_REVIEW.json created."
+    }
+  ],
+  "check_summary": {
+    "passed": 17,
+    "total": 17,
+    "master_rows": 70,
+    "external_components": 47,
+    "power_contract_rows": 60,
+    "excluded_rows": 8
+  },
+  "advisories": [
+    {
+      "id": "A_SOURCE_ATTRIBUTION",
+      "wire_ids": [
+        "A02",
+        "A03"
+      ],
+      "severity": "documentation_nonblocking",
+      "observation": "Pin directions are correct, but A02 source lists ETA only and A03 REGEN only; neither independently establishes GX11 A2/A1 polarity.",
+      "suggested_correction": "Append GX11 Rev6 10/23/15 p3-4 / CONTACTOR_OFFICIAL_WEB_RETRIEVAL.json to both source cells; retain ETA/REGEN endpoint sources."
+    },
+    {
+      "id": "A_AUX_LABELS",
+      "wire_ids": [
+        "K1_FB1",
+        "K1_FB2"
+      ],
+      "severity": "clarity_nonblocking",
+      "observation": "Both signal labels say AUX_NO, but endpoint map assigns distinct W033 and W034. This is not an electrical short.",
+      "suggested_correction": "Optionally label AUX_SENSE and AUX_REFERENCE; do not infer physical monitor pinout or a certified mirror contact."
+    },
+    {
+      "id": "A_AUX_MONITOR_REQUIREMENT",
+      "wire_ids": [
+        "K1_FB1",
+        "K1_FB2"
+      ],
+      "severity": "open_hardware_requirement",
+      "observation": "STOP_MONITOR remains logical UNBOUND. GX11 auxiliary published minimum is 5 V and 0.1 mA; direct 3.3 V dry-contact sensing is not established.",
+      "suggested_correction": "Before implementation bind a minimum 5 V wetting/sensing interface with >=0.1 mA within max auxiliary rating and input level adaptation; validate detection faults. No manufacturing credit now."
+    },
+    {
+      "id": "A_RBF_LOGICAL_SCOPE",
+      "wire_ids": [
+        "RBF",
+        "DEARM"
+      ],
+      "severity": "open_hardware_requirement",
+      "observation": "RBF pull-up, series resistor, covered/bonded FPP and switch part are stated requirements rather than instantiated component circuits.",
+      "suggested_correction": "Keep UNBOUND and build_approved=false until resistor/switch/grounding and actual FPP connector schema exist. Do not interpret these two logical rows as a finished inhibit circuit."
+    }
+  ],
+  "scope_limits": [
+    "No power-on, charge, motion, contactor dropout, regen pulse or connector-resistance tests performed.",
+    "No manufacturing release, flight qualification, functional safety, battery balance or thermal closure inferred from this endpoint review.",
+    "Native schematic connectivity/ERC is not independently parsed here; exported endpoint map is checked, root performs native checks.",
+    "PV parallel current sharing, individual string blocking and out-of-range cold Voc remain parameterized requirements, not manufactured array evidence."
+  ],
+  "build_approved": false,
+  "physical_tests": 0,
+  "input_sha256": {
+    "ecad/MASTER_FROM_TO.csv": "fb63f49360a4c954070e5fcfe43930b18738351672535f97aff844896b1b32fa",
+    "ecad/EXCLUDED_REQUIREMENTS_AND_NC.json": "a8f79cb5a32515dd6c9e135a0101beb34db9f7ab63215b7775155101d9f7f011",
+    "ecad/LINEAGE_23.csv": "ef2c99e265715d37905cf29459aead6bf773c04e9dc31420fc80b43164742c5c",
+    "ecad/wp09_system_ENDPOINT_MAP.json": "1ba0ff6d08c94dce79a736277d1b9d475ba220a7767f8303e1e09bdc38477838",
+    "power/POWER_ENDPOINT_CONTRACT.json": "26b5db288edb85b64e8ad8d25956ecbb470d8c4ec8260d90c2b051e76cab889a",
+    "power/POWER_CONTRACT.json": "c831797a33af367a6ad64081bde0c1d0881586552e4bc5c9695bc5ec913b6f4b"
+  }
+}

@@ -1,0 +1,81 @@
+schema: B51R1_PHASE2_DATUM_RECONCILIATION_V1
+generated_on: "2026-08-01"
+package_status: PREPARED_NOT_AUTHORIZED
+status: HUMAN_ADJUDICATION_REQUIRED
+gate: G1_HOLD
+units: mm
+automatic_adjudication_permitted: false
+historical_inputs_may_be_modified: false
+
+conflict_sources:
+  historical_parent_register:
+    path: 00_BASELINE/PARENT_LOCKED_INPUTS/PARENT_DATUM_REGISTER/B51_MASTER_SKELETON_DATUM_REGISTER.yaml
+    bytes: 957
+    sha256: 82EDD7DB0B96A9D390092418544A266CD2CF890CEEAEBD5D0F68D85DCDBF82F2
+    field: references_mm.longeron_center_abs_yz
+    value: 105.65
+    state: HISTORICAL_PARENT_LOCKED_INPUT_SEMANTIC_NOT_RESOLVED_FOR_PHASE2_NATIVE_AUTHORING
+  current_v2_datum_register:
+    path: 02_MASTER_SKELETON/B51R1_MASTER_SKELETON_V2_DATUM_REGISTER.yaml
+    bytes: 6912
+    sha256: 41A769163D7FE9066DDAC0A6E36E33A22AC9D33823F8CC47151515E8AC0FBC6E
+    state: CURRENT_V2_CONTRACT_EVIDENCE_NOT_SELF_AUTHORIZING
+  durable_measurement:
+    path: 01_MEASUREMENT/B51R1_DURABLE_DATUM_MEASUREMENT_FINAL.json
+    bytes: 27820
+    sha256: 94400C1E282A9B35084E68B7A1B53DCC41BF33113D908C7895D0B73C672904FB
+    state: PASS_DURABLE_SOURCE_BOUND_MEASUREMENT_WITNESS
+
+value_semantics_register:
+  - absolute_value_mm: 101.65
+    signed_instances: [101.65, -101.65]
+    current_v2_semantic: LONGERON_CENTER_AXIS_Y_OR_Z
+    evidence_state: SUPPORTED_BY_CURRENT_V2_DATUM_AND_DURABLE_MEASUREMENT
+    final_native_authority: HUMAN_CONFIRMATION_REQUIRED
+  - absolute_value_mm: 105.65
+    signed_instances: [105.65, -105.65]
+    historical_semantic: FIELD_NAMED_LONGERON_CENTER_ABS_YZ_IN_PARENT_REGISTER
+    current_conflict: DIFFERS_FROM_CURRENT_V2_LONGERON_AXIS_BY_4_MM
+    physical_layer_or_axis_semantic: UNRESOLVED
+    automatic_use_as_native_longeron_axis: PROHIBITED_PENDING_HUMAN_ADJUDICATION
+    final_native_authority: HUMAN_DECISION_REQUIRED
+  - absolute_value_mm: 110.15
+    signed_instances: [110.15, -110.15]
+    current_v2_semantic: PRIMARY_LOAD_BEARING_SURFACE_PLANE_Y_OR_Z
+    relationship_to_101_65_mm: OFFSET_8_50_MM_FROM_CURRENT_V2_LONGERON_AXIS
+    load_path_credit: CURRENT_V2_CONTRACT_CANDIDATE_NOT_PHASE2_HUMAN_RATIFICATION
+    final_native_authority: HUMAN_CONFIRMATION_REQUIRED
+  - absolute_value_mm: 113.15
+    signed_instances: [113.15, -113.15]
+    current_v2_semantic: REMOVABLE_PANEL_OUTER_SURFACE_AND_G07_G08_PANEL_LAYER_FOOTPRINT_PLANE
+    relationship_to_110_15_mm: OUTER_OFFSET_3_00_MM
+    primary_load_path_credit: NONE
+    physical_attachment_credit: NONE
+    final_native_authority: HUMAN_CONFIRMATION_REQUIRED
+
+non_equivalence_rules:
+  - LONGERON_AXIS_IS_NOT_PRIMARY_LOAD_BEARING_SURFACE
+  - PRIMARY_LOAD_BEARING_SURFACE_IS_NOT_REMOVABLE_PANEL_OUTER_SURFACE
+  - PANEL_LAYER_FOOTPRINT_IS_NOT_PHYSICAL_ATTACHMENT_OR_LOAD_PATH_CREDIT
+  - A_4_MM_DIFFERENCE_MAY_NOT_BE_REMOVED_BY_TRANSLATING_LEGACY_PARTS
+  - THE_105_65_FIELD_MAY_NOT_DRIVE_NATIVE_FEATURES_BEFORE_HUMAN_ADJUDICATION
+
+final_native_selection:
+  longeron_axis_abs_yz_mm: null
+  primary_load_surface_abs_yz_mm: null
+  removable_panel_outer_surface_abs_yz_mm: null
+  selected_contract_path: null
+  selected_contract_sha256: null
+  human_authorizer: null
+  authorized_at_with_timezone: null
+  decision_reference: null
+  status: NOT_SELECTED
+
+pass_requirements:
+  - HUMAN_IDENTIFIES_THE_GEOMETRIC_SEMANTIC_OF_105_65
+  - HUMAN_CONFIRMS_OR_REVISES_ALL_THREE_FINAL_NATIVE_VALUES
+  - HUMAN_NAMES_THE_CONTROLLING_CONTRACT_AND_HASH
+  - HISTORICAL_PARENT_INPUT_REMAINS_UNCHANGED
+  - RECEIPT_STATUS_IS_SET_TO_PASS_HUMAN_RATIFIED
+
+claim_limit: DATUM_CONFLICT_REGISTERED_NOT_RECONCILED

@@ -1,0 +1,109 @@
+{
+  "schema": "CLEARANCE_POLICY_INTAKE_V1",
+  "generated_utc": "DETERMINISTIC_INTAKE_NO_WALLCLOCK",
+  "authority": "POLICY_INTAKE_SCHEMA_ONLY__NO_NUMERIC_SYSTEM_CLEARANCE_REQUIREMENT_CREATED",
+  "canonical_unit": "mm",
+  "source_pins": {
+    "system_registry_sha256": "AC975D11CC4715277E34FCFF7ABF049BC57334FD8F03AAB223BBED0877B1694F",
+    "pair_coverage_sha256": "C1F64FB26D4E563EEF6BF798EE163645FE16766CC3C510552769DB7FDF97306C",
+    "pair_oracle_contract_sha256": "D8B9CEE66BBD1793732F08F8E52C070B91CC5A6FCAAE56820E09E3C13BC81417",
+    "object_motion_contract_sha256": "CA1A741576A90301D77FD684DFA07882FB1AB88A00E927C1381D8709C715A5CD",
+    "collision_contract_sha256": "5DDA627794A4B29D087D7489BECC7A98ED632BC6EAC0413CD9F7226C03AE1E7C",
+    "local_contact_window_source_sha256": "6B48C382D10E2C89EE56544707248B4D37DB55CB3BDABF5BAE39AF8AC470E47C"
+  },
+  "universe": {
+    "object_count": 150,
+    "raw_pair_count": 11175,
+    "typed_adjacent_exception_count": 9,
+    "query_required_pair_count": 11166,
+    "candidate_local_contact_window_count": 55,
+    "active_local_contact_window_count": 0
+  },
+  "coverage_contract": {
+    "all_stable_pair_ids_must_be_emitted": 11175,
+    "exception_rows_must_be_emitted": 9,
+    "numeric_policy_rows_must_be_emitted": 11166,
+    "wildcard": "FORBIDDEN",
+    "pair_class_default": "FORBIDDEN",
+    "inheritance": "FORBIDDEN",
+    "caller_override": "FORBIDDEN",
+    "automatic_zero_fill": "FORBIDDEN",
+    "exception_numeric_fields": "FORBIDDEN_NOT_ZERO_NOT_NULL"
+  },
+  "required_query_policy_row_fields": [
+    "pair_id",
+    "canonical_object_a_id",
+    "canonical_object_b_id",
+    "scene_state_sha256",
+    "accepted_urdf_raw_sha256",
+    "mount_binding_sha256",
+    "object_a_geometry_sha256",
+    "object_b_geometry_sha256",
+    "object_a_motion_certificate_sha256",
+    "object_b_motion_certificate_sha256",
+    "authorized_pair_min_mm",
+    "required_clearance_mm",
+    "requirement_source_path",
+    "requirement_source_sha256",
+    "requirement_field_locator",
+    "requirement_owner",
+    "requirement_revision",
+    "applicability_statement",
+    "pose_tracking_margin_mm",
+    "installation_assembly_margin_mm",
+    "manufacturing_margin_mm",
+    "thermal_margin_mm",
+    "backlash_compliance_margin_mm",
+    "harness_specific_margin_mm",
+    "physical_margin_aggregation_rule",
+    "representation_debit_accounting_location",
+    "backend_numeric_debit_accounting_location",
+    "double_count_prohibited"
+  ],
+  "numeric_contract": {
+    "authorized_pair_min_mm": "FINITE_AND_NONNEGATIVE_OWNER_REQUIREMENT",
+    "required_clearance_mm": "FINITE_AND_AT_LEAST_AUTHORIZED_PAIR_MIN",
+    "physical_requirement_formula": "authorized functional minimum plus separately authorized physical pose/install/manufacturing/thermal/compliance margins",
+    "representation_rule": "Hausdorff and radius/model representation errors debit raw separation exactly once; they are not silently added to the physical requirement",
+    "backend_rule": "Certified backend numeric error debits raw separation exactly once",
+    "edge_rule": "Interval motion is accounted in the object motion certificate and must not be debited a second time"
+  },
+  "candidate_values_explicitly_not_promoted": [
+    {
+      "source": "ROUTE_C_EXACT_SWEEP_V9F.py",
+      "sha256": "9F26AC9A8DE5E2EEB57103F07B769EB43AC30A8FBAFD90FE8DF5D501FA8C8A7F",
+      "values": "bundle radius 4.5 mm; local static debit 2.6 mm; sample allowance 0.5 mm; sample spacing 1.5 mm",
+      "reason": "LOCAL_V9F_C_SECTION_CANDIDATE_MODEL_ONLY__NOT_SYSTEM_REQUIREMENT"
+    },
+    {
+      "source": "ROUTE_C_V9F_MANDATORY_M01_FALSIFIER_GATE.json",
+      "sha256": "09C3199BD9824DFDBB9782C20BE200F31760F44A89EF68D16F32D0E213F191A0",
+      "values": "raw -10.729480 mm; derate 6.583917 mm; gated -17.313397 mm",
+      "reason": "NEGATIVE_ONLY_AUTHORITY__CANNOT_CREATE_A_POSITIVE_OR_GLOBAL_POLICY"
+    }
+  ],
+  "policy_rows": [],
+  "policy_rows_emitted": 0,
+  "clearance_policy_sha256": null,
+  "clearance_policy_bound": false,
+  "fail_closed_rules": {
+    "missing_row_value_source_or_hash": "UNKNOWN_ABORT",
+    "duplicate_pair": "FAIL_ABORT",
+    "negative_or_nonfinite": "FAIL_ABORT",
+    "unit_ambiguity": "UNKNOWN_ABORT",
+    "scene_asset_or_policy_hash_mismatch": "FAIL_ABORT",
+    "pair_class_only_fallback": "FAIL_ABORT",
+    "uncertified_derate": "UNKNOWN_ABORT"
+  },
+  "blockers": [
+    "11166_EXPLICIT_OWNER_REQUIREMENT_ROWS_ABSENT",
+    "SYSTEM_TOLERANCE_AND_THERMAL_MARGIN_AUTHORITY_ABSENT",
+    "NINE_C_SECTION_HAUSDORFF_RADIUS_CERTIFICATES_ABSENT",
+    "SCENE_STATE_SHA256_ABSENT",
+    "MOUNT_BINDING_SHA256_ABSENT"
+  ],
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false,
+  "verdict": "CLEARANCE_POLICY_INTAKE_SCHEMA_COMPLETE__ZERO_OF_11166_NUMERIC_ROWS__POLICY_UNBOUND_UNKNOWN_ABORT"
+}

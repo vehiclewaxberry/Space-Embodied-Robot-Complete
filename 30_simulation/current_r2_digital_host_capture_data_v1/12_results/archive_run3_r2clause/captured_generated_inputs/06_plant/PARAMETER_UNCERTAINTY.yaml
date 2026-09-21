@@ -1,0 +1,31 @@
+# 参数不确定性登记。原则：没有来源的区间不登记；未知参数禁设正态分布（D2 阻塞根据）。
+schema: PARAMETER_UNCERTAINTY_V1
+entries:
+  arm_link_masses:
+    status: NO_AUTHORITATIVE_INTERVAL
+    known_facts: "HYBRID 模型：with_gripper 文件质量低估约 2×（CAD 材料导出无电机）已被 fixend 惯量集替换；物理称重 pending（confidence medium）"
+    d2_admissible: false
+  servicer_bus_mass_inertia:
+    status: NO_AUTHORITATIVE_INTERVAL
+    known_facts: "build123d 设计模型 confidence=low；CDR bus 权威 null HOLD"
+    d2_admissible: false
+  solar_panel_mass:
+    status: KNOWN_LARGE_BIAS_NO_INTERVAL
+    known_facts: "占位 0.3483933 kg = 均匀密度体积份额；真实面密度 2-5 kg/m^2 vs 当前 7.67 → 可差 5-10 倍；'A1 柔性反馈可忽略'结论可能翻转（协作者待办3，最高优先）"
+    d2_admissible: false
+  target_inertias:
+    status: SELF_DEFINED_NEVER_MEASURED
+    known_facts: "RA-003；debris 密度非物理（D-8 shell fix P2）"
+    d2_admissible: false
+  contact_parameters:
+    status: SINGLE_PROVISIONAL_POINT_WITH_SWEEP
+    known_facts: "T_c=20 ms 名义 + 已扫掠 [5,10,20,50,100] ms（sim_11）；无实测区间"
+    d2_admissible: false
+  mount_T_SM:
+    status: DESIGN_NOMINAL_NOT_MEASURED
+    known_facts: "nominal_frozen_v1；物理轨与动力学轨差异本身即安装不确定性的上界线索（0.18525 vs 0.208 m），但两轨语义隔离，禁止用差值造区间"
+    d2_admissible: false
+  friction_flexibility_vision:
+    status: NO_SOURCE
+    d2_admissible: false
+conclusion: "D2_UNCERTAINTY 数据集准入条件不满足：所有条目 d2_admissible=false；大规模 Monte Carlo 禁止执行"

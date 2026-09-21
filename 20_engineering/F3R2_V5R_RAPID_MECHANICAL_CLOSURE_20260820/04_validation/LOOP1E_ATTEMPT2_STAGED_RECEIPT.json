@@ -1,0 +1,92 @@
+{
+  "schema": "V5R_LOOP1E_ATTEMPT2_STAGED_RECEIPT_V1",
+  "task": "V5_LOOP1E_NATIVE_RECOVERY_R1",
+  "owner_ruling_in_effect": "AUTHORIZE_LOW_MEMORY_EXECUTION_WITH_BOUNDED_NATIVE_ATTEMPTS_20260820",
+  "milestone": "M8",
+  "timestamp_utc": "2026-08-20T11:05:00Z",
+
+  "memory_gate_passed": false,
+  "owner_override_used": true,
+  "execution_authorized": true,
+  "owner_override_receipt_untouched": true,
+
+  "attempt_1_closed_out": {
+    "outcome": "HUNG_ON_INTERACTIVE_NEW_DOCUMENT_DIALOG",
+    "elapsed_minutes": 113,
+    "blocked_call": "sw.NewDocument(template, 0, 0.0, 0.0) at Loop1E line 2982",
+    "python_process_terminated": true,
+    "python_pid_terminated": 31944,
+    "exclusive_lock_released": true,
+    "lock_release_evidence": "the lock file is readable again; during the run it returned 'Device or resource busy'",
+    "cad_written": false,
+    "corruption": "none",
+    "diagnosis_receipt": "04_validation/LOOP1E_ATTEMPT1_HANG_DIAGNOSIS.json"
+  },
+
+  "post_attempt_integrity_verified": {
+    "loop1e_script_sha256_prefix": "0D66FCDE114F40E3A339692FA93F2DAC",
+    "loop1e_script_bytes": 243627,
+    "base_helper_root_sha256_prefix": "E44BC52CFBDECCC107E361ACB0EDD993",
+    "base_helper_run_root_sha256_prefix": "E44BC52CFBDECCC107E361ACB0EDD993",
+    "base_helper_both_copies_match": true,
+    "isolated_staging_A_bytes": 27122742,
+    "isolated_staging_A_sha256_prefix": "9F09B64D0366DEC602422AECB806AEEC",
+    "isolated_staging_B_bytes": 27125901,
+    "isolated_staging_B_sha256_prefix": "0001591E6581A0076D7931D78D3CC85A",
+    "isolated_artifacts_match_their_receipts": true,
+    "target_assembly_exists": false,
+    "conclusion": "the hung attempt left zero residue. No frozen-hash drift, no donor mutation, no partial write, no zero-byte save."
+  },
+
+  "remedy_prepared_for_attempt_2": {
+    "tool": "99_tools/V5R_SUPPRESS_NEWDOC_DIALOG.py",
+    "py_compile": "OK",
+    "action": "set swNoviceMode (swUserPreferenceToggle_e = 4) to False so NewDocument resolves the pinned template directly instead of raising the chooser",
+    "records_prior_value_for_restore": true,
+    "preferences_changed_count": 1,
+    "base_helper_modified": false,
+    "loop1e_script_modified": false,
+    "attach_only": true,
+    "refuses_if_documents_open": true,
+    "corroborating_evidence_that_newdocument_itself_is_fine": "the G0 smoke tool calls the SAME NewDocument at its line 323 and SUCCEEDED twice today in Sessions A and B, producing a real 58,346-byte part. The failure is per-session UI state, not a broken API."
+  },
+
+  "current_blocker": {
+    "id": "ORPHANED_MODAL_DIALOG_IN_SESSION_51708",
+    "severity": "BLOCKING_REQUIRES_ONE_HUMAN_ACTION",
+    "evidence": "window enumeration after terminating python still shows: en=True cls=#32770 title=[新建 SOLIDWORKS 文件] and the main frame en=False",
+    "consequence": "the dialog outlived the run that raised it. While the main window is disabled this session will block or reject COM calls, so the suppression tool cannot be applied to it and Attempt 2 cannot start in it.",
+    "why_i_cannot_clear_it": "dismissing the dialog needs either a UI click or terminating and relaunching SolidWorks; process launch is denied to this session by the tool layer (five independent attempts across cmd start and PowerShell Start-Process). I also will not synthesise input events into your desktop session to click it.",
+    "exact_action_needed": "either (a) click Cancel on the '新建 SOLIDWORKS 文件' dialog, leaving SolidWorks running and empty; or (b) close SolidWorks entirely and start one fresh empty instance. Either works - (a) is faster.",
+    "do_not_open_any_document": true
+  },
+
+  "next_automatic_action_once_unblocked": [
+    "run 99_tools/V5R_SUPPRESS_NEWDOC_DIALOG.py to set swNoviceMode=False and receipt the prior value",
+    "if SolidWorks was restarted rather than just Cancel-clicked, re-run G0 Session A + Session B to mint a receipt bound to the new PID (the current G0 receipt binds PID 51708)",
+    "if only Cancel was clicked and PID 51708 survives, the existing G0 receipt 128B7751...F91F25 remains valid and Attempt 2 can start immediately",
+    "run Loop1E execute as Attempt 2 of 2",
+    "on failure or timebox expiry, fall back automatically to Fallback A then Fallback B without further consultation"
+  ],
+
+  "timebox": {
+    "total_allowed_hours": 4,
+    "consumed_hours": 1.88,
+    "remaining_hours": 2.12,
+    "note": "Attempt 1 consumed 1h53m, almost entirely blocked on a dialog rather than doing work"
+  },
+
+  "attempts": {
+    "consumed": 1,
+    "remaining": 1,
+    "attempt_2_justified_as_deterministic_config_defect": true,
+    "justification": "the ruling permits Attempt 2 for a single deterministic COM/config defect. This is a reproducible configuration condition with a specific, targeted, reversible remedy - not an unknown failure mode."
+  },
+
+  "hard_stop_triggered": false,
+  "hard_stop_note": "'SolidWorks unresponsive twice AND fallback unreadable' is the stop condition. This is the first unresponsive event and both fallbacks are present and readable.",
+
+  "review_status": "PENDING_OWNER_ACTION_ONE_CLICK",
+  "next_stage_authorized": false,
+  "verdict": "ATTEMPT_1_CLOSED_NO_DAMAGE_REMEDY_STAGED_BLOCKED_ON_DIALOG_DISMISSAL"
+}

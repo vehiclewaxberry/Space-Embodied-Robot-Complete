@@ -1,0 +1,215 @@
+{
+  "authority": "SCHEMA_AND_FIXED_ENDPOINT_BINDING_ONLY__NO_OBJECT_STATE_VALUES_INFERRED",
+  "canonicalization": {
+    "any_object_set_change_requires_new_object_and_pair_universe_hashes": true,
+    "q6_must_not_be_duplicated_inside_discrete_scene_state": true,
+    "release_event_must_be_a_separate_contract_not_a_constant_edge": true,
+    "scene_state_must_be_constant_on_each_certified_edge": true,
+    "unknown_or_hash_mismatch": "UNKNOWN_ABORT"
+  },
+  "current_instances": {
+    "active_object_universe_for_all_stages_bound": false,
+    "active_pair_universe_for_all_stages_bound": false,
+    "event_contract_bound": false,
+    "legacy_required_values_bound": 0,
+    "legacy_required_values_total": 9,
+    "scene_values_bound": false,
+    "stage_instances_bound": 0,
+    "stage_instances_required": 3
+  },
+  "edge_evaluation_authorized": false,
+  "field_types": {
+    "active_object_universe_sha256": {
+      "type": "sha256"
+    },
+    "active_pair_universe_sha256": {
+      "type": "sha256"
+    },
+    "arm_hdrm_state": {
+      "domain": [
+        "LOCKED",
+        "RELEASE_START",
+        "RELEASED",
+        "RELEASE_FAILED"
+      ],
+      "type": "enum"
+    },
+    "gripper_joint1_m": {
+      "domain_m": [
+        0.0,
+        0.0715
+      ],
+      "type": "finite_number"
+    },
+    "gripper_joint2_m": {
+      "domain_m": [
+        0.0,
+        0.0715
+      ],
+      "type": "finite_number"
+    },
+    "solar_hdrm_state": {
+      "reason": "SOLAR_CONDITIONAL_KEEPOUT_REQUIRES_HDRM_STATE_BUT_M01_REQUIRED_BINDINGS_OMIT_IT",
+      "type": "structured_per_wing_per_hardpoint_state",
+      "value": null
+    },
+    "solar_latch_state": {
+      "legacy_scalar_forbidden": true,
+      "type": "structured_two_wing_six_hardpoint_state",
+      "value": null
+    },
+    "solar_state": {
+      "domain": [
+        "SOLAR_STOWED",
+        "DEPLOY_STAGE1",
+        "DEPLOY_STAGE2",
+        "DEPLOYED_NOMINAL",
+        "LEFT_FAIL",
+        "RIGHT_FAIL",
+        "BOTH_FAIL"
+      ],
+      "type": "enum"
+    },
+    "target_attached": {
+      "constraint": "ATTACHED_IMPLIES_PRESENT",
+      "type": "boolean"
+    },
+    "target_present": {
+      "type": "boolean"
+    }
+  },
+  "fixed_structure_binding": {
+    "arm_execution_mount_canonical_payload_sha256": "E20544EF880D1792EB3B616A4B74CBD635F130FC9AB5846C6A09E12EA6187B7D",
+    "arm_execution_mount_document_sha256": "B7758F751E273CE21CCD5132C23F2514524DE7613E31B33646E027603B0F6653",
+    "arm_execution_mount_path": "EXECUTION_MOUNT_BINDING_V1.json",
+    "bus_pose_S": "IDENTITY_PROXY_ONLY",
+    "complete_fixed_structure_binding": false,
+    "load_bridge_pose_S": null,
+    "m3r_stage_a_pose_S": null,
+    "m3r_stage_b_pose_S": null
+  },
+  "generated_utc": "DETERMINISTIC_SCHEMA_NO_WALLCLOCK",
+  "known_universe_gaps": [
+    "ARM_HDRM_NOT_IN_150_OBJECT_UNIVERSE",
+    "G07_G08_MID_STOW_SUPPORTS_NOT_IN_150_OBJECT_UNIVERSE",
+    "TARGET_NOT_IN_150_OBJECT_UNIVERSE"
+  ],
+  "next_stage_authorized": false,
+  "pair_evaluation_authorized": false,
+  "path_search_authorized": false,
+  "release_credit": false,
+  "scene_binding_complete": false,
+  "scene_schema_complete": true,
+  "schema": "M01_THREE_STAGE_SCENE_SCHEMA_V2",
+  "schema_contract": {
+    "continuous_q_contract": {
+      "candidate_path_bound": false,
+      "candidate_path_sha256": null,
+      "fixed_goal_name": "RELEASE_CLEAR",
+      "fixed_start_name": "STOW",
+      "joint_order": [
+        "joint1",
+        "joint2",
+        "joint3",
+        "joint4",
+        "joint5",
+        "joint6"
+      ],
+      "q6_is_separate_from_discrete_scene_state": true,
+      "q_goal_rad": [
+        -1.570796,
+        -2.094395,
+        -2.094395,
+        -1.047198,
+        -0.523599,
+        0.0
+      ],
+      "q_start_rad": [
+        2.540711,
+        -2.932153,
+        -0.994838,
+        -0.718081,
+        -0.365716,
+        -0.05236
+      ],
+      "unit": "rad"
+    },
+    "stage_order": [
+      "PRE_RELEASE_CONSTANT_SCENE",
+      "RELEASE_EVENT_SCENE",
+      "POST_RELEASE_CONSTANT_SCENE"
+    ],
+    "stages": [
+      {
+        "arm_hdrm_state_value": null,
+        "instance": null,
+        "kind": "CONSTANT_SCENE_EDGE",
+        "required_constant_fields": [
+          "gripper_joint1_m",
+          "gripper_joint2_m",
+          "solar_state",
+          "solar_hdrm_state",
+          "solar_latch_state",
+          "arm_hdrm_state",
+          "target_present",
+          "target_attached",
+          "active_object_universe_sha256",
+          "active_pair_universe_sha256"
+        ],
+        "stage_id": "PRE_RELEASE_CONSTANT_SCENE",
+        "status": "SCHEMA_BOUND__INSTANCE_VALUES_UNKNOWN"
+      },
+      {
+        "event_values": null,
+        "instance": null,
+        "kind": "DISCRETE_EVENT_CONTRACT",
+        "required_fields": [
+          "event_id",
+          "event_time_or_ordering",
+          "pre_scene_sha256",
+          "post_scene_sha256",
+          "arm_hdrm_state_t0_minus",
+          "arm_hdrm_state_t0_plus",
+          "release_outcome",
+          "released_constraint_ids",
+          "retained_constraint_ids",
+          "failure_disposition"
+        ],
+        "stage_id": "RELEASE_EVENT_SCENE",
+        "status": "SCHEMA_BOUND__EVENT_CONTRACT_INSTANCE_UNKNOWN"
+      },
+      {
+        "arm_hdrm_state_value": null,
+        "instance": null,
+        "kind": "CONSTANT_SCENE_EDGE",
+        "required_constant_fields": [
+          "gripper_joint1_m",
+          "gripper_joint2_m",
+          "solar_state",
+          "solar_hdrm_state",
+          "solar_latch_state",
+          "arm_hdrm_state",
+          "target_present",
+          "target_attached",
+          "active_object_universe_sha256",
+          "active_pair_universe_sha256"
+        ],
+        "stage_id": "POST_RELEASE_CONSTANT_SCENE",
+        "status": "SCHEMA_BOUND__INSTANCE_VALUES_UNKNOWN"
+      }
+    ]
+  },
+  "schema_contract_sha256": "5E8C58BFE20B53EF0AFE62ECF6B05EA5615D1B8950FB9ED8EACF706AFAE1BDBF",
+  "source_pins": {
+    "option_a_scope_sha256": "B10972A8FFB01CFA1A99DDEAA9A5A018038E87BE6E649749FDD31B490DF6C308",
+    "pair_universe_sha256": "C1F64FB26D4E563EEF6BF798EE163645FE16766CC3C510552769DB7FDF97306C",
+    "scene_intake_sha256": "725EA607DAE3C268945B457CAE68D90134FB4B13F94882BE70912B4A70D36352",
+    "system_registry_sha256": "AC975D11CC4715277E34FCFF7ABF049BC57334FD8F03AAB223BBED0877B1694F"
+  },
+  "supersedes": {
+    "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_BINDING_INTAKE_V1/SYSTEM_SCENE_STATE_INTAKE_V1.json",
+    "scope": "M01_EVENT_PARTITION_SCHEMA_ONLY",
+    "sha256": "725EA607DAE3C268945B457CAE68D90134FB4B13F94882BE70912B4A70D36352"
+  },
+  "verdict": "M01_THREE_STAGE_SCENE_SCHEMA_V2_BOUND__ZERO_STAGE_INSTANCES__NO_OBJECT_STATE_INFERRED__PAIR_EDGE_PATH_HOLD"
+}

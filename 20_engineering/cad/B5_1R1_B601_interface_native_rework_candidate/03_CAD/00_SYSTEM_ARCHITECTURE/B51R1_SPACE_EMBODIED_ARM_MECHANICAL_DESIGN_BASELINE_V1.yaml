@@ -1,0 +1,160 @@
+schema: B51R1_SPACE_EMBODIED_ARM_MECHANICAL_DESIGN_BASELINE_V1
+generated_at: '2026-08-01T23:31:16.137503+08:00'
+status: ENGINEERING_CANDIDATE_BASELINE_NO_FLIGHT_CREDIT
+authority:
+  accepted_urdf:
+    path: 00_BASELINE/AUTHORITIES/accepted_urdf/arm_b601_v1.urdf
+    bytes: 11321
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    role: KINEMATICS_MASS_INERTIA_AUTHORITY
+    mode: READ_ONLY_HASH_GUARD
+  standing_delegation:
+    path: 09_DELIVERY/B51R1_AUTONOMOUS_G1A_CLOSURE_20260801/B51R1_AUTONOMOUS_STANDING_DELEGATION_RECEIPT.json
+    bytes: 2676
+    sha256: 0224D82ABD52C7A5801CF2D0C04E2D80D54022C35E6C76DE1AE9A8378A46F040
+    role: OWNER_STANDING_DELEGATION
+    mode: READ_ONLY_HASH_GUARD
+system_layers:
+- id: LAYER_0
+  name: MASTER_SKELETON
+  content: ZERO_BODY_DATUM_INTERFACE_KEEPOUT_CONTROL
+- id: LAYER_1
+  name: KINEMATIC_CARRIERS
+  content: TEN_ZERO_MASS_CARRIERS_6R_1FIXED_2P
+- id: LAYER_2
+  name: FINE_GEOMETRY
+  content: RIGID_VISUAL_MOUNT_ONLY_NO_MOTION_MATES
+- id: LAYER_3
+  name: SPACECRAFT_INTERFACE
+  content: PANEL_BYPASS_ADAPTER_PLUS_G07_G08_HDRM
+- id: LAYER_4
+  name: EMBODIED_SAFETY
+  content: PERCEPTION_TO_PHYSICS_TO_SAFE_UNKNOWN_TO_CONTROL
+master_skeleton:
+  coordinate_tracks:
+    task_face_x_mm: 183.0
+    dynamics_mount_x_mm: 185.25
+    display_mount_x_mm: 198.0
+    a0_clock_deg: 25.0
+  cross_section_datums_mm:
+    longeron_axis_abs_yz: 101.65
+    primary_surface_abs_yz: 110.15
+    panel_outer_abs_yz: 113.15
+  mount_target:
+    face_mm:
+    - 160.0
+    - 160.0
+    central_keep_clear_diameter_mm: 100.0
+  configurations:
+  - COMMON_CANONICAL
+  - MODE_A_EVALUATION
+  - MODE_B_EVALUATION
+  keepouts:
+    solar_sweep: TBD_HOLD
+    arm_release: TBD_HOLD
+    harness: TBD_HOLD
+    service_access: TBD_HOLD
+arm_topology:
+  links:
+  - base_link
+  - link1
+  - link2
+  - link3
+  - link4
+  - link5
+  - link6
+  - gripper_link
+  - gripper_left
+  - gripper_right
+  joints:
+  - joint1
+  - joint2
+  - joint3
+  - joint4
+  - joint5
+  - joint6
+  - gripper_joint
+  - gripper_joint1
+  - gripper_joint2
+  semantic: 6R_PLUS_1_FIXED_PLUS_2_INDEPENDENT_P
+  branch_parent: gripper_link
+mode_axes:
+  packaging_mode:
+  - COMMON
+  - MODE_A
+  - MODE_B
+  gripper_mode:
+  - DYNAMICS_V1_LOCKED
+  - MECHANISM_2P_ACTIVE
+  gripper_lock_values: TBD_AUTHORITY_NO_DEFAULT_TO_Q0
+  mechanism_2p_numeric_states:
+  - MIN_NUMERIC
+  - MID_NUMERIC
+  - MAX_NUMERIC
+  - ASYMMETRIC
+  - FOUR_CORNERS
+adapter_candidates:
+- id: A
+  name: DUAL_TRANSVERSE_PRIMARY_BRIDGE
+  load_path: B601_FLANGE_TO_TWO_CROSSBEAMS_TO_FOUR_NAMED_LONGERON_NODES
+  central_channel: PRESERVE_D100
+  panel_credit: NONE
+- id: B
+  name: FORE_AFT_MAIN_FRAME_BRIDGE
+  load_path: B601_FLANGE_TO_FORE_AFT_BRIDGE_TO_TWO_NAMED_TRANSVERSE_FRAMES
+  central_channel: PRESERVE_D100
+  panel_credit: NONE
+- id: C
+  name: LOCAL_REINFORCEMENT_RING
+  load_path: B601_FLANGE_TO_CLOSED_RING_TO_FOUR_PRIMARY_NODE_ATTACHMENTS
+  central_channel: PRESERVE_D100
+  panel_credit: NONE
+adapter_trade_weights:
+  primary_load_path: 0.25
+  h10_and_keepout: 0.15
+  stiffness_trend: 0.15
+  mass_trend: 0.1
+  tool_and_service_access: 0.1
+  mode_a_b_compatibility: 0.1
+  central_channel_and_harness: 0.1
+  manufacturability_candidate: 0.05
+adapter_downselect: NONE_UNTIL_S10_MACHINE_EVIDENCE
+stowage_candidate:
+  architecture: TWO_STATION_KINEMATIC_COMPLIANT_RESTRAINT_WITH_INDEPENDENT_HDRM_PRELOAD
+  G07: PRIMARY_V_LOCATOR_RESTRAINS_TWO_LOCAL_NORMAL_DIRECTIONS_ALLOWS_AXIAL_FLOAT
+  G08: SECONDARY_FLAT_FLOATING_SADDLE_RESTRAINS_ONE_LOCAL_NORMAL_DIRECTION
+  compliance: METALLIC_FLEXURE_OR_SPHERICAL_WASHER_CANDIDATE_TBD
+  HDRM: PRELOAD_NORMAL_TO_SADDLES_RELEASE_RETRACTS_OUTSIDE_RESIDUAL_KEEPOUT
+  panel_bypass: ALL_SUPPORT_STANDOFFS_CONNECT_TO_NAMED_PRIMARY_FRAMES_OR_LONGERONS_WITH_PANEL_CLEARANCE
+  contact_model: UNILATERAL_OPEN_STICK_SLIP_WITH_PRELOAD_TOLERANCE_AND_COMPLIANCE_TBD
+  flight_device_selection: NOT_SELECTED
+verification:
+  T005:
+  - A0_20_IMMUTABLE_POSES
+  - B0_SAME_DOCUMENT_CONTINUOUS_AND_Q0_RETURN
+  - C0_NORMAL_EXIT_COLD_REOPEN
+  - FORMAL_A_B_C_AFTER_FINE_GEOMETRY
+  clearance:
+  - G8A_RIGID_NOMINAL
+  - S15_UNCERTAINTY_ENVELOPES
+  - G8B_ROBUST_CONTINUOUS
+  H10: 28_OF_28_ROW_MEASUREMENT_AND_HASH_REQUIRED
+  mass_books:
+  - DYNAMICS_AUTHORITY
+  - PHYSICAL_CAD
+  - SYSTEM_ADDITIVE_OVERLAY
+provisional_items:
+- LOAD_SPECTRUM
+- MATERIAL_RELEASE
+- FASTENER_PATTERN
+- HDRM_DEVICE
+- PAD_FRICTION_AND_COMPLIANCE
+- THERMAL_MAP
+- HARNESS_PROPERTIES
+- SENSOR_MODELS
+forbidden_claims:
+- MANUFACTURING_READY
+- LAUNCH_QUALIFIED
+- FLIGHT_READY
+- FINAL_H9_ARCHITECTURE
+reconciled_at: '2026-08-02T00:10:12.104458+08:00'

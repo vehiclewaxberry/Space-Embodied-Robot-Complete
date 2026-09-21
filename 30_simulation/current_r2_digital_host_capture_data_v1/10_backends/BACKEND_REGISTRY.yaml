@@ -1,0 +1,36 @@
+# 后端注册表：一套物理合同，后端各司其职。所有后端消费同一 plant hash/frame/unit/scenario/seed。
+schema: BACKEND_REGISTRY_V1
+unified_interface:   # 目标适配器接口（本增量 DH_V1 已实现子集）
+  methods: [reset(scenario,seed), set_state(x0), step(control,dt), get_state(), get_contact(), get_momentum_ledger(), get_safety_inputs(), export_timeseries()]
+backends:
+  REFERENCE_HISTORY:
+    role: 历史数字回归与 Binding-Gate 证据（source-only 回放）
+    modules: [30_simulation/sim_10_mission_feasibility, 30_simulation/sim_11_coupled_dynamics, 30_simulation/sim_12_strategy_feasibility]
+    status: FROZEN_RESULTS_HASH_REGISTERED
+  REFERENCE_KERNEL_SIM13V2:
+    role: 既有 URDF 树动力学参考核（PB00 消费过）
+    module: 30_simulation/sim_13_physics_gated_embodied_grasping/v2_system_rebind/sim13_v2/free_floating_dynamics.py
+    api: [URDFTreeDynamics, mass_matrix_blocks(Hmm/Hmb/Hbb), base_twist_for_zero_momentum, momentum, kinetic_energy_j, forward_kinematics]
+    status: AVAILABLE_PINNED_NOT_IMPORTED_THIS_INCREMENT   # 本增量自带 kernel 并经独立对拍；跨核对拍列入下增量
+  DH_V1_PREBIND:
+    role: 本增量 prebind plant（S00-S03/S07）
+    module: src/dh_v1/plant.py
+    validation: "13/13 pytest：scipy 欧拉方程对拍<1e-7；CRBA↔动量账本双路径<1e-10；能量守恒<1e-10"
+    solver: {integrator: RK4_fixed_step, quaternion: renormalized_audited}
+    status: ACTIVE_DIAGNOSTIC
+  MUJOCO:
+    role: 快速自由漂浮/接触/控制器联调/批量场景候选
+    status: NOT_INSTALLED
+    admission_conditions:
+      - "inertial 必须显式继承 accepted URDF——禁止 geom 密度自动推断动力学真值（<compiler> 显式 inertial 策略）"
+      - "固定 mujoco 版本与 freejoint 编译行为并入 episode manifest（qpos/qvel 语义随版本变化）"
+      - "S00/S01/S02 全套在该后端重跑且与 DH_V1 对拍后方可产数据"
+  EXUDYN:
+    role: 独立刚柔多体/关节/接触/参数化对拍候选（后续柔性验证）
+    status: NOT_INSTALLED
+    admission_conditions: ["同一 plant hash 消费", "e15 认证教训：交叉求解差>5% 触发 REPEAT，全耦合新模型须重过该 Gate"]
+  ISAAC_SIM:
+    role: 视觉场景/相机/USD/感知数据生成（D3 专用）
+    status: NOT_INSTALLED
+    admission_conditions: ["不作为动量/接触权威", "单位不变性测试扩展到导入链（articulation 弧度 vs USD 度）", "Replicator 种子固定"]
+solver_version_policy: "每 episode 记录 python/numpy/scipy 版本（RESOLVED_CONFIG）；后端安装后其版本与编译选项入 manifest"

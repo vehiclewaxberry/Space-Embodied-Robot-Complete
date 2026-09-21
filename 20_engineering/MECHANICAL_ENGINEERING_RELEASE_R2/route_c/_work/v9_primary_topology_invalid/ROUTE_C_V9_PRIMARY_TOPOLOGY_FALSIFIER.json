@@ -1,0 +1,69 @@
+{
+  "schema": "ROUTE_C_V9_PRIMARY_TOPOLOGY_FALSIFIER_V1",
+  "generated_utc": "DETERMINISTIC_REPLAY_NO_WALLCLOCK",
+  "stage": "ODR_58_PRIMARY_ARCHITECTURE_FALSIFICATION",
+  "owner_authority": "ODR-58",
+  "candidate": "SEGMENTED_CONSTRAINED_MOVING_CARRIER__LOW_PROFILE_DUAL_PLANE_SADDLE",
+  "scope": "continuous articulated carrier topology only; no statement about the authorized technically distinct fallback",
+  "inputs": {
+    "carrier_pitch_mm": 20.0,
+    "plane_a_link_count": 7,
+    "plane_b_link_count": 4,
+    "plane_a_contour_capacity_mm": 140.0,
+    "plane_b_contour_capacity_mm": 80.0,
+    "q4_hardware_limits_rad": [-1.87, 1.57],
+    "carriage_center_x_at_limits_mm": [112.7, 207.3],
+    "plane_a_fixed_x_mm": 20.0,
+    "plane_b_host_x_mm": 75.0,
+    "saddle_radius_mm": 55.036351623268054,
+    "saddle_sweep_rad": 3.141592653589793
+  },
+  "independent_checks": {
+    "plane_a": {
+      "maximum_required_straight_contour_mm": 187.3,
+      "available_contour_mm": 140.0,
+      "shortfall_mm": 47.3,
+      "pass": false
+    },
+    "plane_b": {
+      "maximum_required_straight_contour_mm": 132.3,
+      "available_contour_mm": 80.0,
+      "shortfall_mm": 52.3,
+      "pass": false
+    },
+    "single_chain_without_saddle": {
+      "required_straight_contour_mm": 225.0,
+      "available_11_link_contour_mm": 220.0,
+      "shortfall_mm": 5.0,
+      "pass": false
+    },
+    "single_chain_with_saddle": {
+      "saddle_arc_contour_mm": 172.9018050415077,
+      "minimum_total_contour_mm": 397.9018050415077,
+      "minimum_20mm_pitch_link_count_without_end_allowance": 20,
+      "emitted_link_count": 11,
+      "pass": false
+    }
+  },
+  "falsification_reason": "The emitted 7+4 links cannot be a continuous articulated carrier across the fixed Plane-A leg, the moving R55 saddle, and the Plane-B return. Treating them as permanently assigned 7/4 groups also violates the required dynamic transfer of links around the saddle.",
+  "bounded_repair_status": "CONSUMED_BY_EARLY_R54_BEND_RADIUS_REPAIR",
+  "decision": "PRIMARY_TOPOLOGY_INVALID__TRIGGER_SINGLE_AUTHORIZED_TECHNICALLY_DISTINCT_EXTERNAL_PASSIVE_FALLBACK",
+  "prohibited_actions": [
+    "NO_ADDITIONAL_WAYPOINT_TUNING",
+    "NO_LINK_COUNT_PATCH_MASQUERADING_AS_THE_ALREADY_CONSUMED_BOUNDED_REPAIR",
+    "NO_PRIMARY_ROUTE_C_PASS_OR_RELEASE_CREDIT"
+  ],
+  "archived_artifact_hashes": {
+    "B601_ROUTE_C_BUILD_V9.py": "F9B17ECF4C89FBA04F00EDBDF4D889DE181ECAEF37F05006B769C595BFF4482F",
+    "B601_ROUTE_C_BUILD_RECEIPT_V9.json": "7CC273DB37B9F2F23D496B539F92F1FF85EF6AAE6C30C36FE7E1F09F7D142FC5",
+    "B601_ROUTE_C_GUIDED_DRESS_PACK_V9.FCStd": "FFF2F72F3CCB45C4038F7B97939C2B0BC72DC55BF2A13D0219588E69EA2DE4D5",
+    "B601_ROUTE_C_GUIDED_DRESS_PACK_V9.step": "A34311B0C95379A4C9005814428A67B049A94DF0B25C9518AD126E682861CB58",
+    "B601_ROUTE_C_HARNESS_CENTERLINE_V9.json": "012E86CD6CFEBE914F9FEEB85835EA24BFF060F7E804206E981CD8BD3B18552A",
+    "B601_ROUTE_C_CLAMP_AND_GUIDE_REGISTER_V9.csv": "F726A7A6F8431091C137F1E9EAF15B991384884241070DEE09056FAC4BD7D4D8",
+    "B601_ROUTE_C_MASS_DELTA_BY_LINK_CANDIDATES_V9.json": "6C3D08853790EC0C8B451F73CA5DF144928AE87446F612D8EB325FFBB0526344",
+    "ROUTE_C_SWEEP_MESH_PACK_V9/MANIFEST.json": "485BCF4E7AF3455B166A0C8E8BF11281B168E75D8F93A830581EDA6F069D7BC1"
+  },
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

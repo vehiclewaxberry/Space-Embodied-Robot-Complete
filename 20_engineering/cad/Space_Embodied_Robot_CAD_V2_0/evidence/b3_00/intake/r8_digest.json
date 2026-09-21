@@ -1,0 +1,184 @@
+{
+  "reader": "R8:pdr+serviceability",
+  "files_read": [
+    "20_engineering/design_review/V2_PDR_package/01_system/system_mechanical_PDR.md",
+    "20_engineering/design_review/V2_PDR_package/03_interfaces/interface_readiness_matrix.yaml",
+    "20_engineering/design_review/V2_PDR_package/04_packaging/packaging_placement_logic.yaml",
+    "20_engineering/design_review/V2_PDR_package/06_serviceability/serviceability_review.md",
+    "20_engineering/design_review/V2_PDR_package/09_digital_thread/frame_mapping.yaml",
+    "20_engineering/design_review/V2_PDR_package/09_digital_thread/mass_owner.yaml",
+    "20_engineering/design_review/V2_PDR_package/09_digital_thread/CAD_ID.yaml"
+  ],
+  "key_parameters": [
+    {
+      "name": "body profile (NON_FLIGHT_DISPLAY_ONLY)",
+      "value": "340.5 x 226.3 x 226.3",
+      "unit": "mm",
+      "source": "01_system/system_mechanical_PDR.md §2"
+    },
+    {
+      "name": "frame S origin",
+      "value": "body envelope center; task direction +X_S",
+      "unit": "-",
+      "source": "01_system/system_mechanical_PDR.md §2; 09_digital_thread/frame_mapping.yaml"
+    },
+    {
+      "name": "bay boundary planes (rear/middle/front)",
+      "value": "X_S = -56.75 and +56.75",
+      "unit": "mm",
+      "source": "01_system/system_mechanical_PDR.md §2"
+    },
+    {
+      "name": "T_SM (frame M, robot mounting face, parent S)",
+      "value": "translation [185.25, 0.0, 0.0], rotation Ry = +90 deg; future CAD CS = CS_M; interface IF-RM-001",
+      "unit": "mm / deg",
+      "source": "09_digital_thread/frame_mapping.yaml"
+    },
+    {
+      "name": "T_MA0 (frame A0, accepted B601 root, parent M)",
+      "value": "identity contract; future CAD CS = CS_A0; interface IF-RM-002",
+      "unit": "-",
+      "source": "09_digital_thread/frame_mapping.yaml"
+    },
+    {
+      "name": "F_L left solar root origin (parent S)",
+      "value": "[-56.75, 113.15, 0.0]; orientation inherited_source_not_redefined; CS_SOLAR_L; IF-SA-L",
+      "unit": "mm",
+      "source": "09_digital_thread/frame_mapping.yaml; 03_interfaces/interface_readiness_matrix.yaml; 04_packaging/packaging_placement_logic.yaml"
+    },
+    {
+      "name": "F_R right solar root origin (parent S)",
+      "value": "[-56.75, -113.15, 0.0]; orientation inherited_source_not_redefined; CS_SOLAR_R; IF-SA-R",
+      "unit": "mm",
+      "source": "09_digital_thread/frame_mapping.yaml; 03_interfaces/interface_readiness_matrix.yaml; 04_packaging/packaging_placement_logic.yaml"
+    },
+    {
+      "name": "T_SB / T_E_TCP / T_SC / T_ST_or_T_SD",
+      "value": "all null; states UNKNOWN_BLOCKED (T_ST/T_SD EXCLUDED); CAD CS suppressed: CS_B_SUPPRESSED, CS_TCP_CONTACT_SUPPRESSED, CS_SENSOR_SUPPRESSED; target future_CAD_CS = null",
+      "unit": "-",
+      "source": "09_digital_thread/frame_mapping.yaml"
+    },
+    {
+      "name": "servicer_12U_bus_v1 mass",
+      "value": "23.3032134 (PROVISIONAL_SOURCE_BOUND, NOT_WEIGHED)",
+      "unit": "kg",
+      "source": "09_digital_thread/mass_owner.yaml (ledger: 20_engineering/design_inputs/v2_system_mechanical/05_mass_budget/V2_mass_ownership_table.csv)"
+    },
+    {
+      "name": "solar_panel_left_v1 / solar_panel_right_v1 mass",
+      "value": "0.3483933 each (PROVISIONAL_SOURCE_BOUND, NOT_WEIGHED)",
+      "unit": "kg",
+      "source": "09_digital_thread/mass_owner.yaml"
+    },
+    {
+      "name": "robot_mount_adapter_v0 mass",
+      "value": "1.2 (PROVISIONAL_SOURCE_BOUND, NOT_WEIGHED)",
+      "unit": "kg",
+      "source": "09_digital_thread/mass_owner.yaml"
+    },
+    {
+      "name": "B601_accepted_full_10link mass",
+      "value": "4.6955559493429862 (DIGITAL_SOURCE_NOT_WEIGHED)",
+      "unit": "kg",
+      "source": "09_digital_thread/mass_owner.yaml"
+    },
+    {
+      "name": "provisional_ledger_total_kg",
+      "value": "29.8955559493429862; total_claim_limit = NOT_A_COMPLETE_OR_MEASURED_SYSTEM_MASS",
+      "unit": "kg",
+      "source": "09_digital_thread/mass_owner.yaml"
+    },
+    {
+      "name": "excluded_from_servicer_total",
+      "value": "target_satellite_v0 = 22.0 kg; target_debris_v0 = 150.0 kg; whole_satellite_24kg_alternative excluded_to_avoid_double_count",
+      "unit": "kg",
+      "source": "09_digital_thread/mass_owner.yaml"
+    },
+    {
+      "name": "B601 identity",
+      "value": "accepted 10-link / 9-joint, EVIDENCE_BOUND / READ_ONLY; frame G inherited from accepted URDF; E_virtual parent = B601_link6",
+      "unit": "-",
+      "source": "01_system/system_mechanical_PDR.md §2; 09_digital_thread/frame_mapping.yaml"
+    },
+    {
+      "name": "root assembly future file",
+      "value": "Spacecraft_Service_Vehicle_V2_0.SLDASM in directory Assembly (naming_exception_reason: inherited_B2_5_reserved_output_path)",
+      "unit": "-",
+      "source": "09_digital_thread/CAD_ID.yaml"
+    },
+    {
+      "name": "master skeleton future file",
+      "value": "Master_Skeleton_V2_0.SLDPRT in directory 00_Master_Skeleton (naming_exception_reason: inherited_B2_5_reserved_output_path); class SEMANTIC_REFERENCE, frame S",
+      "unit": "-",
+      "source": "09_digital_thread/CAD_ID.yaml"
+    },
+    {
+      "name": "interface_count",
+      "value": "10; all_ids_match_B2_5 = true; default_material_or_load_used = false; active_target_interface_enabled = false",
+      "unit": "-",
+      "source": "03_interfaces/interface_readiness_matrix.yaml global_checks"
+    },
+    {
+      "name": "V1 deployed q0 interference record",
+      "value": "1 record / 10 static interferences, NEGATIVE_RESULT_PRESERVED, must be inherited in service/deployed review",
+      "unit": "-",
+      "source": "01_system/system_mechanical_PDR.md §2,§8; 06_serviceability/serviceability_review.md §6,§7"
+    }
+  ],
+  "rules": [
+    "装配树与属性层面必须分离：主结构 / 次结构 / 设备占位 / reference geometry 四类（PDR §3）；外板、设备托盘、线束走廊属于 service/reference 层，不得自动承担主结构职责。",
+    "top-down Master Skeleton 建模；使用独立 V2 根；禁止复用 V1 原生零件作为活动外部引用。",
+    "B601 主安装链唯一路径 = 任务面中央 M/A0（IF-RM-001 -> adapter -> IF-RM-002）；机械臂反力不得终止在可拆面板（须走 primary-frame load-spreading path）。",
+    "frame_mapping rules（全部为硬禁令）：T_SB_may_be_used_for_robot_mount=false；unknown_transform_zero_fill_allowed=false（未知变换禁止填零）；CAD_manual_visual_alignment_allowed=false（禁止手动目视对齐）；target_contact_mate_allowed=false。",
+    "packaging global_rules：owner_first_not_hardware_first=true；exact_coordinates_without_source_allowed=false（无来源禁写精确坐标）；owner_overlap_allowed=false；placeholder_mass_authority=false；placeholder_dynamics_authority=false；target_in_active_assembly=false。",
+    "mass_owner rules：default_density_allowed=false；CAD_recalculation_overrides_ledger=false（CAD 计算质量不得覆盖账本）；unknown_owner_enters_total=false；aggregate_CoM_or_inertia_authorized=false；所有 future_CAD_mapping 条目 CAD_mass_authority=false；SV2-ASM-010 不允许现在分解为原生零件（decomposition_to_native_parts_allowed_now=false）；SV2-MNT-051 禁止板+凸台双计质量；SV2-ASM-070 左右帆板须保留源值。",
+    "CAD_ID authority：files_created=false；names_reserve_creation_authority=false（名称登记不等于创建授权）；IDs_may_be_reused_for_unrelated_objects=false（ID 不得挪用）。target 与 physical TCP/contact 无 CAD_ID，禁止建为对象。",
+    "未知/被阻断 frame 在 CAD 中只能以 SUPPRESSED CS 存在（CS_B_SUPPRESSED、CS_TCP_CONTACT_SUPPRESSED、CS_SENSOR_SUPPRESSED），enabled=false；感知接口 IF-PL-001 仅 zero_solid_reserved_region；IF-EE-001 仅 semantic_reference_only。",
+    "太阳翼接口只允许 root plane + swept keepout owner（root_plane_and_keepout_owner_only）；stowed/hinge/release/lock 未闭合，不得实体化机构。",
+    "具名配置固定五个：STRUCTURAL_REVIEW（仅拓扑）、SERVICE_ACCESS_REVIEW（无已验证净空）、DEPLOYED_REFERENCE_Q0（无碰撞安全声明）、STOWED_PROPOSAL（无飞行/展开声明）、EVIDENCE_STATE_REVIEW（按状态着色，无物理升级）——每个配置的 claim limit 必须保留。",
+    "SERVICE_ACCESS_REVIEW 序列（顺序受控）：suppress independent target scene -> display B601 q0 reference and mount keepout -> remove front access panel proposal -> expose IF-RM-001 tool-access owner -> retain primary frame/load-path references；该序列不授权实际拆装、不定义 fastener。",
+    "负结果政策：V1 DEPLOYED_REFERENCE_Q0 十处静态干涉必须继承；不得通过隐藏/抑制/移动受控对象把负结果改成 PASS；新发现阻塞须记录 configuration、joint state、solar state、suppressed objects、claim limit。",
+    "线束仅建 longitudinal corridor owner + branch owner 的 reference curve；cross-section/connector/bend radius/power-data-RF 分离/接地/运动关节走线/热-EMC 全部保持 null；reference curve 不构成线束设计完成。",
+    "所有访问方向（+X_S front / -X_S rear / ±Y_S side / ±Z_S top-bottom / middle tray）均为 DESIGN_PROPOSAL，不得声明为已验证装配工艺。",
+    "禁止用典型值补齐材料、载荷、质量或连接；视觉几何不得写成物理真值；任务愿景不得写成已实现能力；不得破坏 V1.0、B601、Gate、仿真与证据链。",
+    "target 只能作为 independent scene（IF-TG-001：physical_connection=prohibited, load_definition=prohibited），禁止 active mate 或进入主动装配。",
+    "命名模式：结构件 SV2_STR_xx_*.SLDPRT、甲板 SV2_DECK_xx_*.SLDPRT、子装配 SV2_ASM_xx_*.SLDASM；根装配与骨架沿用 B2.5 保留输出路径（Assembly/、00_Master_Skeleton/）。"
+  ],
+  "identifiers": [
+    "REVIEW_ID: COMP-PROT-03-A4-B2.8-PDR",
+    "matrix_id: SV2_PDR_INTERFACE_READINESS",
+    "register_id: SV2_PDR_PACKAGING_LOGIC",
+    "mapping_id: SV2_PDR_FRAME_MAPPING",
+    "mapping_id: SV2_PDR_MASS_OWNER",
+    "registry_id: SV2_PDR_CAD_ID",
+    "接口ID: IF-RM-001, IF-RM-002, IF-SA-L, IF-SA-R, IF-PL-001, IF-EE-001, IF-AV-001, IF-SV-001, IF-MA-001, IF-TG-001",
+    "frame ID: S, M, A0, B, F_L, F_R, G, E_virtual, TCP_contact, C, T_or_D",
+    "future CAD CS: CS_S, CS_M, CS_A0, CS_B_SUPPRESSED, CS_SOLAR_L, CS_SOLAR_R, CS_G_REFERENCE, CS_E_VIRTUAL, CS_TCP_CONTACT_SUPPRESSED, CS_SENSOR_SUPPRESSED",
+    "CAD_ID/object_id: SV2-ASM-000/SV2_SPACE_SERVICE_VEHICLE, SV2-REF-000/SV2_MASTER_SKELETON, SV2-ASM-010/SV2_PRIMARY_STRUCTURE, SV2-STR-011/SV2_TRANSVERSE_FRAME_SET, SV2-STR-012/SV2_LONGERON_SET, SV2-DECK-013/SV2_BAY_BOUNDARY_DECK_SET, SV2-ASM-020/SV2_FRONT_MISSION_MODULE, SV2-ASM-030/SV2_MID_AVIONICS_MODULE, SV2-ASM-040/SV2_REAR_SERVICE_MODULE, SV2-ASM-050/SV2_ROBOT_MOUNT_MODULE, SV2-MNT-051/SV2_ROBOT_ADAPTER_REFERENCE, SV2-ASM-060/SV2_B601_REFERENCE, SV2-ASM-070/SV2_SOLAR_INTERFACE_MODULE, SV2-ASM-080/SV2_PERCEPTION_REFERENCE, SV2-ASM-090/SV2_SERVICE_REFERENCES, SV2-ASM-100/SV2_REVIEW_OVERLAYS",
+    "future files: Spacecraft_Service_Vehicle_V2_0.SLDASM, Master_Skeleton_V2_0.SLDPRT, SV2_ASM_01_PRIMARY_STRUCTURE.SLDASM, SV2_STR_01_TRANSVERSE_FRAME_SET.SLDPRT, SV2_STR_02_LONGERON_SET.SLDPRT, SV2_DECK_01_BAY_BOUNDARY_SET.SLDPRT, SV2_ASM_02_FRONT_MISSION.SLDASM, SV2_ASM_03_MID_AVIONICS.SLDASM, SV2_ASM_04_REAR_SERVICE.SLDASM, SV2_ASM_05_ROBOT_MOUNT.SLDASM, SV2_MNT_01_ROBOT_ADAPTER_REFERENCE.SLDPRT, SV2_ASM_06_B601_REFERENCE.SLDASM, SV2_ASM_07_SOLAR_INTERFACES.SLDASM, SV2_ASM_08_PERCEPTION_REFERENCE.SLDASM, SV2_ASM_09_SERVICE_REFERENCES.SLDASM, SV2_ASM_10_REVIEW_OVERLAYS.SLDASM",
+    "volume ID: VOL-FM-ROBOT, VOL-FM-SENSOR, VOL-MID-OBC, VOL-MID-EPS, VOL-MID-BAT, VOL-MID-ADCS, VOL-REAR-PROP, VOL-REAR-COMM, VOL-REAR-THERMAL, VOL-REAR-SERVICE, VOL-SIDE-SOLAR-L, VOL-SIDE-SOLAR-R",
+    "corridor ID: LONGITUDINAL_HARNESS_CORRIDOR_OWNER (start_owner=VOL-REAR-SERVICE, 9 branch owners)",
+    "configuration 名: STRUCTURAL_REVIEW, SERVICE_ACCESS_REVIEW, DEPLOYED_REFERENCE_Q0, STOWED_PROPOSAL, EVIDENCE_STATE_REVIEW",
+    "unknown register 引用: V2-UNK-005, V2-UNK-006, V2-UNK-009, V2-UNK-010, V2-UNK-011, V2-UNK-012, V2-UNK-013, V2-UNK-014, V2-UNK-015, V2-UNK-016",
+    "mass item_id: servicer_12U_bus_v1, solar_panel_left_v1, solar_panel_right_v1, robot_mount_adapter_v0, B601_accepted_full_10link; owner_id: servicer_split_owner, adapter_owner, b601_urdf_owner",
+    "unknown_mass_owners(全 null): C_AND_DH_OWNER, EPS_PMAD_OWNER, BATTERY_OWNER, ADCS_OWNER, PERCEPTION_HARDWARE_OWNER, PROPULSION_OWNER, COMMUNICATIONS_OWNER, THERMAL_OWNER, ELECTRICAL_INTEGRATION_OWNER",
+    "closure owner 角色: Mechanical_Interface_Owner, Loads_and_Dynamics_Owner, Structural_Design_Owner, Robot_Interface_Owner, Hardware_Integration_Owner, Deployables_Owner, Perception_Hardware_Owner, Capture_Interface_Owner, Subsystem_Owners, Integration_and_Maintenance_Owner, Mission_Target_Owner",
+    "系统分解节点: SV2_STR_PRIMARY_STRUCTURE, SV2_MOD_FRONT_MISSION, SV2_MOD_MID_AVIONICS, SV2_MOD_REAR_SERVICE, SV2_MNT_ROBOT, SV2_REF_B601, SV2_IF_SOLAR_LEFT_RIGHT, SV2_REF_SERVICE_AND_HARNESS, SV2_REVIEW_OVERLAYS"
+  ],
+  "gate_status": "见 gate_status 字段",
+  "conflicts_or_gaps": [
+    "授权边界冲突（最重要）：全部 7 份文件一致声明 B3 CAD 未授权（CAD_AUTHORING: NOT_AUTHORIZED、B3_CAD_authorized: false、files_created: false、names_reserve_creation_authority: false，且 PDR §7 明言\"B3 具名人工授权不存在\"）。本次 B3 构建只能依据文件之外的新具名人工授权进行；构建产物不得引用这些文件作为授权来源，且这些状态字符串在文件内不应被 CAD 侧改写。",
+    "F_L/F_R 太阳翼根 frame 只有原点数值，orientation 标注 inherited_source_not_redefined——本包内无姿态数值，须回溯源几何 SSOT（20_engineering/config/geometry/）取向，禁止自行定义。",
+    "太阳翼 swept keepout 只有 owner 语义（root_plane_and_swept_keepout_only），无任何数值几何；stowed 状态 UNKNOWN（EVIDENCE_BOUND_ROOT_STOWED_UNKNOWN）。STOWED_PROPOSAL 配置只能是占位，不得画出机构。",
+    "M 原点 X=185.25 mm 超出 profile 半长 340.5/2=170.25 mm（任务面外 +15 mm）——这是 EVIDENCE_BOUND 数值，构建时不得\"修正\"回箱体表面。",
+    "中/后舱 10 个 volume 全部 coordinates=null（仅 VOL-SIDE-SOLAR-L/R 有坐标）；packaging 规则禁止无来源写精确坐标——占位体只能按 bay+owner 逻辑放置，不得编造具体位置数值。",
+    "CAD_ID.yaml 只给出 root 与 skeleton 的 future_directory（Assembly、00_Master_Skeleton）；其余 14 个对象未指定目录——目录归属需在 B3 构建授权中确认，不能从本包推断。",
+    "质量数值全部 PROVISIONAL_SOURCE_BOUND 且 CAD_mass_authority=false：CAD 内不得给零件写权威质量/材料密度，不得让 SolidWorks 质量计算覆盖账本（与授权边界\"禁止质量惯量权威化\"一致，无冲突但须显式执行）。",
+    "9 个子系统 mass owner 全为 null（unknown_mass_owners）；provisional 总账 29.8955559493429862 kg 明确 NOT_A_COMPLETE_OR_MEASURED_SYSTEM_MASS——任何配置属性中不得出现\"整星质量\"声明。",
+    "IF-PL-001/IF-EE-001（感知、physical TCP）为 UNKNOWN_BLOCKED：只能建 zero-solid 保留区 / 语义引用，对应 CS 必须 SUPPRESSED——与授权边界\"禁止 physical TCP、相机数值 FOV\"一致。",
+    "target（IF-TG-001, T_or_D）EXCLUDED：无 CAD_ID、future_CAD_CS=null、active_assembly=false、连接与载荷 prohibited——V2 主装配内不得出现目标星/碎片任何实体或 mate。",
+    "V1 q0 十处静态干涉为 NEGATIVE_RESULT_PRESERVED：DEPLOYED_REFERENCE_Q0 配置必须原样继承呈现，禁止用抑制/移动把它做成无干涉外观。",
+    "unknown register V2-UNK-005..016 在本包中仅被引用、未定义内容，其定义文件（unknown register 本体）不在本 7 文件内——若构建需引用具体 blocker 语义，需另行读取该 register。"
+  ],
+  "notes": "压缩要点：几何真值仅 5 组数值（profile 340.5x226.3x226.3 mm 显示用、bay 界面 X=±56.75 mm、T_SM=[185.25,0,0]mm+Ry+90°、F_L/F_R=[-56.75,±113.15,0]mm、T_MA0=identity）；其余变换全为 null 且禁止零填。装配树 16 个受控 CAD_ID + 2 个显式排除对象；B601 为 READ_ONLY 引用（SV2-ASM-060, frame A0）。五个具名配置各带 claim limit，均须按文字建立。质量侧只做 owner 映射属性（CAD_mass_authority=false），账本 CSV 为 20_engineering/design_inputs/v2_system_mechanical/05_mass_budget/V2_mass_ownership_table.csv。所有文件日期 2026-07-24，schema v0.1，ID 集合自检 all_ids_match_B2_5=true。"
+}

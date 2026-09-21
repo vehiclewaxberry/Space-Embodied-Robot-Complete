@@ -1,0 +1,71 @@
+schema: F3R2_V5_ACTION_MASK_RULES_V1
+authority: "V5 action mask is an engineering control-boundary seed; it is not a flight or mission authority"
+top_assembly: SEI_MECH_B601_V5_NATIVE_BASELINE.SLDASM
+accepted_urdf_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+levels:
+  L0: accepted_B601_URDF
+  L1: native_SolidWorks_V5
+  L2: simulation_visual_collision_mesh
+  L3: donor_reference_assets
+purpose: "what an embodied policy is mechanically allowed to command given current V5 evidence"
+joint_limits_deg:
+  joint1:
+    - -160.428183
+    - 160.428183
+  joint2:
+    - -179.908748
+    - 0.0
+  joint3:
+    - -179.908748
+    - 0.0
+  joint4:
+    - -107.143108
+    - 89.954374
+  joint5:
+    - -89.954374
+    - 89.954374
+  joint6:
+    - -179.908748
+    - 179.908748
+hard_rules:
+  -
+    id: AM-1
+    rule: "never command outside the accepted URDF joint limits"
+    enforcement: "clamp and reject, fail-closed"
+  -
+    id: AM-2
+    rule: "keep >= 3.0 deg from any joint limit during autonomous motion"
+    enforcement: "reject the action"
+  -
+    id: AM-3
+    rule: "only the V5 authorized runtime poses and swept segments between them are autonomous"
+    authorised_poses:
+      - Q_DEPLOYED_HOME
+      - Q_RELEASE_CLEAR
+      - Q_SERVICE_READY
+    enforcement: "reject unlisted targets"
+  -
+    id: AM-4
+    rule: "G07/G08/Mid are native V5 supports but preload/bench calibration and native contact validation remain HOLD"
+    enforcement: "no contact-based state estimation from them until native validation"
+  -
+    id: AM-5
+    rule: "never treat HDRM/camera/harness envelope bodies as physical collision truth"
+    enforcement: "excluded from the runtime collision set; functional envelope only"
+  -
+    id: AM-6
+    rule: "gripper OPEN/PREGRASP/CLOSED require native prismatic mates and native minimum-distance evidence; HOLDING is a CLOSED alias without actuator authority"
+    enforcement: "no autonomous jaw opening near structure until native gripper assembly passes"
+  -
+    id: AM-7
+    rule: "STOW, HDRM release and wing deployment are not autonomous runtime states"
+    enforcement: "ground command only"
+  -
+    id: AM-8
+    rule: "SERVICE_CAMERA is UNSELECTED; no vision-based autonomous grasp or docking until camera model and calibration authority"
+    enforcement: "camera-gated tasks remain HOLD"
+clearance_budget_mm:
+  target: 5.0
+  mesh_tier_measured_at_home: 74.05
+  tessellation_deflection: 0.5
+  native_revalidation: REQUIRED_AFTER_V5_TOP_ASSEMBLY

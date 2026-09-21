@@ -1,0 +1,113 @@
+schema_version: v2-primary-load-path-contract-v0.1
+contract_id: SV2_PDR_PRIMARY_LOAD_PATH
+created_on: "2026-07-24"
+status: CONCEPTUAL_TOPOLOGY_ONLY
+
+authority:
+  physical_load_values: false
+  material_or_section_selection: false
+  FEA_use: false
+  strength_stiffness_modal_claim: false
+  future_B3_reference_geometry: true
+
+frames:
+  load_expression_frame: M
+  spacecraft_frame: S
+  transform_ref: T_SM
+
+load_vector_at_M:
+  Fx_N: null
+  Fy_N: null
+  Fz_N: null
+  Mx_Nm: null
+  My_Nm: null
+  Mz_Nm: null
+  state: UNKNOWN_BLOCKED
+  owner: Loads_and_Dynamics_Owner
+
+nodes:
+  - node_id: LP_B601_A0
+    object: accepted_B601_base
+    frame: A0
+    state: EVIDENCE_BOUND_REFERENCE
+  - node_id: LP_ADAPTER
+    object: robot_mount_adapter
+    frame: M
+    state: EVIDENCE_BOUND_ENVELOPE_PHYSICS_OPEN
+  - node_id: LP_FRONT_FRAME
+    object: front_task_face_frame
+    x_S_mm: 170.25
+    state: DESIGN_PROPOSAL
+  - node_id: LP_LONGERON_SET
+    object: four_longitudinal_primary_members
+    count: 4
+    section: null
+    material: null
+    state: DESIGN_PROPOSAL
+  - node_id: LP_MID_FRONT_FRAME
+    object: mid_front_bay_frame
+    x_S_mm: 56.75
+    state: DESIGN_PROPOSAL
+  - node_id: LP_REAR_MID_FRAME
+    object: rear_mid_bay_frame
+    x_S_mm: -56.75
+    state: DESIGN_PROPOSAL
+  - node_id: LP_REAR_FRAME
+    object: rear_boundary_frame
+    x_S_mm: -170.25
+    external_boundary: null
+    state: DESIGN_PROPOSAL_WITH_UNKNOWN_EXTERNAL_BOUNDARY
+
+edges:
+  - edge_id: LPE_001
+    from: LP_B601_A0
+    to: LP_ADAPTER
+    interface: IF-RM-002
+    connection_definition: null
+    state: EVIDENCE_BOUND_INTERFACE_PHYSICS_OPEN
+  - edge_id: LPE_002
+    from: LP_ADAPTER
+    to: LP_FRONT_FRAME
+    interface: IF-RM-001
+    connection_definition: null
+    state: DESIGN_PROPOSAL
+  - edge_id: LPE_003
+    from: LP_FRONT_FRAME
+    to: LP_LONGERON_SET
+    connection_definition: null
+    state: DESIGN_PROPOSAL
+  - edge_id: LPE_004
+    from: LP_LONGERON_SET
+    to: LP_MID_FRONT_FRAME
+    connection_definition: null
+    state: DESIGN_PROPOSAL
+  - edge_id: LPE_005
+    from: LP_MID_FRONT_FRAME
+    to: LP_REAR_MID_FRAME
+    connection_definition: null
+    state: DESIGN_PROPOSAL
+  - edge_id: LPE_006
+    from: LP_REAR_MID_FRAME
+    to: LP_REAR_FRAME
+    connection_definition: null
+    state: DESIGN_PROPOSAL
+
+secondary_or_reference_paths:
+  removable_panels:
+    classification: SECONDARY_PROPOSAL
+    may_close_primary_path: false
+  subsystem_placeholders:
+    classification: REFERENCE_ONLY
+    may_close_primary_path: false
+  harness_and_keepout:
+    classification: REFERENCE_ONLY
+    may_close_primary_path: false
+  target:
+    classification: EXCLUDED
+    may_close_primary_path: false
+
+blocked_by:
+  - V2-UNK-003
+  - V2-UNK-005
+  - V2-UNK-006
+  - V2-UNK-009

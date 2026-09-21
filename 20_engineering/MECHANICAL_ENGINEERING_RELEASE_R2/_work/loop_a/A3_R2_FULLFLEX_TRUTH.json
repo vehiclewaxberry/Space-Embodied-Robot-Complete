@@ -1,0 +1,59 @@
+{
+ "checkpoint_a": {
+  "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/checkpoint_a/R2_FULL_FLEX_GATE_V1.json",
+  "passed": 6,
+  "total": 12,
+  "failed": [
+   "A07 HF->ROM5 truncation",
+   "A08 Rigid/R1/R2 two-scenario comparison",
+   "A09 e15 rerun",
+   "A10 harness mission coverage",
+   "A11 Route-C C2 registry",
+   "A12 mech-to-embodied handoff V2"
+  ]
+ },
+ "round3_hf_rom_gate_v2": {
+  "path": ".../r2_full_flex_closure/round3_hf_rom_v2/R2_FULL_FLEX_HF_ROM_GATE_V2.json",
+  "verdict": "PASS_WITH_DECLARED_PROVISIONAL_PHYSICS",
+  "passed": 17,
+  "total": 17,
+  "scope": "R2 component HF + per-wing five-mode ROM only"
+ },
+ "hf_model": {
+  "round2": ".../r2_full_flex_closure/round2_hf_model/ (R2_HF_MODEL_V1.yaml, build_r2_hf_model.py, 183-DOF)",
+  "round3": ".../r2_full_flex_closure/round3_hf_rom_v2/ (R2_HF_MODEL_V2.yaml, R2_FIVE_MODE_ROM_V2.json, R2_HF_ROM_NUMERICAL_DATA_V2.npz, build_r2_hf_rom_v2.py)"
+ },
+ "e22_gate": {
+  "path": "30_simulation/e22_r2_full_flex_coupled_diagnostics/results/E22_R2_FULL_FLEX_COUPLED_GATE_V1.json",
+  "passed": 16,
+  "total": 18,
+  "failed": [
+   "G11",
+   "G17"
+  ],
+  "key_metrics": {
+   "cross_solver_max_relative": 2.2373e-05,
+   "hf_to_rom_five_mode_max_relative": 0.0350587,
+   "limit": 0.01,
+   "independent_minimum_passing_dimension": 6,
+   "best_5D_subset_error": 0.0108296,
+   "6D_subset_B1B2T1T4_error": 0.0065758,
+   "7D_subset_B1B2B3T1T4_error": 0.0027144
+  }
+ },
+ "resolution_authorized_by_owner_directive": "Owner/P2 contract change: reselect 6D B1+B2+T1-T4 family (or 7D B1-B3+T1-T4 to preserve three-bending family) and regenerate upstream ROM; then rerun E22 coupled campaign; complete G17 three-lane (Rigid / Legacy R1 flex / Solar R2 flex) at 22kg@0.5dps and 150kg@3dps; then rerun e15 certification",
+ "e15": {
+  "dir": "30_simulation/e15_ancf_certification/",
+  "current": "REPEAT_ANCF_CERTIFICATION",
+  "max_cross_solver_relative_difference": 0.05637349419858036,
+  "gate_limit": 0.05,
+  "rule": "全耦合新模型须重过该 Gate"
+ },
+ "work_orders_for_loop_b": [
+  "WO-F1: amend ROM dimension contract P2 max5 -> 6D (B1+B2+T1-T4) or 7D; regenerate R2_HF_ROM (new versioned dir, keep V2 immutable)",
+  "WO-F2: rerun E22 with new ROM; G11 must pass <=1%; keep all other 16 criteria green",
+  "WO-F3: complete G17 three-lane same-scope comparison (Rigid / Legacy R1 flex / R2 flex) at both anchors; no empty comparison set",
+  "WO-F4: rerun e15 cross-solver certification on the new R2 full-flex coupled model; record fresh verdict (PASS or REPEAT with numbers)",
+  "WO-F5: propagate EI/GJ/hinge stiffness/damping/latch stiffness LOW-NOMINAL-HIGH bands through all new runs"
+ ]
+}

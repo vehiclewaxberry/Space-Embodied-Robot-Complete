@@ -1,0 +1,41 @@
+record_id: V2_1_HUMAN_CONFLICT_RULINGS
+date: "2026-07-25"
+channel: 用户会话逐项确认（AskUserQuestion 四问四答，全部采纳推荐案）
+
+stowed_topology_declaration:   # H7 前置件，随裁决一并确认
+  fold: 绕根部 X 向铰线折叠，平贴 ±Y 侧面收拢
+  stack_thickness_mm: 238.3        # 226.3+2×6（DERIVED，即 C5 登记项，包络语义仍开放）
+  stow_coverage_x_mm: [-170.25, 56.75]
+  overhang: 翼展 200 > 半高 113.15，外悬约 87mm 折向 -Z（避开前上部 VOL-FM-SENSOR）
+  overhang_registration: 底面 STOW_OVERHANG_KEEPOUT 入维护矩阵
+  shadowing: ±Y 侧面后段（X≤+56.75）收拢态完全遮蔽；前段（X>+56.75）两态可达
+
+rulings:
+  C1:
+    decision: 规则3机制扩展
+    detail: PS-05 规则2 保持默认；LOAD_PATH_INTENT 构件（含甲板）开口不整类豁免，
+      逐开口走规则3通道（doubler-intent + 对抗复审 + 唯一 owner 登记）；
+      B4-1 按 H6 与载荷链冻结同包交付逐构件开口分配表
+  C2:
+    decision: MID2 节点垫为基线
+    detail: 翼根支座足印=MID2 框 ±Y 预设节点垫（与框-纵梁角接头同站共节点）；
+      需后向支撑时允许经同一节点垫机制在 REAR 框加辅垫（禁框腹板中跨）；
+      MNT-P1 新增桥带驳回（违 PS-01 + H2）
+  C3:
+    decision: MID1 站位分段
+    detail: ±Y 侧板在 X=+56.75 分两段——前段任意翼态可拆，后段（215mm 互锁区）
+      仅 DEPLOYED/SERVICE 态可拆；分缝落框缘，两段各遵 PS-07 统一安装合同，
+      全部 NON_STRUCTURAL；不在框上开槽；其余四面保持整板
+  C4:
+    decision: MID2+REAR，禁 MID1
+    detail: HDRM 站位带限 MID2 与 REAR 框 ±Y 节点位；MID1（臂链收口框）排除；
+      收拢翼前端悬臂由展示级模型接受；"MID1 端 HDRM 必要性"登记 OPEN
+      （闭环条件=载荷 owner 签发，受 H2 阻塞）；HDRM_ENVELOPE 保持 named-only UNKNOWN
+
+c5_status: 保持开放（named-only STOWED 表达先行；包络语义待 owner 具名裁决，与 V2-UNK-001 独立并行）
+
+b4_1_authorization:
+  HUMAN_APPROVAL: GRANTED
+  scope: 创建 Space_Embodied_Robot_CAD_V2_1；主结构语义深化；太阳翼机械子装配；
+    七态配置族；工程图；A1-A20 验收链；B601_Visual_Arm_V2_0 原样继承
+  not_authorized: [覆盖 V2.0, FEA, 动力学, 控制, 接触, 飞行/制造合规声明, Git 提交]

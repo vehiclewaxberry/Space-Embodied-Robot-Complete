@@ -1,0 +1,113 @@
+{
+  "schema": "F3_AUDIT_BASELINE_PROTECTION_PROOF_V1",
+  "audit_id": "F3_MECHANICAL_TERMINAL_STATE_AUDIT_AND_HUMAN_VISUAL_REVIEW",
+  "audit_date_local": "2026-08-06",
+  "scope_authorized_this_round": "hash recheck + CAD read-only open + first screenshot batch",
+
+  "save_calls": {
+    "declared_limit": 0,
+    "actual": 0,
+    "evidence": [
+      "99_tools/fc_open_and_capture.py contains no save/saveAs/recompute-then-save call",
+      "99_tools/fc_open_and_capture_v2.py likewise; both log CLOSED_WITHOUT_SAVE save_calls=0",
+      "99_tools/fc_saddle_detail.py was authored but its run was blocked by the execution environment, so it never opened the document"
+    ]
+  },
+
+  "opened_documents": [
+    {
+      "path": "F:/Space-Embodied-Robot-HAG_A_20260804/12_f3_p1_hifi_attachment/15_f3_p3_top_assembly/F3_P3_TOP_ASSEMBLY.FCStd",
+      "software": "FreeCAD 1.1.3 Revision 20260725 (Git shallow)",
+      "mode": "READ_ONLY",
+      "opens_this_round": 2,
+      "pre_sha256": "833bab658dc828958b6933714cda7e7c8702e8489ca237d12f13dc572a1fa199",
+      "post_sha256": "833bab658dc828958b6933714cda7e7c8702e8489ca237d12f13dc572a1fa199",
+      "unchanged": true,
+      "objects": 206,
+      "is_touched_on_open": true,
+      "must_execute_on_open": true,
+      "invalid_shapes": 3,
+      "note": "isTouched/mustExecute were TRUE on open (3 INVALID_SHAPE set the recompute flag). No recompute and no save were performed, so the on-disk file is byte-identical. Visibility flags were toggled in the GUI view state only and discarded on close."
+    }
+  ],
+
+  "terminal_manifest_46": {
+    "pre_recheck": "46/46 MATCH, drift_detected=false",
+    "post_recheck": "46/46 MATCH, drift_detected=false",
+    "manifest_line_count": 46,
+    "claimed_file_count": 46,
+    "missing": 0,
+    "mismatch": 0
+  },
+
+  "l0_truth_assets_post": {
+    "accepted_b601_urdf": {
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+      "sha256": "408147DDC9CC0BBA0FACBF864C559A54D1712262703BA41251514A4303B5A3A4",
+      "unchanged": true
+    },
+    "mass_inertia_budget": {
+      "path": "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv",
+      "sha256": "073C802527E35C9495188EEFD5D8BA51F524D326142CF2AB31E436BAD0899392",
+      "unchanged": true
+    },
+    "v2_3_baseline_freeze_manifest": {
+      "path": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_3_NATIVE_INTEGRATION/baseline_freeze_manifest.yaml",
+      "sha256": "E27F44E58B726CDA8A5402F539B0CD96D74DE59C809721FFECF71458057D89E9",
+      "unchanged": true,
+      "caveat": "the manifest file itself is unchanged, but see finding R3-02: its 108 digests describe the DONOR root, not the integration root it lives in"
+    }
+  },
+
+  "donor_protection": {
+    "root": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2_NATIVE",
+    "files_checked": 108,
+    "match": 108,
+    "mismatch": 0,
+    "opened_this_round": false,
+    "verdict": "DONOR_UNMODIFIED"
+  },
+
+  "forbidden_actions_not_performed": [
+    "no frozen CAD modified",
+    "no accepted URDF modified",
+    "no mass/inertia ledger modified",
+    "no terminal gate modified",
+    "no HOLD register modified",
+    "no 46-file manifest modified",
+    "no drawing or BOM modified",
+    "no donor CAD saved",
+    "no rebuild-save",
+    "no screenshot/report/hash-manifest overwritten",
+    "no B601 internal joint redesign",
+    "no G07/G08/Mid architecture change",
+    "no assembly repositioned-then-saved for screenshot purposes",
+    "no problem fixed without ECR",
+    "no AI-generated image presented as CAD capture",
+    "no old-version screenshot used to represent the current freeze",
+    "no 112-node rerun",
+    "no FEA re-solve",
+    "no ECR submitted"
+  ],
+
+  "audit_write_locations": [
+    "20_engineering/F3_MECHANICAL_TERMINAL_AUDIT_20260806/ (all outputs; created fresh, no pre-existing dir overwritten)"
+  ],
+
+  "cad_processes": {
+    "freecad_before": 0,
+    "freecad_after": 0,
+    "note": "sldworks_fs.exe (SolidWorks file service) was already resident before the audit and was not started, stopped or used by it. SOLIDWORKS itself (F:/Windows_profile/solidworks/SOLIDWORKS/SLDWORKS.exe) was located but NOT launched this round."
+  },
+
+  "screenshot_authenticity": {
+    "all_from_current_frozen_assets": true,
+    "export_method": "FreeCADGui activeView().saveImage - CAD API viewport export (priority 2 of the authorized list)",
+    "resolution": "1920x1080",
+    "ai_generated": 0,
+    "reused_from_older_version": 0,
+    "captured_after_modifying_assembly": 0
+  },
+
+  "verdict": "FROZEN_ASSETS_UNCHANGED_ZERO_SAVE_CALLS_ZERO_DRIFT"
+}

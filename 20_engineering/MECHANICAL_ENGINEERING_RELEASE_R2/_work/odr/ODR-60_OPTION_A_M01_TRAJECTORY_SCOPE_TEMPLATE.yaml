@@ -1,0 +1,225 @@
+schema: ODR60_OPTION_A_M01_TRAJECTORY_SCOPE_TEMPLATE_V1
+generated_utc: DETERMINISTIC_REQUEST_TEMPLATE_NO_WALLCLOCK
+authority: REQUEST_TEMPLATE_ONLY__NOT_AUTHORIZED_FOR_EXECUTION
+decision_token: AUTHORIZE_OPTION_A_FIXED_ENDPOINT_M01_TRAJECTORY_SEARCH
+review_status: PENDING_OWNER_DECISION
+next_stage_authorized: false
+release_credit: false
+
+purpose: >-
+  Test whether the rejected V9F local dress-pack can connect the existing STOW and
+  RELEASE_CLEAR states through one collision-free six-joint M01 path without changing
+  the accepted B601 hardware, URDF, joint limits, spacecraft, M3R, gripper or Solar R2.
+
+input_pins:
+  terminal_ruling:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_V9F_TERMINAL_RULING.json
+    sha256: 09611DDB8ADC96D82C7446B5EDD7877C075DCCEBE9166550014282DDD25054D5
+  mission_trajectory_contract:
+    path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/04_mission/B601_MANDATORY_MISSION_TRAJECTORY_CONTRACT_V1.yaml
+    sha256: C06A40DE171F0517ACB34CCC14C918A9A4252F7B55A425B2CBAC95229B44A98A
+  accepted_b601_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  v9f_source_geometry:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/B601_ROUTE_C_GUIDED_DRESS_PACK_V9F.FCStd
+    sha256: FE4D5AE61DF208E898532BD9E8F7F1341BAE8E3D476CA45B1E5ABDAC6C4F6DC5
+  v9f_mesh_manifest:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_SWEEP_MESH_PACK_V9F/MANIFEST.json
+    sha256: A90123580F73A7FF2DCE3F7A5BDB31DC31A1741D69A3CBFE837CB4DB53A00F25
+  physical_capability_registry:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_PHYSICAL_CAPABILITY_REGISTRY_V2.yaml
+    sha256: 1E70D6F95141C136480EE6F0601DA044C69437EF9AB7066B8A72E8550027CC51
+  exact_evaluator_source:
+    path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/route_c/ROUTE_C_EXACT_SWEEP_V9F.py
+    sha256: 9F26AC9A8DE5E2EEB57103F07B769EB43AC30A8FBAFD90FE8DF5D501FA8C8A7F
+
+joint_order: [joint1, joint2, joint3, joint4, joint5, joint6]
+units:
+  joint_position: rad
+  path_parameter: dimensionless
+  time: s
+  clearance: mm
+  bend_radius: mm
+  resistance_torque: N*m
+
+fixed_endpoint_contract:
+  from_state: STOW
+  to_state: RELEASE_CLEAR
+  purpose: ARM_RELEASE
+  q_start_rad: [2.540711, -2.932153, -0.994838, -0.718081, -0.365716, -0.05236]
+  q_goal_rad: [-1.570796, -2.094395, -2.094395, -1.047198, -0.523599, 0.0]
+  endpoints_may_change_under_this_option: false
+  current_straight_q_path_disposition: REJECTED_BY_RAW_PHYSICAL_PENETRATION_AT_S_0P5
+  alternative_path_existence: UNKNOWN_NOT_SEARCHED
+
+frozen_boundaries:
+  accepted_b601_urdf_modified: false
+  b601_hardware_joint_limits_modified: false
+  b601_vendor_body_modified: false
+  route_c_v9f_geometry_modified: false
+  spacecraft_bus_modified: false
+  m3r_modified: false
+  gripper_r1_modified: false
+  solar_r2_modified: false
+  r2_full_flex_authority_modified: false
+  route_b_reopened: false
+
+authorized_if_owner_selects_this_option:
+  - one bounded deterministic fixed-endpoint six-joint path-search campaign
+  - at most one published candidate path
+  - at most one bounded smoothing or time-parameterization repair of that same path
+  - adaptive verification refinement driven by registered clearance and bend predicates
+  - isolated outputs under a new ODR-60 Option-A work directory
+
+not_authorized_even_if_owner_selects_this_option:
+  - geometry or waypoint-only V10/V11 dress-pack redesign
+  - change of STOW or RELEASE_CLEAR endpoint
+  - mission-domain reduction
+  - accepted URDF or hardware-limit change
+  - caller-supplied PASS or manual collision exemption
+  - use of sparse passing samples as a continuous-path proof
+  - conversion of P08 torsion allocation in deg/m into restoring torque in N*m
+  - downstream release, rebind, handoff or non-ABORT simulation before their own gates
+
+search_domain:
+  path: continuous q(s) in R^6 for s in [0, 1]
+  endpoint_tolerance_rad: 0.0
+  joint_limits: EXACT_ACCEPTED_URDF_E_HW_LIMITS
+  robust_joint_limit_inset_rad: 0.004363323129985824
+  robust_joint_limit_inset_deg: 0.25
+  revolute_joint_modulo_2pi_crossing_allowed: false
+  path_geometry_seed: NOT_PRESCRIBED_BY_THIS_REQUEST
+  time_law: CANDIDATE_ONLY_UNTIL_VELOCITY_ACCELERATION_AND_TORQUE_AUTHORITY_EXISTS
+  bounded_search_rule: >-
+    Internal planner samples may be numerous, but the campaign may publish only one
+    primary candidate and one smoothing/time-law repair. Failure returns to Owner and
+    does not prove mathematical nonexistence of every path.
+
+pre_execution_budget_fields:
+  policy: OWNER_SELECTION_OF_THE_OPTION_A_TOKEN_ADOPTS_THESE_FIXED_COMPUTE_LIMITS
+  classification: EXECUTION_RESOURCE_LIMITS__NOT_PHYSICS_THRESHOLDS
+  max_planner_runs: 12
+  fixed_rng_seed_set: [601, 1601, 2601, 3601, 4601, 5601, 6601, 7601, 8601, 9601, 10601, 11601]
+  max_nodes_total: 600000
+  max_internal_waypoints: 12
+  max_exact_candidates: 1
+  max_smoothing_or_time_law_repairs: 1
+  max_wallclock_s: 14400
+  max_peak_resident_memory_gib: 5.5
+  overrun_policy: ABORT_AND_RETURN_TO_OWNER__NO_AUTOMATIC_BUDGET_EXPANSION
+
+runtime_memory_admission:
+  measure_available_physical_memory_immediately_before_each_run: true
+  nominal_available_memory_min_gib: 6.0
+  nominal_pass_record: MEMORY_GATE_PASS
+  below_nominal_policy: >-
+    Do not run unless a fresh run-specific Owner risk confirmation is bound to a
+    fresh run_id and an execution window not exceeding 7200 seconds.
+  exact_low_memory_confirmation: ACCEPT_SINGLE_RUN_LOW_MEMORY_RISK
+  prior_override_reusable: false
+  low_memory_override_max_window_s: 7200
+  low_memory_override_record:
+    memory_gate_status: OWNER_OVERRIDE_LOW_MEMORY
+    memory_gate_passed: false
+    risk_accepted_for_one_run_only: true
+  low_memory_worker_policy: SINGLE_PROCESS_ONLY__P1_OR_OTHER_MULTIWORKER_EXACT_EVALUATORS_FORBIDDEN
+  warning: OWNER_OVERRIDE_LOW_MEMORY_IS_NOT_A_MEMORY_GATE_PASS_AND_GRANTS_NO_RELEASE_CREDIT
+
+mission_boundary_inputs_required_before_search:
+  gripper_prismatic_joint_configuration: EXPLICIT_VALUE_REQUIRED__IMPLICIT_ZERO_FORBIDDEN
+  solar_r2_configuration: EXPLICIT_VALUE_REQUIRED
+  hdrm_release_state_at_path_start: EXPLICIT_VALUE_REQUIRED
+  mechanical_constraint_release_snapshot: EXPLICIT_VALUE_REQUIRED
+  allowed_collision_matrix: EXPLICIT_HASH_BOUND_MATRIX_REQUIRED
+  bus_geometry_authority: FULL_ASSEMBLY_OR_EXPLICIT_PROXY_LIMITATION_REQUIRED
+
+mandatory_candidate_checks:
+  endpoint_exactness: PASS_REQUIRED
+  finite_six_joint_vectors: PASS_REQUIRED
+  accepted_joint_limits: PASS_REQUIRED_AT_ALL_SAMPLES_AND_REFINEMENTS
+  vendor_b601_self_collision: PASS_REQUIRED
+  route_c_vs_vendor_collision: PASS_REQUIRED
+  route_c_noninterface_self_collision: PASS_REQUIRED
+  spacecraft_bus_collision: PASS_REQUIRED
+  gripper_collision: PASS_REQUIRED
+  solar_r2_keep_out: PASS_REQUIRED
+  registered_interface_window_only: PASS_REQUIRED
+  raw_and_derated_clearance: NONNEGATIVE_REQUIRED
+  dynamic_bend_radius: PASS_REQUIRED
+  pinch: PASS_REQUIRED
+  harness_length_and_take_up: PASS_REQUIRED
+  axial_extension_and_carrier_travel: PASS_REQUIRED
+  clamp_guide_bore_axis: PASS_REQUIRED
+  thermal_tracking_manufacturing_derates: NONZERO_AND_APPLIED
+  empty_comparison_set_count: 0
+  unknown_auto_allow_count: 0
+  nonfinite_value_count: 0
+  complete_ik_gate: PASS_REQUIRED
+  complete_system_collision_gate: PASS_REQUIRED
+  solar_keep_out_gate: PASS_REQUIRED
+  safe_runtime_policy_gate: PASS_REQUIRED
+  candidate_reinserted_into_full_eight_segment_contract: PASS_REQUIRED_FOR_ROUTE_C_COVERAGE_CLAIM
+
+continuous_verification_contract:
+  first_stage: planner_candidate_screen_only
+  final_stage: full_exact_sweep_plus_adaptive_refinement_plus_independent_replay
+  exact_sweep_max_single_joint_increment_deg: 0.25
+  exact_sweep_increment_is_distinct_from_joint_limit_inset: true
+  universal_predicate: every evaluated and adaptively required M01 pose passes all applicable geometric predicates
+  one_negative_pose_rejects_candidate: true
+  finite_positive_samples_prove_all_continuous_states: false
+  reference_and_optimized_evaluator_equivalence_required: true
+  deterministic_replay_required: true
+
+holds_not_closed_by_a_collision_free_path:
+  other_mandatory_trajectory_segments:
+    state: UNRELEASED
+    count_released: 0
+    count_total: 8
+  m01_time_parameterization:
+    state: UNKNOWN
+    missing: [duration, joint_velocity_limits, joint_acceleration_limits, joint_jerk_limits, actuator_dynamics]
+  hdrm_release_sequence: UNKNOWN_NOT_AUTHORIZED
+  full_system_collision_authority: UNKNOWN
+  installed_bundle_torsion_restoring_moment_P08:
+    state: UNKNOWN
+    allocation: [0.0, 10.0]
+    allocation_unit: deg/m
+    warning: >-
+      The allocation controls guide clocking only. It is not a measured or qualified
+      torque curve and cannot be converted into an N*m actuator load without an explicit
+      construction model or test.
+  resistance_torque_gate: HOLD_UNKNOWN_TORSION
+  odr59_tmg2_conformity_rule: ABSENT
+  v9f_nine_configuration_binding: C05_FAIL_C06_C09_HOLD
+  full_hardware_q4_guide_range: DEFERRED_HOLD
+  flight_and_as_built_qualification: HOLD
+
+required_outputs_if_authorized:
+  - B601_M01_FIXED_ENDPOINT_TRAJECTORY_CANDIDATE_V1.yaml
+  - B601_M01_TRAJECTORY_AUTHORITY_RECEIPT_V1.json
+  - ROUTE_C_V9F_M01_EXACT_SWEEP_V1.json
+  - ROUTE_C_V9F_M01_ROBUST_MARGIN_LEDGER_V1.csv
+  - ROUTE_C_V9F_M01_REFERENCE_EQUIVALENCE_V1.json
+  - ROUTE_C_V9F_M01_RED_TEAM_V1.json
+  - ROUTE_C_V9F_M01_FALSIFIER_V1.json
+  - ODR60_OPTION_A_SHA256.csv
+
+option_success_boundary: >-
+  A collision-free M01 candidate may be classified only as
+  VERIFIED_GEOMETRIC_PATH_CANDIDATE_PENDING_TIME_AND_OWNER_RELEASE and closes only the
+  current path-geometry falsifier. It does not by itself issue M01 trajectory release,
+  eight-of-eight trajectory release, Route-C PASS, TMG-2 PASS, handoff 12/12, system
+  binding, non-ABORT Sim13 authorization, Mechanical Release, or flight qualification.
+
+option_failure_boundary: >-
+  No path found within the authorized bounded campaign rejects this campaign only. It
+  does not prove that every six-DOF path is impossible and does not authorize further
+  waypoint, geometry or mission-domain loops.
+
+legal_terminal_states_if_authorized:
+  - VERIFIED_GEOMETRIC_PATH_CANDIDATE_PENDING_TIME_AND_OWNER_RELEASE
+  - ENDPOINT_UNSAFE__MISSION_DOMAIN_DECISION_REQUIRED
+  - NO_PATH_FOUND_WITHIN_PREDECLARED_BOUND__GLOBAL_INFEASIBILITY_NOT_PROVEN
+  - UNKNOWN_ABORT

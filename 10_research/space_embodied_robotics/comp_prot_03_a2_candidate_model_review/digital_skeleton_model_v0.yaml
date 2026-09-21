@@ -1,0 +1,331 @@
+schema_version: comp-prot-03-a2-digital-skeleton-v0
+model_id: candidate_12u_b601_digital_skeleton_v0
+phase: COMP-PROT-03-A2
+created_on: "2026-07-23"
+status: LOGICAL_SKELETON_ONLY
+
+authority:
+  cad_generation: false
+  urdf_generation: false
+  dynamics_execution: false
+  scientific_gate: false
+  runtime_model: false
+
+source_bundle:
+  git_head: b75352c1c226c0f3e9a4bc9c469b766e06f41616
+  hash_mode: RAW_BYTES
+  candidate_configuration: candidate_configuration_v0.yaml
+  canonical_sources:
+    - {source_id: frame_tree, path: 20_engineering/config/geometry/frame_tree_v1.yaml, sha256: 958bff23bf83434c773854fd0e78da3b09be4a3a213eb81a0741514750b3e55b}
+    - {source_id: arm_ssot, path: 20_engineering/config/geometry/arm_b601_v1.yaml, sha256: c81bd3696ce1ee789574aa3b143ea0057ffc286305a1aa18802829e9f038b188}
+    - {source_id: accepted_urdf, path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf, sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164}
+    - {source_id: mass_budget, path: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv, sha256: 073c802527e35c9495188eefd5d8ba51f524d326142cf2ab31e436bad0899392}
+
+representation_selection:
+  mechanical_topology: A_CENTERLINE_TASK_FACE_SINGLE_ARM
+  geometry_profile: UNRESOLVED_EXACTLY_ONE_REQUIRED
+  servicer_mass_representation: split_bus_panels_v1
+  b601_representation: full_urdf_10link
+  target_selection: NONE_PRECAPTURE
+  capture_state: PRE_CAPTURE
+  panel_configuration: UNKNOWN
+  arm_configuration_q: UNKNOWN
+
+nodes:
+  - {node_id: system_servicer_A, node_type: assembly, object_id: candidate_12u_b601, primary_frame: S, mass_domain: servicer_robot_stack, status: CANDIDATE}
+  - {node_id: frame_S, node_type: frame, object_id: servicer_12U_candidate, primary_frame: S, mass_domain: null, status: BOUND}
+  - {node_id: frame_R_CDS, node_type: frame, object_id: cds_12U_reference, primary_frame: R_CDS, mass_domain: null, status: UNKNOWN_MAPPING}
+  - {node_id: frame_B, node_type: frame, object_id: servicer_free_flyer_base, primary_frame: B, mass_domain: null, status: UNKNOWN_T_SB}
+  - {node_id: bus, node_type: rigid_body, object_id: servicer_12U_bus_v1, primary_frame: S, mass_domain: servicer_split, status: ACTIVE_CANDIDATE}
+  - {node_id: panel_left, node_type: flexible_body, object_id: solar_panel_left_v1, primary_frame: F_L, mass_domain: servicer_split, status: ACTIVE_IDENTITY_CONFIGURATION_UNKNOWN}
+  - {node_id: panel_right, node_type: flexible_body, object_id: solar_panel_right_v1, primary_frame: F_R, mass_domain: servicer_split, status: ACTIVE_IDENTITY_CONFIGURATION_UNKNOWN}
+  - {node_id: servicer_flange, node_type: interface_geometry, object_id: servicer_flange_160x160x15, primary_frame: S, mass_domain: servicer_split_included_no_separate_mass, status: SOURCE_DEFINED_PROFILE_DEPENDENT}
+  - {node_id: adapter, node_type: assembly, object_id: robot_mount_adapter_v0, primary_frame: M, mass_domain: adapter, status: ACTIVE_CANDIDATE}
+  - {node_id: adapter_plate, node_type: interface_geometry, object_id: adapter_plate_160x160x12, primary_frame: M, mass_domain: adapter_included_no_separate_mass, status: SOURCE_DEFINED}
+  - {node_id: adapter_boss, node_type: interface_geometry, object_id: adapter_boss_D100x15, primary_frame: M, mass_domain: adapter_included_no_separate_mass, status: SOURCE_DEFINED}
+  - {node_id: frame_M, node_type: frame, object_id: robot_mount_adapter_v0, primary_frame: M, mass_domain: null, status: PROFILE_DEPENDENT}
+  - {node_id: frame_A0, node_type: frame, object_id: arm_b601_v1, primary_frame: A0, mass_domain: null, status: PROPOSED_IDENTITY_WITH_BASE_LINK}
+  - {node_id: base_link, node_type: articulated_link, object_id: arm_b601_v1, primary_frame: base_link, mass_domain: b601_full_urdf, status: ACTIVE_CANDIDATE}
+  - {node_id: link1, node_type: articulated_link, object_id: arm_b601_v1, primary_frame: link1, mass_domain: b601_full_urdf, status: ACTIVE_CANDIDATE}
+  - {node_id: link2, node_type: articulated_link, object_id: arm_b601_v1, primary_frame: link2, mass_domain: b601_full_urdf, status: ACTIVE_CANDIDATE}
+  - {node_id: link3, node_type: articulated_link, object_id: arm_b601_v1, primary_frame: link3, mass_domain: b601_full_urdf, status: ACTIVE_CANDIDATE}
+  - {node_id: link4, node_type: articulated_link, object_id: arm_b601_v1, primary_frame: link4, mass_domain: b601_full_urdf, status: ACTIVE_CANDIDATE}
+  - {node_id: link5, node_type: articulated_link, object_id: arm_b601_v1, primary_frame: link5, mass_domain: b601_full_urdf, status: ACTIVE_CANDIDATE}
+  - {node_id: link6, node_type: articulated_link, object_id: arm_b601_v1, primary_frame: link6, mass_domain: b601_full_urdf, status: ACTIVE_CANDIDATE}
+  - {node_id: frame_G, node_type: frame, object_id: arm_b601_v1, primary_frame: gripper_link, mass_domain: null, status: BOUND_IN_ACCEPTED_URDF}
+  - {node_id: gripper_link, node_type: articulated_link, object_id: arm_b601_v1, primary_frame: gripper_link, mass_domain: b601_full_urdf, status: ACTIVE_CANDIDATE}
+  - {node_id: gripper_left, node_type: articulated_link, object_id: arm_b601_v1, primary_frame: gripper_left, mass_domain: b601_full_urdf, status: ACTIVE_CANDIDATE}
+  - {node_id: gripper_right, node_type: articulated_link, object_id: arm_b601_v1, primary_frame: gripper_right, mass_domain: b601_full_urdf, status: ACTIVE_CANDIDATE}
+  - {node_id: frame_E, node_type: frame, object_id: E_virtual_candidate, primary_frame: E, mass_domain: null, status: PROPOSED_NOT_CANONICAL}
+  - {node_id: frame_TCP, node_type: frame, object_id: physical_contact_TCP, primary_frame: TCP_contact, mass_domain: null, status: UNKNOWN_DB_BLK_004}
+  - {node_id: target_satellite, node_type: rigid_body, object_id: target_satellite_v0, primary_frame: T, mass_domain: target_satellite, status: INACTIVE_PRECAPTURE_LIBRARY_BRANCH}
+  - {node_id: target_debris, node_type: rigid_body, object_id: target_debris_v0, primary_frame: D, mass_domain: target_debris, status: INACTIVE_PRECAPTURE_LIBRARY_BRANCH}
+  - {node_id: C_sat_feature, node_type: feature_point, object_id: launch_adapter_ring, primary_frame: C_sat, mass_domain: null, status: POINT_PLUS_NORMAL_ONLY}
+  - {node_id: C_deb_feature, node_type: feature_point, object_id: forward_end_ring_candidate_patch, primary_frame: C_deb, mass_domain: null, status: POINT_PLUS_NORMAL_ONLY}
+
+edges:
+  - {edge_id: system_to_S, edge_type: assembly_contains, parent_node: system_servicer_A, child_node: frame_S, transform_ref: identity, active_if: always, status: METADATA_ROOT_BINDING}
+  - {edge_id: S_to_R_CDS, edge_type: fixed_transform, parent_node: frame_S, child_node: frame_R_CDS, transform_ref: T_S_RCDS, active_if: geometry_profile_is_CDS_12U_REFERENCE, status: UNKNOWN}
+  - {edge_id: S_to_B, edge_type: fixed_transform, parent_node: frame_S, child_node: frame_B, transform_ref: T_SB, active_if: dynamics_consumer_enabled, status: UNKNOWN_AND_DISABLED}
+  - {edge_id: S_to_bus, edge_type: identity_attachment, parent_node: frame_S, child_node: bus, transform_ref: identity, active_if: always, status: CANDIDATE}
+  - {edge_id: bus_to_panel_left, edge_type: flexible_root, parent_node: bus, child_node: panel_left, transform_ref: T_SF_L, active_if: split_bus_panels_v1, status: SOURCE_BOUND_CONFIGURATION_UNKNOWN}
+  - {edge_id: bus_to_panel_right, edge_type: flexible_root, parent_node: bus, child_node: panel_right, transform_ref: T_SF_R, active_if: split_bus_panels_v1, status: SOURCE_BOUND_CONFIGURATION_UNKNOWN}
+  - {edge_id: bus_to_servicer_flange, edge_type: interface_attachment, parent_node: bus, child_node: servicer_flange, transform_ref: servicer_flange_profile_geometry, active_if: geometry_profile_selected, status: PROFILE_DEPENDENT}
+  - {edge_id: servicer_flange_to_adapter, edge_type: interface_attachment, parent_node: servicer_flange, child_node: adapter, transform_ref: flange_adapter_mating_transform, active_if: geometry_profile_and_stackup_signed, status: OPEN_BLOCKING}
+  - {edge_id: adapter_to_plate, edge_type: assembly_containment, parent_node: adapter, child_node: adapter_plate, transform_ref: adapter_plate_local_geometry, active_if: always, status: SOURCE_DEFINED}
+  - {edge_id: adapter_to_boss, edge_type: assembly_containment, parent_node: adapter, child_node: adapter_boss, transform_ref: adapter_boss_local_geometry, active_if: always, status: SOURCE_DEFINED}
+  - {edge_id: S_to_M, edge_type: fixed_transform, parent_node: frame_S, child_node: frame_M, transform_ref: T_SM_profile_selected, active_if: geometry_profile_selected, status: OPEN_BLOCKING}
+  - {edge_id: adapter_to_M, edge_type: datum_attachment, parent_node: adapter, child_node: frame_M, transform_ref: adapter_to_M_datum, active_if: always, status: CANDIDATE_LOW_CONFIDENCE}
+  - {edge_id: M_to_A0, edge_type: fixed_transform, parent_node: frame_M, child_node: frame_A0, transform_ref: T_MA0, active_if: always, status: PROPOSED_NEEDS_SIGNOFF}
+  - {edge_id: A0_to_base_link, edge_type: identity_attachment, parent_node: frame_A0, child_node: base_link, transform_ref: identity, active_if: full_urdf_10link, status: PROPOSED_NEEDS_SIGNOFF}
+  - {edge_id: joint1, edge_type: revolute_joint, parent_node: base_link, child_node: link1, joint_ref: joint1, active_if: full_urdf_10link, status: SOURCE_BOUND}
+  - {edge_id: joint2, edge_type: revolute_joint, parent_node: link1, child_node: link2, joint_ref: joint2, active_if: full_urdf_10link, status: SOURCE_BOUND}
+  - {edge_id: joint3, edge_type: revolute_joint, parent_node: link2, child_node: link3, joint_ref: joint3, active_if: full_urdf_10link, status: SOURCE_BOUND}
+  - {edge_id: joint4, edge_type: revolute_joint, parent_node: link3, child_node: link4, joint_ref: joint4, active_if: full_urdf_10link, status: SOURCE_BOUND}
+  - {edge_id: joint5, edge_type: revolute_joint, parent_node: link4, child_node: link5, joint_ref: joint5, active_if: full_urdf_10link, status: SOURCE_BOUND}
+  - {edge_id: joint6, edge_type: revolute_joint, parent_node: link5, child_node: link6, joint_ref: joint6, active_if: full_urdf_10link, status: SOURCE_BOUND}
+  - {edge_id: link6_to_G, edge_type: fixed_transform, parent_node: link6, child_node: frame_G, transform_ref: T_link6_G, active_if: full_urdf_10link, status: SOURCE_BOUND}
+  - {edge_id: G_to_gripper_link, edge_type: identity_attachment, parent_node: frame_G, child_node: gripper_link, transform_ref: identity, active_if: full_urdf_10link, status: SOURCE_BOUND}
+  - {edge_id: gripper_joint1, edge_type: prismatic_joint, parent_node: gripper_link, child_node: gripper_left, joint_ref: gripper_joint1, active_if: full_urdf_10link, status: SOURCE_BOUND}
+  - {edge_id: gripper_joint2, edge_type: prismatic_joint, parent_node: gripper_link, child_node: gripper_right, joint_ref: gripper_joint2, active_if: full_urdf_10link, status: SOURCE_BOUND}
+  - {edge_id: link6_to_E, edge_type: fixed_transform, parent_node: link6, child_node: frame_E, transform_ref: T_link6_E_candidate, active_if: tool_frame_owner_signed, status: PROPOSED_DISABLED}
+  - {edge_id: E_to_TCP, edge_type: fixed_transform, parent_node: frame_E, child_node: frame_TCP, transform_ref: T_E_TCP, active_if: capture_interface_geometry_signed, status: UNKNOWN_DISABLED}
+  - {edge_id: S_to_target_satellite, edge_type: runtime_pose, parent_node: frame_S, child_node: target_satellite, transform_ref: T_ST, active_if: satellite_scenario_selected, status: UNKNOWN_DISABLED}
+  - {edge_id: S_to_target_debris, edge_type: runtime_pose, parent_node: frame_S, child_node: target_debris, transform_ref: T_SD, active_if: debris_scenario_selected, status: UNKNOWN_DISABLED}
+  - {edge_id: T_to_C_sat, edge_type: feature_attachment, parent_node: target_satellite, child_node: C_sat_feature, transform_ref: T_TC_sat, active_if: satellite_scenario_selected, status: POSITION_ONLY}
+  - {edge_id: D_to_C_deb, edge_type: feature_attachment, parent_node: target_debris, child_node: C_deb_feature, transform_ref: T_DC_deb, active_if: debris_scenario_selected, status: POSITION_PLUS_NORMAL_ONLY}
+  - {edge_id: TCP_to_C_sat_capture, edge_type: capture_constraint, parent_node: frame_TCP, child_node: C_sat_feature, transform_ref: runtime_capture_constraint_satellite, active_if: satellite_capture_state_after_contact, status: DISABLED_GEOMETRY_OPEN}
+  - {edge_id: TCP_to_C_deb_capture, edge_type: capture_constraint, parent_node: frame_TCP, child_node: C_deb_feature, transform_ref: runtime_capture_constraint_debris, active_if: debris_capture_state_after_contact, status: DISABLED_GEOMETRY_OPEN}
+
+transforms:
+  T_SM_profile_selected:
+    parent_frame: S
+    child_frame: M
+    translation: {value: null, unit: mm}
+    rotation: {representation: matrix, value: null}
+    convention: exactly_one_geometry_profile_selector
+    configuration_dependent: true
+    status: UNKNOWN_UNTIL_PROFILE_SELECTION
+    unknown_reason: display_and_CDS_reference_profiles_have_different_geometry_contracts
+  T_S_RCDS:
+    parent_frame: S
+    child_frame: R_CDS
+    translation: {value: null, unit: mm}
+    rotation: {representation: matrix, value: null}
+    convention: passive_columns_child_axes_in_parent
+    configuration_dependent: true
+    status: UNKNOWN
+    unknown_reason: CDS_drawing_axes_not_yet_mapped_to_project_S
+  T_SB:
+    parent_frame: S
+    child_frame: B
+    translation: {value: null, unit: m}
+    rotation: {representation: matrix, value: null}
+    convention: T_XY_maps_Y_into_X
+    configuration_dependent: false
+    status: UNKNOWN
+    unknown_reason: free_flyer_base_origin_not_signed_and_may_not_default_to_S
+  T_SM_display_v0:
+    parent_frame: S
+    child_frame: M
+    translation: {value: [185.25, 0.0, 0.0], unit: mm}
+    rotation: {representation: R_y_deg, value: 90.0}
+    convention: passive_columns_child_axes_in_parent
+    configuration_dependent: false
+    status: BOUND_TO_COMPETITION_DISPLAY_V0_ONLY
+  T_SM_cds_12u_reference:
+    parent_frame: S
+    child_frame: M
+    translation: {value: null, unit: mm}
+    rotation: {representation: matrix, value: null}
+    convention: passive_columns_child_axes_in_parent
+    configuration_dependent: false
+    status: UNKNOWN
+    unknown_reason: 366mm_envelope_plate_boss_dimensions_and_actual_mating_stack_not_reconciled
+  T_MA0:
+    parent_frame: M
+    child_frame: A0
+    translation: {value: [0.0, 0.0, 0.0], unit: m}
+    rotation: {representation: quaternion_wxyz, value: [1.0, 0.0, 0.0, 0.0]}
+    convention: T_XY_maps_Y_into_X
+    configuration_dependent: false
+    status: PROPOSED_FROM_ARM_SSOT_NEEDS_FRAME_REGISTRY_SIGNOFF
+  T_link6_G:
+    parent_frame: link6
+    child_frame: gripper_link
+    translation: {value: [0.0, 0.0, 0.15971], unit: m}
+    rotation: {representation: urdf_rpy_xyz_rad, value: [0.0, -1.5708, 0.0]}
+    convention: accepted_urdf_joint_origin
+    configuration_dependent: false
+    status: SOURCE_BOUND
+  T_link6_E_candidate:
+    parent_frame: link6
+    child_frame: E
+    translation: {value: [0.0, 0.0, 0.15971], unit: m}
+    rotation: {representation: quaternion_wxyz, value: [1.0, 0.0, 0.0, 0.0]}
+    convention: candidate_virtual_tool_frame_aligned_with_link6
+    configuration_dependent: false
+    status: PROPOSED_NOT_CANONICAL
+  T_E_TCP:
+    parent_frame: E
+    child_frame: TCP_contact
+    translation: {value: null, unit: m}
+    rotation: {representation: matrix, value: null}
+    convention: physical_tool_contact_datum_relative_to_virtual_E
+    configuration_dependent: false
+    status: UNKNOWN
+    unknown_reason: capture_tool_geometry_and_contact_datum_not_defined
+  T_TC_sat:
+    parent_frame: T
+    child_frame: C_sat
+    translation: {value: [290.0, 0.0, 0.0], unit: mm}
+    rotation: {representation: matrix, value: null}
+    status: POSITION_PLUS_NORMAL_ONLY
+    unknown_reason: axial_roll_convention_not_defined
+  T_DC_deb:
+    parent_frame: D
+    child_frame: C_deb
+    translation: {value: [660.0, 0.0, 950.0], unit: mm}
+    rotation: {representation: matrix, value: null}
+    status: POSITION_PLUS_NORMAL_ONLY
+    unknown_reason: complete_capture_frame_rotation_not_defined
+
+transform_reference_registry:
+  - {transform_ref: identity, status: SPECIAL_IDENTITY, definition_location: intrinsic}
+  - {transform_ref: T_S_RCDS, status: REGISTERED_UNKNOWN, definition_location: transforms}
+  - {transform_ref: T_SB, status: REGISTERED_UNKNOWN, definition_location: transforms}
+  - {transform_ref: T_SF_L, status: EXTERNAL_SOURCE_PARTIAL_AXES, definition_location: frame_tree_v1.yaml}
+  - {transform_ref: T_SF_R, status: EXTERNAL_SOURCE_PARTIAL_AXES, definition_location: frame_tree_v1.yaml}
+  - {transform_ref: servicer_flange_profile_geometry, status: PROFILE_DEPENDENT, definition_location: service_spacecraft_v1.yaml}
+  - {transform_ref: flange_adapter_mating_transform, status: REGISTERED_UNKNOWN, definition_location: A3_input_required}
+  - {transform_ref: adapter_plate_local_geometry, status: SOURCE_DEFINED, definition_location: arm_mount_v1.yaml}
+  - {transform_ref: adapter_boss_local_geometry, status: SOURCE_DEFINED, definition_location: arm_mount_v1.yaml}
+  - {transform_ref: adapter_to_M_datum, status: SOURCE_CONFLICT_OPEN, definition_location: frame_tree_and_adapter_json}
+  - {transform_ref: T_SM_profile_selected, status: REGISTERED_UNKNOWN, definition_location: transforms}
+  - {transform_ref: T_MA0, status: REGISTERED_PROPOSED, definition_location: transforms}
+  - {transform_ref: T_link6_G, status: REGISTERED_SOURCE_BOUND, definition_location: transforms}
+  - {transform_ref: T_link6_E_candidate, status: REGISTERED_PROPOSED, definition_location: transforms}
+  - {transform_ref: T_E_TCP, status: REGISTERED_UNKNOWN, definition_location: transforms}
+  - {transform_ref: T_ST, status: RUNTIME_UNKNOWN, definition_location: scenario_input}
+  - {transform_ref: T_SD, status: RUNTIME_UNKNOWN, definition_location: scenario_input}
+  - {transform_ref: T_TC_sat, status: REGISTERED_POSITION_ONLY, definition_location: transforms}
+  - {transform_ref: T_DC_deb, status: REGISTERED_POSITION_PLUS_NORMAL_ONLY, definition_location: transforms}
+  - {transform_ref: runtime_capture_constraint_satellite, status: RUNTIME_DISABLED, definition_location: future_capture_state_machine}
+  - {transform_ref: runtime_capture_constraint_debris, status: RUNTIME_DISABLED, definition_location: future_capture_state_machine}
+
+joint_registry:
+  - {joint_id: joint1, type: revolute, parent: base_link, child: link1, xyz_m: [-0.00008416, 0.0, 0.08465], rpy_rad: [0.0, 0.0, 0.0], axis: [0, 0, 1], lower_rad: -2.8, upper_rad: 2.8, source: accepted_urdf}
+  - {joint_id: joint2, type: revolute, parent: link1, child: link2, xyz_m: [0.020084, 0.031625, 0.05555], rpy_rad: [-1.5708, 0.0, 0.0], axis: [0, 0, -1], lower_rad: -3.14, upper_rad: 0.0, source: accepted_urdf}
+  - {joint_id: joint3, type: revolute, parent: link2, child: link3, xyz_m: [-0.264, 0.0, 0.0], rpy_rad: [0.0, 0.0, 0.0], axis: [0, 0, 1], lower_rad: -3.14, upper_rad: 0.0, source: accepted_urdf}
+  - {joint_id: joint4, type: revolute, parent: link3, child: link4, xyz_m: [0.2426, -0.054, -0.001625], rpy_rad: [0.0, 0.0, 0.0], axis: [0, 0, 1], lower_rad: -1.87, upper_rad: 1.57, source: accepted_urdf}
+  - {joint_id: joint5, type: revolute, parent: link4, child: link5, xyz_m: [0.078308, -0.0375, -0.03], rpy_rad: [-1.5708, 0.0, 0.0], axis: [0, 0, 1], lower_rad: -1.57, upper_rad: 1.57, source: accepted_urdf}
+  - {joint_id: joint6, type: revolute, parent: link5, child: link6, xyz_m: [0.023692, 0.0, 0.04], rpy_rad: [0.0, 1.5708, 0.0], axis: [0, 0, 1], lower_rad: -3.14, upper_rad: 3.14, source: accepted_urdf}
+  - {joint_id: gripper_joint, type: fixed, parent: link6, child: gripper_link, xyz_m: [0.0, 0.0, 0.15971], rpy_rad: [0.0, -1.5708, 0.0], source: accepted_urdf}
+  - {joint_id: gripper_joint1, type: prismatic, parent: gripper_link, child: gripper_left, xyz_m: [-0.042091, 0.000027531, -0.000013031], rpy_rad: [0.0, 0.0, -1.5708], axis: [1, 0, 0], lower_m: 0.0, upper_m: 0.0715, source: accepted_urdf}
+  - {joint_id: gripper_joint2, type: prismatic, parent: gripper_link, child: gripper_right, xyz_m: [-0.042091, -0.000027531, 0.000013031], rpy_rad: [0.0, 0.0, 1.5708], axis: [1, 0, 0], lower_m: 0.0, upper_m: 0.0715, source: accepted_urdf}
+
+mass_ledger:
+  units: kg
+  domains:
+    - {domain_id: servicer_split, active: true, target_domain: false}
+    - {domain_id: adapter, active: true, target_domain: false}
+    - {domain_id: b601_full_urdf, active: true, target_domain: false}
+    - {domain_id: target_satellite, active: false, target_domain: true}
+    - {domain_id: target_debris, active: false, target_domain: true}
+  components:
+    - {component_id: servicer_12U_bus_v1, mass_owner: servicer_split, mass_kg: 23.3032134, representation_group: servicer_mass_representation, representation_member: split_bus_panels_v1, active: true, status: PROVISIONAL_LOW_CONFIDENCE}
+    - {component_id: solar_panel_left_v1, mass_owner: servicer_split, mass_kg: 0.3483933, representation_group: servicer_mass_representation, representation_member: split_bus_panels_v1, active: true, status: PROVISIONAL_LOW_CONFIDENCE}
+    - {component_id: solar_panel_right_v1, mass_owner: servicer_split, mass_kg: 0.3483933, representation_group: servicer_mass_representation, representation_member: split_bus_panels_v1, active: true, status: PROVISIONAL_LOW_CONFIDENCE}
+    - {component_id: robot_mount_adapter_v0, mass_owner: adapter, mass_kg: 1.2, representation_group: adapter_representation, representation_member: adapter_v0, active: true, status: PROVISIONAL_LOW_CONFIDENCE}
+    - {component_id: base_link, mass_owner: b601_full_urdf, mass_kg: 0.8366, mass_kg_source_decimal: "0.83660000", representation_group: b601_representation, representation_member: full_urdf_10link, active: true, status: ACCEPTED_URDF_DIGITAL_VALUE}
+    - {component_id: link1, mass_owner: b601_full_urdf, mass_kg: 0.1613, mass_kg_source_decimal: "0.16130000", representation_group: b601_representation, representation_member: full_urdf_10link, active: true, status: ACCEPTED_URDF_DIGITAL_VALUE}
+    - {component_id: link2, mass_owner: b601_full_urdf, mass_kg: 1.3266, mass_kg_source_decimal: "1.32660000", representation_group: b601_representation, representation_member: full_urdf_10link, active: true, status: ACCEPTED_URDF_DIGITAL_VALUE}
+    - {component_id: link3, mass_owner: b601_full_urdf, mass_kg: 0.8353, mass_kg_source_decimal: "0.83530000", representation_group: b601_representation, representation_member: full_urdf_10link, active: true, status: ACCEPTED_URDF_DIGITAL_VALUE}
+    - {component_id: link4, mass_owner: b601_full_urdf, mass_kg: 0.52, mass_kg_source_decimal: "0.52000000", representation_group: b601_representation, representation_member: full_urdf_10link, active: true, status: ACCEPTED_URDF_DIGITAL_VALUE}
+    - {component_id: link5, mass_owner: b601_full_urdf, mass_kg: 0.383, mass_kg_source_decimal: "0.38300000", representation_group: b601_representation, representation_member: full_urdf_10link, active: true, status: ACCEPTED_URDF_DIGITAL_VALUE}
+    - {component_id: link6, mass_owner: b601_full_urdf, mass_kg: 0.3663, mass_kg_source_decimal: "0.36630000", representation_group: b601_representation, representation_member: full_urdf_10link, active: true, status: ACCEPTED_URDF_DIGITAL_VALUE}
+    - {component_id: gripper_link, mass_owner: b601_full_urdf, mass_kg: 0.181800159145243, mass_kg_source_decimal: "0.181800159145243", representation_group: b601_representation, representation_member: full_urdf_10link, active: true, status: ACCEPTED_URDF_DIGITAL_VALUE}
+    - {component_id: gripper_left, mass_owner: b601_full_urdf, mass_kg: 0.0423278952416158, mass_kg_source_decimal: "0.0423278952416158", representation_group: b601_representation, representation_member: full_urdf_10link, active: true, status: ACCEPTED_URDF_DIGITAL_VALUE}
+    - {component_id: gripper_right, mass_owner: b601_full_urdf, mass_kg: 0.0423278949561274, mass_kg_source_decimal: "0.0423278949561274", representation_group: b601_representation, representation_member: full_urdf_10link, active: true, status: ACCEPTED_URDF_DIGITAL_VALUE}
+  aggregate:
+    servicer_split_subtotal_kg: 24.0
+    adapter_subtotal_kg: 1.2
+    b601_full_urdf_subtotal_kg: 4.695555949342986
+    b601_full_urdf_subtotal_source_decimal: "4.6955559493429862"
+    total_mass_kg: 29.895555949342986
+    total_mass_source_decimal: "29.8955559493429862"
+    total_label: PROVISIONAL_DESIGN_LEDGER_TOTAL
+    total_is_measured_or_final: false
+    com: UNKNOWN
+    inertia: UNKNOWN
+    calculation_status: MASS_SUM_ONLY_NO_AGGREGATE_SPATIAL_PROPERTIES
+
+exclusive_representation_groups:
+  - group_id: servicer_mass_representation
+    members: [whole_sat_reference_24kg, split_bus_panels_v1]
+    cardinality: EXACTLY_ONE
+    selected_member: split_bus_panels_v1
+    evidence_status: DESIGN_SELECTION_NEEDS_OWNER_SIGNOFF
+  - group_id: b601_representation
+    members: [full_urdf_10link, locked_gripper_collapsed_future]
+    cardinality: EXACTLY_ONE
+    selected_member: full_urdf_10link
+    evidence_status: DESIGN_SELECTION_NEEDS_OWNER_SIGNOFF
+
+target_keepout_registry:
+  - {target_id: target_debris_v0, region_id: smooth_shell_wall, bounds: radius_about_600mm_and_abs_z_below_900mm_excluding_ribs_and_rings, contact_allowed: false, status: SOURCE_BOUND_LOW_CONFIDENCE}
+  - {target_id: target_debris_v0, region_id: aft_engine_region, bounds: z_D_less_than_minus_1000_mm, contact_allowed: false, status: SOURCE_BOUND_LOW_CONFIDENCE}
+  - {target_id: target_satellite_v0, region_id: solar_panel_positive_Y, contact_allowed: false, status: SOURCE_BOUND_LOW_CONFIDENCE}
+  - {target_id: target_satellite_v0, region_id: solar_panel_negative_Y, contact_allowed: false, status: SOURCE_BOUND_LOW_CONFIDENCE}
+  - {target_id: target_satellite_v0, region_id: antenna, contact_allowed: false, status: SOURCE_BOUND_LOW_CONFIDENCE}
+consumer_boundaries:
+  - consumer_id: future_CAD_authoring
+    allowed_fields: [topology, candidate_geometry_profile_after_selection, frame_markers, source_bound_joint_chain]
+    forbidden_fields: [aggregate_com, aggregate_inertia, E_as_verified_TCP, target_6dof_lock, historical_gate_inheritance]
+    required_blockers_closed: [DB-BLK-001, DB-BLK-002, DB-BLK-008, DB-BLK-009, DB-BLK-010, DB-BLK-012, DB-BLK-013, DB-BLK-014]
+    claim_boundary: CAD_GEOMETRY_ONLY_NO_DYNAMICS
+  - consumer_id: future_URDF_authoring
+    allowed_fields: [full_urdf_10link, explicit_fixed_mount_after_signoff]
+    forbidden_fields: [collapsed_gripper_as_main_topology, silent_link_rename, guessed_tool_frame]
+    required_blockers_closed: [DB-BLK-002, DB-BLK-008, DB-BLK-013, DB-BLK-014]
+    claim_boundary: CONFORMANCE_REVIEW_REQUIRED
+  - consumer_id: dynamics
+    allowed_fields: []
+    forbidden_fields: [all_runtime_use]
+    required_blockers_closed: [DB-BLK-001, DB-BLK-002, DB-BLK-008, DB-BLK-009, DB-BLK-011]
+    claim_boundary: NOT_AUTHORIZED
+  - consumer_id: visualization
+    allowed_fields: [watermarked_candidate_topology]
+    forbidden_fields: [physics_truth, collision_free_claim, task_feasibility]
+    required_blockers_closed: []
+    claim_boundary: DISPLAY_ONLY
+
+unknowns:
+  - T_S_RCDS
+  - selected_geometry_profile
+  - T_SM_for_CDS_12U_REFERENCE
+  - T_SB
+  - T_link6_E_owner_acceptance
+  - T_E_TCP_physical_tool_offset
+  - panel_configuration
+  - arm_configuration_q
+  - T_ST
+  - T_SD
+  - C_sat_full_rotation
+  - C_deb_full_rotation
+  - interface_1_contact_geometry
+  - aggregate_com_and_inertia
+
+blockers:
+  ledger: db_blocker_resolution_ledger.yaml
+  denominator: 15
+
+review:
+  record: configuration_review.yaml
+  final_packet_same_hash_review_complete: false
+
+cad_pre_gate:
+  gate_id: CAD-SKELETON-G0
+  verdict: CAD_ENTRY_BLOCKED_BY_EVIDENCE
+  a3_authorized: false
+  integrated_CAD_or_URDF_exists: false

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!-- reBot_arm_v0_min: minimal 2-revolute free-floating arm. base_link = frame M
+     (arm mounting-face = reBot URDF base); attach to servicer via T_SM. Rods along +X,
+     shoulder+elbow revolute about Y (swing in X-Z plane). Simplified v0 for sim_03. -->
+<robot name="reBot_arm_v0_min">
+  <link name="M_base_link">
+    <inertial><origin xyz="0 0 0"/><mass value="0.3"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial>
+  </link>
+  <joint name="shoulder" type="revolute">
+    <parent link="M_base_link"/><child link="link1"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="-2.6" upper="2.6" effort="10" velocity="1.5"/>
+  </joint>
+  <link name="link1">
+    <visual><origin xyz="0.15 0 0"/><geometry><cylinder radius="0.01" length="0.3"/></geometry></visual>
+    <inertial><origin xyz="0.15 0 0"/><mass value="0.8"/>
+      <inertia ixx="4e-05" ixy="0" ixz="0" iyy="0.00602" iyz="0" izz="0.00602"/></inertial>
+  </link>
+  <joint name="elbow" type="revolute">
+    <parent link="link1"/><child link="link2"/>
+    <origin xyz="0.3 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/>
+    <limit lower="-2.6" upper="2.6" effort="10" velocity="1.5"/>
+  </joint>
+  <link name="link2">
+    <visual><origin xyz="0.125 0 0"/><geometry><cylinder radius="0.01" length="0.25"/></geometry></visual>
+    <inertial><origin xyz="0.125 0 0"/><mass value="0.5"/>
+      <inertia ixx="2.5e-05" ixy="0" ixz="0" iyy="0.00261667" iyz="0" izz="0.00261667"/></inertial>
+  </link>
+  <joint name="ee" type="fixed"><parent link="link2"/><child link="ee_link"/><origin xyz="0.25 0 0"/></joint>
+  <link name="ee_link"/>
+</robot>

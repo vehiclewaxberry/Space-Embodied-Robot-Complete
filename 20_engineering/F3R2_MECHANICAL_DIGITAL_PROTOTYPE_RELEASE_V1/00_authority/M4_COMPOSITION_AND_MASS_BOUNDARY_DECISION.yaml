@@ -1,0 +1,114 @@
+schema: M4_COMPOSITION_AND_MASS_BOUNDARY_DECISION_V1
+generated_local: '2026-08-21T14:36:00+08:00'
+decision_id: M4-ADR-001
+decision_revision: 2
+status: ACTIVE_FAIL_CLOSED_COMPOSITION_RULE_AFTER_FRAME_SEMANTICS_AUDIT
+
+problem:
+  legacy_asset: 20_engineering/cad/spacecraft_layout/servicer_12U_v0/servicer_12U_v0.step
+  legacy_asset_semantics:
+    - THREE_12U_BUS_BAYS
+    - LEGACY_140_X_140_X_15_MM_MOUNT_FLANGE
+    - LEFT_AND_RIGHT_SOLAR_PANEL_BLOCKS
+    - CAMERA_NOZZLE_AND_ANTENNA_PLACEHOLDERS
+  conflict: >-
+    Directly adding independent solar panels to this monolithic STEP duplicates
+    geometry and mass. An earlier M4 overlap hypothesis also placed M3R at
+    x=185.25 mm; that hypothesis is rejected by the frozen physical-stack
+    semantics. x=185.25 mm is the dynamics M_FRAME and has no physical entity,
+    while x=208.00 mm is the physical installation face. With M3R local z from
+    -12.000 to +2.405 mm, its physical CAD station range is approximately
+    x=196.000 to 210.405 mm. The legacy flange at x=170.25 to 185.25 mm therefore
+    has no positive geometric overlap with correctly placed M3R. Its ownership
+    and mass allocation nevertheless remain ambiguous. M4 may retain its
+    source-bound primitive as a visibly tagged legacy geometric reference in
+    the bus proxy, but may not assign it structural continuity, released mass,
+    or replacement semantics.
+  frame_semantics_sources:
+    - 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+    - 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/F3R2_TSM_PHYSICAL_FRAME_DIAGRAM.md
+
+geometry_composition_rule:
+  controlled_master_preference: SOURCE_BOUND_BUS_PROXY_WITH_TAGGED_LEGACY_FLANGE_PLUS_SEPARATE_COMPONENTS
+  required_non_overlapping_slots:
+    - BUS_PROXY_WITH_TAGGED_LEGACY_FLANGE_CAMERA_NOZZLE_ANTENNA_PLACEHOLDERS
+    - LEFT_SOLAR_ARRAY
+    - RIGHT_SOLAR_ARRAY
+    - SPACECRAFT_LOAD_BRIDGE_OR_EXPLICIT_UNRESOLVED_SLOT
+    - M3R_STAGE_A_AND_STAGE_B
+    - B601_AND_GRIPPER
+  legacy_monolithic_step_disposition: REFERENCE_OR_QUARANTINED_DISPLAY_ONLY
+  legacy_flange_primitive_disposition: >-
+    Geometry may remain inside the source-bound analytic bus proxy for visual
+    traceability. It is not an accepted load bridge, is prohibited for mass
+    inference, and remains outside the Branch-B diagnostic mass aggregation.
+  forbidden: SILENT_COMPOSITION_OR_MASS_OWNERSHIP_OF_LEGACY_FLANGE
+  required_validation: >-
+    Pairwise common-volume or minimum-distance receipt with intended-contact
+    exemptions, plus an explicit HOLD slot wherever the spacecraft load bridge
+    between the bus core and M3R is not represented by controlled geometry.
+
+mass_boundary:
+  whole_legacy_servicer:
+    mass_kg: 24.0
+    classification: BUDGETED_DIGITAL_MODEL_TARGET
+    confidence: LOW
+    includes: [BUS, LEGACY_FLANGE, LEFT_PANEL, RIGHT_PANEL, CAMERA, NOZZLE, ANTENNA, LUMPED_INTERNALS]
+    source: 20_engineering/cad/spacecraft_layout/servicer_12U_v0/servicer_12U_v0.json
+  split_bus_with_legacy_flange_no_panels:
+    mass_kg: 23.3032134
+    classification: DIGITAL_MODEL_DERIVED
+    confidence: LOW
+    source: 20_engineering/config/geometry/service_spacecraft_v1.yaml
+  each_panel:
+    mass_kg: 0.3483933
+    classification: DIGITAL_MODEL_DERIVED
+    confidence: LOW
+    source: 20_engineering/config/geometry/flexible_appendage_v1.yaml
+  legacy_flange_allocation:
+    volume_m3: 0.000294
+    mass_kg: 0.376019184652
+    calculation_model: m_flange = 24 kg * (0.015 m * 0.140 m * 0.140 m) / 0.018765 m3
+    classification: MATERIAL_DERIVED_FROM_LEGACY_UNIFORM_DENSITY_MODEL
+    confidence: LOW
+    active_physical_authority: false
+  diagnostic_bus_core_no_panels_no_legacy_flange:
+    mass_kg: 22.927194215348
+    calculation_model: 23.3032134 kg - 0.376019184652 kg
+    classification: DIGITAL_MODEL_DERIVED_DIAGNOSTIC
+    confidence: LOW
+    active_physical_authority: false
+  diagnostic_uncaptured_total_mass:
+    mass_kg: 29.081436764691
+    calculation_model: bus_core + 2*panel + M3R_budget_0.7619 kg + B601_URDF_4.695555949342986 kg
+    classification: MIXED_DIGITAL_AND_BUDGETED_DIAGNOSTIC
+    confidence: LOW
+    active_physical_authority: false
+    missing_for_authoritative_release:
+      - hardware mass measurements and uncertainty
+      - formal architecture disposition for retaining retiring or excluding the legacy flange primitive
+      - controlled legacy flange ownership and mass allocation
+      - controlled spacecraft load bridge geometry and mating datums
+      - M3R component allocation center of mass and inertia
+      - as-installed B601 transform and configuration witness
+      - camera HDRM harness fastener and sensor inclusion audit
+  authoritative_system_total:
+    mass_kg: null
+    center_of_mass_m: null
+    inertia_kg_m2: null
+    uncertainty: null
+    status: HOLD_NO_NON_OVERLAPPING_AS_BUILT_COMPONENT_AUTHORITY
+
+target_inclusion_rule:
+  pre_capture: target is a separate free body and is not included in servicer mass properties
+  post_capture: target may enter a diagnostic composite only with an explicit capture transform and rigid-capture assumption
+  target_22kg_classification: PROVISIONAL_DIGITAL_SCENARIO
+  target_150kg_classification: PROVISIONAL_DIGITAL_SCENARIO
+  authoritative_capture_composite_status: HOLD_NO_CAPTURE_TRANSFORM_CONTACT_OR_RIGIDIZATION_AUTHORITY
+
+release_effect:
+  digital_geometry: MAY_PASS_IF_DERIVED_COMPOSITION_IS_EXPLICIT_AND_VALIDATED
+  diagnostic_dynamics: MAY_USE_SEPARATE_PROVISIONAL_LAYER
+  system_mass_authority: HOLD
+  structural_analysis: HOLD
+  production_contact_or_RL: HOLD

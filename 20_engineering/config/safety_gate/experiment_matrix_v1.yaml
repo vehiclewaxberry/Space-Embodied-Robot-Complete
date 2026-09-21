@@ -1,0 +1,37 @@
+matrix_version: safety-00-matrix-v2
+status: PREREGISTERED_BEFORE_EXECUTION
+thresholds_widened: false
+cases:
+  - {id: N1_NORMAL_ALLOW, group: normal, mutation: none,
+     expected_state: SAFE, expected_decision: ALLOW}
+  - {id: N2_NORMAL_MODIFY, group: normal, mutation: exact_solver_modification,
+     expected_state: SAFE, expected_decision: MODIFY}
+  - {id: B1_FORGED_PROVENANCE, group: bypass, mutation: forged_gate_hash,
+     expected_state: UNKNOWN, expected_decision: ABORT}
+  - {id: B2_STALE_EVIDENCE, group: bypass, mutation: expired_evidence,
+     expected_state: UNKNOWN, expected_decision: WAIT}
+  - {id: B3_OUT_OF_DOMAIN, group: bypass, mutation: contact_time_out_of_domain,
+     expected_state: UNKNOWN, expected_decision: BACKOFF}
+  - {id: B4_LAMBDA_ROUNDING_SMUGGLING, group: bypass, mutation: grid_rounding,
+     expected_state: UNKNOWN, expected_decision: ABORT}
+  - {id: B5_PROVISIONAL_FIELD_MISSING, group: bypass, mutation: remove_provisional_flags,
+     expected_state: UNKNOWN, expected_decision: ABORT}
+  - {id: B6_UNCERTIFIED_L2, group: bypass, mutation: request_uncertified_l2,
+     expected_state: UNKNOWN, expected_decision: WAIT}
+  - {id: B7_PROSE_CONDITION, group: bypass, mutation: inject_prose_condition,
+     expected_state: UNKNOWN, expected_decision: ABORT}
+  - {id: B8_WRONG_ROW_REF, group: bypass, mutation: wrong_sim12_row,
+     expected_state: UNKNOWN, expected_decision: ABORT}
+  - {id: B9_ARBITRARY_CANDIDATE, group: bypass, mutation: unregistered_candidate,
+     expected_state: UNKNOWN, expected_decision: ABORT}
+  - {id: B10_FUTURE_STATE, group: bypass, mutation: future_captured_at,
+     expected_state: UNKNOWN, expected_decision: ABORT}
+  - {id: B11_DEADLINE_REBIND, group: bypass, mutation: deadline_without_rehash,
+     expected_state: UNKNOWN, expected_decision: ABORT}
+  - {id: B12_NO_AUTH_KEY, group: bypass, mutation: production_key_missing,
+     authorization_mode: NONE,
+     expected_state: UNKNOWN, expected_decision: ABORT}
+  - {id: D1_L2_TO_L0_UNCHECKED, group: degradation, mutation: l2_fallback_unchecked,
+     expected_state: UNKNOWN, expected_decision: BACKOFF}
+  - {id: D2_L2_TO_L1_RECHECKED, group: degradation, mutation: l2_fallback_checked,
+     expected_state: UNKNOWN, expected_decision: WAIT}

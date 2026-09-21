@@ -1,0 +1,96 @@
+{
+  "schema": "F3R1_G1_MATE_ATTEMPT_LOG_V1",
+  "date": "2026-08-06",
+  "purpose": "Machine record of every G1 mate attempt, so the negative results are preserved and not re-discovered. Nothing was saved: both candidate files stayed byte-identical to the G0 freeze (5F1CB650F1E88ABF) through all attempts -- the fail-closed guards held.",
+  "constants_established": {
+    "SW_ADD_MATE_NO_ERROR": 1,
+    "note_success_is_1_not_0": "AddMate3/AddMate5 ErrorStatus==1 means NO ERROR (donor b51 SW_ADD_MATE_NO_ERROR=1). Treating 0 as success mislabels every successful mate as a failure and vice versa.",
+    "AddMate3_signature": "MateTypeFromEnum, AlignFromEnum, Flip, Distance, DistanceAbsUpperLimit, DistanceAbsLowerLimit, GearRatioNumerator, GearRatioDenominator, Angle, AngleAbsUpperLimit, AngleAbsLowerLimit, ForPositioningOnly, ErrorStatus(out)",
+    "selection_manager_accessor": "model.SelectionManager via getattr (a get-property). get_com_member() tries to CALL it and raises '找不到成员'. ISelectionManager raises a SW exception on read-only docs.",
+    "refplane_selection": "cast SelectData to ISelectData, set Mark=1 only; do NOT set sd.Component -- the plane feature reached through the component already carries the instance context. Verified selection type 4 (swSelDATUMPLANES), mark1 count 2.",
+    "refplane_order": "A component's three RefPlane features enumerate in creation order Front, Top, Right -- use ORDER, not the localized names (SelectByID2 with the zh_CN plane name fails through a Python console encoding round-trip)."
+  },
+  "measured_mount_geometry": {
+    "arm_mount_rotation_R": "URDF +Z -> world +X; URDF +X rotated 25 deg (cos=0.9063, sin=0.4226)",
+    "arm_plane_normals_world": {
+      "front": [1.0, 0.0, 0.0],
+      "top": [0.0, 0.9063, 0.4226],
+      "right": [0.0, 0.4226, -0.9063]
+    },
+    "angles_to_spacecraft_planes_deg": {
+      "arm.front_vs_sc.right": 0.0,
+      "arm.top_vs_sc.top": 25.0,
+      "arm.right_vs_sc.front": 25.0
+    },
+    "arm_origin_world_mm": [208.0, 0.0, 0.0],
+    "perp_distance_arm_origin_to_sc_right_mm": 208.0
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "mate": "arm.front ANGLE 90deg sc.right",
+      "err": 1,
+      "result": "REJECTED_BY_GUARD",
+      "drift": "0.0 mm / 90.0 deg",
+      "why": "wrong pairing assumption: arm.front normal is PARALLEL to sc.right (0 deg), not perpendicular"
+    },
+    {
+      "n": 2,
+      "mate": "arm.front PARALLEL sc.right (arm still FIXED)",
+      "err": 5,
+      "result": "FAILED",
+      "why": "initially blamed on the fixed component; later disproved -- a direct probe showed PARALLEL succeeds (err=1) on the same selections"
+    },
+    {
+      "n": 3,
+      "mate": "arm.front PARALLEL sc.right (arm FLOATED)",
+      "err": 1,
+      "result": "OK, zero drift",
+      "why": "confirms the plane pairing and selection idiom are correct"
+    },
+    {
+      "n": 4,
+      "mate": "then arm.front DISTANCE 208 ALIGNED flip=False",
+      "err": 1,
+      "result": "REJECTED_BY_GUARD",
+      "drift": "416.0 mm = 2 x 208",
+      "why": "distance applied toward the mirrored side (-208)"
+    },
+    {
+      "n": 5,
+      "mate": "DISTANCE 208 ALIGNED flip=True, and ANTI flip=False, each AFTER a PARALLEL mate",
+      "err": 5,
+      "result": "FAILED",
+      "why": "PARALLEL + DISTANCE on the SAME plane pair over-defines; SW returns IncorrectSelections"
+    },
+    {
+      "n": 6,
+      "mate": "DISTANCE 208 ANTI flip=False, no PARALLEL",
+      "err": 1,
+      "result": "REJECTED_BY_GUARD",
+      "drift": "0.0 mm / 180.0 deg",
+      "why": "ANTI alignment lands the translation exactly but flips the arm 180 deg"
+    },
+    {
+      "n": 7,
+      "mate": "DISTANCE 208 ALIGNED flip=True, no PARALLEL",
+      "err": 5,
+      "result": "FAILED",
+      "why": "state-dependent: the same parameters returned err=1 in an isolated probe where the arm started at tx=+208. Mate-flag outcome depends on the pre-mate pose, so flag search is not a reliable closure path."
+    }
+  ],
+  "conclusion": {
+    "status": "G1_ARM_MATE_NOT_CLOSED",
+    "established": [
+      "The arm CAN be mated by reference planes: the pairing is arm.front <-> sc.right at 0 deg with a 208.0 mm offset, plus a 25 deg arm.top <-> sc.top clock angle.",
+      "PARALLEL and COINCIDENT mates on these planes succeed with zero drift.",
+      "The 208 mm DISTANCE mate is the single unresolved element: its direction/orientation outcome depends on alignment+flip AND on the pre-mate pose, and no tested combination gave err=1 with BOTH zero translation and zero rotation drift in the production sequence."
+    ],
+    "next_method": "Stop searching mate flags. Apply the mate set, then explicitly restore the G0-frozen component transform via the verified VARIANT CreateTransform + SetTransformAndSolve3 primitive, then re-verify PRE/POST drift <= 0.01 mm / 0.01 deg and that mates report no errors. This makes the mate carry design intent while the frozen transform remains the numerical authority.",
+    "wings": "All four wing panels unfixed cleanly every run. Their mates were not reached because the arm block raised first (fail-closed ordering). Wing coincident faces are real (gap=0.000 to HDRM_Base / Root_Node_Spine).",
+    "files_unchanged": {
+      "F3R1_SPACE_EMBODIED_ROBOT_INTEGRATION.SLDASM": "5F1CB650F1E88ABF (G0 frozen, MATCH)",
+      "F3R1_SPACE_EMBODIED_ROBOT_INTEGRATION_V2_MATED.SLDASM": "5F1CB650F1E88ABF (MATCH)"
+    }
+  }
+}

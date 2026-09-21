@@ -1,0 +1,564 @@
+{
+  "schema": "SIM13_V4B4G_R2_RAW_ARRAY_CONTRACT_V1",
+  "compatibility": "FUTURE_R2_EXACT_SCHEMA_LEGACY_B4G_RAW_IS_INCOMPATIBLE",
+  "legacy_b4g_missing_required_arrays": [
+    "sample_power_reported_W",
+    "stage_augmented_W_act_J",
+    "post_signed_W_act_J",
+    "post_command_Q_14",
+    "acquisition_event_count",
+    "acquisition_event_sample_index",
+    "acquisition_event_time_s",
+    "bilateral_removal_event_count",
+    "bilateral_removal_active_sample_index",
+    "bilateral_removal_event_time_s",
+    "saved_window_end_index",
+    "active_interval_ledger_certified"
+  ],
+  "coordinate_and_unit_policy": {
+    "system": "SI",
+    "quaternion_order": "WXYZ",
+    "service_state_29_layout": [
+      "r_I_m[3]",
+      "q_BI_wxyz[4]",
+      "joint_q_R_rad[6]",
+      "joint_q_P_m[2]",
+      "v_I_m_s[3]",
+      "omega_B_rad_s[3]",
+      "joint_dq_R_rad_s[6]",
+      "joint_dq_P_m_s[2]"
+    ],
+    "target_state_13_layout": [
+      "r_I_m[3]",
+      "q_TI_wxyz[4]",
+      "v_I_m_s[3]",
+      "omega_T_rad_s[3]"
+    ]
+  },
+  "event_policy": {
+    "acquisition_count": "ZERO_FOR_A0_BOOKEND_OTHERWISE_ONE",
+    "removal_count": "0_OR_1",
+    "no_removal": "ZERO_LENGTH_REMOVAL_INDEX_AND_TIME_ARRAYS_NO_SENTINEL_NO_NULL",
+    "index_order": "0<=acquisition_index<=removal_index<=saved_window_end_index<N_IF_REMOVAL",
+    "active_start": "A1_AND_COMMON_ACQUISITION_INDEX_IS_EXACTLY_ZERO_AND_TIME_S_0_IS_ACQUISITION_TIME",
+    "no_removal_horizon_s": 0.08
+  },
+  "post_release_policy": {
+    "duration_s": 0.005,
+    "saved_interval_s": "EXACT_REGISTERED_LANE_STEP_S",
+    "stage_P_redundancy": "EXACT_POST_STAGE_P_EQUALS_POST_STAGE_SERVICE_STATE_COLUMNS_13_15"
+  },
+  "exact_array_count": 56,
+  "exact_arrays": {
+    "command_Q_14": {
+      "dtype": "<f8",
+      "shape": [
+        "N",
+        14
+      ],
+      "unit": "SI_mixed_generalized_force",
+      "meaning": "saved generalized command"
+    },
+    "contact_force_N": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "N",
+      "meaning": "contact resultant force"
+    },
+    "contact_torque_N_m": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "N*m",
+      "meaning": "contact resultant torque"
+    },
+    "energy_minus_work_residual_J": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "J",
+      "meaning": "independent energy-minus-work residual"
+    },
+    "ideal_constraint_power_W": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "W",
+      "meaning": "ideal constraint power"
+    },
+    "left_gap_m": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "m",
+      "meaning": "left signed gap"
+    },
+    "left_gap_rate_m_s": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "m/s",
+      "meaning": "left gap rate"
+    },
+    "right_gap_m": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "m",
+      "meaning": "right signed gap"
+    },
+    "right_gap_rate_m_s": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "m/s",
+      "meaning": "right gap rate"
+    },
+    "service_state_29": {
+      "dtype": "<f8",
+      "shape": [
+        "N",
+        29
+      ],
+      "unit": "SI_mixed_state",
+      "meaning": "service state [r,q,qj,v,w,dqj]"
+    },
+    "signed_W_act_J": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "J",
+      "meaning": "saved signed actuator work state"
+    },
+    "stage_P_coordinates_m": {
+      "dtype": "<f8",
+      "shape": [
+        "S",
+        2
+      ],
+      "unit": "m",
+      "meaning": "mechanical-stage prismatic coordinates"
+    },
+    "stage_code": {
+      "dtype": "<i8",
+      "shape": [
+        "S"
+      ],
+      "unit": "1",
+      "meaning": "RK4 1..4 or midpoint 1,5; code 0 forbidden"
+    },
+    "stage_command_Q_14": {
+      "dtype": "<f8",
+      "shape": [
+        "S",
+        14
+      ],
+      "unit": "SI_mixed_generalized_force",
+      "meaning": "mechanical-stage generalized command"
+    },
+    "stage_domain_and_sign_pass": {
+      "dtype": "|b1",
+      "shape": [
+        "S"
+      ],
+      "unit": "1",
+      "meaning": "mechanical-stage domain/sign predicate"
+    },
+    "stage_gap_jacobian_P": {
+      "dtype": "<f8",
+      "shape": [
+        "S",
+        2,
+        2
+      ],
+      "unit": "1",
+      "meaning": "mechanical-stage P-gap Jacobian"
+    },
+    "stage_mass_cholesky_min_diagonal": {
+      "dtype": "<f8",
+      "shape": [
+        "S"
+      ],
+      "unit": "SI_sqrt_mass",
+      "meaning": "stage mass Cholesky minimum diagonal"
+    },
+    "stage_power_W": {
+      "dtype": "<f8",
+      "shape": [
+        "S"
+      ],
+      "unit": "W",
+      "meaning": "reported actuator power at mechanical stages"
+    },
+    "stage_service_state_29": {
+      "dtype": "<f8",
+      "shape": [
+        "S",
+        29
+      ],
+      "unit": "SI_mixed_state",
+      "meaning": "service state at mechanical stages"
+    },
+    "stage_time_s": {
+      "dtype": "<f8",
+      "shape": [
+        "S"
+      ],
+      "unit": "s",
+      "meaning": "mechanical-stage time"
+    },
+    "target_state_13": {
+      "dtype": "<f8",
+      "shape": [
+        "N",
+        13
+      ],
+      "unit": "SI_mixed_state",
+      "meaning": "target state [r,q,v,w]"
+    },
+    "time_s": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "s",
+      "meaning": "saved time; only final finite-event interval may be fractional"
+    },
+    "total_angular_momentum_N_m_s": {
+      "dtype": "<f8",
+      "shape": [
+        "N",
+        3
+      ],
+      "unit": "N*m*s",
+      "meaning": "native total angular momentum"
+    },
+    "total_kinetic_energy_J": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "J",
+      "meaning": "total kinetic energy"
+    },
+    "total_linear_momentum_N_s": {
+      "dtype": "<f8",
+      "shape": [
+        "N",
+        3
+      ],
+      "unit": "N*s",
+      "meaning": "native total linear momentum"
+    },
+    "post_contact_force_N": {
+      "dtype": "<f8",
+      "shape": [
+        "P"
+      ],
+      "unit": "N",
+      "meaning": "post-removal contact force"
+    },
+    "post_contact_torque_N_m": {
+      "dtype": "<f8",
+      "shape": [
+        "P"
+      ],
+      "unit": "N*m",
+      "meaning": "post-removal contact torque"
+    },
+    "post_left_gap_m": {
+      "dtype": "<f8",
+      "shape": [
+        "P"
+      ],
+      "unit": "m",
+      "meaning": "post-removal left gap"
+    },
+    "post_left_gap_rate_m_s": {
+      "dtype": "<f8",
+      "shape": [
+        "P"
+      ],
+      "unit": "m/s",
+      "meaning": "post-removal left gap rate"
+    },
+    "post_right_gap_m": {
+      "dtype": "<f8",
+      "shape": [
+        "P"
+      ],
+      "unit": "m",
+      "meaning": "post-removal right gap"
+    },
+    "post_right_gap_rate_m_s": {
+      "dtype": "<f8",
+      "shape": [
+        "P"
+      ],
+      "unit": "m/s",
+      "meaning": "post-removal right gap rate"
+    },
+    "post_service_state_29": {
+      "dtype": "<f8",
+      "shape": [
+        "P",
+        29
+      ],
+      "unit": "SI_mixed_state",
+      "meaning": "post-removal service state"
+    },
+    "post_stage_P_coordinates_m": {
+      "dtype": "<f8",
+      "shape": [
+        "PS",
+        2
+      ],
+      "unit": "m",
+      "meaning": "post stage P coordinates"
+    },
+    "post_stage_code": {
+      "dtype": "<i8",
+      "shape": [
+        "PS"
+      ],
+      "unit": "1",
+      "meaning": "post mechanical-stage code"
+    },
+    "post_stage_domain_and_sign_pass": {
+      "dtype": "|b1",
+      "shape": [
+        "PS"
+      ],
+      "unit": "1",
+      "meaning": "post stage domain/sign predicate"
+    },
+    "post_stage_gap_jacobian_P": {
+      "dtype": "<f8",
+      "shape": [
+        "PS",
+        2,
+        2
+      ],
+      "unit": "1",
+      "meaning": "post stage P-gap Jacobian"
+    },
+    "post_stage_service_state_29": {
+      "dtype": "<f8",
+      "shape": [
+        "PS",
+        29
+      ],
+      "unit": "SI_mixed_state",
+      "meaning": "post stage service state"
+    },
+    "post_stage_target_state_13": {
+      "dtype": "<f8",
+      "shape": [
+        "PS",
+        13
+      ],
+      "unit": "SI_mixed_state",
+      "meaning": "post stage target state"
+    },
+    "post_stage_time_s": {
+      "dtype": "<f8",
+      "shape": [
+        "PS"
+      ],
+      "unit": "s",
+      "meaning": "post mechanical-stage time"
+    },
+    "post_target_state_13": {
+      "dtype": "<f8",
+      "shape": [
+        "P",
+        13
+      ],
+      "unit": "SI_mixed_state",
+      "meaning": "post-removal target state"
+    },
+    "post_time_s": {
+      "dtype": "<f8",
+      "shape": [
+        "P"
+      ],
+      "unit": "s",
+      "meaning": "post-removal saved time"
+    },
+    "post_total_angular_momentum_N_m_s": {
+      "dtype": "<f8",
+      "shape": [
+        "P",
+        3
+      ],
+      "unit": "N*m*s",
+      "meaning": "post native angular momentum"
+    },
+    "post_total_kinetic_energy_J": {
+      "dtype": "<f8",
+      "shape": [
+        "P"
+      ],
+      "unit": "J",
+      "meaning": "post total kinetic energy"
+    },
+    "post_total_linear_momentum_N_s": {
+      "dtype": "<f8",
+      "shape": [
+        "P",
+        3
+      ],
+      "unit": "N*s",
+      "meaning": "post native linear momentum"
+    },
+    "sample_power_reported_W": {
+      "dtype": "<f8",
+      "shape": [
+        "N"
+      ],
+      "unit": "W",
+      "meaning": "runner-reported saved-sample actuator power"
+    },
+    "stage_augmented_W_act_J": {
+      "dtype": "<f8",
+      "shape": [
+        "S"
+      ],
+      "unit": "J",
+      "meaning": "independently propagated stage work state"
+    },
+    "post_signed_W_act_J": {
+      "dtype": "<f8",
+      "shape": [
+        "P"
+      ],
+      "unit": "J",
+      "meaning": "carried post-removal work state"
+    },
+    "post_command_Q_14": {
+      "dtype": "<f8",
+      "shape": [
+        "P",
+        14
+      ],
+      "unit": "SI_mixed_generalized_force",
+      "meaning": "post-removal generalized command"
+    },
+    "acquisition_event_count": {
+      "dtype": "<i8",
+      "shape": [],
+      "unit": "1",
+      "meaning": "zero for A0 bookend; one otherwise"
+    },
+    "acquisition_event_sample_index": {
+      "dtype": "<i8",
+      "shape": [
+        "A"
+      ],
+      "unit": "1",
+      "meaning": "0/1-length acquisition saved-sample index"
+    },
+    "acquisition_event_time_s": {
+      "dtype": "<f8",
+      "shape": [
+        "A"
+      ],
+      "unit": "s",
+      "meaning": "0/1-length raw acquisition event time"
+    },
+    "bilateral_removal_event_count": {
+      "dtype": "<i8",
+      "shape": [],
+      "unit": "1",
+      "meaning": "zero or one"
+    },
+    "bilateral_removal_active_sample_index": {
+      "dtype": "<i8",
+      "shape": [
+        "R"
+      ],
+      "unit": "1",
+      "meaning": "0/1-length exact removal index"
+    },
+    "bilateral_removal_event_time_s": {
+      "dtype": "<f8",
+      "shape": [
+        "R"
+      ],
+      "unit": "s",
+      "meaning": "0/1-length exact removal time"
+    },
+    "saved_window_end_index": {
+      "dtype": "<i8",
+      "shape": [],
+      "unit": "1",
+      "meaning": "exact last admitted saved sample"
+    },
+    "active_interval_ledger_certified": {
+      "dtype": "|b1",
+      "shape": [
+        "I"
+      ],
+      "unit": "1",
+      "meaning": "independently available active interval ledger; I=N-1 and every consumed interval must be true"
+    }
+  },
+  "profile_sha256": {
+    "FRESH_FINITE_REMOVAL_V1": "5811C6D37EA2E6F6CA285D6198D0D6EC2D6DEF84FFE2EFA4FE8424E50400CFE6",
+    "FRESH_NO_REMOVAL_V1": "8CA1EE666374C135A0CCB9B7ACED631343BD0E563B424BDB6B30B8DBF6533AD0",
+    "COMMON_PROPAGATION_V1": "87BA12F7E455E950848561C91F30E468577B3C934122CEA5DB421DF9E2A73CFA",
+    "A0_BOOKEND_V1": "D1016AEC97F6E7A5A287491CF7AEF44ACBD235CCC6F5CA06B32D7B06167B2125"
+  },
+  "profiles": {
+    "FRESH_FINITE_REMOVAL_V1": {
+      "schema": "SIM13_V4B4G_R2_ARRAY_PROFILE_V1",
+      "outcomes": [
+        "FINITE_BILATERAL_REMOVAL_OBSERVED"
+      ],
+      "array_set": "EXACT_ARRAYS_56",
+      "array_count": 56,
+      "stage_layout": "NO_CODE0_MECHANICAL_STAGES_ONLY",
+      "last_interval_policy": "ONLY_FINAL_INTERVAL_MAY_BE_FRACTIONAL_AND_ONLY_FOR_RAW_FINITE_REMOVAL"
+    },
+    "FRESH_NO_REMOVAL_V1": {
+      "schema": "SIM13_V4B4G_R2_ARRAY_PROFILE_V1",
+      "outcomes": [
+        "NO_REMOVAL_OBSERVED_WITHIN_SAVED_WINDOW"
+      ],
+      "array_set": "EXACT_ARRAYS_56",
+      "array_count": 56,
+      "stage_layout": "NO_CODE0_MECHANICAL_STAGES_ONLY",
+      "last_interval_policy": "ONLY_FINAL_INTERVAL_MAY_BE_FRACTIONAL_AND_ONLY_FOR_RAW_FINITE_REMOVAL"
+    },
+    "COMMON_PROPAGATION_V1": {
+      "schema": "SIM13_V4B4G_R2_ARRAY_PROFILE_V1",
+      "outcomes": [
+        "COMMON_PROPAGATION_WINDOW_COMPLETE"
+      ],
+      "array_set": "EXACT_ARRAYS_56",
+      "array_count": 56,
+      "stage_layout": "NO_CODE0_MECHANICAL_STAGES_ONLY",
+      "last_interval_policy": "ONLY_FINAL_INTERVAL_MAY_BE_FRACTIONAL_AND_ONLY_FOR_RAW_FINITE_REMOVAL"
+    },
+    "A0_BOOKEND_V1": {
+      "schema": "SIM13_V4B4G_R2_ARRAY_PROFILE_V1",
+      "outcomes": [
+        "A0_BOOKEND_WINDOW_COMPLETE_NO_CAPTURE_EVENT"
+      ],
+      "array_set": "EXACT_ARRAYS_56",
+      "array_count": 56,
+      "stage_layout": "NO_CODE0_MECHANICAL_STAGES_ONLY",
+      "last_interval_policy": "ONLY_FINAL_INTERVAL_MAY_BE_FRACTIONAL_AND_ONLY_FOR_RAW_FINITE_REMOVAL"
+    }
+  }
+}

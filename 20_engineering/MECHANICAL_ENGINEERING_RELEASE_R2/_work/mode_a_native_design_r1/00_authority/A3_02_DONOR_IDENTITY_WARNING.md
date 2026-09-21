@@ -1,0 +1,23 @@
+# A3.02 Donor identity warning
+
+`DO_NOT_USE_AS_FROZEN_DONOR`
+
+```text
+20_engineering\F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807\03_native_cad\F3R2_SPACE_EMBODIED_ROBOT_OPERATIONAL_BASELINE.SLDASM
+  registered : 19D85E9C703BEC107396AE84DAB7B12DE5722434FC7D5474B3A5A144A1B590D0
+  current    : B03D684564E162AD28C53F12A7FF28500AE1D18DC1D3E6BF1597570AEB20F604  (26,163,395 B)
+
+```
+
+Correct frozen geometry donor for this candidate:
+
+```text
+20_engineering\F3R1_MECHANICAL_INTEGRATION_RECOVERY_20260806\03_native_cad\F3R1_SPACE_EMBODIED_ROBOT_INTEGRATION_V3_CONFIGURED.SLDASM
+sha256 19D85E9C703BEC107396AE84DAB7B12DE5722434FC7D5474B3A5A144A1B590D0
+29,594,924 B
+```
+
+Copy or derive only. Never edit the donor in place.
+
+The drift was introduced 2026-08-30 and is registered in no repository receipt.
+This package records it; it does not adjudicate it. Owner decision required.

@@ -1,0 +1,118 @@
+schema: B51R1_AUTONOMOUS_SESSION_PLAN_V3_PHASED
+generated_at: '2026-08-02T22:27:00+08:00'
+status: PHASED_BUDGET_DEFINED_POOL_A_AUTHORIZED_ONLY_THROUGH_S02_R1
+supersedes_capacity_claim_of: 04_CONFIGURATION/B51R1_AUTONOMOUS_SESSION_PLAN_V2.yaml
+single_process_only: true
+legacy_pool:
+  nominal_capacity: 20
+  consumed_before_s01_cr01: 6
+  newly_authorized_slots:
+  - S01_CR01
+  - S02_R1
+  projected_consumed_after_both: 8
+  projected_remaining_after_both: 12
+  sufficient_for_all_remaining_phase2: false
+  disposition: RETAIN_AS_HISTORICAL_LEDGER_DO_NOT_USE_AS_END_TO_END_CAPACITY_CLAIM
+activation_policy:
+  only_one_pool_active: true
+  next_pool_requires_previous_major_gate: true
+  unused_capacity_does_not_auto_transfer: true
+  recovery_requires_distinct_route_and_append_only_incident: true
+  any_unknown_or_hash_drift: FAIL_CLOSED
+pools:
+- id: POOL_A
+  scope: MASTER_SKELETON_PROPERTY_INFRASTRUCTURE_CARRIERS_JOINTS_T005_ABC
+  capacity: 12
+  activation_gate: OWNER_S01_CR01_S02_R1_AUTHORIZATION
+  status: ACTIVE_LIMITED_TO_A01_A02
+  sessions:
+  - id: A01_S01_CR01
+    purpose: APPEND_ONLY_MASTER_SKELETON_DOCUMENT_PROPERTY_REPAIR
+    authorized: true
+  - id: A02_S02_R1
+    purpose: R1_FRESH_PROCESS_READ_ONLY_COLD_REOPEN
+    authorized: CONDITIONAL_ON_A01_PASS
+  - id: A03_PROPERTY_WRITER_QUALIFICATION
+    purpose: DISPOSABLE_PART_CREATE_REOPEN_AND_IDEMPOTENCY
+    authorized: CONDITIONAL_ON_A02_PASS
+  - id: A04_S03P
+    purpose: CREATE_BASE_LINK_PILOT_CARRIER
+    authorized: false
+  - id: A05_S04P
+    purpose: COLD_REOPEN_BASE_LINK_PILOT_CARRIER
+    authorized: false
+  - id: A06_S03B
+    purpose: CREATE_REMAINING_NINE_CARRIERS
+    authorized: false
+  - id: A07_S04B
+    purpose: COLD_REOPEN_ALL_TEN_CARRIERS
+    authorized: false
+  - id: A08_S05
+    purpose: BUILD_J00_J09_INCREMENTALLY_6R_1_FIXED_2P
+    authorized: false
+  - id: A09_T005_A0
+    purpose: INDEPENDENT_CARRIER_POSES
+    authorized: false
+  - id: A10_T005_B0
+    purpose: SAME_DOCUMENT_CONTINUOUS_DRIVE_AND_Q0_RESET
+    authorized: false
+  - id: A11_T005_C0
+    purpose: SAVE_EXIT_AND_COLD_REOPEN_NATIVE_JOINT_PERSISTENCE
+    authorized: false
+  - id: A12_RESERVE
+    purpose: ONE_DISTINCT_FAIL_CLOSED_RECOVERY_ROUTE
+    authorized: false
+  exit_gate: T005_C0_PASS_AND_NATIVE_PROPERTY_WRITER_IDEMPOTENCY_PASS
+- id: POOL_B
+  scope: FINE_B601_GEOMETRY_AND_FORMAL_T005
+  capacity: 6
+  activation_gate: POOL_A_EXIT_GATE
+  status: INACTIVE
+  sessions:
+  - B01_FINE_GEOMETRY_ATTACHMENT
+  - B02_FORMAL_T005_A
+  - B03_FORMAL_T005_B
+  - B04_FORMAL_T005_C
+  - B05_REVIEW_AND_EVIDENCE_CLOSEOUT
+  - B06_RESERVE
+  exit_gate: FORMAL_T005_A_B_C_PASS
+- id: POOL_C
+  scope: ADAPTER_G07_G08_HDRM_H10
+  capacity: 8
+  activation_gate: POOL_B_EXIT_GATE
+  status: INACTIVE
+  sessions:
+  - C01_ADAPTER_AUTHORING
+  - C02_ADAPTER_LOAD_PATH_REVIEW
+  - C03_G07_AUTHORING
+  - C04_G08_AUTHORING
+  - C05_HDRM_STATE_IMPLEMENTATION
+  - C06_H10_ROW_BY_ROW_MEASUREMENT
+  - C07_H10_CLOSURE_REVIEW
+  - C08_RESERVE
+  exit_gate: H10_28_OF_28_CLOSED_AND_UNACCEPTABLE_COLLISIONS_ZERO
+- id: POOL_D
+  scope: TOP_LEVEL_CONTINUOUS_CLEARANCE_STRUCTURE_HANDOFF_AND_DRAWINGS
+  capacity: 10
+  activation_gate: POOL_C_EXIT_GATE
+  status: INACTIVE
+  sessions:
+  - D01_TOP_LEVEL_INTEGRATION
+  - D02_G8A_RIGID_CONTINUOUS_CLEARANCE
+  - D03_STRUCTURAL_DEFORMATION_INPUTS
+  - D04_THERMAL_TOLERANCE_INPUTS
+  - D05_CONTACT_BACKLASH_HARNESS_INPUTS
+  - D06_G8B_ROBUST_CONTINUOUS_CLEARANCE
+  - D07_MASS_LEDGER
+  - D08_CONTROL_6X6_INTERFACE_HANDOFF
+  - D09_DRAWINGS_AND_EXCHANGE_PACKAGE
+  - D10_RESERVE
+  exit_gate: PHASE2E_HANDOFF_DRAFT_COMPLETE
+budget_totals:
+  historical_consumed_before_v3: 6
+  future_phased_capacity: 36
+  pool_a: 12
+  pool_b: 6
+  pool_c: 8
+  pool_d: 10
+claim_limit: BUDGET_AND_ACTIVATION_PLAN_ONLY_NO_DOWNSTREAM_SESSION_OR_ENGINEERING_PASS_CREDIT

@@ -1,0 +1,27 @@
+{
+  "schema": "SYSTEM_BINDING_V3_CANDIDATE_RECEIPT_SCHEMA_V1",
+  "status": "SYNTHETIC_SIGNED_COMPOSITION_FIXTURE_ONLY__NO_PRODUCTION_PRODUCER__NO_AUTHORIZATION_CREDIT",
+  "serialized_envelope": {
+    "exact_fields": ["body", "signature_hmac_sha256"],
+    "ordinary_mapping_is_receipt": false,
+    "current_receipt_kind": "SYNTHETIC_SIGNED_COMPOSITION_FIXTURE",
+    "future_production_receipt_kind": "PRODUCTION_AUTHENTICATED_COMPOSITE_AUTHORIZATION",
+    "future_production_status": "NOT_IMPLEMENTED_NO_PRODUCER"
+  },
+  "action_exact_fields": ["grasp_candidate_id", "capture_timing_id", "strategy_id"],
+  "context_exact_fields": ["episode_id", "configuration_id", "authority_epoch", "target_class", "mission_phase_id", "reference_frame_id"],
+  "preexecution_composition": {
+    "ordered_kinds": ["SYSTEM_BINDING_V2", "RUNTIME_GATE_SNAPSHOT_V2", "DYNAMICS_GATE_V2", "CONTACT_PREFLIGHT_V2", "SHIELD_ATTESTATION_V2", "FEASIBILITY_150KG_V2", "POST_GRASP_V2"],
+    "input_form": "SEVEN_RAW_RECEIPT_BYTE_STRINGS",
+    "verification": "PINNED_FINAL_PREEXECUTION_STRICT_JSON_AND_HMAC_VERIFIER",
+    "bound_fields": ["preexec_action_digest", "preexec_context_digest", "preexec_receipt_set_digest", "ordered_receipt_kind_sha_nonce_status_time_and_evidence"],
+    "decision": {"executed_strategy": "ABORT", "allowed": false, "reason": "SOURCE_FREEZE_SCOPE_LOCK", "composite_authorization": false, "release_credit": false}
+  },
+  "direct_hash_bindings": ["urdf_sha256", "interface_sha256", "frame_tree_sha256", "bridge_sha256", "bridge_semantic_digest", "crossbind_record_digest", "mass_inertia_binding_sha256", "owner_authority_sha256", "intake_gate_sha256", "intake_terminal_sha256", "preexec_gate_sha256", "preexec_terminal_sha256", "preexec_receipt_verifier_source_sha256", "preexec_strict_json_source_sha256"],
+  "configuration_rule": "Explicit identity mapping for C01_DEPLOYED_NOMINAL_FIXED_SOLAR_SNAPSHOT; target_class, episode_id and authority_epoch must equal the seven preexec receipts.",
+  "time_rule": "Trusted UTC Unix seconds; V3 validity <=300 s and wholly contained in the intersection of all seven verified preexec validity windows.",
+  "replay_rule": "Independent in-process synthetic V3 nonce is atomically consumed only after full successful fixture verification; all failed paths consume zero; no durable production replay claim.",
+  "canonical_boundary": "Same pinned preexecution strict JSON limits for bytes, UTF-8/surrogates, duplicate keys, nonfinite numbers, depth, nodes, strings and canonical HMAC bytes.",
+  "real_receipt_emitted": false,
+  "production_composite_producer_implemented": false
+}

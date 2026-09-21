@@ -1,0 +1,242 @@
+schema: UNIFIED_R2_SYSTEM_FRAME_TREE_V2
+generated_date_local: '2026-08-24'
+artifact_class: SOURCE_ONLY_FRAME_AND_TOPOLOGY_LEDGER
+status: PREBIND_STATIC_CANDIDATE_WITH_EXPLICIT_HOLDS
+robot_name: unified_r2_c01_no_route_c_sim_candidate_v2
+configuration_id: C01_DEPLOYED_NOMINAL
+selected_mass_mode: EXPLICIT_STRUCTURE_PLUS_RESIDUAL
+units: {length: m, angle: rad, mass: kg, inertia: kg*m^2}
+matrix_semantics: p_parent = R_parent_child * p_child + t_parent_child
+urdf_origin_semantics: joint origin is expressed in the parent-link frame; the child-link frame coincides with the joint frame
+
+source_only_boundary:
+  urdf_emitted: false
+  simulator_loaded: false
+  sim13_rebind_authorized: false
+  contact_authority: false
+  release_authorized: false
+
+mode_topology:
+  EXPLICIT_STRUCTURE_PLUS_RESIDUAL:
+    selected: true
+    root_link: spacecraft_bus
+    total_links: 19
+    physical_links: 16
+    frame_only_links: 3
+    joints: 18
+    joint_type_counts: {fixed: 10, revolute: 6, prismatic: 2}
+    actuated_dof: 8
+    included_only_in_this_mode:
+      link: bus_primary_structure_candidate_v1
+      joint: bus_to_bus_primary_structure_candidate_v1
+  AGGREGATE_BUS:
+    selected: false
+    root_link: spacecraft_bus
+    total_links: 18
+    physical_links: 15
+    frame_only_links: 3
+    joints: 17
+    joint_type_counts: {fixed: 9, revolute: 6, prismatic: 2}
+    actuated_dof: 8
+    omitted_from_this_mode:
+      link: bus_primary_structure_candidate_v1
+      joint: bus_to_bus_primary_structure_candidate_v1
+  common_b601_subtree: {links: 10, joints: 9, fixed: 1, revolute: 6, prismatic: 2, actuated_dof: 8}
+
+frame_only_contract:
+  links:
+  - D_BUS_MATE_PHYSICAL
+  - M_DYNAMICS_NONPHYSICAL
+  - D_BUS_M6_PATTERN
+  required_omissions: [inertial, visual, collision]
+  D_and_M_numeric_relation: SAME_NUMERIC_TRANSFORM_FROM_S
+  D_and_M_semantic_relation: DISTINCT_IMMUTABLE_IDENTITIES__NEVER_ALIASES
+  D_role: physical spacecraft-to-mechanism mating datum
+  M_role: nonphysical dynamics reporting/reference frame
+  pattern_role: clocked M6 pattern datum downstream of D only
+  load_path_rule: load bridge and arm path shall descend through D_BUS_MATE_PHYSICAL and D_BUS_M6_PATTERN; never through M_DYNAMICS_NONPHYSICAL
+
+canonical_absolute_frames_in_spacecraft_bus_S:
+  S_SPACECRAFT_BUS:
+    link: spacecraft_bus
+    role: single URDF root and spacecraft reference frame
+    T_S_frame:
+    - [1.0, 0.0, 0.0, 0.0]
+    - [0.0, 1.0, 0.0, 0.0]
+    - [0.0, 0.0, 1.0, 0.0]
+    - [0.0, 0.0, 0.0, 1.0]
+  D_BUS_MATE_PHYSICAL:
+    role: physical mating datum
+    T_S_frame:
+    - [0.0, 0.0, 1.0, 0.18525]
+    - [0.0, 1.0, 0.0, 0.0]
+    - [-1.0, 0.0, 0.0, 0.0]
+    - [0.0, 0.0, 0.0, 1.0]
+    origin_xyz_m: [0.18525, 0.0, 0.0]
+    origin_rpy_rad: [0.0, 1.5707963267948966, 0.0]
+  M_DYNAMICS_NONPHYSICAL:
+    role: nonphysical dynamics reference only
+    numeric_transform_equals: D_BUS_MATE_PHYSICAL
+    semantic_alias_permitted: false
+    T_S_frame:
+    - [0.0, 0.0, 1.0, 0.18525]
+    - [0.0, 1.0, 0.0, 0.0]
+    - [-1.0, 0.0, 0.0, 0.0]
+    - [0.0, 0.0, 0.0, 1.0]
+    origin_xyz_m: [0.18525, 0.0, 0.0]
+    origin_rpy_rad: [0.0, 1.5707963267948966, 0.0]
+  D_BUS_M6_PATTERN:
+    role: physical clocked M6 pattern datum
+    parent_semantic_frame: D_BUS_MATE_PHYSICAL
+    T_S_frame:
+    - [0.0, 0.0, 1.0, 0.18525]
+    - [0.422618483193, 0.906307683772, 0.0, 0.000015994151]
+    - [-0.906307683772, 0.422618483193, 0.0, -0.000086366070]
+    - [0.0, 0.0, 0.0, 1.0]
+    T_D_BUS_MATE_PHYSICAL_frame:
+    - [0.906307683772, -0.422618483193, 0.0, 0.000086366070]
+    - [0.422618483193, 0.906307683772, 0.0, 0.000015994151]
+    - [0.0, 0.0, 1.0, 0.0]
+    - [0.0, 0.0, 0.0, 1.0]
+    origin_in_parent_xyz_m: [0.000086366070, 0.000015994151, 0.0]
+    origin_in_parent_rpy_rad: [0.0, 0.0, 0.4363325573440537]
+  M3R_ROOT:
+    link: m3r_lumped_link
+    T_S_frame:
+    - [0.0, 0.0, 1.0, 0.208]
+    - [0.422618483193, 0.906307683772, 0.0, 0.000015994151]
+    - [-0.906307683772, 0.422618483193, 0.0, -0.000086366070]
+    - [0.0, 0.0, 0.0, 1.0]
+    origin_from_pattern_xyz_m: [0.0, 0.0, 0.02275]
+    origin_from_pattern_rpy_rad: [0.0, 0.0, 0.0]
+  B601_BASE_PHYSICAL:
+    link: base_link
+    T_S_frame:
+    - [0.0, 0.0, 1.0, 0.208]
+    - [0.422618483193, 0.906307683772, 0.0, 0.0]
+    - [-0.906307683772, 0.422618483193, 0.0, 0.0]
+    - [0.0, 0.0, 0.0, 1.0]
+    origin_from_m3r_xyz_m: [-0.00008503365669377021, 0.00002200427555603084, 0.0]
+    origin_from_m3r_rpy_rad: [0.0, 0.0, 0.0]
+  SOLAR_R2_ROOT_L:
+    link: solar_r2_left_c01_snapshot
+    T_S_frame:
+    - [-1.0, 0.0, 0.0, 0.0]
+    - [0.0, -1.0, 0.0, 0.1154]
+    - [0.0, 0.0, 1.0, -0.10815]
+    - [0.0, 0.0, 0.0, 1.0]
+    origin_xyz_m: [0.0, 0.1154, -0.10815]
+    origin_rpy_rad: [0.0, 0.0, 3.141592653589793]
+  SOLAR_R2_ROOT_R:
+    link: solar_r2_right_c01_snapshot
+    T_S_frame:
+    - [1.0, 0.0, 0.0, 0.0]
+    - [0.0, 1.0, 0.0, -0.1154]
+    - [0.0, 0.0, 1.0, -0.10815]
+    - [0.0, 0.0, 0.0, 1.0]
+    origin_xyz_m: [0.0, -0.1154, -0.10815]
+    origin_rpy_rad: [0.0, 0.0, 0.0]
+
+link_tree_selected_mode:
+- {link: spacecraft_bus, parent_joint: null, role: physical_residual_bus_root}
+- {link: bus_primary_structure_candidate_v1, parent_joint: bus_to_bus_primary_structure_candidate_v1, role: physical_explicit_primary_structure}
+- {link: D_BUS_MATE_PHYSICAL, parent_joint: bus_to_D_BUS_MATE_PHYSICAL, role: frame_only_physical_mating_datum}
+- {link: D_BUS_M6_PATTERN, parent_joint: D_BUS_MATE_PHYSICAL_to_D_BUS_M6_PATTERN, role: frame_only_clocked_pattern_datum}
+- {link: load_bridge_candidate, parent_joint: D_BUS_M6_PATTERN_to_load_bridge_candidate, role: physical_load_bridge}
+- {link: m3r_lumped_link, parent_joint: load_bridge_candidate_to_m3r_lumped_link, role: physical_lumped_m3r}
+- {link: base_link, parent_joint: m3r_lumped_link_to_base_link, role: physical_B601_root}
+- {link: link1, parent_joint: joint1, role: physical_B601_link}
+- {link: link2, parent_joint: joint2, role: physical_B601_link}
+- {link: link3, parent_joint: joint3, role: physical_B601_link}
+- {link: link4, parent_joint: joint4, role: physical_B601_link}
+- {link: link5, parent_joint: joint5, role: physical_B601_link}
+- {link: link6, parent_joint: joint6, role: physical_B601_link}
+- {link: gripper_link, parent_joint: gripper_joint, role: physical_B601_gripper_palm}
+- {link: gripper_left, parent_joint: gripper_joint1, role: physical_B601_gripper_finger}
+- {link: gripper_right, parent_joint: gripper_joint2, role: physical_B601_gripper_finger}
+- {link: M_DYNAMICS_NONPHYSICAL, parent_joint: bus_to_M_DYNAMICS_NONPHYSICAL, role: frame_only_nonphysical_dynamics_reference}
+- {link: solar_r2_left_c01_snapshot, parent_joint: bus_to_solar_r2_left_c01_snapshot, role: physical_fixed_deployed_snapshot}
+- {link: solar_r2_right_c01_snapshot, parent_joint: bus_to_solar_r2_right_c01_snapshot, role: physical_fixed_deployed_snapshot}
+
+joint_tree_selected_mode:
+- name: bus_to_bus_primary_structure_candidate_v1
+  type: fixed
+  parent: spacecraft_bus
+  child: bus_primary_structure_candidate_v1
+  origin_xyz_m: [0.0, 0.0, 0.0]
+  origin_rpy_rad: [0.0, 0.0, 0.0]
+- name: bus_to_D_BUS_MATE_PHYSICAL
+  type: fixed
+  parent: spacecraft_bus
+  child: D_BUS_MATE_PHYSICAL
+  origin_xyz_m: [0.18525, 0.0, 0.0]
+  origin_rpy_rad: [0.0, 1.5707963267948966, 0.0]
+- name: D_BUS_MATE_PHYSICAL_to_D_BUS_M6_PATTERN
+  type: fixed
+  parent: D_BUS_MATE_PHYSICAL
+  child: D_BUS_M6_PATTERN
+  origin_xyz_m: [0.000086366070, 0.000015994151, 0.0]
+  origin_rpy_rad: [0.0, 0.0, 0.4363325573440537]
+- name: D_BUS_M6_PATTERN_to_load_bridge_candidate
+  type: fixed
+  parent: D_BUS_M6_PATTERN
+  child: load_bridge_candidate
+  origin_xyz_m: [0.0, 0.0, 0.0]
+  origin_rpy_rad: [0.0, 0.0, 0.0]
+- name: load_bridge_candidate_to_m3r_lumped_link
+  type: fixed
+  parent: load_bridge_candidate
+  child: m3r_lumped_link
+  origin_xyz_m: [0.0, 0.0, 0.02275]
+  origin_rpy_rad: [0.0, 0.0, 0.0]
+- name: m3r_lumped_link_to_base_link
+  type: fixed
+  parent: m3r_lumped_link
+  child: base_link
+  origin_xyz_m: [-0.00008503365669377021, 0.00002200427555603084, 0.0]
+  origin_rpy_rad: [0.0, 0.0, 0.0]
+- {name: joint1, type: revolute, parent: base_link, child: link1, origin_xyz_m: [-0.00008416, 0.0, 0.08465], origin_rpy_rad: [0.0, 0.0, 0.0], axis_joint_frame: [0.0, 0.0, 1.0], limits: {lower_rad: -2.8, upper_rad: 2.8, effort_model_literal: 27.0, velocity_model_literal_rad_s: 50.0}}
+- {name: joint2, type: revolute, parent: link1, child: link2, origin_xyz_m: [0.020084, 0.031625, 0.05555], origin_rpy_rad: [-1.5708, 0.0, 0.0], axis_joint_frame: [0.0, 0.0, -1.0], limits: {lower_rad: -3.14, upper_rad: 0.0, effort_model_literal: 27.0, velocity_model_literal_rad_s: 50.0}}
+- {name: joint3, type: revolute, parent: link2, child: link3, origin_xyz_m: [-0.264, 0.0, 0.0], origin_rpy_rad: [0.0, 0.0, 0.0], axis_joint_frame: [0.0, 0.0, 1.0], limits: {lower_rad: -3.14, upper_rad: 0.0, effort_model_literal: 27.0, velocity_model_literal_rad_s: 50.0}}
+- {name: joint4, type: revolute, parent: link3, child: link4, origin_xyz_m: [0.2426, -0.054, -0.001625], origin_rpy_rad: [0.0, 0.0, 0.0], axis_joint_frame: [0.0, 0.0, 1.0], limits: {lower_rad: -1.87, upper_rad: 1.57, effort_model_literal: 7.0, velocity_model_literal_rad_s: 200.0}}
+- {name: joint5, type: revolute, parent: link4, child: link5, origin_xyz_m: [0.078308, -0.0375, -0.03], origin_rpy_rad: [-1.5708, 0.0, 0.0], axis_joint_frame: [0.0, 0.0, 1.0], limits: {lower_rad: -1.57, upper_rad: 1.57, effort_model_literal: 7.0, velocity_model_literal_rad_s: 200.0}}
+- {name: joint6, type: revolute, parent: link5, child: link6, origin_xyz_m: [0.023692, 0.0, 0.04], origin_rpy_rad: [0.0, 1.5708, 0.0], axis_joint_frame: [0.0, 0.0, 1.0], limits: {lower_rad: -3.14, upper_rad: 3.14, effort_model_literal: 7.0, velocity_model_literal_rad_s: 200.0}}
+- {name: gripper_joint, type: fixed, parent: link6, child: gripper_link, origin_xyz_m: [0.0, 0.0, 0.15971], origin_rpy_rad: [0.0, -1.5708, 0.0]}
+- {name: gripper_joint1, type: prismatic, parent: gripper_link, child: gripper_left, origin_xyz_m: [-0.042091, 0.000027531, -0.000013031], origin_rpy_rad: [0.0, 0.0, -1.5708], axis_joint_frame: [1.0, 0.0, 0.0], limits: {lower_m: 0.0, upper_m: 0.0715, effort_model_literal: 100.0, velocity_model_literal_m_s: 15.0}}
+- {name: gripper_joint2, type: prismatic, parent: gripper_link, child: gripper_right, origin_xyz_m: [-0.042091, -0.000027531, 0.000013031], origin_rpy_rad: [0.0, 0.0, 1.5708], axis_joint_frame: [1.0, 0.0, 0.0], limits: {lower_m: 0.0, upper_m: 0.0715, effort_model_literal: 100.0, velocity_model_literal_m_s: 15.0}}
+- name: bus_to_M_DYNAMICS_NONPHYSICAL
+  type: fixed
+  parent: spacecraft_bus
+  child: M_DYNAMICS_NONPHYSICAL
+  origin_xyz_m: [0.18525, 0.0, 0.0]
+  origin_rpy_rad: [0.0, 1.5707963267948966, 0.0]
+- name: bus_to_solar_r2_left_c01_snapshot
+  type: fixed
+  parent: spacecraft_bus
+  child: solar_r2_left_c01_snapshot
+  origin_xyz_m: [0.0, 0.1154, -0.10815]
+  origin_rpy_rad: [0.0, 0.0, 3.141592653589793]
+- name: bus_to_solar_r2_right_c01_snapshot
+  type: fixed
+  parent: spacecraft_bus
+  child: solar_r2_right_c01_snapshot
+  origin_xyz_m: [0.0, -0.1154, -0.10815]
+  origin_rpy_rad: [0.0, 0.0, 0.0]
+
+positive_motion_contract:
+  B601_numeric_axes_and_limits: PRESERVED_BYTE_SOURCE_SEMANTICS_FROM_ACCEPTED_URDF
+  physical_positive_motion_descriptions: HOLD_NOT_EXPLICIT_IN_ACCEPTED_B601_URDF
+  gripper_velocity_literal_rule: 15.0 is an unvalidated model limit in m/s; it is not hardware speed or contact timing authority
+  movable_joint_count: 8
+
+tree_assertions:
+  selected_mode_one_root: true
+  selected_mode_connected: true
+  selected_mode_acyclic: true
+  selected_mode_joints_equal_links_minus_one: true
+  aggregate_mode_one_root: true
+  aggregate_mode_connected: true
+  aggregate_mode_acyclic: true
+  aggregate_mode_joints_equal_links_minus_one: true
+  transforms_executed_in_consumer: false
+  claims_authorized_for_dynamics: false

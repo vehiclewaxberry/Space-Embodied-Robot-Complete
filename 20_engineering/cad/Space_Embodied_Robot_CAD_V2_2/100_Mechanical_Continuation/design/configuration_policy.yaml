@@ -1,0 +1,67 @@
+policy_id: V22_MECHANICAL_CONTINUATION_CONFIGURATION_POLICY_01
+decision_id: V22_B601_CONTINUE_01
+applies_to: FUTURE_SOLIDWORKS_STAGING_TOP_ONLY
+applies_to_this_step: false
+
+representation_authority:
+  B601_VISUAL_LOD1:
+    geometry_authority: REGISTERED_VENDOR_STEP
+    kinematic_authority: NONE
+    mass_authority: EXCLUDED
+    bom_authority: EXCLUDED
+    license_class: E3_INTERNAL_RESEARCH_ONLY
+    do_not_redistribute: true
+  B601_MASS_KINEMATIC_PROXY:
+    kinematic_authority: ACCEPTED_URDF
+    mass_authority: ACCEPTED_URDF
+    authoritative_mass_kg: 4.6955559493429862
+
+mutual_exclusion_rule:
+  invariant: exactly_one_representation_resolved
+  forbidden:
+    - HIFI_RESOLVED_AND_Q0_RESOLVED
+    - HIFI_SUPPRESSED_AND_Q0_SUPPRESSED
+  verification_status: NOT_APPLICABLE_TO_STATIC_STEP
+
+states:
+  STOWED:
+    hifi: RESOLVED_WHEN_LOD1_AVAILABLE
+    q0_or_task_proxy: SUPPRESSED
+    status: POLICY_DEFINED_NOT_APPLIED
+  DEPLOYED_NOMINAL:
+    hifi: SUPPRESSED
+    q0_or_task_proxy: RESOLVED
+    status: POLICY_DEFINED_NOT_APPLIED
+  DEPLOY_FAILED_BOTH:
+    hifi: SUPPRESSED
+    q0_or_task_proxy: RESOLVED
+    status: POLICY_DEFINED_NOT_APPLIED
+  L_FAIL:
+    hifi: SUPPRESSED
+    q0_or_task_proxy: RESOLVED
+    status: POLICY_DEFINED_NOT_APPLIED
+  R_FAIL:
+    hifi: SUPPRESSED
+    q0_or_task_proxy: RESOLVED
+    status: POLICY_DEFINED_NOT_APPLIED
+  PARTIAL:
+    hifi: SUPPRESSED
+    q0_or_task_proxy: RESOLVED
+    status: POLICY_DEFINED_NOT_APPLIED
+  SERVICE:
+    hifi: PENDING_HUMAN_RATIFICATION
+    q0_or_task_proxy: PENDING_HUMAN_RATIFICATION
+    status: PENDING_RATIFICATION
+    note: Do not equate service with vendor-stowed geometry without an access sequence.
+  CAPTURE_SAFE:
+    hifi: SUPPRESSED
+    q0_or_task_proxy: RESOLVED
+    status: UNKNOWN_CANDIDATE_NOT_UPGRADED
+
+step_staging_semantics:
+  solidworks_configurations: NONE
+  component_suppression: NONE
+  bom_exclusion: NONE
+  mass_exclusion: DECLARATIVE_LABEL_ONLY
+  readback_gate: NOT_RUN_NOT_REPRESENTABLE_IN_STEP
+  note: This STEP is geometry staging and cannot satisfy native SolidWorks configuration or BOM gates.

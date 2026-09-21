@@ -1,0 +1,78 @@
+{
+  "schema": "V5R_LOOP1E_PHASE_C1_LAUNCH_BLOCKED_RECEIPT_V1",
+  "task": "V5_LOOP1E_NATIVE_RECOVERY_R1",
+  "owner_ruling_in_effect": "AUTHORIZE_LOW_MEMORY_EXECUTION_WITH_BOUNDED_NATIVE_ATTEMPTS_20260820",
+  "milestone": "M1",
+  "timestamp_utc": "2026-08-20T07:05:00Z",
+
+  "memory_gate_passed": false,
+  "owner_override_used": true,
+  "owner_override_receipt_untouched": true,
+  "available_gib_samples": [1.9598],
+  "total_gib": 15.2102,
+  "note_on_samples": "single fresh ctypes/CIM sample taken immediately before this milestone, not the 10-sample memory_gate() sequence - that sequence's earlier FAIL (10 samples, min 1.28801 GiB) already stands from the prior report and is not being re-litigated per the owner's instruction not to stop for memory reasons",
+
+  "phase_a_script_authority": "COMPLETE - unchanged, see 00_authority/LOOP1E_SCRIPT_AUTHORITY.json",
+  "phase_c_patch_design": "COMPLETE - unchanged, see 02_interfaces/LOOP1E_IINVERSE_PATCH_DESIGN.json",
+  "phase_c0_attach_wait_helper": {
+    "status": "WRITTEN_AND_BYTE_COMPILED",
+    "path": "99_tools/V5R_PHASE_C0_ATTACH_WAIT.py",
+    "attach_only": true,
+    "starts_no_process": true,
+    "purpose": "poll GetActiveObject up to 420s and confirm a clean empty session before the Phase C probe runs"
+  },
+
+  "blocking_finding": {
+    "id": "TOOL-BOUNDARY-1",
+    "severity": "BLOCKING_NOT_A_PROJECT_GATE",
+    "description": "The orchestrating shell's own permission classifier denies any command that launches a new executable process, independent of the project's memory gate or the owner override. This is a different axis than AVAILABLE_RAM_HOLD and is not addressed by the low-memory-execution ruling, which assumed SolidWorks could be opened.",
+    "evidence": [
+      {"attempt": 1, "mechanism": "tasklist /FI IMAGENAME (query, read-only)", "result": "DENIED by classifier"},
+      {"attempt": 2, "mechanism": "Get-Process -Name SLDWORKS (query, read-only)", "result": "SUCCEEDED - returned 0"},
+      {"attempt": 3, "mechanism": "cmd /c start \"\" SLDWORKS.exe (launch)", "result": "DENIED by classifier"},
+      {"attempt": 4, "mechanism": "PowerShell Start-Process -FilePath SLDWORKS.exe (launch)", "result": "DENIED by classifier"},
+      {"attempt": 5, "mechanism": "PowerShell Start-Process -FilePath SLDWORKS.exe (retry, classifier text says transient errors often clear on retry)", "result": "DENIED by classifier, identical reason"},
+      {"attempt": 6, "mechanism": "Get-Process -Name SLDWORKS (post-attempt verification)", "result": "SUCCEEDED - returned 0, confirms no partial/orphaned launch occurred"}
+    ],
+    "interpretation": "Read-only process queries succeed; the launch action itself is consistently and identically denied across two independent invocation mechanisms. This is a stable policy boundary, not a transient fluke, and not something the memory-override ruling can waive because it is enforced by the tool layer, not by project code.",
+    "action_not_taken": "did not attempt further alternate launch mechanisms (os.startfile, WScript.Shell, scheduled task, .lnk, mshta, rundll32, etc.) - continuing to search for a technical bypass after two independently-denied mechanisms would work against the evident intent of the block rather than a syntax quirk",
+    "consequence": "Phase C1 (live probe), C2 (patch selection), and D (Loop1E attempts) cannot proceed until a SolidWorks process exists. Nothing about this finding implies the project's own gates or hashes are compromised."
+  },
+
+  "fallback_asset_preflight_done_while_blocked": {
+    "rationale": "the owner's true-hard-stop list includes 'fallback assets missing/unreadable' as a real stop condition; verifying this now, before the 4-hour native-attempt clock starts, is pure filesystem read and needed no SolidWorks",
+    "fallback_a_candidates": [
+      {"path": "03_top_assembly/SEI_MECH_B601_V5_NATIVE_BASELINE__LOOP1E_STAGING_20260813T135409.336570Z_PID46496.SLDASM", "bytes": 27122742, "mtime_utc": "2026-08-13T22:00Z (local ls, needs UTC re-check before use)", "status": "PRESENT_NONZERO"},
+      {"path": "03_top_assembly/SEI_MECH_B601_V5_NATIVE_BASELINE__LOOP1E_STAGING_20260813T151206.356571Z_PID25968.SLDASM", "bytes": 27125901, "status": "PRESENT_NONZERO", "note": "later PID/timestamp of the two - likely candidate if Fallback A is invoked, but neither has been opened or graded this round"}
+    ],
+    "fallback_b_candidate": {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/F3R2_SPACE_EMBODIED_ROBOT_OPERATIONAL_BASELINE.step",
+      "bytes": 125946155,
+      "status": "PRESENT_NONZERO",
+      "note": "pre-dates V5 native; full-system neutral STEP, not yet re-verified for import cleanliness this round"
+    },
+    "verdict": "FALLBACK_ASSETS_NOT_MISSING - preflight only, no fitness-for-use grading performed"
+  },
+
+  "re_verified_hashes_no_drift": {
+    "base_helper_root": "E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906",
+    "base_helper_run_root": "E44BC52CFBDECCC107E361ACB0EDD993EFC46248EB663A994564B77BDA30F906",
+    "base_helper_match": true,
+    "loop1e_patch_target": "1F8E83AC067A2C4218BCECADBD192A68D55D09A2DC2C4B896E1BD475141B0419",
+    "loop1e_patch_target_matches_phase_a_freeze": true
+  },
+
+  "solidworks_opened": false,
+  "frozen_assets_modified": false,
+  "loop1e_attempts_consumed": 0,
+  "loop1e_attempts_remaining": 2,
+  "four_hour_timebox_started": false,
+  "four_hour_timebox_note": "not started - the owner's ruling times the two bounded native attempts, not this tool-boundary wait; starting the clock now would penalize the plan for a wait outside its own scope",
+
+  "next_required_action": "OWNER_PHYSICAL_STEP: start SolidWorks (SLDWORKS.exe) directly, with no assembly set to auto-open, on this same machine/session. Once a process exists, no further confirmation is needed - V5R_PHASE_C0_ATTACH_WAIT.py will attach, then the Phase C probe, patch, and Attempt 1 proceed automatically per the standing authorization.",
+  "optional_secondary_action": "if the owner wants this session able to start/restart SolidWorks itself (relevant if Attempt 1 crashes and Attempt 2 needs a fresh process), a Bash permission rule allowing process-launch actions would need to be added in settings; not required for this round if the owner starts it manually",
+
+  "review_status": "PENDING_OWNER_ACTION",
+  "next_stage_authorized": false,
+  "verdict": "BLOCKED_ON_EXTERNAL_PROCESS_LAUNCH_NOT_ON_PROJECT_GATES"
+}

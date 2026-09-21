@@ -1,0 +1,89 @@
+{
+  "review": "STAGE1_CLOSURE_INDEPENDENT_REVERIFY/R17_EXPORT_CHAIN",
+  "review_run": "stage1_closure_review_20260919",
+  "reviewed_run": "r17_export_chain_20260919",
+  "reviewed_commit": "de892b81",
+  "reviewer_role": "INDEPENDENT_REVIEWER_READ_ONLY",
+  "scope": "WP03 阶段一收口工作包 A：BOM 交接来源时序生产修复（export_parts_and_bom.py 重写 + README 顺序说明）。纯软件/溯源任务，无 CAD 几何改动。审阅只读：不改候选、不执行 git 提交。",
+  "basis_pins": {
+    "r17_after_hashes": {
+      "BOM.csv": "a6ce5bffd57a2232e5f55e0d6ed4166216405427f9d5f3f980d70329794624f9",
+      "INTERFACES.csv": "f432955d50c78bcdeab1eaef8926a207a77f6002c067a76e0c70f38365b7fd60",
+      "DYNAMICS_HANDOFF.json": "5390292aa363d830e9eb55ca0780ee835b2cf47a3602739aec97a6dee71ac47f",
+      "DYNAMICS_SUMMARY_ZH.md": "cb199620a9f53cb6ac0a2fb555632df72b4a49625b1191470a8e1f2fbbf48a8b",
+      "parking_instances.json": "2d9efa228fbb2b8ca575e3dfe8cfb6eed5f33cd7292842e9fe25a702dae8cb5f",
+      "released_instances.json": "a50459daaa89e8bdaf3345551f51680330eec0bd5e03e4f7577847a8c0c0b937",
+      "service_instances.json": "25e12ac96f9afbb759d3d4d4305f638999a4fe9a08cc802c2e3ae3ae0c53b043",
+      "parking_ground_instances.json": "b35c99d9dac9a0e7d16007f2ee22e3fa410ef91b35464eb4e12902958411fa41"
+    },
+    "r17_before_bom_sha256": "cfb4df9a60b7246cdeb77a8dc36dfef2847c3cba276d5668203f808776fb1b44",
+    "baseline_service_structure_receipt_sha256": "d220c70274ab3bc27b306b253a4f6ac96057494de05a50c05955f04a450ef9a3",
+    "design_parameters_sha256": "324b49c712f3b499dda0feb963527e4e7f4b25bfc151c4f83ab57bf382108ea8",
+    "e4_source_sha256": "a888cda0a2c0ead7d3d985b5d3218ee1f8f6721059420dec593e1bdefcf1d81e",
+    "pose_screen_v2_sha256": "07670f67879b88950c6a320b7e8e2695e15049254d2a14d9f8e557bef386c57f",
+    "review_head_commit_at_review": "d29b06d62be52e4fe794d989a3b1c02d1870832c"
+  },
+  "sub_verdicts": {
+    "A1_negative_control_replay": {
+      "verdict": "PASS",
+      "detail": {
+        "control_pass": true,
+        "nc_cases": 6,
+        "nc_pass": 6,
+        "all_exit2_with_restore": true
+      },
+      "note": "沙箱复刻最小 20_engineering 相对布局，HANDOFF 哈希键按沙箱路径重定基（值不变）。对照 --bom-only exit 0 且 BOM/INTERFACES 字节==live；6 负控全 exit 2 + 预期违例码 + BOM/INTERFACES 字节恢复（NC1b 实证 _restore None 分支：预先不存在则拒绝后仍不存在）。"
+    },
+    "A2_cad_free_import_probe": {
+      "verdict": "PASS",
+      "note": "独立探针子进程（新鲜沙箱重建后）证实 --bom-only 路径进程内 sys.modules 无 build123d/OCP/cadgen/vtk/spacecraft_model/dynamics_handoff/numpy，与被审证据互锁。"
+    },
+    "A3a_deliverable_snapshots": {
+      "verdict": "PASS",
+      "note": "交付物 9 项 before==inputs 快照、after==live（DYNAMICS_SUMMARY_ZH.md 无快照属预期）。"
+    },
+    "A3b_bom_content_audit": {
+      "verdict": "PASS",
+      "note": "BOM 497 行 15 列；214 分配/283 空单元；无 0 填；allocated_mass_reference 全为 results/DYNAMICS_HANDOFF.json。"
+    },
+    "A3c_fail_closed_code_reading": {
+      "verdict": "PASS",
+      "note": "备份先于任何写；except Exception 全恢复；写入在所有校验之后；--bom-only 仍走全部校验。发现语义边界见观察项 OA1。"
+    },
+    "A4_ticket_field_nonrewrite": {
+      "verdict": "PASS",
+      "note": "issues.json 的 R17 票字段 current_BOM_is_proven_stale=false / production_fix_applied=false 未被回写（票字段留 owner）；改前备份 inputs/BOM.csv==cfb4df9a…，staleness_audit 在位。"
+    },
+    "B4_workspace_cleanliness_cross": {
+      "verdict": "PASS",
+      "note": "git status 全仓仅 3 条 ??（本审阅 run 目录 + 验证器链 2 个新文件），无任何跟踪文件被改动；ENG 目录 6 份回执/交接哈希与 R17 后钉固态逐位一致。",
+      "evidence": "review_b3b4_r14_clean.json::B4_workspace_cleanliness"
+    }
+  },
+  "key_results": {
+    "negative_controls_replayed": "6/6 exit 2 + 预期违例码 + 字节恢复",
+    "positive_control": "--bom-only exit 0，BOM/INTERFACES 字节==live（a6ce5bff…/f432955d…）",
+    "spotcheck_consistency": "5/5（A2/A3a/A3b/A3c/A4）"
+  },
+  "observations": [
+    {
+      "id": "OA1",
+      "severity": "DOCUMENTATION",
+      "text": "\"任一失配 exit 2\"的严格语义只覆盖校验拒绝路径（HandoffRejected）。非 HandoffRejected 异常（如 dynamics_handoff 子进程非零返回）同样恢复交付物字节，但以 traceback 退出、exit≠2。建议 README/验收文档注明该语义边界。"
+    },
+    {
+      "id": "OA2",
+      "severity": "EXPECTED_BEHAVIOR",
+      "text": "NC8 类注入变异会连带触发实例集合/owner 覆盖面错配码（一次变异多码检出）。属预期行为，与被审 NC2/NC7 的多码检出同型，非误报。"
+    }
+  ],
+  "limitations_carried_from_candidate": [
+    "ticket_closure=NOT_CLOSED：R17 票字段不回写，留 owner/审阅（本审阅确认未回写，见 A4）。",
+    "修复链覆盖面以 8/8 负控（本审阅独立重放其中 6 类）与真实链复跑为界；不证明交接语义之外的工程正确性。"
+  ],
+  "verdict": "R17_INDEPENDENT_REVERIFY_PASS_WITH_OBSERVATIONS",
+  "whole_design_complete": false,
+  "manufacturing_release": false,
+  "generated_at": "2026-09-19T04:40:11+0900",
+  "verdict_semantics": "本裁决为独立复验裁决：审阅者以只读方式对被审 run 的声明证据链进行独立重放/复算，证实其在本审阅口径下成立；不升级任何科学/工程结论，不构成整星设计完成证明或制造放行。PASS_WITH_OBSERVATIONS = 全部独立复验判据通过，但登记有不影响通过判据的观察项。"
+}

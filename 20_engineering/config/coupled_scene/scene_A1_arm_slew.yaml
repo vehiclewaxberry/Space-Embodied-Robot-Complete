@@ -1,0 +1,28 @@
+# 场景 A1：臂收拢位形 → 预抓取位形（对齐 sim_05 headline 工况，时长参照 sim_05）
+# 帆板刚化开关（rigid_panels=true 由 Gate 脚本注入）必须复现 sim_05 峰值基座姿态扰动 19.20°。
+version: v0
+scene_id: scene_A1_arm_slew
+model_card: 20_engineering/config/coupled_scene/coupled_model_v0.yaml
+description: >-
+  自由漂浮零动量。B601 关节按五次多项式（10-15-6 形函数，端点速度/加速度为零，
+  与 sim_05 的 min-jerk 同一多项式）从收拢位形运动到预抓取位形，随后保持。
+  记录基座姿态扰动时程与帆板模态响应。
+trajectory:
+  type: quintic_10_15_6
+  t_maneuver_s: 8.0               # 机动时长（参照 sim_05 headline）
+  t_end_s: 12.0                   # 8 s 机动 + 保持至 12 s
+  q_start_deg: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]        # 收拢位形（sim_05 同）
+  q_end_deg:   [0.0, 60.0, -40.0, 0.0, 0.0, 0.0]     # 预抓取位形：joint2 +60°, joint3 −40°（sim_05 headline）
+  note: >-
+    q2=+60° 沿用 sim_05 已声明的动力学基准口径（与 sim_03/05 可比），非飞行轨迹；
+    实际飞行轨迹限位与轴向只认 arm_urdf SSOT。
+initial_state:
+  base_position_m: [0.0, 0.0, 0.0]
+  base_quat_wxyz: [1.0, 0.0, 0.0, 0.0]
+  eta_zero: true                  # 帆板初始无变形、无模态速度
+  total_momentum: zero            # 自由漂浮、零初始动量（无外力外力矩）
+output:
+  n_out: 601
+  csv: sim_11_scene_A1.csv
+  summary_json: sim_11_scene_A1_summary.json
+  png: sim_11_scene_A1.png

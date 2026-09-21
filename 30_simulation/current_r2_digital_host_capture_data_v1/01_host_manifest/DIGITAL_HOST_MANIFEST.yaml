@@ -1,0 +1,77 @@
+# DIGITAL_HOST_MANIFEST — CURRENT_R2_DIGITAL_HOST_CAPTURE_DATA_INCREMENT_V1
+# 六层数字主机绑定表。缺失值一律显式 null + status，禁止补零。
+# 合法名称：CURRENT_SYSTEM_DIGITAL_HOST_CANDIDATE / EXECUTABLE_DIGITAL_MOCKUP_PREBIND
+# 禁用名称：COMPLETE_DIGITAL_TWIN（H4 闭合前不得使用）
+schema: DIGITAL_HOST_MANIFEST_V1
+increment: CURRENT_R2_DIGITAL_HOST_CAPTURE_DATA_INCREMENT_V1
+claim_ceiling: CURRENT_SYSTEM_DIGITAL_HOST_CANDIDATE_PREBIND_ONLY
+release_credit: false
+hash_manifest: 00_authority/SOURCE_HASH_MANIFEST.csv   # 所有 sha256 以此为准
+
+layers:
+  H0_authority:
+    status: BOUND
+    v2_bundle_dir: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/current_r2_mechanical_dynamics_control_increment_v2/
+    v2_gate: {counts: "38/38", source_binding: "27/27", validation: "7/7", negative_controls: "28/28"}
+    parent_terminal_gate_a: {path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/00_RELEASE_GATE.json, gate_a_pass: false}
+    parent_v4: {path: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/digital_prototype_dynamics_entry_v1/CURRENT_R2_DIGITAL_PROTOTYPE_DYNAMICS_ENTRY_GATE_V4.json, reissued: false}
+    source_authority_lock: {path: ".../SOURCE_AUTHORITY_LOCK_V2.json", records: 27}
+    owner_authorizations_present:
+      named_cad_run: null          # status: MISSING
+      low_memory_override: null    # status: NOT_REQUESTED（本增量明确不索取）
+      m01_path_search_token: "AUTHORIZE_OPTION_A_FIXED_ENDPOINT_M01_TRAJECTORY_SEARCH RECORDED（仅分支选择，非执行授权）"
+    unit_contract: 02_frames_units/UNIT_CONTRACT.yaml
+  H1_dynamics_truth:
+    status: BOUND
+    accepted_urdf:
+      path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+      sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+      designation: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/05_ACCEPTED_B601_URDF_REF.yaml
+      topology: "10 links / 9 joints = 6R + 1 fixed + 2 independent P"
+      modification: FORBIDDEN
+    servicer_mass_inertia:
+      ledger: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+      row: servicer_12U_v0
+      confidence: low               # build123d 设计模型；CDR 权威 bus/帆板为 null HOLD
+      cdr_authority: PARTIAL_AUTHORITY_CLOSED_SYSTEM_CONFIGURATION_MASS_PROPERTIES_NOT_EVALUABLE
+    target_models:
+      satellite_22kg: {urdf: 20_engineering/cad/spacecraft_layout/target_satellite_v0/target_satellite_v0.urdf, cdr_status: PROVISIONAL_NOT_CDR_RELEASED}
+      debris_150kg: {urdf: 20_engineering/cad/spacecraft_layout/target_debris_v0/target_debris_v0.urdf, cdr_status: PROVISIONAL_NOT_CDR_RELEASED, note: "密度 60.9 kg/m^3 非物理占位（D-8）"}
+    unified_r2_c01_candidate:
+      path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/generated_v2/unified_r2_c01_no_route_c_sim_candidate_v2.urdf
+      sha256: d84aa23ce98a2a9c697b1f32e433c01c3f0ae3bd0b5c56ef9a218dd88911cbda
+      total_mass_kg_pinned: 31.022864807342987
+      status: CANDIDATE_NOT_ACCEPTED_TRUTH
+    route_c: {disposition: EXCLUDED, reason: "V9F REJECTED / RC-5 未接受"}
+  H2_engineering_geometry:
+    status: NOT_YET_COMPLETE
+    current_state_register: 04_step_states/CURRENT_STATE_REGISTER.csv
+    configuration_library: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/03_mass_properties/CONFIGURATION_LIBRARY_V1.yaml
+    current_step_states: {value: "0/9", authority: M4_L01_L02_CONFIGURATION_GEOMETRY_EXECUTION_MATRIX_GATE_V1.json}
+    d01_fixed_q0_recipe: {verdict_token: D01_Q0_DIAGNOSTIC_RECIPE_READY, step_generation_executed: false}
+    four_view_witness: null         # status: MISSING（随 STEP 生成）
+    cad_run: {authorization: null, memory_admission: FAIL_BELOW_6_GIB, branch: FROZEN}
+  H3_simulation_geometry:
+    status: NOT_YET_COMPLETE
+    visual_meshes_per_link: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/   # 10 STL
+    broadphase_scene_mesh: {path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/SEI_MECH_B601_V5R_COLLISION_MESH.stl, classification: BROAD_PHASE_ONLY}
+    narrow_phase: {status: ABSENT, required_for: "SIM13_CONTACT_GRASP_GATE_V2 (NC19)"}
+    collision_manifest: 20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/14_COLLISION_ASSET_MANIFEST.json
+    operational_collision_assets: "1/150 objects (A::base_link)"
+    pair_policy: 05_collision_assets/PAIR_POLICY.csv   # 无 wildcard、无默认继承
+  H4_runtime:
+    status: NOT_YET_COMPLETE
+    prebind_plant: {module: src/dh_v1/plant.py, scope: "无接触/无重力/刚体 S01-S03 prebind", contact_authority: NOT_EVALUATED}
+    reference_kernel_pin: "sim_13 v2_system_rebind sim13_v2/free_floating_dynamics.py（URDFTreeDynamics，经 PB00 消费）"
+    safe_prebind_kernel: {module: src/dh_v1/safe_prebind.py, note: "不替代 safety_00_runtime_gate"}
+    safe00: {verdict: PASS, next_stage_authorized: false, review_status: PENDING_REVIEW}
+    sim13: {maximum_operational_state: ABORT_ONLY, non_abort_authorized: false}
+    time_domain_control: {status: NOT_VERIFIED, evidence: "task-space 度量为 SOURCE_DERIVED_DIMENSIONLESS 静态候选，time_domain_tracking_executed=false"}
+    contact_authority: {status: NOT_EVALUATED, T_E_T: MISSING}
+  H5_scenarios_data:
+    status: BOOTSTRAPPED_D0_ONLY
+    scenario_matrix: 07_scenarios/SCENARIO_MATRIX.csv
+    episode_schema: 09_dataset/EPISODE_SCHEMA.json
+    writer: src/dh_v1/episode_writer.py
+    dataset_levels: {D0_REGRESSION: ACTIVE, D1_PAIRED_STRATEGY: PLANNED, D2_UNCERTAINTY: BLOCKED_NO_PARAMETER_AUTHORITY, D3_PERCEPTION: BLOCKED_NO_CURRENT_VISUAL_GEOMETRY}
+    episodes_root: 12_results/episodes/

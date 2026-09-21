@@ -1,0 +1,129 @@
+schema_version: comp-prot-03-a4-b2-v2-assembly-tree-v0.1
+document_status: APPROVED_TASKBOOK_BASELINE
+cad_authoring_authorized: false
+root_assembly:
+  object_id: SSV_V2_ROOT
+  cad_name_reserved: Spacecraft_Service_Vehicle_V2_0.SLDASM
+  semantic_role: 12U_small_autonomous_servicing_vehicle_system_mechanical_prototype
+  profile: COMPETITION_DISPLAY_V0
+  frame_id: S
+  evidence_state: DESIGN_PROPOSAL
+  no_dynamics_use: true
+  children:
+    - object_id: SSV_V2_SKEL
+      cad_name_reserved: Master_Skeleton_V2_0.SLDPRT
+      system_owner: SYSTEM_ARCHITECTURE
+      structure_class: REFERENCE_ONLY
+      role: global_envelope_frames_bay_boundaries_interfaces_keepouts
+      frame_id: S
+      evidence_state: DESIGN_PROPOSAL
+      evidence_state_breakdown: [EVIDENCE_BOUND, DESIGN_PROPOSAL, UNKNOWN_BLOCKED]
+      physical_authority: false
+    - object_id: SSV_V2_PRIMARY
+      cad_name_reserved: Primary_Structure_V2_0.SLDASM
+      system_owner: SPACECRAFT_STRUCTURE
+      structure_class: PRIMARY_STRUCTURE_PROPOSAL
+      role: front_and_rear_frames_longerons_transverse_rings_equipment_decks
+      frame_id: S
+      evidence_state: DESIGN_PROPOSAL
+      blocked_by: [rail_tab_choice, materials, section_dimensions, joints, load_cases]
+    - object_id: SSV_V2_FRONT_MISSION
+      cad_name_reserved: Front_Mission_Module_V2_0.SLDASM
+      system_owner: MISSION_PAYLOAD
+      structure_class: MIXED_PRIMARY_SECONDARY_PROPOSAL
+      role: robot_mount_sensor_reserve_task_interface_service_access
+      frame_id: S
+      evidence_state: DESIGN_PROPOSAL
+      blocked_by: [camera_package, physical_TCP, target_interface]
+    - object_id: SSV_V2_PLATFORM_BAY
+      cad_name_reserved: Avionics_EPS_ADCS_Bay_V2_0.SLDASM
+      system_owner: SPACECRAFT_BUS
+      structure_class: SECONDARY_AND_EQUIPMENT_PLACEHOLDERS
+      role: OBC_EPS_PMAD_battery_reaction_wheel_IMU_volume_owners
+      frame_id: S
+      evidence_state: DESIGN_PROPOSAL
+      blocked_by: [hardware_selection, mass_properties, thermal_and_harness_design]
+    - object_id: SSV_V2_REAR_SERVICE
+      cad_name_reserved: Rear_Service_Module_V2_0.SLDASM
+      system_owner: SPACECRAFT_SERVICE_SYSTEMS
+      structure_class: SECONDARY_AND_EQUIPMENT_PLACEHOLDERS
+      role: propulsion_communications_thermal_debug_reserved_zones
+      frame_id: S
+      evidence_state: DESIGN_PROPOSAL
+      blocked_by: [propulsion_selection, antenna_selection, thermal_design]
+    - object_id: SSV_V2_ROBOT_MOUNT
+      cad_name_reserved: Robot_Mount_Module_V2_0.SLDASM
+      system_owner: ROBOT_SPACECRAFT_INTERFACE
+      structure_class: PRIMARY_LOAD_PATH_PROPOSAL
+      role: adapter_M_datum_local_reinforcement_load_spreading_service_access
+      frame_id: M
+      evidence_state: DESIGN_PROPOSAL
+      evidence_state_breakdown: [EVIDENCE_BOUND, DESIGN_PROPOSAL, UNKNOWN_BLOCKED]
+      evidence_bound:
+        - T_SM_nominal_frozen_v1
+        - adapter_plate_and_boss_identity
+        - interface_160_reference_identity
+      blocked_by: [mount_load_cases, material, joints, stiffness_strength_modal_evidence]
+    - object_id: SSV_V2_B601
+      cad_name_reserved: B601_Visual_Arm_V2_0.SLDASM
+      system_owner: ROBOT_BODY
+      structure_class: VISUAL_REFERENCE_SUBASSEMBLY
+      role: accepted_10_link_9_joint_visual_identity
+      frame_id: A0
+      evidence_state: EVIDENCE_BOUND
+      evidence_state_breakdown: [EVIDENCE_BOUND, DESIGN_PROPOSAL, UNKNOWN_BLOCKED]
+      topology_change_allowed: false
+      dynamics_authority: false
+    - object_id: SSV_V2_SOLAR
+      cad_name_reserved: Solar_Array_Interface_Module_V2_0.SLDASM
+      system_owner: DEPLOYABLES
+      structure_class: SECONDARY_STRUCTURE_PROPOSAL
+      role: root_hinge_interface_state_slots_and_keepouts
+      frame_id: S
+      evidence_state: DESIGN_PROPOSAL
+      evidence_state_breakdown: [EVIDENCE_BOUND, DESIGN_PROPOSAL, UNKNOWN_BLOCKED]
+      blocked_by: [stowed_geometry, hinge_release_lock, harness, deployment_loads]
+    - object_id: SSV_V2_PAYLOAD_INTERFACE
+      cad_name_reserved: Payload_Perception_Interface_V2_0.SLDASM
+      system_owner: PERCEPTION_AND_CAPTURE_INTERFACE
+      structure_class: REFERENCE_ONLY
+      role: sensor_mount_E_virtual_and_future_contact_interface_reservations
+      frame_id: S
+      evidence_state: UNKNOWN_BLOCKED
+      solid_body_allowed: false
+    - object_id: SSV_V2_SERVICE_ACCESS
+      cad_name_reserved: Service_Access_and_Harness_References_V2_0.SLDASM
+      system_owner: INTEGRATION_AND_MAINTENANCE
+      structure_class: REFERENCE_ONLY
+      role: panel_removal_tray_extraction_tool_access_and_harness_corridors
+      frame_id: S
+      evidence_state: DESIGN_PROPOSAL
+      physical_authority: false
+    - object_id: SSV_V2_REVIEW
+      cad_name_reserved: Review_Overlays_V2_0.SLDASM
+      system_owner: EVIDENCE_AND_REVIEW
+      structure_class: REFERENCE_ONLY
+      role: frames_keepouts_evidence_states_load_path_and_named_configuration_views
+      frame_id: S
+      evidence_state: DESIGN_PROPOSAL
+      physical_authority: false
+
+forbidden_active_assembly_objects:
+  - target_satellite
+  - debris_target
+  - physical_TCP
+  - contact_geometry
+  - calibrated_FOV
+  - vendor_exact_B601_STEP
+
+required_named_configurations:
+  - STRUCTURAL_REVIEW
+  - SERVICE_ACCESS_REVIEW
+  - DEPLOYED_REFERENCE_Q0
+  - STOWED_PROPOSAL
+  - EVIDENCE_STATE_REVIEW
+
+reserved_cad_root:
+  path: 20_engineering/cad/Space_Embodied_Robot_CAD_V2_0
+  create_now: false
+  requires_gate: COMP-PROT-03-A4-B3-V2-SYSTEM-MECHANICAL-CAD

@@ -1,0 +1,1595 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web.Script.Serialization;
+using SolidWorks.Interop.sldworks;
+
+public static class B51R1S05R2J01R3NativePilotTool
+{
+    private const int PartType = 1;
+    private const int AssemblyType = 2;
+    private const int OpenSilent = 1;
+    private const int OpenReadOnly = 2;
+    private const int SaveSilent = 1;
+
+    private const int MateCoincident = 0;
+    private const int MateAngle = 6;
+    private const int MateHinge = 22;
+    private const int MateAlignClosest = 2;
+    private const int CreateMateSuccess = 1;
+    private const int FeatureNoError = 0;
+
+    private const int UnderConstrained = 2;
+    private const int FullyConstrained = 3;
+    private const int RemainingDofsRestricted = 0;
+
+    private const double JointX = -8.416e-5;
+    private const double JointY = 0.0;
+    private const double JointZ = 0.08465;
+    private const double Lower = -2.8;
+    private const double NativeMinimum = 0.0;
+    private const double NativeMaximum = 5.6;
+    private const double NativeQ0 = 2.8;
+    private const double OneDegree = Math.PI / 180.0;
+
+    private const double ReferenceTranslationTolerance = 1.0e-8;
+    private const double ReferenceRotationTolerance = 1.0e-8;
+    private const double FkTranslationTolerance = 5.0e-6;
+    private const double FkRotationTolerance = 5.0e-6;
+    private const double JointTolerance = 1.0e-6;
+    private const double LimitTolerance = 1.0e-6;
+
+    private static void Require(bool condition, string message)
+    {
+        if (!condition) throw new InvalidOperationException(message);
+    }
+
+    private static void ReleaseCom(object value)
+    {
+        if (value == null || !Marshal.IsComObject(value)) return;
+        try { Marshal.FinalReleaseComObject(value); } catch { }
+    }
+
+    private static bool SameComIdentity(object first, object second)
+    {
+        if (first == null || second == null) return false;
+        if (Object.ReferenceEquals(first, second)) return true;
+        if (!Marshal.IsComObject(first) || !Marshal.IsComObject(second)) return first.Equals(second);
+        IntPtr firstUnknown = IntPtr.Zero, secondUnknown = IntPtr.Zero;
+        try
+        {
+            firstUnknown = Marshal.GetIUnknownForObject(first);
+            secondUnknown = Marshal.GetIUnknownForObject(second);
+            return firstUnknown == secondUnknown;
+        }
+        finally
+        {
+            if (secondUnknown != IntPtr.Zero) Marshal.Release(secondUnknown);
+            if (firstUnknown != IntPtr.Zero) Marshal.Release(firstUnknown);
+        }
+    }
+
+    private static object[] ObjectArray(object raw, string label)
+    {
+        Array values = raw as Array;
+        Require(values != null, label + " is not an array");
+        var result = new List<object>();
+        foreach (object value in values) result.Add(value);
+        return result.ToArray();
+    }
+
+    private static bool SameUnorderedPair(object[] actual, object first, object second)
+    {
+        return actual.Length == 2 &&
+            ((SameComIdentity(actual[0], first) && SameComIdentity(actual[1], second)) ||
+             (SameComIdentity(actual[0], second) && SameComIdentity(actual[1], first)));
+    }
+
+    private static bool ValidMateAlignment(int value)
+    {
+        return value >= 0 && value <= MateAlignClosest;
+    }
+
+    private static Dictionary<string, object> EntitySummary(object value)
+    {
+        Feature feature = value as Feature;
+        if (feature != null)
+            return new Dictionary<string, object>
+            {
+                { "runtime_type", "Feature" }, { "name", feature.Name }, { "feature_type", feature.GetTypeName2() }
+            };
+        return new Dictionary<string, object>
+        {
+            { "runtime_type", value == null ? null : value.GetType().FullName }, { "name", null }, { "feature_type", null }
+        };
+    }
+
+    private static void ReleaseComItems(IEnumerable<object> values)
+    {
+        if (values == null) return;
+        foreach (object value in values) ReleaseCom(value);
+    }
+
+    private static int SelectedObjectCount(ModelDoc2 model)
+    {
+        SelectionMgr manager = null;
+        try
+        {
+            manager = model.SelectionManager as SelectionMgr;
+            Require(manager != null, "Selection manager is unavailable");
+            return manager.GetSelectedObjectCount2(-1);
+        }
+        finally { ReleaseCom(manager); }
+    }
+
+    private static string Sha256(string path)
+    {
+        using (FileStream stream = File.OpenRead(path))
+        using (SHA256 digest = SHA256.Create())
+            return BitConverter.ToString(digest.ComputeHash(stream)).Replace("-", "");
+    }
+
+    private static void WriteJsonCreateNew(string path, Dictionary<string, object> data)
+    {
+        Require(!File.Exists(path), "Append-only JSON exists: " + path);
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        using (FileStream stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Read))
+        using (StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(false)))
+            writer.Write(new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(data));
+    }
+
+    private static void ProgressCreateNew(string path, string text)
+    {
+        Require(!File.Exists(path), "Append-only progress log exists: " + path);
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        using (FileStream stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Read))
+        using (StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(false)))
+            writer.WriteLine(text);
+    }
+
+    private static void Progress(string path, string text)
+    {
+        using (FileStream stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.Read))
+        using (StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(false)))
+            writer.WriteLine(text);
+    }
+
+    private static SldWorks Attach(int expectedProcessId)
+    {
+        SldWorks app = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
+        Require(app.GetProcessID() == expectedProcessId, "ROT PID mismatch");
+        Require(app.Visible && app.StartupProcessCompleted, "SOLIDWORKS is not ready");
+        Require(app.GetDocumentCount() == 0 && app.ActiveDoc == null, "Session is not empty");
+        return app;
+    }
+
+    private static double[] ToArray(object raw, int required)
+    {
+        Array values = raw as Array;
+        Require(values != null && values.Length >= required, "Unexpected numeric array");
+        double[] result = new double[values.Length];
+        for (int i = 0; i < values.Length; i++) result[i] = Convert.ToDouble(values.GetValue(i));
+        return result;
+    }
+
+    private static double Dot(double[] a, double[] b)
+    {
+        return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    }
+
+    private static double Norm(double[] value)
+    {
+        return Math.Sqrt(Dot(value, value));
+    }
+
+    private static double[] Normalize(double[] value)
+    {
+        double norm = Norm(value);
+        Require(norm > 1.0e-14, "Cannot normalize zero vector");
+        return new[] { value[0] / norm, value[1] / norm, value[2] / norm };
+    }
+
+    private static double[] Cross(double[] a, double[] b)
+    {
+        return new[]
+        {
+            a[1] * b[2] - a[2] * b[1],
+            a[2] * b[0] - a[0] * b[2],
+            a[0] * b[1] - a[1] * b[0]
+        };
+    }
+
+    private static double Clamp(double value, double low, double high)
+    {
+        return Math.Max(low, Math.Min(high, value));
+    }
+
+    private static Feature[] Features(ModelDoc2 model, bool topLevelOnly)
+    {
+        object raw = model.FeatureManager.GetFeatures(topLevelOnly);
+        Array values = raw as Array;
+        if (values == null) return new Feature[0];
+        var result = new List<Feature>();
+        foreach (object value in values)
+        {
+            Feature feature = value as Feature;
+            if (feature != null) result.Add(feature);
+        }
+        return result.ToArray();
+    }
+
+    private static Feature FindFeature(ModelDoc2 model, string name, string type)
+    {
+        Feature[] features = Features(model, false);
+        Feature match = null;
+        try
+        {
+            int count = 0;
+            foreach (Feature feature in features)
+            {
+                if (feature.Name == name && (type == null || feature.GetTypeName2() == type))
+                {
+                    match = feature;
+                    count++;
+                }
+            }
+            Require(count == 1, "Feature lookup is not unique: " + name + ", count=" + count);
+            return match;
+        }
+        finally
+        {
+            foreach (Feature feature in features)
+                if (!Object.ReferenceEquals(feature, match)) ReleaseCom(feature);
+        }
+    }
+
+    private static void FindFeaturePair(ModelDoc2 model, string firstName, string secondName,
+        out Feature first, out Feature second)
+    {
+        Feature[] features = Features(model, false);
+        first = null;
+        second = null;
+        try
+        {
+            int firstCount = 0, secondCount = 0;
+            foreach (Feature feature in features)
+            {
+                if (feature.Name == firstName) { first = feature; firstCount++; }
+                if (feature.Name == secondName) { second = feature; secondCount++; }
+            }
+            Require(firstCount == 1 && secondCount == 1,
+                "Feature-pair lookup is not unique: " + firstName + "/" + secondName);
+        }
+        finally
+        {
+            foreach (Feature feature in features)
+                if (!Object.ReferenceEquals(feature, first) && !Object.ReferenceEquals(feature, second)) ReleaseCom(feature);
+        }
+    }
+
+    private static double[] PlaneLocalNormal(Feature feature)
+    {
+        RefPlane plane = null;
+        MathTransform transform = null;
+        try
+        {
+            plane = feature.GetSpecificFeature2() as RefPlane;
+            Require(plane != null, "Feature is not a reference plane: " + feature.Name);
+            transform = plane.Transform;
+            double[] raw = ToArray(transform.ArrayData, 16);
+            return Normalize(new[] { raw[6], raw[7], raw[8] });
+        }
+        finally { ReleaseCom(transform); ReleaseCom(plane); }
+    }
+
+    private static double[] PlaneLocalOrigin(Feature feature)
+    {
+        RefPlane plane = null;
+        MathTransform transform = null;
+        try
+        {
+            plane = feature.GetSpecificFeature2() as RefPlane;
+            Require(plane != null, "Feature is not a reference plane: " + feature.Name);
+            transform = plane.Transform;
+            double[] raw = ToArray(transform.ArrayData, 16);
+            return new[] { raw[9], raw[10], raw[11] };
+        }
+        finally { ReleaseCom(transform); ReleaseCom(plane); }
+    }
+
+    private static double[] ComponentTransform(Component2 component)
+    {
+        MathTransform transform = null;
+        try
+        {
+            transform = component.GetTotalTransform(false);
+            Require(transform != null, "Component total transform is unavailable: " + component.Name2);
+            return ToArray(transform.ArrayData, 16);
+        }
+        finally { ReleaseCom(transform); }
+    }
+
+    private static double[] ApplyDirection(double[] transform, double[] vector)
+    {
+        return Normalize(new[]
+        {
+            transform[0] * vector[0] + transform[3] * vector[1] + transform[6] * vector[2],
+            transform[1] * vector[0] + transform[4] * vector[1] + transform[7] * vector[2],
+            transform[2] * vector[0] + transform[5] * vector[1] + transform[8] * vector[2]
+        });
+    }
+
+    private static double[] ApplyPoint(double[] transform, double[] point)
+    {
+        return new[]
+        {
+            transform[0] * point[0] + transform[3] * point[1] + transform[6] * point[2] + transform[9],
+            transform[1] * point[0] + transform[4] * point[1] + transform[7] * point[2] + transform[10],
+            transform[2] * point[0] + transform[5] * point[1] + transform[8] * point[2] + transform[11]
+        };
+    }
+
+    private static double[] WorldPlaneNormal(Component2 component, string featureName)
+    {
+        ModelDoc2 part = component.GetModelDoc2() as ModelDoc2;
+        Feature feature = null;
+        try
+        {
+            Require(part != null, "Component model unavailable: " + component.Name2);
+            feature = FindFeature(part, featureName, "RefPlane");
+            return ApplyDirection(ComponentTransform(component), PlaneLocalNormal(feature));
+        }
+        finally { ReleaseCom(feature); ReleaseCom(part); }
+    }
+
+    private static double[] WorldPlaneOrigin(Component2 component, string featureName)
+    {
+        ModelDoc2 part = component.GetModelDoc2() as ModelDoc2;
+        Feature feature = null;
+        try
+        {
+            Require(part != null, "Component model unavailable: " + component.Name2);
+            feature = FindFeature(part, featureName, "RefPlane");
+            return ApplyPoint(ComponentTransform(component), PlaneLocalOrigin(feature));
+        }
+        finally { ReleaseCom(feature); ReleaseCom(part); }
+    }
+
+    private static double[][] WorldAxisEndpoints(Component2 component, string featureName)
+    {
+        ModelDoc2 part = component.GetModelDoc2() as ModelDoc2;
+        Feature feature = null;
+        RefAxis axis = null;
+        try
+        {
+            Require(part != null, "Component model unavailable: " + component.Name2);
+            feature = FindFeature(part, featureName, "RefAxis");
+            axis = feature.GetSpecificFeature2() as RefAxis;
+            Require(axis != null, "Feature is not an axis: " + featureName);
+            double[] raw = ToArray(axis.GetRefAxisParams(), 6);
+            double[] transform = ComponentTransform(component);
+            return new[]
+            {
+                ApplyPoint(transform, new[] { raw[0], raw[1], raw[2] }),
+                ApplyPoint(transform, new[] { raw[3], raw[4], raw[5] })
+            };
+        }
+        finally { ReleaseCom(axis); ReleaseCom(feature); ReleaseCom(part); }
+    }
+
+    private static Dictionary<string, object> PlaneReferenceWitness(Component2 component, string featureName)
+    {
+        ModelDoc2 part = component.GetModelDoc2() as ModelDoc2;
+        Feature feature = null;
+        RefPlane plane = null;
+        MathTransform planeTransform = null;
+        try
+        {
+            Require(part != null, "Component model unavailable: " + component.Name2);
+            feature = FindFeature(part, featureName, "RefPlane");
+            plane = feature.GetSpecificFeature2() as RefPlane;
+            Require(plane != null, "Feature is not a plane: " + featureName);
+            planeTransform = plane.Transform;
+            double[] localTransform = ToArray(planeTransform.ArrayData, 16);
+            double[] localNormal = Normalize(new[] { localTransform[6], localTransform[7], localTransform[8] });
+            double[] localOrigin = { localTransform[9], localTransform[10], localTransform[11] };
+            double[] componentTransform = ComponentTransform(component);
+            return new Dictionary<string, object>
+            {
+                { "component", component.Name2 }, { "feature", featureName },
+                { "plane_transform_raw", localTransform }, { "local_normal", localNormal },
+                { "local_origin_m", localOrigin }, { "world_normal", ApplyDirection(componentTransform, localNormal) },
+                { "world_origin_m", ApplyPoint(componentTransform, localOrigin) }
+            };
+        }
+        finally
+        {
+            ReleaseCom(planeTransform); ReleaseCom(plane); ReleaseCom(feature); ReleaseCom(part);
+        }
+    }
+
+    private static Dictionary<string, object> AxisReferenceWitness(Component2 component, string featureName)
+    {
+        ModelDoc2 part = component.GetModelDoc2() as ModelDoc2;
+        Feature feature = null;
+        RefAxis axis = null;
+        try
+        {
+            Require(part != null, "Component model unavailable: " + component.Name2);
+            feature = FindFeature(part, featureName, "RefAxis");
+            axis = feature.GetSpecificFeature2() as RefAxis;
+            Require(axis != null, "Feature is not an axis: " + featureName);
+            double[] localEndpoints = ToArray(axis.GetRefAxisParams(), 6);
+            double[] transform = ComponentTransform(component);
+            double[] worldStart = ApplyPoint(transform, new[] { localEndpoints[0], localEndpoints[1], localEndpoints[2] });
+            double[] worldEnd = ApplyPoint(transform, new[] { localEndpoints[3], localEndpoints[4], localEndpoints[5] });
+            return new Dictionary<string, object>
+            {
+                { "component", component.Name2 }, { "feature", featureName },
+                { "local_endpoints_raw_m", localEndpoints },
+                { "world_start_m", worldStart }, { "world_end_m", worldEnd },
+                { "world_direction", Normalize(new[]
+                    { worldEnd[0] - worldStart[0], worldEnd[1] - worldStart[1], worldEnd[2] - worldStart[2] }) }
+            };
+        }
+        finally { ReleaseCom(axis); ReleaseCom(feature); ReleaseCom(part); }
+    }
+
+    private static Dictionary<string, object> ReferenceGeometryWitness(Component2 parent, Component2 child)
+    {
+        return new Dictionary<string, object>
+        {
+            { "parent_limit_plane", PlaneReferenceWitness(parent, "PLANE_LIMIT_REF_joint1_PARENT_SIDE") },
+            { "parent_zero_plane", PlaneReferenceWitness(parent, "PLANE_ZERO_joint1_PARENT_SIDE") },
+            { "child_zero_plane", PlaneReferenceWitness(child, "PLANE_ZERO_joint1") },
+            { "parent_axis", AxisReferenceWitness(parent, "AXIS_joint1_PARENT_SIDE") },
+            { "child_axis", AxisReferenceWitness(child, "AXIS_joint1") }
+        };
+    }
+
+    private static void NormalizeAssemblyRootPlanes(ModelDoc2 model)
+    {
+        Feature[] features = Features(model, true);
+        var planes = new List<Feature>();
+        try
+        {
+            foreach (Feature feature in features)
+                if (feature.GetTypeName2() == "RefPlane") planes.Add(feature);
+            Require(planes.Count == 3, "Assembly template must contain exactly three root planes");
+            string[] names = { "ASM_ROOT_PLN_X", "ASM_ROOT_PLN_Y", "ASM_ROOT_PLN_Z" };
+            bool[] used = new bool[3];
+            foreach (Feature plane in planes)
+            {
+                double[] normal = PlaneLocalNormal(plane);
+                int axis = 0;
+                if (Math.Abs(normal[1]) > Math.Abs(normal[axis])) axis = 1;
+                if (Math.Abs(normal[2]) > Math.Abs(normal[axis])) axis = 2;
+                Require(Math.Abs(normal[axis]) >= 1.0 - ReferenceRotationTolerance && !used[axis], "Assembly root plane mapping failed");
+                used[axis] = true;
+                plane.Name = names[axis];
+                Require(plane.Name == names[axis], "Assembly root plane rename failed: " + names[axis]);
+            }
+            Require(used.All(v => v), "Assembly root plane mapping is incomplete");
+        }
+        finally { foreach (Feature feature in features) ReleaseCom(feature); }
+    }
+
+    private static void PreloadPart(SldWorks app, string partPath, string expectedSha256, string role,
+        int expectedDocumentCountBefore, List<Dictionary<string, object>> evidence,
+        out ModelDoc2 part, out string partTitle)
+    {
+        int errors = 0, warnings = 0;
+        part = null;
+        partTitle = null;
+        int documentCountBefore = app.GetDocumentCount();
+        Require(documentCountBefore == expectedDocumentCountBefore,
+            "Unexpected document count before preloading " + role + ": " + documentCountBefore);
+        string hashBefore = Sha256(partPath);
+        Require(hashBefore == expectedSha256, "Preload input hash mismatch before OpenDoc6: " + role);
+        part = app.OpenDoc6(partPath, PartType, OpenSilent | OpenReadOnly, "", ref errors, ref warnings) as ModelDoc2;
+        int documentCountAfter = app.GetDocumentCount();
+        var record = new Dictionary<string, object>
+        {
+            { "role", role }, { "path", partPath }, { "bytes", new FileInfo(partPath).Length },
+            { "sha256_before", hashBefore }, { "open_options", "SILENT_READ_ONLY" },
+            { "model_returned", part != null }, { "open_errors", errors }, { "open_warnings", warnings },
+            { "document_count_before", documentCountBefore }, { "document_count_after", documentCountAfter },
+            { "held_loaded_until_add_component5", true }, { "standalone_title_closed", false }
+        };
+        evidence.Add(record);
+        Require(part != null, "Part preload returned no model: " + partPath + ", errors=" + errors + ", warnings=" + warnings);
+        partTitle = part.GetTitle();
+        record["title"] = partTitle;
+        record["opened_read_only"] = part.IsOpenedReadOnly();
+        record["model_path"] = part.GetPathName();
+        Require(errors == 0 && warnings == 0,
+            "Part preload failed strict error/warning gate: " + partPath + ", errors=" + errors + ", warnings=" + warnings);
+        Require(part.GetType() == PartType, "Preloaded document is not a part: " + role);
+        Require(part.IsOpenedReadOnly(), "Preloaded part is not read-only: " + role);
+        Require(Path.GetFullPath(part.GetPathName()).Equals(Path.GetFullPath(partPath), StringComparison.OrdinalIgnoreCase),
+            "Preloaded part path mismatch: " + role);
+        Require(documentCountAfter == expectedDocumentCountBefore + 1,
+            "Preload did not increase document count exactly once: " + role + ", count=" + documentCountAfter);
+        Require(Sha256(partPath) == hashBefore, "Part hash changed during preload: " + role);
+        record["sha256_after_open"] = Sha256(partPath);
+    }
+
+    private static Component2 InsertPreloadedComponent(SldWorks app, ModelDoc2 assemblyModel, AssemblyDoc assembly,
+        string partPath, double x, double y, double z, string role, ref ModelDoc2 part,
+        ref string partTitle, Dictionary<string, object> preloadEvidence)
+    {
+        Require(part != null && !String.IsNullOrWhiteSpace(partTitle), "Preloaded part is unavailable: " + role);
+        Require(part.IsOpenedReadOnly(), "Preloaded part lost read-only state: " + role);
+        Require(Path.GetFullPath(part.GetPathName()).Equals(Path.GetFullPath(partPath), StringComparison.OrdinalIgnoreCase),
+            "Preloaded part path changed before insertion: " + role);
+        int activateError = 0;
+        ModelDoc2 activated = app.ActivateDoc3(assemblyModel.GetTitle(), false, 0, ref activateError) as ModelDoc2;
+        Require(activated != null && activateError == 0, "Assembly activation failed before component insertion");
+        Require(SameComIdentity(activated, assemblyModel),
+            "ActivateDoc3 returned a document other than the controlled assembly");
+        // ActivateDoc3 returns the assembly's existing RCW. Final-releasing it here also
+        // disconnects assemblyModel/IAssemblyDoc before AddComponent5.
+        activated = null;
+        Component2 component = assembly.AddComponent5(partPath, 0, "", false, "", x, y, z);
+        Require(component != null, "AddComponent5 failed for preloaded part: " + role);
+        assemblyModel.ClearSelection2(true);
+        Require(component.Select4(false, null, false), "Component selection failed: " + role);
+        if (component.IsFixed()) assembly.UnfixComponent();
+        assemblyModel.ClearSelection2(true);
+        Require(!component.IsFixed(), "Automatic Fix was not removed: " + role);
+        Require(Path.GetFullPath(component.GetPathName()).Equals(Path.GetFullPath(partPath), StringComparison.OrdinalIgnoreCase),
+            "Inserted component source mismatch: " + role);
+        preloadEvidence["add_component5_succeeded"] = true;
+        app.CloseDoc(partTitle);
+        preloadEvidence["standalone_title_closed"] = true;
+        preloadEvidence["document_count_after_standalone_close"] = app.GetDocumentCount();
+        ReleaseCom(part);
+        part = null;
+        partTitle = null;
+        return component;
+    }
+
+    private static Feature CorrespondingFeature(Component2 component, string name, string type)
+    {
+        ModelDoc2 part = component.GetModelDoc2() as ModelDoc2;
+        Feature source = null;
+        try
+        {
+            Require(part != null, "Component model unavailable: " + component.Name2);
+            source = FindFeature(part, name, type);
+            Feature result = component.GetCorresponding(source) as Feature;
+            Require(result != null, "GetCorresponding failed: " + name + "@" + component.Name2);
+            return result;
+        }
+        finally { ReleaseCom(source); ReleaseCom(part); }
+    }
+
+    private static Dictionary<string, object> CreatedMateEvidence(ModelDoc2 model, Feature feature,
+        int expectedType, int createStatus, string name)
+    {
+        Mate2 mate = null;
+        try
+        {
+            Require(feature != null, "CreateMate returned no Feature: " + name);
+            Require(createStatus == CreateMateSuccess,
+                "CreateMate ErrorStatus mismatch: " + name + ", status=" + createStatus);
+            feature.Name = name;
+            Require(feature.Name == name, "Mate rename failed: " + name);
+            Require(model.ForceRebuild3(false), "Rebuild failed after native mate creation: " + name);
+            mate = feature.GetSpecificFeature2() as Mate2;
+            Require(mate != null && mate.Type == expectedType, "Created mate type mismatch: " + name);
+            bool isWarning = false;
+            int featureError = feature.GetErrorCode2(out isWarning);
+            Require(featureError == FeatureNoError && !isWarning,
+                "Created mate Feature error: " + name + ", code=" + featureError + ", warning=" + isWarning);
+            Require(SelectedObjectCount(model) == 0, "CreateMate unexpectedly changed the selection set: " + name);
+            return new Dictionary<string, object>
+            {
+                { "name", name }, { "mate_type", mate.Type }, { "feature_type_name", feature.GetTypeName2() },
+                { "create_mate_error_status", createStatus }, { "feature_error_code", featureError },
+                { "feature_error_is_warning", isWarning }, { "preselection_entity_count", 0 },
+                { "postcreation_selection_count", 0 }, { "mate_entity_count", mate.GetMateEntityCount() }
+            };
+        }
+        finally { ReleaseCom(mate); }
+    }
+
+    private static Feature CreateCoincidentMate(ModelDoc2 model, AssemblyDoc assembly, Feature first,
+        Feature second, string name, out Dictionary<string, object> evidence)
+    {
+        object rawData = null;
+        CoincidentMateFeatureData data = null, readback = null;
+        IMateFeatureData status = null;
+        Feature feature = null;
+        try
+        {
+            model.ClearSelection2(true);
+            Require(SelectedObjectCount(model) == 0, "Coincident mate requires an empty selection set: " + name);
+            rawData = assembly.CreateMateData(MateCoincident);
+            data = rawData as CoincidentMateFeatureData;
+            status = rawData as IMateFeatureData;
+            Require(data != null && status != null, "CreateMateData did not return coincident mate data: " + name);
+            data.EntitiesToMate = new object[] { first, second };
+            data.MateAlignment = MateAlignClosest;
+            feature = assembly.CreateMate(rawData) as Feature;
+            int createStatus = status.ErrorStatus;
+            evidence = CreatedMateEvidence(model, feature, MateCoincident, createStatus, name);
+
+            readback = feature.GetDefinition() as CoincidentMateFeatureData;
+            Require(readback != null, "Coincident GetDefinition readback failed: " + name);
+            object[] entities = ObjectArray(readback.EntitiesToMate, name + " readback EntitiesToMate");
+            Require(SameUnorderedPair(entities, first, second), "Coincident entity readback mismatch: " + name);
+            Require(ValidMateAlignment(readback.MateAlignment), "Coincident alignment readback is invalid: " + name);
+            evidence["definition_readback_pass"] = true;
+            evidence["definition_entity_count"] = entities.Length;
+            evidence["definition_alignment"] = readback.MateAlignment;
+            return feature;
+        }
+        catch
+        {
+            ReleaseCom(feature);
+            throw;
+        }
+        finally
+        {
+            ReleaseCom(readback);
+            ReleaseCom(rawData);
+        }
+    }
+
+    private static Feature CreateHingeMate(ModelDoc2 model, AssemblyDoc assembly,
+        Feature parentAxis, Feature childAxis, Feature parentSeat, Feature childSeat,
+        string name, out Dictionary<string, object> evidence)
+    {
+        object rawData = null;
+        HingeMateFeatureData data = null, readback = null;
+        IMateFeatureData status = null;
+        Feature feature = null;
+        try
+        {
+            model.ClearSelection2(true);
+            Require(SelectedObjectCount(model) == 0, "Hinge mate requires an empty selection set: " + name);
+            rawData = assembly.CreateMateData(MateHinge);
+            data = rawData as HingeMateFeatureData;
+            status = rawData as IMateFeatureData;
+            Require(data != null && status != null, "CreateMateData did not return hinge mate data: " + name);
+            data.EntitiesToMate[0] = new object[] { parentAxis, childAxis };
+            data.EntitiesToMate[1] = new object[] { parentSeat, childSeat };
+            data.AngleSelection = false;
+            data.MateAlignment = MateAlignClosest;
+            feature = assembly.CreateMate(rawData) as Feature;
+            int createStatus = status.ErrorStatus;
+            evidence = CreatedMateEvidence(model, feature, MateHinge, createStatus, name);
+
+            readback = feature.GetDefinition() as HingeMateFeatureData;
+            Require(readback != null, "Hinge GetDefinition readback failed: " + name);
+            object[] axes = ObjectArray(readback.EntitiesToMate[0], name + " readback axis entities");
+            object[] seats = ObjectArray(readback.EntitiesToMate[1], name + " readback seat entities");
+            Require(SameUnorderedPair(axes, parentAxis, childAxis), "Hinge axis entity readback mismatch: " + name);
+            Require(SameUnorderedPair(seats, parentSeat, childSeat), "Hinge seat entity readback mismatch: " + name);
+            Require(!readback.AngleSelection, "Hinge unexpectedly contains an angle constraint: " + name);
+            Require(ValidMateAlignment(readback.MateAlignment), "Hinge alignment readback is invalid: " + name);
+            evidence["definition_readback_pass"] = true;
+            evidence["axis_entity_count"] = axes.Length;
+            evidence["seat_entity_count"] = seats.Length;
+            evidence["angle_selection"] = readback.AngleSelection;
+            evidence["definition_alignment"] = readback.MateAlignment;
+            return feature;
+        }
+        catch
+        {
+            ReleaseCom(feature);
+            throw;
+        }
+        finally
+        {
+            ReleaseCom(readback);
+            ReleaseCom(rawData);
+        }
+    }
+
+    private static Feature CreateLimitAngleMate(ModelDoc2 model, AssemblyDoc assembly,
+        Feature parentLimit, Feature childZero, Feature parentAxis, string name,
+        out Dictionary<string, object> evidence)
+    {
+        object rawData = null;
+        AngleMateFeatureData data = null, readback = null;
+        IMateFeatureData status = null;
+        Feature feature = null;
+        try
+        {
+            model.ClearSelection2(true);
+            Require(SelectedObjectCount(model) == 0, "Limit angle mate requires an empty selection set: " + name);
+            rawData = assembly.CreateMateData(MateAngle);
+            data = rawData as AngleMateFeatureData;
+            status = rawData as IMateFeatureData;
+            Require(data != null && status != null, "CreateMateData did not return angle mate data: " + name);
+            data.EntitiesToMate = new object[] { parentLimit, childZero };
+            data.IsAdvancedMate = true;
+            data.Angle = NativeQ0;
+            data.MinimumAngle = NativeMinimum;
+            data.MaximumAngle = NativeMaximum;
+            data.ReferenceEntity = parentAxis;
+            data.MateAlignment = MateAlignClosest;
+            data.FlipDimension = false;
+            feature = assembly.CreateMate(rawData) as Feature;
+            int createStatus = status.ErrorStatus;
+            evidence = CreatedMateEvidence(model, feature, MateAngle, createStatus, name);
+
+            readback = feature.GetDefinition() as AngleMateFeatureData;
+            Require(readback != null && readback.IsAdvancedMate, "Limit angle GetDefinition readback failed: " + name);
+            object[] entities = ObjectArray(readback.EntitiesToMate, name + " readback EntitiesToMate");
+            Require(SameUnorderedPair(entities, parentLimit, childZero), "Limit angle entity readback mismatch: " + name);
+            Require(SameComIdentity(readback.ReferenceEntity, parentAxis), "Limit angle reference-axis readback mismatch: " + name);
+            Require(Math.Abs(readback.Angle - NativeQ0) <= JointTolerance,
+                "Limit angle initial value readback mismatch: " + name);
+            Require(Math.Abs(readback.MinimumAngle - NativeMinimum) <= LimitTolerance &&
+                Math.Abs(readback.MaximumAngle - NativeMaximum) <= LimitTolerance,
+                "Limit angle bounds readback mismatch: " + name);
+            Require(ValidMateAlignment(readback.MateAlignment), "Limit angle alignment readback is invalid: " + name);
+            Require(!readback.FlipDimension, "Limit angle flip-dimension readback mismatch: " + name);
+            evidence["definition_readback_pass"] = true;
+            evidence["definition_entity_count"] = entities.Length;
+            evidence["angle_rad"] = readback.Angle;
+            evidence["minimum_angle_rad"] = readback.MinimumAngle;
+            evidence["maximum_angle_rad"] = readback.MaximumAngle;
+            evidence["reference_entity_matches_parent_axis"] = true;
+            evidence["definition_alignment"] = readback.MateAlignment;
+            evidence["flip_dimension"] = readback.FlipDimension;
+            return feature;
+        }
+        catch
+        {
+            ReleaseCom(feature);
+            throw;
+        }
+        finally
+        {
+            ReleaseCom(readback);
+            ReleaseCom(rawData);
+        }
+    }
+
+    private static Dictionary<string, object> InspectMate(Feature feature, int expectedType)
+    {
+        Mate2 mate = null;
+        var entities = new List<Dictionary<string, object>>();
+        try
+        {
+            mate = feature.GetSpecificFeature2() as Mate2;
+            Require(mate != null && mate.Type == expectedType, "Mate type mismatch: " + feature.Name);
+            Require(mate.GetMateEntityCount() == 2, "Mate entity count mismatch: " + feature.Name);
+            bool isWarning = false;
+            int featureError = feature.GetErrorCode2(out isWarning);
+            Require(featureError == FeatureNoError && !isWarning, "Mate feature has an error: " + feature.Name);
+            for (int i = 0; i < mate.GetMateEntityCount(); i++)
+            {
+                MateEntity2 entity = null;
+                Component2 component = null;
+                try
+                {
+                    entity = mate.MateEntity(i);
+                    Require(entity != null, "Mate entity is null: " + feature.Name);
+                    component = entity.ReferenceComponent;
+                    entities.Add(new Dictionary<string, object>
+                    {
+                        { "index", i },
+                        { "reference_type", entity.ReferenceType },
+                        { "reference_type2", entity.ReferenceType2 },
+                        { "component", component == null ? null : component.Name2 },
+                        { "component_path", component == null ? null : component.GetPathName() }
+                    });
+                }
+                finally { ReleaseCom(component); ReleaseCom(entity); }
+            }
+            return new Dictionary<string, object>
+            {
+                { "name", feature.Name }, { "type", mate.Type }, { "alignment", mate.Alignment },
+                { "flipped", mate.Flipped }, { "entity_count", mate.GetMateEntityCount() }, { "entities", entities },
+                { "feature_type_name", feature.GetTypeName2() }, { "feature_error_code", featureError },
+                { "feature_error_is_warning", isWarning }
+            };
+        }
+        finally { ReleaseCom(mate); }
+    }
+
+    private static Dictionary<string, object> InspectHingeMate(Feature feature)
+    {
+        Mate2 mate = null;
+        HingeMateFeatureData data = null;
+        object[] axes = null, seats = null;
+        try
+        {
+            mate = feature.GetSpecificFeature2() as Mate2;
+            Require(mate != null && mate.Type == MateHinge, "Hinge mate type mismatch: " + feature.Name);
+            bool isWarning = false;
+            int featureError = feature.GetErrorCode2(out isWarning);
+            Require(featureError == FeatureNoError && !isWarning, "Hinge feature has an error: " + feature.Name);
+            data = feature.GetDefinition() as HingeMateFeatureData;
+            Require(data != null, "Hinge definition is unavailable: " + feature.Name);
+            axes = ObjectArray(data.EntitiesToMate[0], feature.Name + " axis entities");
+            seats = ObjectArray(data.EntitiesToMate[1], feature.Name + " seat entities");
+            Require(axes.Length == 2 && seats.Length == 2, "Hinge definition does not contain two axis and two seat entities");
+            Require(!data.AngleSelection, "Hinge persisted an unintended angle selection");
+            Require(ValidMateAlignment(data.MateAlignment), "Hinge persisted an invalid alignment");
+            return new Dictionary<string, object>
+            {
+                { "name", feature.Name }, { "type", mate.Type }, { "feature_type_name", feature.GetTypeName2() },
+                { "feature_error_code", featureError }, { "feature_error_is_warning", isWarning },
+                { "mate_entity_count", mate.GetMateEntityCount() }, { "mate_alignment", mate.Alignment },
+                { "mate_flipped", mate.Flipped }, { "definition_alignment", data.MateAlignment },
+                { "angle_selection", data.AngleSelection },
+                { "axis_entities", axes.Select(EntitySummary).ToArray() },
+                { "seat_entities", seats.Select(EntitySummary).ToArray() }
+            };
+        }
+        finally
+        {
+            ReleaseComItems(seats); ReleaseComItems(axes);
+            ReleaseCom(data); ReleaseCom(mate);
+        }
+    }
+
+    private static Dictionary<string, object> InspectAngleMate(Feature feature)
+    {
+        Dictionary<string, object> result = InspectMate(feature, MateAngle);
+        AngleMateFeatureData data = null;
+        Mate2 mate = null;
+        DisplayDimension display = null;
+        Dimension dimension = null;
+        object[] definitionEntities = null;
+        object referenceEntity = null;
+        try
+        {
+            data = feature.GetDefinition() as AngleMateFeatureData;
+            Require(data != null && data.IsAdvancedMate, "J01 driver is not a native limit angle mate");
+            Require(Math.Abs(data.MinimumAngle - NativeMinimum) <= LimitTolerance, "J01 minimum angle mismatch");
+            Require(Math.Abs(data.MaximumAngle - NativeMaximum) <= LimitTolerance, "J01 maximum angle mismatch");
+            Require(ValidMateAlignment(data.MateAlignment), "J01 driver alignment is invalid");
+            definitionEntities = ObjectArray(data.EntitiesToMate, feature.Name + " definition entities");
+            Require(definitionEntities.Length == 2, "J01 driver definition entity count mismatch");
+            referenceEntity = data.ReferenceEntity;
+            Require(referenceEntity != null, "J01 driver reference axis is absent");
+            result["feature_data_angle_rad"] = data.Angle;
+            result["minimum_angle_rad"] = data.MinimumAngle;
+            result["maximum_angle_rad"] = data.MaximumAngle;
+            result["is_advanced_mate"] = data.IsAdvancedMate;
+            result["feature_data_alignment"] = data.MateAlignment;
+            result["flip_dimension"] = data.FlipDimension;
+            result["definition_entities"] = definitionEntities.Select(EntitySummary).ToArray();
+            result["reference_entity"] = EntitySummary(referenceEntity);
+            mate = feature.GetSpecificFeature2() as Mate2;
+            display = mate == null ? null : mate.DisplayDimension;
+            dimension = display == null ? null : display.GetDimension2(0);
+            result["display_dimension_system_value_rad"] = dimension == null ? (object)null : dimension.GetSystemValue2("");
+            return result;
+        }
+        finally
+        {
+            ReleaseCom(referenceEntity); ReleaseComItems(definitionEntities);
+            ReleaseCom(dimension); ReleaseCom(display); ReleaseCom(mate); ReleaseCom(data);
+        }
+    }
+
+    private static Dictionary<string, object> NativeMateBindingWitness(ModelDoc2 model,
+        Component2 parent, Component2 child)
+    {
+        Feature hinge = null, driver = null;
+        Feature parentAxis = null, childAxis = null, parentSeat = null, childSeat = null;
+        Feature parentLimit = null, childZero = null;
+        HingeMateFeatureData hingeData = null;
+        AngleMateFeatureData angleData = null;
+        object[] hingeAxes = null, hingeSeats = null, angleEntities = null;
+        object referenceEntity = null;
+        try
+        {
+            FindFeaturePair(model, "J01_HINGE_NATIVE", "J01_LIMIT_ANGLE_DRIVER", out hinge, out driver);
+            parentAxis = CorrespondingFeature(parent, "AXIS_joint1_PARENT_SIDE", "RefAxis");
+            childAxis = CorrespondingFeature(child, "AXIS_joint1", "RefAxis");
+            parentSeat = CorrespondingFeature(parent, "PLANE_SEAT_joint1_PARENT_SIDE", "RefPlane");
+            childSeat = CorrespondingFeature(child, "PLANE_SEAT_joint1_CHILD_SIDE", "RefPlane");
+            parentLimit = CorrespondingFeature(parent, "PLANE_LIMIT_REF_joint1_PARENT_SIDE", "RefPlane");
+            childZero = CorrespondingFeature(child, "PLANE_ZERO_joint1", "RefPlane");
+
+            hingeData = hinge.GetDefinition() as HingeMateFeatureData;
+            Require(hingeData != null && !hingeData.AngleSelection, "Native hinge definition binding is unavailable");
+            hingeAxes = ObjectArray(hingeData.EntitiesToMate[0], "Native hinge axis bindings");
+            hingeSeats = ObjectArray(hingeData.EntitiesToMate[1], "Native hinge seat bindings");
+            Require(SameUnorderedPair(hingeAxes, parentAxis, childAxis), "Native hinge axis binding identity mismatch");
+            Require(SameUnorderedPair(hingeSeats, parentSeat, childSeat), "Native hinge seat binding identity mismatch");
+
+            angleData = driver.GetDefinition() as AngleMateFeatureData;
+            Require(angleData != null && angleData.IsAdvancedMate, "Native limit-angle definition binding is unavailable");
+            angleEntities = ObjectArray(angleData.EntitiesToMate, "Native limit-angle plane bindings");
+            referenceEntity = angleData.ReferenceEntity;
+            Require(SameUnorderedPair(angleEntities, parentLimit, childZero), "Native limit-angle plane binding identity mismatch");
+            Require(SameComIdentity(referenceEntity, parentAxis), "Native limit-angle parent-axis identity mismatch");
+            Require(Math.Abs(angleData.Angle - NativeQ0) <= JointTolerance,
+                "Native limit-angle final q0 binding witness has the wrong angle");
+            Require(Math.Abs(angleData.MinimumAngle - NativeMinimum) <= LimitTolerance &&
+                Math.Abs(angleData.MaximumAngle - NativeMaximum) <= LimitTolerance,
+                "Native limit-angle binding witness has the wrong bounds");
+            Require(ValidMateAlignment(angleData.MateAlignment), "Native limit-angle binding alignment is invalid");
+            Require(!angleData.FlipDimension, "Native limit-angle binding flip-dimension changed");
+
+            return new Dictionary<string, object>
+            {
+                { "hinge_exact_axis_bindings", true }, { "hinge_exact_seat_bindings", true },
+                { "hinge_angle_selection", hingeData.AngleSelection },
+                { "hinge_axis_entities", hingeAxes.Select(EntitySummary).ToArray() },
+                { "hinge_seat_entities", hingeSeats.Select(EntitySummary).ToArray() },
+                { "limit_angle_exact_plane_bindings", true }, { "limit_angle_exact_reference_axis_binding", true },
+                { "limit_angle_entities", angleEntities.Select(EntitySummary).ToArray() },
+                { "limit_angle_reference_entity", EntitySummary(referenceEntity) },
+                { "limit_angle_rad", angleData.Angle }, { "minimum_angle_rad", angleData.MinimumAngle },
+                { "maximum_angle_rad", angleData.MaximumAngle }, { "alignment", angleData.MateAlignment },
+                { "flip_dimension", angleData.FlipDimension }
+            };
+        }
+        finally
+        {
+            ReleaseCom(referenceEntity); ReleaseComItems(angleEntities); ReleaseComItems(hingeSeats); ReleaseComItems(hingeAxes);
+            ReleaseCom(angleData); ReleaseCom(hingeData);
+            ReleaseCom(childZero); ReleaseCom(parentLimit); ReleaseCom(childSeat); ReleaseCom(parentSeat);
+            ReleaseCom(childAxis); ReleaseCom(parentAxis); ReleaseCom(driver); ReleaseCom(hinge);
+        }
+    }
+
+    private static Dictionary<string, object> RemainingDofs(Component2 component)
+    {
+        int rp1Status = 0, rd1Status = 0, rp2Status = 0, rd2Status = 0, td1Status = 0, td2Status = 0;
+        MathPoint rp1 = null, rp2 = null;
+        MathVector rd1 = null, rd2 = null, td1 = null, td2 = null;
+        try
+        {
+            int status = component.GetRemainingDOFs(out rp1Status, out rp1, out rd1Status, out rd1,
+                out rp2Status, out rp2, out rd2Status, out rd2,
+                out td1Status, out td1, out td2Status, out td2);
+            double[] direction = rd1 == null ? null : ToArray(rd1.ArrayData, 3);
+            double[] point = rp1 == null ? null : ToArray(rp1.ArrayData, 3);
+            Require(status == RemainingDofsRestricted, "GetRemainingDOFs did not return Restricted");
+            Require(rp1Status == 1 && rp1 != null && rd1Status == 1 && rd1 != null, "Primary rotational DOF is absent");
+            Require(rp2Status == 0 && rp2 == null && rd2Status == 0 && rd2 == null,
+                "Unexpected secondary rotational DOF");
+            Require(td1Status == 0 && td1 == null && td2Status == 0 && td2 == null,
+                "Unexpected translational DOF");
+            Require(Math.Abs(Dot(Normalize(direction), new[] { 0.0, 0.0, 1.0 })) >= 1.0 - ReferenceRotationTolerance,
+                "Remaining rotational DOF is not aligned with J1 Z");
+            double radial = Math.Sqrt(Math.Pow(point[0] - JointX, 2) + Math.Pow(point[1] - JointY, 2));
+            Require(radial <= ReferenceTranslationTolerance, "Remaining rotational DOF point is off the J1 axis");
+            return new Dictionary<string, object>
+            {
+                { "return_status", status }, { "rpoint1_status", rp1Status }, { "rpoint1", point },
+                { "rdirection1_status", rd1Status }, { "rdirection1", direction },
+                { "rpoint2_status", rp2Status }, { "rdirection2_status", rd2Status },
+                { "tdirection1_status", td1Status }, { "tdirection2_status", td2Status }
+            };
+        }
+        finally
+        {
+            ReleaseCom(td2); ReleaseCom(td1); ReleaseCom(rd2); ReleaseCom(rd1);
+            ReleaseCom(rp2); ReleaseCom(rp1);
+        }
+    }
+
+    private static int UnwrapTheta(double wrapped, double commanded, out double unwrapped)
+    {
+        int bestK = 0;
+        double best = Double.PositiveInfinity;
+        double bestValue = Double.NaN;
+        for (int k = -2; k <= 2; k++)
+        {
+            double value = wrapped + 2.0 * Math.PI * k;
+            if (value < NativeMinimum - JointTolerance || value > NativeMaximum + JointTolerance) continue;
+            double error = Math.Abs(value - commanded);
+            if (error < best)
+            {
+                best = error;
+                bestK = k;
+                bestValue = value;
+            }
+        }
+        Require(!Double.IsNaN(bestValue), "No bounded native angle branch exists");
+        unwrapped = bestValue;
+        return bestK;
+    }
+
+    private static double FkRotationError(double[] transform, double q)
+    {
+        double c = Math.Cos(q), s = Math.Sin(q);
+        double[] expected = { c, s, 0.0, -s, c, 0.0, 0.0, 0.0, 1.0 };
+        double trace = 0.0;
+        for (int row = 0; row < 3; row++)
+            for (int col = 0; col < 3; col++)
+                trace += expected[row * 3 + col] * transform[row * 3 + col];
+        return Math.Acos(Clamp((trace - 1.0) / 2.0, -1.0, 1.0));
+    }
+
+    private static Dictionary<string, object> ReadState(Component2 parent, Component2 child,
+        Feature driverFeature, double commandedQ, string sampleId)
+    {
+        double commandedTheta = commandedQ - Lower;
+        double[] parentZero = WorldPlaneNormal(parent, "PLANE_ZERO_joint1_PARENT_SIDE");
+        double[] limitReference = WorldPlaneNormal(parent, "PLANE_LIMIT_REF_joint1_PARENT_SIDE");
+        double[] childZero = WorldPlaneNormal(child, "PLANE_ZERO_joint1");
+        double[][] parentAxisEndpoints = WorldAxisEndpoints(parent, "AXIS_joint1_PARENT_SIDE");
+        double[][] childAxisEndpoints = WorldAxisEndpoints(child, "AXIS_joint1");
+        double[] parentAxisRaw = Normalize(new[]
+        {
+            parentAxisEndpoints[1][0] - parentAxisEndpoints[0][0],
+            parentAxisEndpoints[1][1] - parentAxisEndpoints[0][1],
+            parentAxisEndpoints[1][2] - parentAxisEndpoints[0][2]
+        });
+        double[] childAxisRaw = Normalize(new[]
+        {
+            childAxisEndpoints[1][0] - childAxisEndpoints[0][0],
+            childAxisEndpoints[1][1] - childAxisEndpoints[0][1],
+            childAxisEndpoints[1][2] - childAxisEndpoints[0][2]
+        });
+        double[] axis = { 0.0, 0.0, 1.0 };
+        double parentAxisEndpointSign = Dot(parentAxisRaw, axis) >= 0.0 ? 1.0 : -1.0;
+        double[] parentAxisOriented =
+        {
+            parentAxisEndpointSign * parentAxisRaw[0],
+            parentAxisEndpointSign * parentAxisRaw[1],
+            parentAxisEndpointSign * parentAxisRaw[2]
+        };
+        Require(Dot(parentAxisOriented, axis) >= 1.0 - ReferenceRotationTolerance,
+            "J01 parent RefAxis is not aligned with frozen world +Z");
+        Require(Dot(parentZero, new[] { 0.0, -1.0, 0.0 }) >= 1.0 - ReferenceRotationTolerance,
+            "J01 parent zero-plane raw normal changed from frozen world -Y");
+        double parentZeroOrientationSign = -1.0;
+        double[] parentZeroOriented =
+        {
+            parentZeroOrientationSign * parentZero[0],
+            parentZeroOrientationSign * parentZero[1],
+            parentZeroOrientationSign * parentZero[2]
+        };
+        double qWrapped = Math.Atan2(Dot(axis, Cross(parentZeroOriented, childZero)),
+            Dot(parentZeroOriented, childZero));
+        double thetaWrapped = Math.Atan2(Dot(axis, Cross(limitReference, childZero)), Dot(limitReference, childZero));
+        double thetaUnwrapped;
+        int branch = UnwrapTheta(thetaWrapped, commandedTheta, out thetaUnwrapped);
+        double reconstructedQ = thetaUnwrapped + Lower;
+        double[] transform = ComponentTransform(child);
+        double translationError = Math.Sqrt(Math.Pow(transform[9] - JointX, 2) +
+            Math.Pow(transform[10] - JointY, 2) + Math.Pow(transform[11] - JointZ, 2));
+        double rotationError = FkRotationError(transform, commandedQ);
+        double axisDot = Math.Abs(Dot(parentAxisRaw, childAxisRaw));
+        double[] parentSeatOrigin = WorldPlaneOrigin(parent, "PLANE_SEAT_joint1_PARENT_SIDE");
+        double[] childSeatOrigin = WorldPlaneOrigin(child, "PLANE_SEAT_joint1_CHILD_SIDE");
+        double seatResidual = Math.Abs(Dot(axis, new[]
+        {
+            childSeatOrigin[0] - parentSeatOrigin[0],
+            childSeatOrigin[1] - parentSeatOrigin[1],
+            childSeatOrigin[2] - parentSeatOrigin[2]
+        }));
+        Dictionary<string, object> angle = InspectAngleMate(driverFeature);
+        double featureAngle = Convert.ToDouble(angle["feature_data_angle_rad"]);
+
+        Require(Math.Abs(reconstructedQ - commandedQ) <= JointTolerance,
+            "J01 reconstructed q mismatch at " + sampleId + ": " + reconstructedQ + " != " + commandedQ);
+        Require(Math.Abs(qWrapped - commandedQ) <= JointTolerance,
+            "J01 zero-plane q mismatch at " + sampleId + ": " + qWrapped + " != " + commandedQ);
+        Require(Math.Abs(featureAngle - commandedTheta) <= JointTolerance,
+            "J01 feature-data angle mismatch at " + sampleId);
+        Require(translationError <= FkTranslationTolerance, "J01 FK translation mismatch at " + sampleId);
+        Require(rotationError <= FkRotationTolerance, "J01 FK rotation mismatch at " + sampleId);
+        Require(axisDot >= 1.0 - ReferenceRotationTolerance, "J01 axis drift at " + sampleId);
+        Require(seatResidual <= ReferenceTranslationTolerance, "J01 seat drift at " + sampleId);
+
+        return new Dictionary<string, object>
+        {
+            { "sample_id", sampleId }, { "commanded_q_rad", commandedQ },
+            { "commanded_native_theta_rad", commandedTheta }, { "feature_data", angle },
+            { "q_zero_plane_wrapped_rad", qWrapped }, { "native_theta_wrapped_rad", thetaWrapped },
+            { "unwrapped_branch_index", branch }, { "native_theta_unwrapped_rad", thetaUnwrapped },
+            { "reconstructed_q_rad", reconstructedQ }, { "joint_error_rad", Math.Abs(reconstructedQ - commandedQ) },
+            { "axis_absolute_dot", axisDot }, { "zero_plane_dot", Dot(parentZero, childZero) },
+            { "parent_zero_plane_normal_world_raw", parentZero },
+            { "parent_zero_plane_orientation_sign_for_q", parentZeroOrientationSign },
+            { "parent_zero_plane_normal_world_oriented_for_q", parentZeroOriented },
+            { "parent_limit_plane_normal_world_raw", limitReference },
+            { "child_zero_plane_normal_world_raw", childZero },
+            { "parent_axis_endpoints_world_raw_m", parentAxisEndpoints },
+            { "child_axis_endpoints_world_raw_m", childAxisEndpoints },
+            { "parent_axis_endpoint_direction_raw", parentAxisRaw },
+            { "child_axis_endpoint_direction_raw", childAxisRaw },
+            { "parent_axis_endpoint_orientation_sign_to_world_plus_z", parentAxisEndpointSign },
+            { "signed_angle_axis_world", axis },
+            { "seat_axial_residual_m", seatResidual }, { "component_transform", transform },
+            { "fk_translation_error_m", translationError }, { "fk_rotation_error_rad", rotationError }
+        };
+    }
+
+    private static void Drive(ModelDoc2 model, Feature driverFeature, double q)
+    {
+        double theta = q - Lower;
+        Require(theta >= NativeMinimum - JointTolerance && theta <= NativeMaximum + JointTolerance,
+            "Requested J01 q is outside the native limit");
+        AngleMateFeatureData data = null;
+        try
+        {
+            data = driverFeature.GetDefinition() as AngleMateFeatureData;
+            Require(data != null && data.IsAdvancedMate, "J01 driver definition is unavailable");
+            Require(Math.Abs(data.MinimumAngle - NativeMinimum) <= LimitTolerance &&
+                Math.Abs(data.MaximumAngle - NativeMaximum) <= LimitTolerance, "J01 limits changed before drive");
+            data.Angle = theta;
+            Require(driverFeature.ModifyDefinition(data, model, null), "J01 driver ModifyDefinition failed");
+        }
+        finally { ReleaseCom(data); }
+        Require(model.ForceRebuild3(false), "J01 rebuild failed after native angle drive");
+    }
+
+    private static List<Dictionary<string, object>> DriveAndSample(ModelDoc2 model, Component2 parent,
+        Component2 child, Feature driverFeature, double q, string label)
+    {
+        Drive(model, driverFeature, q);
+        var samples = new List<Dictionary<string, object>>();
+        for (int i = 0; i < 10; i++)
+        {
+            Require(model.ForceRebuild3(false), "J01 repeatability rebuild failed: " + label + "/" + i);
+            samples.Add(ReadState(parent, child, driverFeature, q, label + "_R" + i.ToString("D2")));
+        }
+        return samples;
+    }
+
+    private static void SaveAs(ModelDoc2 model, string path)
+    {
+        Require(!File.Exists(path), "Controlled assembly output exists: " + path);
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        int errors = 0, warnings = 0;
+        Require(model.Extension.SaveAs(path, 0, SaveSilent, null, ref errors, ref warnings), "Assembly SaveAs failed: " + path);
+        Require(errors == 0 && warnings == 0, "Assembly SaveAs errors/warnings: " + errors + "/" + warnings);
+        Require(File.Exists(path), "Assembly SaveAs output is absent: " + path);
+    }
+
+    private static Dictionary<string, object> ComponentRecord(Component2 component)
+    {
+        return new Dictionary<string, object>
+        {
+            { "name", component.Name2 }, { "path", component.GetPathName() },
+            { "fixed", component.IsFixed() }, { "constrained_status", component.GetConstrainedStatus() },
+            { "transform", ComponentTransform(component) }
+        };
+    }
+
+    private static List<Dictionary<string, object>> MateRecords(ModelDoc2 model)
+    {
+        string[] names =
+        {
+            "J00_ROOT_X_COINCIDENT", "J00_ROOT_Y_COINCIDENT", "J00_ROOT_Z_COINCIDENT",
+            "J01_HINGE_NATIVE", "J01_LIMIT_ANGLE_DRIVER"
+        };
+        int[] types = { MateCoincident, MateCoincident, MateCoincident, MateHinge, MateAngle };
+        var result = new List<Dictionary<string, object>>();
+        for (int i = 0; i < names.Length; i++)
+        {
+            Feature feature = null;
+            try
+            {
+                feature = FindFeature(model, names[i], null);
+                if (types[i] == MateAngle) result.Add(InspectAngleMate(feature));
+                else if (types[i] == MateHinge) result.Add(InspectHingeMate(feature));
+                else result.Add(InspectMate(feature, types[i]));
+            }
+            finally { ReleaseCom(feature); }
+        }
+        return result;
+    }
+
+    private static Component2 FindComponentByFile(AssemblyDoc assembly, string fileName)
+    {
+        Array raw = assembly.GetComponents(true) as Array;
+        Require(raw != null, "Assembly has no top-level components");
+        Component2 match = null;
+        int count = 0;
+        foreach (object value in raw)
+        {
+            Component2 component = value as Component2;
+            if (component != null && Path.GetFileName(component.GetPathName()).Equals(fileName, StringComparison.OrdinalIgnoreCase))
+            {
+                match = component;
+                count++;
+            }
+            if (component != match) ReleaseCom(component);
+        }
+        Require(count == 1, "Component lookup by file is not unique: " + fileName + ", count=" + count);
+        return match;
+    }
+
+    [STAThread]
+    public static int Create(int expectedProcessId, string assemblyTemplatePath,
+        string baseCarrierPath, string link1CarrierPath, string j00AssemblyPath,
+        string outputAssemblyPath, string j00CheckpointPath, string receiptPath, string progressPath)
+    {
+        var preloadOperations = new List<Dictionary<string, object>>();
+        var receipt = new Dictionary<string, object>
+        {
+            { "schema", "B51R1_S05R2_J01_R3_NATIVE_PILOT_CREATE_V1" },
+            { "status", "FAIL_CLOSED_NOT_STARTED" }, { "generated_at_utc", DateTime.UtcNow.ToString("o") },
+            { "expected_process_id", expectedProcessId }, { "save_as_call_count", 0 }, { "save3_call_count", 0 },
+            { "create_mate_data_call_count", 0 }, { "create_mate_call_count", 0 }, { "add_mate5_call_count", 0 },
+            { "mate_preselection_call_count", 0 }, { "transform2_call_count", 0 },
+            { "set_transform_and_solve_call_count", 0 }, { "move_component_call_count", 0 },
+            { "preload_operations", preloadOperations }
+        };
+        SldWorks app = null;
+        Process process = null;
+        ModelDoc2 model = null;
+        ModelDoc2 preloadedBase = null, preloadedLink = null;
+        string preloadedBaseTitle = null, preloadedLinkTitle = null;
+        AssemblyDoc assembly = null;
+        Component2 parent = null, child = null;
+        Feature driver = null;
+        var nativeMateCreations = new List<Dictionary<string, object>>();
+        var j00MateCreations = new List<Dictionary<string, object>>();
+        string baseBefore = null, linkBefore = null;
+        try
+        {
+            foreach (string path in new[] { j00AssemblyPath, outputAssemblyPath, j00CheckpointPath, receiptPath, progressPath })
+                Require(!File.Exists(path), "Append-only Pilot output exists: " + path);
+            Require(File.Exists(assemblyTemplatePath), "Assembly template is absent");
+            Require(File.Exists(baseCarrierPath) && File.Exists(link1CarrierPath), "MR2 Pilot Carrier input is absent");
+            baseBefore = Sha256(baseCarrierPath);
+            linkBefore = Sha256(link1CarrierPath);
+            app = Attach(expectedProcessId);
+            process = Process.GetProcessById(expectedProcessId);
+            ProgressCreateNew(progressPath, "J01_R3_CREATE_START " + DateTime.UtcNow.ToString("o"));
+
+            PreloadPart(app, baseCarrierPath, baseBefore, "BASE_MR2", 0, preloadOperations,
+                out preloadedBase, out preloadedBaseTitle);
+            PreloadPart(app, link1CarrierPath, linkBefore, "LINK1_MR2", 1, preloadOperations,
+                out preloadedLink, out preloadedLinkTitle);
+            receipt["document_count_before_new_assembly"] = app.GetDocumentCount();
+            Require(app.GetDocumentCount() == 2, "Both MR2 parts were not held preloaded before NewDocument");
+
+            model = app.NewDocument(assemblyTemplatePath, 0, 0.0, 0.0) as ModelDoc2;
+            Require(model != null && model.GetType() == AssemblyType, "Assembly NewDocument failed");
+            receipt["document_count_after_new_assembly"] = app.GetDocumentCount();
+            Require(app.GetDocumentCount() == 3, "New assembly did not join the two preloaded documents exactly once");
+            assembly = model as AssemblyDoc;
+            Require(assembly != null, "IAssemblyDoc cast failed");
+            NormalizeAssemblyRootPlanes(model);
+
+            parent = InsertPreloadedComponent(app, model, assembly, baseCarrierPath, 0.0, 0.0, 0.0,
+                "BASE_MR2", ref preloadedBase, ref preloadedBaseTitle, preloadOperations[0]);
+            string[] axes = { "X", "Y", "Z" };
+            for (int i = 0; i < axes.Length; i++)
+            {
+                Feature assemblyPlane = null, componentPlane = null, rootMate = null;
+                try
+                {
+                    assemblyPlane = FindFeature(model, "ASM_ROOT_PLN_" + axes[i], "RefPlane");
+                    componentPlane = CorrespondingFeature(parent, "ROOT_PLN_" + axes[i], "RefPlane");
+                    Dictionary<string, object> creation;
+                    rootMate = CreateCoincidentMate(model, assembly, assemblyPlane, componentPlane,
+                        "J00_ROOT_" + axes[i] + "_COINCIDENT", out creation);
+                    j00MateCreations.Add(creation);
+                    nativeMateCreations.Add(creation);
+                }
+                finally
+                {
+                    ReleaseCom(rootMate); ReleaseCom(componentPlane); ReleaseCom(assemblyPlane);
+                }
+            }
+            Require(!parent.IsFixed() && parent.GetConstrainedStatus() == FullyConstrained,
+                "J00 base must be mate-grounded and not fixed");
+            SaveAs(model, j00AssemblyPath);
+            receipt["save_as_call_count"] = 1;
+            var j00Data = new Dictionary<string, object>
+            {
+                { "schema", "B51R1_S05R2_J01_R3_J00_ROOT_CHECKPOINT_V1" },
+                { "status", "S05R2_J01_R3_J00_ROOT_BASELINE_PASS" },
+                { "generated_at_utc", DateTime.UtcNow.ToString("o") }, { "assembly_path", j00AssemblyPath },
+                { "assembly_bytes", new FileInfo(j00AssemblyPath).Length }, { "assembly_sha256", Sha256(j00AssemblyPath) },
+                { "base_component", ComponentRecord(parent) }, { "base_carrier_sha256", baseBefore },
+                { "automatic_fix_removed", true }, { "native_mate_creation", j00MateCreations },
+                { "transform2_call_count", 0 }
+            };
+            WriteJsonCreateNew(j00CheckpointPath, j00Data);
+            Progress(progressPath, "J00_PASS " + Sha256(j00AssemblyPath));
+
+            child = InsertPreloadedComponent(app, model, assembly, link1CarrierPath, JointX, JointY, JointZ,
+                "LINK1_MR2", ref preloadedLink, ref preloadedLinkTitle, preloadOperations[1]);
+            Feature parentAxis = null, childAxis = null, parentSeat = null, childSeat = null;
+            Feature parentLimit = null, childZero = null, hinge = null;
+            try
+            {
+                parentAxis = CorrespondingFeature(parent, "AXIS_joint1_PARENT_SIDE", "RefAxis");
+                childAxis = CorrespondingFeature(child, "AXIS_joint1", "RefAxis");
+                parentSeat = CorrespondingFeature(parent, "PLANE_SEAT_joint1_PARENT_SIDE", "RefPlane");
+                childSeat = CorrespondingFeature(child, "PLANE_SEAT_joint1_CHILD_SIDE", "RefPlane");
+                Dictionary<string, object> hingeCreation;
+                hinge = CreateHingeMate(model, assembly, parentAxis, childAxis, parentSeat, childSeat,
+                    "J01_HINGE_NATIVE", out hingeCreation);
+                nativeMateCreations.Add(hingeCreation);
+                ReleaseCom(hinge); hinge = null;
+
+                parentLimit = CorrespondingFeature(parent, "PLANE_LIMIT_REF_joint1_PARENT_SIDE", "RefPlane");
+                childZero = CorrespondingFeature(child, "PLANE_ZERO_joint1", "RefPlane");
+                Dictionary<string, object> driverCreation;
+                driver = CreateLimitAngleMate(model, assembly, parentLimit, childZero, parentAxis,
+                    "J01_LIMIT_ANGLE_DRIVER", out driverCreation);
+                nativeMateCreations.Add(driverCreation);
+            }
+            finally
+            {
+                ReleaseCom(hinge); ReleaseCom(childZero); ReleaseCom(parentLimit);
+                ReleaseCom(childSeat); ReleaseCom(parentSeat); ReleaseCom(childAxis); ReleaseCom(parentAxis);
+            }
+
+            Require(!parent.IsFixed() && !child.IsFixed(), "Pilot contains a fixed component");
+            Require(parent.GetConstrainedStatus() == FullyConstrained, "J00 base constraint state changed");
+            Require(child.GetConstrainedStatus() == UnderConstrained, "J01 child is not under-constrained");
+            Dictionary<string, object> remaining = RemainingDofs(child);
+
+            var canonical = new List<Dictionary<string, object>>();
+            double[] canonicalQ = { 0.0, OneDegree, 0.0, -OneDegree, 0.0 };
+            string[] canonicalNames = { "QPROBE_0", "QPROBE_PLUS_1DEG", "QPROBE_RETURN_1", "QPROBE_MINUS_1DEG", "QPROBE_Q0" };
+            for (int i = 0; i < canonicalQ.Length; i++)
+                canonical.Add(new Dictionary<string, object>
+                {
+                    { "state", canonicalNames[i] }, { "samples", DriveAndSample(model, parent, child, driver, canonicalQ[i], canonicalNames[i]) }
+                });
+
+            var sweep = new List<Dictionary<string, object>>();
+            double[] sweepQ = { -2.8, -2.78, -1.40, 0.0, 1.40, 2.78, 2.8, 0.0 };
+            for (int i = 0; i < sweepQ.Length; i++)
+            {
+                string label = "SWEEP_" + i.ToString("D2");
+                sweep.Add(new Dictionary<string, object>
+                {
+                    { "state", label }, { "samples", DriveAndSample(model, parent, child, driver, sweepQ[i], label) }
+                });
+            }
+
+            var resets = new List<Dictionary<string, object>>();
+            for (int i = 0; i < 10; i++)
+            {
+                double nonzero = i % 2 == 0 ? OneDegree : -OneDegree;
+                Drive(model, driver, nonzero);
+                Dictionary<string, object> nonzeroState = ReadState(parent, child, driver, nonzero, "RESET_" + i.ToString("D2") + "_NONZERO");
+                Drive(model, driver, 0.0);
+                Dictionary<string, object> q0State = ReadState(parent, child, driver, 0.0, "RESET_" + i.ToString("D2") + "_Q0");
+                resets.Add(new Dictionary<string, object> { { "cycle", i }, { "nonzero", nonzeroState }, { "q0", q0State } });
+            }
+            Drive(model, driver, 0.0);
+            Dictionary<string, object> finalQ0 = ReadState(parent, child, driver, 0.0, "FINAL_Q0");
+            Dictionary<string, object> referenceGeometryFinalQ0 = ReferenceGeometryWitness(parent, child);
+            Dictionary<string, object> nativeMateBindingsFinalQ0 = NativeMateBindingWitness(model, parent, child);
+
+            SaveAs(model, outputAssemblyPath);
+            receipt["save_as_call_count"] = 2;
+            Require(nativeMateCreations.Count == 5, "Native mate creation evidence count is not five");
+            receipt["create_mate_data_call_count"] = nativeMateCreations.Count;
+            receipt["create_mate_call_count"] = nativeMateCreations.Count;
+            receipt["status"] = "S05R2_J01_R3_NATIVE_1R_PILOT_CREATE_PASS";
+            receipt["gate_pass"] = true;
+            receipt["assembly_template"] = new Dictionary<string, object>
+            {
+                { "path", assemblyTemplatePath }, { "bytes", new FileInfo(assemblyTemplatePath).Length }, { "sha256", Sha256(assemblyTemplatePath) }
+            };
+            receipt["input_carriers"] = new object[]
+            {
+                new Dictionary<string, object> { { "path", baseCarrierPath }, { "sha256_before_after", baseBefore } },
+                new Dictionary<string, object> { { "path", link1CarrierPath }, { "sha256_before_after", linkBefore } }
+            };
+            receipt["components"] = new object[] { ComponentRecord(parent), ComponentRecord(child) };
+            receipt["native_mate_creation"] = nativeMateCreations;
+            receipt["mates"] = MateRecords(model);
+            receipt["remaining_dofs"] = remaining;
+            receipt["canonical_sign_probe"] = canonical;
+            receipt["enhanced_branch_and_limit_sweep"] = sweep;
+            receipt["ten_nonzero_to_q0_cycles"] = resets;
+            receipt["final_q0"] = finalQ0;
+            receipt["reference_geometry_final_q0"] = referenceGeometryFinalQ0;
+            receipt["native_mate_bindings_final_q0"] = nativeMateBindingsFinalQ0;
+            receipt["j00_checkpoint"] = new Dictionary<string, object>
+            {
+                { "assembly_path", j00AssemblyPath }, { "assembly_sha256", Sha256(j00AssemblyPath) },
+                { "receipt_path", j00CheckpointPath }, { "receipt_sha256", Sha256(j00CheckpointPath) }
+            };
+            receipt["output"] = new Dictionary<string, object>
+            {
+                { "path", outputAssemblyPath }, { "bytes", new FileInfo(outputAssemblyPath).Length }, { "sha256", Sha256(outputAssemblyPath) }
+            };
+            receipt["completed_at_utc"] = DateTime.UtcNow.ToString("o");
+
+            Require(Sha256(baseCarrierPath) == baseBefore && Sha256(link1CarrierPath) == linkBefore,
+                "MR2 Carrier hash changed during Pilot creation");
+            string title = model.GetTitle();
+            ReleaseCom(driver); driver = null;
+            ReleaseCom(child); child = null;
+            ReleaseCom(parent); parent = null;
+            GC.Collect(); GC.WaitForPendingFinalizers();
+            app.CloseDoc(title);
+            ReleaseCom(assembly); assembly = null;
+            ReleaseCom(model); model = null;
+            app.ExitApp();
+            ReleaseCom(app); app = null;
+            Require(process.WaitForExit(120000), "SOLIDWORKS did not exit normally");
+            receipt["normal_document_close"] = true;
+            receipt["normal_application_exit"] = true;
+            WriteJsonCreateNew(receiptPath, receipt);
+            Progress(progressPath, "J01_R3_CREATE_PASS " + Sha256(outputAssemblyPath));
+            process.Dispose();
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            receipt["status"] = "S05R2_J01_R3_NATIVE_1R_PILOT_CREATE_FAIL_CLOSED";
+            receipt["gate_pass"] = false;
+            receipt["exception_type"] = ex.GetType().FullName;
+            receipt["exception"] = ex.ToString();
+            try { if (baseBefore != null && File.Exists(baseCarrierPath)) receipt["base_hash_after_failure"] = Sha256(baseCarrierPath); } catch { }
+            try { if (linkBefore != null && File.Exists(link1CarrierPath)) receipt["link1_hash_after_failure"] = Sha256(link1CarrierPath); } catch { }
+            ReleaseCom(driver); driver = null;
+            ReleaseCom(child); child = null;
+            ReleaseCom(parent); parent = null;
+            GC.Collect(); GC.WaitForPendingFinalizers();
+            try { if (app != null && model != null) app.CloseDoc(model.GetTitle()); } catch { }
+            try { if (app != null && preloadedBaseTitle != null) app.CloseDoc(preloadedBaseTitle); } catch { }
+            try { if (app != null && preloadedLinkTitle != null) app.CloseDoc(preloadedLinkTitle); } catch { }
+            ReleaseCom(preloadedBase); preloadedBase = null; preloadedBaseTitle = null;
+            ReleaseCom(preloadedLink); preloadedLink = null; preloadedLinkTitle = null;
+            try { if (app != null && app.GetDocumentCount() == 0) app.ExitApp(); } catch { }
+            try { if (!File.Exists(receiptPath)) WriteJsonCreateNew(receiptPath, receipt); } catch { }
+            try { if (File.Exists(progressPath)) Progress(progressPath, "J01_R3_CREATE_FAIL " + ex.Message); } catch { }
+            return 1;
+        }
+        finally
+        {
+            ReleaseCom(driver); ReleaseCom(child); ReleaseCom(parent); ReleaseCom(assembly); ReleaseCom(model);
+            ReleaseCom(preloadedBase); ReleaseCom(preloadedLink); ReleaseCom(app);
+            if (process != null) process.Dispose();
+            GC.Collect(); GC.WaitForPendingFinalizers();
+        }
+    }
+
+    [STAThread]
+    public static int ColdVerify(int expectedProcessId, string assemblyPath,
+        string baseCarrierFileName, string link1CarrierFileName, string receiptPath, string progressPath)
+    {
+        var receipt = new Dictionary<string, object>
+        {
+            { "schema", "B51R1_S05R2_J01_R3_NATIVE_PILOT_COLD_REOPEN_V1" },
+            { "status", "FAIL_CLOSED_NOT_STARTED" }, { "generated_at_utc", DateTime.UtcNow.ToString("o") },
+            { "expected_process_id", expectedProcessId }, { "save_as_call_count", 0 }, { "save3_call_count", 0 },
+            { "create_mate_data_call_count", 0 }, { "create_mate_call_count", 0 }, { "add_mate5_call_count", 0 },
+            { "mate_preselection_call_count", 0 }, { "transform2_call_count", 0 },
+            { "set_transform_and_solve_call_count", 0 }, { "move_component_call_count", 0 }
+        };
+        SldWorks app = null;
+        Process process = null;
+        ModelDoc2 model = null;
+        AssemblyDoc assembly = null;
+        Component2 parent = null, child = null;
+        Feature driver = null;
+        try
+        {
+            Require(!File.Exists(receiptPath) && !File.Exists(progressPath), "Append-only cold-reopen evidence exists");
+            Require(File.Exists(assemblyPath), "Pilot assembly is absent");
+            string before = Sha256(assemblyPath);
+            app = Attach(expectedProcessId);
+            process = Process.GetProcessById(expectedProcessId);
+            ProgressCreateNew(progressPath, "J01_R3_COLD_REOPEN_START " + DateTime.UtcNow.ToString("o"));
+            int errors = 0, warnings = 0;
+            model = app.OpenDoc6(assemblyPath, AssemblyType, OpenSilent | OpenReadOnly, "", ref errors, ref warnings) as ModelDoc2;
+            Require(model != null && errors == 0, "Pilot cold reopen failed, errors=" + errors);
+            assembly = model as AssemblyDoc;
+            Require(assembly != null, "IAssemblyDoc cast failed on cold reopen");
+            parent = FindComponentByFile(assembly, baseCarrierFileName);
+            child = FindComponentByFile(assembly, link1CarrierFileName);
+            driver = FindFeature(model, "J01_LIMIT_ANGLE_DRIVER", null);
+
+            Require(!parent.IsFixed() && !child.IsFixed(), "Cold-reopened Pilot contains a fixed component");
+            Require(parent.GetConstrainedStatus() == FullyConstrained, "Cold-reopened base is not mate-grounded");
+            Require(child.GetConstrainedStatus() == UnderConstrained, "Cold-reopened link1 is not under-constrained");
+            Dictionary<string, object> remaining = RemainingDofs(child);
+            Dictionary<string, object> initialReferenceGeometry = ReferenceGeometryWitness(parent, child);
+            List<Dictionary<string, object>> samples = new List<Dictionary<string, object>>();
+            for (int i = 0; i < 10; i++)
+            {
+                Require(model.ForceRebuild3(false), "Cold-reopen rebuild failed at sample " + i);
+                samples.Add(ReadState(parent, child, driver, 0.0, "COLD_Q0_R" + i.ToString("D2")));
+            }
+
+            var canonical = new List<Dictionary<string, object>>();
+            double[] canonicalQ = { OneDegree, 0.0, -OneDegree, 0.0 };
+            string[] canonicalNames = { "COLD_PLUS_1DEG", "COLD_RETURN_1", "COLD_MINUS_1DEG", "COLD_RETURN_2" };
+            for (int i = 0; i < canonicalQ.Length; i++)
+                canonical.Add(new Dictionary<string, object>
+                {
+                    { "state", canonicalNames[i] },
+                    { "samples", DriveAndSample(model, parent, child, driver, canonicalQ[i], canonicalNames[i]) }
+                });
+
+            double branchBoundaryQ = Math.PI - NativeQ0;
+            var branchWitnesses = new List<Dictionary<string, object>>();
+            double[] branchQ = { -1.4, branchBoundaryQ - 0.01, branchBoundaryQ + 0.01, 1.4, 2.78, 0.0 };
+            string[] branchNames =
+            {
+                "COLD_BRANCH_BELOW_PI_FAR", "COLD_BRANCH_BELOW_PI_NEAR", "COLD_BRANCH_ABOVE_PI_NEAR",
+                "COLD_BRANCH_ABOVE_PI_FAR", "COLD_BRANCH_UPPER_NEAR", "COLD_BRANCH_RETURN_Q0"
+            };
+            for (int i = 0; i < branchQ.Length; i++)
+                branchWitnesses.Add(new Dictionary<string, object>
+                {
+                    { "state", branchNames[i] },
+                    { "samples", DriveAndSample(model, parent, child, driver, branchQ[i], branchNames[i]) }
+                });
+
+            Drive(model, driver, 0.0);
+            Dictionary<string, object> finalQ0 = ReadState(parent, child, driver, 0.0, "COLD_FINAL_Q0");
+            Dictionary<string, object> finalRemaining = RemainingDofs(child);
+            Dictionary<string, object> finalReferenceGeometry = ReferenceGeometryWitness(parent, child);
+            Dictionary<string, object> finalNativeMateBindings = NativeMateBindingWitness(model, parent, child);
+            receipt["status"] = "S05R2_J01_R3_NATIVE_1R_PILOT_COLD_REOPEN_PASS";
+            receipt["gate_pass"] = true;
+            receipt["assembly"] = new Dictionary<string, object>
+            {
+                { "path", assemblyPath }, { "bytes", new FileInfo(assemblyPath).Length }, { "sha256_before_after", before }
+            };
+            receipt["components"] = new object[] { ComponentRecord(parent), ComponentRecord(child) };
+            receipt["mates"] = MateRecords(model);
+            receipt["remaining_dofs"] = remaining;
+            receipt["q0_samples"] = samples;
+            receipt["cold_canonical_sign_probe"] = canonical;
+            receipt["cold_branch_witnesses"] = branchWitnesses;
+            receipt["branch_boundary_q_rad"] = branchBoundaryQ;
+            receipt["final_q0"] = finalQ0;
+            receipt["final_remaining_dofs"] = finalRemaining;
+            receipt["reference_geometry_initial_q0"] = initialReferenceGeometry;
+            receipt["reference_geometry_final_q0"] = finalReferenceGeometry;
+            receipt["native_mate_bindings_final_q0"] = finalNativeMateBindings;
+            receipt["completed_at_utc"] = DateTime.UtcNow.ToString("o");
+
+            string title = model.GetTitle();
+            ReleaseCom(driver); driver = null;
+            ReleaseCom(child); child = null;
+            ReleaseCom(parent); parent = null;
+            GC.Collect(); GC.WaitForPendingFinalizers();
+            app.CloseDoc(title);
+            ReleaseCom(assembly); assembly = null;
+            ReleaseCom(model); model = null;
+            Require(Sha256(assemblyPath) == before, "Pilot assembly hash changed during read-only cold reopen");
+            app.ExitApp();
+            ReleaseCom(app); app = null;
+            Require(process.WaitForExit(120000), "SOLIDWORKS did not exit normally after cold reopen");
+            receipt["normal_document_close"] = true;
+            receipt["normal_application_exit"] = true;
+            WriteJsonCreateNew(receiptPath, receipt);
+            Progress(progressPath, "J01_R3_COLD_REOPEN_PASS " + before);
+            process.Dispose();
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            receipt["status"] = "S05R2_J01_R3_NATIVE_1R_PILOT_COLD_REOPEN_FAIL_CLOSED";
+            receipt["gate_pass"] = false;
+            receipt["exception_type"] = ex.GetType().FullName;
+            receipt["exception"] = ex.ToString();
+            ReleaseCom(driver); driver = null;
+            ReleaseCom(child); child = null;
+            ReleaseCom(parent); parent = null;
+            GC.Collect(); GC.WaitForPendingFinalizers();
+            try { if (app != null && model != null) app.CloseDoc(model.GetTitle()); } catch { }
+            try { if (app != null && app.GetDocumentCount() == 0) app.ExitApp(); } catch { }
+            try { if (!File.Exists(receiptPath)) WriteJsonCreateNew(receiptPath, receipt); } catch { }
+            try { if (File.Exists(progressPath)) Progress(progressPath, "J01_R3_COLD_REOPEN_FAIL " + ex.Message); } catch { }
+            return 1;
+        }
+        finally
+        {
+            ReleaseCom(driver); ReleaseCom(child); ReleaseCom(parent); ReleaseCom(assembly); ReleaseCom(model); ReleaseCom(app);
+            if (process != null) process.Dispose();
+            GC.Collect(); GC.WaitForPendingFinalizers();
+        }
+    }
+}

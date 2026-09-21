@@ -1,0 +1,60 @@
+# sim_10 任务可行域扫描参数卡 v0 — 2026-07-18
+# 铁律：阈值取冻结 registry（SHA-256 绑定），禁止放宽（thresholds_widened 必须为 False）；
+# 只读 import 30_simulation/common/capture_impulse.py 与 sim_08 公式，不修改 sim_01–09/11 任何文件。
+version: v0
+frozen_inputs:                        # run_gates 逐一校验哈希，任何漂移 -> Gate FAIL
+  threshold_registry:
+    path: 30_simulation/e15_core_coverage/config/threshold_registry_core_v1.yaml
+    sha256: 400bcedce5af6ad5c4135e67f87bb524ee2fdafb1c26aeae07e495ff387b2873
+  sim08_assumptions:
+    path: 30_simulation/sim_08_detumble_actuator_budget/assumptions.yaml
+    sha256: 850f49da90d50c55984bde20e4f93193725f798eea9e4f3346836e76511ec890
+  sim06_anchor_csv:
+    path: 30_simulation/sim_06_capture_impulse/results/capture_impulse_matrix_v0.csv
+    sha256: 8cbad84b8ff69ffca6992ce29e95520bae3c309260ec8c55083cbe62dfed5151
+  sim08_sweep_csv:
+    path: 30_simulation/sim_08_detumble_actuator_budget/results/actuator_budget_sweep.csv
+    sha256: 1f0d4534956555c7bc5e309d53e9a92eb25d281c9e036987fb7eab2b17b3d7ad
+
+mass_reference:
+  servicer_bus_kg: 24.0               # μ = m_t / 24（设计书锚点：碎片 6.25、卫星 0.9167）；
+                                      # rigidize 中的追踪星为完整 stack（bus+adapter+臂 26.5 kg，
+                                      # 经 capture_impulse.chaser_stack() SSOT 装载）
+
+scan:
+  mu_range_log: [0.05, 25.0]          # 质量比网格（log 均布）
+  n_mu: 25
+  omega_dps_range_log: [0.1, 10.0]    # 翻滚率网格（log 均布）
+  n_omega: 20
+  v_app_mps: 0.01                     # sim_06/08 名义接近速度
+  lambda_scale: [0.2, 0.5, 1.0]       # 抓点杠杆比（相对各几何类 CAD 标定名义杠杆的比例，
+                                      # λ=1.0 为锚点；与设计书 r_g/L_t 定义的偏差在报告 §偏差 声明）
+  alpha: [0.0, 1.0]                   # 速度匹配度：0=纯接近, 1=末端横向速度完全同步
+  geometry_classes:                   # ι(μ) 映射：等密度缩放 I∝m^(5/3)，杠杆∝m^(1/3)
+    G1_slender:                       # 细长上面级——按 target_debris_v0 标定；μ=6.25 精确回锚
+      calibration_target: target_debris_v0
+      calibration_mass_kg: 150.0
+    G2_cubesat:                       # 立方星本体——按 target_satellite_v0 标定；μ=0.9167 精确回锚
+      calibration_target: target_satellite_v0
+      calibration_mass_kg: 22.0
+    G3_compact:                       # 致密紧凑体——均质球（无 CAD 锚点，设计空间外推，图注声明）
+      sphere_density_kg_m3: 2700.0
+      grasp_lever_over_radius: 1.0    # 名义抓点在球面（λ=1 时杠杆=半径）
+
+actuator_tiers:                       # 门2/3/4 执行机构档（数值出处 sim_08 assumptions.yaml，勿改）
+  wheel_capacity_Nms: {wheels_small: 0.045, wheels_large: 0.300}   # 3×15 / 3×100 mN·m·s
+  thruster_isp_s: {cold_gas: 60.0, green_mono: 220.0}
+  lever_arm_m: [0.05, 0.17]
+  thruster_force_N: 0.1               # 门4 力档（sim_08 中档；τ_avail = F·l_T）
+  default_tier: {wheel: wheels_large, isp: cold_gas, lever_m: 0.17}   # 主图 F1 档位
+
+gates:                                # 门1/门3 阈值经 registry 装载（代码断言与此一致，防手抄漂移）
+  post_capture_rate_max_dps: 2.0      # 门1 = registry post_capture_rate_max_dps
+  propellant_budget_max_g: 54.73476731425644   # 门3 J_avail = m_prop·Isp·g0 = registry 派生链
+  g0_mps2: 9.80665
+  t_detumble_max_s: 3600.0            # 门4 上限（sim_08 detumble_times_s 最大档；任务假设，PROVISIONAL）
+
+output:
+  physics_csv: sim_10_scan_physics.csv
+  gates_csv: sim_10_scan_gates.csv
+  summary_json: sim_10_scan_summary.json

@@ -1,0 +1,100 @@
+schema: JOINT_INTERFACE_CONTROL_DOCUMENTS_V1
+generated: "2026-08-04"
+authority: "accepted URDF (kinematics/limits); vendor drawing required for PCD/bolt (D1+vendor)"
+note: "J00 = baseline fixed (world->base_link); J07 = gripper_link fixed; J08/J09 = prismatic (gripper fingers). This file covers J01-J06 revolute."
+common:
+  bolt_spec_candidate: M5
+  dowel_spec_candidate: Ø5
+  datum_face: "joint output flange face (per-joint, TBD on vendor drawing)"
+  load_direction: "along joint axis = torque; radial = bearing -> housing -> flange -> link"
+  harness_rule: "no tension / no kink / no routing through rotation axis; bend radius >= HARNESS_MIN_BEND_RADIUS x OD"
+joints:
+  J01_BASE_SLEW:
+    joint_name: joint1
+    type: revolute
+    axis_urdf: [0, 0, 1]
+    origin_xyz_mm: [-0.0842, 0, 84.65]
+    origin_rpy_deg: [0, 0, 0]
+    limits_deg: [-160.428, 160.428]
+    effort_Nm: 27
+    velocity_rad_s: 50
+    pcd: TBD
+    bolt_count: TBD
+    dowel: 2x candidate Ø5
+    harness_rotation_envelope_deg: "full ±160.4; route through base slip ring region (TBD)"
+    load_path: "motor -> reducer -> output shaft -> bearing -> J1 flange -> base_link housing -> base adapter"
+  J02_SHOULDER:
+    joint_name: joint2
+    type: revolute
+    axis_urdf: [0, 0, -1]
+    origin_xyz_mm: [20.084, 31.625, 55.55]
+    origin_rpy_deg: [-90, 0, 0]
+    limits_deg: [-179.909, 0]
+    effort_Nm: 27
+    velocity_rad_s: 50
+    pcd: TBD
+    bolt_count: TBD
+    dowel: 2x candidate Ø5
+    harness_rotation_envelope_deg: "0..-180; cantilever routing on link1 side"
+    load_path: "motor -> reducer -> bearing -> J2 flange -> link2 (carries 1.3266 kg, longest arm moment)"
+    note: "J2 is the dominant shoulder-torque joint; harness flexure fatigue-critical"
+  J03_ELBOW:
+    joint_name: joint3
+    type: revolute
+    axis_urdf: [0, 0, 1]
+    origin_xyz_mm: [-264.0, 0, 0]
+    origin_rpy_deg: [0, 0, 0]
+    limits_deg: [-179.909, 0]
+    effort_Nm: 27
+    velocity_rad_s: 50
+    pcd: TBD
+    bolt_count: TBD
+    dowel: 2x candidate Ø5
+    harness_rotation_envelope_deg: "0..-180"
+    load_path: "motor -> bearing -> J3 flange -> link3 (0.8353 kg)"
+  J04_WRIST_PITCH:
+    joint_name: joint4
+    type: revolute
+    axis_urdf: [0, 0, 1]
+    origin_xyz_mm: [242.6, -54.0, -1.625]
+    origin_rpy_deg: [0, 0, 0]
+    limits_deg: [-107.145, 89.954]
+    effort_Nm: 7
+    velocity_rad_s: 200
+    pcd: TBD
+    bolt_count: TBD
+    dowel: 2x candidate Ø5
+    harness_rotation_envelope_deg: "-107..+90"
+    load_path: "motor -> bearing -> J4 flange -> link4 (0.52 kg)"
+  J05_WRIST_ROLL_A:
+    joint_name: joint5
+    type: revolute
+    axis_urdf: [0, 0, 1]
+    origin_xyz_mm: [78.308, -37.5, -30.0]
+    origin_rpy_deg: [-90, 0, 0]
+    limits_deg: [-89.954, 89.954]
+    effort_Nm: 7
+    velocity_rad_s: 200
+    pcd: TBD
+    bolt_count: TBD
+    dowel: 2x candidate Ø5
+    harness_rotation_envelope_deg: "±90; continuous-roll harness provision"
+    load_path: "motor -> bearing -> J5 flange -> link5 (0.383 kg)"
+  J06_WRIST_ROLL_B:
+    joint_name: joint6
+    type: revolute
+    axis_urdf: [0, 0, 1]
+    origin_xyz_mm: [23.692, 0, 40.0]
+    origin_rpy_deg: [0, 90, 0]
+    limits_deg: [-179.909, 179.909]
+    effort_Nm: 7
+    velocity_rad_s: 200
+    pcd: TBD
+    bolt_count: TBD
+    dowel: 2x candidate Ø5
+    harness_rotation_envelope_deg: "±180; full-roll -> slip ring or torsional harness (TBD)"
+    load_path: "motor -> bearing -> J6 flange -> link6 (0.3663 kg) -> gripper_link (fixed J07) -> EE wrist flange"
+open_items:
+  - "D1 ruling (keep vendor core) required before PCD/bolt can be confirmed from vendor drawing"
+  - "bearing part numbers = vendor internal (BUY); housing bearing-seat design depends on D1"
+  - "all PCD/bolt_count marked TBD until vendor interface drawing obtained"

@@ -1,0 +1,44 @@
+# 模型分层映射：每个物理对象在 H1（动力学真值）/H2（工程几何）/H3（仿真几何）的来源与状态
+# 规则：CAD 质量不得自动覆盖 accepted URDF；fixed-q0 STEP 不得成为 joint/limit/mass authority。
+schema: MODEL_LAYER_MAPPING_V1
+objects:
+  b601_arm:
+    H1: {source: arm_b601_v1.urdf, status: ACCEPTED, note: "6R+1F+2P；总质量 4.6956 kg（BUDGETED）"}
+    H2: {source: null, status: MISSING_CURRENT_STEP, note: "C01-C09 current STEP 0/9；D01 配方就绪未执行"}
+    H3: {visual: meshes_b601_gripper/*.STL, collision: "同 STL（URDF collision 段）+ 全景 broad-phase mesh", narrow_phase: ABSENT}
+  spacecraft_bus_12U:
+    H1: {source: "mass_inertia_budget_v1.csv row servicer_12U_v0 (24.0 kg, frame S, CoM)", status: STAGE1_SSOT_LOW_CONFIDENCE, cdr: NULL_HOLD}
+    H2: {source: "04_MASTER_GEOMETRY.step (41 solids, frozen master)", status: FROZEN_READ_ONLY}
+    H3: {visual: servicer_12U_v0.stl, collision: "URDF box 0.4405x0.6263x0.2763 m", status: STAGE1_PROXY}
+  solar_arrays:
+    H1: {source: "flexible_appendage_v1.yaml m_panel_kg=0.3483933", status: PLACEHOLDER_D7, note: "真实 2-5 kg/m^2，可差 5-10 倍；论文最大硬伤登记"}
+    H2: {source: "ecr_solar_array_r2/SOLAR_ARRAY_R2_CANDIDATE_V1.step", status: CANDIDATE}
+    H3: {status: MISSING}
+  gripper:
+    H1: {source: "arm_b601_v1.urdf gripper_link/left/right", status: ACCEPTED_IN_URDF, note: "闭合时间 T_c 实测缺（sim_11 待办2）；URDF 15 m/s 速度上限 UNVALIDATED_AUTO_EXPORTED"}
+    H2: {status: MISSING_CURRENT_STEP}
+    H3: {visual: "gripper_*.STL", narrow_phase_contact: "仅派生 pad 包络 JSON（SIM13_V2_RELEASED_CONTACT_GEOMETRY_V1），非实测"}
+  route_c_dress_pack:
+    H1: {status: EXCLUDED, note: "RC-5 未接受；V9F REJECTED"}
+    H2: {source: "route_c/ V1-V9F 变体", status: GEOMETRY_LOOP_TERMINATED}
+    H3: {status: EXCLUDED}
+  target_satellite_22kg:
+    H1: {source: target_satellite_v0.urdf, status: PROVISIONAL_RA003_SELF_DEFINED}
+    H2: {status: N_A_EXTERNAL_OBJECT}
+    H3: {visual: target_satellite_v0.stl, collision: URDF_PRIMITIVES, status: STAGE1_PROXY}
+  target_debris_150kg:
+    H1: {source: target_debris_v0.urdf, status: PROVISIONAL_NONPHYSICAL_DENSITY_D8}
+    H2: {status: N_A_EXTERNAL_OBJECT}
+    H3: {visual: target_debris_v0.stl, collision: URDF_PRIMITIVES, status: STAGE1_PROXY}
+mount_transforms:
+  dynamics_rail:
+    name: T_SM
+    value: {t_m: [0.18525, 0.0, 0.0], rpy_rad: [0.0, 1.5707963267948966, 0.0]}
+    authority: "ODR-01 nominal_frozen_v1（唯一动力学安装权威；设计名义未实测）"
+    consumer: PREBIND_PLANT
+  physical_rail:
+    name: T_S_B601_ARM_BASE_PHYSICAL
+    value: {station_x_m: 0.208, clocking_about_x_deg: 25.000014}
+    authority: "EXECUTION_MOUNT_BINDING_V1.json（OPTION_A_PRESEARCH 候选，非发布）"
+    consumer: NONE_THIS_INCREMENT
+  aliasing: FORBIDDEN   # 两轨数值不同，语义隔离，NEVER_ALIASES

@@ -1,0 +1,384 @@
+manifest_id: V2_1_SOURCE_ADMISSION_MANIFEST
+gate: COMP-PROT-03-A4-B4-REFERENCE-GROUNDED-STRUCTURE-AND-SOLAR-REFINEMENT
+phase: B4-0
+verified_utc: '2026-07-25'
+method_note: 五代理并行只读核验：WebFetch/WebSearch + git ls-remote 实测 HEAD；未 clone 大仓库、未写 SolidWorks；NO_DIRECT_SCALE 铁律贯穿
+sources:
+- source_id: BIRDSX_CAD
+  canonical_urls:
+  - https://github.com/BIRDSOpenSource/BIRDSX-CAD
+  - https://raw.githubusercontent.com/BIRDSOpenSource/BIRDSX-CAD/main/LICENSE
+  - https://raw.githubusercontent.com/BIRDSOpenSource/BIRDSX-CAD/main/README.md
+  - https://api.github.com/repos/BIRDSOpenSource/BIRDSX-CAD/git/trees/main?recursive=1
+  pinned_ref: main HEAD = 36bceeacc9f899477f2f10e36f8a65f7b58cb4ed（获取方式：本机实测 `git ls-remote https://github.com/BIRDSOpenSource/BIRDSX-CAD.git
+    HEAD`，2026-07-25。另存在分支 refs/heads/CAD = d2d5ebd4b6eb4c7cc3226f1e6f0a4b7de2cc0966，未选为固定引用）
+  license: 'MIT（SPDX: MIT）。出处文件：仓库根 `LICENSE`，版权行 "Copyright (c) 2024 BIRDS Project, Kyushu Institute of Technology"。注意
+    MIT 文本表述为 "software and associated documentation files"，用于 CAD/硬件数据在法律语义上略宽松；若引用任何内容需保留版权与许可声明'
+  status_claims:
+  - README 自述：BIRDS-X 项目 2U CubeSat（日本星名 Dragonfly），业余无线电任务，20×10×10 cm³，质量 1.758 kg（出处：README.md 卫星规格段）
+  - README 自述发射日期 2025-02-21，项目周期 2023-2025，主导方为九州工大（Kyutech）与 ARDC（出处：README.md）
+  - 仓库内无 flown/operational/deprecated 等显式飞行状态声明；'已飞行'不能从本仓库自证，需外部查证（出处：README.md 与仓库页均未见状态声明）
+  - README 鼓励社区 star/报 issue/测试设计/讨论反馈，属开放征集状态而非冻结交付（出处：README.md 社区段）
+  contents_inventory:
+  - BIRDSX-Structure/CAD/0_2U_STD.step … 9_2U_STD.step：10 个编号零件级 STEP 模型（GitHub API 树实测）
+  - BIRDSX-Structure/Drawings/0_2U_STD.pdf … 9_2U_STD.pdf：与 CAD 同号一一对应的 PDF 技术图纸
+  - Assembly dragonfly step.zip（约 8.5 MB）：整星总装 STEP 交付包
+  - Screw_Procurement list_v2 (version 1).xlsx：螺钉/紧固件采购表（独立版本化电子表格）
+  - Satellite part Stresses 2.xlsx：零件级应力核算表
+  - LICENSE（MIT）与 README.md（含质量/包络/日期的顶层规格摘要）
+  - 未核实项：PDF 图纸内部是否含爆炸图/剖视/局部详图未打开验证，不计入已验证清单
+  admissible_principles:
+  - principle: 零件号体系：顺序数字零件号 + 统一构型后缀（N_2U_STD），CAD 模型与图纸共用同一编号，实现文件名级 1:1 追溯
+    evidence: API 树实测 BIRDSX-Structure/CAD/0_2U_STD.step…9_2U_STD.step 与 BIRDSX-Structure/Drawings/0_2U_STD.pdf…9_2U_STD.pdf
+      严格同号配对
+  - principle: 零件级/总装级交付分层：零件各自独立 STEP + 图纸，总装以单一 STEP 压缩包整体交付，两层互不混装
+    evidence: 根目录 'Assembly dragonfly step.zip'（8.5 MB）与 BIRDSX-Structure/ 下 10 个零件 STEP 并存
+  - principle: 总装以中性格式 STEP 交付而非原生 CAD 格式，保证跨 CAD 工具可交换
+    evidence: 全仓库几何均为 .step（零件与总装），无原生 SLDPRT/SLDASM 等格式
+  - principle: 紧固件采购表独立成表且版本化，不埋在图纸里，采购信息与几何解耦
+    evidence: 根目录 'Screw_Procurement list_v2 (version 1).xlsx' 为独立版本化电子表格
+  - principle: 结构裕度核算随 CAD 包同行：零件应力表与几何/图纸同仓共存，形成可审计的工程图包
+    evidence: 根目录 'Satellite part Stresses 2.xlsx' 与 CAD/Drawings/采购表同仓
+  - principle: CAD-图纸-采购-应力四线追溯集中于单一仓库 + 顶层 README 规格摘要（质量/包络/日期）+ 机器可读许可证，构成完整开源工程交付包组织范式
+    evidence: 仓库根含 README.md（规格摘要）、LICENSE（MIT）、采购表、应力表；BIRDSX-Structure/ 含 CAD 与 Drawings 平行子目录
+  inadmissible:
+  - 任何尺寸/包络：2U（20×10×10 cm）导轨、框架、面板几何不得缩放继承到 12U V2.1（NO_DIRECT_SCALE 铁律；2U→12U 结构域完全不同）
+  - 质量数值：1.758 kg 整星质量及任何零件质量不得作为 12U 预算参考
+  - 板厚/框架截面等由 STEP 几何隐含的结构参数不得量取继承
+  - 螺钉规格/数量：Screw_Procurement list 中的具体 M 规格、长度、数量为 2U 结构耦合参数，只可继承'独立采购表'这一组织方式
+  - 应力/裕度数值：Satellite part Stresses 2.xlsx 中任何应力、安全系数数值（载荷工况与几何均不适用）
+  - STEP 几何直接导入复用：许可证虽允许，但项目铁律禁止；且该星无机械臂/双翼展开构型，与 B601 + 双太阳翼任务不匹配
+  - 任务专属机构：业余无线电天线/展开机构等 2U 任务机构原理不适用于捕获类 12U 服务星
+  - 其文件命名的非正式版本管理实践（含空格文件名、'v2 (version 1)' 双重版本标注）不应继承，仅继承'采购表版本化'意图
+  risks:
+  - 飞行状态未自证：仓库无 flown/deprecated 声明，README 仅给发射日期 2025-02-21；若需引用'已飞行验证的结构'须另行外部查证，当前不可如此表述
+  - 双分支漂移：main 与 CAD 分支 SHA 不同（CAD=d2d5ebd4…），引用必须锁 main HEAD 36bceeac…，勿混用分支内容
+  - 图纸细节未验证：爆炸图/剖视/局部详图是否存在未打开 PDF 核实，任务书中该项继承重点目前为未验证假设
+  - MIT 用于硬件数据的法律语义偏软件；重分发任何内容需保留版权声明，且不含专利授权
+  - 配置管理成熟度低（空格文件名、非正式版本号、xlsx 无变更记录），作为组织范式参考时应取其结构、弃其执行细节
+  - 2U 学生星与 12U 机器人服务星结构载荷域差异巨大：即使组织方式继承，也不得暗示其结构设计流程覆盖了机械臂反力/展开翼动载等 V2.1 关键工况
+  verification_method: 三路独立实测（2026-07-25）：(1) 本机 `git ls-remote https://github.com/BIRDSOpenSource/BIRDSX-CAD.git`
+    取全部 refs，锁定 main HEAD SHA；(2) WebFetch GitHub API `git/trees/main?recursive=1` 递归文件树，逐一核对零件号/图纸配对与根目录交付物；(3)
+    WebFetch raw LICENSE 与 raw README.md 原文，核对许可类型、版权行与自述状态。未 clone 仓库、未写项目文件、未打开 PDF 图纸（相应结论已标注为未验证）
+- source_id: HYPERION_SOLAR
+  canonical_urls:
+  - https://github.com/AlbertaSat/ex2_hyperion_solar_panel_hardware
+  - https://raw.githubusercontent.com/AlbertaSat/ex2_hyperion_solar_panel_hardware/master/LICENSE
+  - https://arxiv.org/abs/2407.19356
+  - https://arxiv.org/html/2407.19356v1
+  pinned_ref: git HEAD = 8860d493125f0cea17049e519a6e9751b4dd9422（refs/heads/master；实测方式：本机 Bash 执行 `git ls-remote
+    https://github.com/AlbertaSat/ex2_hyperion_solar_panel_hardware HEAD`，2026-07-25）。论文固定版本：arXiv:2407.19356v1（提交于
+    2024-07-28，WebFetch arxiv.org/abs 页面实测）。
+  artifact_hashes:
+    detailed_design_TX2_PW_387_ver_0_12_sha256: ce82065f1cb5b26acb914032c9d343dc9c5f5431054a47dece507840286be644
+    testing_plan_ver_1_00_sha256: 3fa2be70cc579500645e36ae36c383f9214eadd5a2b9d7c7b7e6db58fc9af12a
+    arxiv_2407_19356v1_pdf_sha256: d65a6892cf7410ada27050461604d353aa88284da5ea4129933a3f63b5bace52
+  license: 'Apache-2.0（SPDX: Apache-2.0）。出处：仓库根目录 `/LICENSE` 文件（raw.githubusercontent.com master 分支实测），开头原文 "Apache
+    License / Version 2.0, January 2004 / http://www.apache.org/licenses/"。注意：LICENSE 为标准模板文本，可见部分未填入具体版权人行（附录仍为
+    "Copyright [yyyy] [name of copyright owner]" 模板）。论文正文亦自述设计文件按 Apache 2.0 开源发布，两处一致。'
+  contents_inventory:
+  - /Documentation — 设计说明、适配方法与有效性分析方法
+  - /PCB_Design_Files — Altium Designer 工程文件（Hyperion 太阳板电路板设计）
+  - /CAD_Files — 固定提交下仅核得 5 个 STEP（天线/DFGM 鞍座与 deployable-switch depressor）；未公开完整翼板或铰链装配 CAD
+  - /LICENSE（Apache-2.0）与 /README.md（内容极简，仅目录说明）
+  - 配套论文 arXiv:2407.19356v1：设计、装配、TVAC/振动试验、在轨演示与部署失效影响分析全文
+  status_claims:
+  - 飞行验证（flown）：太阳板飞行于 Ex-Alta 2、AuroraSat、YukonSat 三星（Northern SPIRIT 星座），2023-04-24 经 NanoRacks NRCSD25 从 ISS
+    释放——出处：论文 Introduction 章节原文
+  - 已试验（tested）：发射前完成热真空（TVAC）与振动鉴定试验，试验地点为加拿大航天局 David Florida Laboratory——出处：论文 Paper Outline 与 Panel verification
+    章节
+  - 开源发布（open-sourced）：论文自述'设计文件、装配规程与最佳实践将按 Apache 2.0 许可公开发布'，GitHub 仓库即该发布载体——出处：论文结论章节 + 仓库 README
+  - 后续复用计划：拟用于 Ex-Alta 3（论文摘要称 2025 年发射）——计划态陈述，非已验证事实
+  - 仓库 README 本身无 as-flown/deprecated 等状态声明；飞行/试验状态权威出处是论文而非仓库，仓库文件与实飞硬件的一致性未获仓库侧自证
+  admissible_principles:
+  - principle: 本体板与展开翼职能分离：固定本体板（zenith/port/starboard 三面）承载总线功能与部署机构，展开翼只做发电面
+    evidence: 论文太阳板设计章节原文：三块本体板（zenith、port、starboard 各一）+ 两块展开板；部署开关与 burnwire 机构设计进本体板一侧
+  - principle: 根部铰链块 + 弹簧被动展开：展开翼经根部铝制弹簧铰链块连接到本体板，展开能量由预压弹簧提供、无主动执行器
+    evidence: 论文 Deployment Mechanisms 章节：'panels were attached to the body-mounted panels using aluminum hinges
+      with springs'（具体合金与弹簧参数论文未给出，仅可继承机构原理）
+  - principle: 低冲击消耗性收拢约束 + 电阻熔断释放：收拢态用轻质纤维线双圈捆扎保持，释放点用阻性加热熔断纤维线，释放机构布置在固定侧
+    evidence: 论文 Deployment Mechanisms 章节：OBC 给 10Ω 阻燃金属膜电阻加 5V，加热至约 200°C 熔断双绕 Dyneema 线释放展开板（数值仅作原理佐证，禁直接继承）
+  - principle: 线缆跨铰链的组织方式：在本体板上预留切口/过孔使跨铰链电气走线简化，部署开关与释放电路留在固定侧以规避活动件布线
+    evidence: 论文 Deployment Mechanisms 章节：'deployment switches and burnwire mechanisms were designed into the body-mounted
+      panels to work around mechanical constraints using appropriate cutouts to make electronic harnessing easier'
+  - principle: 失效/部分展开配置思想：设计必须同时按名义全展开与双翼展开失败两种配置评估任务影响，收拢失效态需自洽（fail-safe 功率/构型预算）
+    evidence: '论文设专节 ''Impact of Deployment Failure''：''we considered two failure configurations: the nominal configuration
+      … and the failure configuration constituted the deployment failure of both deployable panels'''
+  - principle: 鉴定试验链条：展开机构随整板经历振动 + 热真空鉴定后方进入飞行，试验先于状态声明
+    evidence: 论文：'Before launching the three CubeSats, the panels underwent thermal vacuum (TVAC) and vibration
+      qualification testing'，于 CSA David Florida Laboratory 完成
+  inadmissible:
+  - NO_DIRECT_SCALE 铁律项：任何尺寸、质量、板厚、弹簧刚度/预紧力矩、铰链几何均禁止继承——Hyperion 面向 Northern SPIRIT 小型 CubeSat（ISS 释放），与本项目 12U（包络
+    340.5×226.3×226.3mm、双翼 200×227×6mm）尺度与动力学环境不同
+  - Burnwire 电气实现值（5V、10Ω、~200°C、Dyneema 双绕圈数）禁止直接继承——属实现参数，须按本项目释放载荷与热约束重新推导并实测
+  - PCB/Altium 文件禁止 as-is 继承——电池片选型、串并联拓扑与其总线绑定，与本项目电源体系无关
+  - 铰链 CAD 几何与材料牌号禁止继承——论文仅说 'aluminum hinges with springs' 且出自本科 capstone 设计，合金牌号未公开，无可继承的材料规范
+  - 完整铰链设计引用的 TX2-MC-127 Ex-Alta2 Icarus Design CDR 未随仓库公开；不得把 CAD_Files 描述为完整太阳翼/铰链机械 CAD
+  - 飞行履历与鉴定状态禁止继承——Hyperion 的 flown/tested 状态不迁移到任何衍生设计，本项目 V2.1 机械深化仍须过自身 Gate（测试 PASS ≠ 科学 Gate PASS）
+  risks:
+  - LICENSE 文件为未填版权人的 Apache-2.0 标准模板（可见部分无具体 Copyright 行、仓库无 NOTICE 说明），署名对象需按 'AlbertaSat / Sorensen & Halliwell,
+    arXiv:2407.19356' 主动标注以稳妥合规
+  - 仓库 README 极简、无 as-flown 声明：仓库内 CAD/PCB 文件与 2023 年实飞硬件的一致性未经仓库侧自证，飞行状态只能引用论文，不能声称'仓库文件即飞行构型'
+  - 铰链关键参数缺失：合金牌号、弹簧参数、力矩裕度均未公开（capstone 设计），只能继承机构原理，任何具体化都是本项目原创工作且需自证
+  - 论文仅有 arXiv v1（2024-07-28），未确认经同行评审的期刊终版，引用时按预印本对待
+  - 尺度失配风险：Hyperion 展开翼远小于本项目 200×227×6mm 双翼，铰链刚度/展开冲击/模态频率不可类比，若照搬布置思想仍须过本项目 ANCF/模态链路（帆板参数占位问题见项目待办 3）
+  verification_method: 四路实测交叉：(1) 本机 Bash `git ls-remote <repo> HEAD` 取回 8860d49…（master），非抄录他处；(2) WebFetch raw
+    LICENSE（master 分支）核对 Apache-2.0 原文首行；(3) WebFetch GitHub 仓库页与 README 核对目录结构、许可自述与状态声明缺失；(4) WebFetch arXiv 摘要页
+    + arXiv HTML 全文（2407.19356v1），对六项关键主张（3+2 板构型、弹簧铝铰链、burnwire 保持/释放、TVAC+振动试验、Northern SPIRIT 三星入轨、部署失效分析）逐条取原文句子核验，全部
+    VERIFIED（其中铝合金牌号一项仅部分核验：论文只述 'aluminum hinges with springs'，无牌号）。执行日期 2026-07-25。
+- source_id: ORESAT_STRUCTURE_AND_SOLAR
+  canonical_urls:
+  - https://github.com/oresat/oresat-structure
+  - https://github.com/oresat/oresat-solar-hardware
+  - https://raw.githubusercontent.com/oresat/oresat-structure/master/README.md
+  - https://raw.githubusercontent.com/oresat/oresat-solar-hardware/master/README.md
+  - https://www.oresat.org/technologies/cubesat-subsystems
+  - https://cad.onshape.com/documents/f25f3f200abb912b90d5ed0a/m/80c47e9291909d2bfcab6d2c/e/4f39ca87568525b2426c52ab
+  rejected_current_urls:
+  - url: https://cad.onshape.com/documents/48b910b46086e6b0e2315353/w/4aa305da7933618e47be15b5/e/c74689e568e124e331e7da22
+    reason: Onshape 文档当前名称为 `OLD DO NOT USE -- oresat-structure`，仅保留为历史拒用证据
+  pinned_ref: oresat-structure HEAD=4c02299f908e8b60afd23ca562b4ec418d51ce56（git ls-remote 实测 2026-07-25，默认分支 master）——与项目
+    A4-B2 verification_report 记载的 4c02299f908e 完全一致（前缀匹配，无漂移）；oresat-solar-hardware HEAD=af8f6f3def958309f3864055bd1944e20f51357d（git
+    ls-remote 实测 2026-07-25，默认分支 master，项目此前未固定该仓，本次为首次登记）。OreSat 官方子系统页当前链接到
+    `OreSat0.5 - DO NOT UPDATE`；匿名元数据只允许固定 workspace `Main` 的 microversion=80c47e9291909d2bfcab6d2c，
+    recentVersion/publishedVersionId 均为空，故仅准入元数据，不准入几何，也不能据此声称存在通用“现行 OreSat CAD”。
+  artifact_hashes:
+    oresat_structure_readme_sha256: 93bb3c8c545653901b1ff2a1dff04675f2b13f1c62381cc75f82a2922b3e3221
+    oresat_solar_readme_sha256: de7a11fced386ca31f9aee3dce81798434b3ae17893fb77e18fe9fc71eb8f358
+  license: oresat-structure：CERN-OHL-S-2.0（SPDX；固定提交的 `LICENSE/cern_ohl_s_v2.pdf` 标题为
+    "CERN Open Hardware Licence Version 2 - Strongly Reciprocal"，README 版权 Portland State Aerospace Society
+    2018-2021；GitHub `/license` API 404 仅表示根级单文件未识别，不表示仓库无许可文件）。oresat-solar-hardware：CERN-OHL-S-2.0 or later（README.md
+    原文 "This source describes Open Hardware that is licensed under CERN-OHL-S v2, or any later version"，版权 PSAS；同样无独立
+    LICENSE 文件，出处均为各仓 master 分支 README.md）。两者均为开源硬件许可，原则级借鉴无义务；若直接派生文件则 CERN-OHL-S 强互惠条款生效。
+  status_claims:
+  - oresat-structure README 自述（verbatim）："This repository of SolidWorks files is deprecated as of May 2022. After
+    the lauch of OreSat0 to SSO in March 2022, our team decided to move to OnShape"——这是 2022 年迁移声明；README 旧链接目前已标
+    `OLD DO NOT USE`，因此不能据其声称该文档仍是现行 CAD
+  - OreSat 官方子系统页当前 Onshape 入口只指向 `OreSat0.5 - DO NOT UPDATE`；未发现具名发布版或全系列通用当前结构文档
+  - oresat-structure README 自述设计哲学："We're building all of OreSat from scratch. For the record, this is a terrible
+    idea."——全自研教育导向，非 COTS（出处：master/README.md）
+  - oresat-solar-hardware README 自述（verbatim）："We've flown our GaAs solar cell design, and are currently working
+    on our silicon design."——GaAs 版已飞行验证，Si 版开发中（出处：master/README.md）
+  - oresat-solar-hardware README 自述每板独立电源管理："each 1u panel has its own true maximum power point tracker, with a
+    software-defined MPPT algorithm"（出处：master/README.md）
+  - 两仓 GitHub archived=未标记 archived（仓库页可正常访问且非 archive 横幅）；deprecation 仅为 structure 仓 README 自述
+  contents_inventory:
+  - oresat-structure 顶层目录：ADACS, AssemblyJig, Backplane, BatteryCard, COTS, Cameras, Cards, Endcap, Endcard, Frames,
+    HASP, OreSatDrawings, OreSatFormat, Solar, VibrationJig, VolumeKeepout, .github
+  - oresat-structure 顶层文件：1.5UAssembly.SLDASM, 3UAssembly.SLDASM, OreSat0.SLDASM, OreSat1.SLDASM, OreSat1B.SLDASM,
+    README.md, .gitignore（约 1653 次提交）
+  - oresat-solar-hardware 顶层目录：1u_panel, cable-adapter, images, ltspice-simulations, solar-module-1u-gaas, solar-module-1u-gaas-MCXN,
+    solar-module-1u-si, solar-module-1u-si-MCXN, solar-module-breakout
+  - oresat-solar-hardware 模块计数：OreSat0（1U 星）4 块模块，OreSat1（2U 星）8 块模块——同一 1U 模块平铺适配不同星体
+  admissible_principles:
+  - principle: 端框-纵梁-卡笼三层结构分解：主结构拆分为端框（Endcap/Endcard）、框架纵梁（Frames）、背板+卡堆（Backplane/Cards），端盖承担服务接口与闭合功能，卡笼承载电子堆叠
+    evidence: oresat-structure 顶层目录并列 Endcap、Endcard、Frames、Backplane、Cards，各为独立设计资产域（GitHub contents API 实测目录清单）
+  - principle: Volume keepout 作为一等设计资产：包络禁区/保留体积以独立 CAD 工件维护并纳入版本控制，而非隐含在装配体中，用于保护展开机构与载荷包络
+    evidence: oresat-structure 顶层存在专门的 VolumeKeepout 目录（GitHub contents API 实测）
+  - principle: 制造/试验夹具与飞行结构同仓共版本：装配夹具与振动试验夹具随主结构一起演进，保证夹具与结构接口不漂移
+    evidence: oresat-structure 顶层存在 AssemblyJig 与 VibrationJig 两个专门目录（GitHub contents API 实测）
+  - principle: 按子系统分目录的 CAD 组织方式：ADACS、Cameras、BatteryCard、Solar 各子系统独立目录，COTS 外购件单独隔离目录，避免自研件与外购件混放
+    evidence: oresat-structure 顶层目录 ADACS/Cameras/BatteryCard/Solar/COTS 并列（GitHub contents API 实测）
+  - principle: 任务变体用顶层配置装配体管理：不同星体（OreSat0/1/1B、1.5U/3U）各自一个顶层装配文件复用同一套子系统零件库，变体差异集中在装配层
+    evidence: oresat-structure 仓库根部并列 OreSat0.SLDASM、OreSat1.SLDASM、OreSat1B.SLDASM、1.5UAssembly.SLDASM、3UAssembly.SLDASM（GitHub
+      contents API 实测）
+  - principle: 工程图模板与格式标准入库：绘图标准（OreSatDrawings/OreSatFormat）作为仓库资产与 CAD 同源版本控制，保证出图口径一致
+    evidence: oresat-structure 顶层目录 OreSatDrawings、OreSatFormat（GitHub contents API 实测）
+  - principle: 太阳翼 1U 标准化模块平铺思想：定义单一标准模块单元，通过数量平铺适配不同星体规模（牺牲部分铺片率换取跨构型复用），而非每星定制整板
+    evidence: oresat-solar-hardware README：OreSat0 用 4 块、OreSat1 用 8 块同一 1U 模块；README 自述以覆盖率换灵活性（raw README 实测）
+  - principle: 太阳模块分布式电源电子：每个模块自带真 MPPT（软件定义算法），模块即自治电源单元，简化中心配电并提升局部遮挡容错——继承'每模块自治+标准电气接口'的组织原则
+    evidence: oresat-solar-hardware README verbatim："each 1u panel has its own true maximum power point tracker,
+      with a software-defined MPPT algorithm"
+  - principle: 线束/连接器入口独立成资产：电缆转接（cable-adapter）与模块引出（solar-module-breakout）作为独立设计目录，把线束入口当成显式接口设计对象而非装配残余
+    evidence: oresat-solar-hardware 顶层目录 cable-adapter、solar-module-breakout（GitHub contents API 实测）
+  - principle: 技术变体目录级分叉：电池片技术（GaAs/Si）与控制器（MCXN）变体用平行目录管理（solar-module-1u-gaas / -si / -MCXN 后缀），变体谱系在目录名可读
+    evidence: oresat-solar-hardware 顶层四个 solar-module-1u-* 平行变体目录（GitHub contents API 实测）
+  - principle: 仿真依据与硬件同仓：电路仿真（ltspice-simulations）随硬件设计入库，设计决策证据链可追溯——对应本项目'每资产自带 evidence'的治理原则
+    evidence: oresat-solar-hardware 顶层 ltspice-simulations 目录（GitHub contents API 实测）
+  inadmissible:
+  - NO_DIRECT_SCALE 铁律：oresat-structure 任何 SolidWorks 零件的尺寸、质量、板厚、壁厚、导轨截面、紧固件规格、弹簧/展开机构参数一律禁继承——OreSat 为 1U/1.5U/2U/3U
+    级平台，与 12U（COMPETITION_DISPLAY_V0 包络 340.5×226.3×226.3mm）无尺度可比性
+  - oresat-structure 全部几何本体禁作现行设计依据：上游自述 2022-05 起 deprecated、现行 CAD 已迁 Onshape；本仓只能作历史组织方式参考，不得称其为 OreSat 现行主 CAD（与项目
+    open_source_model_knowledge_base.md 既有裁定一致）
+  - Onshape 几何不准入：旧链接已明确拒用；当前官方入口仅为 OreSat0.5 的未发布 workspace 快照，无法证明通用当前构型
+  - oresat-solar-hardware 的电池片电参数、MPPT 电路元件值、PCB 布局布线、LTspice 仿真数值、1U 模块的具体外形尺寸与 4/8 块模块计数——均为 1U/2U 尺度实例数据，禁直接移植到
+    200×227×6mm 双太阳翼设计
+  - GaAs '已飞行' 状态禁向本项目设计传递资质：flown 只属于 OreSat 自身 GaAs 版某历史构型，当前 HEAD 含开发中的未飞 Si 版内容，且任何继承件在本项目中状态归零
+  - HASP、OreSat1B 等任务专属内容禁参考（非 CubeSat 通用结构）
+  - 若未来直接派生 oresat-solar-hardware 的设计文件（非原则级借鉴），CERN-OHL-S v2 强互惠条款要求衍生源公开——直接文件级复用需另行许可审查，本轮不准入
+  risks:
+  - 强互惠风险：oresat-structure 的许可变体已由固定提交 `LICENSE/cern_ohl_s_v2.pdf` 裁定为 CERN-OHL-S-2.0；任何文件级派生须履行强互惠义务
+  - 上游活性风险：structure 仓已 deprecated 四年；旧 Onshape 链接已拒用，当前官方入口又仅是未发布的 OreSat0.5 workspace，
+    因而本轮只能引用 2022 冻结仓的组织模式，不能把任何 Onshape 几何称为现行通用基线
+  - 尺度外推风险：OreSat 最大 3U，卡笼/背板架构在 12U + 机械臂载荷（B601）下的结构效率未被该来源证明，端框-纵梁-卡笼分解只能作为组织起点而非力学结论
+  - solar 仓 HEAD 含开发中内容：af8f6f3 处 Si 版自述 in development，混用 flown/未飞内容时须逐目录甄别
+  - 两仓 README 均无 12U、双翼展开机构、太阳翼铰链/弹簧内容——本项目双太阳翼 200×227×6mm 的展开机构设计在该来源中无对应物，不能从该来源'继承'任何展开机构原理以外的东西（OreSat solar
+    为体装式模块，非展开翼）
+  verification_method: 1) git ls-remote https://github.com/oresat/{oresat-structure,oresat-solar-hardware} HEAD（Bash
+    实测 2026-07-25，只读，未 clone）取得两 HEAD SHA；2) WebFetch 两仓 GitHub 页面 + raw.githubusercontent.com master/README.md
+    原文逐字摘录 deprecation/license/flown 自述；3) WebFetch/api 核得 structure 固定提交的 `LICENSE/cern_ohl_s_v2.pdf`，
+    裁定为 CERN-OHL-S-2.0；4) 核对旧 Onshape 文档名称 `OLD DO NOT USE` 与官方子系统页当前 OreSat0.5 链接/microversion；
+    5) Grep 本地项目核对既有固定记录与现 HEAD 逐位一致，无漂移。solar 仓为首次登记。
+- source_id: CDS_REV_14_1
+  canonical_urls:
+  - https://www.cubesat.org/cubesatinfo
+  - https://www.cubesat.org/s/CDS-REV14_1-2022-02-09.pdf
+  - https://static1.squarespace.com/static/5418c831e4b0fa4ecac1bacd/t/62193b7fc9e72e0053f00910/1645820809779/CDS+REV14_1+2022-02-09.pdf
+  - https://www.cubesat.org/s/CDS-Rev14_1-Drawings.pdf
+  - https://www.cubesat.org/s/CP-CIFP-20W-Public-Version.pdf
+  - https://www.cubesat.org/s/CACs-for-CIFP-March-2020.pdf
+  pinned_ref: CP-CDS-R14.1, Rev 14.1, 生效 2022 年 2 月（文件名日期 2022-02-09，PDF 元数据 CreationDate 2022-02-25）。获取方式：非 git
+    仓库，git ls-remote 不适用；实测 = WebFetch 官方入口 cubesat.org/cubesatinfo（2026-07-25 访问，页面标注 Rev 14.1 "NEW RELEASE"）+
+    下载官方 PDF（34 页，7.6MB）用 pypdf 6.10.2 本地抽取封面（"CubeSat Design Specification (1U-12U) REV 14.1 CP-CDS-R14.1"）与 p.2
+    REV14 CHANGE SUMMARY（"February 2022 | 14.1 | Alicia Johnstone | Removed DRAFT and published as official Rev
+    14.1"）三方交叉核对。
+  artifact_hashes:
+    CP_CDS_R14_1_pdf_sha256: 221fbbbd4f632b16f3e219d1a5e2c2b04e1998c12025b793e6dfc6181af66b5d
+    bytes: 8001529
+  license: 无 SPDX、无 LICENSE 文件（文档源非代码仓库）。许可依据 = PDF 封面（p.1）"Document Classification" 栏勾选 "X Public Domain"（公有领域分类）。正文未发现附加版权限制或再分发限制文本。注意：官方
+    PDF 带 owner-password 抽取限制（Read 工具报 password-protected），但这是技术性权限位，与封面公有领域分类声明不冲突；建议入库时归档本地副本并记录该限制。
+  status_claims:
+  - 现行有效：官方入口 cubesat.org/cubesatinfo 将 Rev 14.1 标为 "NEW RELEASE"（2026-07-25 实测），未见更新版本或被替代声明。
+  - p.2 变更摘要：2022 年 2 月 "Removed DRAFT and published as official Rev 14.1"——14.1 是正式版，此前 Rev 14 (2020-07) 为 DRAFT。
+  - p.2：Rev 14 "supersedes CDS Rev 13 and 6U CDS Rev 1.0"，并首次并入 6U/12U 标准。
+  - p.2 自述定位转变："many of the specifications in Rev 14 have been revised to serve more as guidelines than hard requirements"——引用时不得把
+    guideline 当强制要求。
+  - §1.3/§1.4 自述优先级：CDS 面向初步设计、写法保守以最大化发射兼容性；"Launch vehicle provider requirements supersede the requirements in
+    this document"。
+  - §1.1 自述范围："provide specifications for the design of CubeSats ranging from 1U to 12U"，次要目标是提供分配器（dispenser）接口信息。
+  - 配套件齐全（官方页实测链接存在）：CDS Specification Drawings（Rev14_1）、CubeSat Acceptance Checklists (CAC, 2020-03)、CubeSat Inspection
+    and Fit-check Procedure (CIFP, CP-CIFP-20W 公开版)、P-POD Mk III Rev E User Guide；正文 §2.2 明示 "The CIFP can be used
+    to aid in verifying that the CubeSat meets the dimensional requirements specified in Appendix B"。
+  contents_inventory:
+  - 主文档 CP-CDS-R14.1（34 页）：§1 引言（定义、shall/should/will/note 用语约定）；§2.1 通用规范（材料出气、磁、排气、火工/推进抑制）；§2.2 机械规范（坐标系、导轨、突出物分区、分离机构、质量/质心表、材料与表面处理）；§2.3
+    电气规范（断电状态、部署开关、RBF、RTC、三重独立抑制）；§2.4 运行规范（射频许可、碎片减缓、部署/发信时序）；§3 测试要求（随机振动、热真空、冲击、目视检查）；附录 A 变更历史；附录 B 1U/1.5U/2U/3U/U+/6U/12U
+    规格图。
+  - 配套图纸 CDS-Rev14_1-Drawings.pdf（附录 B 的独立发布版，仅定义外部特征）。
+  - 验收清单 CACs-for-CIFP-March-2020.pdf（CubeSat Acceptance Checklists）。
+  - 装配检查与试装程序 CP-CIFP-20W-Public-Version.pdf（CIFP，尺寸符合性验证程序）。
+  - P-POD Mk III Rev E 用户手册（分配器侧接口参考）。
+  - 官方页另指引 NASA CubeSat 101 与 GEVS (GSFC-STD-7000) 作为背景资料。
+  admissible_principles:
+  - principle: 外边界唯一约束原则：CDS 只标准化导轨/接触面/突出物分区/外包络等对外接口，完全不规定内部结构布置——V2.1 内部机械深化自由度不受 CDS 约束，但外部组织必须围绕'四角导轨即对外接口'来安排。
+    evidence: §2.2 开篇："CubeSat dimensions and features are outlined in the CubeSat Specification Drawings (Appendix
+      B)"；附录 B 仅含外形规格图；全文目录无任何内部结构章节。
+  - principle: 几何中心坐标系与分轴质心预算原则：以几何中心为坐标原点定义航天器坐标系，并按轴管理质心偏移预算（预算的组织方式可继承，各轴具体厘米值不可继承）。
+    evidence: §2.2.1 "The origin of the CubeSat coordinate system is located at the geometric center of the CubeSat"；§2.2.11
+      按 X/Y/Z 轴分别给出质心允许范围表（Table 2）。
+  - principle: 导轨承载路径与突出物分区原则：主结构组织为四角导轨承载对外载荷路径；导轨端面承担与相邻星的堆叠接触；指定侧面设突出物禁越区（法向 keep-out）；导轨允许部分退让但须保持接触主导（'大部分接触、少量可退让'的组织概念）。
+    evidence: §2.2.3 突出物分区（yellow shaded sides + 法向限制概念）；§2.2.5 导轨最小宽度概念；§2.2.8 端面与相邻星导轨接触面概念；§2.2.9 "At least 75%
+      of the rail should be in contact with the dispenser rails. 25% ... may be recessed"（比例值本身不继承，仅继承接触主导的组织原则）。
+  - principle: 滑动接触面冷焊防护原则：与分配器导轨接触的铝制外表面须做硬质阳极化以防冷焊——继承为'所有金属滑动/长期压紧接触界面须做表面处理防冷焊'的机构原理。
+    evidence: §2.2.13 "shall be hard anodized to prevent any cold welding within the dispenser"；§2.2.6.1 阳极化同时覆盖表面粗糙度要求的备注。
+  - principle: 展开物自约束原则：所有展开机构（太阳翼、天线、臂）由航天器自身压紧释放，不得依赖外部（分配器）约束——对双太阳翼 200×227×6 与 B601 臂的压紧/释放链组织方式直接适用。
+    evidence: §2.2.4 "Deployables shall be constrained by the CubeSat, not the dispenser. This requirement originates
+      from requirements of most Launch Providers."
+  - principle: 分离机构能量权衡原则：分离弹簧并非越强越好——过强会压过分配器主弹簧导致再接触，过弱则分离量不足；正确参数化方向是'限力+保行程'，且机构收拢时不得超出支脚平面。
+    evidence: §2.2.14.1 "The common assumption with separation springs is that 'stronger is better'. This is not
+      always the case..."（6.7N/2.5mm 具体值不继承）；§2.2.14.2 收拢不超支脚层面。
+  - principle: 多重独立抑制的电气安全架构原则：交付到在轨部署全程断电；至少一个部署开关在受压状态切断电源、开关抖动后须复位到发射前状态；RBF 插销切断全部电源；展开机构与推进各设至少三重独立物理抑制；计时器不算独立抑制。该'物理抑制链'组织方式可继承到
+      V2.1 的臂/翼释放链设计。
+    evidence: §2.3.1、§2.3.2（含 2.3.2.4 复位要求）、§2.3.5 RBF、§2.3.7.1 "An inhibit is a physical device between a power
+      source and a hazard"、§2.3.7.2 "A timer is not considered an independent inhibit"、§2.3.8 三重抑制。
+  - principle: 分层验证工件组织原则：规格文本 + 独立发布的规格图 + 试装/检查程序（CIFP）+ 验收清单（CAC）构成配套验证链——每条几何要求配对应的可执行检查程序与清单。V2.1 的 gate 文档组织可继承此'规格-图纸-程序-清单'四件套模式。
+    evidence: §2.2 Note："The CubeSat Inspection and Fit-check Procedure (CIFP) can be used to aid in verifying ...
+      Appendix B"；官方页四个配套文件链接实测存在（Drawings/CIFP/CAC/P-POD UG）。
+  - principle: 需求用语纪律原则：shall（须正式验证的硬要求）/should（强建议）/will（既定事实）/note（建议）四级用语显式定义——可继承为 V2.1 需求文档的措辞规范。
+    evidence: §1.6.1-1.6.4 四条用语定义。
+  - principle: 保守基线与优先级让位原则：CDS 自定位为面向最大发射兼容性的保守初步设计基线，发射服务商要求永远优先——继承为'外部接口标准只作基线、具体任务合同优先'的引用姿态。
+    evidence: §1.3 "written conservatively to allow for the best chances of compatibility"；§1.4 "After a CubeSat
+      is manifested on a launch, the Launch Provider requirements supersede the CDS requirements"。
+  inadmissible:
+  - 【NO_DIRECT_SCALE 铁律项】附录 B / CDS-Rev14_1-Drawings.pdf 中一切图纸尺寸与公差（含 12U 366×226.3×226.3 包络、导轨截面、支脚长度、Tuna-Can
+    体积尺寸）——不得抄入 V2.1 几何 SSOT。
+  - 正文全部数值参数：导轨宽 8.5mm、突出物 6.5mm、端面 6.5×6.5mm、75%/25% 接触比、粗糙度 1.6µm、倒圆 R1mm——只可继承其组织原则，数值一律重新按本项目工况定义。
+  - 质量表（1U 2kg ... 12U 24kg）与质心偏移表（±2/±4.5/±7cm）——V2.1 质量/质心以 20_engineering/ 质量惯量预算 SSOT 为准，不得用 CDS 表反推。
+  - 分离弹簧参数（max 6.7N/1.5lbf、行程 2.5mm）——弹簧参数属明确禁继承类。
+  - 时序/电气数值：展开等待 30min、发信 45min、RTC 320kHz/10mA、TML≤1.0%、CVCM≤0.1%、磁场 0.5 Gauss、排气 50.8m 比值、再入 15J——均为发射合规值，与竞赛展示模型无对应工况。
+  - 用 CDS 12U 包络裁决本项目 profile 340.5×226.3×226.3 与 366×226.3×226.3 的差异——该差异是已登记 blocker V2-UNK-001，本轮明确不裁决，不得以'继承
+    CDS'名义变相闭环。
+  - Tab 约束式（PSC 平面卫星）要求——CDS 明示在 planetarysystemscorp.com 另行规定，不在本源准入范围。
+  - 把 Rev 14 后转为 guideline 的条款当强制 shall 引用，或据 CDS 声称'CDS-compliant'合规性——竞赛展示模型非分配器交付物，任何合规声称都超出本源准入授权。
+  risks:
+  - 托管不稳定：cubesat.org 为 Squarespace 站点，PDF 实际落在 static1.squarespace.com 带哈希路径的 CDN URL，长期链接易失效——已按文档号+日期钉定，建议 40_evidence/
+    归档本地副本（本轮只读未写入）。
+  - 官方 PDF 带 owner-password 文本抽取限制（Read 工具直接报错），常规工具链取文本需 pypdf 类库空密码解锁——影响后续自动化引用/校对流程。
+  - 版本时效：Rev 14.1 生效 2022-02，距今 4 年余且官方页仍标 NEW RELEASE；2026-09-01 提交前应复查官方页有无 Rev 15/更新版。
+  - 过度合规声称风险：CDS 是分配器兼容性标准，本项目是竞赛展示构型（COMPETITION_DISPLAY_V0），若文档中出现'满足 CDS'表述会构成不可验证的合规声称——只允许'组织方式参照 CDS 原则'级别的表述。
+  - V2-UNK-001（340.5 vs 366 包络差异）仍为开放 blocker：任何继承 CDS 导轨/包络原则的设计文本都须显式携带该 blocker 引用，避免读者误以为包络已对齐。
+  verification_method: 全程只读核验（2026-07-25）：(1) WebFetch 官方入口 https://www.cubesat.org/cubesatinfo，确认 Rev 14.1 为当前版（标
+    NEW RELEASE、1U-12U）及四个配套文件（Drawings/CAC/CIFP/P-POD UG）链接存在；(2) WebSearch 交叉验证官方 PDF 落点与 Rev 14.1 的 1U-12U 适用声明；(3)
+    下载官方 PDF（34 页/7.6MB）并用本机 pypdf 6.10.2 抽取文本，逐页核对封面文档号 CP-CDS-R14.1、公有领域分类勾选、p.2 变更摘要（2022-02 正式发布、Rev 14 取代 Rev
+    13 与 6U CDS 1.0）、§1-§2.4 原文与附录 B 图纸章节，PDF 元数据 CreationDate 2022-02-25 交叉印证；(4) 非 git 仓库故 git ls-remote 不适用，钉定引用采用'文档号+修订号+生效日期'三方交叉（封面/变更摘要/元数据）。未
+    clone 任何仓库、未写入项目文件。
+- source_id: LIBRECUBE
+  canonical_urls:
+  - https://librecube.gitlab.io/
+  - https://gitlab.com/librecube
+  - https://gitlab.com/librecube/components/LC2102
+  - https://gitlab.com/librecube/components/LC2102/-/raw/v2/README.md
+  - https://gitlab.com/librecube/components/LC2102/-/raw/v2/LICENSE.txt
+  - https://librecube.gitlab.io/standards/board_specification/
+  - https://librecube.gitlab.io/developer_guide/licenses/
+  - https://gitlab.com/librecube/librecube.gitlab.io
+  pinned_ref: LC2102 仓库 HEAD = 5b1afaaa54973923adea0ed85e94a315dd549261（即 refs/heads/v2，默认分支；refs/heads/v1 = c6a9da440aed7c6b94a1a718bc62b4d71f017920）。获取方式：2026-07-25
+    实跑 `git ls-remote https://gitlab.com/librecube/components/LC2102.git`（旧 elements namespace 自动重定向）。文档/标准站源仓库 librecube.gitlab.io HEAD = 20a9e04c9aed7ad7ea480fc83f9e7a1f384b398d（同法
+    git ls-remote 实测）；注意 Board Specification 页面本身无版本号/日期，故文档只能以该源仓库 SHA 钉定。
+  license: LC2102 硬件：CERN-OHL-W-2.0（SPDX）。出处文件：仓库根目录 LICENSE.txt（v2 分支），原文标题 "CERN Open Hardware Licence Version
+    2 - Weakly Reciprocal"，弱互惠：传播产品须提供或指明 Covered Source，修改须加注记；经文档化接口连接的外部材料不被传染。组织级许可政策（librecube.gitlab.io/developer_guide/licenses/）：硬件项目（机械+电气）用
+    CERN-OHL-W，软件库用 MIT，应用程序用 GPL；文档站声明 CC BY 4.0。
+  admissible_principles:
+  - principle: 标准化接口三位一体：机械形态+电气连接+协议在同一份规范中统一定义，且对全体成员元件具有强制约束力（normative）
+    evidence: librecube.gitlab.io/standards/board_specification/ 原文："All LibreCube board projects must follow this
+      specification"，规范同时覆盖机械板型、H1/H2 接插、总线协议；动机是避免 CubeSat 内部电子从未被正式标准化导致的碎片化
+  - principle: 板卡竖直堆栈组织方式：等间距堆叠 + 明确的元件高度包络禁区（keep-out envelope），以包络合同而非具体件保证互换性（仅继承组织方式，任何 mm 数值不继承）
+    evidence: Board Specification 页面描述堆叠架构：板间定距、板上/板下元件高度受限以维持兼容——包络式互换合同这一思想可迁移到 12U 内部模块化布局
+  - principle: 可替换模块思想：结构设计允许不全拆即可更换单块板卡
+    evidence: LC2102 README（v2 分支原文）：结构 "enables straightforward board replacement without full disassembly"
+  - principle: 结构各面统一安装特征，实现外挂件的模块化对称安装
+    evidence: LC2102 README（v2）："offers uniform mounting on all sides for modularity"
+  - principle: 元件即自包含版本化仓库：src(参数化 CAD 源, FreeCAD)/build(派生几何)/docs(装配指南) 三分层 + 分支即版本（v1/v2）的工程资产组织法
+    evidence: GitLab API 实测 v2 树：src、build、docs、LICENSE.txt、README.md、CONTRIBUTORS.txt；git ls-remote 实测分支 v1/v2；README
+      指明 FreeCAD 源在 src/、装配指南在 docs/assembly/
+  - principle: 锚定公开开放标准作为接口基准：结构合规 CubeSat specification、兼容 PC/104 风格板卡，组织层面优先采用免费公开航天标准（ECSS/CCSDS）
+    evidence: LC2102 README（v2）：兼容 CubeSat 规范与 PC/104 风格板；librecube.gitlab.io/standards/：优先引用 ECSS、CCSDS 等免费公开标准
+  - principle: 组织三基石：开源发布、采用免费可得航天标准、以标准化接口实现模块化——作为 V2.1 机械深化的治理级参照
+    evidence: librecube.gitlab.io 组织首页明列三项基础：open-source publication / freely available space standards / modularity
+      with standardized interfaces
+  inadmissible:
+  - NO_DIRECT_SCALE 铁律项：一切具体尺寸/质量/板厚/间距数值禁止继承——包括板卡 95.89×90.17×1.57 mm、堆叠间距 16 mm、元件高度限 8.76/4.83 mm、11 块板堆栈容量、2U
+    框架/导轨几何。只准继承组织方式与包络合同思想。
+  - LC2102 几何与 CAD 文件不得作为 12U 外结构主模型的母版或缩放基线：LC2102 明确仅为 2U（README 自述 double unit structure，范围限 2U），LibreCube 生态不提供
+    12U 外结构主模型；'2U×6=12U' 式缩放属直接尺寸继承，禁止。
+  - 电气总线/接插件定义（H1/H2 引脚、SpaceCAN、20 路可切换电源线等）不得作为 V2.1 机械深化的需求导入——超出本轮机械范围，且属尺寸/参数级细节。
+  - 禁止将 CERN-OHL-W 覆盖的 FreeCAD 源文件复制/修改后并入本项目交付链，除非同时履行弱互惠源公开义务；本轮准入仅授权原则级借鉴，不触发 Covered Source 传染。
+  - 任何测试/飞行资质不得转移继承：LC2102 README 未声明 tested/flown/qualified，任何 '经飞行验证的开源结构' 之类表述均不可写入本项目文档。
+  - GitHub 第三方分叉 danny811426/LC-2102a（描述为四片阳极化侧框+PEEK 天线环）不是上游 v2 内容，禁止与官方 LC2102 v2 混同引用。
+  status_claims:
+  - LC2102 自述（v2 README）：'double unit (2U) structure that can be 3D printed or produced in metal'，可容纳 11 块 LibreCube
+    板或 CubeSat 兼容 PC/104 风格板；未声明 tested/flown/deprecated——即无任何飞行/鉴定履历自述，状态应记为 '开源设计件，无资质声明'。
+  - GitLab 项目元数据：归类 Platform / Structure / 2U Structure，创建于 2023-02-15，16 次提交，2 个分支（v1/v2），v2 为默认活跃分支——项目为活跃小体量开源设计，非归档/弃用。
+  - Board Specification 自述为强制规范：'All LibreCube board projects must follow this specification'，但页面无版本号、无修订日期（已核实缺失，见
+    pinned_ref 的 SHA 钉定补救）。
+  - 组织自述（librecube.gitlab.io）：所有开发 'published under open-source licenses, freely to be used by anyone'；文档站采用 CC
+    BY 4.0。
+  contents_inventory:
+  - 组织入口 librecube.gitlab.io：使命、三基石（开源/公开标准/模块化标准接口）、User Guide、Developer Guide、Standards、Reference Architecture
+  - GitLab 组织 gitlab.com/librecube：仓库三分类 Components(elements)/Software Libraries/Systems
+  - LC2102 仓库（v2）：README.md、LICENSE.txt（CERN-OHL-W-2.0 全文）、CONTRIBUTORS.txt、picture.png、src/（FreeCAD 参数化源）、build/（派生几何）、docs/（含
+    docs/assembly/ 装配指南）
+  - 标准页：LibreCube Board Specification（机械板型+H1/H2 电气+协议+堆叠包络，normative）、SpaceCAN 总线协议、引用 ECSS/CCSDS 免费公开标准与《Handbook
+    of Free and Open Space Standards》
+  - Developer Guide：licenses 页（硬件 CERN-OHL-W / 软件库 MIT / 应用 GPL）、Repository Structure、Workflow、Coding Style
+  - 配套模板仓库 gitlab.com/librecube/templates_and_tools/librecube-board（合规板卡 PCB 模板，本轮未深核，仅登记存在）
+  risks:
+  - 规范无版本号风险：Board Specification 页面无版本/日期，内容可能静默漂移；已用文档源仓库 SHA 20a9e04c 钉定，引用时必须带该 SHA。
+  - 许可传染风险：CERN-OHL-W-2.0 为弱互惠，若未来从原则借鉴滑向复制/修改其 CAD 源并随作品分发，将触发源公开义务；本项目 V2.1 交付链（SolidWorks 主模型）须保持与 LC2102 FreeCAD
+    源零文件级血缘。
+  - 尺度外推风险：LC2102 是 2U 级可 3D 打印小结构，其结构哲学未在 12U+机械臂反作用载荷量级验证过；'板替换免全拆'与'各面统一安装'原则移植后必须在本项目自证强度/刚度，不存在任何可继承的力学裕度。
+  - 同名混淆风险：网络检索会命中第三方分叉 LC-2102a（GitHub）与旧 v1 分支（SHA c6a9da44），三者内容描述不同；一切引用锁定上游 v2 SHA 5b1afaaa。
+  - 范围误用风险：LibreCube 强项在板卡栈与内部接口标准，不做 12U 外结构主模型——若后续有人以 LIBRECUBE 准入为由引入其外结构几何，属越界引用，应按 inadmissible 第 2 条驳回。
+  verification_method: 全程只读实测（2026-07-25）：(1) `git ls-remote` 实取 LC2102 仓库 HEAD/分支 SHA 与文档站源仓库 HEAD SHA，未 clone；(2)
+    WebFetch 抓取组织首页、Standards 页、Board Specification 页、Developer Guide licenses 页；(3) GitLab API（projects/.../repository/tree?ref=v2）实取仓库根目录文件清单确认
+    LICENSE.txt 确切文件名；(4) WebFetch 抓取 v2 分支 raw README.md 与 raw LICENSE.txt 原文并据原文标题定 SPDX=CERN-OHL-W-2.0；(5) WebSearch
+    仅用于定位权威 URL，所有结论均以上述一手抓取为准，未采信搜索摘要中无法溯源上游的描述（如第三方分叉的材料描述已单列风险）。

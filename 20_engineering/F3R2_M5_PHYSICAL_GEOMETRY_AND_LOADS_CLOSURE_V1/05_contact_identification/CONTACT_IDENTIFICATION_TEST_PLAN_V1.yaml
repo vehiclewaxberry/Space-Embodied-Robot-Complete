@@ -1,0 +1,82 @@
+schema: M5_CONTACT_IDENTIFICATION_TEST_PLAN_V1
+status: PLAN_READY_EXECUTION_AND_ACCEPTANCE_CRITERIA_HOLD
+metrology_rule: Every fitted input requires estimate, standard uncertainty, distribution,
+  degrees of freedom, calibration source, and correlation group.
+tests:
+- id: CT-01
+  purpose: identify normal force-displacement and rate dependence
+  specimen: R1 contact insert plus representative target coupon
+  raw_channels:
+  - force_N
+  - displacement_m
+  - velocity_mps
+  - time_s
+  - temperature_K
+  outputs:
+  - model_family
+  - normal_stiffness
+  - exponent
+  - normal_damping
+  status: HOLD_SPECIMEN_MATERIAL_SURFACE_AND_RANGE
+- id: CT-02
+  purpose: identify restitution over approach-speed range
+  specimen: same material/surface pair
+  raw_channels:
+  - pre_velocity_mps
+  - post_velocity_mps
+  - force_N
+  - time_s
+  outputs:
+  - coefficient_of_restitution
+  - contact_duration_s
+  status: HOLD_TEST_RANGE_AND_FIXTURE
+- id: CT-03
+  purpose: identify static and kinetic friction with vacuum/thermal conditioning
+  raw_channels:
+  - normal_force_N
+  - tangential_force_N
+  - slip_velocity_mps
+  - temperature_K
+  outputs:
+  - mu_static
+  - mu_kinetic
+  - stick_slip_transition
+  status: HOLD_MATERIAL_PAIR_ENVIRONMENT_AND_CYCLE_COUNT
+- id: CT-04
+  purpose: identify gripper force-speed-latency and power-off hold
+  raw_channels:
+  - command
+  - position_m
+  - velocity_mps
+  - force_N
+  - current_A
+  - time_s
+  outputs:
+  - force_speed_curve
+  - continuous_force
+  - peak_force
+  - latency
+  - holding_force
+  status: HOLD_ACTUATOR_SELECTION
+- id: CT-05
+  purpose: correlate integrated capture impulse, rebound, slip and pressure witness
+  raw_channels:
+  - six_axis_wrench
+  - high_speed_pose
+  - finger_position
+  - pressure_witness
+  - time_s
+  outputs:
+  - impulse
+  - couple_impulse
+  - peak_force
+  - duration
+  - rebound
+  - slip
+  - pressure_footprint
+  status: HOLD_CT01_TO_CT04_AND_TARGET_SURROGATE
+analysis:
+  gum_linearized: REQUIRED
+  monte_carlo: REQUIRED_FOR_NONLINEAR_OR_GT20_PERCENT_RELATIVE_UNCERTAINTY
+  correlations: MUST_BE_PRESERVED
+  acceptance_thresholds: null

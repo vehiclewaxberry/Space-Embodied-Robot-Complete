@@ -1,0 +1,143 @@
+# V2.1 工程图登记
+register_id: V2_1_DRAWING_REGISTER
+date: "2026-07-25"
+organization_pattern_source: BIRDS-X CAD/图纸/总装/紧固件的追溯组织方式
+geometry_inherited_from_source: false
+part_numbering: SV21-<MODULE>-<CLASS>-<SEQ>
+
+package_status:
+  register: COMPLETE
+  native_slddrw: HOLD_NOT_PRODUCED
+  released_pdf: HOLD_NOT_PRODUCED
+  fastener_register: HOLD_NO_SIGNED_FASTENER_DATA
+  physical_detail_reason: 铰链、HDRM、止挡、线束、紧固件、工具空间和公差均未签发；不得以零实体 reference 伪造可制造工程图。
+
+drawings:
+  GA-001:
+    title: 总装图
+    status: REGISTERED_NOT_PRODUCED
+    required_content: [三视图, 包络, 坐标系, 七态配置表, 总装BOM]
+    claim_limit: NON_FLIGHT_DISPLAY_ONLY
+
+  STR-001:
+    title: 主结构爆炸图
+    status: REGISTERED_NOT_PRODUCED
+    required_content: [端框, 四纵梁, 横框, 节点垫, 设备甲板, 可拆面板]
+    semantic_callouts: [LOAD_PATH_INTENT, NON_STRUCTURAL_PANEL]
+
+  STR-002:
+    title: 三舱剖视图
+    status: REGISTERED_NOT_PRODUCED
+    required_content: [前任务舱, 中平台舱, 后服务舱, 纵向线束走廊]
+
+  ARM-ICD-001:
+    title: B601 安装 ICD
+    status: REGISTERED_NOT_PRODUCED
+    required_content: [M面, 法兰, adapter, A0, 载荷扩散意图, 工具空间, 线缆通道]
+    claim_limit: q0 静态代理不是工作空间或动态扫掠
+
+  SA-ASM-001:
+    title: 左太阳翼与根部机构装配
+    side: L
+    status: HOLD_ZERO_SOLID_MECHANISM_REFS
+    required_content: [爆炸视图, 装配树, hinge_HRM_stop_harness_refs, 配置表]
+
+  SA-ASM-002:
+    title: 右太阳翼与根部机构装配
+    side: R
+    status: HOLD_ZERO_SOLID_MECHANISM_REFS
+    independent_identity_required: true
+
+  SA-ICD-001:
+    title: 左太阳翼根部机械 ICD
+    side: L
+    status: HOLD_NAMED_ONLY
+    required_callouts: [IF-SA-L, MID2_node_pads, REAR_HDRM_pad, hinge_axis_ref, load_path_intent]
+
+  SA-ICD-002:
+    title: 右太阳翼根部机械 ICD
+    side: R
+    status: HOLD_NAMED_ONLY
+    required_callouts: [IF-SA-R, MID2_node_pads, REAR_HDRM_pad, hinge_axis_ref, load_path_intent]
+
+  SA-HDRM-001:
+    title: 左收拢保持与释放 reference
+    status: HOLD_NAMED_ONLY
+    required_callouts: [MID2_point, REAR_point, fixed_side_release, state_switch_ref, failure_logic_UNKNOWN]
+
+  SA-HDRM-002:
+    title: 右收拢保持与释放 reference
+    status: HOLD_NAMED_ONLY
+    independent_failure_identity: true
+
+  SA-HAR-001:
+    title: 左柔性线束与应变释放
+    status: HOLD_NAMED_ONLY
+    required_callouts: [fixed_side_connector, fixed_strain_relief, wing_strain_relief, service_loop, bend_radius_TBD]
+
+  SA-HAR-002:
+    title: 右柔性线束与应变释放
+    status: HOLD_NAMED_ONLY
+
+  SA-STOP-001:
+    title: 左展开终点止挡 reference
+    status: HOLD_NAMED_ONLY
+    required_callouts: [stop_contact_ref, reaction_path, gap_TBD, compliance_TBD]
+
+  SA-STOP-002:
+    title: 右展开终点止挡 reference
+    status: HOLD_NAMED_ONLY
+
+  SA-PRT-001:
+    title: 太阳翼基板与语义分区
+    status: REGISTERED_NOT_PRODUCED
+    required_callouts: [substrate, cell_area_reference, root_interface_band, restraint_band, edge_keepout]
+    material_and_layup: TBD
+
+  SA-STOW-001:
+    title: 收拢提案包络
+    status: BLOCKED_BY_C5
+    configurations: [STOWED, DEPLOY_FAILED_BOTH]
+    registered_findings: [238.3_gt_226.3, approximately_86.85_mm_minus_Z_overhang]
+    claim_limit: NO_LAUNCH_OR_DEPLOYER_COMPLIANCE_CLAIM
+
+  SA-SWEEP-001:
+    title: 左右太阳翼展开扫掠
+    status: HOLD_NOT_EVALUATED_UNKNOWN_PARAM
+    required_overlays: [bus, B601_q0_static_proxy, ARM_SWEEP_KEEPOUT, task_face, VISION_KEEPOUT_CONE]
+    verdict_vocabulary: [CLEAR_BY_FROZEN_PARAMS, NOT_EVALUATED_UNKNOWN_PARAM, VIOLATION]
+    claim_limit: q0 盒与翼 X 投影不能证明动态臂翼安全或视觉无遮挡
+
+  SA-CFG-001:
+    title: 太阳翼配置与失效状态矩阵
+    status: REGISTERED
+    configurations: [STOWED, DEPLOYED_NOMINAL, DEPLOY_FAILED_BOTH, L_FAIL, R_FAIL, PARTIAL, SERVICE]
+
+  SA-MNT-001:
+    title: 根部模块地面维修序列
+    status: HOLD_NO_TOOL_CLEARANCE_EVIDENCE
+    required_callouts: [面板拆除顺序, 翼安全化, 释放消耗件更换, 连接器访问, 线束更换, 工具keepout]
+
+  MNT-001:
+    title: 系统维修性图
+    status: HOLD_NOT_EVALUATED
+    required_content: [面板拆除, 设备托盘抽取, 铰链访问, 线束维修, B601保持安装]
+
+  EVD-001:
+    title: 状态与证据图
+    status: REGISTERED_NOT_PRODUCED
+    required_states: [EVIDENCE_BOUND, DESIGN_PROPOSAL, UNKNOWN_BLOCKED, EXCLUDED]
+
+fastener_register:
+  file: SV21_fastener_register.csv
+  artifact_path: 20_engineering/cad/Space_Embodied_Robot_CAD_V2_1/evidence/acceptance/SV21_fastener_register.csv
+  status: HOLD_PLACEHOLDER_ROWS_ONLY
+  required_fields: [FASTENER_GROUP_ID, OWNER_ASSEMBLY, DRAWING_REF, ACCESS_CLASS, SPEC, COUNT, EVIDENCE_STATE]
+  allowed_access_classes: [DIRECT_AXIAL, OFFSET_TOOL, FORBIDDEN_BLIND, UNKNOWN_BLOCKED]
+  rule: FORBIDDEN_BLIND 必须为零；规格、数量和预紧不得从 BIRDS-X 采购表继承。
+
+claim_limits:
+  - 所有图纸必须带 NON_FLIGHT_DISPLAY_ONLY 水印。
+  - 零实体 reference 不得出尺寸、公差、BOM、工具可达或干涉 CLEAR。
+  - SA-STOW/SA-SWEEP 不构成部署、碰撞、发射或部署器合规结论。
+  - 尺寸只允许标 EVIDENCE_BOUND 或具 owner/evidence_ref 的 DESIGN_PROPOSAL；UNKNOWN 标 TBD。

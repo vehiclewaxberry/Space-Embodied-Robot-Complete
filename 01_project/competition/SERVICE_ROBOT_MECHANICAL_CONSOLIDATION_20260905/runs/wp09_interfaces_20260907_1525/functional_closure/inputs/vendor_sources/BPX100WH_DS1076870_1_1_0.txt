@@ -1,0 +1,666 @@
+PDF PAGE 1
+ 
+ 
+ 
+ 
+ 
+NanoPower 
+BPX 100 Wh 
+Datasheet 
+Datasheet for the NanoPower BPX 100 Wh battery pack 
+  
+
+PDF PAGE 2
+ 
+ 
+ 
+NanoPower BPX 100 Wh 
+Datasheet for the NanoPower BPX 100 Wh battery pack 
+© Copyright 2026 GomSpace A/S. All rights reserved. 
+Document reference: DS 1076870 
+Source reference: doc-nanopower-bpX-datasheet 
+Date: April 21, 2026 
+Revision: 1.1.0 
+Information contained in this document is up -to-date and correct as at the date of issue. As GomSpace A/S cannot  
+control or anticipate the conditions under which this information may be used, each user should review the information 
+in speciﬁc context of the planned use. To the maximum extent permitted by law, GomSpace A/S will not be responsible 
+for damages of any nature resulting from the use or reliance upon the information contained in this document. No 
+express or implied warranties are given other than those implied mandatory by law. 
+ 
+GomSpace A/S 
+Langagervej 6, 9220 Aalborg East 
+Denmark 
+Phone: +45 71 741 741 www.gomspace.com 
+
+PDF PAGE 3
+ 
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+ii 
+   
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+Contents 
+List of Abbreviations ................................................................................................................................ iii 
+1 Introduction ................................................................................................................................ 1 
+1.1 Overview .................................................................................................................................... 1 
+1.2 Highlighted features ................................................................................................................... 1 
+1.3 Customization Options ............................................................................................................... 2 
+1.4 Measurements ........................................................................................................................... 3 
+1.5 Short Circuit Protection .............................................................................................................. 3 
+1.6 Enable Pin ................................................................................................................................... 3 
+1.7 Block Diagram ............................................................................................................................. 3 
+2 Speciﬁcations .............................................................................................................................. 4 
+2.1 Absolute maximum .................................................................................................................... 4 
+2.2 Electrical ..................................................................................................................................... 4 
+3 Hardware layout ......................................................................................................................... 5 
+3.1 P1 – Heater Connector ............................................................................................................... 6 
+3.2 P2 – Debug ................................................................................................................................. 6 
+3.3 PBAT1 – Battery Connector ........................................................................................................ 6 
+3.4 PBAT2 – Battery Connector ........................................................................................................ 7 
+3.5 PGND1 – Ground Breaker ........................................................................................................... 7 
+4 Data Interface ............................................................................................................................. 8 
+4.1 I2C ............................................................................................................................................... 8 
+4.2 I2C Slave mode ............................................................................................................................ 8 
+5 Debug Interface .......................................................................................................................... 8 
+6 Heater and Temperature Sensor ................................................................................................ 9 
+7 Physical Dimensions ................................................................................................................. 11 
+8 References ................................................................................................................................ 14 
+ 
+  
+PDF PAGE 4
+ 
+© 2026 GomSpace A/S All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+iii 
+   
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+List of Abbreviations 
+CAN Controller Area Network. 
+CSP CubeSat Space Protocol. 
+GOSH GomSpace Shell. 
+I2C Inter-Integrated Circuit. 
+MCU microcontroller unit. 
+OVLO Overvoltage lockout. 
+UART Universal Asynchronous Receiver/Transmitter. 
+UVLO Undervoltage lockout. 
+PDF PAGE 5
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+1 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+1 Introduction 
+1.1 Overview 
+The NanoPower BPX 100 Wh (BPX) is a high -capacity lithium -ion battery pack with a heater for nano 
+satellites. Several BPX battery packs can be coupled in parallel if greater capacity is needed. 
+ 
+Figure 1.1: The NanoPower BPX 
+1.2 Highlighted features 
+• Lithium-ion battery pack for space applications 
+• Utilizes 18650 Lithium-ion cells with nominal capacity of 3500m Ah (3000m Ah in recommended 
+operating range) 
+• Can be conﬁgured for nominal voltages of 14.4 or V 28.8 V  
+• Nominal capacity of 100 Wh (86 Wh in recommended operating range) 
+• Provides telemetry over I2C 
+o Voltage 
+o Temperature 
+• Autonomous heater system 
+• Fits standard PC104 
+• Weight: 500 g 
+• PCB material: Glass/Polyimide IPC 6012C cl. 3/A 
+• IPC-A-610 Class 3 assembly 
+• CAN and I2C communication using Cubesat Space Protocol (CSP) 
+
+PDF PAGE 6
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+2 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+1.3 Customization Options 
+As GomSpace realizes that diﬀerent applications place diﬀerent requirements to a power system, the 
+NanoPower products present a variety of options for customization. Options are to be agreed upon time of 
+order placement. 
+ 
+Below are the standard conﬁgurations. It is possible to connect several BPX in parallel using PBAT1 and PBAT2 
+connectors to get higher total capacity. 
+ 
+To ﬁnd the nominal voltage of the chosen battery pack use the following equation (Vnom(cell) is found in 
+the battery datasheet): 
+ 
+  Vnom(pack) = Vnom(cell) * Number of series cells 
+ 
+To ﬁnd the current capacity of the battery pack use the following equation: 
+ 
+  Icap(pack) = Icap(cell) * Number of parallel cells 
+ 
+To ﬁnd the nominal capacity (Wh) of the battery pack use the following equation: 
+ 
+Pcap(pack) = Vnom(pack) * Icap(pack) 
+ 
+Configuration 
+ 
+Number of 
+cells 
+Capacity 
+[Wh] 
+Vrange 
+[V] 
+Vnominel 
+[V] 
+Capacity 
+[Ah] 
+4S-2P 8 100 12 - 16.8 14.4 V 7.0 
+8S-1P 8 100 24 - 33.6 28.8 V 3.5 
+ 
+  
+PDF PAGE 7
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+3 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+1.4 Measurements 
+The NanoPower BPX provides several measurement points that enable monitoring of the condition of the 
+system. These measurements are available as digital readings retrievable through the I2C interface. 
+Measurements include: 
+• Battery voltage 
+• Four temperature measurements  
+• Heater current measurement  
+ 
+1.5 Short Circuit Protection 
+PBAT1 and PBAT2 have raw battery, and no short-circuit protection. 
+ 
+1.6 Enable Pin 
+The raw unprotected battery power is accessible through the PBAT1 and PBAT2 all other functions of the 
+BPX are powered oﬀ. 
+The enable pin on PBAT1 and PBAT2 (active high) is used to activate the battery packs onboard functions: 
+housekeeping, heater control. 
+ 
+1.7 Block Diagram 
+ 
+Figure 1.2: NanoPower BPX Block Diagram 
+  
+
+PDF PAGE 8
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+4 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+2 Speciﬁcations 
+2.1 Absolute maximum 
+Stresses at or beyond those given in Table 2.1 may cause permanent damage and aﬀect the reliability of 
+the NanoPower BPX 100 Wh. 
+Table 2.1: Absolute maximum speciﬁcations 
+Parameter Min Typ Max Unit 
+VBAT Battery voltage (8S1P) 
+              Battery voltage (4S2P) 
+19.5 
+   9.75 
+ 33.6 
+16.8 
+V 
+V 
+TOP Operating temperature 
+                    Discharge 
+                    Charge 
+ 
+−20.0 
+    0.0 
+  
+60.0 
+45.0 
+ 
+°C 
+°C 
+ 
+2.2 Electrical 
+The electrical speciﬁcations are given in Table 2.2. 
+Table 2.2: Electrical speciﬁcations 
+Parameter Condition Min Typ Max Unit 
+VOP Recommended 
+operating voltage 
+ 8S1P 
+ 4S2P 
+23.6 
+11.8 
+28.8 32.0 
+14.4    16.0 
+V 
+V 
+EBAT Power capacity VBAT= 23.6V to 32.0V 
+VBAT= 23.6V to 33.6V 
+ 87 
+89 
+Wh 
+VCHG Charging voltage   32.0 33.6 V 
+IOUT 
+Discharge current  Four power pins can handle up to 6 A 
+with derating according to ECSS-Q-ST-
+30-11C 
+  
+6.0 
+ 
+A 
+ICHG 
+Charge current (8S1P) limited by cell max charge cur. 
+(4S2P) 
+ 3.4 
+ 
+6.0 
+A 
+ 
+A 
+IOC Overcurrent protection   None  A 
+IS Standby current usage VBAT= 16V/32V, ENA active 
+VBAT= 16V/32V, ENA inactive  
+3.5 
+25 
+5.0 8.0 
+50       120 
+mA 
+µA 
+VL 
+ENA logic  
+Input low 
+Input high 
+   Active high 
+Onboard 300kΩ 
+ 
+   0 
+   2.0 
+ 
+0.4 
+        VBAT 
+V 
+ 
+ V 
+ISQ Self-discharge 2 Ground breaker disconnected  30 µA 
+PH Heater power usage   6.0 W 
+PDF PAGE 9
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+5 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+ 
+3 Hardware layout 
+The connector positions and pinouts are covered in this chapter. Figure 3.1 illustrates the connector 
+positions on BPX. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 3.1: Connector positions on BPX 100Wh 
+ 
+ 
+ 
+ 
+
+PDF PAGE 10
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+6 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+ 
+3.1 P1 – Heater Connector 
+Picoblade Molex 0532610971 
+Pin Description Pin Description 
+1 Heater Supply 2 Heater Supply 
+3 GND 4 GND 
+5 3.3 V to temperature 
+sensor heater 
+6 Vtemp 1 
+7 Vtemp 2 8 Vtemp 3 
+9 Vtemp 4   
+ 
+3.2 P2 – Debug 
+Picoblade Molex 0532610871 
+Used by GomSpace for MCU programming. 
+Pin Description Pin Description 
+1 GND 2 VCC 3.3 V 
+3 UART RX 4 UART TX 
+5 Reset 6 ISP SCK 
+7 ISP MOSI 8 ISP MISO 
+ 
+3.3 PBAT1 – Battery Connector 
+Harwin M80-5421442. 
+Four power pins can handle up to 6 A with derating according to ECSS-Q-ST-30-11C 
+The I2C, the Enable BPX pins are the same net on PBAT1 and PBAT2 
+Pin Description Pin Description 
+1 GND 2 GND 
+3 GND 4 GND 
+5 VBAT 6 VBAT 
+7 VBAT 8 VBAT 
+9 I2C SCK 10 Enable BPX 
+11 I2C Data 12 GND 
+13 NC 14 NC 
+ 
+PDF PAGE 11
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+7 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+ 
+3.4 PBAT2 – Battery Connector 
+Harwin M80-5421442. 
+Four power pins can handle up to 6 A with derating according to ECSS-Q-ST-30-11C 
+The I2C, the Enable BPX pins are the same net on PBAT1 and PBAT2 
+Pin Description Pin Description 
+1 GND 2 GND 
+3 GND 4 GND 
+5 VBAT 6 VBAT 
+7 VBAT 8 VBAT 
+9 I2C SCK 10 Enable BPX 
+11 I2C Data 12 GND 
+13 NC 14 NC 
+ 
+3.5 PGND1 – Ground Breaker 
+Harwin M80-5430805. 
+Pin Description Pin Description 
+1 Battery GND 2 Battery GND 
+3 Battery GND 4 Battery GND 
+5 System GND 6 System GND 
+7 System GND 8 System GND 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+PDF PAGE 12
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+8 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+4 Data Interface 
+The NanoPower BPX 100 Wh uses the CubeSat Space Protocol (CSP) to transfer data to and from CSP nodes 
+on-board the main system bus. CSP is a routed network protocol that can be used to transmit data packets 
+between individual subsystems on the satellite bus and between the satellite and ground station. For more 
+information about CSP please read the documentation on http://www.libcsp.org  
+ 
+4.1 I2C  
+The standard method to communicate with the BPX is over multi-master I2C. Please note that since the CSP 
+router sends out an I2C message automatically when data is ready for a subsystem residing on the I2C bus, 
+the bus needs to be operated in I2C multi-master mode.  
+ 
+The BPX uses the same I2C address as the CSP network address per default. BPX’s own I2C address is 0x07 
+per default. 
+ 
+4.2 I2C Slave mode 
+Slave mode operation disables the use of the CSP stack, and uses a slave-mode only protocol instead. A 
+limited set of the CSP commands is available in this mode. 
+ 
+5 Debug Interface 
+The debug interface is a USART that uses the GomSpace Shell (GOSH) to present a console-like interface to 
+the user. GOSH is a general feature present on all GomSpace products. Supported baud rate is 38400 8 bit, 
+no parity and one stop-bit (8N1). 
+ 
+The console can be used during checkout of the BPX to send commands and set parameter. During 
+integration into the satellite, the debug interface can be used to evaluate and see incoming and outgoing 
+traﬃc through the BPX. Telemetry and housekeeping parameters can also be monitored. Here is a short list 
+of features of the debug interface: 
+ 
+• Inspect CSP traﬃc (incoming and outgoing) 
+• Inspect I2C driver (useful during early driver development) 
+• Inspect runtime performance 
+• Run tests (ping, etc.) 
+• Modify routing table 
+• Modify, save and restore default parameters 
+ 
+ 
+ 
+ 
+ 
+PDF PAGE 13
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+9 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+6 Heater and Temperature Sensor 
+Lithium-ion batteries cannot charge in low temperatures (see battery datasheet). Using a heater to 
+maintain temperature above charging threshold is a software option. Software default mode is set to 
+manual. 
+The heater PCB contains four heating elements each placed between two batteries. Each element has its 
+own temperature sensor. Below are two pictures of the PCB with the elements and sensors:  
+  
+ 
+ 
+  Red marks = heater 
+  Green marks = Temperature sensor 
+ 
+Table 6.1: Heater characteristics 
+Parameter Condition Min. Typ. Max. Unit 
+Heater Element 
+Heater resistance 
+ 
+ 
+Heater power 
+ 
+ 
+16 V 4S-2P 
+32 V 8S-1P 
+ 
+16 V 4S-2P 
+32 V 8S-1P 
+ 
+ 
+ 
+ 
+ 
+ 
+40 
+150 
+ 
+6 
+6 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Ω 
+Ω 
+ 
+W 
+W 
+Figure 6.1: Heater top Figure 6.2: Heater bottom 
+PDF PAGE 14
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+10 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+ 
+Heater resistor circuit setup is shown to the right. 
+ 
+ 
+Two temperature sensors with an analog interface are mounted just under each battery-set to provide 
+battery temperatures for housekeeping purposes. A complete thermal control system can be implemented 
+using the two optional heater elements. 
+ 
+For SPI communication details please see the datasheet for the Texas Instruments LM60CIM3. 
+Table 6.2: Temperature sensors speciﬁcation 
+Parameter Min. Typ. Max. Unit 
+Temperature Sensors 
+- Range 
+- Accuracy 
+ 
+-40 
+-2 
+ 
+ 
+1.5 
+ 
+125 
+2 
+ 
+°C 
+°C 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+PDF PAGE 15
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+11 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+7 Physical Dimensions 
+ 
+Figure 7.1: Physical layout 
+
+PDF PAGE 16
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+12 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+ 
+Figure 7.2: The NanoPower BPX all measures in mm 
+
+PDF PAGE 17
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+13 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+ 
+Figure 7.3: NanoPower BPX Connector positions all measures in mm 
+ 
+ 
+Parameter Value Unit 
+Mass 500 g 
+Size Fits in a PC104 stack 
+93 x 86 x 41 (L x W x H) 
+ 
+mm 
+Table 7.1: Physical characteristics 
+  
+
+PDF PAGE 18
+ 
+  
+© 2026 GomSpace A/S  All printed copies, and all electronic copies and versions except the one accessible on 
+the GomSpace A/S server, are considered uncontrolled copies used for reference only. 
+14 
+ 
+NanoPower BPX 100 Wh 
+April 21, 2026 
+DS 1076870 1.1.0 
+8 References 
+[1] GomSpace Manual 1076873 
+NanoPower BPX 100 Wh 
+9 Change Log 
+Version Change Description  
+1.0.0 Initial version 
+1.1.0 Overcurrent protection and Charge current is 
+updated in chapter 2.2 
+  
+ 

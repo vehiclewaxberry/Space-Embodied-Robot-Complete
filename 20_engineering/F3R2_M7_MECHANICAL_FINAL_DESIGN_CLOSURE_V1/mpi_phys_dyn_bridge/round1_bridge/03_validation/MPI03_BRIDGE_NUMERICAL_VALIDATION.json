@@ -1,0 +1,280 @@
+{
+  "schema": "MPI03_BRIDGE_NUMERICAL_VALIDATION_V1",
+  "generated_local": "2026-08-23T18:45:00+08:00",
+  "generator": "KIMI M7 Wave-2a AGENT-1 MPI-FB-03 (pure python/numpy/scipy)",
+  "validated_artifact": {
+    "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml",
+    "sha256": "0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C"
+  },
+  "independent_reference_sources": [
+    {
+      "path": "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/00_authority/E21_AUTHORITY_CONTRACT_V1.yaml",
+      "sha256": "7D2E0792B3FF6BAB9BD9AE11A605341B20BAAB821961A7BA8E119996D1515D81"
+    },
+    {
+      "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/04_configurations/F3R2_ARM_INITIAL_POSE.yaml",
+      "sha256": "D6E33CB5993BA056E1368F72487B4972E4316E83655FB5AF33035FCC1761AAE2"
+    },
+    {
+      "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+      "sha256": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164"
+    },
+    {
+      "path": "30_simulation/sim_05_free_floating_arm/b601_model.py",
+      "sha256": "3E2B451476F437E482661E275073249AD101705251B78C042851C32AE741052F"
+    }
+  ],
+  "headline_metrics": {
+    "roundtrip_position_residual_m": 0.0,
+    "roundtrip_attitude_residual_rad": 0.0,
+    "det_R_B": 1.0000000000005196,
+    "chirality": "PRESERVED_DET_POSITIVE",
+    "max_abs_RtR_minus_I": 5.195843755245733e-13,
+    "quaternion_norm_error_before_normalization": 6.794564910705958e-14,
+    "quaternion_norm_error_after_normalization": 0.0,
+    "closure_T_dyn_at_B_minus_T_phys_max_abs": 0.0
+  },
+  "checks": [
+    {
+      "id": "FB03-01",
+      "name": "roundtrip B@inv(B) position residual m",
+      "value": 0.0,
+      "limit": 1e-14,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-02",
+      "name": "roundtrip B@inv(B) attitude residual rad",
+      "value": 0.0,
+      "limit": 1e-14,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-03",
+      "name": "roundtrip B@inv(B) full-matrix max-abs",
+      "value": 5.195843755245733e-13,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-04",
+      "name": "roundtrip inv(B)@B full-matrix max-abs",
+      "value": 5.195843755245733e-13,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-05",
+      "name": "det(R_B) - 1 (chirality preserved, must be +1)",
+      "value": 5.195843755245733e-13,
+      "limit": 1e-09,
+      "status": "PASS",
+      "detail": {
+        "det_R": 1.0000000000005196,
+        "chirality": "RIGHT_HANDED_PRESERVED"
+      }
+    },
+    {
+      "id": "FB03-06",
+      "name": "max|R^T R - I|",
+      "value": 5.195843755245733e-13,
+      "limit": 1e-09,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-07",
+      "name": "quaternion norm error BEFORE normalization",
+      "value": 6.794564910705958e-14,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-08",
+      "name": "quaternion norm error AFTER normalization",
+      "value": 0.0,
+      "limit": 1e-15,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-09",
+      "name": "quaternion->matrix roundtrip vs R_B",
+      "value": 2.5979218776228663e-13,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-10",
+      "name": "scipy second-implementation quaternion agreement",
+      "value": 2.2887833992611187e-16,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-11",
+      "name": "stored quaternion vs re-derived (up to sign)",
+      "value": 0.0,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-12",
+      "name": "T_dyn @ B == T_phys (max-abs)",
+      "value": 0.0,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-13",
+      "name": "T_phys @ inv(B) == T_dyn (max-abs)",
+      "value": 5.195843755245733e-13,
+      "limit": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-14",
+      "name": "stored B vs independent re-derivation",
+      "value": 0.0,
+      "limit": 1e-16,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-15",
+      "name": "stored inv(B) vs independent re-derivation",
+      "value": 0.0,
+      "limit": 1e-16,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-16",
+      "name": "stored C_S vs independent re-derivation",
+      "value": 0.0,
+      "limit": 1e-16,
+      "status": "PASS"
+    },
+    {
+      "id": "FB03-17",
+      "name": "test-point closure worst residual m",
+      "value": 0.0,
+      "limit": 1e-14,
+      "status": "PASS",
+      "detail": {
+        "A0_origin": {
+          "point_A0_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "residual_m": 0.0
+        },
+        "A0_unit_x": {
+          "point_A0_m": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "residual_m": 0.0
+        },
+        "A0_unit_y": {
+          "point_A0_m": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "residual_m": 0.0
+        },
+        "A0_unit_z": {
+          "point_A0_m": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "residual_m": 0.0
+        },
+        "urdf_base_link_cg_m": {
+          "point_A0_m": [
+            -7.849e-06,
+            -1.1531e-06,
+            0.029841
+          ],
+          "residual_m": 0.0
+        }
+      }
+    },
+    {
+      "id": "FB03-18",
+      "name": "cross-file vs F3R2 rounded mount: position mm",
+      "value": 0.0,
+      "limit": 0.00012,
+      "status": "PASS",
+      "detail": {
+        "registered_spelling_deviation_mm": 0.00012
+      }
+    },
+    {
+      "id": "FB03-19",
+      "name": "cross-file vs F3R2 rounded mount: rotation deg",
+      "value": 0.0,
+      "limit": 3.3e-05,
+      "status": "PASS",
+      "detail": {
+        "rounded_spelling_angle_gap_deg": 3.274799999886113e-05
+      }
+    },
+    {
+      "id": "FB03-20",
+      "name": "negative controls all fired (mutation tests)",
+      "value": 0.0,
+      "limit": 0.0,
+      "status": "PASS",
+      "detail": {
+        "theta_sign_flipped": {
+          "closure_residual_after_mutation": 0.8452369663858903,
+          "detector": "closure max-abs > 1e-6",
+          "fired": true
+        },
+        "translation_sign_flipped": {
+          "closure_residual_after_mutation": 0.045499999999999985,
+          "detector": "closure max-abs > 1e-6",
+          "fired": true
+        },
+        "translation_12p75mm_stack_station": {
+          "closure_residual_after_mutation": 0.009999999999999981,
+          "detector": "closure max-abs > 1e-6",
+          "fired": true
+        },
+        "translation_2p405mm_stack_station": {
+          "closure_residual_after_mutation": 0.020345000000000002,
+          "detector": "closure max-abs > 1e-6",
+          "fired": true
+        },
+        "rotation_transposed": {
+          "closure_residual_after_mutation": 0.845236966386,
+          "detector": "closure max-abs > 1e-6",
+          "fired": true
+        },
+        "frame_matrix_averaged_det": {
+          "value": 0.9531538418861297,
+          "detector": "|det-1| > 1e-6",
+          "fired": true
+        }
+      }
+    },
+    {
+      "id": "FB03-21",
+      "name": "blacklist averaged-value scan on bridge file",
+      "value": 0.0,
+      "limit": 0.0,
+      "status": "PASS",
+      "detail": []
+    }
+  ],
+  "criterion_counts": {
+    "total": 21,
+    "pass": 21,
+    "fail": 0
+  },
+  "overall": "PASS",
+  "note_round0_angle_path_difference": "round0 reported derived angle 25.000013999932 deg; this round's independent derivation gives 25.000013999964253 deg; the 3.2e-11 deg gap is one input-ulp of the 12-dp contract sin/cos spelling (computation-path noise, not content drift).",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

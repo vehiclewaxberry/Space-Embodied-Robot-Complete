@@ -1,0 +1,185 @@
+schema: GRIPPER_VELOCITY_UNIT_RECONCILIATION_CONTRACT_V1
+generated_local: '2026-08-23T12:55:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+record_type: ENGINEERING_CHANGE_RECORD__SEMANTIC_RECONCILIATION_ONLY
+authority_scope: URDF_UNIT_SEMANTICS_AND_DOWNSTREAM_CONSUMPTION_RULES__NO_PHYSICAL_ACTUATOR_RELEASE
+decision_rule: Authority > unit semantics > dimensional consistency > legacy interpretation
+evidence_order_rule: This explicit ECR supersession relation governs the listed fields; wall-clock ordering
+  is not used.
+input_bindings:
+- name: accepted_urdf
+  path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  bytes: 11321
+- name: gripper_engineering_pack
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_ENGINEERING_PACK_V1.yaml
+  sha256: 8FB36EFC856E55398B9F91A126C8B0C4421206281108544F84244987DF7CE6D2
+  bytes: 12293
+- name: gripper_owner_closure
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp5_mechanisms/GRIPPER_R1_ENGINEERING_OWNER_CLOSURE_V1.yaml
+  sha256: 699BA67B5C23781F9D063AD0CF8C280D70352C71A7F5C3CFBBE71BD804E8216E
+  bytes: 6629
+- name: m4_mechanism_release
+  path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/06_mechanism/GRIPPER_R1_MECHANISM_RELEASE_STATUS_V2.yaml
+  sha256: F8BC4551F0308B94F709139980184DA4C5EEBBCEFDAA92A1747BC49541D6F14F
+  bytes: 3204
+- name: e17_authority
+  path: 30_simulation/e17_b601_mission_trajectory_candidates/00_authority/E17_AUTHORITY_CONTRACT_V1.yaml
+  sha256: FEB8C66CED3831CF0BD038934535FF9D501A871C212FA6BAB645BA3758CCA3EC
+  bytes: 3348
+- name: e17_m06
+  path: 30_simulation/e17_b601_mission_trajectory_candidates/results/candidates/M06_22_SYMBOLIC_ARM_HOLD_V1.json
+  sha256: 01EC56E6A3E4CF79D4AB654E8062365896213FBDAAB906BA93597D9F38FD09F5
+  bytes: 1564
+- name: e17_gate
+  path: 30_simulation/e17_b601_mission_trajectory_candidates/results/B601_MISSION_TRAJECTORY_CANDIDATE_GATE_V1.json
+  sha256: C7DC36305CAC1406D8CA3E2BFCD3E093F64F9D25ABE751D9224AE339DFD776FA
+  bytes: 2890
+external_references:
+- title: ros/urdfdom - URDF parser and specification support
+  url: https://github.com/ros/urdfdom
+  accessed_local_date: '2026-08-23'
+  record_status: URL_ONLY__NOT_LOCAL_CONTROLLED_COPY
+  use: joint-limit syntax and SI convention context; not hardware qualification authority
+- title: Newton URDF-to-USD concept mapping - joint velocity units
+  url: https://github.com/newton-physics/urdf-usd-converter/blob/main/docs/concept_mapping.md
+  accessed_local_date: '2026-08-23'
+  record_status: URL_ONLY__NOT_LOCAL_CONTROLLED_COPY
+  use: explicit corroboration that prismatic URDF velocity is m/s
+immutable_asset:
+  path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  expected_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  modification: FORBIDDEN
+observed_urdf_facts:
+  joints:
+  - joint: gripper_joint1
+    type: prismatic
+    axis:
+    - 1.0
+    - 0.0
+    - 0.0
+    lower_m: 0.0
+    upper_m: 0.0715
+    effort_literal: 100.0
+    velocity_literal_m_s: 15.0
+  - joint: gripper_joint2
+    type: prismatic
+    axis:
+    - 1.0
+    - 0.0
+    - 0.0
+    lower_m: 0.0
+    upper_m: 0.0715
+    effort_literal: 100.0
+    velocity_literal_m_s: 15.0
+  position_unit: m
+  velocity_unit: m/s
+  semantic_model_velocity_limit_m_s: 15.0
+  source_classification: UNVALIDATED_AUTO_EXPORTED_MODEL_LIMIT
+  provenance_note: The accepted README identifies a vendor-derived gripper chain. A read-only audit found
+    the earliest external source to be a SolidWorks-to-URDF export, but that original URDF is absent from
+    the project-controlled 80_third_party snapshot; this classification is diagnostic and grants no physical
+    authority.
+  semantic_role: URDF_MODEL_LIMIT_ONLY__NOT_MEASURED_ACTUATOR_CAPABILITY
+legacy_record_facts:
+  field: frozen_inputs.urdf_velocity_limit_mm_s
+  recorded_value_mm_s: 15.0
+  recorded_role: MODEL_LIMIT_NOT_DESIGN_OR_QUALIFICATION_LOAD
+  sms06_design_target_mm_s: 5.0
+  mav04_full_stroke_time_s: 4.767
+  mav04_pregrasp_time_s: 3.667
+  implicit_speed_required_by_legacy_timing_m_s:
+    full_stroke: 0.014998951122299138
+    pregrasp: 0.014998636487592037
+  dimensional_scale_error: legacy timing uses approximately 0.015 m/s, while the URDF literal is 15 m/s
+semantic_diagnostic_only:
+  full_stroke_m: 0.0715
+  pregrasp_travel_m: 0.055
+  literal_velocity_m_s: 15.0
+  full_stroke_time_s_if_literal_model_limit_were_used: 0.0047666666666666664
+  pregrasp_time_s_if_literal_model_limit_were_used: 0.0036666666666666666
+  use_prohibited: These arithmetic values demonstrate the unit mismatch only; they are not physical timing,
+    not a command, and not a trajectory input.
+ruling:
+  semantic_state: PASS_URDF_PRISMATIC_VELOCITY_IS_15_M_S__UNVALIDATED_AUTO_EXPORTED_MODEL_LIMIT
+  physical_state: HOLD_NO_ACTUATOR_SPEED_AUTHORITY
+  combined_state: SEMANTIC_RECONCILIATION_PASS__PHYSICAL_ACTUATOR_SPEED_AUTHORITY_HOLD
+  accepted_urdf_unchanged: true
+  legacy_15_mm_s_interpretation_valid_for_downstream: false
+  legacy_mav04_times_valid_for_downstream: false
+  design_target_5_mm_s_retained: true
+  design_target_5_mm_s_role: DESIGN_TARGET_CANDIDATE__NOT_MEASURED_CAPABILITY
+  physical_timing_authorized: false
+supersession_scope:
+  superseded_for_downstream_consumption:
+  - GRIPPER_ENGINEERING_PACK_V1.frozen_inputs.urdf_velocity_limit_mm_s
+  - GRIPPER_ENGINEERING_PACK_V1.GRP-SMS-06 basis phrase 'URDF 15 mm/s'
+  - GRIPPER_ENGINEERING_PACK_V1.MAV-04 stroke timing and verdict
+  - GRIPPER_R1_ENGINEERING_OWNER_CLOSURE_V1 note phrase 'URDF 100 N / 15 mm/s limits'
+  - E17-G10 HOLD_UNIT_CONFLICT as the current semantic state
+  retained_without_upgrade:
+  - GRP-SMS-06 5 mm/s first-contact design target candidate
+  - M4 actuator/transmission HOLD fields
+  - M06_22 null contact/timing/force/normal/lock fields
+  - all prototype, flight, mission, dynamics, RL and hardware release holds
+  historical_files_modified: false
+physical_capability_authority:
+  no_load_speed_m_s: null
+  rated_speed_m_s: null
+  first_contact_speed_m_s: null
+  acceleration_m_s2: null
+  command_latency_s: null
+  full_stroke_open_time_s: null
+  full_stroke_close_time_s: null
+  force_speed_curve: null
+  duty_cycle: null
+  fault_response: null
+  standard_uncertainty: null
+  status: HOLD_NULLS_MUST_NOT_BE_ZERO_FILLED
+  upstream_m4_status: HOLD
+  upstream_owner_time_status: HOLD_NO_ACTUATOR_DYNAMICS_AUTHORITY
+m06_fail_closed_binding:
+  upstream_e17_rule: SYMBOLIC_ARM_HOLD_ONLY__CONTACT_TIMING_FORCE_NORMAL_AND_LOCK_CONFIRMATION_NULL
+  physical_duration_s: null
+  jaw_travel_m: null
+  contact_time_s: null
+  contact_force_N: null
+  contact_normal: null
+  lock_confirmation: null
+  release_credit: false
+legacy_e17_state:
+  criterion: E17-G10
+  state: HOLD_UNIT_CONFLICT
+  disposition: SUPERSEDED_FOR_SEMANTIC_CONFLICT_ONLY__PHYSICAL_TIMING_HOLD_REMAINS
+required_physical_closure_inputs:
+- id: GVA-PI-01
+  input: exact actuator, transmission and reduction-ratio part numbers/revisions
+  unit: identifier/revision
+- id: GVA-PI-02
+  input: force-speed curves across load, bus voltage and temperature
+  unit: N versus m/s with V and degC
+- id: GVA-PI-03
+  input: no-load, rated, first-contact and fault-case jaw speed
+  unit: m/s
+- id: GVA-PI-04
+  input: command-to-motion and sensor/lock-confirmation latency
+  unit: s
+- id: GVA-PI-05
+  input: continuous/peak current, duty cycle, thermal limits and power-off holding behavior
+  unit: A, %, degC, N
+- id: GVA-PI-06
+  input: jaw position/force sensing range, accuracy, update rate and failure coverage
+  unit: m, N, Hz, %
+- id: GVA-PI-07
+  input: instrumented raw bench data, calibration traceability and uncertainty budget
+  unit: SI with standard uncertainty and coverage statement
+prohibited_uses:
+- use 15 m/s as measured or commandable jaw speed
+- use 15 mm/s as a URDF-derived physical speed
+- reuse 4.767 s or 3.667 s as physical timing
+- promote 5 mm/s design target to measured capability
+- zero-fill any null capability or uncertainty
+- release M06 contact, production dynamics, physical-contact RL or hardware motion
+next_stage_authorized: false
+release_credit: false

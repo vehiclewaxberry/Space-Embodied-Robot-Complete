@@ -1,0 +1,42 @@
+# 装配接口 SSOT 草案 v0 — 2026-07-20（全字段 PROVISIONAL/LITERATURE，实测后转正）
+# Gate AG0：单位一致/右手正交系/公差有出处/碰撞几何与 CAD 一致/状态标注齐全
+# 数值出处等级：MEASURED > LITERATURE > PROVISIONAL；本稿无 MEASURED 字段
+# 出处升级路径与引文候选键（L1-L13）/实测方案（M1-M5）见 interface_mechanics_plan.md §1
+# 已登记先验红旗：RF-1 锥面聚拢 8mm·tan15°≈2.14mm < 粗横向公差 5mm 且缺锥口/喉半径字段；
+# RF-2 楔紧边界 tan15°≈0.268 vs μ=0.3；RF-3 clearance 直径/半径语义未定（θ_max 差一倍）
+version: v0-draft
+status: PROVISIONAL_DRAFT_FOR_PLANNING        # B-Agent 细化出处后升 v1
+module:                                        # 1U 可更换载荷模块（2U 变体留字段）
+  form_factor: 1U
+  mass_kg: {value: 1.33, source: LITERATURE, note: CubeSat 标准 1U 上限；引文候选 L1=CDS Rev13（Rev14.1 放宽 2.0kg 须决策取版）}
+  inertia: {value: derive_from_uniform_box, source: PROVISIONAL}
+  grasp_frame: {origin: module_face_center, convention: 右手系+Z 外法向, source: PROVISIONAL}
+  mating_frame: {origin: opposite_face_center, convention: 与 grasp_frame 反向共轴, source: PROVISIONAL}
+interface:
+  type: guide_cone_plus_pin_pair               # 锥面粗对准 + 双销精对准 + 锁扣
+  guide_cone: {half_angle_deg: 15, depth_mm: 8, source: LITERATURE, note: 引文候选 L3=SIROM/L4=HOTDOCK/L2=iSSI/L13=RAFTI；缺 throat/mouth 半径字段=RF-1 转正阻塞项}
+  pin_hole: {pin_d_mm: 4, clearance_mm: 0.1, n_pins: 2, source: LITERATURE, note: 引文候选 L3/L4；clearance 直径/半径语义未定=RF-3；双销过定位分析引 L12}
+  insertion_depth_mm: {value: 12, source: PROVISIONAL, note: 即销导入长度 l（θ_max≈c_r/l 直接用）；出处随 T2 定案或引 L3/L4 插入行程}
+  translational_tolerance_mm: {coarse: 5.0, fine: 0.1, source: LITERATURE, note: 粗档上界类比 L5=IDSS IDD/L6=SSRMS LEE（大尺度须降尺声明）；精档须由公差链推导 T2 反推}
+  angular_tolerance_deg: {coarse: 5.0, fine: 0.5, source: LITERATURE, note: 精档 0.5° 与 θ_max≈c_r/l 处边界（RF-3）；出处随 T2 定案}
+  contact_stiffness_N_per_m: {value: 1.0e5, source: PROVISIONAL, note: KV 模型 k_n；ASM-01 扫掠 1e4-1e6；方法学引文 L8=Gilardi-Sharf/L9=Hunt-Crossley；实测方案 M2}
+  damping_N_s_per_m: {value: 2.0e2, source: PROVISIONAL, note: KV c_n；临界阻尼比扫掠；与 k_n 绑定 ζ 口径；实测方案 M2}
+  friction_coulomb: {value: 0.3, source: LITERATURE, note: 引文候选 L10=ESTL 空间摩擦学手册；材料对未定须先定案；实测方案 M3；tan15°<0.3 楔紧边界=RF-2}
+  latch_force_N: {value: 20, source: PROVISIONAL, note: 引文候选 L2=iSSI/L4=HOTDOCK 锁紧预载数据表；实测方案 M5}
+  latch_state: {enum: [OPEN, ENGAGED, LOCKED, FAULT], sim: state_machine}
+  power_state: {enum: [DISCONNECTED, CONNECTED], sim: boolean_on_LOCKED}
+  data_state: {enum: [DISCONNECTED, CONNECTED], sim: boolean_on_LOCKED}
+target_spacecraft:
+  base: target_satellite_v0                    # 22 kg SSOT（复用，勿改）
+  panels: 双柔性帆板，参数继承 20_engineering/config/coupled_scene/（含其 PROVISIONAL 限定）
+  interface_mount_frame: {location: +X face center, source: PROVISIONAL, note: 建议并入 frame_tree_v1 的 B_int 占位帧（走单独修订流程）；与 C_sat 抓点不冲突断言=AG0-F3}
+assembly_success_criteria:                     # AG 判据（八项全满足才 success；UNKNOWN 永不判 success）
+  final_position_tolerance_mm: 0.1
+  final_orientation_tolerance_deg: 0.5
+  insertion_depth_reached: true
+  latch_state: LOCKED
+  contact_load_within_limit: true
+  base_wheel_within_resources: true
+  flexible_response_within_validated_envelope: true
+  provenance_complete: true
+rerun_triggers: [接口实测公差/刚度到货, 夹爪 T_c 实测, 帆板参数卡转正, 轮组选型冻结(W1-R12)]

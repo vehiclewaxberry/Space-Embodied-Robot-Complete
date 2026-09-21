@@ -1,0 +1,107 @@
+schema: PREBIND_FRAME_CONTRACT_V1
+status: PENDING_REVIEW
+matrix_convention: row-major homogeneous T_parent_child; p_parent = T_parent_child
+  @ p_child
+quaternion_convention:
+  order: wxyz
+  meaning: active body-to-inertial rotation
+  from_frame: body
+  to_frame: I
+units:
+  translation: m
+  rotation_matrix: dimensionless
+  angle: rad unless field suffix is _deg
+source_tree:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/unified_r2_digital_prototype_prebind/source_only_v2/UNIFIED_R2_SYSTEM_FRAME_TREE_V2.yaml
+  bytes: 11828
+  sha256: 5F8B19DC5BF14EFBB3C6A781C6816D52FE80804DAB328821623E165239999756
+  hash_mode: RAW_BYTES_SHA256
+source_bridge:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/mpi_phys_dyn_bridge/round1_bridge/02_bridge/B601_PHYSICAL_DYNAMICS_BRIDGE_V1.yaml
+  bytes: 12145
+  sha256: 0ACEB659284CAB862BA65228C5C2DF4BEB06D9EE05B5E2F0B2B5CB38402BF72C
+  hash_mode: RAW_BYTES_SHA256
+frames:
+- id: I
+  parent: null
+  role: inertial_root
+  physical: false
+- id: S
+  parent: I
+  role: spacecraft_bus_body_frame
+  physical: true
+- id: D_BUS_MATE_PHYSICAL
+  parent: S
+  role: physical_mating_datum
+  physical: false
+- id: D_BUS_M6_PATTERN
+  parent: D_BUS_MATE_PHYSICAL
+  role: physical_clocked_pattern_datum
+  physical: false
+- id: M3R_ROOT
+  parent: D_BUS_M6_PATTERN
+  role: physical_load_path
+  physical: true
+- id: B601_BASE_PHYSICAL
+  parent: M3R_ROOT
+  role: accepted_arm_physical_root
+  physical: true
+- id: M_DYNAMICS_NONPHYSICAL
+  parent: S
+  role: nonphysical_dynamics_reference
+  physical: false
+- id: E
+  parent: B601_BASE_PHYSICAL
+  role: end_effector_kinematic_frame
+  physical: false
+- id: TARGET
+  parent: I
+  role: scenario_target_frame
+  physical: true
+  status: HOLD_UNBOUND_IN_PB00
+unique_physical_to_dynamics_bridge:
+  definition: B = inv(T_S_A0_dynamics) @ T_S_A0_physical; p_A0dyn = B @ p_A0physical
+  translation_m:
+  - 0.0
+  - 0.0
+  - 0.022749999999999992
+  rotation_axis_in_A0_dynamics:
+  - 0.0
+  - 0.0
+  - 1.0
+  rotation_angle_deg: 25.000013999964253
+  quaternion_wxyz:
+  - 0.9762959806769003
+  - 0.0
+  - 0.0
+  - 0.21643973321488344
+  homogeneous_4x4:
+  - - 0.906307683772
+    - -0.422618483193
+    - 0.0
+    - 0.0
+  - - 0.422618483193
+    - 0.906307683772
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 1.0
+    - 0.022749999999999992
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  owner_confirmation: PENDING_REVIEW
+configuration_mapping:
+  system_configuration_id: C01
+  urdf_configuration_id: C01_NO_ROUTE_C
+  pb00_state_configuration: C01_TO_FREE_MOTION_GENERALIZED_STATE
+  mapping_status: LIMITED_DIAGNOSTIC
+invariants:
+- D and M may share selected numeric origins but are never semantic aliases
+- physical load path must pass through D_BUS_MATE_PHYSICAL and never through M_DYNAMICS_NONPHYSICAL
+- no frame averaging
+- no per-module physical/dynamics frame mixing
+- unknown target/contact frame never defaults to S
+next_stage_authorized: false

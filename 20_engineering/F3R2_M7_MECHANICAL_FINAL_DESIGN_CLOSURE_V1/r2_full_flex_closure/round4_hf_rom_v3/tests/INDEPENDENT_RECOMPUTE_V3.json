@@ -1,0 +1,173 @@
+{
+  "schema": "R2_HF_ROM_INDEPENDENT_RECOMPUTE_V3",
+  "generated_local": "2026-08-25T16:22:04.192941+08:00",
+  "method_independence": "does not import builder; recomputes from NPZ and e21",
+  "input_hashes": {
+    "R2_HF_ROM_NUMERICAL_DATA_V3.npz": "DEF1609C59BD547E24030F056DA546A35F119A6ACBE1F77620674EA9DE0EA5C8",
+    "R2_SEVEN_MODE_ROM_V3.json": "17AA00750E2EBCC70C334EAD3B8C71DBDCA5BA8C58D205A3FA41EB2810532653",
+    "R2_HF_NUMERICAL_EVIDENCE_V3.json": "E4B4209A4D650DD6EA8400E99A538DB74AA92DA1498F9AA01877D6E075C5A95E",
+    "R2_HF_MODEL_V3.yaml": "584CCCC7E03D33E004552603001DC9974C6506CD58CDC2782AD4EB99C247CE8B",
+    "30_simulation/e21_m7_r2_arm_placement_rigid_coupled_diagnostics/results/E21_FIXED_BASE_R2_ROM_REPRODUCTION_AND_MASS_CONFLICT_V1.json": "57958A9F3AC194893D689E9ECA4F12666474D97E0CFBB848ACBA794838B8396B"
+  },
+  "checks": {
+    "I01_unconstrained_rigid_translation_mass": {
+      "recomputed_kg": 0.54,
+      "target_kg": 0.54,
+      "abs_error_kg": 0.0,
+      "pass": true
+    },
+    "I02_piecewise_rigid_projection_Mqq": {
+      "max_abs_diff_vs_e21_kg_m2": 2.3592239273284576e-16,
+      "recomputed": [
+        [
+          0.06480028124999977,
+          0.03360018750000012,
+          0.009600093749999991
+        ],
+        [
+          0.03360018750000005,
+          0.019200187499999983,
+          0.0060000937499999915
+        ],
+        [
+          0.009600093749999991,
+          0.006000093749999992,
+          0.0024000937500000008
+        ]
+      ],
+      "pass": true
+    },
+    "I03_e21_five_case_reproduction": {
+      "per_case": {
+        "nominal": {
+          "recomputed_hz": [
+            6.97260183560092,
+            39.358622817749804,
+            98.00424792292056
+          ],
+          "max_abs_diff_hz": 2.3021584638627246e-12
+        },
+        "all_low": {
+          "recomputed_hz": [
+            3.327764650963823,
+            18.29520701548928,
+            44.176339591114186
+          ],
+          "max_abs_diff_hz": 1.0800249583553523e-12
+        },
+        "all_high": {
+          "recomputed_hz": [
+            13.94520367120184,
+            78.71724563549961,
+            196.0084958458411
+          ],
+          "max_abs_diff_hz": 4.604316927725449e-12
+        },
+        "root_low_inter_high": {
+          "recomputed_hz": [
+            4.342412233039311,
+            65.01461322563821,
+            190.53186694151668
+          ],
+          "max_abs_diff_hz": 3.751665644813329e-12
+        },
+        "root_high_inter_low": {
+          "recomputed_hz": [
+            4.736851595808738,
+            30.29857795247163,
+            74.95966328978352
+          ],
+          "max_abs_diff_hz": 3.666400516522117e-12
+        }
+      },
+      "global_max_abs_diff_hz": 4.604316927725449e-12,
+      "pass": true
+    },
+    "I04_rom_projection": {
+      "Mrom_identity_max_abs": 2.220446049250313e-15,
+      "Mrom_vs_published_max_abs": 0.0,
+      "Krom_vs_published_max_abs": 0.0,
+      "pass": true
+    },
+    "I05_base_participation_projection": {
+      "per_wing": {
+        "L": {
+          "Gamma_t_max_abs_diff": 0.0,
+          "Gamma_r_max_abs_diff": 0.0,
+          "pass": true
+        },
+        "R": {
+          "Gamma_t_max_abs_diff": 0.0,
+          "Gamma_r_max_abs_diff": 0.0,
+          "pass": true
+        }
+      },
+      "pass": true
+    },
+    "I06_scaled_nullspace": {
+      "nullity": 3,
+      "threshold": 0.0021315246417845726,
+      "principal_cosines_explicit_vs_svd": [
+        1.0000000000000004,
+        0.9999999999999998,
+        0.9999999999999994
+      ],
+      "explicit_mechanism_relative_residuals": [
+        1.0818831946075585e-17,
+        8.741107123802837e-18,
+        1.0199937817513097e-17
+      ],
+      "pass": true
+    },
+    "I07_left_right_participation_symmetry": {
+      "Bt_max_abs_L_minus_R": 0.0,
+      "Br_max_abs_L_plus_R": 0.0,
+      "pass": true
+    },
+    "I08_scope_guards": {
+      "r2_coupled_diagnostics": "NOT_EVALUATED",
+      "e15_inheritance": "NOT_INHERITED",
+      "next_stage_authorized": false,
+      "release_credit": false,
+      "pass": true
+    },
+    "I09_root_authority_no_average": {
+      "root_y_m": 0.1154,
+      "root_z_m": -0.10815,
+      "historical_0p1149_disposition": "REJECTED_HISTORICAL_CONFIG_DEFECT__NO_AVERAGING",
+      "pass": true
+    },
+    "I10_reconstruction_and_linearity_contract": {
+      "semantic_count": 183,
+      "unique_reduced_indices": 183,
+      "unique_full_indices": 183,
+      "operator_json_vs_npz_max_abs": {
+        "w_nodes": 0.0,
+        "theta_dofs": 0.0,
+        "torsion_nodes": 0.0,
+        "hinge_relative": 0.0,
+        "tip_w": 0.0
+      },
+      "root_w_modal_row_max_abs": 0.0,
+      "root_torsion_modal_row_max_abs": 0.0,
+      "tip_row_identity_residual": 0.0,
+      "linearity_limits": {
+        "max_abs_bending_slope_rad": 0.05,
+        "max_abs_hinge_relative_rotation_rad": 0.05,
+        "max_abs_torsion_angle_rad": 0.05,
+        "max_abs_transverse_node_displacement_m": 0.030000000000000006,
+        "max_abs_tip_transverse_deflection_m": 0.030000000000000006
+      },
+      "out_of_domain_policy": "FAIL_CLOSED__NO_LINEAR_ROM_EXTRAPOLATION",
+      "pass": true
+    }
+  },
+  "summary": {
+    "passed": 10,
+    "total": 10
+  },
+  "verdict": "PASS",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

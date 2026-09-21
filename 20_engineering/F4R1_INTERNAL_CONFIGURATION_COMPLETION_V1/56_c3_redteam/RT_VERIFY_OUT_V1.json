@@ -1,0 +1,124 @@
+{
+  "generated_at": "2026-08-27",
+  "script": "rt_verify.py",
+  "note": "红队手工值的机器复核；APPROXIMATE=结论成立数值有差，DISPUTED=结论不成立",
+  "checks": [
+    {
+      "id": "V1_root_bracket_stress",
+      "claim_source": "RT1 §2",
+      "rt_claimed": "t6: 267MPa, MS~0; t>=8-10mm",
+      "computed": {
+        "t=6mm": {
+          "sigma_MPa": 266.7,
+          "MS": 0.03
+        },
+        "t=8mm": {
+          "sigma_MPa": 150.0,
+          "MS": 0.84
+        },
+        "t=10mm": {
+          "sigma_MPa": 96.0,
+          "MS": 1.87
+        }
+      },
+      "verdict": "CONFIRMED",
+      "notes": "t=6mm 复算 266.7 MPa≈屈服；t=10mm MS=1.87；改造量成立"
+    },
+    {
+      "id": "V2_ballast_margin_arithmetic",
+      "claim_source": "RT2 §2",
+      "rt_claimed": "±120g→ΔCG≈1.45mm→净-0.3mm",
+      "computed": {
+        "margin_mm": 1.135,
+        "delta_CG_mm": 0.997,
+        "net_mm": 0.138
+      },
+      "verdict": "APPROXIMATE",
+      "notes": "复算 ΔCG≈1.0mm（RT2 的 1.45 略高估），净裕度 +0.14~−0.3mm 量级；『裕度<簿记噪声』结论成立"
+    },
+    {
+      "id": "V3_bolt_group",
+      "claim_source": "RT1 §5",
+      "rt_claimed": "栓拉 137-540N << 5.6kN，栓级无弱链",
+      "computed": {
+        "T_moment_only_N": 97.2,
+        "T_direct_10g_per_bolt_N": 115.2,
+        "proof_M4_8_8_N": 5600,
+        "margin_vs_proof": 48.6
+      },
+      "verdict": "APPROXIMATE",
+      "notes": "力矩项复算 97N（RT1 的 137 略不同，或含合成），直接剪 115N；结论『远小于保证载荷』成立"
+    },
+    {
+      "id": "V4_caB_corridor_interference",
+      "claim_source": "RT3 §3 K1",
+      "rt_claimed": "~2868 mm³ > 1000 mm³",
+      "computed": {
+        "recompute_mm3": 2868.7
+      },
+      "verdict": "CONFIRMED",
+      "notes": "113.5×1.5×16.85=2867.96 mm³ 算术成立（盒模型近似）"
+    },
+    {
+      "id": "V5_ballast_deck_mode",
+      "claim_source": "RT1 §6",
+      "rt_claimed": "~31Hz(简支)/~62Hz(固支) <<100Hz",
+      "computed": {
+        "f_ss_Hz": 26.1,
+        "f_fixed_approx_Hz": 59.2
+      },
+      "verdict": "APPROXIMATE",
+      "notes": "复算 26.1/59.2 Hz（几何假定不同），『远低于100Hz』结论成立"
+    },
+    {
+      "id": "V6_envelope_violations",
+      "claim_source": "RT1 §3/RT3 §5",
+      "rt_claimed": "CA-A 49.75/53.25; CA-B 9.75; CA-C 89.75/0.25",
+      "computed": {
+        "members_parsed": 16,
+        "violations": [
+          {
+            "member": "front_tray",
+            "face": "+x",
+            "exceed_mm": 59.75
+          },
+          {
+            "member": "ballast_steel",
+            "face": "-x",
+            "exceed_mm": 12.75
+          },
+          {
+            "member": "isolator_elements",
+            "face": "+x",
+            "exceed_mm": 79.75
+          }
+        ]
+      },
+      "verdict": "CONFIRMED",
+      "notes": "舱面 x=±170.25（OI-6 外廓 340.5/366.0 口径）；解析失败则为 UNKNOWN"
+    },
+    {
+      "id": "V7_pm5pct_CG_propagation",
+      "claim_source": "RT2 §3",
+      "rt_claimed": "最坏 ΔCG_x≈2-3mm >> 1.14mm 裕度",
+      "computed": {
+        "items_parsed": 40,
+        "mass_kg": 38.66,
+        "worst_dCGx_mm": 3.01
+      },
+      "verdict": "CONFIRMED",
+      "notes": "区间最坏口径；RT2 MC 失败率 10-35% 未复核（无随机种子口径）"
+    },
+    {
+      "id": "V8_caB_cds_cg",
+      "claim_source": "RT3 §3 K3",
+      "rt_claimed": "CG_x=73.9mm >70 FAIL",
+      "computed": {
+        "CG_x_mm": 73.9,
+        "limit_mm": 70
+      },
+      "verdict": "CONFIRMED",
+      "notes": "复算 73.9 mm，超限 3.9 mm，K3 成立"
+    }
+  ]
+}

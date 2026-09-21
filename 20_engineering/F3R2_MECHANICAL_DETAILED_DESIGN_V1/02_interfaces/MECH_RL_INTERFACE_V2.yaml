@@ -1,0 +1,115 @@
+schema: MECH_RL_INTERFACE_V2
+schema_version: '2.0-working'
+baseline_id: V6_ENGINEERING_DETAILED_MECHANICAL_BASELINE_WORKING
+release_status: CHANGESET_ONLY_NOT_RELEASED_TO_SIM13_PRODUCTION_V1
+generated_local: '2026-08-21T00:00:00+08:00'
+scope: M3 mechanical detailed-design exchange contract for future physics-gated embodied grasping
+production_v1_protection:
+  path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/02_interfaces/MECH_RL_INTERFACE_V1.yaml
+  sha256: 26E5A55570BE9E1DAF6683F76FB2A68D0265872EB5FB7C876E3324914DA36BB0
+  modified_by_m3: false
+  runtime_binding_changed: false
+memory_execution_record:
+  memory_gate_passed: false
+  owner_override_used: true
+  status: OWNER_OVERRIDE_LOW_MEMORY
+  rule: Do not relabel this record as MEMORY_GATE_PASS.
+asset_authorities:
+  accepted_b601_urdf:
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    status: ACCEPTED_URDF_AUTHORITY
+  v5r_neutral_step:
+    path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/SEI_MECH_B601_V5R_NEUTRAL_OPERATIONAL_BASELINE.step
+    sha256: A7549D0E913584FA4AF894A710F5CE9DF363722FD7F4F863B1C3B3FF2B4653C2
+    status: FROZEN_NEUTRAL_GEOMETRY_AUTHORITY
+  v5r_collision_mesh:
+    path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/SEI_MECH_B601_V5R_COLLISION_MESH.stl
+    sha256: 7DBD3F2BA19B033243F898C64025CCFD1A7C41BBD5410285188CE0DE7F3F7D80
+    status: CURRENT_SIM13_COLLISION_AUTHORITY
+  gripper_r1_palm_step:
+    path: 20_engineering/F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/01_native_cad/gripper_r1/B601_GRIPPER_PALM_RAIL_SLOT_R1.step
+    sha256: 97E2FE07FE24673DEAE473D0518FD30E3345ED85A82F8811265482B0215811BC
+    status: NEUTRAL_R1_ADDENDUM
+  m3r_parameterized_working_model:
+    path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/06_parameterized_parts/m3r/M3R_INTERFACE_ASSEMBLY_V2_WORKING.step
+    sha256: A213804F094238B261EE5994DF563E8268FC923FDED491E38F5A4F235F748033
+    status: WORKING_GEOMETRY_EQUIVALENT_TO_PINNED_REVB2_RELEASE_HOLD
+mass_properties:
+  b601:
+    mass_kg: 4.695555949342986
+    classification: BUDGETED
+    source: ACCEPTED_URDF
+    uncertainty_kg: null
+    uncertainty_status: HOLD_NOT_A_TRACEABLE_MEASUREMENT
+  m3r:
+    mass_kg: 0.7619
+    classification: BUDGETED
+    source: OWNER_FROZEN_DIGITAL_BUDGET
+    center_of_mass_m: null
+    inertia_kg_m2: null
+    uncertainty_kg: null
+    status: HOLD_COMPONENT_ALLOCATION_COM_INERTIA_AND_MEASUREMENT
+  system_configurations:
+    authority_path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/03_mass_properties/CONFIGURATION_MASS_INERTIA_V2.csv
+    required_count: 9
+    complete_count: 0
+    status: HOLD_NO_COMPLETE_SYSTEM_CONFIGURATION_AUTHORITY
+kinematics:
+  topology: 10 links / 9 joints / 6R + 1 fixed + 2P
+  source: ACCEPTED_URDF
+  gripper_prismatic_limit_m: [0.0, 0.0715]
+  joint_state_vectors_by_configuration: null
+  joint_state_status: HOLD_NINE_CONFIGURATION_VECTORS_MISSING
+  torque_limits_N_m: null
+  torque_limit_status: HOLD_NO_ENGINEERING_AUTHORITY
+contact:
+  gripper_geometry_status: NEUTRAL_R1_SWEEP_PASS_WITH_SCOPE_LIMITS
+  travel_domain_m: [0.0, 0.0715]
+  rail_palm_positive_overlap_m3: 0.0
+  overlap_evidence_class: DERIVED_NEUTRAL_BREP
+  contact_frame_authority: PROVISIONAL_HOLD
+  gripper_force_limit_N: null
+  gripper_force_limit_status: HOLD_NO_LOAD_OR_ACTUATOR_AUTHORITY
+  coefficient_of_friction: null
+  friction_status: HOLD_NO_MATERIAL_SURFACE_VACUUM_TEST_AUTHORITY
+  target_contact_pressure_limit_Pa: null
+  contact_pressure_status: HOLD_NO_TARGET_MATERIAL_OR_ACCEPTANCE_AUTHORITY
+collision:
+  current_production_mesh_status: HASH_BOUND_V5R
+  m3r_v2_mesh: null
+  gripper_r1_mesh_status: ADDENDUM_NOT_MONOLITHICALLY_PLACED
+  composite_narrow_phase_status: HOLD
+frames:
+  production_root: spacecraft_assembly_frame
+  spacecraft_root_to_M_FRAME: null
+  spacecraft_root_to_M_FRAME_status: HOLD_NOT_REASSERTED_BY_INTEGRATED_GEOMETRY
+  M_FRAME_to_B601_as_built_pattern_datum:
+    translation_m: [0.025155, 0.000015994151, -0.000086366070]
+    rotation_about_x_deg: 25.000014
+    status: READ_ONLY_COMPETITION_AS_BUILT_DATUM_NOT_OEM_FLANGE
+flexible_body:
+  enabled: false
+  mode_shapes: null
+  natural_frequencies_Hz: null
+  damping_ratios: null
+  status: HOLD_NO_AUTHORIZED_MODAL_MODEL_OR_TEST
+safety_contract:
+  unknown_is_action_masked: true
+  abort_always_available: true
+  direct_joint_torque_output_forbidden: true
+  unsafe_unknown_allow_count: 0
+  dependent_capabilities_blocked:
+    - CONTACT_PHYSICS_FIDELITY
+    - FLEXIBLE_BODY_DYNAMICS
+    - RL_POLICY_TRAINING_AND_EVALUATION
+    - HIL_AND_REAL_ROBOT_EXECUTION
+release_triggers:
+  - FORMAL_V2_CHANGE_APPROVAL
+  - ALL_REFERENCED_V2_ARTIFACT_HASHES_RESOLVED
+  - NINE_CONFIGURATION_MASS_AND_JOINT_STATE_AUTHORITY
+  - CONTACT_FORCE_FRICTION_AND_TARGET_PROPERTY_AUTHORITY
+  - COMPOSITE_PLACEMENT_AND_NARROW_PHASE_VALIDATION
+  - SYSTEM_FRAME_TRANSFORM_CLOSURE
+  - SIM13_REGRESSION_RERUN_AGAINST_RELEASED_INTERFACE
+overall_status: WORKING_CHANGESET_HOLD_NOT_RELEASED

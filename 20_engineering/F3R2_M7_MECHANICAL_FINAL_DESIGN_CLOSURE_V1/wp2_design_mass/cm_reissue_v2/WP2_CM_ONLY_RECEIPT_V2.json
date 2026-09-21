@@ -1,0 +1,139 @@
+{
+  "schema": "WP2_CM_ONLY_RECEIPT_V2",
+  "artifact_id": "WP2_V3_R2_CM_REISSUE_V2",
+  "generated_local": "2026-08-24T07:05:50+08:00",
+  "generated_time_policy": "FIXED_AT_CM_REISSUE; VALIDATOR_NEVER_REWRITES",
+  "work_package": "WP2_DESIGN_MASS",
+  "scope": "CONFIGURATION_MANAGEMENT_ONLY",
+  "receipt_verdict": "PASS_CM_INTEGRITY_REISSUE_ONLY",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "owner_accepted": false,
+  "next_stage_authorized": false,
+  "release_credit": false,
+  "authority_basis": [
+    "ODR-GPT-05: a self-reference-only drift is a CM defect and may be reissued with a self-reference-excluded manifest; Solar R2 geometry may not be modified",
+    "ODR-49: REISSUE_BUILD_REPORT_WITH_SELF_REFERENCE_EXCLUDED_HASHING; no frozen geometry, mass model, harness, flex input, or non-self payload change",
+    "This package applies the authorized CM pattern to the WP2 V3 R2 receipt; it does not alter the Solar R2 build-report V2 closure or any scientific Gate"
+  ],
+  "defect_record": {
+    "defect_id": "WP2_V3_R2_RECEIPT_SELF_HASH_DRIFT",
+    "classification": "CM_DEFECT_ONLY",
+    "legacy_receipt_path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/WP2_V3_R2_RECEIPT.json",
+    "legacy_receipt_actual_sha256": "5CD4EAF4C670477CC3BF86C83B2632BC4D61D844B2C2577DBFEDA25ECB23D368",
+    "legacy_receipt_actual_bytes": 4750,
+    "legacy_receipt_recorded_self_sha256": "9C858FD55A0F9792C12AD7E4CA8E4799480FB36AD44BA3AB73725357D91E6491",
+    "actual_equals_recorded_self": false,
+    "reconstructed_first_emission_sha256": "9C858FD55A0F9792C12AD7E4CA8E4799480FB36AD44BA3AB73725357D91E6491",
+    "reconstructed_first_emission_bytes": 4536,
+    "reconstruction_rule": "Parse the legacy JSON; replace top-level hashes with {}; serialize using json.dumps(indent=1); translate LF to CRLF exactly as Windows Path.write_text did",
+    "recorded_self_equals_reconstructed_first_emission": true,
+    "root_cause": "aggregate_m7_design_mass_v3_r2.py lines 312-315 write a receipt with an empty hashes object, hash those first-emission bytes, insert that digest under the receipt's own filename, and write the receipt again. The inserted digest necessarily changes the bytes being identified.",
+    "legacy_file_modified_by_reissue": false
+  },
+  "payload_preservation": {
+    "legacy_projection_rule": "REMOVE_TOP_LEVEL_HASHES_ONLY",
+    "canonicalization": "UTF-8 JSON; sort_keys=true; separators=(',', ':'); ensure_ascii=false",
+    "legacy_projection_sha256": "0AC55D21BAC232E155A15A52096104EF15CC3A4B4971886F3DB45A8763C20F7E",
+    "cm_reissue_projection_sha256": "0AC55D21BAC232E155A15A52096104EF15CC3A4B4971886F3DB45A8763C20F7E",
+    "digests_equal": true,
+    "representation": "REFERENCE_ONLY_NO_SCIENTIFIC_PAYLOAD_REEMITTED",
+    "reason": "Duplicating configuration mass/CG/inertia values into a CM wrapper would create a competing scientific artifact. Their exact authoritative bytes are fixed in source_register instead.",
+    "scientific_values_modified": false,
+    "scientific_values_reemitted": false,
+    "legacy_declared_verdict_not_upgraded_or_reissued": "PASS"
+  },
+  "hash_policy": {
+    "name": "SELF_REFERENCE_EXCLUDED",
+    "algorithm": "SHA-256",
+    "byte_semantics": "RAW_FILE_BYTES; uppercase 64-hex digest; no newline or text normalization",
+    "included_source_members": [
+      "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V2.yaml",
+      "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json",
+      "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml",
+      "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/WP2_V3_R2_RECEIPT.json",
+      "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/aggregate_m7_design_mass_v3_r2.py",
+      "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR_GPT_01_TO_06_TERMINAL_CLOSURE_V1.yaml",
+      "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml"
+    ],
+    "excluded_members": [
+      {
+        "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/cm_reissue_v2/WP2_CM_ONLY_RECEIPT_V2.json",
+        "reason": "RECEIPT_SELF_REFERENCE_IMPOSSIBLE; PINNED_BY_PACKAGE_MANIFEST_AFTER_EMISSION"
+      },
+      {
+        "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/cm_reissue_v2/WP2_CM_REISSUE_GATE_V2.json",
+        "reason": "DOWNSTREAM_GATE; PINNED_BY_PACKAGE_MANIFEST_AFTER_EMISSION"
+      },
+      {
+        "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/cm_reissue_v2/WP2_CM_REISSUE_MANIFEST_V2.json",
+        "reason": "DOWNSTREAM_MANIFEST; MANIFEST_SELF_REFERENCE_EXCLUDED"
+      },
+      {
+        "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/cm_reissue_v2/validate_cm_reissue_v2.py",
+        "reason": "PACKAGE_MEMBER_NOT_UPSTREAM_SOURCE; PINNED_BY_PACKAGE_MANIFEST"
+      },
+      {
+        "path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/cm_reissue_v2/README.md",
+        "reason": "PACKAGE_MEMBER_NOT_UPSTREAM_SOURCE; PINNED_BY_PACKAGE_MANIFEST"
+      }
+    ]
+  },
+  "source_register": {
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V2.yaml": {
+      "sha256": "151474DCD2F4EDDFC0C4417FCE7237557B5DE10BE77DB8617F5EDA3329ADF42B",
+      "bytes": 475706,
+      "role": "FROZEN_PARENT_DESIGN_MASS_LEDGER"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json": {
+      "sha256": "D5B7DD16532FE7117D27ECC09EFB29ECC570F51928BDBDF3B27BB96C3CF12C5E",
+      "bytes": 11775,
+      "role": "FROZEN_SOLAR_R2_MASS_PROPERTY_INPUT"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml": {
+      "sha256": "3FD2557318E98748A37927977FA2925C18803668FE16391D824C184F646486BB",
+      "bytes": 223714,
+      "role": "UNCHANGED_SCIENTIFIC_OUTPUT_AUTHORITY_CANDIDATE"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/WP2_V3_R2_RECEIPT.json": {
+      "sha256": "5CD4EAF4C670477CC3BF86C83B2632BC4D61D844B2C2577DBFEDA25ECB23D368",
+      "bytes": 4750,
+      "role": "UNCHANGED_LEGACY_RECEIPT_WITH_REPRODUCED_SELF_HASH_DRIFT"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/aggregate_m7_design_mass_v3_r2.py": {
+      "sha256": "09FA4857B3B02764DDFFEA1E09010F29E1212D25908AE6D1F909378266A98427",
+      "bytes": 14921,
+      "role": "UNCHANGED_LEGACY_BUILDER_ROOT_CAUSE_EVIDENCE"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR_GPT_01_TO_06_TERMINAL_CLOSURE_V1.yaml": {
+      "sha256": "B7EE60281935DD7417027D5428B9291BEE7D3F6528022509ACA168FB39B68689",
+      "bytes": 10251,
+      "role": "OWNER_DIRECTIVE_ODR_GPT_05"
+    },
+    "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_ODR45_TO_ODR49_MPI_CONFIRMATION_AND_TERMINAL_PATH_V1.yaml": {
+      "sha256": "69473BC19E020C6422B23C1758CFC343874F641781C9782E982036614C0849B5",
+      "bytes": 26885,
+      "role": "OWNER_DIRECTIVE_ODR_49"
+    }
+  },
+  "state_preservation": {
+    "mass_cg_inertia_changed": false,
+    "solar_r2_geometry_changed": false,
+    "solar_r2_mass_model_changed": false,
+    "harness_or_flex_input_changed": false,
+    "legacy_receipt_changed": false,
+    "aggregator_changed": false,
+    "owner_status_changed": false,
+    "release_status_changed": false,
+    "cm_defect_disposition": "CLOSED_AT_THIS_PACKAGE_SCOPE_SUBJECT_TO_OWNER_CM_ACCEPTANCE",
+    "retained_holds": [
+      "PENDING_OWNER_REVIEW",
+      "AS_BUILT_MASS_CORRELATION_HOLD",
+      "PENDING_CALIBRATION",
+      "R2_FULL_FLEX_HOLD",
+      "E15_REPEAT_ANCF_CERTIFICATION",
+      "MISSION_HARNESS_ENVELOPE_HOLD",
+      "MECHANICAL_TO_EMBODIED_HANDOFF_HOLD",
+      "NO_MANUFACTURING_QUALIFICATION_LAUNCHER_OR_FLIGHT_AUTHORITY"
+    ]
+  }
+}

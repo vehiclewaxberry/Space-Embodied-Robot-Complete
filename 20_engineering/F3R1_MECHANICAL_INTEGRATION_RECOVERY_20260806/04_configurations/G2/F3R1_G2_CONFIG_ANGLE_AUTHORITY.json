@@ -1,0 +1,173 @@
+{
+  "schema": "F3R1_G2_CONFIG_ANGLE_AUTHORITY_V1",
+  "date": "2026-08-06",
+  "purpose": "Resolve the authoritative configuration names and solar-wing angles BEFORE building any G2 configuration. Per the work order section 8, angles must be read from an authority -- never guessed from appearance or screenshots.",
+  "primary_authority": {
+    "policy_id": "V22_LAYOUT_AND_DEPLOYMENT_01_STATE_POLICY",
+    "path": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2/110_Layout_and_Deployment_01/design/state_policy.json",
+    "schema_version": "1.0",
+    "state_count": 7,
+    "representation_invariant": "Never resolve B601 HIFI and q0 proxy simultaneously; never suppress both in a state that claims an arm representation.",
+    "diagnostic_samples_define_partial": false,
+    "native_solidworks_at_source": {
+      "configurations": "NONE",
+      "note": "Confirms the SSOT itself had NO native SW configurations -- consistent with defect D-F3R1-04. G2 is the first native realisation."
+    }
+  },
+  "secondary_authority": {
+    "path": "20_engineering/cad/B5_0_B601_space_manipulator_candidate/03_CAD/CONFIGURATION_MATRIX.csv",
+    "used_for": "SOLAR_DEPLOY_ARM_LOCKED and SOLAR_DEPLOYED_ARM_RELEASED state semantics (hdrm_state / solar_state columns); it carries NO wing angle values (all arm/gripper vectors are TBD)."
+  },
+  "corroborating_doc": {
+    "path": "01_project/competition/PROJECT_ONBOARDING_PACKAGE/02_SPACECRAFT_ARCHITECTURE.md",
+    "note": "Section 3 '七态构型合同' reproduces the same 7 states and angles and states explicitly that later native CAD with同名 configurations must NOT override these semantics."
+  },
+  "naming_decision": {
+    "rule_applied": "Work order section 6: if a unique authoritative list exists, reuse its names verbatim.",
+    "finding": "The SSOT defines SEVEN states, not eight. The work order's default 8-item list differs from the SSOT in two ways: it adds SOLAR_DEPLOY_ARM_LOCKED (which exists in the B5_0 secondary matrix), and it renames STOWED to STOWED_ENGINEERING_CANDIDATE.",
+    "resolution": "Keep all 7 SSOT names as the spine. Add SOLAR_DEPLOY_ARM_LOCKED from the secondary authority to reach 8, because the work order requires that state and the frozen sequence '太阳翼先展开 → B601 再释放' needs it. Realise SSOT 'STOWED' under the work order's explicit name STOWED_ENGINEERING_CANDIDATE and record the alias so the SSOT link is not lost.",
+    "not_done": "No Configuration1 / Default-Copy / placeholder configurations are created."
+  },
+  "configurations": [
+    {
+      "name": "STOWED_ENGINEERING_CANDIDATE",
+      "ssot_alias": "STOWED",
+      "solar_left_deg": 0.0,
+      "solar_right_deg": 0.0,
+      "angle_source": "state_policy.json/STOWED",
+      "angle_status": "AUTHORITATIVE",
+      "arm_config": "STOWED_O13V3",
+      "arm_status": "O13_V3_CANDIDATE_HOLD_PROVISIONAL",
+      "hdrm_state": "LOCKED",
+      "runtime_compliance": false,
+      "safe00_execution_entry": false,
+      "engineering_evaluation_only": true,
+      "ssot_status": "HOLD_B601_HIFI_ABSENT",
+      "claim_limit": "Engineering candidate only. NOT a runtime-compliant state, NOT a SAFE-00 execution entry. q_stow remains provisional; rebuildability does NOT upgrade it."
+    },
+    {
+      "name": "SOLAR_DEPLOY_ARM_LOCKED",
+      "ssot_alias": null,
+      "solar_left_deg": 90.0,
+      "solar_right_deg": 90.0,
+      "angle_source": "state_policy.json/DEPLOYED_NOMINAL end-state angles; the TRANSIT path itself is not authorised",
+      "angle_status": "PROVISIONAL_ENGINEERING_VALUE",
+      "arm_config": "STOWED_O13V3",
+      "arm_status": "LOCKED_ARM_MOTION_DISABLED",
+      "hdrm_state": "LOCKED_NOT_RELEASED",
+      "runtime_compliance": false,
+      "safe00_execution_entry": false,
+      "engineering_evaluation_only": true,
+      "ssot_status": "HOLD (secondary matrix: 'Static staging evidence only; full top-level sweep missing')",
+      "claim_limit": "Expresses solar wings deployed while B601 stays LOCKED and ARM HDRM is NOT released, per the frozen sequence 太阳翼先展开 → B601 再释放. Intermediate deploy angles are NOT authorised; only the locked-arm end state is represented."
+    },
+    {
+      "name": "DEPLOYED_NOMINAL",
+      "ssot_alias": "DEPLOYED_NOMINAL",
+      "solar_left_deg": 90.0,
+      "solar_right_deg": 90.0,
+      "angle_source": "state_policy.json/DEPLOYED_NOMINAL",
+      "angle_status": "AUTHORITATIVE",
+      "arm_config": "默认",
+      "arm_status": "Q0_CONSERVATIVE_PROXY",
+      "hdrm_state": "RELEASED",
+      "runtime_compliance": false,
+      "safe00_execution_entry": false,
+      "engineering_evaluation_only": true,
+      "ssot_status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "Named static pose only; NOT a global workspace or continuous-clearance proof."
+    },
+    {
+      "name": "L_FAIL",
+      "ssot_alias": "L_FAIL",
+      "solar_left_deg": 0.0,
+      "solar_right_deg": 90.0,
+      "angle_source": "state_policy.json/L_FAIL",
+      "angle_status": "AUTHORITATIVE",
+      "arm_config": "STOWED_O13V3",
+      "arm_status": "Q0_CONSERVATIVE_PROXY_ARM_RELEASE_INHIBITED",
+      "hdrm_state": "LOCKED",
+      "runtime_compliance": false,
+      "safe00_execution_entry": false,
+      "engineering_evaluation_only": true,
+      "ssot_status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "Static asymmetric scene only. Arm release must remain inhibited pending the state contract."
+    },
+    {
+      "name": "R_FAIL",
+      "ssot_alias": "R_FAIL",
+      "solar_left_deg": 90.0,
+      "solar_right_deg": 0.0,
+      "angle_source": "state_policy.json/R_FAIL",
+      "angle_status": "AUTHORITATIVE",
+      "arm_config": "STOWED_O13V3",
+      "arm_status": "Q0_CONSERVATIVE_PROXY_ARM_RELEASE_INHIBITED",
+      "hdrm_state": "LOCKED",
+      "runtime_compliance": false,
+      "safe00_execution_entry": false,
+      "engineering_evaluation_only": true,
+      "ssot_status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "Static asymmetric scene only. Arm release must remain inhibited."
+    },
+    {
+      "name": "DEPLOY_FAILED_BOTH",
+      "ssot_alias": "DEPLOY_FAILED_BOTH",
+      "solar_left_deg": 0.0,
+      "solar_right_deg": 0.0,
+      "angle_source": "state_policy.json/DEPLOY_FAILED_BOTH",
+      "angle_status": "AUTHORITATIVE",
+      "arm_config": "STOWED_O13V3",
+      "arm_status": "Q0_CONSERVATIVE_PROXY_ARM_RELEASE_INHIBITED",
+      "hdrm_state": "LOCKED",
+      "runtime_compliance": false,
+      "safe00_execution_entry": false,
+      "engineering_evaluation_only": true,
+      "ssot_status": "DIAGNOSTIC_ONLY",
+      "claim_limit": "Static failure scene; gives NO failure probability or recovery authority. Arm release must remain inhibited."
+    },
+    {
+      "name": "PARTIAL",
+      "ssot_alias": "PARTIAL",
+      "solar_left_deg": null,
+      "solar_right_deg": null,
+      "angle_source": "NO AUTHORITY EXISTS -- state_policy.json records solar_left_deg=null / solar_right_deg=null and diagnostic_samples_define_partial=false, i.e. the 5/15/30/60 deg samples explicitly do NOT define PARTIAL. A first attempt wrote a 30 deg diagnostic sample; it did not persist because the G1 wing coincident mates hold the panels against the deck and SolidWorks re-solved them back to 90 deg. Rather than suppress those mates to force an unauthorised angle, the configuration is left geometrically UNDIFFERENTIATED from DEPLOYED and declared as such.",
+      "angle_status": "UNKNOWN_HOLD_NO_AUTHORITY",
+      "geometric_differentiation": "NOT_DIFFERENTIATED_FROM_DEPLOYED_NOMINAL",
+      "realised_left_deg": 90.0,
+      "realised_right_deg": 90.0,
+      "arm_config": "STOWED_O13V3",
+      "arm_status": "Q0_OR_TASK_PROXY_PENDING_POSE_DEFINITION",
+      "hdrm_state": "LOCKED",
+      "runtime_compliance": false,
+      "safe00_execution_entry": false,
+      "engineering_evaluation_only": true,
+      "ssot_status": "UNKNOWN_HOLD",
+      "claim_limit": "PARTIAL has NO authoritative wing angle and is NOT geometrically differentiated in G2: it currently renders identically to DEPLOYED_NOMINAL (90/90). The configuration name exists so the state is registered and addressable, but it must NOT be cited as a defined mission state, and its geometry must NOT be read as a partial-deployment scene. Differentiating it requires a ratified PARTIAL angle plus the G3 wing-root hinge interface."
+    },
+    {
+      "name": "SERVICE",
+      "ssot_alias": "SERVICE",
+      "solar_left_deg": 90.0,
+      "solar_right_deg": 90.0,
+      "angle_source": "NO AUTHORITY EXISTS -- state_policy.json records null angles and PENDING_RATIFICATION_HOLD. The deployed 90/90 wing angle is reused so the scene is viewable; no service access sequence or service joint vector is authorised.",
+      "angle_status": "PROVISIONAL_HOLD",
+      "arm_config": "默认",
+      "arm_status": "PENDING_HUMAN_RATIFICATION",
+      "hdrm_state": "RELEASED",
+      "runtime_compliance": false,
+      "safe00_execution_entry": false,
+      "engineering_evaluation_only": true,
+      "ssot_status": "PENDING_RATIFICATION_HOLD",
+      "claim_limit": "No access sequence, service joint vector, or native configuration is authorised. Wing angle is a viewing convenience under PROVISIONAL_HOLD, not a ratified service pose."
+    }
+  ],
+  "angle_convention": {
+    "definition": "0 deg = stowed (panel folded against the bus, hanging in -Z per the STOWED donor part); 90 deg = deployed (panel extended outboard in the XY plane per the DEPLOYED donor part).",
+    "derived_from": "The two donor panel parts themselves: WING_*_STOWED spans z[-200,0] at |y|~113-119 (folded down); WING_*_DEPLOYED spans z[-3,3] reaching |y| up to 313 (extended outboard). This matches state_policy 0 deg / 90 deg."
+  },
+  "unresolved_holds_carried": [
+    "D-F3R1-06 wing-root hinge interface remains OPEN: the panels sit at |y|=113.15 while the real hinge pins are at |y|=143.15 -- a ~30 mm gap. G2 angle mates are KINEMATIC_CONFIGURATION_CANDIDATE only and do NOT close the physical hinge.",
+    "PARTIAL and SERVICE angles have no authority and stay PROVISIONAL_HOLD.",
+    "q_stow stays O13_V3_CANDIDATE_HOLD_PROVISIONAL; G2 must not upgrade it."
+  ]
+}

@@ -1,0 +1,111 @@
+schema: ECR_SOLAR_HARNESS_01_WORK_ORDER_V1
+status: SUPERSEDED_BY_ODR19_SEE_ECR_SOLAR_ARRAY_R2_WORK_ORDER_V1.yaml
+superseded_note: >-
+  ODR-19 upgraded this ECR from a dimension-retention + harness ECR into the
+  SOLAR_ARRAY_R2 architecture change (three leaves per wing). Item mapping
+  below remains historically valid for the carried-forward ODR-18 items
+  (harness >= 347.49 mm, continuous clearance, regeneration, interlock),
+  which are incorporated into the R2 work order.
+generated_local: '2026-08-22T19:49:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+class: ECR_WORK_ORDER
+ecr: ECR-SOLAR-HARNESS-01
+authority: M7_OWNER_DECISION_ODR18_SOLAR_HARNESS_ECR_V1.yaml (ODR-18)
+scope_guard: >-
+  Narrow ECR. Reopens ONLY the solar-wing/HDRM/keepout/harness dependency
+  chain and its downstream mass/flex/collision bindings. B601 kinematics,
+  M3R interface, GRIPPER_R1 and the operational FEA main load path stay
+  FROZEN. No M8/M9 artifact may be created. No flight/launcher/manufacturing
+  authority is granted.
+
+item5_status:
+  artifact: ECR_SH01_ITEM5_AXIS_AUDIT_V1.yaml
+  verdict: CASE_A_227MM_IS_LONGITUDINAL - planform 227 x 200 x 6 mm RETAINED
+  consequence: no panel resize; ECR proceeds without geometry planform change
+
+open_work_items:
+
+  - id: SH01-WI-01
+    odr_items: [9]
+    title: Harness service-loop redesign (HR-OPEN-02)
+    requirement: >-
+      Functional loop length >= 347.49 mm (replaces the defective 120 mm
+      service loop). ~380 mm is a candidate starting point only; final length
+      derived from cable min bend radius, q1 full range, connector positions,
+      mounting tolerances, thermal contraction and strain relief.
+      Architecture: protected Omega/S-loop with defined clamp points,
+      joint-side moving segment, bus-side fixed segment.
+    touches:
+      - wp1_structure_cad/HARNESS_ROUTING_V1.yaml
+      - wp1_structure_cad/KEEP_OUT_REGISTER_V1.yaml
+    status: OPEN
+
+  - id: SH01-WI-02
+    odr_items: [9, 10]
+    title: Continuous centreline clearance verification (HR-OPEN-04) + full sweep evidence
+    requirement: >-
+      Continuous geometry evidence with NON-EMPTY comparison sets and per-pair
+      minimum distances for: solar-arm, solar-bus, solar-harness, solar-HDRM,
+      harness-arm, harness-structure; over the full 0-90 deg deploy sweep and
+      full q1 range. Requires closing WP1 STOWED_GEOMETRY_HOLD first (stowed
+      panel solid must exist). Deployed-only or empty-set results are
+      automatic FAIL (historical vacuous-PASS hazard).
+    touches:
+      - wp1_structure_cad (stowed geometry + sweep evidence)
+      - wp12_secondary_structure_adjudication (datum ruling update if needed)
+    status: OPEN
+    blocked_by: WP1 STOWED_GEOMETRY_HOLD
+
+  - id: SH01-WI-03
+    odr_items: [11]
+    title: Regenerate downstream bindings
+    requirement: >-
+      (a) 9-configuration design mass properties (WP2 V3, design mass only;
+      dynamics_legacy 0.3483933 kg stays LEGACY_PROVISIONAL for sim_11
+      reproduction and must not be area-rescaled); (b) NEW solar flexible
+      parameter card (new card, never an edited old card); (c) collision /
+      keepout assets; (d) EMBODIED_MECHANICAL_CONTRACT bindings;
+      (e) MECHANICAL_TO_EMBODIED_HANDOFF_GATE re-run to 11/11.
+    touches:
+      - wp2_design_mass
+      - 20_engineering/config/geometry/flexible_appendage (new card version)
+      - wp10_mech_rl_v4/MECH_DYNAMICS_INTERFACE_V4.yaml
+      - wp13_embodied_contract
+    status: OPEN
+    blocked_by: SH01-WI-01, SH01-WI-02 (final geometry/harness values)
+
+  - id: SH01-WI-04
+    odr_items: [8]
+    title: Solar state machine machine-readable binding
+    requirement: >-
+      Bind the ODR-18 state set (SOLAR_STOWED_LOCKED ...
+      SOLAR_STATE_UNKNOWN) and the interlock
+      (solar_state != SOLAR_DEPLOYED_LATCHED => ARM_RELEASE = FORBIDDEN)
+      into the embodied contract so it is machine-checkable, fail-closed.
+      Book-style architecture retained: one panel per side, one root hinge
+      per side; no multi-fold architecture in Terminal Closure.
+    touches:
+      - wp13_embodied_contract/EMBODIED_MECHANICAL_CONTRACT_V1.yaml
+      - wp5_mechanisms/SOLAR_HINGE_DEPLOYMENT_PACK_V1.yaml (reference only)
+    status: OPEN
+
+  - id: SH01-WI-05
+    odr_items: [13]
+    title: ECR closure adjudication
+    requirement: >-
+      Zero internal HOLD, zero HIGH adversarial findings, zero unexplained
+      positive interference, handoff gate 11/11 PASS. Red-team scope limited
+      to this ECR's propagation range (ODR-18 rt07_release_blocking_rule:
+      historical wording / external qualification / frozen-file citation
+      findings do not block). On pass: issue
+      MECHANICAL_ENGINEERING_DESIGN_RELEASED_FOR_OPERATIONAL_DIGITAL_TWIN_AND_EMBODIED_CONTROL
+      WITH_FLIGHT_QUALIFICATION_HOLD (item 14), then freeze (item 15).
+    status: OPEN
+    blocked_by: SH01-WI-01..04
+
+gate_a_overrides_in_force:
+  '08_SOLAR_AND_HDRM': HOLD_ECR_SOLAR_01
+  '09_HARNESS_AND_KEEPOUT': HOLD_ECR_HARNESS_01
+  '10_NINE_CONFIG_DESIGN_MASS': PASS_WITH_REGEN_REQUIRED
+  '16_THERMOMECHANICAL': PASS_WITH_REGEN_REQUIRED
+  '18_MECH_RL_DIGITAL_THREAD': PASS_WITH_REBIND_REQUIRED

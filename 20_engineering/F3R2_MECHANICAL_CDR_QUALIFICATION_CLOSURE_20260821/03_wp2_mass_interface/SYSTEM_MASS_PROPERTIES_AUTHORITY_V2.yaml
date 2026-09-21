@@ -1,0 +1,111 @@
+schema_version: SYSTEM_MASS_PROPERTIES_AUTHORITY_V2
+generated_local: '2026-08-21T01:30:43+08:00'
+scope: CDR_WP2_DIGITAL_AUTHORITY_WORKING_BASELINE
+release_status: WP2_CONTROLLED_WORKING_AUTHORITY_NOT_RELEASED_TO_PRODUCTION_V1
+units:
+  mass: kg
+  center_of_mass: m
+  inertia: kg*m^2
+  angles: rad unless explicitly deg
+classification_vocabulary:
+  allowed: [MEASURED, CAD_DERIVED, MATERIAL_DERIVED, BUDGETED, PROVISIONAL]
+  measurement_claim_requires_traceable_uncertainty: true
+active_authorities:
+  b601:
+    authority_id: B601-MASS-INERTIA-ACTIVE-001
+    authority_type: ACCEPTED_URDF
+    classification: BUDGETED
+    path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    mass_kg: 4.695555949342986
+    link_count: 10
+    joint_count: 9
+    inertia_authority: ACCEPTED_URDF_LINK_INERTIALS
+    physical_weighing_status: HOLD
+    uncertainty_kg: null
+    uncertainty_status: HOLD_NOT_A_TRACEABLE_MEASUREMENT
+    active: true
+  m3r:
+    authority_id: M3R-MASS-V001
+    authority_type: OWNER_FROZEN_DIGITAL_BUDGET
+    classification: BUDGETED
+    source_field: owner_frozen_nominal_mass_g
+    source_value_g: 761.9
+    mass_kg: 0.7619
+    inertia_kg_m2: null
+    center_of_mass_m: null
+    component_allocation_status: HOLD
+    includes: [STAGE_A_RING_BUDGET_ENVELOPE, STAGE_B_LOAD_DIFFUSION_PLATE_BUDGET_ENVELOPE]
+    excludes: [FASTENERS, LOCATOR_OR_DOWEL, CABLES_OR_HARNESS, MATING_SPACECRAFT_STRUCTURE]
+    physical_weighing_status: HOLD
+    uncertainty_kg: null
+    uncertainty_status: HOLD_NO_CONTROLLED_MEASUREMENT_OR_UNCERTAINTY_BUDGET
+    active: true
+  active_authority_count_for_m3r_mass: 1
+inactive_comparison_values:
+  m3r_legacy_material_derived_kg: 0.761904197
+  m3r_v5_material_derived_kg: 0.782327248
+  historical_adapter_block_model_kg: 1.2
+m3r_value_register_counts:
+  total_value_count: 4
+  active_value_count: 1
+  inactive_candidate_count: 3
+system_objects_without_cdr_mass_property_authority:
+  spacecraft_bus:
+    mass_kg: null
+    center_of_mass_m: null
+    inertia_kg_m2: null
+    status: HOLD_BUS_CONFIGURATION_MASS_INERTIA_AUTHORITY_MISSING
+  solar_array_left:
+    mass_kg: null
+    center_of_mass_m: null
+    inertia_kg_m2: null
+    status: HOLD_DEPLOYED_AND_FAILED_CONFIGURATION_MASS_INERTIA_AUTHORITY_MISSING
+  solar_array_right:
+    mass_kg: null
+    center_of_mass_m: null
+    inertia_kg_m2: null
+    status: HOLD_DEPLOYED_AND_FAILED_CONFIGURATION_MASS_INERTIA_AUTHORITY_MISSING
+  m3r_fasteners:
+    mass_kg: null
+    status: HOLD_SPECIFICATION_AND_MASS_MISSING
+  m3r_locator:
+    mass_kg: null
+    status: HOLD_SPECIFICATION_AND_MASS_MISSING
+  m3r_cable_harness:
+    mass_kg: null
+    status: HOLD_DEFINITION_AND_MASS_MISSING
+  target_satellite_22kg:
+    reference_mass_kg: 22.0
+    classification: PROVISIONAL
+    cdr_inertia_authority: null
+    status: HOLD_TARGET_MASS_INERTIA_AND_CAPTURE_TRANSFORM_NOT_CDR_RELEASED
+  target_debris_150kg:
+    reference_mass_kg: 150.0
+    classification: PROVISIONAL
+    cdr_inertia_authority: null
+    status: HOLD_TARGET_MASS_INERTIA_AND_CAPTURE_TRANSFORM_NOT_CDR_RELEASED
+system_aggregation_rule:
+  total_mass: sum of non-overlapping active component authorities only
+  center_of_mass: mass-weighted sum after every component frame transform is authoritative
+  inertia: rotate each CoM tensor to the declared system frame and apply the parallel-axis theorem
+  missing_input_policy: NOT_EVALUABLE_INPUT_AUTHORITY_MISSING
+  zero_fill_forbidden: true
+  mesh_mass_inference_forbidden: true
+frame_status:
+  b601_equivalent_inertia_frame: base_link
+  production_system_root: spacecraft_assembly_frame
+  spacecraft_root_to_M_FRAME: null
+  spacecraft_root_to_M_FRAME_status: HOLD_ROOT_RELATION_NOT_REASSERTED_BY_NEUTRAL_PACKAGE
+  M_FRAME_to_B601_AS_BUILT_PATTERN_DATUM_status: READ_ONLY_NUMERIC_MATCH
+uncertainty_policy:
+  numerical_values_without_measurement_uncertainty_are_not_measurements: true
+  standard_uncertainty_fields: null
+  disposition: HOLD_UNTIL_CONTROLLED_MEASUREMENT_MODEL_AND_UNCERTAINTY_BUDGET_EXIST
+source_hashes:
+  owner_frozen_gate_capture: E0369477D775182F40E38EE43AA6DED18D17A0F9FC83EA16034D14F022EB629E
+  accepted_urdf: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  m3r_legacy_mass_addendum: AA4DB64949EF971331F548E3171534A394F418EDFF4F294E799D256BCBE3A85F
+  v5_native_bom_seed: BD25A8A680E5BBDB9EB624987E6CCD0500E7CFE5C83C9466B02F83E3474B3EBA
+  historical_mass_ledger: 073C802527E35C9495188EEFD5D8BA51F524D326142CF2AB31E436BAD0899392
+overall_status: PARTIAL_AUTHORITY_CLOSED_SYSTEM_CONFIGURATION_MASS_PROPERTIES_NOT_EVALUABLE

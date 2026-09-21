@@ -1,0 +1,98 @@
+{
+  "title": "F4R1 C1 阶段 Gate 机器裁决",
+  "generated_at": "2026-08-27",
+  "status": "DESIGN_RESEARCH_CANDIDATE",
+  "gate_id": "GATE_C1",
+  "scope": "内部布局方案 v1 + 质量预算 + CG/惯量核算 (50_c1_layout/)",
+  "inputs": {
+    "equipment_list": {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/50_c1_layout/EQUIPMENT_LIST_V1.yaml", "sha256_12": "2f6b5163f5f5"},
+    "mass_budget": {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/50_c1_layout/MASS_BUDGET_V1.csv", "sha256_12": "365c9ebf9493"},
+    "cg_inertia_check": {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/50_c1_layout/CG_INERTIA_CHECK_V1.json", "sha256_12": "c7759162f54d", "produced_by": "compute_c1_checks.py (rerun-verified)"}
+  },
+  "criteria": [
+    {
+      "id": "C1-A-MASS-SCOPE",
+      "requirement": "总质量线落在裁决口径内 (主口径有 ODR 登记; CDS 变体 <= 24 kg)",
+      "result": "pass",
+      "evidence": [
+        "ODR_F4R1_01_SIGNED.md clause 4 (sha256 88fb25431d1a): 主口径 31.02 kg 按 ESPA 级登记, 12U-derived 不绑 deployer",
+        "MASS_BUDGET_V1.csv TOTAL-DESIGN-POINT = 31.022864807342987 kg (= 冻结 C01, 机器复算 pass)",
+        "CG_INERTIA_CHECK_V1.json cds_variant_mass_check: 17.660149 kg (含 15% 余量) <= 24.0 kg, pass=true"
+      ]
+    },
+    {
+      "id": "C1-B-CG-ENVELOPE",
+      "requirement": "CG 在 CDS 包络 (S_x ±70 mm, S_y/S_z ±45 mm) 内或有签署豁免记录",
+      "result": "pass_with_open_item",
+      "evidence": [
+        "主口径读法 A (SCENARIO_A_CARVE_OUT): CG=[63.24, -26.88, -19.02] mm, 裕量=[6.76, 18.12, 25.98] mm, pass",
+        "主口径读法 B (SCENARIO_B_ADDITIVE): CG=[53.40, -22.75, -16.01] mm, 裕量=[16.60, 22.25, 28.99] mm, pass",
+        "CDS 变体 (SCENARIO_CDS_VARIANT_24KG): CG=[127.83, -54.30, -39.10] mm, x/y 超差 (-57.83 / -9.30 mm); 确定性 x 向配重迭代 (6 旋钮至舱内边界) 残余 -57.83 mm -> INFEASIBLE_WITHIN_X_KNOBS; y 超差不受 x 旋钮影响 (NOT_ADDRESSABLE); 无豁免签署 -> OI-1",
+        "基线声明: CG 核算基于 C01 在轨展开构型; 发射收拢构型质量特性在 CDR 口径 NOT_EVALUABLE -> OI-3"
+      ]
+    },
+    {
+      "id": "C1-C-SOURCE-PER-ROW",
+      "requirement": "每一设备行有来源 (URL/B1 基准 或 仓内路径+sha256 或 ASSUMED 带依据)",
+      "result": "pass",
+      "evidence": [
+        "EQUIPMENT_LIST_V1.yaml: 40 行全部带非空 source 字段; CANDIDATE 23 行带 URL (经 B1 基准表转引) 或 B1 表出处; ASSUMED 11 行带依据说明; FROZEN_REF 6 行带仓内路径+V3 R2 sha256 3fd2557318e9; 质量无 UNKNOWN 行, 无编造 (pyyaml 严格解析验证)"
+      ]
+    },
+    {
+      "id": "C1-D-V3R2-RECONCILIATION",
+      "requirement": "与 V3 R2 调和零未解释项",
+      "result": "pass",
+      "evidence": [
+        "CG_INERTIA_CHECK_V1.json v3_r2_reconciliation: unexplained_count = 0 (6 个冻结行逐值一致, 新增 5.637 kg 设备行已声明为 C-ISS-04 缺口闭合, 不进冻结账本)"
+      ]
+    },
+    {
+      "id": "C1-E-M1-ANSWERED",
+      "requirement": "M1 (31.0229 kg 是否已含内部设备) 已明确回答",
+      "result": "pass",
+      "evidence": [
+        "CG_INERTIA_CHECK_V1.json m1_finding: 双读法并列 (读法 A 隐含分摊=主口径 31.0229 kg; 读法 B 加法上限 36.6599 kg 声明不登记); 分解状态 UNKNOWN (V2-UNK-007/008, GAP-MA-02 as-built HOLD), 禁止猜测已遵守",
+        "LAYOUT_SCHEME_V1.md §3 质量故事"
+      ]
+    },
+    {
+      "id": "C1-F-FROZEN-ZONE-UNTOUCHED",
+      "requirement": "冻结区零改动 (只读证据: 关键文件 sha256 前 12 位)",
+      "result": "pass",
+      "evidence": [
+        "写入位置唯一: 20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/50_c1_layout/ (7 个新文件), 未触碰任何既有文件, 未做 git 写操作, 未打开 CAD 二进制",
+        "compute_c1_checks.py 运行时实测 V3 R2 账本与 CONFIGURATION_MASS_INERTIA.csv 的 sha256 并与提取记录比对一致 (frozen_source_integrity.match=true)"
+      ],
+      "frozen_files_read_only_evidence": [
+        {"path": "AGENTS.md", "sha256_12": "3d2269562678"},
+        {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/00_charter/CHARTER.md", "sha256_12": "5d70de9121b3"},
+        {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/00_charter/ODR_F4R1_01_SIGNED.md", "sha256_12": "88fb25431d1a"},
+        {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/10_benchmark/B1_12U_INTERNAL_STRUCTURE_AND_EQUIPMENT_BENCHMARK.md", "sha256_12": "738bb4cf6402"},
+        {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/20_repo_assets/REPO_ASSET_INVENTORY.md", "sha256_12": "d3326b44e4d4"},
+        {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/30_gap_registry/GAP_REGISTRY.csv", "sha256_12": "49d28658904e"},
+        {"path": "20_engineering/design_inputs/v2_system_mechanical/04_subsystem_layout/V2_subsystem_volume_owner_register.yaml", "sha256_12": "4e6b405cb65a"},
+        {"path": "20_engineering/design_inputs/v2_system_mechanical/03_mechanical_interfaces/V2_mechanical_ICD.md", "sha256_12": "ac71c75cbc1f"},
+        {"path": "20_engineering/design_inputs/v2_system_mechanical/06_unknown_register/V2_unknown_register.yaml", "sha256_12": "51df9c560787"},
+        {"path": "20_engineering/design_inputs/v2_system_mechanical/05_mass_budget/V2_mass_ownership_table.csv", "sha256_12": "096144350b15"},
+        {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/wp2_design_mass/SYSTEM_DESIGN_MASS_PROPERTIES_V3_R2.yaml", "sha256_12": "3fd2557318e9"},
+        {"path": "20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/SYSTEM_MASS_PROPERTIES_AUTHORITY_V2.yaml", "sha256_12": "32e5b0eeec78"},
+        {"path": "20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/03_wp2_mass_interface/CONFIGURATION_MASS_INERTIA.csv", "sha256_12": "96dc59586814"},
+        {"path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/02_PRODUCT_STRUCTURE.yaml", "sha256_12": "0f9897ef4e41"},
+        {"path": "20_engineering/config/geometry/frame_tree_v1.yaml", "sha256_12": "958bff23bf83"},
+        {"path": "20_engineering/config/geometry/service_spacecraft_v1.yaml", "sha256_12": "8dd8f22ff1f8"},
+        {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml", "sha256_12": "f5b1572c0cfc"}
+      ]
+    }
+  ],
+  "verdict": "PASS_WITH_DECLARED_OPEN_ITEM",
+  "open_items": [
+    {"id": "OI-1", "item": "CDS 变体 CG x/y 超包络 (x 残余 -57.83 mm, y -9.30 mm): x 向配重迭代在治理允许旋钮内不可行; 需 (i) 臂收拢发射构型质量特性, (ii) C2 结构级配重/设备再分配/后部压载约 3.2 kg 量级评估, 或 (iii) owner 豁免; C1 按 FAIL 登记不掩饰", "gate": "C1-B"},
+    {"id": "OI-2", "item": "M1 分解 UNKNOWN: 23.303 kg bus 包络块的结构/设备份额不可分 (as-built 计量 HOLD, GAP-MA-02/V2-UNK-007/008); 双读法已登记, 待实物称重/受控分解", "gate": "C1-E"},
+    {"id": "OI-3", "item": "CG 核算基线 = C01 在轨展开构型; 发射收拢构型 (ARM_STOWED_ONORBIT) 质量特性在 CDR 口径 NOT_EVALUABLE (CONFIGURATION_MASS_INERTIA.csv blocking_inputs), CDS 发射符合性最终裁决待该构型闭合", "gate": "C1-B"},
+    {"id": "OI-4", "item": "ASSUMED 设备行 (电台/天线/相机/F-T/磁强计/MLI/内部线束/二级结构, 合计约 2.62 kg) 待 datasheet/选型升级; 包络与质量可能漂移, 布局为 v1 候选", "gate": "C1-C"},
+    {"id": "OI-5", "item": "T_SB 闭合提案 (CAND-1: B≡S identity) 待 owner 签署; V2-UNK-004 保持 UNKNOWN_BLOCKED 直至签署", "gate": "C1-F"},
+    {"id": "OI-6", "item": "12U 外廓 340.5 vs 366.0 mm 冲突 (GAP-IL-08/V2-UNK-001, post_paper HOLD): 本阶段全部坐标/CDS 判断基于冻结 340.5 mm 口径, 外廓裁决后须复核", "gate": "C1-B"},
+    {"id": "OI-7", "item": "推进总冲 44 N·s (VACCO MiPS 基准) 对 150 kg 目标消旋 (|H_c|=3.65 N·m·s) + RPO 偏紧: 升级选项 (NEA Scout MiPS 500 N·s 级, 约 2U) 与后舱空间权衡进 C2", "gate": "C1-A"}
+  ]
+}

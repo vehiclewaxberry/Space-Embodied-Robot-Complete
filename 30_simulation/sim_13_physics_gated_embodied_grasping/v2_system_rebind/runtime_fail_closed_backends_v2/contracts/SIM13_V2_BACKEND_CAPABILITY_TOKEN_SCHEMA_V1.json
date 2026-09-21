@@ -1,0 +1,70 @@
+{
+  "schema": "SIM13_V2_BACKEND_CAPABILITY_TOKEN_SCHEMA_V1",
+  "artifact_class": "CAPABILITY_TOKEN_SCHEMA_DEFINITION_ONLY",
+  "work_order": "WO-NC16",
+  "token_schema_name": "SIM13_V2_BACKEND_CAPABILITY_TOKEN_V1",
+  "description": "Shield-minted backend capability token bound to the backend source SHA-256. The mandatory shield-attestation admission interface rejects every unshielded non-ABORT backend call (backend_rejects_unshielded_non_abort) and the request is masked to the canonical ABORT.",
+  "required_payload_fields": [
+    "schema",
+    "issuer",
+    "key_class",
+    "backend_id",
+    "backend_source_sha256",
+    "issued_at_s",
+    "not_before_s",
+    "expires_at_s",
+    "validity_window_s",
+    "nonce",
+    "action_sha256",
+    "context_sha256",
+    "release_credit",
+    "next_stage_authorized"
+  ],
+  "field_rules": {
+    "schema": {"exact_value": "SIM13_V2_BACKEND_CAPABILITY_TOKEN_V1"},
+    "issuer": {"exact_value": "SIM13_V2_RUNTIME_SHIELD_ATTESTATION_V1"},
+    "key_class": {"exact_value": "PUBLIC_NON_SECRET_COOPERATIVE_FAIL_CLOSED_BOUNDARY_NOT_CRYPTO_ROOT"},
+    "backend_id": {"type": "non_empty_string"},
+    "backend_source_sha256": {"type": "sha256_upper_hex", "rule": "SHA-256 of the backend source file; a token bound to any other digest is rejected"},
+    "issued_at_s": {"type": "finite_number"},
+    "not_before_s": {"type": "finite_number", "rule": "must equal issued_at_s"},
+    "expires_at_s": {"type": "finite_number", "rule": "must equal issued_at_s + validity_window_s"},
+    "validity_window_s": {"type": "finite_number", "rule": "0 < window <= 5.0"},
+    "nonce": {"type": "non_empty_string", "rule": "single-use via atomic replay-store marker"},
+    "action_sha256": {"type": "sha256_upper_hex"},
+    "context_sha256": {"type": "sha256_upper_hex"},
+    "release_credit": {"exact_value": false},
+    "next_stage_authorized": {"exact_value": false}
+  },
+  "signature": {
+    "algorithm": "HMAC-SHA256 over canonical JSON payload",
+    "key_class": "public non-secret cooperative fail-closed boundary constant; tamper-evidence only, not a cryptographic root of trust",
+    "field": "signature_hmac_sha256"
+  },
+  "rejection_reasons": [
+    "BACKEND_REJECTS_UNSHIELDED_NON_ABORT",
+    "CAPABILITY_TOKEN_MALFORMED",
+    "CAPABILITY_TOKEN_SIGNATURE_INVALID",
+    "CAPABILITY_TOKEN_SCOPE_INVALID",
+    "CAPABILITY_TOKEN_BACKEND_MISMATCH",
+    "CAPABILITY_TOKEN_BACKEND_SOURCE_MISMATCH",
+    "CAPABILITY_TOKEN_TIME_FIELDS_INVALID",
+    "CAPABILITY_TOKEN_VALIDITY_WINDOW_INVALID",
+    "CAPABILITY_TOKEN_CLOCK_INVALID",
+    "CAPABILITY_TOKEN_NOT_YET_VALID",
+    "CAPABILITY_TOKEN_STALE",
+    "CAPABILITY_TOKEN_ACTION_MISMATCH",
+    "CAPABILITY_TOKEN_CONTEXT_MISMATCH",
+    "CAPABILITY_TOKEN_NONCE_INVALID",
+    "CAPABILITY_TOKEN_NONCE_REPLAY"
+  ],
+  "fail_closed_invariants": [
+    "UNKNOWN is never PASS",
+    "an unshielded non-ABORT backend call is never admitted",
+    "a capability token is not a backend invocation; admission is re-verified per call",
+    "no token grants release credit or next-stage authorization"
+  ],
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

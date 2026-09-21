@@ -1,0 +1,130 @@
+schema_version: v2-pdr-packaging-placement-logic-v0.1
+register_id: SV2_PDR_PACKAGING_LOGIC
+created_on: "2026-07-24"
+status: OWNER_LOGIC_DEFINED_HARDWARE_GEOMETRY_OPEN
+
+global_rules:
+  owner_first_not_hardware_first: true
+  exact_coordinates_without_source_allowed: false
+  owner_overlap_allowed: false
+  placeholder_mass_authority: false
+  placeholder_dynamics_authority: false
+  target_in_active_assembly: false
+
+volumes:
+  - volume_id: VOL-FM-ROBOT
+    bay: FRONT_MISSION_BAY
+    placement_driver: M_and_A0
+    coordinates: controlled_by_T_SM
+    mount_logic: primary_task_face_load_path
+    service_logic: tool_access_owner_required
+    PDR_state: INTERFACE_BOUND_STRUCTURE_OPEN
+
+  - volume_id: VOL-FM-SENSOR
+    bay: FRONT_MISSION_BAY
+    placement_driver: future_T_SC
+    coordinates: null
+    mount_logic: zero_solid_reservation
+    service_logic: cable_and_occlusion_owner_required
+    PDR_state: UNKNOWN_BLOCKED
+
+  - volume_id: VOL-MID-OBC
+    bay: AVIONICS_EPS_ADCS_BAY
+    placement_driver: future_mount_plane
+    coordinates: null
+    mount_logic: replaceable_tray_or_deck_interface
+    service_logic: future_extraction_and_connector_access
+    PDR_state: DESIGN_PROPOSAL
+
+  - volume_id: VOL-MID-EPS
+    bay: AVIONICS_EPS_ADCS_BAY
+    placement_driver: future_mount_plane
+    coordinates: null
+    mount_logic: replaceable_tray_or_deck_interface
+    service_logic: future_extraction_and_power_harness_access
+    PDR_state: DESIGN_PROPOSAL
+
+  - volume_id: VOL-MID-BAT
+    bay: AVIONICS_EPS_ADCS_BAY
+    placement_driver: future_mass_balance_and_mount_plane
+    coordinates: null
+    mount_logic: independent_owner_no_balance_claim
+    service_logic: future_safe_removal_owner
+    PDR_state: DESIGN_PROPOSAL
+
+  - volume_id: VOL-MID-ADCS
+    bay: AVIONICS_EPS_ADCS_BAY
+    placement_driver: future_mount_plane_and_alignment
+    coordinates: null
+    mount_logic: independent_owner_no_control_claim
+    service_logic: future_alignment_and_harness_access
+    PDR_state: DESIGN_PROPOSAL
+
+  - volume_id: VOL-REAR-PROP
+    bay: REAR_SERVICE_BAY
+    placement_driver: future_plume_and_load_owner
+    coordinates: null
+    mount_logic: reservation_only
+    service_logic: future_fluid_and_access_owner
+    PDR_state: UNKNOWN_BLOCKED
+
+  - volume_id: VOL-REAR-COMM
+    bay: REAR_SERVICE_BAY
+    placement_driver: future_RF_and_antenna_keepout
+    coordinates: null
+    mount_logic: reservation_only
+    service_logic: rear_or_side_access_owner
+    PDR_state: DESIGN_PROPOSAL
+
+  - volume_id: VOL-REAR-THERMAL
+    bay: REAR_SERVICE_BAY
+    placement_driver: future_rejection_surface_owner
+    coordinates: null
+    mount_logic: interface_reservation_only
+    service_logic: surface_access_owner
+    PDR_state: DESIGN_PROPOSAL
+
+  - volume_id: VOL-REAR-SERVICE
+    bay: REAR_SERVICE_BAY
+    placement_driver: rear_access_responsibility
+    coordinates: null
+    mount_logic: debug_service_and_harness_breakout_owner
+    service_logic: minus_X_S_candidate
+    PDR_state: DESIGN_PROPOSAL
+
+  - volume_id: VOL-SIDE-SOLAR-L
+    bay: SIDE_DEPLOYABLES
+    placement_driver: F_L
+    coordinates_mm_S: [-56.75, 113.15, 0.0]
+    mount_logic: root_plane_and_swept_keepout_only
+    service_logic: null
+    PDR_state: EVIDENCE_BOUND_ROOT_STOWED_UNKNOWN
+
+  - volume_id: VOL-SIDE-SOLAR-R
+    bay: SIDE_DEPLOYABLES
+    placement_driver: F_R
+    coordinates_mm_S: [-56.75, -113.15, 0.0]
+    mount_logic: root_plane_and_swept_keepout_only
+    service_logic: null
+    PDR_state: EVIDENCE_BOUND_ROOT_STOWED_UNKNOWN
+
+reference_corridors:
+  - corridor_id: LONGITUDINAL_HARNESS_CORRIDOR_OWNER
+    geometry: null
+    start_owner: VOL-REAR-SERVICE
+    branch_owners:
+      - VOL-REAR-PROP
+      - VOL-REAR-COMM
+      - VOL-REAR-THERMAL
+      - VOL-MID-OBC
+      - VOL-MID-EPS
+      - VOL-MID-BAT
+      - VOL-MID-ADCS
+      - VOL-FM-ROBOT
+      - VOL-FM-SENSOR
+    state: DESIGN_PROPOSAL_REFERENCE_ONLY
+
+blocked_by:
+  - V2-UNK-014
+  - V2-UNK-015
+  - V2-UNK-016

@@ -1,0 +1,65 @@
+schema: E19_B601_ISOLATED_DIAGNOSTIC_AUTHORITY_CONTRACT_V1
+generated_local: '2026-08-23T20:10:00+08:00'
+authority_class: NON_RELEASE_DIAGNOSTIC_EXECUTION_ONLY
+upstream_authority:
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_b601_harness_rated_envelope/12_loop_continuation_v2/MECHANICAL_LOOP_ENGINEERING_CONTINUATION_GATE_V2.json
+  sha256: F1C7DD89A07B343DDEAF6466F87D2B19CECF6B6D0A04A47B793248DC72DF6AD5
+  required_lane_state: HASH_BOUND_ISOLATED_NON_RELEASE_NUMERIC_INPUT_BRANCH_INTEGRITY_READY
+e18_gate:
+  path: 30_simulation/e18_b601_mission_input_branches/results/E18_B601_MISSION_INPUT_BRANCH_GATE_V1.json
+  sha256: FBB65E252537F2E7FAD7F55BC3CAACCE1E2DDAA1365E1D522985C956CB7070C7
+  required_gate: HOLD
+  required_released_segments: 0
+immutable_asset:
+  path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+  modification: FORBIDDEN
+execution_lanes:
+  M01:
+    classification: ARM_ONLY_RIGID_FREE_FLOATING_DIAGNOSTIC
+    upstream_candidate: M01_HELD_STOW_TO_RELEASE_CLEAR_QUINTIC_V1
+    cross_lane_state_input: null
+  M05_SIM13:
+    classification: BRANCH_LOCAL_CONSTANT_RATE_KINEMATIC_DIAGNOSTIC
+    cross_lane_state_input: null
+  M05_STATIC:
+    classification: STATIC_FRAME_ALGEBRA_DIAGNOSTIC
+    cross_lane_state_input: null
+  M06:
+    classification: SCALAR_HALF_SINE_SOLVER_STIMULUS_DIAGNOSTIC
+    cross_lane_state_input: null
+  M07_ARM_ONLY:
+    classification: ARM_ONLY_RIGID_FREE_FLOATING_DIAGNOSTIC
+    attached_target_propagated: false
+    cross_lane_state_input: null
+  M07_SIM15:
+    classification: IDEAL_RIGID_PLASTIC_CAPTURE_ALGEBRA_DIAGNOSTIC
+    cross_lane_state_input: null
+cross_lane_chaining_allowed: false
+branch_merging_allowed: false
+mission_segment_execution: false
+hardware_command_emitted: false
+physical_contact_computed: false
+production_dynamics_claimed: false
+cad_or_mesh_generation_authorized: false
+unknown_zero_fill_allowed: false
+testing_pass_grants_authority: false
+released_segments: 0
+next_stage_authorized: false
+release_credit: false
+allowed:
+  - reproduce e18 q-space candidates and calculate isolated rigid free-floating base reaction
+  - propagate the M05 Sim13 bootstrap only as branch-local constant-rate kinematics
+  - verify the M05 static-display transform only as static frame algebra
+  - integrate the M06 scalar half-sine solver stimuli without physical-force interpretation
+  - independently reproduce Sim15 rigid-plastic diagnostic algebra
+prohibited:
+  - connect M01 M05 M06 or M07 into an executable mission timeline
+  - promote a q-space endpoint to physical STOW or bypass an unbound release guard
+  - merge average or uncertainty-combine diagnostic model branches
+  - infer collision Solar harness contact lock actuator production hardware or flight safety
+  - convert a solver-stimulus peak to measured allowable or flight contact force
+  - attach the 22 kg target to the M07 arm-only trajectory
+  - select a post-capture model or fill a locked transform released mass property or recovery tolerance
+  - modify accepted URDF CAD STEP mesh or historical machine Gate
+

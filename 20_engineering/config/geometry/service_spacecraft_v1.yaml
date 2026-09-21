@@ -1,0 +1,22 @@
+# Geometry SSOT v1 — servicer 12U rigid bus (panels SPLIT OUT, decision D-4 mass split)
+# Whole-sat 24 kg row (servicer_12U_v0) stays valid for rigid-body sims (sim_01..06, 08).
+# ANCF line (sim_07) MUST use this bus + two flexible_appendage_v1 panels.
+version: v1
+envelope_mm: [440.5, 626.3, 276.3]        # with panels deployed (STL bbox)
+bays_mm: 3 x [113.5, 226.3, 226.3]
+flange: {footprint_mm: [160, 160, 15], status: D-1 adopted (was 140x140, deprecated),
+         protrusion_rule_check: PENDING (6.5 mm rule re-check after widening)}
+rigid_bus_no_panels:                       # exact values from mass_split_check.py (PASS, closure err = 0.0)
+  mass_kg: 23.3032134
+  cg_m: [-0.0007955, 0.0, 0.0005870]
+  inertia_about_own_com_kgm2:
+    Ixx: 0.1935850
+    Iyy: 0.3485384
+    Izz: 0.3470720
+    Ixy: 0.0
+    Ixz: -7.228e-4
+    Iyz: 0.0
+  source: servicer_12U_v0 (24 kg) minus 2x panel (I_own + Steiner), recomposition
+    verified to machine precision by 20_engineering/config/geometry/mass_split_check.py
+whole_sat_reference: {object_id: servicer_12U_v0, mass_kg: 24.0, budget: mass_inertia_budget_v1.csv}
+closure_check: m_bus + 2*m_panel == 24.000 kg (auto-enforced)

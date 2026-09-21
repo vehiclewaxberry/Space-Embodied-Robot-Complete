@@ -1,0 +1,35 @@
+# CAD run 授权摄入表。本提示词/本增量都不是命名 CAD run 授权。
+schema: CAD_RUN_AUTHORIZATION_INTAKE_V1
+required_grants:
+  named_run_authorization:
+    fields_required: [R2_DP_RUN_ID, R2_DP_RUN_AUTH, scope=C01_C09_OR_D01, single_use, issue_time]
+    current_value: null
+    status: MISSING
+    evidence: "SOURCE_ONLY_PREFLIGHT_V1.json fresh_run_authority_observed=false, owner_override_observed=false; 裁决记录 R2_DP_RUN_ID=null, R2_DP_RUN_AUTH=null (2026-08-27 07:02:53 JST)"
+  memory_admission:
+    gate_gib: 6.0
+    status: FAIL_BELOW_GATE
+    detail: 03_cad_intake/CAD_MEMORY_ADMISSION.json
+  low_memory_override:
+    token: ACCEPT_SINGLE_RUN_LOW_MEMORY_RISK
+    validity_seconds_max: 7200
+    reuse: FORBIDDEN
+    current_value: null
+    status: NOT_REQUESTED    # 本增量明确不索取、不使用低内存 override
+past_authorizations_not_applicable:
+  - {id: "TMC-B1 URDF emission overrides (11 records)", date: 2026-08-25, scope: URDF_EMISSION_ONLY, state: CONSUMED}
+  - {id: "V5-native user override", date: 2026-08-10, scope: V5_NATIVE, state: CONSUMED}
+  - {id: "B5.1R1 SolidWorks rework authorizations", date: "2026-07-29..08-01", scope: ARM_REWORK_ONLY, state: EXPIRED_SCOPE_LIMITED}
+admission_predicate: |
+  ALLOW_CAD_RUN :=
+        named_run_authorization.status == PRESENT_HASH_VALID
+    AND ( available_memory_gib >= 6.0
+          OR (owner_override.token == ACCEPT_SINGLE_RUN_LOW_MEMORY_RISK
+              AND override.run_bound AND override.fresh AND override.age_s <= 7200) )
+    AND protected_inputs_verified == true      # CAD_PROTECTED_INPUTS.csv 全表 SHA 吻合
+    AND cad_session_exclusive == true
+    AND output_directory_state in [EMPTY, VERSIONED]
+current_decision: CAD_BRANCH_FROZEN__ALL_NON_CAD_WORK_CONTINUES
+notes:
+  - "当前生成链权威为 FreeCAD/OCP/build123d source_only_step_generator_v1.py；SolidWorks native reintegration 为终局 Gate A 的 external_only_hold（见 CONFLICT_LEDGER CL04）"
+  - "本文件的存在不构成授权；授权只能由 Owner 以命名 token 签发"

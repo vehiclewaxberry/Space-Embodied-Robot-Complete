@@ -1,0 +1,145 @@
+{
+  "object_id": "robot_mount_adapter_v0",
+  "frame": "M",
+  "reference_point": "CoM",
+  "geom_reference_point": "mount_plane = M origin at mount face (Z_M=0, reBot-interface bolt-array center); primitives placed by center_offset from it",
+  "n_primitives": 2,
+  "volume_m3": 0.000425,
+  "density_kg_m3": 2823.5,
+  "mass_kg": 1.2,
+  "cg_m": [
+    -0.0,
+    -0.0,
+    -0.01726
+  ],
+  "inertia_kg_m2_about_com": {
+    "Ixx": 0.002119,
+    "Iyy": 0.002119,
+    "Izz": 0.004117,
+    "Ixy": -0.0,
+    "Ixz": -0.0,
+    "Iyz": 0.0
+  },
+  "features": {
+    "mount_face_M": {
+      "origin_mm": [
+        0,
+        0,
+        0
+      ],
+      "normal": [
+        0,
+        0,
+        1
+      ],
+      "note": "reBot URDF base (frame M) attaches here at top of flange boss; T_SM is read off CAD once plate is placed on the servicer front task face (frame S). Old symbol ^S T_B == T_SM per coordinate SSOT."
+    },
+    "frame_M_axes": "+Z_M = mount-face normal toward arm reach; +X_M along task-face / main bolt array; +Y_M completes RH",
+    "stackup_note": "Adapter lies entirely on -Z_M side of mount face. Flange boss spans Z=-15..0 (mount face at top, Z=0). Plate spans Z=-27..-15. Plate bottom (Z=-27) = servicer front-task-bay interface.",
+    "bolt_pattern_M": {
+      "role": "reBot_base_interface",
+      "pitch_circle_dia_mm": 80,
+      "count": 4,
+      "points_mm": [
+        [
+          28.28,
+          28.28,
+          0
+        ],
+        [
+          -28.28,
+          28.28,
+          0
+        ],
+        [
+          -28.28,
+          -28.28,
+          0
+        ],
+        [
+          28.28,
+          -28.28,
+          0
+        ]
+      ],
+      "note": "Placeholder only, no final hardware claimed (ADP-01 / flange-bolt placeholder). PCD and count pending reBot base ICD."
+    },
+    "servicer_bolt_pattern_note": "Adapter-to-servicer fasteners near plate corners at approx (+-65, +-65, -27) mm on plate bottom; placeholder, no final hardware.",
+    "keepout": {
+      "reBot_bolt_access": {
+        "shape": "cylinder",
+        "axis": "z",
+        "radius_mm": 55,
+        "z_from_mm": 0,
+        "z_to_mm": 20,
+        "note": "Reserve for reBot fasteners and tool access above mount face; no structure or cable routing inside."
+      },
+      "folded_arm_envelope": {
+        "shape": "cylinder",
+        "axis": "z",
+        "radius_mm": 120,
+        "z_from_mm": 0,
+        "z_to_mm": 350,
+        "note": "Placeholder reBot stowed/folded-arm envelope on +Z_M side. Metadata only, NOT a built solid. Must be overlaid vs solar-panel deployment zone, camera FOV, antenna, servicer body and target/debris envelopes (ADP-03, keepout checklist). Final geometry pending reBot folded config."
+      },
+      "cable_channel": {
+        "shape": "box",
+        "center_offset_mm": [
+          55,
+          0,
+          -21
+        ],
+        "dims_mm": [
+          20,
+          40,
+          12
+        ],
+        "note": "Reserved cable passage bus bay -> robot base (power/data/sensor/E-stop), routed outside arm motion envelope and solar-panel deployment zone (ADP-03). Metadata only; block-model union cuts no hole."
+      }
+    },
+    "ft_interface_plane_M": {
+      "origin_mm": [
+        0,
+        0,
+        0
+      ],
+      "normal": [
+        0,
+        0,
+        1
+      ],
+      "type": "virtual",
+      "note": "Stage 2 virtual force/torque interface at mount face (ADP-04); no physical F/T sensor volume claimed."
+    },
+    "T_SM_status": "TBD (Stage 1-C). Not fixed numerically here; to be exported and reviewed with this adapter model since it is the mechanical-to-dynamics bridge (small change alters coupled inertia / base reaction).",
+    "protrusion_rule_note": "CDS Rev14.1 6.5 mm protrusion and 8.5 mm rail-to-first-protrusion checks are stowed-rail-envelope checks in frame S (P0), not resolved in this M-frame block model."
+  },
+  "assumptions": [
+    "Self-designed adapter: no open CAD reused (mapping v0 sec.5). reBot base frame M must match reBot-DevArm_fixend.urdf convention; SpaceRobotEnv v_base.stl is visual reference only.",
+    "Frame M per coordinate SSOT: origin at adapter mounting-plate datum / reBot-interface bolt-array center on the mount face; +Z_M mount-face normal toward arm reach; +X_M along task-face/main bolt array; +Y_M completes RH.",
+    "Mount face placed at Z_M=0 (top of flange boss) = where reBot URDF base bolts on. Adapter body entirely on -Z_M side (toward servicer).",
+    "T_SM (old ^S T_B) is NOT fixed numerically at Stage 1-C; the mount_face_M origin/normal lets it be read off CAD once the plate is located on the servicer (S) front task face.",
+    "Plate 160 x 160 x 12 mm assumed to fit within the 12U servicer front-task-face rail keepout (front face assumed >= 200 x 200 mm); rail/protrusion CDS checks deferred to S-frame stowed-envelope analysis.",
+    "Flange boss diameter 100 mm (r=50) x 15 mm is a placeholder reBot-base pilot/register; final diameter pending reBot base ICD.",
+    "reBot base bolt pattern placeholder: PCD 80 mm, 4 fasteners at 45/135/225/315 deg; no final hardware claimed (ADP-01).",
+    "Bolt-access keepout cylinder r=55 mm, Z=0..+20 mm reserved for reBot fasteners/tool clearance; no structure or cabling inside.",
+    "Folded-arm keepout envelope (cylinder r=120 mm x 350 mm on +Z_M) is placeholder metadata, NOT a built solid; must be overlaid against solar-panel deployment, camera FOV, antenna, body and target/debris envelopes (ADP-03).",
+    "Cable routing channel reserved off-axis in plate (~x=+55 mm) as metadata only; block-model union cuts no hole. Cables routed outside arm motion envelope and solar-panel deployment zone (ADP-03).",
+    "Force/torque interface modeled as a virtual plane at the mount face (Z_M=0) for Stage 2 (ADP-04); no purchased/physical F/T sensor claimed.",
+    "Target mass 1.2 kg is a stated-assumption estimate: Al-6061 (rho=2700 kg/m^3) over plate+boss volume ~4.25e-4 m^3 (~1.15 kg) plus rib/reinforcement allowance; builder sizes effective density to hit it. Inertia self-defined, low confidence, recorded separately (ADP-05, mapping 'inertia must be self-defined').",
+    "Block-model rule honored: only a box (plate) + a cylinder (flange boss), unioned; no fillets, holes, threads, ribs, or pockets modeled (reinforcement/lightening folded into effective density).",
+    "Adapter is a servicer-side mount (not target/debris): grasp_points, marker_points, and tumble_axis are not applicable and omitted.",
+    "All dimensions in millimeters; frame M is right-handed."
+  ],
+  "open_asset_refs": [
+    "reBot-DevArm_fixend.urdf (base-frame convention for M; must match exactly, not modified)",
+    "SpaceRobotEnv v_base.stl (visual reference only, not the reBot base)",
+    "OreSat frame / MountingBeam.STEP (mounting-plate and stiffener/reinforcement organization reference)",
+    "OpenManipulator-X (arm+base CAD/URDF organization reference)",
+    "CubeSat Design Specification Rev14.1 (6.5 mm / 8.5 mm protrusion & rail keepout rules)"
+  ],
+  "source": "build123d block model (spec-driven)",
+  "confidence": "low",
+  "status": "usable_for_v0",
+  "note": "inertia about CoM in frame M; tensor convention (URDF/Basilisk)"
+}

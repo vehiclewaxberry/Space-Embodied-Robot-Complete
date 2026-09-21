@@ -1,0 +1,552 @@
+schema_version: CONFIGURATION_LIBRARY_V1
+generated_local: '2026-08-21T14:56:48+08:00'
+phase: M4_SPACECRAFT_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE
+system_mass_authority: 03_mass_properties/SYSTEM_MASS_PROPERTIES_V3.yaml
+configuration_count: 9
+release_status: HOLD_ALL_RELEASE_MASS_COM_INERTIA_BBOX_AND_COLLISION_FIELDS_INCOMPLETE
+
+composition_decision:
+  path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/00_authority/M4_COMPOSITION_AND_MASS_BOUNDARY_DECISION.yaml
+  sha256: 61363950041E1352F3D9A65E081D84F1C50ACD1D70B7CB8ACBAA355D945BCFF7
+  decision_id: M4-ADR-001
+  decision_revision: 2
+  status: ACTIVE_FAIL_CLOSED_COMPOSITION_RULE_AFTER_FRAME_SEMANTICS_AUDIT
+  legacy_flange_geometry_disposition: RETAINED_IN_ANALYTIC_BUS_PROXY_AS_TAGGED_REFERENCE_ONLY
+  legacy_flange_mass_disposition: EXCLUDED_FROM_BRANCH_B_DIAGNOSTIC_MASS_BY_ADR_MATERIAL_DERIVED_ALLOCATION
+  prohibited_uses: [STRUCTURAL_CONTINUITY, LOAD_BRIDGE_AUTHORITY, RELEASED_MASS_INFERENCE, REPLACEMENT_SEMANTICS]
+
+units:
+  mass: kg
+  center_of_mass: m
+  inertia: kg*m^2
+  bounding_box: m
+  angle: rad
+
+field_contract:
+  required_per_configuration: [mass, cg, inertia, bbox, frames, collision, confidence, status]
+  released_unknown_value: null
+  released_unknown_status: HOLD
+  diagnostic_value_is_release_value: false
+  diagnostic_mass_branch_A: M4-DIAG-LEGACY-A
+  diagnostic_mass_branch_B: M4-DIAG-M3R-B
+  diagnostic_branch_definition_source: SYSTEM_MASS_PROPERTIES_V3.yaml#diagnostic_nonrelease_branches
+  required_inertia_reference_point: configuration_system_CG
+  reference_frame_resolution: spacecraft_assembly_frame is the frozen identity alias of S in ../01_system_architecture/DIGITAL_PROTOTYPE_FRAME_TREE_V1.yaml
+  branch_selection_for_release: null
+  zero_fill_forbidden: true
+
+diagnostic_pose_sources:
+  frozen_pose_candidate:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/04_configurations/F3R2_ARM_INITIAL_POSE.yaml
+    sha256: D6E33CB5993BA056E1368F72487B4972E4316E83655FB5AF33035FCC1761AAE2
+    embedded_urdf_sha256: 408147DDC9CC0BBA0FACBF864C559A54D1712262703BA41251514A4303B5A3A4
+    current_accepted_urdf_sha256: 1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164
+    hash_semantics:
+      embedded_sha: LF_NORMALIZED_CONTENT
+      current_sha: RAW_CRLF_FILE_BYTES
+      line_count: 292
+    integrity_status: PASS_SAME_NUMERIC_URDF_LINE_ENDING_NORMALIZATION_ONLY
+  e15_visualization_candidate:
+    path: 20_engineering/config/visualization/scene_manifest_v1.yaml
+    sha256: 24CBE73492950333E5C498CA59E2CB15FB049A7CF14FE4C04E340807FA14FB4C
+    status: PROVISIONAL_GEOMETRY_SELECTED_FOR_150KG_DEBRIS_NOT_DYNAMICS_VALIDATED_FOR_22KG_SATELLITE
+  M4_named_pose_revalidation:
+    path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/11_validation/B601_NAMED_POSE_REVALIDATION_V1.json
+    sha256: 68D0356F889E5888399631E6C735D404140AC5933B7FA172AB1F9E26BA26B844
+    status: PASS_RUNTIME_DIGITAL_KINEMATICS_WITH_HELD_CANDIDATE_FAILURES
+    mapped_summary: runtime FK and digital inertia pass for Q_DEPLOYED_HOME Q_RELEASE_CLEAR and Q_SERVICE_READY; source holds remain; Q_STOW and pregrasp remain held candidates
+
+configurations:
+  - configuration_id: C01
+    name: DEPLOYED_NOMINAL
+    legacy_mapping: DEPLOYED_NOMINAL
+    description: both solar arrays deployed and arm in an as-yet unapproved nominal operating joint vector
+    mass:
+      released_value_kg: null
+      released_standard_uncertainty_kg: null
+      diagnostic_value_kg: null
+      diagnostic_branches:
+        legacy_A_value_kg: 28.695555949342986
+        legacy_A_model: bus_no_panels_including_legacy_flange + 2*panel + B601_accepted_URDF; M3R excluded
+        m3r_B_value_kg: 29.081436764691
+        m3r_B_model: ADR rev2 diagnostic bus core 22.927194215348 kg + 2*panel + B601 + M3R; legacy flange excluded by material-derived diagnostic allocation
+      diagnostic_standard_uncertainty_kg: null
+      status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    cg:
+      released_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      released_standard_uncertainty_xyz_m: null
+      diagnostic_xyz_m: null
+      status: HOLD_ARM_PANEL_M3R_TRANSFORMS_AND_COMPONENT_COM
+    inertia:
+      released_matrix_kg_m2: null
+      reference_frame: spacecraft_assembly_frame
+      reference_point: configuration_system_CG
+      released_standard_uncertainty_matrix_kg_m2: null
+      diagnostic_matrix_kg_m2: null
+      status: HOLD_ARM_PANEL_M3R_TRANSFORMS_AND_COMPONENT_INERTIA
+    bbox:
+      released_min_xyz_m: null
+      released_max_xyz_m: null
+      released_extent_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      diagnostic_bus_and_deployed_panels_extent_xyz_m: [0.4405, 0.6263, 0.2763]
+      diagnostic_scope: BUS_AND_PANELS_ONLY_NOT_WHOLE_ASSEMBLY
+      status: HOLD_NAMED_ARM_CONFIGURATION_AND_WHOLE_ASSEMBLY_RECOMPUTATION
+    frames:
+      root: spacecraft_assembly_frame
+      accepted_named_joint_vector: Q_DEPLOYED_HOME
+      diagnostic_joint_vector:
+        source_pose: Q_DEPLOYED_HOME
+        q_rad: [-1.570796, -2.094395, -1.047198, 0.0, -0.523599, 0.0]
+        source_ref: frozen_pose_candidate
+        classification: ACCEPTED_RUNTIME_DIGITAL_POSE_SAME_NUMERIC_URDF
+      required: [left_wing_hinge_axis, right_wing_hinge_axis, arm_base_frame, gripper_contact_left, gripper_contact_right]
+      unresolved: [M_FRAME, LEFT_PANEL_DEPLOYED_TRANSFORM, RIGHT_PANEL_DEPLOYED_TRANSFORM, Q_DEPLOYED_HOME_SYSTEM_MASS_PROPERTY_RECOMPUTATION]
+      status: HOLD
+    collision:
+      whole_assembly_evaluated: false
+      available_component_evidence: [B601_V5R_COLLISION_MESH, GRIPPER_R1_144_SAMPLE_NEUTRAL_SWEEP]
+      status: HOLD_NOT_EVALUATED_IN_THIS_CONFIGURATION
+    confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+    status: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+
+  - configuration_id: C02
+    name: LEFT_PANEL_FAIL
+    legacy_mapping: LEFT_PANEL_FAIL
+    description: left panel deployment failure; retained-or-jettisoned semantics are not approved
+    mass:
+      released_value_kg: null
+      released_standard_uncertainty_kg: null
+      diagnostic_value_kg: null
+      diagnostic_branches:
+        legacy_A_value_kg: 28.695555949342986
+        legacy_A_assumption: LEFT_PANEL_RETAINED_WITH_SAME_MASS_AND_M3R_EXCLUDED
+        m3r_B_value_kg: 29.081436764691
+        m3r_B_model: ADR rev2 diagnostic bus core plus retained panels B601 and M3R; failure transform unresolved
+      diagnostic_standard_uncertainty_kg: null
+      status: HOLD_FAILURE_SEMANTICS_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    cg:
+      released_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      released_standard_uncertainty_xyz_m: null
+      diagnostic_xyz_m: null
+      status: HOLD_LEFT_FAILURE_TRANSFORM_ARM_M3R_AND_COMPONENT_COM
+    inertia:
+      released_matrix_kg_m2: null
+      reference_frame: spacecraft_assembly_frame
+      reference_point: configuration_system_CG
+      released_standard_uncertainty_matrix_kg_m2: null
+      diagnostic_matrix_kg_m2: null
+      status: HOLD_LEFT_FAILURE_TRANSFORM_ARM_M3R_AND_COMPONENT_INERTIA
+    bbox:
+      released_min_xyz_m: null
+      released_max_xyz_m: null
+      released_extent_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      diagnostic_bus_and_panel_extent_xyz_m: null
+      status: HOLD_LEFT_PANEL_FAILURE_GEOMETRY_AND_ARM_CONFIGURATION
+    frames:
+      root: spacecraft_assembly_frame
+      accepted_named_joint_vector: Q_DEPLOYED_HOME
+      diagnostic_joint_vector:
+        source_pose: Q_DEPLOYED_HOME
+        q_rad: [-1.570796, -2.094395, -1.047198, 0.0, -0.523599, 0.0]
+        source_ref: frozen_pose_candidate
+        classification: ACCEPTED_RUNTIME_DIGITAL_POSE_SAME_NUMERIC_URDF
+      required: [left_wing_hinge_axis, right_wing_hinge_axis, arm_base_frame]
+      unresolved: [M_FRAME, LEFT_PANEL_FAIL_TRANSFORM, RIGHT_PANEL_DEPLOYED_TRANSFORM, LEFT_PANEL_RETAINED_OR_JETTISONED, Q_DEPLOYED_HOME_SYSTEM_MASS_PROPERTY_RECOMPUTATION]
+      status: HOLD
+    collision:
+      whole_assembly_evaluated: false
+      available_component_evidence: [B601_V5R_COLLISION_MESH, GRIPPER_R1_144_SAMPLE_NEUTRAL_SWEEP]
+      status: HOLD_NOT_EVALUATED_IN_FAILURE_CONFIGURATION
+    confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+    status: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+
+  - configuration_id: C03
+    name: RIGHT_PANEL_FAIL
+    legacy_mapping: RIGHT_PANEL_FAIL
+    description: right panel deployment failure; retained-or-jettisoned semantics are not approved
+    mass:
+      released_value_kg: null
+      released_standard_uncertainty_kg: null
+      diagnostic_value_kg: null
+      diagnostic_branches:
+        legacy_A_value_kg: 28.695555949342986
+        legacy_A_assumption: RIGHT_PANEL_RETAINED_WITH_SAME_MASS_AND_M3R_EXCLUDED
+        m3r_B_value_kg: 29.081436764691
+        m3r_B_model: ADR rev2 diagnostic bus core plus retained panels B601 and M3R; failure transform unresolved
+      diagnostic_standard_uncertainty_kg: null
+      status: HOLD_FAILURE_SEMANTICS_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    cg:
+      released_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      released_standard_uncertainty_xyz_m: null
+      diagnostic_xyz_m: null
+      status: HOLD_RIGHT_FAILURE_TRANSFORM_ARM_M3R_AND_COMPONENT_COM
+    inertia:
+      released_matrix_kg_m2: null
+      reference_frame: spacecraft_assembly_frame
+      reference_point: configuration_system_CG
+      released_standard_uncertainty_matrix_kg_m2: null
+      diagnostic_matrix_kg_m2: null
+      status: HOLD_RIGHT_FAILURE_TRANSFORM_ARM_M3R_AND_COMPONENT_INERTIA
+    bbox:
+      released_min_xyz_m: null
+      released_max_xyz_m: null
+      released_extent_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      diagnostic_bus_and_panel_extent_xyz_m: null
+      status: HOLD_RIGHT_PANEL_FAILURE_GEOMETRY_AND_ARM_CONFIGURATION
+    frames:
+      root: spacecraft_assembly_frame
+      accepted_named_joint_vector: Q_DEPLOYED_HOME
+      diagnostic_joint_vector:
+        source_pose: Q_DEPLOYED_HOME
+        q_rad: [-1.570796, -2.094395, -1.047198, 0.0, -0.523599, 0.0]
+        source_ref: frozen_pose_candidate
+        classification: ACCEPTED_RUNTIME_DIGITAL_POSE_SAME_NUMERIC_URDF
+      required: [left_wing_hinge_axis, right_wing_hinge_axis, arm_base_frame]
+      unresolved: [M_FRAME, RIGHT_PANEL_FAIL_TRANSFORM, LEFT_PANEL_DEPLOYED_TRANSFORM, RIGHT_PANEL_RETAINED_OR_JETTISONED, Q_DEPLOYED_HOME_SYSTEM_MASS_PROPERTY_RECOMPUTATION]
+      status: HOLD
+    collision:
+      whole_assembly_evaluated: false
+      available_component_evidence: [B601_V5R_COLLISION_MESH, GRIPPER_R1_144_SAMPLE_NEUTRAL_SWEEP]
+      status: HOLD_NOT_EVALUATED_IN_FAILURE_CONFIGURATION
+    confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+    status: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+
+  - configuration_id: C04
+    name: BOTH_PANEL_FAIL
+    legacy_mapping: BOTH_PANEL_FAIL
+    description: both panel deployment failure; retained-or-jettisoned semantics are not approved
+    mass:
+      released_value_kg: null
+      released_standard_uncertainty_kg: null
+      diagnostic_value_kg: null
+      diagnostic_branches:
+        legacy_A_value_kg: 28.695555949342986
+        legacy_A_assumption: BOTH_PANELS_RETAINED_WITH_SAME_MASS_AND_M3R_EXCLUDED
+        m3r_B_value_kg: 29.081436764691
+        m3r_B_model: ADR rev2 diagnostic bus core plus retained panels B601 and M3R; failure transforms unresolved
+      diagnostic_standard_uncertainty_kg: null
+      status: HOLD_FAILURE_SEMANTICS_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    cg:
+      released_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      released_standard_uncertainty_xyz_m: null
+      diagnostic_xyz_m: null
+      status: HOLD_BOTH_FAILURE_TRANSFORMS_ARM_M3R_AND_COMPONENT_COM
+    inertia:
+      released_matrix_kg_m2: null
+      reference_frame: spacecraft_assembly_frame
+      reference_point: configuration_system_CG
+      released_standard_uncertainty_matrix_kg_m2: null
+      diagnostic_matrix_kg_m2: null
+      status: HOLD_BOTH_FAILURE_TRANSFORMS_ARM_M3R_AND_COMPONENT_INERTIA
+    bbox:
+      released_min_xyz_m: null
+      released_max_xyz_m: null
+      released_extent_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      diagnostic_bus_and_panel_extent_xyz_m: null
+      status: HOLD_BOTH_PANEL_FAILURE_GEOMETRY_AND_ARM_CONFIGURATION
+    frames:
+      root: spacecraft_assembly_frame
+      accepted_named_joint_vector: Q_DEPLOYED_HOME
+      diagnostic_joint_vector:
+        source_pose: Q_DEPLOYED_HOME
+        q_rad: [-1.570796, -2.094395, -1.047198, 0.0, -0.523599, 0.0]
+        source_ref: frozen_pose_candidate
+        classification: ACCEPTED_RUNTIME_DIGITAL_POSE_SAME_NUMERIC_URDF
+      required: [left_wing_hinge_axis, right_wing_hinge_axis, arm_base_frame]
+      unresolved: [M_FRAME, LEFT_PANEL_FAIL_TRANSFORM, RIGHT_PANEL_FAIL_TRANSFORM, PANEL_RETAINED_OR_JETTISONED, Q_DEPLOYED_HOME_SYSTEM_MASS_PROPERTY_RECOMPUTATION]
+      status: HOLD
+    collision:
+      whole_assembly_evaluated: false
+      available_component_evidence: [B601_V5R_COLLISION_MESH, GRIPPER_R1_144_SAMPLE_NEUTRAL_SWEEP]
+      status: HOLD_NOT_EVALUATED_IN_FAILURE_CONFIGURATION
+    confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+    status: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+
+  - configuration_id: C05
+    name: ARM_STOWED_ONORBIT
+    legacy_mapping: ARM_STOWED_ONORBIT
+    description: on-orbit arm stow configuration with panels retained
+    mass:
+      released_value_kg: null
+      released_standard_uncertainty_kg: null
+      diagnostic_value_kg: null
+      diagnostic_branches:
+        legacy_A_value_kg: 28.695555949342986
+        legacy_A_model: same retained legacy component set; mass is joint-invariant; M3R excluded
+        m3r_B_value_kg: 29.081436764691
+        m3r_B_model: ADR rev2 diagnostic bus core plus panels B601 and M3R; stow pose remains held
+      diagnostic_standard_uncertainty_kg: null
+      status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    cg:
+      released_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      released_standard_uncertainty_xyz_m: null
+      diagnostic_xyz_m: null
+      status: HOLD_STOWED_JOINT_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_COM
+    inertia:
+      released_matrix_kg_m2: null
+      reference_frame: spacecraft_assembly_frame
+      reference_point: configuration_system_CG
+      released_standard_uncertainty_matrix_kg_m2: null
+      diagnostic_matrix_kg_m2: null
+      status: HOLD_STOWED_JOINT_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_INERTIA
+    bbox:
+      released_min_xyz_m: null
+      released_max_xyz_m: null
+      released_extent_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      diagnostic_bus_and_panel_extent_xyz_m: null
+      status: HOLD_STOWED_JOINT_VECTOR_AND_PANEL_STATE
+    frames:
+      root: spacecraft_assembly_frame
+      accepted_named_joint_vector: null
+      diagnostic_joint_vector:
+        source_pose: Q_STOW_ENGINEERING_CANDIDATE
+        q_rad: [2.540711, -2.932153, -0.994838, -0.718081, -0.365716, -0.05236]
+        source_ref: frozen_pose_candidate
+        classification: HELD_STOW_SOURCE_EE_INCONSISTENT_WITH_Q_567P734MM_AND_SUPPORT_CONTACT_HOLD
+      required: [arm_base_frame, link1_frame, link2_frame, link3_frame, link4_frame, link5_frame, link6_frame, gripper_link_frame]
+      unresolved: [M_FRAME, ARM_STOWED_ONORBIT_JOINT_VECTOR, PANEL_STATE_TRANSFORMS, HDRM_INTERFACE_FRAME]
+      status: HOLD
+    collision:
+      whole_assembly_evaluated: false
+      available_component_evidence: [B601_V5R_COLLISION_MESH, ARM_HDRM_RELEASE_SWEEP_KEEP_OUT]
+      status: HOLD_STOWED_ARM_SUPPORT_AND_HDRM_COLLISION_NOT_EVALUATED
+    confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+    status: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+
+  - configuration_id: C06
+    name: ARM_TASK_READY
+    legacy_mapping: ARM_TASK_READY
+    description: task-ready arm configuration before pregrasp
+    mass:
+      released_value_kg: null
+      released_standard_uncertainty_kg: null
+      diagnostic_value_kg: null
+      diagnostic_branches:
+        legacy_A_value_kg: 28.695555949342986
+        legacy_A_model: same retained legacy component set; mass is joint-invariant; M3R excluded
+        m3r_B_value_kg: 29.081436764691
+        m3r_B_model: ADR rev2 diagnostic bus core plus panels B601 and M3R; task-ready release remains held
+      diagnostic_standard_uncertainty_kg: null
+      status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    cg:
+      released_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      released_standard_uncertainty_xyz_m: null
+      diagnostic_xyz_m: null
+      status: HOLD_TASK_READY_JOINT_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_COM
+    inertia:
+      released_matrix_kg_m2: null
+      reference_frame: spacecraft_assembly_frame
+      reference_point: configuration_system_CG
+      released_standard_uncertainty_matrix_kg_m2: null
+      diagnostic_matrix_kg_m2: null
+      status: HOLD_TASK_READY_JOINT_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_INERTIA
+    bbox:
+      released_min_xyz_m: null
+      released_max_xyz_m: null
+      released_extent_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      diagnostic_bus_and_panel_extent_xyz_m: null
+      status: HOLD_TASK_READY_JOINT_VECTOR_AND_WHOLE_ASSEMBLY_RECOMPUTATION
+    frames:
+      root: spacecraft_assembly_frame
+      accepted_named_joint_vector: null
+      diagnostic_joint_vector:
+        source_pose: Q_SERVICE_READY
+        q_rad: [-1.570796, -1.047198, -2.094395, -0.523599, 0.0, 0.0]
+        source_ref: frozen_pose_candidate
+        classification: REVALIDATED_RUNTIME_DIGITAL_POSE_SERVICE_CONFIGURATION_RATIFICATION_HOLD
+      required: [arm_base_frame, link1_frame, link2_frame, link3_frame, link4_frame, link5_frame, link6_frame, gripper_link_frame]
+      unresolved: [M_FRAME, ARM_TASK_READY_JOINT_VECTOR, PANEL_STATE_TRANSFORMS]
+      status: HOLD
+    collision:
+      whole_assembly_evaluated: false
+      available_component_evidence: [B601_V5R_COLLISION_MESH, GRIPPER_R1_144_SAMPLE_NEUTRAL_SWEEP]
+      status: HOLD_NOT_EVALUATED_IN_TASK_READY_CONFIGURATION
+    confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+    status: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+
+  - configuration_id: C07
+    name: PREGRASP
+    legacy_mapping: PREGRASP
+    description: pregrasp arm and gripper pose before external contact
+    mass:
+      released_value_kg: null
+      released_standard_uncertainty_kg: null
+      diagnostic_value_kg: null
+      diagnostic_branches:
+        legacy_A_value_kg: 28.695555949342986
+        legacy_A_model: same retained legacy component set; external target not captured; M3R excluded
+        m3r_B_value_kg: 29.081436764691
+        m3r_B_model: ADR rev2 diagnostic bus core plus panels B601 and M3R; target remains separate before capture
+      diagnostic_standard_uncertainty_kg: null
+      status: HOLD_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    cg:
+      released_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      released_standard_uncertainty_xyz_m: null
+      diagnostic_xyz_m: null
+      status: HOLD_PREGRASP_ARM_GRIPPER_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_COM
+    inertia:
+      released_matrix_kg_m2: null
+      reference_frame: spacecraft_assembly_frame
+      reference_point: configuration_system_CG
+      released_standard_uncertainty_matrix_kg_m2: null
+      diagnostic_matrix_kg_m2: null
+      status: HOLD_PREGRASP_ARM_GRIPPER_VECTOR_PANEL_M3R_TRANSFORMS_AND_COMPONENT_INERTIA
+    bbox:
+      released_min_xyz_m: null
+      released_max_xyz_m: null
+      released_extent_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      diagnostic_bus_and_panel_extent_xyz_m: null
+      status: HOLD_PREGRASP_POSE_AND_WHOLE_ASSEMBLY_RECOMPUTATION
+    frames:
+      root: spacecraft_assembly_frame
+      accepted_named_joint_vector: null
+      diagnostic_joint_vector:
+        source_pose: E15_P1_TC00_V10MM_POSE_6D
+        q_rad: [-0.000014722592995215, -1.0482002296028672, -1.3989828152470143, -1.220010067943876, 0.000003673218594813444, 0.000018395811591278994]
+        source_ref: e15_visualization_candidate
+        classification: PROVISIONAL_150KG_DEBRIS_GEOMETRY_SELECTION_NOT_22KG_DYNAMICS_VALIDATION
+      required: [arm_base_frame, gripper_contact_left, gripper_contact_right]
+      unresolved: [M_FRAME, PREGRASP_ARM_JOINT_VECTOR, PREGRASP_GRIPPER_TRAVEL, CONTACT_NORMALS, TARGET_RELATIVE_FRAME]
+      status: HOLD
+    collision:
+      whole_assembly_evaluated: false
+      available_component_evidence: [B601_V5R_COLLISION_MESH, GRIPPER_R1_NEUTRAL_PREGRASP_POSE, GRIPPER_R1_144_SAMPLE_NEUTRAL_SWEEP]
+      status: HOLD_TARGET_AND_WHOLE_ASSEMBLY_COLLISION_NOT_EVALUATED
+    confidence: LOW_DIAGNOSTIC_SCOPE_ONLY
+    status: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+
+  - configuration_id: C08
+    name: TARGET_CAPTURE_22KG
+    legacy_mapping: POST_CAPTURE_22KG
+    description: 22 kg low-confidence target scenario rigidly retained after capture
+    mass:
+      released_value_kg: null
+      released_standard_uncertainty_kg: null
+      diagnostic_value_kg: null
+      diagnostic_branches:
+        legacy_A_value_kg: 50.695555949342986
+        legacy_A_model: M4-DIAG-LEGACY-A + 22.0 kg target scenario; M3R excluded
+        m3r_B_value_kg: 51.081436764691
+        m3r_B_model: ADR rev2 diagnostic uncaptured total 29.081436764691 kg + 22.0 kg target under nonauthoritative rigid-capture scenario
+      diagnostic_standard_uncertainty_kg: null
+      status: HOLD_TARGET_IDENTITY_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    cg:
+      released_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      released_standard_uncertainty_xyz_m: null
+      diagnostic_xyz_m: null
+      status: HOLD_CAPTURE_TRANSFORM_ARM_PANEL_M3R_AND_TARGET_COM
+    inertia:
+      released_matrix_kg_m2: null
+      reference_frame: spacecraft_assembly_frame
+      reference_point: configuration_system_CG
+      released_standard_uncertainty_matrix_kg_m2: null
+      diagnostic_matrix_kg_m2: null
+      status: HOLD_CAPTURE_TRANSFORM_ARM_PANEL_M3R_AND_TARGET_INERTIA
+    bbox:
+      released_min_xyz_m: null
+      released_max_xyz_m: null
+      released_extent_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      diagnostic_bus_and_panel_extent_xyz_m: null
+      status: HOLD_CAPTURED_TARGET_GEOMETRY_TRANSFORM_AND_WHOLE_ASSEMBLY_RECOMPUTATION
+    frames:
+      root: spacecraft_assembly_frame
+      accepted_named_joint_vector: null
+      diagnostic_joint_vector:
+        source_pose: E15_P1_TC00_V10MM_POSE_6D_DISPLAY_ONLY
+        q_rad: [-0.000014722592995215, -1.0482002296028672, -1.3989828152470143, -1.220010067943876, 0.000003673218594813444, 0.000018395811591278994]
+        source_ref: e15_visualization_candidate
+        classification: REJECTED_AS_22KG_CAPTURE_VALIDATION_GEOMETRY_DISPLAY_ONLY
+      required: [arm_base_frame, gripper_contact_left, gripper_contact_right, target_T_frame]
+      unresolved: [M_FRAME, TARGET_CAPTURE_22KG_ARM_GRIPPER_VECTOR, TARGET_TO_GRIPPER_CAPTURE_TRANSFORM, CONTACT_NORMALS]
+      status: HOLD
+    collision:
+      whole_assembly_evaluated: false
+      available_component_evidence: [B601_V5R_COLLISION_MESH, GRIPPER_R1_144_SAMPLE_NEUTRAL_SWEEP]
+      status: HOLD_EXTERNAL_TARGET_CONTACT_AND_POST_CAPTURE_COLLISION_NOT_EVALUATED
+    confidence: LOW_SCENARIO_DIAGNOSTIC_ONLY
+    status: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+
+  - configuration_id: C09
+    name: TARGET_CAPTURE_150KG
+    legacy_mapping: POST_CAPTURE_150KG
+    description: 150 kg low-confidence debris target scenario rigidly retained after capture
+    mass:
+      released_value_kg: null
+      released_standard_uncertainty_kg: null
+      diagnostic_value_kg: null
+      diagnostic_branches:
+        legacy_A_value_kg: 178.695555949342986
+        legacy_A_model: M4-DIAG-LEGACY-A + 150.0 kg target scenario; M3R excluded
+        m3r_B_value_kg: 179.081436764691
+        m3r_B_model: ADR rev2 diagnostic uncaptured total 29.081436764691 kg + 150.0 kg target under nonauthoritative rigid-capture scenario
+      diagnostic_standard_uncertainty_kg: null
+      status: HOLD_TARGET_IDENTITY_COMPONENT_COVERAGE_AND_UNCERTAINTY
+    cg:
+      released_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      released_standard_uncertainty_xyz_m: null
+      diagnostic_xyz_m: null
+      status: HOLD_CAPTURE_TRANSFORM_ARM_PANEL_M3R_AND_TARGET_COM
+    inertia:
+      released_matrix_kg_m2: null
+      reference_frame: spacecraft_assembly_frame
+      reference_point: configuration_system_CG
+      released_standard_uncertainty_matrix_kg_m2: null
+      diagnostic_matrix_kg_m2: null
+      status: HOLD_CAPTURE_TRANSFORM_ARM_PANEL_M3R_AND_TARGET_INERTIA
+    bbox:
+      released_min_xyz_m: null
+      released_max_xyz_m: null
+      released_extent_xyz_m: null
+      reference_frame: spacecraft_assembly_frame
+      diagnostic_bus_and_panel_extent_xyz_m: null
+      status: HOLD_CAPTURED_TARGET_GEOMETRY_TRANSFORM_AND_WHOLE_ASSEMBLY_RECOMPUTATION
+    frames:
+      root: spacecraft_assembly_frame
+      accepted_named_joint_vector: null
+      diagnostic_joint_vector:
+        source_pose: E15_P1_TC00_V10MM_POSE_6D
+        q_rad: [-0.000014722592995215, -1.0482002296028672, -1.3989828152470143, -1.220010067943876, 0.000003673218594813444, 0.000018395811591278994]
+        source_ref: e15_visualization_candidate
+        classification: PROVISIONAL_GEOMETRY_FEASIBLE_ONLY_E15_GATE_REPEAT_ZERO_OF_72_ADMISSIBLE
+      required: [arm_base_frame, gripper_contact_left, gripper_contact_right, target_D_frame]
+      unresolved: [M_FRAME, TARGET_CAPTURE_150KG_ARM_GRIPPER_VECTOR, TARGET_TO_GRIPPER_CAPTURE_TRANSFORM, CONTACT_NORMALS]
+      status: HOLD
+    collision:
+      whole_assembly_evaluated: false
+      available_component_evidence: [B601_V5R_COLLISION_MESH, GRIPPER_R1_144_SAMPLE_NEUTRAL_SWEEP]
+      status: HOLD_EXTERNAL_TARGET_CONTACT_AND_POST_CAPTURE_COLLISION_NOT_EVALUATED
+    confidence: LOW_SCENARIO_DIAGNOSTIC_ONLY
+    status: HOLD_RELEASE_PROPERTIES_INCOMPLETE
+
+summary:
+  configuration_count: 9
+  required_field_complete_count: 9
+  released_mass_count: 0
+  released_cg_count: 0
+  released_inertia_count: 0
+  released_bbox_count: 0
+  collision_evaluated_count: 0
+  diagnostic_mass_count: 9
+  diagnostic_mass_scope: TWO_NUMERIC_NONAUTHORITATIVE_BRANCHES_WITH_NULL_UNCERTAINTY_AND_RELEASE_HOLD
+  ready_for_production_dynamics_count: 0
+  numeric_mass_diagnostic_available_count: 9
+  ready_for_full_mass_properties_diagnostic_loader_count: 0
+  diagnostic_mass_use_authorization: MASS_VALUE_WIRING_AND_RANGE_CHECK_ONLY_NOT_CG_INERTIA_BBOX_OR_COLLISION_LOADING
+  overall_status: HOLD_RELEASE_PROPERTIES_INCOMPLETE_NUMERIC_MASS_DIAGNOSTICS_ONLY

@@ -1,0 +1,143 @@
+# VIZ-Gate 0 scene manifest v1 (2026-07-14)
+# Declares WHAT is drawn, WHERE every number comes from, and the explicit
+# target-mapping decision. Pure visualization: PROJECT_FROZEN_AT_REPEAT_E1_5,
+# no physics is re-derived here.
+version: v1
+status: viz_gate0_stage2
+repo_commit_at_authoring: "7371403"
+render_frame: S            # servicer body frame; all assembly figures share it
+length_unit: m
+
+# --------------------------------------------------------------------------
+# TARGET MAPPING DECLARATION (do not confuse the two targets)
+# --------------------------------------------------------------------------
+# E1/E1.5 candidate evidence (P1/P2/P3) was computed against the DEBRIS target:
+#   e15_results_72cases.csv target_id == target_debris_v0 for all 72 rows.
+# The user main scene requires the 22 kg target SATELLITE. Resolution:
+target_mapping:
+  main_assembly_figures: [fig_v01, fig_v02, fig_v03, fig_v04]
+  main_assembly_target: target_satellite_v0        # 22 kg, frame T
+  main_assembly_grasp_points:                       # its OWN CAD-JSON points
+    - {id: launch_adapter_ring, point_mm: [290, 0, 0], approach: +X_T, priority: primary}
+    - {id: solar_panel_yoke_+Y, point_mm: [0, 113, 0], approach: +Z_T, priority: secondary}
+    - {id: solar_panel_yoke_-Y, point_mm: [0, -113, 0], approach: +Z_T, priority: secondary}
+  main_assembly_note: >
+    The B601 joint configuration shown in the assembly figures is the E1.5
+    geometry-selected configuration (case P1_tc00_v10mm_pose_6d, computed for
+    the DEBRIS target). Its end-effector sits at the evaluator capture point
+    [0.95, 0, -0.10] m in S (FK-verified), and the satellite is placed so its
+    primary grasp point (launch_adapter_ring) coincides with that same capture
+    point. The arm pose is therefore geometrically consistent with the scene
+    but was NOT dynamically evaluated against the satellite.
+  candidate_figures: [fig_v05, fig_v06]
+  candidate_target: target_debris_v0               # E1.5 truth per snapshot CSV
+  candidate_grasp_points:                           # source: e1_thin_slice.py
+    - {id: P1, p_D_m: [0.66, 0.0, 0.95], approach: +X_D}
+    - {id: P2, p_D_m: [0.0, 0.66, 0.95], approach: +Y_D}
+    - {id: P3, p_D_m: [0.66, 0.0, -0.95], approach: +X_D}
+  candidate_note: >
+    P1/P2/P3 are debris forward/aft end-ring rim points (geometry_group_keys of
+    the E1.5 manifest). They must never be drawn on the satellite, and the
+    satellite JSON grasp points must never be labelled P1/P2/P3.
+
+# --------------------------------------------------------------------------
+# objects and placement
+# --------------------------------------------------------------------------
+objects:
+  servicer_12U_v0:
+    mesh: 20_engineering/cad/spacecraft_layout/servicer_12U_v0/servicer_12U_v0.stl   # m, verified
+    frame: S
+    pose: identity
+    mass_kg: 24.0
+    com_S_m: [-0.00242, -0.0, 0.00057]      # mass_inertia_budget_v1.csv (low conf)
+  robot_mount_adapter_v0:
+    mesh: 20_engineering/cad/spacecraft_layout/robot_mount_adapter_v0/robot_mount_adapter_v0.stl
+    frame: M
+    pose: T_SM                               # frozen SSOT sec 3.1
+    mass_kg: 1.2
+    known_overlap: servicer flange primitive interpenetrates (display-only)
+  arm_b601_v1:
+    urdf: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    meshes: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper   # m, VERIFIED vs URDF offsets
+    base_frame: A0 == M (T_MA0 = identity nominal, URDF header)
+    display_configuration:
+      source: e15_results_72cases.csv selected_q_json
+      case_id: P1_tc00_v10mm_pose_6d        # E1.5 G0 baseline grid cell
+      roll_selection_status: SELECTED (roll 0 deg)
+      selected_group_scenario_hash: "4648e26f6240b367"   # e15_geometry_manifest
+      q_rad: [-1.4722592995215e-05, -1.0482002296028672, -1.3989828152470143,
+              -1.220010067943876, 3.673218594813444e-06, 1.8395811591278994e-05]
+      ee_at_capture_point_check: FK(q) -> [0.95, -0.0, -0.10] m in S (PASS)
+    gripper_fingers: locked at q=0 (capture-ready, dynamics-v1 convention)
+    fk_render_chain: 70_tools/project_visualization/src/b601_renderer.py (independent; aligned
+      to 30_simulation/sim_05_free_floating_arm/b601_model.py B601Arm.fk within
+      1.7e-13 mm / 2.4e-06 deg over 52 configs)
+  target_satellite_v0:
+    mesh: 20_engineering/cad/spacecraft_layout/target_satellite_v0/target_satellite_v0.stl
+    frame: T
+    mass_kg: 22.0
+    com_T_m: [0.03827, -0.0, 0.00021]        # mass_inertia_budget_v1.csv
+    pose_rule: scene_placement (below), grasp point = launch_adapter_ring
+    computed_pose_S:                          # derived at render time; nominal:
+      R_TS: [[-1, 0, 0], [0, -1, 0], [0, 0, 1]]
+      com_position_S_m: [1.20173, 0.0, -0.09979]
+    tumble_axis_json: +Z_T @ 2-5 deg/s nominal (JSON, low confidence);
+      NOT used in the static placement (t_c = 0, attitude identity)
+  target_debris_v0:
+    mesh: 20_engineering/cad/spacecraft_layout/target_debris_v0/target_debris_v0.stl
+    frame: D
+    mass_kg: 150.0
+    com_D_m: [0.00027, 0.0, -0.07054]
+    used_in: [fig_v05 (own D frame), fig_v06 (placed via scene_placement, P1)]
+
+placement_rule:
+  source: 30_simulation/sim_09_grasp_evaluator/src/adapters.py::scene_placement (read-only
+    import; the formula is never copied)
+  capture_point_S_m: [0.95, 0.0, -0.10]     # evaluator.DEFAULT_CONFIG scenario
+  capture_time_s: 0.0                        # R_T = identity
+  approach_axis: +X_T (satellite ring) / +X_D (debris P1)
+  antiparallel_tie_break: R_IS = diag(-1,-1,1) (legacy R_flip convention)
+
+frames:                                       # drawn and/or listed by frame_registry.py
+  I:  {parent: null, transform: identity at static t=0 reference,
+       source: coordinate_frame_definition_v0.md, confidence: reference definition}
+  S:  {parent: I, transform: identity at static t=0 reference,
+       source: frame_tree_v1.yaml + sim_05 replay, confidence: nominal frame / dynamic pose from CSV}
+  B:  {parent: S, transform: identity default (T_SB), source:
+       coordinate_frame_definition_v0.md sec 2/3, confidence: default/unverified,
+       note: B is the free-flyer mother-body base; it is not the robot mount}
+  M:  {parent: S, translation_mm: [185.25, 0, 0], quat_wxyz: [0.70710678, 0, 0.70710678, 0],
+       source: coordinate_frame_definition_v0.md sec 3.1, confidence: nominal_frozen_v1}
+  A0: {parent: M, transform: identity (nominal), source: arm_b601_v1.urdf header,
+       confidence: nominal (physical mounting not yet measured)}
+  E:  {parent: link6, offset_link6_m: [0, 0, 0.15971], axes: link6 axes,
+       source: arm_b601_v1.urdf gripper_joint + b601_model E convention,
+       confidence: nominal}
+  T:  {parent: S (via placement_rule), source: computed, confidence: display nominal}
+  D:  {parent: S (via placement_rule), source: computed E1-context reference,
+       confidence: E1.5 evidence target / display placement}
+  G1: {parent: D, source: e1_thin_slice.py GRASP_POINTS.P1,
+       confidence: geometry grid verified / dynamics varies by case}
+  G2: {parent: D, source: e1_thin_slice.py GRASP_POINTS.P2,
+       confidence: geometry grid verified / dynamics varies by case}
+  G3: {parent: D, source: e1_thin_slice.py GRASP_POINTS.P3,
+       confidence: geometry grid verified / dynamics varies by case}
+
+e15_data_sources:                             # the ONLY E1.5 inputs (iron rule 2)
+  snapshot_dir: 40_evidence/artifacts/visualization/e15_gate_evidence_snapshot_20260714
+  files:
+    - results__sim_09_grasp_evaluator__e15_results_72cases.csv
+    - results__sim_09_grasp_evaluator__e15_geometry_manifest.json
+    - results__sim_09_grasp_evaluator__e15_geometry_roll_details.csv
+    - results__sim_09_grasp_evaluator__e15_gate_check.json
+  source_commit: "7de78a2"
+  verdict_caveats:
+    gate: REPEAT_E1_5
+    state_counts: {SAFE: 0, UNKNOWN: 3, UNSAFE: 69}
+    admissible: 0 of 72
+    feasible_geometry: only P1 @ t_c=0 (pose_6d roll -90..+90 deg all 7 grid
+      values feasible; approach_5d unconstrained, realized roll -95.6 deg)
+    tumble_axis: NOT restated in the snapshot; the E1 in-repo grid value
+      ([1, 0.15, 0.4] @ 3 deg/s, e1_thin_slice.py) is shown as context only
+      and must be labelled evidence-missing for E1.5 (scenario hashes differ:
+      E1.5 is roll-parameterized)

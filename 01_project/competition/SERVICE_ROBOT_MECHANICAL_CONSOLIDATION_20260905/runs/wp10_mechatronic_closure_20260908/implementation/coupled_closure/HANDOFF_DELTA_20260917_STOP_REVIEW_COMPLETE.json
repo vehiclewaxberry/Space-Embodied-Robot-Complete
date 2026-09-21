@@ -1,0 +1,62 @@
+{
+ "schema": "WP10_HANDOFF_DELTA",
+ "date": "2026-09-17",
+ "supersedes_delta": "HANDOFF_DELTA_20260916_ROUTING_PENDING.md (routing-pending state now closed)",
+ "closed_since_20260916": [
+  "SES routing imported 2026-09-16 (routing_import_a) + repair chain return_repair_a..d; chain verified",
+  "Cold-reload verification: 337 pads net-parity PASS, placement unchanged, 1043 tracks / 98 vias",
+  "Post-route DRC 2026-09-17: 0 violations / 0 unconnected under 5 declared ignore rules",
+  "Engineering review (placement level) complete: PASS_WITH_NOTES, power thermal UNKNOWN",
+  "ARM_RETURN neck widen increment 2026-09-17: 3x J106 pad-entry necks 0.25->0.4 mm (return_repair_e), DRC 0/0, cold-reload verification re-PASS, grounding review item upgraded to PASS",
+  "DC/DC U120/U121 decoupling posture DISPOSITIONED_NO_CHANGE per TRACO TSR 1 datasheet (no external caps required; 22uF/50V only >32 VDC input; rail is 24 VDC); decoupling review item upgraded to PASS; no schematic increment",
+  "Power thermal scoped: THERMAL_SCOPE_20260917.json - bleed resistors 1.095 W calculated static; Q101/coil and rail budgets named as missing inputs (T1-T4 closure criteria); WP-level boundary declared (architecture A failure stays WP-level)",
+  "Thermal T2 closed: THERMAL_BUDGET_20260917.json rail budgets (3V3 139.6mA/0.461W, 5V 131.4mA/0.657W); converter dissipation screened 0.178/0.188W; board subtotal excl Q101 1.483W; Q101 parametric scenarios 0.25-1.0A all <90C Tj but PROVISIONAL pending T1 coil data",
+  "Thermal T3 bounded: ground-vs-vacuum heat paths declared; on-orbit convection=0 -> mounting conduction + radiation; T3 verdict requires WP-level inputs (mounting conductance, chassis sink temp, emissivity/view factors, environment disposition) - enumerated in THERMAL_BUDGET_20260917.json"
+ ],
+ "evidence": {
+  "verification": {
+   "path": "results/stop_v36/pcb/verify_20260917/STOP_BOARD_VERIFICATION_20260917.json",
+   "sha256": "fcd0fc8da8fa19e47cb71c19ebab311342e01fcbd545752749cecd543b661cac"
+  },
+  "drc": {
+   "path": "results/stop_v36/pcb/verify_20260917/STOP_DRC_CURRENT.json",
+   "sha256": "b1429ad42bc9999f4032e03d73100b8729202e79ff84f94b9b68654a5cc74b57"
+  },
+  "engineering_review": {
+   "path": "results/stop_v36/pcb/verify_20260917/ENGINEERING_REVIEW_20260917.json",
+   "sha256": "d51592c59d2a28a80a6044d9fd498be32cde73c96a49e814e65471d940e8a071"
+  },
+  "board": {
+   "path": "ecad/revisions/v36/wp10_stop_control.kicad_pcb",
+   "sha256": "d58b0240e63de229a4d64b3863b4b775a5507f75349d44feb258b0a19d0627e6"
+  },
+  "working_revision": {
+   "path": "ecad/revisions/v36/WORKING_REVISION.json",
+   "sha256": "50a6f1796f48dbfc0a6d18e4c65683920692bfed87bf625321653031fe8c6671"
+  },
+  "neck_widen_receipt": {
+   "path": "results/stop_v36/pcb/layout_20260916/return_repair_e/ESCAPE_APPLIED.json",
+   "sha256": "c1d5c158bf6cea82e2840cfe1f5dfd55b60e96e9e9897793f7ca025a0c282cdf"
+  },
+  "public_sources": {
+   "path": "results/stop_v36/PUBLIC_SOURCES.json",
+   "sha256": "cc802331a9acf4a810537d3554f4b8c8824a7848bc585d478b0996812185fef8"
+  },
+  "thermal_scope": {
+   "path": "results/stop_v36/thermal_scope_20260917/THERMAL_SCOPE_20260917.json",
+   "sha256": "54104708fa784adf7707fea5d2422db58baee56a5018add9c2dc4a871c59574f"
+  },
+  "thermal_budget": {
+   "path": "results/stop_v36/thermal_scope_20260917/THERMAL_BUDGET_20260917.json",
+   "sha256": "8688f953cd23a9e6c4031de9de2937686a81e5ca866619e1ce49b7ff448e1898"
+  }
+ },
+ "open_items": [
+  "Power thermal: T2 budget closed (1.483W excl Q101); T3 bounded (WP-level inputs enumerated); UNKNOWN stands pending T1 K1 coil data + T3 WP-level interface data - both external inputs now explicitly named",
+  "SELECTION_GAPS 2026-09-17: rating gaps on 224 refs; only 5 public-source-verified lines",
+  "STOP_PCB_implemented remains false; whole_design_complete false; manufacturing_release false"
+ ],
+ "scope": "Connectivity/geometry parity, rule-check counts and placement-level engineering review only. No current capacity, transient, EMC, timing accuracy, thermal margin, or hardware-test evidence.",
+ "whole_design_complete": false,
+ "manufacturing_release": false
+}

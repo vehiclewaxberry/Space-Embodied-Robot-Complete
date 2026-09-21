@@ -1,0 +1,53 @@
+{
+  "schema": "CTRL_R2_SUPERVISOR_INTERFACE_V1",
+  "scope": "INTERFACE_AND_FAIL_CLOSED_STATE_ENUMS_ONLY__NO_OPERATIONAL_CONTROLLER_CREDIT",
+  "base_attitude_and_momentum": {
+    "states": ["WHEEL_NOMINAL", "WHEEL_MARGIN_LOW", "WHEEL_SATURATED", "THRUSTER_ASSIST_REQUIRED", "ABORT"],
+    "required_runtime_inputs": ["attitude_quaternion", "base_angular_rate", "wheel_momentum_vector", "wheel_torque_vector", "wheel_authorized_capacity", "thruster_authority", "arm_reaction_feedforward", "flex_disturbance_estimate"],
+    "wheel_capacity_hardware_value": null,
+    "wheel_torque_hardware_value": null,
+    "loop_bandwidth_hardware_value": null,
+    "threshold_status": "MEASUREMENT_PENDING__ZERO_FILL_FORBIDDEN",
+    "unknown_input_transition": "ABORT",
+    "total_system_angular_momentum_erasure_claimed": false,
+    "operational": false
+  },
+  "physics_veto_anchors": {
+    "nominal_candidate": {
+      "target_mass_kg": 22.0,
+      "initial_target_rate_dps": 0.5,
+      "source_Hc_Nms": 0.011782323851997206,
+      "source_omega_plus_equiv_dps": 0.1603671648970606,
+      "disposition": "NOMINAL_CAPTURE_CONTROL_CANDIDATE__NOT_EXECUTION_PASS"
+    },
+    "hard_veto": {
+      "target_mass_kg": 150.0,
+      "initial_target_rate_dps": 3.0,
+      "source_Hc_Nms": 3.6466119549031752,
+      "source_omega_plus_equiv_dps": 3.042713056507504,
+      "disposition": "PHYSICS_VETO__ABORT_OR_RECOVERY"
+    },
+    "source": "E23_R2_FULL_FLEX_COUPLED_GATE_V1.key_metrics"
+  },
+  "flex_trajectory_shaping": {
+    "allowed_candidate_methods": ["trajectory_time_scaling", "input_shaping", "modal_energy_penalty", "modal_frequency_avoidance"],
+    "required_inputs": ["authorized_geometric_path", "time_parameterization", "task_excitation_spectrum", "actuator_bandwidth", "LOW_NOMINAL_HIGH_ROM", "root_load_limits"],
+    "coefficient_emission_allowed": false,
+    "reason": "AUTHORIZED_TASK_TIME_HISTORY_AND_ACTUATOR_BANDWIDTH_ABSENT",
+    "out_of_domain_policy": "FAIL_CLOSED"
+  },
+  "hybrid_capture": {
+    "states": ["PRECONTACT", "FINITE_WINDOW_CONTACT", "CAPTURED_RECONFIGURE", "POST_CAPTURE_STABILIZE", "ABORT"],
+    "finite_window_nominal_ms": 20.0,
+    "finite_window_authority": "PROVISIONAL_CONTACT_WINDOW",
+    "as_built_contact_parameters": null,
+    "required_transition_inputs": ["contact_detection", "normal_relative_velocity", "contact_wrench", "gripper_force", "capture_latch_state", "target_combined_mass_cg_inertia", "SAFE_authorization"],
+    "unknown_transition": "ABORT",
+    "post_capture_empty_payload_model_reuse_forbidden": true,
+    "operational": false
+  },
+  "interface_packaging_complete": true,
+  "operational_supervisor_complete": false,
+  "next_stage_authorized": false,
+  "release_credit": false
+}

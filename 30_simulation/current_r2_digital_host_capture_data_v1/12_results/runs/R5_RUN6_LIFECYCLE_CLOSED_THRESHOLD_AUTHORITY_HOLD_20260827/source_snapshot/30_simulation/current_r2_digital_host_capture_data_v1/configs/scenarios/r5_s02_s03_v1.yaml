@@ -1,0 +1,59 @@
+schema: R5_S02_S03_SCENARIO_SET_V1
+status: FROZEN_FOR_R5_EXECUTION
+seed: 20260827
+sample_period_target_s: 0.05
+solver:
+  family: FIXED_STEP_CLASSICAL_RK4
+  arithmetic: IEEE754_FLOAT64
+  quaternion_policy: RENORMALIZE_AFTER_EACH_MACRO_STEP_WITH_NONIMPULSIVE_AUDIT
+  adaptive_step: false
+s02:
+  scenario_id: S02_FREE_FLOAT_CONSERVATION
+  t_end_s: 5.0
+  dt_grid_s: [0.004, 0.002, 0.001]
+  nominal_dt_s: 0.001
+  external_force_I_N: [0.0, 0.0, 0.0]
+  external_torque_about_O_I_Nm: [0.0, 0.0, 0.0]
+  external_wrench_status: FROZEN_ZERO_BY_MODEL_SCOPE
+  event_monitor_status: VERIFIED
+  cases:
+    - case_id: S02_C01_ARM_REST_BASE
+      plant_id: ARM_ONLY_ACCEPTED
+      initial_condition: base_at_rest_arm_moving
+    - case_id: S02_C02_ARM_TUMBLING_BASE
+      plant_id: ARM_ONLY_ACCEPTED
+      initial_condition: base_tumbling_arm_moving
+    - case_id: S02_C03_SERVICER_ARM_TSM_TUMBLING_BASE
+      plant_id: SERVICER_ARM_TSM_PREBIND
+      initial_condition: base_tumbling_arm_moving
+s03:
+  scenario_id: S03_NO_CONTACT_JOINT_MOTION_CANDIDATE
+  t_end_s: 8.0
+  dt_grid_s: [0.001, 0.0005, 0.00025]
+  nominal_dt_s: 0.0005
+  external_force_I_N: [0.0, 0.0, 0.0]
+  external_torque_about_O_I_Nm: [0.0, 0.0, 0.0]
+  external_wrench_status: FROZEN_ZERO_BY_MODEL_SCOPE
+  event_monitor_status: VERIFIED
+  stability_linearization:
+    equilibrium: q_goal_qd_zero_zero_total_momentum
+    finite_difference_scaled_epsilon: 1.0e-7
+    eigenvalue_classification_tolerance: 1.0e-8
+    reduced_state: 8_joint_position_plus_8_joint_rate_zero_total_momentum_subspace
+    full_state: 8_joint_position_plus_6_base_velocity_plus_8_joint_rate
+    coordinate_scales:
+      revolute_position_rad: 1.0
+      prismatic_position_m: 0.01
+      angular_velocity_rad_s: 1.0
+      linear_velocity_m_s: 0.01
+      revolute_rate_rad_s: 1.0
+      prismatic_rate_m_s: 0.01
+scope_exclusions:
+  contact: NOT_RUN_T_E_T_MISSING
+  target_dynamics: REGISTERED_NOT_SYSTEM_MEMBER
+  reaction_wheels: NOT_IN_PLANT_NULL_NOT_ZERO_FILLED
+  thrusters: NOT_IN_PLANT_NULL_NOT_ZERO_FILLED
+  flexible_panels: NOT_IN_PLANT_PLACEHOLDER_EXCLUDED
+  route_c: NOT_IN_PLANT
+  isaac_sim: NOT_RUN
+  rl_vla: NOT_RUN

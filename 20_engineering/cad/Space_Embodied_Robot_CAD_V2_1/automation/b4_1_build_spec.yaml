@@ -1,0 +1,96 @@
+# B4-1 机器可读构建规格（V2.1 Reference-Grounded Mechanical Refinement）
+# 上游：V2.0 b3_build_spec.yaml（冻结值继承）+ B4-0 七件套 + human_conflict_rulings.yaml
+# 铁律：H1-H9 全继承；SA 机构件零实体 named-only（H5）；五源数值零继承（H3）；
+#       V2.0 只读（终版封存 57 文件）；B601_Visual_Arm_V2_0 原样继承零重构。
+spec_id: B4_1_BUILD_SPEC_V1
+gate: COMP-PROT-03-A4-B4 / B4-1
+baseline_spec: ../Space_Embodied_Robot_CAD_V2_0/automation/b3_build_spec.yaml
+rulings: 20_engineering/design_inputs/v2_1_reference_grounded/05_adversarial_review/human_conflict_rulings.yaml
+
+equations_authority: System_Equations_V2_1.txt   # 参数唯一权威（D-EQ-01 环境：文件+PARAM_*属性双轨）
+
+# ---- 主结构（继承 V2.0 显示提案尺寸 + C 裁决增量）---------------------------------
+primary_structure:
+  inherit_from_v2_0: [FRM_FRONT_TASK, FRM_REAR_BOUNDARY, FRM_REAR_MID, FRM_MID_FRONT,
+                      LNG_PY_PZ, LNG_PY_NZ, LNG_NY_PZ, LNG_NY_NZ,
+                      DECK_REAR_MID, DECK_MID_FRONT, PNL_TOP, PNL_BOTTOM]
+  struct_class_map:
+    FRM_*: LOAD_PATH_INTENT
+    LNG_*: LOAD_PATH_INTENT
+    DECK_*: LOAD_PATH_INTENT_SHEAR_WEB
+    PNL_*: NON_STRUCTURAL_PANEL
+    GUSSET_*: LOAD_PATH_INTENT
+    NODE_PAD_*: LOAD_PATH_INTENT
+  segmented_side_panels:      # C3 裁决：±Y 板 MID1 站位(X=+56.75)分段
+    PNL_LEFT_FWD:  { face: +Y, x_span_mm: [56.75, 158.25] }
+    PNL_LEFT_AFT:  { face: +Y, x_span_mm: [-158.25, 56.75] }
+    PNL_RIGHT_FWD: { face: -Y, x_span_mm: [56.75, 158.25] }
+    PNL_RIGHT_AFT: { face: -Y, x_span_mm: [-158.25, 56.75] }
+    note: 前段任意翼态可拆；后段(215mm互锁区)仅 DEPLOYED/SERVICE 可拆；分缝落框缘；不开框槽
+  node_pads:                  # C2/C4 裁决：MID2 ±Y 节点垫实体（填 110.15→113.15 内缩间隙）
+    stations:
+      - { id: NODE_PAD_MID2_PY_ZP, x_span_mm: [-62.75, -50.75], y_span_mm: [110.15, 113.15], z_span_mm: [45.0, 75.0] }
+      - { id: NODE_PAD_MID2_PY_ZN, x_span_mm: [-62.75, -50.75], y_span_mm: [110.15, 113.15], z_span_mm: [-75.0, -45.0] }
+      - { id: NODE_PAD_MID2_NY_ZP, x_span_mm: [-62.75, -50.75], y_span_mm: [-113.15, -110.15], z_span_mm: [45.0, 75.0] }
+      - { id: NODE_PAD_MID2_NY_ZN, x_span_mm: [-62.75, -50.75], y_span_mm: [-113.15, -110.15], z_span_mm: [-75.0, -45.0] }
+    rear_attach: REAR 框带外缘即 113.15 无间隙——以具名参考草图 SK_REAR_SA_ATTACH_REF_L/R 表达（零实体）
+    z_positions_state: DESIGN_PROPOSAL_DISPLAY_ONLY   # ±60±15 为显示提案，非 ICD 值
+  front_gussets:              # PS-03 扩散段角撑（显示提案）
+    x_span_mm: [158.25, 170.25]
+    cells:   # 四角内贴纵梁内缘
+      - { yc: 90.575, zc: 90.575, hy: 7.575, hz: 7.575 }
+      - { yc: 90.575, zc: -90.575, hy: 7.575, hz: 7.575 }
+      - { yc: -90.575, zc: 90.575, hy: 7.575, hz: 7.575 }
+      - { yc: -90.575, zc: -90.575, hy: 7.575, hz: 7.575 }
+  ring_land: 零实体具名参考（SK_RING_LAND_REF Ø160/Ø100 于前框内面）——受 H6/C1 同包条件，
+    实体化留待开口分配表联审后
+
+# ---- 太阳翼机械（C2/C4 + H5：机构件全部零实体 named-only）-------------------------
+solar_mechanism:
+  wing_solid:                 # 唯一实体：翼板本体（SSOT 冻结 200×227×6）
+    deployed:
+      L: { x_span_mm: [-170.25, 56.75], y_span_mm: [113.15, 313.15], z_span_mm: [-3.0, 3.0] }
+      R: { x_span_mm: [-170.25, 56.75], y_span_mm: [-313.15, -113.15], z_span_mm: [-3.0, 3.0] }
+    stowed:                   # 收拢拓扑声明：贴±Y面、绕根部X向铰线折向-Z、外悬86.85
+      L: { x_span_mm: [-170.25, 56.75], y_span_mm: [113.15, 119.15], z_span_mm: [-200.0, 0.0] }
+      R: { x_span_mm: [-170.25, 56.75], y_span_mm: [-119.15, -113.15], z_span_mm: [-200.0, 0.0] }
+    dual_representation: 每侧建 DEPLOYED 与 STOWED 两个独立实体件，配置族按态抑制其一
+  wing_semantic_zones:        # 翼板上具名草图分区（SAM-P2）
+    - CELL_AREA_REFERENCE     # VISUAL_COVER 语义
+    - ROOT_INTERFACE_BAND
+    - TIP_RESTRAINT_BAND
+  root_module_refs:           # 全部零实体 named-only（点/草图锚 + 15属性），L/R 各一套
+    - ROOT_BRACKET_REF        # 锚 MID2 节点垫站位 (-56.75, ±113.15, 0)
+    - HINGE_BLOCK_A_REF       # 铰线沿 X，轴 Z 位=UNKNOWN，锚根部点 ±X 偏 named
+    - HINGE_BLOCK_B_REF
+    - TORSION_SPRING_REF
+    - HDRM_MID2_REF           # C4：站位带 MID2
+    - HDRM_REAR_REF           # C4：站位带 REAR
+    - MECH_STOP_REF
+    - FLEX_HARNESS_REF
+    - STRAIN_RELIEF_REF
+  keepouts:
+    - { id: PANEL_SWEEP_KEEPOUT_L, x_invariant_mm: [-170.25, 56.75] }
+    - { id: PANEL_SWEEP_KEEPOUT_R, x_invariant_mm: [-170.25, 56.75] }
+    - { id: STOW_OVERHANG_KEEPOUT, note: "底面 -Z 外悬区 z∈[-200,-113.15] 投影带" }
+
+# ---- 七态配置族（顶装）------------------------------------------------------------
+state_family:
+  STOWED:              { L: stowed, R: stowed }
+  DEPLOYED_NOMINAL:    { L: deployed, R: deployed }
+  DEPLOY_FAILED_BOTH:  { L: stowed, R: stowed, semantic: 故障场景入口(几何同STOWED语义不同) }
+  L_FAIL:              { L: stowed, R: deployed }
+  R_FAIL:              { L: deployed, R: stowed }
+  PARTIAL:             { L: none, R: none, semantic: 展开角UNKNOWN不可显示，双抑制+注记 }
+  SERVICE:             { L: deployed, R: deployed, semantic: 维护最大可达+服务参考显示 }
+
+module_tree:
+  - 00_Master_Skeleton/Master_Skeleton_V2_1.SLDPRT
+  - 01_Primary_Frame/SV21_Primary_Frame.SLDASM        # 框/梁/角撑/节点垫
+  - 02_Equipment_Decks/SV21_Equipment_Decks.SLDASM
+  - 03_Removable_Panels/SV21_Removable_Panels.SLDASM  # 含分段侧板
+  - 05_Robot_Mount_Module -> 继承 V2.0 部件重建于 V2.1 命名空间（适配板独立可换件语义）
+  - 06_B601_Visual_Arm -> 引用 V2.0 子装配原样（只读，零重构）
+  - 07_Solar_Array_Root_Module_L / _R
+  - 08_Solar_Wing_L / _R
+  - Assembly/Spacecraft_Service_Vehicle_V2_1.SLDASM

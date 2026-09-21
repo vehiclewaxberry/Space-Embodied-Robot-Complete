@@ -1,0 +1,277 @@
+schema: M3R_FASTENER_DESIGN_V1
+generated_local: '2026-08-22T01:29:31+08:00'
+work_package: WP4_FASTENER_DESIGN
+phase: M7_MECHANICAL_FINAL_DESIGN_CLOSURE
+method_reference: ECSS-E-HB-32-23A preloaded bolted joint method flow (handbook method; no controlled standard copy claimed; requirements not
+  asserted)
+overall_status: CANDIDATE_DESIGN_ANALYSIS_NOT_QUALIFICATION
+flight_allowables: HOLD
+governing_flags:
+  design_not_flight_qualified: true
+  no_qualification_mos_claimed: true
+  candidate_material_is_not_design_allowable: true
+  no_zero_fill: true
+  l0_urdf_mass_read_only: true
+joint_definition:
+  joint_id: B601_TO_STAGE_A_4XM4_HM4_75_64MM
+  interface: B601 arm base boss (as-built tapped holes) to M3R Stage A interface ring
+  pattern: 4x HM4-75 M4-class axes, 64x64 mm square, equivalent PCD 90.509642 mm, clocking 25.000014 deg about interface normal
+  stack_stations_mm:
+    M_frame: 185.25
+    adapter_plate_face: 198.0
+    physical_mounting_face: 208.0
+    as_built_screw_end_plane: 210.405
+  stage_A_hole_mm: 4.6
+  stage_A_counterbore_mm: 7.5
+  screw_direction_idealization: 'DESIGN_ASSUMPTION: screws pass through Stage A clearance/counterbore and thread into the B601 boss; clamped interface
+    = Stage A flange face against B601 boss face at x=208.0; as-built 2.405mm screw-end protrusion must be accommodated by Stage A recess (WP1/WP9
+    design constraint)'
+bolt_material_trade:
+  candidates:
+  - id: A286_AMS5737
+    proof_MPa: 655.0
+    uts_MPa: 965.0
+    value_kind: MIN_PUBLIC_DISTRIBUTOR_REFERENCE_AMS5737_1650F_CONDITION_CANDIDATE
+    pros:
+    - high proof -> preload 3.7kN class closes slip/separation for capture envelopes
+    - AMS 5737 / A453 Gr660 fastener route exists
+    cons:
+    - spec text paywalled, no spec values claimed
+    - galling tribology HOLD
+    - cost/availability
+    selection: PRIMARY_CANDIDATE
+  - id: CRES_304_F593_Group1
+    proof_MPa: 207.0
+    uts_MPa: 517.0
+    value_kind: MIN_ANNEALED_304_REFERENCE_NOT_CW_FASTENER_CONDITION_LOWER_BOUND_ONLY
+    pros:
+    - cost/availability
+    - corrosion, non-magnetic class
+    cons:
+    - only annealed reference known; CW fastener properties unknown (HOLD)
+    - preload ~1.2kN class cannot close 150kg capture slip/separation envelope
+    selection: SECONDARY_HOLD_REQUIRES_CW_PROPERTY_AUTHORITY
+  outcome: A286 primary candidate; CRES retained only if CW condition properties are later authorized
+  selection_status: CANDIDATE_NOT_SELECTED_PROCUREMENT_HOLD
+thread_and_hole_scheme:
+  B601_side_internal_thread:
+    scheme: AS_BUILT_VENDOR_TAPPED_HOLES (insert retrofit impossible)
+    engagement_as_built_mm: null
+    required_engagement_mm_parametric_at_Fb_max:
+      '100.0': 6.563767946014073
+      '150.0': 4.375845297342716
+      '200.0': 3.2818839730070364
+      '250.0': 2.625507178405629
+    required_engagement_note: L_e_req = F_b_max/(pi*d2*0.75*tau_allow); tau_allow MPa parametric key; ASSUMPTION band, no B601 material authority
+    status: HOLD_NO_B601_MATERIAL_OR_ENGAGEMENT_AUTHORITY
+  stage_A_side_M5:
+    scheme: wire thread insert candidate L_e=7.5mm (1.5d); alternate direct tap in 6061-T6 L_e>=10mm (2d)
+    status: CANDIDATE
+  stage_B_bridge_M6:
+    scheme: through-bolt + A286-class self-locking nut candidate + washers both sides; nut height 5.2mm standard geometry
+    status: CANDIDATE
+washer_scheme:
+  m3r_m4: no washer (socket head in 7.5mm counterbore); ISO7089-class washer 9/4.3 candidate if counterbore replaced by spotface (WP9)
+  stage_ab_m5: washer candidate under head if Stage B floor spotfaced; TBD WP9
+  bridge_m6: washers both sides candidate (12/6.4 ISO7089-class)
+  status: CANDIDATE_STANDARD_GEOMETRY
+preload_design:
+  rule: Fp_target = 0.65 * S_proof * As (declared; band 0.50-0.75)
+  assembly_scatter: T=K*F*d; K=0.2 candidate [0.15,0.25]; tool tolerance +-10% declared; embedment relaxation 10% declared
+  values_per_joint:
+    B601_TO_STAGE_A_4XM4_HM4_75_64MM:
+      proof_load_N: 5750.9
+      Fp_target_N: 3738.1
+      Fp_min_service_N: 2422.3
+      Fp_max_assembly_N: 5482.5
+      T_target_Nm: 2.99
+      T_band_Nm:
+      - 2.691
+      - 3.29
+    STAGE_A_TO_B_8XM5_R62P5MM:
+      proof_load_N: 9287.9
+      Fp_target_N: 6037.1
+      Fp_min_service_N: 3912.1
+      Fp_max_assembly_N: 8854.5
+      T_target_Nm: 6.037
+      T_band_Nm:
+      - 5.433
+      - 6.641
+    STAGE_B_TO_SPACECRAFT_4XM6_140MM:
+      proof_load_N: 13165.5
+      Fp_target_N: 8557.6
+      Fp_min_service_N: 5545.3
+      Fp_max_assembly_N: 12551.1
+      T_target_Nm: 10.269
+      T_band_Nm:
+      - 9.242
+      - 11.296
+  assembly_proof_check: Fp_max <= 0.75*F_proof required; see checks csv
+  status: CANDIDATE_ASSUMPTION_DECLARED
+friction_coefficient:
+  band:
+  - 0.15
+  - 0.3
+  basis: DECLARED_ASSUMPTION dry steel/Al class; no material-pair authority; vacuum/fretting effect HOLD
+  status: CANDIDATE_ASSUMPTION_VACUUM_EFFECT_HOLD
+stiffness_model:
+  method: 'bolt: shank+head(0.4d)+thread(0.4d) springs; members: Shigley conical frustum alpha=30deg candidate (VDI2230 tan_phi=0.4 alternate)'
+  grip_lengths_declared:
+    B601_TO_STAGE_A_4XM4_HM4_75_64MM:
+      L_grip_mm: 12.0
+      kind: CANDIDATE_ASSUMPTION two 6.0mm members; Stage A flange pending WP1
+    STAGE_A_TO_B_8XM5_R62P5MM:
+      L_grip_mm: 16.0
+      kind: CANDIDATE_ASSUMPTION pending WP1
+    STAGE_B_TO_SPACECRAFT_4XM6_140MM:
+      L_grip_mm: 18.75
+      kind: Stage B 8.0 candidate + bridge 10.75 contract
+  results:
+    B601_TO_STAGE_A_4XM4_HM4_75_64MM:
+      k_b_N_mm: 158167.0
+      k_m_N_mm: 349808.5
+      PHI: 0.3114
+    STAGE_A_TO_B_8XM5_R62P5MM:
+      k_b_N_mm: 189075.9
+      k_m_N_mm: 401973.1
+      PHI: 0.3199
+    STAGE_B_TO_SPACECRAFT_4XM6_140MM:
+      k_b_N_mm: 230565.8
+      k_m_N_mm: 470874.1
+      PHI: 0.3287
+  member_material_E: 6061-T6 68.3GPa typical both sides; B601 boss side E assumed equal (ASSUMPTION)
+  status: CANDIDATE_ANALYTIC_MODEL
+load_cases_evaluated:
+  LC-010_ARM_NOMINAL_SLEW:
+    derivation: rigid-body inverse dynamics (Newton-Euler) of accepted URDF under scene_A1 quintic 10-15-6 trajectory (8s, q2 +60deg, q3 -40deg);
+      microgravity; fixed-base ASSUMPTION (free-floating base reaction not modelled)
+    controlling_sample_tau: 0.8125
+    peak_wrench_envelope:
+      F_peak_N: 0.0765
+      M_peak_Nm: 0.02803
+    wrench_at_joint_datum_controlling:
+      Fx: 0.0649
+      Fy: 0.04045
+      Fz: 0.0
+      Mx: 1.0e-05
+      My: 2.0e-05
+      Mz: 0.02697
+    status: DERIVED_ANALYSIS_CANDIDATE_NOT_A_DESIGN_LOAD_AUTHORITY
+  LC-013_CAPTURE_22KG:
+    derivation: DERIVED impulse envelope (0.0601233-0.360622 Ns) converted with half-sine pulse ASSUMPTION, contact duration band [5,10,20,50]ms;
+      bounding scenarios NORMAL_TENSION_BENDING / SHEAR_TORSION
+    F_peak_band_N:
+    - 11.3
+    - 113.3
+    status: PARAMETRIC_ASSUMPTION_DERIVED_IMPULSE_NOT_STRUCTURAL_DESIGN_AUTHORITY
+  LC-014_CAPTURE_150KG:
+    derivation: same as LC-013 with impulse 0.274973-0.677633 Ns, couple 0.111944-0.130197 Nms, lever 1.21521m
+    F_peak_band_N:
+    - 21.3
+    - 212.9
+    status: PARAMETRIC_ASSUMPTION_DERIVED_IMPULSE_NOT_STRUCTURAL_DESIGN_AUTHORITY
+  LC-016_GRIPPER_CLAMP:
+    derivation: URDF effort limit 100N as MODEL_LIMIT bounding transverse shear at gripper tip (FK lever arm)
+    tip_lever_from_base_m: 0.2503
+    status: MODEL_LIMIT_ASSUMPTION_NOT_A_DESIGN_LOAD
+  hold_cases:
+  - 'LC-008 solar deployment: HOLD_NO_HINGE_TORQUE_AUTHORITY'
+  - 'LC-009 panel failure: HOLD_LOADS_UNKNOWN (configuration enum only, attached-stuck per ODR-02)'
+  - 'LC-011 emergency stop: HOLD_NO_STOP_LAW_AUTHORITY'
+  - 'LC-019 thermal: HOLD_NO_THERMAL_ENVIRONMENT (preload thermal response unknown)'
+  - 'LC-020 safe mode: HOLD'
+  - 'on-orbit modal: WP7 characterization, no strength load'
+  - 'launch family: HOLD per ODR-06 (no launcher/separation ICD)'
+check_summary_controlling:
+  note: full numeric rows in FASTENER_ANALYTIC_CHECKS_V1.csv; controlling = LC-014 tc=5ms unless noted; all ratios demand/capacity on candidate/assumed
+    capacities
+  m3r_joint_ratios_tc5ms_150kg:
+    slip_friction: 0.7328167385130856
+    separation: 1.4351179406868133
+    bolt_tension_proof: 1.082942786844811
+    bolt_shear: 0.056063969119176556
+    bearing: 0.03578803740270318
+anti_loosening:
+  scheme:
+  - 'primary: preload (residual preload maintained per checks)'
+  - 'CANDIDATE: anaerobic thread-locking adhesive class on M4/M5 threads'
+  - 'CANDIDATE ALTERNATE: all-metal self-locking nuts on M6 through-bolts'
+  constraints: vacuum outgassing/compatibility HOLD; lockwire not proposed (access and debris); prevailing-torque device on M4 not proposed
+  status: CANDIDATE_NOT_QUALIFIED
+verification:
+  distribution_engine_vs_M6_unit_csv:
+    max_abs_diff: 0.0
+    values_checked: 96
+    verdict: PASS_SOFTWARE_VERIFICATION
+  rne_implementation: fixed-base microgravity Newton-Euler; envelope magnitudes only (sign convention per URDF)
+  rne_checks:
+    zero_motion_wrench_zero: true
+    linear_momentum_fd_max_rel_err: 1.4216417874666128e-07
+retained_holds:
+- HOLD_FLIGHT_ALLOWABLES_ABSENT (all checks DESIGN_ANALYSIS_NOT_QUALIFICATION)
+- HOLD_NO_B601_MATERIAL_OR_ENGAGEMENT_AUTHORITY (as-built internal thread strip)
+- HOLD_NO_BUS_SIDE_AUTHORITY (load bridge to bus attachment, BC-BUS-001)
+- HOLD_NO_HINGE/HDRM/GRIPPER/CAMERA_HARDWARE_AUTHORITY (pending WP5/WP1)
+- HOLD_LAUNCH_FAMILY_LOADS (ODR-06)
+- HOLD_THERMAL_PRELOAD_RESPONSE (LC-019)
+- HOLD_VACUUM_TRIBOLOGY_AND_OUTGASSING
+- HOLD_AS_BUILT_FASTENER_REUSE_AS_DESIGN_AUTHORITY
+sibling_dependencies:
+  wp1_structure_cad: PENDING_SIBLING_HASH:wp1_structure_cad/PRODUCT_STRUCTURE_V1.yaml
+  wp5_mechanisms: PENDING_SIBLING_HASH:wp5_mechanisms
+  wp6_material_selection: PENDING_SIBLING_HASH:wp6_material_selection/DESIGN_MATERIAL_SELECTION_V1.yaml
+source_register:
+- id: M7_ODR
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_OWNER_DECISION_REGISTER_V1.yaml
+  sha256: f5b1572c0cfcec35c40f262a3d7386afa91dec09da94fe31fd03f5c04956f8b6
+- id: M7_EXEC_PLAN
+  path: 20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/00_authority/M7_EXECUTION_PLAN_V1.md
+  sha256: ad406aca2ab12fdc794e8bbab8b32ad33ab1ece6fee3bf332049de3951d8c68b
+- id: CDR_AUTHORIZED_LOADS
+  path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/AUTHORIZED_MECHANICAL_LOADS_V1.yaml
+  sha256: 82e331239d6eb86ee4b617145022e62133f5d837403119cdad2add83bcb78797
+- id: CDR_LOAD_CASES
+  path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_CASE_MATRIX.csv
+  sha256: cc37f1dfab7bb5be219c7df78f2276ce605475f8990e50101502fcc4f521eee5
+- id: CDR_LOAD_COMBOS
+  path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/LOAD_COMBINATION_MATRIX.csv
+  sha256: a2f60430fb7b6223e67c71234fa66637613dc31857c72d1cf45df1f82289cb6c
+- id: CDR_CAPTURE_ENVELOPE
+  path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/DERIVED_CAPTURE_LOAD_ENVELOPE_V1.csv
+  sha256: e852de89bca633c126b0547257649c69b7a62e658e19dbe726eca4c38cb900a6
+- id: CDR_BC_AUTHORITY
+  path: 20_engineering/F3R2_MECHANICAL_CDR_QUALIFICATION_CLOSURE_20260821/02_wp1_loads/BOUNDARY_CONDITION_AUTHORITY.json
+  sha256: 4d936f4278c728243a088703e84bd421149a95780658755d05ed7cea13121de4
+- id: M5_JOINT_MODEL
+  path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/04_joint_load_model/M5_ANALYTIC_JOINT_LOAD_MODEL_V1.yaml
+  sha256: f4e9eb51b696b7fe02878b9c369bdcb99d84fe96181494ca33798400631a199d
+- id: M5_INFLUENCE
+  path: 20_engineering/F3R2_M5_PHYSICAL_GEOMETRY_AND_LOADS_CLOSURE_V1/04_joint_load_model/M5_FASTENER_GROUP_INFLUENCE_MATRIX_V1.csv
+  sha256: 8ded698118daf85480b44d95518984f8ef8df02993ba493a6a0402aa85a53574
+- id: M6_UNIT_LOAD
+  path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp5_structural_entry/FASTENER_GROUP_ANALYTIC_UNIT_LOAD_V1.csv
+  sha256: ceb2b7b4111ee8fe1210d4b7c08d0324a8cfea272174f32ff21c8b1a089e7805
+- id: M6_UNIT_NOTE
+  path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp5_structural_entry/FASTENER_GROUP_ANALYTIC_NOTE_V1.yaml
+  sha256: a1fb4c7842191eecdafd1cb0ed5ef306950fe0cee533534cf065f5201738e4c5
+- id: M6_MATERIAL_LIB
+  path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp4_materials/PROTOTYPE_MATERIAL_LIBRARY_V2.yaml
+  sha256: 53dd6e9139675d49d1295e20c05832ba3618325e4f0ba6e47ea8ff9361716f50
+- id: M6_BOM_V2
+  path: 20_engineering/F3R2_M6_CANDIDATE_AUTHORITY_CLOSURE_V1/wp6_drawings_bom/DIGITAL_PROTOTYPE_BOM_V2_CANDIDATE.csv
+  sha256: 2fa3d479fb25295df39c023d2204b2a75d351d81b162780908ccc700d097d544
+- id: REV_C_INTERFACE
+  path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/02_interfaces/B601_BASE_ADAPTER_REV_C_INTERFACE.yaml
+  sha256: d63b867b3183434c054a8840735a2cdd9c5106d430cc76e44b0c840a11a522e9
+- id: M3R_PHYSICAL_STACK
+  path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+  sha256: 172f3603e458f670323925e644bc68623ee9c85fca7af1200fae2576eb43c68b
+- id: M4_STACKUP
+  path: 20_engineering/F3R2_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE_V1/05_tolerance/INTERFACE_STACKUP_B601_M3R_V1.yaml
+  sha256: a5f95a9b11acbf04e6abeb2e850f5e18ad7cf8caf18d70619df7d04a1b09da41
+- id: URDF_B601
+  path: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+  sha256: 1bc2b7483cd8025d08ba6eadfd9e1f3b0477121714e7cf4ddc1794d9e471c164
+- id: SCENE_A1
+  path: 20_engineering/config/coupled_scene/scene_A1_arm_slew.yaml
+  sha256: 6e3b53f126f03644ec19f26a4b74911c737e6666dbc89b41a2d0c9d1694c7d3b

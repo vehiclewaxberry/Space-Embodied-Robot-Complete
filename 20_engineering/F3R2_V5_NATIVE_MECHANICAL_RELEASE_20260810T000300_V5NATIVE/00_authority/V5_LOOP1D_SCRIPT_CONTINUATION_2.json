@@ -1,0 +1,17 @@
+{
+  "schema": "F3R2_V5_LOOP1D_SCRIPT_CONTINUATION_V1",
+  "timestamp_utc": "2026-08-11T06:45:00.000000+00:00",
+  "run_id": "20260810T000300_V5NATIVE",
+  "previous_script_sha256": "6657145FBD8985BB18ADE534A65D30767E2766F2BBAECDCAA08B5B721D782853",
+  "current_script_sha256": "B80C88C6C48718B74FE345600E469E96A6747574C802DA6E64EEA6D2A2142DB7",
+  "reason": "mate suppression drive fix only; no mechanical/contract change. Root cause of MATE_CONFIGURATION_SUPPRESSION_FAIL (receipt 13_validation/V5_LOOP1D_FAIL_20260811T054009.564404Z.json): component SetSuppression2 does not cascade IFeature.IsSuppressed onto referencing lock mates in this SW2024 SP05 session (probe V5_PROBE_LOOP1D_MATE_SUPPRESSION P2). Patch: per-configuration explicit mate suppression drive via IFeature.SetSuppression2(state, swThisConfiguration) with fresh handles (probe P3/P4/P5 live persistence; probe V5_PROBE_LOOP1D_COLD_REOPEN_DIAG cold save/reopen persistence), fresh component/feature handles per configuration (stale-handle evidence P4 + Loop1C1), read-only ShowConfiguration2 no-op-False tolerated via active-name readback (cold diag probe C1/C3/C5), cold verifier passes live-resolved role components (latent missing-argument fix), deterministic occurrence-name contract gate, continuation chain-walk. PART_SPECS/ASSEMBLY_SPECS/NON_COVERAGE/gate semantics unchanged.",
+  "evidence_logs": [
+    "99_tools/probe_logs/V5_PROBE_LOOP1D_MATE_SUPPRESSION_20260811T055940Z.log",
+    "99_tools/probe_logs/V5_PROBE_LOOP1D_COLD_REOPEN_DIAG_20260811T063000Z.log"
+  ],
+  "authorization": "USER_DIRECTED_LOOP1D_MATE_SUPPRESSION_FIX_20260811",
+  "non_claims": [
+    "TARGET_FILES_UNCHANGED_VERIFIED_AGAINST_CHECKPOINTS",
+    "NO_MECHANICAL_SCHEME_CHANGE"
+  ]
+}

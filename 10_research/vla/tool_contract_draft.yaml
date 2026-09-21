@@ -1,0 +1,254 @@
+# Physics Tool 合约草案 v0（DRAFT，未实现）— 2026-07-19
+# 配套协议：10_research/vla/vla_generalization_plan.md
+# 角色卡：.codex/agents/physics-agent-architect.md（工具只吃现成机器裁决工件，不新算物理）
+# 铁律：fail-closed；阈值只从冻结 registry 装载；请求体出现阈值覆盖字段 → 拒绝并计入 M4；
+#       每个响应必须携带 provenance 块；FLEX=UNKNOWN 不得转译为无条件可执行。
+
+contract_version: v0-draft
+status: DRAFT_NOT_IMPLEMENTED
+
+frozen_references:                       # 所有工具共享的溯源锚（实现时逐一校验哈希）
+  threshold_registry:
+    path: 30_simulation/e15_core_coverage/config/threshold_registry_core_v1.yaml
+    sha256: 400bcedce5af6ad5c4135e67f87bb524ee2fdafb1c26aeae07e495ff387b2873
+  sim_10_gates_csv:
+    path: 30_simulation/sim_10_mission_feasibility/results/sim_10_scan_gates.csv   # ~9k 点 × 8 档
+    gate_json: 30_simulation/sim_10_mission_feasibility/results/sim_10_gate_check.json
+    verdict: SIM10_GATES_PASS
+  sim_12_strategy_csv:
+    path: 30_simulation/sim_12_strategy_feasibility/results/strategy_results.csv   # 统一 schema = 本合约接口基底
+    gate_json: 30_simulation/sim_12_strategy_feasibility/results/sim_12_gate_check.json
+    verdict: SIM12_PHASE1_GATES_PASS
+  sim_09_evaluator:
+    results_dir: 30_simulation/sim_09_grasp_evaluator/results/
+    hard_constraints: 20_engineering/config/grasp_evaluator/hard_constraints_v1.yaml
+    collision_geometry: 20_engineering/config/grasp_evaluator/collision_geometry_v1.yaml
+  scan_param_card:
+    path: 20_engineering/config/mission_feasibility/scan_v0.yaml                        # λ/α/几何类/执行机构档定义源
+
+common:
+  provenance_block:                      # 每个工具响应必带；缺失即客户端必须视为工具故障并 ABORT
+    required: [gate_json_path, registry_sha256, scenario_hash, data_row_refs]
+    properties:
+      gate_json_path:  {type: string}    # 本次答案背书的机器裁决 JSON 路径
+      registry_sha256: {type: string}    # 冻结阈值 registry 哈希
+      scenario_hash:   {type: string}    # 调用方场景哈希（几何/光照/姿态/转速/留出组/种子）
+      data_row_refs:   {type: array, items: {type: string}}  # 命中的 CSV 行标识（如 point_id/tier_id 或 case|strategy）
+  error_semantics:                       # fail-closed
+    out_of_domain:      REFUSE_OUT_OF_DOMAIN      # 查询超出扫描网格 → 拒绝，禁止外推
+    threshold_override: REFUSE_ILLEGAL_CALL       # 请求含阈值覆盖 → 拒绝 + 计入 M4
+    hash_mismatch:      REFUSE_STALE_ARTIFACT     # 冻结工件哈希漂移 → 拒绝
+    flex_unknown:       ANSWER_WITH_ASSUMPTION    # 正常应答但强制附 flex_status 假设
+  enums:
+    region:       [WHEELS_ONLY_FEASIBLE, THRUSTER_REQUIRED_FEASIBLE, INFEASIBLE_RATE, INFEASIBLE_RESOURCE]
+    binding_sim10: [NONE, NONE_THRUSTER_PATH, POST_CAPTURE_RATE_EXCEEDS_LIMIT, THRUSTER_IMPULSE_EXCEEDS_LIMIT]
+    binding_sim12: [NONE, NONE_THRUSTER_PATH, POST_CAPTURE_RATE, WHEEL_MOMENTUM]
+    strategy:     [S1_passive, S2_velocity_matching, S3a_wheel_bias, S4_post_capture_detumble]
+    case:         [A_low, B_anchor, C_transition, D_extreme]
+    geometry_class: [G1_slender, G2_cubesat, G3_compact]
+    wheel_tier:   [wheels_small, wheels_large]
+    isp_tier:     [cold_gas, green_mono]
+    lever_m:      [0.05, 0.17]
+    decision:     [WAIT, REOBSERVE, CHANGE_CONFIG, ABORT, EXECUTE_UNDER_ASSUMPTIONS]
+    feasibility:  [FEASIBLE, INFEASIBLE]
+    flex_status:  [UNKNOWN_NOT_IN_CRITERIA]        # 现行唯一合法值；柔性入判据须新合约版本
+
+tools:
+
+  query_feasibility:
+    intent: 在 sim_10 冻结可行域上查询 (μ, ω̂, λ, α, 几何类, 执行机构档) 的四门判定与瓶颈门
+    data_source: frozen_references.sim_10_gates_csv          # 查表/网格内插值，禁止网格外外推
+    input:
+      type: object
+      required: [mu, omega_dps, geometry_class, lambda_scale, alpha, tier, scenario_hash]
+      properties:
+        mu:             {type: number, minimum: 0.05, maximum: 25.0}   # m_t / 24 kg（scan_v0 口径）
+        omega_dps:      {type: number, minimum: 0.1,  maximum: 10.0}
+        geometry_class: {$ref: '#/common/enums/geometry_class'}
+        lambda_scale:   {type: number, enum: [0.2, 0.5, 1.0]}          # 连续 λ 由客户端声明最近网格
+        alpha:          {type: number, enum: [0.0, 1.0]}
+        tier:
+          type: object
+          required: [wheel, isp, lever_m]
+          properties:
+            wheel:   {$ref: '#/common/enums/wheel_tier'}
+            isp:     {$ref: '#/common/enums/isp_tier'}
+            lever_m: {$ref: '#/common/enums/lever_m'}
+        scenario_hash:  {type: string}
+    output:
+      type: object
+      required: [region, binding, gates, provenance]
+      properties:
+        region:  {$ref: '#/common/enums/region'}
+        binding: {$ref: '#/common/enums/binding_sim10'}
+        gates:                                              # 逐门布尔 + 关键数值（CSV 列直传）
+          type: object
+          properties:
+            gate1_rate: {type: boolean}                     # 捕获后角速率 ≤ registry post_capture_rate_max_dps
+            gate2_wheels: {type: boolean}
+            gate3_impulse: {type: boolean}
+            gate4_time: {type: boolean}
+            J_req_Ns: {type: number}
+            t_d_s: {type: number}
+            propellant_g: {type: number}
+        flex_status: {$ref: '#/common/enums/flex_status'}
+        provenance: {$ref: '#/common/provenance_block'}
+
+  evaluate_capture:
+    intent: 评价单个抓取候选（L3 输出）——sim_09 硬约束口径 + 折算 λ 后转发 query_feasibility
+    data_source: [frozen_references.sim_09_evaluator, frozen_references.sim_10_gates_csv]
+    input:
+      type: object
+      required: [candidate, target_state, scenario_hash]
+      properties:
+        candidate:                                          # 与协议 §3 L3 输出 schema 一致
+          type: object
+          required: [candidate_id, p_grasp_m, approach_dir, lambda_scale, semantic_label]
+          properties:
+            candidate_id:  {type: string}
+            p_grasp_m:     {type: array, items: {type: number}, minItems: 3, maxItems: 3}
+            approach_dir:  {type: array, items: {type: number}, minItems: 3, maxItems: 3}
+            lambda_scale:  {type: number}
+            semantic_label: {type: string}
+            vla_confidence: {type: number, minimum: 0, maximum: 1}   # 仅记录，不参与判定
+        target_state:
+          type: object
+          required: [mu, omega_dps, geometry_class, pose_covariance_trace]
+          properties:
+            mu: {type: number}
+            omega_dps: {type: number}
+            geometry_class: {$ref: '#/common/enums/geometry_class'}
+            pose_covariance_trace: {type: number}           # L2 不确定性，供 REOBSERVE 判据
+        scenario_hash: {type: string}
+    output:
+      type: object
+      required: [hard_constraints_pass, feasibility, provenance]
+      properties:
+        hard_constraints_pass: {type: boolean}              # sim_09 hard_constraints_v1 口径
+        violated_constraints:  {type: array, items: {type: string}}
+        forbidden_zone_hit:    {type: boolean}              # collision_geometry_v1 禁抓区（M3 幻觉判定源）
+        feasibility: {$ref: '#/common/enums/feasibility'}
+        binding:     {$ref: '#/common/enums/binding_sim10'}
+        flex_status: {$ref: '#/common/enums/flex_status'}   # e15 REPEAT 条款：柔性口径引用受限
+        provenance:  {$ref: '#/common/provenance_block'}
+
+  compare_strategy:
+    intent: 在 sim_12 冻结策略库上对比四策略类的 binding gate / 资源账本，返回排序而非控制律
+    data_source: frozen_references.sim_12_strategy_csv      # Phase1 = 16 例锚点；Phase2 网格化后同 schema 扩容
+    input:
+      type: object
+      required: [case_or_state, strategies, scenario_hash]
+      properties:
+        case_or_state:                                      # 二选一：命中 case 直查；给 (μ,ω̂) 由服务端映射最近 case（Phase1 只允许精确命中，映射=Phase2 能力）
+          oneOf:
+            - {type: object, required: [case], properties: {case: {$ref: '#/common/enums/case'}}}
+            - {type: object, required: [mu, omega_dps], properties: {mu: {type: number}, omega_dps: {type: number}}}
+        strategies: {type: array, items: {$ref: '#/common/enums/strategy'}, minItems: 2}
+        scenario_hash: {type: string}
+    output:
+      type: object
+      required: [rows, ranking, provenance]
+      properties:
+        rows:                                               # strategy_results.csv 列直传（统一 schema，不重命名）
+          type: array
+          items:
+            type: object
+            properties:
+              strategy:        {$ref: '#/common/enums/strategy'}
+              feasibility:     {$ref: '#/common/enums/feasibility'}
+              binding_gate:    {$ref: '#/common/enums/binding_sim12'}
+              H_required_Nms:  {type: number}
+              wheel_margin_Nms: {type: number}
+              impulse_Ns:      {type: number}
+              post_capture_rate_dps: {type: number}
+              fuel_g:          {type: number}
+              eps_H:           {type: number}
+              flex_energy:     {type: string}               # 现值 PROVISIONAL_NOT_EVALUATED，字符串直传
+              confidence:      {type: string}               # rigid_body_frozen_solver
+              ledger:                                       # GS1 动量账本列（Reviewer-2 复算后口径）
+                type: object
+                properties:
+                  ledger_H_before_Nms: {type: number}
+                  ledger_H_after_Nms:  {type: number}
+                  ledger_dH_external_Nms: {type: number}
+                  ledger_dv_match_mps: {type: number}
+                  ledger_gs1_vector_closure: {type: number}
+        ranking:                                            # 仅按 (feasibility, wheel_margin, fuel_g) 字典序，无学习成分
+          type: array
+          items: {$ref: '#/common/enums/strategy'}
+        flex_status: {$ref: '#/common/enums/flex_status'}
+        provenance:  {$ref: '#/common/provenance_block'}
+
+  check_resources:
+    intent: 查询给定执行机构档的冻结容量预算与某方案的余量（sim_08 口径经 sim_10 派生列转发）
+    data_source: [frozen_references.sim_10_gates_csv, frozen_references.scan_param_card]
+    input:
+      type: object
+      required: [tier, demand, scenario_hash]
+      properties:
+        tier:
+          type: object
+          required: [wheel, isp, lever_m]
+          properties:
+            wheel:   {$ref: '#/common/enums/wheel_tier'}
+            isp:     {$ref: '#/common/enums/isp_tier'}
+            lever_m: {$ref: '#/common/enums/lever_m'}
+        demand:
+          type: object
+          properties:
+            H_required_Nms: {type: number}
+            impulse_Ns:     {type: number}
+            fuel_g:         {type: number}
+        scenario_hash: {type: string}
+    output:
+      type: object
+      required: [capacity, margins, provenance]
+      properties:
+        capacity:
+          type: object
+          properties:
+            wheel_capacity_Nms: {type: number}              # scan_v0: wheels_small=0.045 / wheels_large=0.300
+            propellant_budget_max_g: {type: number}         # registry 派生链值，禁止改写
+            t_detumble_max_s: {type: number}                # 3600 s，PROVISIONAL 任务假设，随答案标注
+        margins:
+          type: object
+          properties:
+            wheel_margin_Nms: {type: number}
+            propellant_margin_g: {type: number}
+            saturated: {type: boolean}
+        provisional_flags: {type: array, items: {type: string}}   # 如 t_detumble_max PROVISIONAL
+        provenance: {$ref: '#/common/provenance_block'}
+
+  recommend_action:
+    intent: 汇聚前四工具输出，产出五词表决策草案——仅供 L4 参考；Safety Gate 在其外独立复核
+    data_source: DERIVED_FROM_OTHER_TOOLS_ONLY              # 本工具不直接读 CSV，只消费带 provenance 的前置响应
+    input:
+      type: object
+      required: [feasibility_response, resource_response, scenario_hash]
+      properties:
+        feasibility_response: {type: object}                # query_feasibility 或 evaluate_capture 的完整响应（含 provenance，服务端校验）
+        strategy_response:    {type: object}                # compare_strategy 响应，可选
+        resource_response:    {type: object}                # check_resources 响应
+        perception_quality:
+          type: object
+          properties:
+            pose_covariance_trace: {type: number}
+            occlusion_ratio: {type: number}
+            perception_branch: {type: string, enum: [L1_marker, L2_markerless]}   # L1 结果不得支撑泛化声明（协议 §6.1）
+        scenario_hash: {type: string}
+    output:
+      type: object
+      required: [decision, assumptions, provenance]
+      properties:
+        decision: {$ref: '#/common/enums/decision'}
+        assumptions:                                        # EXECUTE_UNDER_ASSUMPTIONS 时非空，且必含 flex_status 条目
+          type: array
+          items: {type: string}
+        rationale_row_refs: {type: array, items: {type: string}}   # 逐条指向前置响应的 data_row_refs
+        provenance: {$ref: '#/common/provenance_block'}     # 三元组：gate_json_path + registry_sha256 + scenario_hash
+    hard_rules:
+      - 前置响应 provenance 缺失或哈希校验失败 → 强制 decision=ABORT
+      - feasibility=INFEASIBLE 时 decision 不得为 EXECUTE_UNDER_ASSUMPTIONS
+      - flex_status=UNKNOWN_NOT_IN_CRITERIA 时 EXECUTE 必须携带该假设条目
+      - pose_covariance_trace 超 registry 阈值 → 建议 REOBSERVE 而非 WAIT
+      - 本工具输出不含任何轨迹/力矩/关节量（协议 §1 L5 红线）

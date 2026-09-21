@@ -1,0 +1,19 @@
+# 惯量约定（S00/S02 消费）
+schema: INERTIA_CONVENTION_V1
+urdf_inertial_semantics:
+  tensor_about: LINK_COM                    # URDF <inertia> 关于 CoM
+  expressed_in: INERTIAL_ORIGIN_FRAME       # 经 <origin rpy> 旋入 link frame（提取器执行 R·I·R^T）
+  com_position: "<origin xyz> = CoM 在 link frame 中的位置"
+ledger_semantics:
+  source: 20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv
+  reference_point: CoM
+  frame: "每行显式声明（S/T/D）；缺 frame 或 reference_point → blocking_TBD，禁止入 Stage-2 动力学"
+parallel_axis_rule: "跨参考点必须显式 Huygens-Steiner：I_P = I_com + m(|r|^2·I3 - r·r^T)；实现 frames.parallel_axis_about_point，正负测试覆盖"
+spatial_inertia_assembly: "关于 body 原点：[[I_com+m·c^·c^T, m·c^],[m·c^T, m·I3]]（spatial.spatial_inertia）"
+aggregation_rule: "组合体：各分体张量旋至声明系 → 平行轴搬移 → 求和（CDR 规则逐字；zero_fill_forbidden）"
+authority_split:
+  accepted_inertial: AUTHORITATIVE           # accepted URDF
+  cad_inertial: DIAGNOSTIC_ONLY              # CAD 自动质量禁止覆盖 accepted URDF
+  route_c_mass: NOT_ACCEPTED_UNTIL_RC5
+  synthetic_contact: PROVISIONAL
+  flex_parameters: PRESERVE_EXISTING_PROVISIONAL   # 帆板 0.3483933 kg 占位（D-7）不升级

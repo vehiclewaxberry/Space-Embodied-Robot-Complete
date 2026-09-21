@@ -1,0 +1,117 @@
+{
+  "title": "F4R1 C2 阶段 Gate 机器裁决 — 帆板参数成熟化",
+  "generated_at": "2026-08-27",
+  "status": "DESIGN_RESEARCH_CANDIDATE",
+  "gate_id": "GATE_C2",
+  "scope": "帆板质量双线调和 (C-ISS-02) + 三档参数包络 V2 + 占位真实性检验 + A1 重述 + 灵敏度 campaign 方案 (60_c2_panel/)",
+  "inputs": {
+    "reconciliation": {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/60_c2_panel/PANEL_MASS_LINE_RECONCILIATION_V1.md"},
+    "param_envelope_v2": {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/60_c2_panel/PANEL_PARAM_ENVELOPE_V2.yaml"},
+    "compute_script": {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/60_c2_panel/compute_c2_checks.py"},
+    "verification": {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/60_c2_panel/PANEL_VERIFICATION_V1.json", "produced_by": "compute_c2_checks.py (rerun-verified byte-identical)", "overall": "pass"},
+    "a1_restatement": {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/60_c2_panel/A1_CONCLUSION_RESTATEMENT_V1.md"},
+    "campaign_plan": {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/60_c2_panel/SENSITIVITY_CAMPAIGN_PLAN_V1.md"}
+  },
+  "criteria": [
+    {
+      "id": "C2-A-TIER-PROVENANCE",
+      "requirement": "(a) 三档每档每值有来源或公式依据 (url / formula / in_repo_sha / ASSUMED / UNKNOWN 五类之一, 禁编造)",
+      "result": "pass",
+      "evidence": [
+        "PANEL_PARAM_ENVELOPE_V2.yaml: pyyaml 严格解析通过; LOW/NOMINAL/HIGH 三档全部叶字段 (areal_density/panel_mass 两线/f1/zeta/hinge_stiffness 两项/deployment_torque_margin 三项/te_c_ms) 均带非空 provenance.type, 机器遍历无缺失",
+        "面密度 2.0/4.0/7.7 与 f1 1/8/20 Hz、zeta 0.002/0.01/0.03 全部可追溯 B3 §6 表 (B3 sha256 d42aa3867c52) 或其内 URL",
+        "铰链刚度三档直接引用 V3 包络角点 (sha256 5a15d0d3b8a1); te_c_ms 引用不改 (scene_A2 sha256 4b979a1dfd18)",
+        "UNKNOWN 项登记于 metadata.unknown_register (COTS 铰链力矩绝对值、厂商展开频率/阻尼、独立锁扣刚度 null、T_c 实测), 无编造"
+      ]
+    },
+    {
+      "id": "C2-B-CISS03-ANSWERED",
+      "requirement": "(b) C-ISS-03「f1 低 8–20×」以灵敏度区间正面回答",
+      "result": "pass",
+      "evidence": [
+        "PANEL_VERIFICATION_V1.json → d_placeholder_distortion: f1 比值带复算 = [8.0, 20.0] (verified=true), 质量比值带 = [1.535, 3.837] (verified=true), EI 失真 180× (verified=true)",
+        "灵敏度区间: 三档 f1 1/8/20 Hz × T_c {5,20,100} ms 的 |H| 响应表已机器生成 (e_a1_analytic_scaling.H_abs_tables), campaign 主阵 3档×3策略×3T_c=27 单元已预注册 (SENSITIVITY_CAMPAIGN_PLAN_V1 §2/§4)",
+        "A1 翻转边界定量回答: f1 < 0.26–0.65 Hz 才翻转 (B3 刚性板包络内不可达), 见 A1_CONCLUSION_RESTATEMENT_V1 §4"
+      ]
+    },
+    {
+      "id": "C2-C-A1-RESTATEMENT",
+      "requirement": "(c) A1 重述完成且带 PRE_CAMPAIGN_ANALYTIC 标注",
+      "result": "pass",
+      "evidence": [
+        "A1_CONCLUSION_RESTATEMENT_V1.md: frontmatter analysis_class=PRE_CAMPAIGN_ANALYTIC; 三档判定 LOW HOLDS (反馈比 0.261) / NOMINAL HOLDS_STRENGTHENED (0.064) / HIGH HOLDS_STRENGTHENED (0.043), 翻转条件、|H| 带宽重叠表、t5 振铃重标定 (238.4/6.0/0.8 s) 全部由脚本复算 (PANEL_VERIFICATION_V1.json → e_a1_analytic_scaling)",
+        "终稿依赖已显式登记: campaign M1 判据预注册, 未跑仿真批 (C4 范围)"
+      ]
+    },
+    {
+      "id": "C2-D-CISS02-CLOSURE-PROPOSAL",
+      "requirement": "(d) C-ISS-02 闭合提案在案 (统一或双用途)",
+      "result": "pass_with_open_item",
+      "evidence": [
+        "PANEL_MASS_LINE_RECONCILIATION_V1.md: 几何/面积映射 (sim 板 0.0454 m² vs R2 叶 0.06/翼 0.18 m², 质量比 2.24×、面密度比 2.56× 复算), 两线用途与适用范围, 选项 A/B 评估",
+        "推荐项: 选项 B 两模型两用途声明 (理由: 冻结区零改动、真值 UNKNOWN 下包络优于重选占位、主矛盾在刚度轴), 统一动作推迟至实测/datasheet 到位",
+        "属 Owner 决策项 -> PENDING_OWNER_SIGNOFF, 登记 OI-1"
+      ]
+    },
+    {
+      "id": "C2-E-FROZEN-ZONE-UNTOUCHED",
+      "requirement": "(e) 冻结区零改动 (只读证据: 关键文件 sha256 前 12 位)",
+      "result": "pass",
+      "evidence": [
+        "写入位置唯一: 20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/60_c2_panel/ (6 个新文件), 未触碰任何既有文件, 未做 git 写操作, 未打开 CAD 二进制, 未跑仿真 campaign",
+        "compute_c2_checks.py 对 25 个引用文件实测 sha256; 有历史记录值的 15 个全部比对一致 (input_files.*.match_recorded=true), 不一致即 fail-closed 退出 (本次 exit 0)",
+        "帆板质量/模态冻结占位 (flexible_appendage_v1.yaml 52fa88084c62, coupled_model_v0.yaml 67a532fb29c7, scene_A2_capture.yaml 4b979a1dfd18) 未改, 仅做新卡 V2 + 差异声明 (包络 metadata.difference_declarations DIFF-V2-01..04)"
+      ],
+      "frozen_files_read_only_evidence": [
+        {"path": "AGENTS.md", "sha256_12": "3d2269562678"},
+        {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/00_charter/CHARTER.md", "sha256_12": "5d70de9121b3"},
+        {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/10_benchmark/B3_DEPLOYABLE_SOLAR_ARRAY_BENCHMARK.md", "sha256_12": "d42aa3867c52"},
+        {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/20_repo_assets/REPO_ASSET_INVENTORY.md", "sha256_12": "d3326b44e4d4"},
+        {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/30_gap_registry/GAP_REGISTRY.csv", "sha256_12": "49d28658904e"},
+        {"path": "20_engineering/config/geometry/flexible_appendage_v1.yaml", "sha256_12": "52fa88084c62"},
+        {"path": "20_engineering/config/coupled_scene/coupled_model_v0.yaml", "sha256_12": "67a532fb29c7"},
+        {"path": "20_engineering/config/coupled_scene/scene_A2_capture.yaml", "sha256_12": "4b979a1dfd18"},
+        {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/v3_source_reissue/SOLAR_ARRAY_R2_GEOMETRY_CANDIDATE_V3.yaml", "sha256_12": "a70083014199"},
+        {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_ARRAY_R2_MASS_PROPERTIES_V1.json", "sha256_12": "d5b7dd16532f"},
+        {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_R2_DEPLOYMENT_TORQUE_LEDGER_V1.yaml", "sha256_12": "5c78e5916b1d"},
+        {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/SOLAR_R2_MECHANISM_ANALYTICAL_LEDGER_V1.yaml", "sha256_12": "11d585258597"},
+        {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/ecr_solar_array_r2/v3_source_reissue/SOLAR_ARRAY_R2_HDRM_LATCH_DESIGN_V3.yaml", "sha256_12": "d495195f107f"},
+        {"path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/11_SOLAR_R2_MECHANISM.yaml", "sha256_12": "ef02ecc2f283"},
+        {"path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/13_R2_FLEX_MODEL.yaml", "sha256_12": "8cadf790cf6a"},
+        {"path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/02_PRODUCT_STRUCTURE.yaml", "sha256_12": "0f9897ef4e41"},
+        {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round4_hf_rom_v3/R2_FLEXIBILITY_VALIDITY_ENVELOPE_V3.json", "sha256_12": "5a15d0d3b8a1"},
+        {"path": "20_engineering/F3R2_M7_MECHANICAL_FINAL_DESIGN_CLOSURE_V1/r2_full_flex_closure/round4_hf_rom_v3/R2_HF_MODEL_V3.yaml", "sha256_12": "584cccc7e03d"},
+        {"path": "30_simulation/sim_11_coupled_dynamics/results/sim_11_gate_check.json", "sha256_12": "9309f5325271"},
+        {"path": "30_simulation/sim_11_coupled_dynamics/src/contact_window.py", "sha256_12": "d6ad26e3f8da"},
+        {"path": "30_simulation/sim_12_strategy_feasibility/results/sim_12_gate_check.json", "sha256_12": "a416c1348111"},
+        {"path": "30_simulation/e23_r2_full_flex_coupled_recert/results/E23_R2_FULL_FLEX_COUPLED_GATE_V1.json", "sha256_12": "1ad4993fd9df"},
+        {"path": "30_simulation/sim_07_ancf_flexible/README_sim_07a.md", "sha256_12": "02c321a85d76"},
+        {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/50_c1_layout/GATE_C1_CHECK.json", "sha256_12": "b07cca047146"},
+        {"path": "20_engineering/F4R1_INTERNAL_CONFIGURATION_COMPLETION_V1/50_c1_layout/CG_INERTIA_CHECK_V1.json", "sha256_12": "c7759162f54d"}
+      ]
+    },
+    {
+      "id": "C2-F-SCRIPT-REPRODUCIBLE",
+      "requirement": "(f) 脚本可复算且输出一致 (stdlib-only, 确定性)",
+      "result": "pass",
+      "evidence": [
+        "compute_c2_checks.py 仅标准库 (hashlib/json/math/os/re/sys); 无随机数, generated_at 固定 2026-08-27",
+        "连续两次运行 PANEL_VERIFICATION_V1.json diff 字节一致 (DETERMINISM_RERUN_IDENTICAL); json.load 解析通过, overall=pass",
+        "self_checks 8/8 pass: sim 几何闭合 (A=0.0454 m², mu=m/L)、R2 叶面密度 3.0 kg/m²、硬件份额 0.24 kg/翼、力矩阻力合成 (mid 0.030/final 0.040)、占位 EI 反算一致 (rel 4e-4)",
+        "复算对拍: 面积×面密度三档 (sim 板 0.0908/0.1816/0.34958 kg; R2 翼 0.600/0.960/1.626 kg) vs 占位 0.3483933 与冻结 0.78; 悬臂公式 f1 = 19.86/14.69/97.54 Hz (FR4 1.6/FR4 1.2/蜂窝 5mm) 与 B3 §5.2 表值一致"
+      ]
+    }
+  ],
+  "verdict": "PASS_WITH_DECLARED_OPEN_ITEM",
+  "open_items": [
+    {"id": "OI-1", "item": "C-ISS-02 统一 vs 两模型两用途裁决 PENDING_OWNER_SIGNOFF (提案推荐双用途); 若 Owner 改判统一, 转 C4 重跑流程 (ODR 签署 + 参数卡替换 + 全 Gate)", "gate": "C2-D"},
+    {"id": "OI-2", "item": "展开力矩候选弹簧 0.05 N·m 不满足 ≥2× 判据: mid-travel 1.667× (需 ≥0.060 N·m)、final-5deg 1.25× (需 ≥0.080 N·m, 控制工况), JAXA 静力矩裕度 Ms=0.667/0.25 < 1; 弹簧/阻尼/锁扣选型 OPEN (WP5 R2 update; 独立锁扣刚度 null HOLD, 零填充禁止); 地面展开需卸载工装 (0.177 N·m 重力矩, test-config)", "gate": "C2-A"},
+    {"id": "OI-3", "item": "T_c=20 ms PROVISIONAL 待 B601 夹爪闭合时间实测 (GAP-IF-01, 根待办2); 本阶段引用不改, campaign 以 {5,20,100} ms 档覆盖", "gate": "C2-A"},
+    {"id": "OI-4", "item": "帆板模态/质量真值仍 UNKNOWN (无 datasheet、无实测): COTS 铰链力矩绝对值、厂商展开频率/阻尼公开渠道查不到 (B3 §3 总口径); 唯一可靠路径 = COTS 采购实测或复刻 arXiv:2407.19356 开源设计自建件 (B3 §7)", "gate": "C2-A"},
+    {"id": "OI-5", "item": "C1 接口: 帆板档质量变化 (R2 线三档两翼 Δm=-0.360/+0.360/+1.692 kg) 对 CG 一阶影响 |ΔCG|≤4.2 mm, 不能缓解 C1 OI-1 (CDS 变体 x 残余 -57.83 mm, y -9.30 mm); 后部压载 ~3.2 kg 需求不变; sim 线档质量变化 (两翼 -0.515/-0.334/+0.002 kg) 量级更小", "gate": "C2-E"},
+    {"id": "OI-6", "item": "A1 三档 HOLDS 为 PRE_CAMPAIGN_ANALYTIC (半正弦接触模型 + 悬臂缩放律); 终稿待 C4 campaign (51 runs, ~4-8 h ASSUMED) 按预注册 M1-M5 判据确认; campaign 未授权、未执行", "gate": "C2-C"}
+  ],
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

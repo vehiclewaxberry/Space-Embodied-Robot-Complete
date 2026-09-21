@@ -1,0 +1,206 @@
+{
+  "schema": "CTRL_R2_TIME_DOMAIN_PRECONTACT_TRACKING_CANDIDATE_CONTRACT_V1",
+  "authority_scope": "APPEND_ONLY_ZERO_MOMENTUM_RIGID_ROOT_FRAME_TWIST_RATE_DIAGNOSTIC_ONLY",
+  "maximum_contract_claim": "TIME_DOMAIN_TWIST_TRACKING_DIAGNOSTIC_PLANNED_NOT_YET_EXECUTED__PARENT_GATES_UNCHANGED__NO_CONTROL_RELEASE",
+  "execution_resource_admission": {
+    "scientific_or_release_authority": false,
+    "threshold_gib": 6.0,
+    "admission_samples_gib": [6.17, 6.26, 6.26],
+    "admission_pass": true,
+    "runtime_pre_solve_samples_gib": [6.264, 6.267, 6.267],
+    "runtime_pre_solve_minimum_gib": 6.264,
+    "runtime_pre_solve_pass": true,
+    "classification": "EXECUTION_RESOURCE_GATE_ONLY__NOT_SCIENTIFIC_THRESHOLD"
+  },
+  "plant": {
+    "upstream_lane_identifier": "LOCKED_2P_6R_PULSE",
+    "upstream_lane_identifier_interpretation": "IDENTIFIER_REUSE_ONLY__THIS_FEEDBACK_RUN_DOES_NOT_USE_THE_UPSTREAM_PULSE_PROFILE",
+    "model_scope": "CURRENT_R2_RIGID_ZERO_TOTAL_MOMENTUM_6R_ACTIVE_2P_IDEALLY_LOCKED",
+    "qP_star_m": [0.03575, 0.03575],
+    "dqP_m_s": [0.0, 0.0],
+    "tauP_N": [0.0, 0.0],
+    "total_momentum_scope": "EXACTLY_ZERO",
+    "duration_s": 0.012,
+    "fixed_step_s": 0.00025,
+    "solver_primary": "FIXED_STEP_RK4_WITH_OUTPUT_QUATERNION_RENORMALIZATION",
+    "solver_cross": "SCIPY_DOP853",
+    "external_force_or_torque_present": false,
+    "contact_or_target_present": false,
+    "flex_present": false
+  },
+  "initial_state": {
+    "base_position_inertial_m": [0.12, -0.08, 0.04],
+    "base_quaternion_body_to_inertial_wxyz": [0.98, 0.1, -0.08, 0.12],
+    "q8_mixed_rad_m": [-0.000014722592995215019, -1.0482002296028674, -1.3989828152470147, -1.2200100679438755, 0.000003673218594813444, 0.000018395811591279014, 0.03575, 0.03575],
+    "dq8_mixed_rad_s_m_s": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  },
+  "task_semantics": {
+    "tool_link": "gripper_link",
+    "twist_expression_frame": "INSTANTANEOUS_SPACECRAFT_BUS_ROOT_FRAME",
+    "tool_point": "GRIPPER_LINK_URDF_FRAME_ORIGIN",
+    "reference_is_inertial_trajectory": false,
+    "pose_error_state_present": false,
+    "pose_or_attitude_tracking_claim_allowed": false,
+    "six_d_command_interpretation": "CONSTANT_COMPONENTS_IN_THE_INSTANTANEOUS_SPACECRAFT_BUS_ROOT_FRAME",
+    "five_d_last_two_channels_interpretation": "CONSTANT_COMPONENTS_IN_THE_CONFIGURATION_DEPENDENT_LOCAL_APPROACH_AXIS_PLANE_BASIS_B_Q_TIMES_MINUS_SKEW_A_Q_TIMES_OMEGA",
+    "mixed_unweighted_linear_angular_norm_credit": false,
+    "weighted_error_unit": "1/s"
+  },
+  "controller": {
+    "law": "qdd_cmd=Kv*(qdot_cmd-dqR); tauR=M_RR*qdd_cmd+bias_R; tauP=0",
+    "Kv_per_s": 80.0,
+    "gain_authority": "PROVISIONAL_DESIGN_DIAGNOSTIC_ONLY",
+    "stability_proof_present": false,
+    "dls_lambda_dimensionless": 0.0001,
+    "rank_rtol": 1e-9,
+    "sigma_min_dimensionless_threshold": 0.0001,
+    "characteristic_length_m": 1.170431204685893,
+    "reference_inertia_kg_m2": 42.498508062024065,
+    "q_rate_scale_diagonal_rad_inverse": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+    "task_reference_profile": "CONSTANT_LOCAL_COMPONENTS_OVER_CLOSED_INTERVAL",
+    "secondary_nullspace_objective_present": false,
+    "hardware_effort_rate_delay_saturation_or_bandwidth_model": false
+  },
+  "scenarios": [
+    {
+      "id": "C0_UNCONTROLLED_5D_REFERENCE",
+      "comparison_pair": "PAIR_5D",
+      "task": "FAR_APPROACH_5D",
+      "controller_enabled": false,
+      "desired_twist_native": [0.002, -0.001, 0.0015, 0.0008, -0.0006],
+      "desired_units": ["m/s", "m/s", "m/s", "1/s", "1/s"]
+    },
+    {
+      "id": "C1_CONTROLLED_5D",
+      "comparison_pair": "PAIR_5D",
+      "task": "FAR_APPROACH_5D",
+      "controller_enabled": true,
+      "desired_twist_native": [0.002, -0.001, 0.0015, 0.0008, -0.0006],
+      "desired_units": ["m/s", "m/s", "m/s", "1/s", "1/s"]
+    },
+    {
+      "id": "C0_UNCONTROLLED_6D_REFERENCE",
+      "comparison_pair": "PAIR_6D",
+      "task": "FINAL_ALIGNMENT_6D",
+      "controller_enabled": false,
+      "desired_twist_native": [0.002, -0.001, 0.0015, 0.0008, -0.0006, 0.0005],
+      "desired_units": ["m/s", "m/s", "m/s", "rad/s", "rad/s", "rad/s"]
+    },
+    {
+      "id": "C2_CONTROLLED_6D",
+      "comparison_pair": "PAIR_6D",
+      "task": "FINAL_ALIGNMENT_6D",
+      "controller_enabled": true,
+      "desired_twist_native": [0.002, -0.001, 0.0015, 0.0008, -0.0006, 0.0005],
+      "desired_units": ["m/s", "m/s", "m/s", "rad/s", "rad/s", "rad/s"]
+    }
+  ],
+  "thresholds": {
+    "controlled_final_error_ratio_to_same_task_uncontrolled_max": 0.45,
+    "controlled_rms_error_ratio_to_same_task_uncontrolled_max": 0.85,
+    "step_sigma_min_dimensionless_min": 0.0001,
+    "rk4_dop853_qR_max_abs_rad": 2e-8,
+    "rk4_dop853_dqR_max_abs_rad_s": 2e-6,
+    "rk4_dop853_base_position_max_abs_m": 2e-9,
+    "rk4_dop853_base_attitude_max_rad": 2e-9,
+    "rk4_dop853_weighted_task_error_max_abs_per_s": 2e-6,
+    "linear_momentum_residual_max_kg_m_s": 1e-11,
+    "angular_momentum_about_fixed_inertial_origin_residual_max_kg_m2_s": 1e-11,
+    "work_energy_absolute_max_J": 2e-9,
+    "work_energy_relative_max": 1e-5,
+    "quaternion_norm_error_max": 1e-12,
+    "qP_position_lock_max_abs_m": 1e-15,
+    "dqP_lock_max_abs_m_s": 1e-15,
+    "ddqP_lock_max_abs_m_s2": 1e-12,
+    "kkt_equilibrium_R_max_abs_Nm": 1e-10,
+    "kkt_equilibrium_P_max_abs_N": 1e-10,
+    "kkt_vs_elimination_acceleration_R_max_abs_rad_s2": 1e-10,
+    "kkt_reaction_cross_max_abs_N": 1e-10,
+    "constraint_reaction_power_max_abs_W": 1e-12,
+    "computed_acceleration_closure_max_abs_rad_s2": 1e-10,
+    "approach_basis_seed_switch_count_max": 0,
+    "approach_basis_fixed_seed_cross_norm_min": 0.5,
+    "joint_limit_min_margin_mixed_rad_m": 0.0,
+    "negative_controls_minimum": 12
+  },
+  "source_pins": [
+    {
+      "id": "time_varying_plant_source",
+      "path": "30_simulation/r2_dynamics_engineering_closure/time_varying_torque_plant_candidate_v1/src/time_varying_torque_plant.py",
+      "bytes": 69319,
+      "sha256": "5C3D281FBC17847FAEA7A4A4453B6DB8401B7551A9CC1C074F49AB3234AD1C9F"
+    },
+    {
+      "id": "time_varying_plant_contract",
+      "path": "30_simulation/r2_dynamics_engineering_closure/time_varying_torque_plant_candidate_v1/contracts/R2_TIME_VARYING_TORQUE_PLANT_CANDIDATE_CONTRACT_V1.json",
+      "bytes": 13875,
+      "sha256": "570256E08C982712EFDECC9FA4A38586018779040AC33B53DDFC0AB45C9A3BD7"
+    },
+    {
+      "id": "time_varying_plant_gate",
+      "path": "30_simulation/r2_dynamics_engineering_closure/time_varying_torque_plant_candidate_v1/results/R2_TIME_VARYING_TORQUE_PLANT_CANDIDATE_GATE_V1.json",
+      "bytes": 11641,
+      "sha256": "5DC60E93A881AB35BDA912115A4782DD11DA0903B444201491D06642326DA2D1"
+    },
+    {
+      "id": "task_metric_source",
+      "path": "30_simulation/r2_control_engineering_closure/task_space_metric_candidate_v1/src/task_space_metric.py",
+      "bytes": 45166,
+      "sha256": "5CFD2135467D266869D76AC5B827F956544424C3C70FCA496034EA0E7CCEBF41"
+    },
+    {
+      "id": "task_metric_contract",
+      "path": "30_simulation/r2_control_engineering_closure/task_space_metric_candidate_v1/contracts/CTRL_R2_TASK_SPACE_METRIC_CANDIDATE_CONTRACT_V1.json",
+      "bytes": 6638,
+      "sha256": "51FC398BDDB6FBA07B1A0F300BA947BABF032D12135B2AB7C836D22F7A3394EB"
+    },
+    {
+      "id": "task_metric_gate",
+      "path": "30_simulation/r2_control_engineering_closure/task_space_metric_candidate_v1/results/CTRL_R2_TASK_SPACE_METRIC_CANDIDATE_GATE_V1.json",
+      "bytes": 3040,
+      "sha256": "88DF248197257786369286061B6CDF9DE89942A82DAB98E4C5E7485382B7742A"
+    },
+    {
+      "id": "control_kinematics_source",
+      "path": "30_simulation/r2_control_engineering_closure/src/control_engineering.py",
+      "bytes": 44365,
+      "sha256": "1006B84EC6377EF8F9A6BA562DEA83A0BFD3B4DC56B939B01039BADCA9F153DD"
+    },
+    {
+      "id": "parent_dynamics_source",
+      "path": "30_simulation/r2_dynamics_engineering_closure/src/r2_dynamics.py",
+      "bytes": 51371,
+      "sha256": "437155144E1D634936DDAD845930B0241270314C1E8319878B153933FD9B6513"
+    },
+    {
+      "id": "parent_dynamics_gate_hold",
+      "path": "30_simulation/r2_dynamics_engineering_closure/results/R2_DYNAMICS_ENGINEERING_GATE_V1.json",
+      "bytes": 5694,
+      "sha256": "C847DD680814864E8095223A42E4E4D53B903C6F6371E3DC47BAFEBAF478EB1A"
+    },
+    {
+      "id": "parent_control_gate_hold",
+      "path": "30_simulation/r2_control_engineering_closure/results/R2_CONTROL_ENGINEERING_GATE_V1.json",
+      "bytes": 3966,
+      "sha256": "2740B33E7958B4AF2232ED0A2A51CEA830470D1C98D5BA46C39C43279A02ADCE"
+    }
+  ],
+  "claim_boundary": {
+    "time_domain_diagnostic_executed": false,
+    "parent_gates_changed": false,
+    "precontact_tracking_validated": false,
+    "pose_or_attitude_tracking_validated": false,
+    "control_valid": false,
+    "hardware_valid": false,
+    "safe_review_pass": false,
+    "collision_valid": false,
+    "contact_valid": false,
+    "m01_path_bound": false,
+    "non_abort_authorized": false,
+    "next_stage_authorized": false,
+    "release_credit": false
+  },
+  "review_status": "PENDING_OWNER_REVIEW",
+  "next_stage_authorized": false,
+  "release_credit": false
+}

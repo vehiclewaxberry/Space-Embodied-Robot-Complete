@@ -1,0 +1,122 @@
+{
+  "schema": "CF1_THERMAL_PATH_INTERFACE_REQUIREMENTS",
+  "revision": "r3 (2026-09-17): lug faces on the probed 2 mm inner web at S y +/-101.15 (contact 1000 / 1080 mm2); the r2 'skin + stiffener gap' series term withdrawn: the wall is a 2 mm web + 2 mm gap with discrete bridges + 8 mm panel (mechanical/fixed_heat_common.py), modelled in thermal_cf1.py as in-plane web sheets coupled at the probed bridges; carrier node at the arch shelf with the riser conduction booked on both links",
+  "geometry_source": "mechanical/THERMAL_PATH_GEOMETRY_CF1.json",
+  "web_face_receipt": "results/mechanical/WEB_FACE_PROBE_CF1.json (0.25 mm y profile inside each lug footprint; gap-layer bridge map over the whole wall; lug contact 1000 / 1080 mm2, fraction 1.0, distance 0)",
+  "status": "REQUIREMENTS_DECLARED_NOT_VERIFIED",
+  "interfaces": [
+    {
+      "id": "IF_CF1_01_Q201_CASE_TO_CARRIER",
+      "from": "Q201 (TO-247 case) via the monolithic carrier arch tab",
+      "to": "carrier lumped node",
+      "requirement": "R_case_to_carrier <= 1.5 K/W",
+      "value_used_by_screen": 1.5,
+      "unit": "K/W",
+      "basis": "thermal_cf1.py Q201_CASE_TO_CARRIER; parent V30 arch tab with TIM per coupled_closure/mechanical_parts.py q201_tim()",
+      "verification": "NOT_VERIFIED (no thermal test, no contact-pressure analysis)"
+    },
+    {
+      "id": "IF_CF1_02_PCB_RETURN_ZONE_TO_BOSS",
+      "from": "PCB B.Cu zone CF1_RETURN_TIM_CONTACT (outline 64x11 = 704 mm2, filled 703.98 mm2, net WP10_INPUT_RETURN)",
+      "to": "CF1_CARRIER_BOSS top face (module z -1.803), 0.203 mm below the PCB bottom (module z -1.6)",
+      "requirement": "TIM 0.203 mm thick at 25 psi over the full 704 mm2. Electrically the zone is at return potential and the boss is chassis: an isolating TIM, or a deliberate single-point chassis bond, must be chosen before assembly.",
+      "verification": "NOT_VERIFIED; electrical bonding decision OPEN"
+    },
+    {
+      "id": "IF_CF1_03_CARRIER_TO_STRAP_MINUS_Y",
+      "from": "carrier underside (S z 50), S x -13..12, S y -56..-16",
+      "to": "CF1_STRAP_MINUS_Y bar top face",
+      "requirement": "TIM 25x40 mm (1000 mm2) at 25 psi; R_TIM = 0.1806 K/W",
+      "fasteners": "M3 x 4 through the 4 mm carrier plate into the 15 mm bar; 25 psi over 1000 mm2 = 172 N total, 43 N per screw (to be confirmed against 6061 thread strength and TIM creep)",
+      "verification": "NOT_VERIFIED"
+    },
+    {
+      "id": "IF_CF1_04_STRAP_MINUS_Y_TO_LUG",
+      "from": "CF1_STRAP_MINUS_Y paddle face, S y -93.15",
+      "to": "CF1_LUG_MINUS_Y inner face",
+      "requirement": "TIM 25x40 mm (1000 mm2) at 25 psi; R_TIM = 0.1806 K/W",
+      "fasteners": "M3 x 4 through the paddle into the 8 mm lug; 172 N total",
+      "verification": "NOT_VERIFIED"
+    },
+    {
+      "id": "IF_CF1_05_LUG_MINUS_Y_TO_WEB",
+      "from": "CF1_LUG_MINUS_Y outer face, S y -101.15",
+      "to": "shear_web_-1 inner web (2 mm) at S y -101.15. The 8 mm radiating panel (S y -113.15..-105.15) is joined to the web only by discrete bridge blocks in the 2 mm gap layer; there is NO bridge under the lug (WEB_FACE_PROBE_CF1.json gap_material_under_lug_mm3 = 0), so the heat runs laterally in the 2 mm web to the nearest bridge",
+      "requirement": "bolted metal joint with TIM 25x40 mm; patch centre (a,b) = (-0.5, 55) mm, size 25x40 mm in the FIXED_MINUS_Y face frame (S x -13..12, S z 35..75); the web is modelled as its own 2 mm in-plane sheet coupled to the panel at the probed bridges (thermal_cf1.py web_model)",
+      "fasteners": "M3 x 4 into the 2 mm web: thread engagement is insufficient in the web alone; through-bolts to the outer panel (through the gap) or bonded inserts are required. Host-owned, UNBOUND.",
+      "verification": "NOT_VERIFIED; web fastener pattern not allocated; contact area confirmed by WEB_FACE_PROBE_CF1.json only"
+    },
+    {
+      "id": "IF_CF1_06_ARCH_TO_STRAP_PLUS_Y",
+      "from": "carrier arch +Y face, S y 36, S x 28..55, S z 63..93",
+      "to": "CF1_STRAP_PLUS_Y arch paddle",
+      "requirement": "TIM 27x30 mm (810 mm2) at 25 psi; R_TIM = 0.2230 K/W",
+      "fasteners": "M3 x 4 into the 5 mm arch riser; 140 N total",
+      "verification": "NOT_VERIFIED"
+    },
+    {
+      "id": "IF_CF1_07_STRAP_PLUS_Y_TO_LUG",
+      "from": "CF1_STRAP_PLUS_Y lug paddle face, S y 93.15",
+      "to": "CF1_LUG_PLUS_Y inner face",
+      "requirement": "TIM 27x40 mm (1080 mm2) at 25 psi; R_TIM = 0.1673 K/W",
+      "fasteners": "M3 x 4; 186 N total",
+      "verification": "NOT_VERIFIED"
+    },
+    {
+      "id": "IF_CF1_08_LUG_PLUS_Y_TO_WEB",
+      "from": "CF1_LUG_PLUS_Y outer face, S y 101.15",
+      "to": "shear_web_1 inner web (2 mm) at S y 101.15; radiating panel at S y 105.15..113.15. On the +Y wall the ONLY gap-layer bridge is the CHB cold-finger block (S x -54..4, S z -82..-58), about 110 mm from the lug: the strap heat reaches the panel laterally through the 2 mm web and enters the panel at the same seat as the CHB cold-finger link",
+      "requirement": "patch centre (a,b) = (41.5, 70) mm, size 27x40 mm in the FIXED_PLUS_Y face frame (S x 28..55, S z 50..90); web modelled as a 2 mm in-plane sheet coupled to the panel at the CHB bridge (thermal_cf1.py web_model)",
+      "fasteners": "as IF_CF1_05: through-bolts or inserts to the outer plate; host-owned, UNBOUND",
+      "verification": "NOT_VERIFIED"
+    }
+  ],
+  "material": "6061-T6 for boss, straps and lugs (k = 167 W/mK assumed; web 130 W/mK per the parent Sheet model; no certificate)",
+  "TIM": "same family and 25 psi point as thermal/SPATIAL_RADIATOR_NETWORK_SCREEN.json selected_TIM_family; 0.28 C.in2/W",
+  "envelope_findings": [
+    {
+      "envelope_id": "WP10_INTERNAL_BATTERY_BYPASS",
+      "role": "FUNCTIONAL_ENVELOPE_OD6_R21_NO_CUT_LENGTH",
+      "source": "mechanical/MAIN_INPUT_PLACEMENT_BOUNDS_V27.json",
+      "bounding_box_screen": "Every 25x15 mm corridor from the carrier to shear_web_-1 crosses this envelope's bounding box.",
+      "exact_result": "results/mechanical/NARROWPHASE_CF1.json: the swept tube solid is 37.93 mm from CF1_STRAP_MINUS_Y in all three states, common volume 0; the lug does not bbox-intersect it any more.",
+      "disposition": "CLEAR_BY_EXACT_TEST; no re-route required for the CF1 parts"
+    },
+    {
+      "envelope_id": "WP10_RRC3570_4_D_MAX_ENVELOPE",
+      "role": "MANUFACTURER_MAX_OUTER_ENVELOPE_NOT_OEM_BREP",
+      "source": "mechanical/MAIN_INPUT_PLACEMENT_BOUNDS_V27.json (mechanical/battery_max_envelope.step, S box x -54..135.5, y -55.2..27, z 7..92.5)",
+      "exact_result": "NARROWPHASE_CF1.json: CF1_CARRIER_BOSS 4081.09 mm3 (whole boss) and CF1_STRAP_MINUS_Y 14700.00 mm3 lie inside this envelope. MODULE_POSE_NARROWPHASE_CF1.json: the V30 module body itself lies inside it by 90412.63 mm3 at the same pose, so this is a property of the CF1 module placement, not something the straps add.",
+      "disposition": "OPEN; the D-max box is a manufacturer maximum, not the ordered cell's BRep. Either the module pose moves out of the battery bay, or the envelope is replaced by the ordered battery's real outline before this can be closed."
+    },
+    {
+      "envelope_id": "PROP_PWR_ROUTE / PROP_DATA_ROUTE",
+      "role": "FUNCTIONAL_ENVELOPE",
+      "exact_result": "CF1_STRAP_PLUS_Y clears PROP_PWR_ROUTE by 1.000 mm and PROP_DATA_ROUTE by 1.472 mm (common volume 0). The strap was placed at S z 63 to sit 1 mm above the PROP_PWR_ROUTE top (S z 62).",
+      "disposition": "CLEAR_WITH_1_MM_MARGIN; raise the +Y bar if harness tolerance requires more"
+    },
+    {
+      "envelope_id": "shear_web_-1 rib at S x -15..-14, S y -90..-84",
+      "role": "PHYSICAL_GEOMETRY (part of the web STEP)",
+      "exact_result": "CF1_STRAP_MINUS_Y clears it by 1.000 mm after the +2 mm x shift (NARROWPHASE_CF1.json).",
+      "disposition": "CLEAR_WITH_1_MM_MARGIN"
+    }
+  ],
+  "module_placement_finding": {
+    "finding": "The CF1 architecture assumes the V30 module at T_S_module [[1,0,0,-24],[0,1,0,30],[0,0,1,61.6]]. results/mechanical/MODULE_POSE_NARROWPHASE_CF1.json rejects that pose for the module body: CLAMP_DUAL_BASE 384.10 mm3, CLAMP_DUAL_LID 18.82 mm3, POST_DUAL_0 9.00 mm3, POST_DUAL_1 9.00 mm3 (all PHYSICAL_GEOMETRY, all three states), plus envelope overlaps P60_REFERENCE_B 66.76 mm3, PROP_DATA_ROUTE 263.10 mm3 and WP10_RRC3570_4_D_MAX_ENVELOPE 90412.63 mm3. results/mechanical/MODULE_POSE_LOCAL_SEARCH_CF1.json: none of 16 translations (dy 0..-6, dz 0..+6 mm) is physically clear; -Y trades the clamp base for RB303, +Z meets RB_upper_beam_20; the smallest physical overlap is 139.84 mm3 at dy -6 (CLAMP_DUAL_BASE 54.0 + RB303 85.8). For context, the V30 accepted pose is itself REJECTED_SAVED_GEOMETRY_INTERFERENCE in coupled_closure/HOST_NARROWPHASE.json (18 collisions per state) and the three V33 shortlist poses are all acceptable_clearance_candidate=false; no exactly clear module pose exists in the tree.",
+    "disposition": "MODULE_POSE_REJECTED; a local relief on CLAMP_DUAL_BASE / the carrier corner or a change of module x is a design change outside CF1. The straps, lug patches and thermal screen are defined for the nominal pose and must be re-derived if the pose moves."
+  },
+  "source_discrepancy": {
+    "id": "equipment_compute_communications",
+    "finding": "The same STEP (sha256 eafde8dd343768f5...) is placed at two different poses: MAIN_INPUT_PLACEMENT_BOUNDS_V27.json T_S_step translation (-115, 39, 14) with a 90 deg rotation (bbox S x -152.5..-77.5, y -6..84), versus thermal/RADIATOR_OBSTACLE_BOUNDS.json translation (10, -48, 14) unrotated (bbox S x -35..55, y -85.5..-10.5). The CF1 -Y strap was kept above S z 35 so that it clears the RADIATOR_OBSTACLE_BOUNDS placement (top S z 34) as well; the narrowphase parent only knows the V27 placement.",
+    "disposition": "OPEN_UPSTREAM; both placements avoided by CF1, neither is adjudicated here"
+  },
+  "not_covered": [
+    "fastener sizing, thread engagement in the 1.85 mm web skin, insert selection, preload retention",
+    "TIM compression set and clamp-force-to-pressure conversion",
+    "structural loads on straps and lugs (launch, vibration)",
+    "electrical isolation of the return-zone boss",
+    "web-side hole pattern (host-owned)",
+    "native SolidWorks parts and drawings"
+  ]
+}

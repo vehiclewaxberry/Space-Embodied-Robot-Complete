@@ -1,0 +1,243 @@
+{
+  "schema": "SYSTEM_PAIR_ORACLE_CONTRACT_V1",
+  "generated_utc": "DETERMINISTIC_CONTRACT_NO_WALLCLOCK",
+  "authority": "READINESS_CONTRACT_ONLY__NO_GEOMETRY_LOAD_NO_PAIR_QUERY_NO_EDGE_QUERY_NO_PATH_SEARCH",
+  "review_status": "PENDING_OWNER_REVIEW",
+  "source_pins": {
+    "system_registry": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_COLLISION_AUTHORITY_V1/system_registry/M01_SYSTEM_COLLISION_REGISTRY_V1.json",
+      "sha256": "AC975D11CC4715277E34FCFF7ABF049BC57334FD8F03AAB223BBED0877B1694F"
+    },
+    "enumerated_pair_coverage": {
+      "path": "20_engineering/MECHANICAL_ENGINEERING_RELEASE_R2/_work/odr/ODR60_OPTION_A_COLLISION_AUTHORITY_V1/system_registry/M01_PAIR_COVERAGE_V1.csv",
+      "sha256": "C1F64FB26D4E563EEF6BF798EE163645FE16766CC3C510552769DB7FDF97306C",
+      "use_limit": "BYTE_HASH_PIN_ONLY__ROWS_NOT_QUERIED_BY_READINESS_BUILDER"
+    }
+  },
+  "universe": {
+    "object_set_symbol": "O",
+    "known_active_object_count": 150,
+    "canonical_pair_definition": "U = {(min_lex(i,j),max_lex(i,j)) | i,j in O and i != j}",
+    "raw_unordered_pair_formula": "|U| = |O|*(|O|-1)/2",
+    "raw_unordered_pair_count": 11175,
+    "active_exception_set_symbol": "E",
+    "active_exception_policy": "EXACT_ID_ONLY__NINE_ACCEPTED_URDF_ADJACENT_JOINT_PAIRS__NO_WILDCARD_NO_MANUAL_EXCEPTION",
+    "active_exception_count": 9,
+    "query_required_set_definition": "Q = U \\ E",
+    "query_required_pair_count": 11166,
+    "non_c_non_exception_pair_count": 9861,
+    "c_related_pair_formula": "9*(150-9) + 9*8/2",
+    "c_related_pair_count": 1305,
+    "cross_check": "9861 + 1305 = 11166"
+  },
+  "four_phase_planning_coverage": [
+    {
+      "phase": "P1_BIND_CORE_OBJECTS",
+      "object_selector": "A::base_link + F::{LOAD_BRIDGE,M3R_STAGE_A,M3R_STAGE_B} + all S + all R",
+      "object_count": 131,
+      "pair_query_count": 0,
+      "status": "PLANNED_BINDING_SCOPE_NOT_PASS"
+    },
+    {
+      "phase": "P2_QUERY_CORE_INTERNAL_PAIRS",
+      "object_count": 131,
+      "raw_pair_formula": "131*130/2",
+      "raw_pair_count": 8515,
+      "exception_count_inside_phase": 0,
+      "query_required_pair_count": 8515,
+      "cumulative_query_required_pair_count": 8515,
+      "status": "PLANNED_COVERAGE_NOT_EXECUTED_NOT_PASS"
+    },
+    {
+      "phase": "P3_ADD_NINE_C_SECTION_CAPSULE_OBJECTS",
+      "added_object_count": 9,
+      "cumulative_object_count": 140,
+      "added_pair_formula": "9*131 + 9*8/2",
+      "added_raw_pair_count": 1215,
+      "added_exception_count": 0,
+      "added_query_required_pair_count": 1215,
+      "cumulative_raw_pair_count": 9730,
+      "cumulative_query_required_pair_count": 9730,
+      "status": "PLANNED_COVERAGE_NOT_EXECUTED_NOT_PASS"
+    },
+    {
+      "phase": "P4_ADD_REMAINING_ARM_OBJECTS_AND_BUS",
+      "added_object_selector": "all A except A::base_link + F::BUS",
+      "added_object_count": 10,
+      "cumulative_object_count": 150,
+      "added_raw_pair_formula": "10*140 + 10*9/2",
+      "added_raw_pair_count": 1445,
+      "exception_count_inside_phase": 9,
+      "added_query_required_pair_count": 1436,
+      "cumulative_raw_pair_count": 11175,
+      "cumulative_query_required_pair_count": 11166,
+      "status": "PLANNED_COVERAGE_NOT_EXECUTED_NOT_PASS"
+    }
+  ],
+  "geometric_oracle_formulae": {
+    "geometry_state": "G_i(q,s,a) is the hash-bound closed collision set for object i at exact binary64 joint vector q, discrete scene state s and asset binding a",
+    "unsigned_separation": "d_ij(q,s,a) = inf{||x-y||_2 | x in G_i(q,s,a), y in G_j(q,s,a)}",
+    "certified_lower_bound": "d_lower_ij = d_backend_ij - e_i - e_j - e_backend",
+    "certified_upper_bound": "d_upper_ij is a backend-certified upper bound on true separation, or 0 when a complete closed-set intersection/contact witness is certified",
+    "required_margin": "m_lower_ij = d_lower_ij - d_required_ij",
+    "required_upper_margin": "m_upper_ij = d_upper_ij - d_required_ij",
+    "safe_rule": "SAFE iff every required input/hash/state is bound, all values are finite, backend completeness is certified, and m_lower_ij > 0",
+    "unsafe_rule": "UNSAFE iff a complete certified upper-bound or intersection/contact witness proves m_upper_ij <= 0; UNSAFE is never inferred from m_lower_ij <= 0 alone",
+    "threshold_rule": "m_lower_ij <= 0 proves only that SAFE is not certified; without a certified m_upper_ij <= 0 or intersection/contact witness the result is UNKNOWN",
+    "pair_identity": "pair_id = min_lex(object_id_a,object_id_b) + '||' + max_lex(object_id_a,object_id_b)",
+    "exception_rule": "Only exact pair_id members of E may return EXEMPT_ADJACENT; exceptions never imply geometric SAFE"
+  },
+  "row_schema_contract": {
+    "discriminator": "row_kind",
+    "GEOMETRIC_RESULT": "pair_id must be in Q; common plus geometric-query/result fields are mandatory and status is SAFE, UNSAFE, UNKNOWN or FAIL",
+    "EXCEPTION_RESULT": "pair_id must be in E; common plus exception fields are mandatory, status is EXEMPT_ADJACENT, and every geometric/backend/distance/pose/witness field is forbidden rather than zero-filled or null-filled",
+    "cross_kind_rule": "A pair_id in Q cannot emit EXCEPTION_RESULT and a pair_id in E cannot emit GEOMETRIC_RESULT; any mismatch is FAIL_ABORT"
+  },
+  "required_common_row_input_fields": [
+    "schema",
+    "row_kind",
+    "request_id",
+    "pair_id",
+    "object_id_a",
+    "object_id_b",
+    "q_order",
+    "q_rad_binary64",
+    "q_bytes_sha256",
+    "scene_state",
+    "scene_state_sha256",
+    "registry_sha256",
+    "pair_oracle_contract_sha256",
+    "allowed_collision_exact_pair_set_sha256",
+    "clearance_policy_sha256"
+  ],
+  "required_geometric_query_input_fields": [
+    "object_a_geometry_asset_sha256",
+    "object_b_geometry_asset_sha256",
+    "object_a_motion_binding_sha256",
+    "object_b_motion_binding_sha256",
+    "mount_binding_sha256",
+    "authorized_pair_min_mm",
+    "required_clearance_mm",
+    "backend_id",
+    "backend_version",
+    "backend_configuration_sha256"
+  ],
+  "required_exception_input_fields": [
+    "exception_rule_id",
+    "exception_rule_sha256"
+  ],
+  "required_common_row_output_fields": [
+    "schema",
+    "row_kind",
+    "request_id",
+    "pair_id",
+    "canonical_object_ids",
+    "q_bytes_sha256",
+    "scene_state_sha256",
+    "input_binding_sha256",
+    "pair_oracle_contract_sha256",
+    "allowed_collision_exact_pair_set_sha256",
+    "clearance_policy_sha256",
+    "status",
+    "reason_codes",
+    "evidence_sha256"
+  ],
+  "required_geometric_result_output_fields": [
+    "backend_id",
+    "backend_version",
+    "backend_configuration_sha256",
+    "backend_determinism_receipt_sha256",
+    "geometry_a_pose_S_row_major_binary64",
+    "geometry_b_pose_S_row_major_binary64",
+    "raw_backend_separation_mm",
+    "object_a_hausdorff_derate_mm",
+    "object_b_hausdorff_derate_mm",
+    "backend_numeric_derate_mm",
+    "certified_separation_lower_bound_mm",
+    "certified_separation_upper_bound_mm",
+    "certified_upper_bound_evidence_sha256",
+    "authorized_pair_min_mm",
+    "required_clearance_mm",
+    "certified_margin_lower_bound_mm",
+    "certified_margin_upper_bound_mm",
+    "intersection_or_contact_certified",
+    "unsafe_witness_authority_sha256",
+    "witness_point_a_S_mm",
+    "witness_point_b_S_mm",
+    "witness_feature_a",
+    "witness_feature_b",
+    "comparison_set_size",
+    "finite",
+    "complete"
+  ],
+  "numeric_and_shape_contract": {
+    "clearance_request": "authorized_pair_min_mm and required_clearance_mm must be finite, authorized_pair_min_mm >= 0, and required_clearance_mm >= authorized_pair_min_mm; negative, nonfinite or below-policy values are FAIL_ABORT",
+    "derates": "object_a_hausdorff_derate_mm, object_b_hausdorff_derate_mm and backend_numeric_derate_mm must be finite and >= 0 whenever consumed; a negative or nonfinite derate is FAIL_ABORT",
+    "unsigned_backend_value": "raw_backend_separation_mm must be finite and >= 0 for every complete geometric result because d_ij is unsigned",
+    "lower_bound_arithmetic": "certified_separation_lower_bound_mm must be binary64-byte-identical to (((raw_backend_separation_mm - object_a_hausdorff_derate_mm) - object_b_hausdorff_derate_mm) - backend_numeric_derate_mm), evaluated left-to-right with IEEE-754 round-to-nearest ties-to-even and no fused operation",
+    "certified_interval": "When both bounds are present they must be finite and certified_separation_lower_bound_mm <= certified_separation_upper_bound_mm; an inverted or nonfinite interval is FAIL_ABORT",
+    "upper_bound_authority": "Every finite certified_separation_upper_bound_mm must be >= 0 and requires a 64-hex certified_upper_bound_evidence_sha256 bound to an independent backend certificate or complete witness; an upper bound is never synthesized from the lower bound or accepted from an unbound caller; a certified intersection/contact uses the canonical unsigned upper bound 0",
+    "margin_consistency": "Each present certified margin equals its corresponding certified separation bound minus required_clearance_mm under the declared binary64 arithmetic contract",
+    "comparison_set": "comparison_set_size must be a positive integer for SAFE or UNSAFE; zero, boolean, fractional or negative values are FAIL_ABORT",
+    "poses": "Each geometry pose is exactly 16 finite binary64 values in row-major 4x4 form and satisfies the separately hash-bound rigid-transform validation policy",
+    "witnesses": "Each present witness point is exactly 3 finite binary64 millimetre values; missing witnesses are allowed only where the status-specific rule does not require one",
+    "status_specific_nullability": "SAFE requires a finite positive certified lower margin and complete=true; UNSAFE requires either a finite non-positive certified upper margin or intersection_or_contact_certified=true with unsafe_witness_authority_sha256; UNKNOWN may use null for unresolved numeric fields but can never be promoted to SAFE; geometric numeric fields are forbidden for EXCEPTION_RESULT"
+  },
+  "required_exception_result_output_fields": [
+    "exception_rule_id",
+    "exception_rule_sha256",
+    "exception_pair_set_membership_proof_sha256"
+  ],
+  "forbidden_exception_result_fields": [
+    "backend_id",
+    "backend_version",
+    "backend_configuration_sha256",
+    "backend_determinism_receipt_sha256",
+    "geometry_a_pose_S_row_major_binary64",
+    "geometry_b_pose_S_row_major_binary64",
+    "raw_backend_separation_mm",
+    "object_a_hausdorff_derate_mm",
+    "object_b_hausdorff_derate_mm",
+    "backend_numeric_derate_mm",
+    "certified_separation_lower_bound_mm",
+    "certified_separation_upper_bound_mm",
+    "certified_upper_bound_evidence_sha256",
+    "required_clearance_mm",
+    "certified_margin_lower_bound_mm",
+    "certified_margin_upper_bound_mm",
+    "witness_point_a_S_mm",
+    "witness_point_b_S_mm",
+    "witness_feature_a",
+    "witness_feature_b",
+    "comparison_set_size",
+    "finite",
+    "complete"
+  ],
+  "status_contract": {
+    "SAFE": "Certified strictly positive lower margin with complete hash/state/geometry/backend binding",
+    "UNSAFE": "Certified upper margin <= 0, including a complete intersection/contact witness; never inferred from a non-positive lower margin alone",
+    "UNKNOWN": "Missing input, missing motion/geometry authority, hash mismatch, empty comparison set, nonfinite value, backend error, incomplete broad/narrow phase, uncertified derating, or threshold ambiguity",
+    "EXEMPT_ADJACENT": "Exact member of E only; excluded from Q and not counted as SAFE",
+    "FAIL": "Malformed request/output, illegal exception, duplicate/missing pair result, or deterministic replay mismatch; execution aborts"
+  },
+  "batch_completeness_contract": {
+    "emitted_pair_set": "exactly U: all 11175 stable pair_id rows are emitted once under one identical q/scene/asset/allowed-collision binding; no duplicate and no omitted pair_id",
+    "exception_row_set": "exactly E: all 9 active adjacent exception pair_id rows are present as EXEMPT_ADJACENT and match the exact allowed_collision_exact_pair_set_sha256; they are never counted as SAFE",
+    "required_pair_set": "exactly Q = U minus E: all 11166 query-required pair_id rows return a geometric outcome",
+    "safe_batch": "All 11175 stable rows are present, all 9 E rows are valid EXEMPT_ADJACENT, and all 11166 Q rows return SAFE under one identical q/scene/asset/allowed-collision binding",
+    "any_unsafe": "Batch UNSAFE",
+    "any_unknown_or_fail": "Batch UNKNOWN_ABORT; UNKNOWN can never be converted to SAFE",
+    "pair_result_reuse": "Forbidden across any q bytes, scene state, registry, asset, mount, motion, backend or clearance-policy hash change"
+  },
+  "current_readiness": {
+    "planned_coverage_only": true,
+    "pair_oracle_implemented_and_bound": false,
+    "pair_queries_executed": 0,
+    "system_safe_pairs_certified": 0,
+    "system_collision_pass": false,
+    "edge_evaluation_authorized": false,
+    "path_search_authorized": false,
+    "release_credit": false
+  },
+  "verdict": "SYSTEM_PAIR_ORACLE_CONTRACT_FROZEN__FOUR_PHASE_COVERAGE_PLANNED_NOT_EXECUTED__11166_REQUIRED_PAIRS_UNASSESSED_FAIL_CLOSED__HOLD"
+}

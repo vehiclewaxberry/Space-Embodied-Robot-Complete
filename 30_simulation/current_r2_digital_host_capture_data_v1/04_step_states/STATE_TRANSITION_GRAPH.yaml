@@ -1,0 +1,34 @@
+# 状态转移图：C 状态库 × M 任务轨迹段。只登记本地权威，不发明转移。
+schema: STATE_TRANSITION_GRAPH_V1
+sources:
+  configuration_library: CONFIGURATION_LIBRARY_V1.yaml
+  trajectory_contract: B601_MANDATORY_MISSION_TRAJECTORY_CONTRACT_V1.yaml
+  m01_scene_schema: M01_THREE_STAGE_SCENE_SCHEMA_V2.json
+mission_segments:   # 8 段强制任务轨迹；全部 trajectory_authority=MISSING，0 段放行
+  - {id: M01, from: STOW, to: RELEASE_CLEAR, purpose: ARM_RELEASE, trajectory_authority: MISSING, released_for_mission_gate: false,
+     from_q_rad: [2.540711, -2.932153, -0.994838, -0.718081, -0.365716, -0.05236],
+     to_q_rad: [-1.570796, -2.094395, -2.094395, -1.047198, -0.523599, 0.0],
+     straight_q_path: REJECTED_BY_RAW_PHYSICAL_PENETRATION_AT_S_0P5,
+     negative_witness: {s: 0.5, raw_clearance_mm: -10.729480331980062, gated_mm: -17.313396996697108, pair: "SEG04_SECTION6_LINK4_DOWNSTREAM_CONDUIT vs vendor:link3"},
+     alternative_path: UNKNOWN_NOT_SEARCHED,
+     owner_token_recorded: AUTHORIZE_OPTION_A_FIXED_ENDPOINT_M01_TRAJECTORY_SEARCH}
+  - {id: M02_M08, note: "其余 7 段登记于轨迹合同，authority 均 MISSING；本增量不展开", released: false}
+m01_three_stage_decomposition:   # 已由 ODR60 schema V2 绑定，实例 0/3
+  schema_verdict: M01_THREE_STAGE_SCENE_SCHEMA_V2_BOUND__ZERO_STAGE_INSTANCES__NO_OBJECT_STATE_INFERRED__PAIR_EDGE_PATH_HOLD
+  stages:
+    - {stage: PRE_RELEASE, config_ref: C05, content: 支撑与锁定状态, instance: null, status: HOLD_NO_INSTANCE}
+    - {stage: RELEASE_EVENT, config_ref: C05_to_C01_transition, content: HDRM 释放事件, instance: null, status: HOLD_NO_HDRM_FIELDS}
+    - {stage: POST_RELEASE, config_ref: C01, content: 连续路径至 RELEASE_CLEAR, instance: null, status: HOLD_NO_COLLISION_ASSETS}
+  scene_values_bound: 0/30
+  pair_queries_evaluated: 0/11166
+  edges_certified: 0
+c_state_relations:   # 库内语义关系（几何转移授权 = 无）
+  - {from: C05, to: C01, via: [M01_PRE_RELEASE, M01_RELEASE_EVENT, M01_POST_RELEASE], geometric_authorization: NONE}
+  - {from: C01, to: C06, via: TASK_READY_RECONFIG, geometric_authorization: NONE}
+  - {from: C06, to: C07, via: PREGRASP_APPROACH, geometric_authorization: NONE}
+  - {from: C07, to: C08, via: CAPTURE_22KG, blocking: [T_E_T_MISSING, CONTACT_AUTHORITY_NOT_EVALUATED]}
+  - {from: C07, to: C09, via: CAPTURE_150KG, blocking: [T_E_T_MISSING, CONTACT_AUTHORITY_NOT_EVALUATED, E15_REPEAT, "sim_10 判据 150kg@3dps=INFEASIBLE_RATE → physics-veto/ABORT"]}
+  - {from: [C01], to: [C02, C03, C04], via: PANEL_FAILURE_EVENTS, geometric_authorization: NONE}
+fail_closed:
+  - "离散 waypoint / 0.25° 采样不得单独构成连续无碰证书（须递归边细分 + 连续路径 + 时间律 + 证书哈希）"
+  - "stage 实例缺失时 M01-A/B/C 场景保持 HOLD，只允许合同层工作"

@@ -1,0 +1,90 @@
+schema_version: MATERIAL_PROCESS_APPROVAL_CONTROL_V1
+generated_local: '2026-08-21T13:50:00+08:00'
+phase: M3_MECHANICAL_DETAILED_DESIGN_CLOSURE
+database: 04_materials/system/MATERIAL_PROCESS_CANDIDATE_DATABASE_V1.csv
+overall_status: HOLD_ZERO_MATERIALS_OR_PROCESSES_APPROVED
+
+authority_ruling:
+  local_material_names_are_candidates: true
+  candidate_name_is_not_a_released_material_specification: true
+  candidate_density_is_not_a_measurement: true
+  handbook_or_assumed_properties_are_not_design_allowables: true
+  CAD_material_assignment_alone_does_not_authorize_FEA: true
+  no_flight_material_or_process_approval_is_claimed: true
+
+required_approval_record_per_physical_item:
+  identity:
+    - controlled_part_number_and_revision
+    - material_family
+    - exact_material_specification_and_grade
+    - temper_heat_treatment_or_compound
+    - product_form_and_thickness_or_section_range
+  procurement:
+    - approved_supplier_or_procurement_route
+    - lot_or_heat_traceability
+    - certificate_of_conformance_or_material_test_report
+  process:
+    - manufacturing_route
+    - special_process_specification
+    - process_supplier_and_qualification_status
+    - inspection_and_acceptance_plan
+  surface_and_joining:
+    - coating_finish_or_passivation
+    - surface_roughness_where_functional
+    - lubricant_or_threadlocker
+    - galvanic_and_dissimilar_material_control
+  environment:
+    - temperature_range
+    - vacuum_or_outgassing_evidence_where_applicable
+    - radiation_aging_or_atomic_oxygen_disposition_where_applicable
+    - corrosion_and_stress_corrosion_disposition
+    - flammability_or_contamination_disposition_where_applicable
+  structural_properties:
+    - property_source_and_revision
+    - temperature_and_direction_dependence
+    - statistical_basis_and_design_allowable_type
+    - degradation_or_knockdown_factors
+    - applicability_to_product_form_and_process
+  authorization:
+    - responsible_owner
+    - approval_date_with_timezone
+    - source_document_path
+    - source_document_sha256
+
+approval_state_machine:
+  - state: CANDIDATE_CAPTURED
+    numeric_analysis_credit: false
+  - state: SPEC_SELECTED
+    numeric_analysis_credit: false
+  - state: PROCUREMENT_AND_PROCESS_ROUTE_DEFINED
+    numeric_analysis_credit: false
+  - state: ENVIRONMENTAL_COMPATIBILITY_REVIEWED
+    numeric_analysis_credit: false
+  - state: DESIGN_ALLOWABLES_ACCEPTED
+    numeric_analysis_credit: limited_to_declared_scope
+  - state: M3_MATERIAL_PROCESS_APPROVED
+    numeric_analysis_credit: true
+
+current_counts:
+  database_rows: 15
+  candidate_rows: 13
+  unknown_rows: 2
+  material_approved_rows: 0
+  process_approved_rows: 0
+  fea_authorized_rows: 0
+  density_authorized_for_released_mass_rows: 0
+
+next_closure_actions:
+  - assign exact material and product-form specifications to M3R Stage A and Stage B
+  - bind every M3R fastener and locator to an exact specification and lot-control route
+  - establish gripper physical-part material decomposition
+  - define wing hinge pin spacer lug and stop tribological pairs
+  - close polymer grade outgassing temperature creep and wear evidence
+  - approve machining heat-treatment finish inspection and special-process routes
+  - publish temperature-dependent design allowables before any critical-part FEA
+
+release_prohibitions:
+  - NO_FORMAL_FEA_USING_THIS_CANDIDATE_DATABASE
+  - NO_FLIGHT_MATERIAL_APPROVAL_CLAIM
+  - NO_MANUFACTURING_RELEASE_FROM_CANDIDATE_NAMES
+  - NO_DENSITY_BASED_MASS_RECLASSIFICATION_AS_MEASURED

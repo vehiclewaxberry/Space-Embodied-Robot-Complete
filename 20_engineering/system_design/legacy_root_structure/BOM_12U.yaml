@@ -1,0 +1,366 @@
+schema_version: KB-B-02-BOM-12U-v1
+document_status: STRUCTURE_CONFIG_ISSUE_B601_STOW_Z_AND_SOLAR_PACKAGE_WIDTH
+generated_on: "2026-07-28"
+scope: 12U_servicer_plus_B601_launch_stowed_configuration
+
+field_policy:
+  required_fields:
+    - id
+    - name
+    - subsystem
+    - mass_kg
+    - provenance
+    - datasheet_ref
+    - mount_frame_xyz_mm
+    - mount_orientation_rpy
+    - is_deployable
+    - launch_lock_required
+  allowed_provenance:
+    - DATASHEET
+    - CDS
+    - MEASURED
+    - ESTIMATED
+  placeholder_rule: >-
+    PLACEHOLDER is deliberate. It means the value is UNSOURCED_BLOCKED and
+    shall not be converted to zero or consumed by mass, inertia, GJM,
+    angular-momentum, structural, or simulation models.
+  estimated_rule: >-
+    Every ESTIMATED item carries an estimate_method and an
+    uncertainty_interval_kg. A PLACEHOLDER interval means the estimate is not
+    qualified for additive budgeting.
+
+units:
+  mass_kg: kg
+  mount_frame_xyz_mm: mm
+  mount_orientation_rpy: rad
+  inertia_local: kg_m2_about_component_com
+  momentum_capacity_Nms: N_m_s
+  max_torque_Nm: N_m
+
+items:
+  - id: STR-FRAME-001
+    name: 主框架与横向框组
+    subsystem: 主结构(框架·板·导轨)
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: structure/DOC_ACQUISITION.md#doc-mat-01
+    mount_frame_xyz_mm: [0.0, 0.0, 0.0]
+    mount_orientation_rpy: [0.0, 0.0, 0.0]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: allocation_slot_only_no_material_section_or_joint_released
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+    notes: >-
+      Four-longeron and transverse-frame topology is retained as a design
+      intent; section, material, joints, and mass are open.
+
+  - id: STR-PANEL-001
+    name: 可拆外板与设备舱板组
+    subsystem: 主结构(框架·板·导轨)
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: structure/DOC_ACQUISITION.md#doc-mat-01
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: allocation_slot_only_panel_stack_and_cutouts_unknown
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+    notes: External panels remain secondary and may not silently close the primary load path.
+
+  - id: STR-DEPLOYER-IF-001
+    name: 部署器导轨或承载凸耳接口组
+    subsystem: 主结构(框架·板·导轨)
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: structure/DOC_ACQUISITION.md#doc-dep-01
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: selected_deployer_interface_not_yet_chosen
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+    notes: Rail and tab/CSD interfaces are mutually non-interchangeable until a dispenser is selected.
+
+  - id: EPS-PMAD-001
+    name: EPS与配电单元
+    subsystem: EPS+电池
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_SELECTED_EPS_DATASHEET
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: allocation_slot_only_no_hardware_selected
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+  - id: EPS-BAT-001
+    name: 电池组
+    subsystem: EPS+电池
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_SELECTED_BATTERY_DATASHEET
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: allocation_slot_only_capacity_and_cell_configuration_unknown
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+  - id: EPS-SA-L-001
+    name: 左太阳翼总成
+    subsystem: EPS+电池
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_SOLAR_WING_BOM_AND_HDRM_DATASHEET
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: true
+    launch_lock_required: true
+    estimate_method: prior_geometry_mass_is_excluded_pending_real_panel_bom
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: CORRECTED
+    notes: Existing stowed package has a preserved envelope failure; no mass is promoted.
+
+  - id: EPS-SA-R-001
+    name: 右太阳翼总成
+    subsystem: EPS+电池
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_SOLAR_WING_BOM_AND_HDRM_DATASHEET
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: true
+    launch_lock_required: true
+    estimate_method: prior_geometry_mass_is_excluded_pending_real_panel_bom
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: CORRECTED
+    notes: Existing stowed package has a preserved envelope failure; no mass is promoted.
+
+  - id: OBC-001
+    name: 星务计算机
+    subsystem: OBC
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_SELECTED_OBC_DATASHEET
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: allocation_slot_only_no_hardware_selected
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+  - id: ADCS-RW-001
+    name: 反作用轮组
+    subsystem: ADCS(反作用轮·星敏·磁力矩器·陀螺)
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: structure/DOC_ACQUISITION.md#doc-rw-01
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    inertia_local: PLACEHOLDER
+    momentum_capacity_Nms: PLACEHOLDER
+    max_torque_Nm: PLACEHOLDER
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: no_selected_wheel_prior_simulation_classes_explicitly_excluded
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: CORRECTED
+    notes: >-
+      Both momentum capacity and maximum torque are mandatory downstream
+      fields. Earlier simulation-tier capacities are not product data and are
+      not admitted here.
+
+  - id: ADCS-ST-001
+    name: 星敏感器
+    subsystem: ADCS(反作用轮·星敏·磁力矩器·陀螺)
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_SELECTED_STAR_TRACKER_DATASHEET
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: allocation_slot_only_fov_and_hardware_unknown
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+  - id: ADCS-MTQ-001
+    name: 磁力矩器组
+    subsystem: ADCS(反作用轮·星敏·磁力矩器·陀螺)
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_SELECTED_MAGNETORQUER_DATASHEET
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: allocation_slot_only_no_hardware_selected
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+  - id: ADCS-GYRO-001
+    name: 陀螺与IMU
+    subsystem: ADCS(反作用轮·星敏·磁力矩器·陀螺)
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_SELECTED_IMU_DATASHEET
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: allocation_slot_only_no_hardware_selected
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+  - id: COMM-RADIO-001
+    name: 通信与射频电子单元
+    subsystem: 通信
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_SELECTED_COMMUNICATIONS_DATASHEET
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: allocation_slot_only_no_hardware_selected
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+  - id: COMM-ANT-001
+    name: 天线与展开机构
+    subsystem: 通信
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_SELECTED_ANTENNA_AND_RELEASE_DATASHEET
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: true
+    launch_lock_required: true
+    estimate_method: allocation_slot_only_envelope_and_release_hardware_unknown
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+  - id: ARM-B601-001
+    name: B601机械臂含夹爪数字质量模型
+    subsystem: 臂安装座
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf
+    mount_frame_xyz_mm: [PLACEHOLDER, 0.0, 0.0]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    inertia_local: PLACEHOLDER
+    is_deployable: true
+    launch_lock_required: true
+    estimate_method: physical_weighing_and_released_mount_orientation_not_available
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    model_only_reference:
+      mass_kg: 4.6955559493429862
+      inertia_ref: accepted_hybrid_URDF_per_link_values
+      mount_orientation_rpy: [0.0, 1.5707963, 0.0]
+      status: AUDIT_ONLY_NOT_ADDITIVE
+    candidate_mount_tracks_xyz_mm:
+      dynamics_PDR: [185.25, 0.0, 0.0]
+      display: [198.0, 0.0, 0.0]
+    adjudication: CORRECTED
+    notes: >-
+      Digital model values are preserved under model_only_reference for replay
+      continuity but may not be consumed by additive physical BOM tooling.
+      Physical mass, inertia, X track, and orientation remain unresolved.
+
+  - id: ARM-ADAPTER-001
+    name: B601基座适配器与载荷扩散件
+    subsystem: 臂安装座
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: structure/DOC_ACQUISITION.md#doc-b601-icd-01
+    mount_frame_xyz_mm: [PLACEHOLDER, 0.0, 0.0]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: current_native_parts_are_reference_envelopes_without_material_or_holes
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    model_only_mount_orientation_rpy: [0.0, 1.5707963, 0.0]
+    model_only_status: AUDIT_ONLY_NOT_PHYSICAL_INTERFACE
+    adjudication: CORRECTED
+
+  - id: ARM-HDRM-001
+    name: 机械臂发射保持与释放机构
+    subsystem: 臂安装座
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: structure/DOC_ACQUISITION.md#doc-hdrm-01
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: true
+    estimate_method: separation_nut_candidate_only_no_product_or_load_case_selected
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+  - id: HARNESS-001
+    name: 整星线缆与应力释放件
+    subsystem: 线缆
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_HARNESS_DRAWING_AND_CABLE_DATASHEETS
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: route_length_connector_and_service_loop_not_defined
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+  - id: FASTENER-001
+    name: 紧固件与防松件
+    subsystem: 紧固件
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: PLACEHOLDER_RELEASED_FASTENER_SCHEDULE
+    mount_frame_xyz_mm: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    mount_orientation_rpy: [PLACEHOLDER, PLACEHOLDER, PLACEHOLDER]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: bolt_count_grade_and_locking_method_not_released
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+  - id: MARGIN-001
+    name: 系统质量余量
+    subsystem: 余量
+    mass_kg: PLACEHOLDER
+    provenance: ESTIMATED
+    datasheet_ref: structure/DOC_ACQUISITION.md#doc-cds-01
+    mount_frame_xyz_mm: [0.0, 0.0, 0.0]
+    mount_orientation_rpy: [0.0, 0.0, 0.0]
+    is_deployable: false
+    launch_lock_required: false
+    estimate_method: derived_only_after_qualified_limit_and_additive_bom_are_available
+    uncertainty_interval_kg: [PLACEHOLDER, PLACEHOLDER]
+    adjudication: UNSOURCED_BLOCKED
+
+excluded_legacy_aggregates:
+  - id: LEGACY-SERVICER-24KG
+    value_kg: 24.0
+    provenance: ESTIMATED
+    disposition: EXCLUDED_FROM_BOM
+    reason: >-
+      A low-confidence primitive model was forced to a legacy CDS-derived
+      target by effective density and lumped internal subsystems. It is not a
+      component allocation or current-standard limit.
+  - id: LEGACY-PDR-LEDGER-TOTAL
+    value_kg: 29.8955559493429862
+    provenance: ESTIMATED
+    disposition: AUDIT_ONLY_NOT_BASELINE
+    reason: >-
+      It sums provisional bus, panel, adapter, and digital-arm rows while
+      leaving most selected hardware unknown; it is neither complete nor
+      measured.

@@ -1,0 +1,45 @@
+# Geometry SSOT v1 — arm B601 (decision D-5-FINAL 2026-07-10: real 6R arm = mainline;
+# 7-DOF generic skeleton demoted to future theoretical comparison, NOT built now)
+model:
+  name: reBot Arm B601-DM (Seeed), project id arm_b601_v1
+  dof_arm: 6                       # 6 revolute — NOT 7 (audit corrected the narrative)
+  dof_gripper: 2                   # prismatic fingers, NOT counted as arm redundancy
+  physical_hardware_match: true    # the team's own desktop arm (达妙 QDD, MIT torque mode)
+  urdf: 20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf   # HYBRID, see mass_properties
+  meshes: 20_engineering/cad/spacecraft_layout/arm_b601_v1/meshes_b601_gripper/ (binary STL, ~27 MB, untracked pending LFS decision)
+  hardware_step: 80_third_party/vendor/reBot-DevArm/hardware/reBot_B601_DM/reBot_B601_DM_v1.1_20260425.step  # CM3: repo-relative (was broken F:/Robotic arm abs path)
+  ros2_controller: vendor reBotArmController_ROS2 (upstream Seeed)
+mass_properties:
+  total_arm_mass_kg: 4.4293        # base_link+link1..6, DevArm inertial set
+  gripper_mass_kg: 0.2665          # gripper_link + left + right, from with_gripper file
+  total_dynamics_mass_kg: 4.6956
+  source: >-
+    HYBRID (evidence-ranked): vendor doc states self-weight ~4.5 kg (reBot-DevArm README,
+    matches DevArm_fixend URDF 4.43 kg arm) -> DevArm inertial set adopted for base+links1-6;
+    the with_gripper URDF totals only 2.74 kg (CAD-material export without motors,
+    high-precision decimals, systematically ~2x light) -> its masses REJECTED for dynamics,
+    its kinematics/meshes/gripper topology kept. Link CoMs agree between files (same geometry).
+  confidence: medium
+  pending: physical weighing of the real arm (evidence rank 1) -> upgrade to high
+  validity: all links mass>0, inertia symmetric PD, triangle inequality PASS (both source files)
+base:
+  parent_frame: M                  # adapter outer face, SSOT sec3.1
+  transform_T_MA0: identity (nominal)  # base_link z-up = J1 axis = +Z_M = reach direction
+  note: matches the frozen +Z_M reach convention natively; legacy 2DOF arm (+X_M) deprecated
+gripper:
+  approach_state: fingers at capture-ready opening
+  finger_joints_locked_for_dynamics: true   # v1 rigid-body dynamics; HIL controls fingers
+task_modes:                        # capture task taxonomy (per adopted plan)
+  3dof_position: {task_dim: 3, kinematic_nullspace_dim: "6 - rank(Jp), typically 3"}
+  5dof_axisymmetric: {task_dim: 5, kinematic_nullspace_dim: "typically 1", primary_research_mode: true}
+  6dof_rigid_lock: {task_dim: 6, kinematic_nullspace_dim: 0, note: trajectory/configuration optimization only}
+terminology_rule: >-
+  Call trajectories "reaction-minimizing" (反作用最小化). Kinematic null space of J_task
+  is NOT a reaction null space; only after numerically verifying |H_bm qdot| ~ 0 on a
+  specific trajectory may it be called "near-zero-reaction" for that trajectory.
+license:
+  upstream: Seeed reBot-DevArm — hardware CERN-OHL-W-2.0, software Apache-2.0
+  usage: attributed derivative URDF for 10_research/competition; keep license notice; A-/A per license gate
+impact_note: >-
+  arm/bus mass ratio jumps 1.6/24 -> 4.70/23.30 (~3x): the 2DOF-era 13.1 deg base-reaction
+  figure is superseded; sim_05 must re-derive with this model before any report figure.

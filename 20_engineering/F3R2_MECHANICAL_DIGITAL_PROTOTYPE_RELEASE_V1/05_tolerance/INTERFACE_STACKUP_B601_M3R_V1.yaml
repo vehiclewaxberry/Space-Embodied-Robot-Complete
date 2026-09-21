@@ -1,0 +1,231 @@
+schema_version: INTERFACE_STACKUP_B601_M3R_V1
+generated_local: '2026-08-21T14:56:00+08:00'
+generated_clock_source: HOST_LOCAL_CLOCK_ASIA_SHANGHAI_UTC_PLUS_08
+phase: M4_SPACECRAFT_MECHANICAL_DIGITAL_PROTOTYPE_RELEASE
+assembly_path: B601 -> M3R_STAGE_A -> M3R_STAGE_B -> SPACECRAFT_LOAD_BRIDGE
+overall_status: HOLD_NOMINAL_GEOMETRY_AVAILABLE_MANUFACTURING_STACKS_OPEN
+
+units:
+  length: mm
+  angle: rad
+  force: N
+  torque: N*m
+
+sources:
+  interface_control:
+    path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/02_interfaces/B601_BASE_ADAPTER_REV_C_INTERFACE.yaml
+    sha256: D63B867B3183434C054A8840735A2CDD9C5106D430CC76E44B0C840A11A522E9
+  M3R_SSOT:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_ADAPTER_INTERFACE_SSOT.yaml
+    sha256: 591958F3A3BD06F5BD26B8218BFE145B4894031EC5005BC58C638B56D77F6E51
+  physical_stack:
+    path: 20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/M3_interface_authority/M3R_TSM_PHYSICAL_STACK.yaml
+    sha256: 172F3603E458F670323925E644BC68623EE9C85FCA7AF1200FAE2576EB43C68B
+    authority: AS_BUILT_MEASURED_COMPETITION_INTERFACE_NOT_OEM_OR_FLIGHT
+  predecessor_chain_register:
+    path: 20_engineering/F3R2_MECHANICAL_DETAILED_DESIGN_V1/05_tolerance/system/SYSTEM_TOLERANCE_CHAIN_REGISTER_V1.csv
+    sha256: B12EA035554BA830D88EA426C90F5B2A5A1AAA7BBFE0D6F88C99BD754AFE6C1F
+
+physical_stack_station_contract:
+  axis: spacecraft_positive_X
+  source_ref: physical_stack
+  stations:
+    M_FRAME_DYNAMICS_ORIGIN:
+      station_x_mm: 185.25
+      role: DYNAMICS_ORIGIN_NO_PHYSICAL_ENTITY
+    ADAPTER_PLATE_EXTERNAL_FACE:
+      station_x_mm: 198.0
+      role: EXISTING_LOAD_SPREADING_PLATE_EXTERNAL_FACE
+    CENTRAL_BOSS_PHYSICAL_INSTALLATION_FACE:
+      station_x_mm: 208.0
+      role: PHYSICAL_INSTALLATION_FACE
+    B601_AS_BUILT_FASTENER_END_PLANE:
+      station_x_mm: 210.405
+      role: FOUR_HM4_75_SCREW_END_FACES_NOT_CONTINUOUS_FLANGE
+  offset_checks_mm:
+    M_FRAME_TO_ADAPTER_FACE: 12.75
+    ADAPTER_FACE_TO_INSTALLATION_FACE: 10.0
+    M_FRAME_TO_INSTALLATION_FACE: 22.75
+    INSTALLATION_FACE_TO_FASTENER_END_PLANE: 2.405
+  ruling: FOUR_DISTINCT_STATIONS_ON_ONE_RIGID_STACK_NOT_COMPETING_INTERFACE_VALUES
+  spacecraft_load_bridge_mating_transform_status: HOLD_UNCONTROLLED_GEOMETRY_AND_DATUM
+
+analysis_contract:
+  drawing_limits_are_not_standard_uncertainties: true
+  every_input_requires: [estimate, lower_deviation, upper_deviation, standard_uncertainty, distribution, degrees_of_freedom, source]
+  correlations_required: true
+  datum_mobility_and_material_condition_required: true
+  thermal_analysis_requires_approved_CTE_and_temperature_range: true
+  worst_case_and_statistical_results_are_distinct: true
+  zero_fill_forbidden: true
+
+chains:
+  - chain_id: B601_M4_PATTERN_ALIGNMENT
+    function: assemble four B601 M4-class axes through Stage A holes and counterbores
+    datum_frame: B601_AS_BUILT_PATTERN_DATUM
+    nominal_geometry:
+      B601_square_pattern_xy_mm: [64.0, 64.0]
+      measured_equivalent_pcd_mm: 90.509641772
+      Stage_A_clearance_hole_diameter_mm: 4.6
+      Stage_A_counterbore_diameter_mm: 7.5
+      classification: FROZEN_OR_DERIVED_COMPETITION_INTERFACE
+    measurement_model: c_available_i = (D_hole_min - D_fastener_max)/2 - e_axis_i - e_datum_shift_i - e_clocking_i
+    unknown_inputs:
+      D_hole_limits_mm: null
+      D_fastener_limits_mm: null
+      B601_axis_position_limits_mm: null
+      Stage_A_position_tolerance_mm: null
+      datum_shift_model_mm: null
+      clocking_tolerance_rad: null
+      face_flatness_limits_mm: null
+      standard_uncertainties: null
+      correlations: null
+    outputs:
+      minimum_available_radial_clearance_mm: null
+      maximum_axis_misalignment_mm: null
+      mounting_tilt_rad: null
+    physical_validation: CMM_AXIS_AND_FACE_REPORT_PLUS_CONTROLLED_FITUP
+    status: HOLD
+
+  - chain_id: STAGE_A_STAGE_B_SPIGOT
+    function: central radial location
+    datum_frame: M3R_INTERFACE_DATUM
+    nominal_geometry:
+      male_spigot_diameter_mm: 99.6
+      female_bore_diameter_mm: 100.0
+      nominal_radial_clearance_mm: 0.2
+      classification: NOMINAL_DERIVED_NOT_A_TOLERANCE_PASS
+    measurement_model: C_radial = (D_female - D_male)/2
+    worst_case_model: C_min = (D_female_min - D_male_max)/2
+    statistical_model: u_C = 0.5*sqrt(u_Dfemale^2 + u_Dmale^2 - 2*rho*u_Dfemale*u_Dmale)
+    unknown_inputs:
+      male_diameter_limits_mm: null
+      female_diameter_limits_mm: null
+      male_standard_uncertainty_mm: null
+      female_standard_uncertainty_mm: null
+      correlation_coefficient: null
+      coaxiality_tolerance_mm: null
+      surface_finish: null
+      approved_CTE_per_K: null
+      temperature_range_degC: null
+    outputs:
+      worst_case_minimum_clearance_mm: null
+      combined_standard_uncertainty_mm: null
+      thermal_minimum_clearance_mm: null
+    physical_validation: CMM_DIAMETERS_COAXIALITY_SURFACE_FINISH_AND_THERMAL_FITUP
+    status: HOLD
+
+  - chain_id: STAGE_A_STAGE_B_ANNULAR_SKIRT
+    function: annular pocket radial location and load-seat compatibility
+    datum_frame: M3R_INTERFACE_DATUM
+    nominal_geometry:
+      skirt_outer_diameter_mm: 150.0
+      pocket_outer_diameter_mm: 150.4
+      nominal_radial_clearance_mm: 0.2
+      classification: NOMINAL_DERIVED_NOT_A_TOLERANCE_PASS
+    measurement_model: C_outer = (D_pocket_outer - D_skirt_outer)/2
+    unknown_inputs:
+      skirt_diameter_limits_mm: null
+      pocket_diameter_limits_mm: null
+      coaxiality_limits_mm: null
+      standard_uncertainties: null
+      correlations: null
+      approved_CTE_per_K: null
+      temperature_range_degC: null
+    outputs:
+      worst_case_minimum_clearance_mm: null
+      combined_standard_uncertainty_mm: null
+      thermal_minimum_clearance_mm: null
+    status: HOLD
+
+  - chain_id: STAGE_A_STAGE_B_AXIAL_SEAT
+    function: annular face seating and preload transfer
+    datum_frame: M3R_INTERFACE_DATUM
+    nominal_geometry:
+      Stage_A_recess_depth_mm: 5.595
+      Stage_B_pocket_depth_mm: 5.595
+      nominal_depth_difference_mm: 0.0
+      classification: NOMINAL_COMPARISON_NOT_A_ZERO_TOLERANCE_DESIGN
+    measurement_model: G_axial = d_B_pocket - d_A_recess + delta_flatness + delta_parallelism + delta_surface + delta_preload
+    unknown_inputs:
+      depth_limits_mm: null
+      face_flatness_limits_mm: null
+      parallelism_limits_rad: null
+      surface_finish: null
+      preload_deflection_mm: null
+      standard_uncertainties: null
+    outputs:
+      minimum_seating_gap_mm: null
+      maximum_seating_gap_mm: null
+      combined_standard_uncertainty_mm: null
+    status: HOLD
+
+  - chain_id: STAGE_A_STAGE_B_M5_AND_CLOCKING
+    function: eight-fastener transition pattern and asymmetric locator
+    datum_frame: M3R_INTERFACE_DATUM
+    nominal_geometry:
+      M5_axis_count: 8
+      M5_pattern_radius_mm: 62.5
+      Stage_B_clearance_hole_diameter_mm: 5.5
+      Stage_A_clocking_hole_diameter_mm: 4.1
+      Stage_B_clocking_blind_hole_diameter_mm: 4.0
+      classification: NOMINAL_CANDIDATE
+    measurement_model: evaluate each fastener axis after common-datum transform including hole size position clocking locator mobility and fastener size
+    unknown_inputs:
+      Stage_A_M5_hole_diameter_limits_mm: null
+      Stage_A_and_B_position_tolerances_mm: null
+      M5_fastener_limits_mm: null
+      locator_part_diameter_and_profile_mm: null
+      press_and_slip_pair_assignment: null
+      locator_fit_limits_mm: null
+      clocking_datum_rule: null
+      standard_uncertainties: null
+    outputs:
+      minimum_fastener_clearance_mm: null
+      locator_interference_or_clearance_mm: null
+      clocking_error_rad: null
+    status: HOLD
+
+  - chain_id: STAGE_B_SPACECRAFT_M6_PATTERN
+    function: Stage B attachment to live spacecraft load bridge
+    datum_frame: SPACECRAFT_LOAD_BRIDGE_MATING_DATUM
+    nominal_geometry:
+      Stage_B_M6_axis_count: 4
+      Stage_B_M6_square_pattern_xy_mm: [140.0, 140.0]
+      Stage_B_clearance_hole_diameter_mm: 6.6
+      Stage_B_nominal_net_hole_edge_ligament_mm: 6.7
+      Stage_B_nominal_net_hole_edge_ligament_model: (160.0/2) - 70.0 - (6.6/2)
+      classification: STAGE_B_ONLY_SPACECRAFT_MATING_SIDE_UNKNOWN
+    measurement_model: transform both four-axis patterns into a common datum and calculate hole-fastener clearance edge ligament and plane-angle stack
+    unknown_inputs:
+      spacecraft_mating_axis_coordinates_mm: null
+      spacecraft_hole_size_limits_mm: null
+      spacecraft_position_tolerance_mm: null
+      Stage_B_position_tolerance_mm: null
+      M6_fastener_limits_mm: null
+      face_flatness_limits_mm: null
+      mounting_plane_angle_limits_rad: null
+      spacecraft_load_bridge_mating_datum_definition: null
+      physical_mating_datum_to_M_DYNAMICS_transform: null
+      standard_uncertainties: null
+    outputs:
+      minimum_fastener_clearance_mm: null
+      minimum_edge_ligament_mm: null
+      mounting_tilt_rad: null
+    status: HOLD_LIVE_SPACECRAFT_MATING_GEOMETRY_MISSING
+
+closure_gate:
+  chain_count: 6
+  nominal_geometry_present_count: 6
+  complete_limit_chain_count: 0
+  complete_uncertainty_chain_count: 0
+  thermal_chain_count_closed: 0
+  physical_fitup_pass_count: 0
+  accepted_chain_count: 0
+  verdict: HOLD
+
+release_prohibitions:
+  - NO_FIT_OR_INTERFERENCE_FREE_CLAIM_FROM_NOMINAL_CLEARANCE
+  - NO_DRAWING_RELEASE_UNTIL_LIMITS_DATUMS_AND_INSPECTION_METHODS_CLOSE
+  - NO_THERMAL_CLEARANCE_CLAIM_WITHOUT_APPROVED_CTE_AND_ENVIRONMENT
+  - NO_FASTENER_PRELOAD_OR_MARGIN_CLAIM

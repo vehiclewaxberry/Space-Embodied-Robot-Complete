@@ -1,0 +1,164 @@
+{
+  "schema": "V5R_RAPID_BACKUP_RECEIPT_V1",
+  "round": "V5R_RAPID_MECHANICAL_CLOSURE",
+  "phase": "PHASE_0_DISASTER_RECOVERY_AND_WRITE_BOUNDARY",
+  "timestamp_utc": "2026-08-20T04:52:28Z",
+  "executed_by": "claude-orchestrator",
+
+  "git_state_at_snapshot": {
+    "head_sha1": "5c5addea00ddb70d86a5cc37a88bbcda50350e43",
+    "head_subject": "docs(CM3): add PROJECT_START_HERE entry doc (project library SSOT pointer)",
+    "branch": "publication/stage3-integrity-closure",
+    "dirty_entry_count": 92,
+    "tracked_file_count": 1062,
+    "dot_git_size": "1.6G",
+    "working_tree_clean": false,
+    "note": "snapshot taken with the working tree dirty; the bundle carries committed history only, the robocopy mirror carries the on-disk (dirty) state"
+  },
+
+  "cold_backup": {
+    "is_true_cold_backup": true,
+    "second_physical_disk_available": true,
+    "physical_disk_evidence": {
+      "source_volume": "F:",
+      "source_physical_disk": "Disk 1 (HM7500 2TB)",
+      "backup_volume": "E:",
+      "backup_physical_disk": "Disk 0 (HFS001TEM9X174N 1024209543168 bytes)",
+      "distinct_physical_spindles": true,
+      "rejected_candidate": {
+        "volume": "G:",
+        "reason": "G: is a partition of the SAME physical Disk 1 as F:; using it would NOT be a true cold backup",
+        "free_space_was_sufficient": true
+      }
+    },
+    "backup_root": "E:/V5R_RAPID_COLD_BACKUP",
+    "components": [
+      {
+        "kind": "GIT_BUNDLE_ALL_REFS",
+        "path": "E:/V5R_RAPID_COLD_BACKUP/repo_tracked_ALL_REFS.bundle",
+        "size_bytes": 258183345,
+        "sha256": "F1B0CB4D8BDEEB45DA1A1C22D24E2B17D03BF334B6DB8298FA9F769D85A6A5F6",
+        "git_bundle_verify": "PASS",
+        "git_bundle_verify_statement": "The bundle records a complete history.",
+        "refs_included": "--all (branches, tags, and 5 worktree HEADs)"
+      },
+      {
+        "kind": "FILE_LEVEL_MIRROR_20_ENGINEERING",
+        "path": "E:/V5R_RAPID_COLD_BACKUP/20_engineering",
+        "tool": "robocopy /E /COPY:DAT /DCOPY:DAT /R:2 /W:2 /MT:8",
+        "log": "E:/V5R_RAPID_COLD_BACKUP/robocopy_20_engineering.log",
+        "robocopy_dirs_copied": 1418,
+        "robocopy_files_copied": 6568,
+        "robocopy_bytes": "8.331 g",
+        "robocopy_failed": 0,
+        "robocopy_mismatch": 0
+      }
+    ]
+  },
+
+  "verification": {
+    "method": "FULL_FILE_BY_FILE_SHA256_NOT_SAMPLED",
+    "receipt": "07_evidence/BACKUP_VERIFY.json",
+    "src_file_count": 6568,
+    "dst_file_count": 6568,
+    "src_total_bytes": 8946146178,
+    "dst_total_bytes": 8946146178,
+    "missing_in_backup_count": 0,
+    "extra_in_backup_count": 0,
+    "sha256_mismatch_count": 0,
+    "every_source_file_present_and_bit_identical": true,
+    "scope_exclusion": {
+      "excluded_relpath_prefix": "F3R2_V5R_RAPID_MECHANICAL_CLOSURE_20260820/",
+      "reason": "this round's own output directory did not exist at snapshot time and grows as Phase 0 artifacts land; including it would make a 1:1 count an unreachable moving target rather than a real integrity check"
+    },
+    "verdict": "V5R_PHASE0_COLD_BACKUP_VERIFIED_BIT_IDENTICAL"
+  },
+
+  "protected_asset_hash_recheck": {
+    "purpose": "stop-condition #2 check - has any frozen input hash changed",
+    "source_of_expected_values": "M3R_INTERFACE_AUTHORITY_GATE.json protected_assets[]",
+    "assets": [
+      {
+        "name": "accepted_B601_URDF",
+        "path": "20_engineering/cad/spacecraft_layout/arm_b601_v1/arm_b601_v1.urdf",
+        "expected_sha256_disk_crlf": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+        "measured_sha256_disk_crlf": "1BC2B7483CD8025D08BA6EADFD9E1F3B0477121714E7CF4DDC1794D9E471C164",
+        "expected_sha256_lf_normalized": "408147DDC9CC0BBA0FACBF864C559A54D1712262703BA41251514A4303B5A3A4",
+        "measured_sha256_lf_normalized": "408147DDC9CC0BBA0FACBF864C559A54D1712262703BA41251514A4303B5A3A4",
+        "match": true,
+        "note": "both CRLF and LF-normalized digests checked; core.autocrlf=true makes the single-digest check a known false-alarm generator"
+      },
+      {
+        "name": "mass_inertia_budget",
+        "path": "20_engineering/stage1_spacecraft_layout/04_mass_inertia_budget/mass_inertia_budget_v1.csv",
+        "expected_sha256": "073C802527E35C9495188EEFD5D8BA51F524D326142CF2AB31E436BAD0899392",
+        "measured_sha256": "073C802527E35C9495188EEFD5D8BA51F524D326142CF2AB31E436BAD0899392",
+        "match": true
+      },
+      {
+        "name": "V2_2_native_donor_top",
+        "path": "20_engineering/cad/Space_Embodied_Robot_CAD_V2_2_NATIVE/Assembly/Space_Embodied_Service_Spacecraft_V2_2.SLDASM",
+        "expected_sha256": "30C09B50A0D2967EC1F48050CAAC34D12A43565C44978D54E3785595202DEF7A",
+        "measured_sha256": "30C09B50A0D2967EC1F48050CAAC34D12A43565C44978D54E3785595202DEF7A",
+        "match": true
+      },
+      {
+        "name": "B51_protected_donor",
+        "path": "20_engineering/cad/B5_1_B601_interface_closure_candidate/03_CAD/native_articulated/B51_ARTICULATED_20260728T008/assembly/B51_B601_ARTICULATED_ENGINEERING_ARM.SLDASM",
+        "expected_sha256": "603B87BBD4398FDDB3F732FFBFA7E1C080ED91ED6E0A026D56CBDCBA08DE2E22",
+        "measured_sha256": "603B87BBD4398FDDB3F732FFBFA7E1C080ED91ED6E0A026D56CBDCBA08DE2E22",
+        "match": true
+      },
+      {
+        "name": "F3R1_top",
+        "path": "20_engineering/F3R1_MECHANICAL_INTEGRATION_RECOVERY_20260806/03_native_cad/F3R1_SPACE_EMBODIED_ROBOT_INTEGRATION_V3_CONFIGURED.SLDASM",
+        "expected_sha256": "19D85E9C703BEC107396AE84DAB7B12DE5722434FC7D5474B3A5A144A1B590D0",
+        "measured_sha256": "19D85E9C703BEC107396AE84DAB7B12DE5722434FC7D5474B3A5A144A1B590D0",
+        "match": true
+      },
+      {
+        "name": "F3R2_frozen_top",
+        "path": "20_engineering/F3R2_MECHANICAL_TERMINAL_CLOSURE_20260807/03_native_cad/F3R2_SPACE_EMBODIED_ROBOT_OPERATIONAL_BASELINE.SLDASM",
+        "expected_sha256": "19D85E9C703BEC107396AE84DAB7B12DE5722434FC7D5474B3A5A144A1B590D0",
+        "measured_sha256": "19D85E9C703BEC107396AE84DAB7B12DE5722434FC7D5474B3A5A144A1B590D0",
+        "match": true
+      }
+    ],
+    "assets_checked": 6,
+    "assets_matching": 6,
+    "any_frozen_hash_changed": false
+  },
+
+  "findings_that_changed_the_procedure": [
+    {
+      "id": "P0-F1",
+      "severity": "HIGH",
+      "finding": "G: was the obvious backup target by free space (164 GiB) but is a partition of the SAME physical disk as F:. Backing up there would have produced a receipt claiming a cold backup that shares a single point of failure with the source.",
+      "action": "backup redirected to E: on Disk 0"
+    },
+    {
+      "id": "P0-F2",
+      "severity": "HIGH",
+      "finding": "core.longpaths is UNSET. `git ls-files --others` emits warnings and SILENTLY SKIPS directories past MAX_PATH. git enumerated 6372 files under 20_engineering; the filesystem actually holds 6568 - a 196-file blind spot, and 439 files exceed 260 chars (longest 348).",
+      "action": "the SHA-256 manifest is built from an os.walk over a Win32 extended-length (\\\\?\\) path, never from git enumeration"
+    },
+    {
+      "id": "P0-F3",
+      "severity": "MEDIUM",
+      "finding": "The first robocopy invocation appeared to succeed (shell reported exit 0) but copied NOTHING: Git Bash MSYS path conversion rewrote the /E switch into 'E:/', so robocopy saw an invalid third parameter and aborted with its own exit 16. The log and destination did not exist.",
+      "action": "re-run under MSYS_NO_PATHCONV=1; destination existence and the robocopy summary block are now checked rather than trusting the shell exit code"
+    }
+  ],
+
+  "not_a_true_cold_backup": false,
+  "solidworks_opened_this_phase": false,
+  "any_pre_existing_asset_modified_this_phase": false,
+  "verdict": "V5R_PHASE0_BACKUP_AND_WRITE_BOUNDARY_ESTABLISHED_VERIFIED",
+  "authorizes": "read-only Phase 1 authority analysis and creation of files under the Phase 0 write boundary",
+  "does_not_authorize": [
+    "opening SolidWorks",
+    "any write outside the declared write boundary",
+    "any modification of the six protected assets",
+    "Phase 2 native assembly work"
+  ]
+}

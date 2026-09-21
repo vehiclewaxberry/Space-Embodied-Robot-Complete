@@ -1,0 +1,13 @@
+# 运行时场景状态机（H4 prebind 层）。UNKNOWN 永不 EXECUTE；NOT_EVALUATED ≠ SAFE。
+schema: SCENARIO_STATE_MACHINE_V1
+states:
+  INIT: {entry: [load_authority_snapshot, verify_input_hashes], on_fail: ABORT_LOCKED}
+  AUTHORITY_CHECK: {entry: [safe_prebind.decide], transitions: {EXECUTE: ARMED, MODIFY: ARMED_CAPPED, WAIT: HOLD_WAIT, ABORT: ABORT_LOCKED}}
+  ARMED: {note: "仅 scope=NO_CONTACT_PREBIND/CONTRACT_ONLY 本增量可达", transitions: {step_ok: RUNNING, solver_error: ABORT_LOCKED}}
+  ARMED_CAPPED: {note: "PROVISIONAL 存在时的上限态（如 T_SM nominal_frozen）", transitions: {step_ok: RUNNING}}
+  RUNNING: {invariants: [finite_state, rate_ceiling, momentum_ledger_recorded], transitions: {t_end: TERMINATED_NOMINAL, invariant_violation: ABORT_LOCKED, stale_input: HOLD_WAIT}}
+  HOLD_WAIT: {budget_s: 2.0, transitions: {fresh_input: AUTHORITY_CHECK, budget_exceeded: ABORT_LOCKED}}
+  TERMINATED_NOMINAL: {exit: [write_episode, hash_outputs]}
+  ABORT_LOCKED: {exit: [write_episode_with_failure_context, hash_outputs], note: "失败 episode 永不删除"}
+terminal_labels: {TERMINATED_NOMINAL: BY_SAFE_DECISION, ABORT_LOCKED: ABORT, UNEVALUATED: NOT_EVALUATED}
+contact_states: FORBIDDEN_THIS_INCREMENT   # CONTACT_* 状态未定义=不可达，T_E_T/接触权威后增补

@@ -1,0 +1,96 @@
+schema: M4_NEXT_LOOP_ACTION_REGISTER_V1
+baseline_in: V7_SPACECRAFT_MECHANICAL_DIGITAL_PROTOTYPE_WORKING
+next_loop_candidate: M5_PHYSICAL_AUTHORITY_AND_DYNAMICS_CLOSURE
+overall_status: EXECUTABLE_BACKLOG_WITH_EXTERNAL_EVIDENCE_HOLDS
+
+sequencing_rule: >-
+  Close physical authority in the order shown. Do not start formal FEA,
+  production contact dynamics, or RL training merely because the M4 working
+  digital prototype and Sim14 diagnostic kernel pass their scoped gates.
+
+actions:
+  - priority: 1
+    action_id: M5-A01
+    objective: close the spacecraft-to-M3R load bridge and mating datum geometry
+    required_inputs: [controlled load-bridge CAD, root-to-M frame transform, mating hole and face datums, component ownership]
+    exit_evidence: released geometry plus fitup and frame receipt
+    releases: [structural_load_path_geometry, M3R_bus_connection]
+    status: HOLD_EXTERNAL_GEOMETRY
+  - priority: 2
+    action_id: M5-A02
+    objective: build link-level physical B601 and complete gripper collision assets
+    required_inputs: [source-controlled link meshes or B-reps, accepted joint-state mapping, separated finger geometry]
+    exit_evidence: per-link hash register plus static and swept collision validation
+    releases: [B601_collision, pregrasp_collision, configuration_envelopes]
+    status: HOLD_PHYSICAL_GEOMETRY
+  - priority: 3
+    action_id: M5-A03
+    objective: freeze all nine physical configuration transforms and failure semantics
+    required_inputs: [panel stowed and failed transforms, accepted stow task-ready pregrasp post-capture joint vectors, retained-or-jettisoned rules]
+    exit_evidence: nine configuration-native geometry snapshots and collision receipts
+    releases: [configuration_bbox, configuration_collision, named_state_binding]
+    status: HOLD_CONFIGURATION_AUTHORITY
+  - priority: 4
+    action_id: M5-A04
+    objective: close target identity relative pose contact datum and gripper interaction surfaces
+    required_inputs: [target drawings or scan, contact surface materials and finish, capture transform, damage and retention criteria]
+    exit_evidence: contact ICD plus instrumented surrogate-test plan
+    releases: [contact_model_entry, capture_state_authority]
+    status: HOLD_TARGET_AND_CONTACT_AUTHORITY
+  - priority: 5
+    action_id: M5-A05
+    objective: execute the configuration-controlled mass-property campaign
+    required_inputs: [complete non-overlapping hardware set, calibrated scale and balance method, configuration fixtures, uncertainty model]
+    exit_evidence: measured mass center of mass inertia and covariance by required configuration
+    releases: [SYSTEM_MASS_PROPERTIES_V4, production_rigid_body_dynamics_entry]
+    status: HOLD_PHYSICAL_HARDWARE
+  - priority: 6
+    action_id: M5-A06
+    objective: select exact material product forms processes finishes lubricants and temperature environment
+    required_inputs: [part-numbered BOM, procurement specifications, process travelers, environment requirements, design allowables]
+    exit_evidence: approved material-process register with traceability and allowables
+    releases: [formal_material_gate, density_and_thermal_use]
+    status: HOLD_DESIGN_SELECTION
+  - priority: 7
+    action_id: M5-A07
+    objective: close B601-M3R gripper and hinge functional tolerance chains
+    required_inputs: [released datums and limits, calibrated metrology, correlation model, decision rules, physical fitup]
+    exit_evidence: worst-case and uncertainty results with guarded conformity decisions
+    releases: [drawing_release_candidate, functional_clearance_authority]
+    status: HOLD_DRAWINGS_AND_MEASUREMENTS
+  - priority: 8
+    action_id: M5-A08
+    objective: select and verify HDRM hinge and gripper actuator architectures
+    required_inputs: [loads environment reliability and fault requirements, selected hardware, instrumented test articles]
+    exit_evidence: completed MVR-001 through MVR-020 subset applicable to selected architectures
+    releases: [prototype_mechanism_release, actuator_force_and_fault_models]
+    status: HOLD_REQUIREMENTS_AND_HARDWARE
+  - priority: 9
+    action_id: M5-A09
+    objective: authorize and execute structural model verification only after the entry gate passes
+    required_inputs: [loads and factors, BCs, contacts, fasteners, allowables, configuration mass, mesh plan, acceptance criteria]
+    exit_evidence: correlated strength buckling modal and environment results under controlled configurations
+    releases: [STRUCTURAL_ANALYSIS_READY, structural_qualification_candidate]
+    status: HOLD_STRUCTURAL_ENTRY
+  - priority: 10
+    action_id: M5-A10
+    objective: promote Sim14 from ideal momentum closure to validated contact and flexible-body dynamics
+    required_inputs: [released mass inertia contact friction pressure restitution actuator collision and modal data]
+    exit_evidence: source-bound solver verification validation and uncertainty report against physical tests
+    releases: [production_contact_dynamics_candidate]
+    status: HOLD_PHYSICAL_MODEL_AUTHORITY
+  - priority: 11
+    action_id: M5-A11
+    objective: begin constrained RL training only after production physics and safety gates pass
+    required_inputs: [validated simulator, observation action latency model, constraint and abort logic, test scenario distribution]
+    exit_evidence: reproducible training evaluation robustness and sim-to-real limitation package
+    releases: [PHYSICS_GATED_CONTACT_RL_READY]
+    status: HOLD_PRODUCTION_DYNAMICS
+
+external_holds_retained:
+  - launcher_and_deployer_ICD
+  - flight_loads_and_environment
+  - flight_material_and_process_approval
+  - HDRM_flight_reliability
+  - manufacturing_release
+  - qualification_and_flight_release

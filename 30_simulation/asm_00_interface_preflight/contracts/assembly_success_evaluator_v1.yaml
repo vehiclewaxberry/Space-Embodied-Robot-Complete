@@ -1,0 +1,109 @@
+schema_id: ASM_ASSEMBLY_SUCCESS_EVALUATOR_V1
+schema_version: 1.0.0
+status: FROZEN_PENDING_HAG_A_BINDING
+task_id: ASM-00
+owner: ASM-01_SINGLE_SOURCE_EVALUATOR
+authorization_effect: NONE
+scientific_claim_effect: NONE
+source_conflict_resolved:
+  former_draft_count: 8
+  frozen_count: 9
+  resolution_basis:
+    - 10_research/on_orbit_assembly/red_team_assembly_safety.md
+    - 10_research/on_orbit_assembly/master_plan.md
+    - 10_research/on_orbit_assembly/waveA_task_cards/ASM-01.md
+  source_files_modified: false
+
+evaluation_semantics:
+  state_enum: [PASS, FAIL, UNKNOWN]
+  missing_or_unverifiable_state: UNKNOWN
+  success_token: ASSEMBLY_SUCCESS
+  success_rule: ALL_NINE_CRITERIA_PASS
+  fail_rule: ANY_CRITERION_FAIL
+  unknown_rule: NO_FAIL_AND_ANY_CRITERION_UNKNOWN
+  unknown_can_be_success: false
+  criterion_count: 9
+
+criteria:
+  - id: C01_FINAL_POSITION
+    name: final_position_within_tolerance
+    evidence_field: final_position_error_mm
+    operator: LESS_THAN_OR_EQUAL
+    threshold_ref: /interface/translational_tolerance_mm/fine
+    units: mm
+    unknown_if: [missing_evidence, missing_threshold, unit_mismatch]
+
+  - id: C02_FINAL_ORIENTATION
+    name: final_orientation_within_tolerance
+    evidence_field: final_orientation_error_deg
+    operator: LESS_THAN_OR_EQUAL
+    threshold_ref: /interface/angular_tolerance_deg/fine
+    units: deg
+    unknown_if: [missing_evidence, missing_threshold, unit_mismatch]
+
+  - id: C03_INSERTION_DEPTH
+    name: insertion_depth_reached
+    evidence_field: insertion_depth_reached
+    operator: EQUAL
+    expected: true
+    unknown_if: [missing_evidence]
+
+  - id: C04_LATCH_GEOMETRY
+    name: locked_and_geometry_consistent
+    operator: ALL
+    predicates:
+      - {evidence_field: latch_state, operator: EQUAL, expected: LOCKED}
+      - {evidence_field: geometry_consistent, operator: EQUAL, expected: true}
+    unknown_if: [missing_latch_evidence, missing_geometry_witness]
+
+  - id: C05_CONTACT_LOAD
+    name: contact_load_within_limit_at_evaluation
+    evidence_field: contact_load_within_limit
+    operator: EQUAL
+    expected: true
+    unknown_if: [missing_evidence, unbound_load_limit]
+
+  - id: C06_BASE_WHEEL_RESOURCES
+    name: base_and_wheel_within_resources
+    evidence_field: base_wheel_within_resources
+    operator: EQUAL
+    expected: true
+    unknown_if: [missing_evidence, provisional_resource_model_unmarked]
+
+  - id: C07_FLEXIBLE_RESPONSE
+    name: flexible_response_within_validated_envelope
+    evidence_field: flexible_response_within_validated_envelope
+    operator: EQUAL
+    expected: true
+    unknown_if: [missing_evidence, envelope_not_validated, out_of_domain]
+
+  - id: C08_PROVENANCE_AND_PHASE_LEDGER
+    name: provenance_and_phase_adjudication_complete
+    operator: ALL
+    predicates:
+      - {evidence_field: provenance_complete, operator: EQUAL, expected: true}
+      - {evidence_field: phase_transition_adjudication_ledger_complete, operator: EQUAL, expected: true}
+    unknown_if: [missing_decision_provenance, missing_phase_transition_record]
+
+  - id: C09_CONTACT_HISTORY
+    name: contact_history_compliant
+    operator: ALL
+    predicates:
+      - {evidence_field: all_contact_history_peaks_within_limits, operator: EQUAL, expected: true}
+      - {evidence_field: all_contact_segments_converged, operator: EQUAL, expected: true}
+      - {evidence_field: contact_log_complete, operator: EQUAL, expected: true}
+    unknown_if: [missing_history, unconverged_segment, contact_log_gap]
+
+consumer_rules:
+  ASM-01: MUST_EVALUATE_SINGLE_SOURCE
+  ASM-02: MUST_READ_RESULT_AND_MUST_NOT_REIMPLEMENT
+  ASM-TWIN-00: DISPLAY_ONLY_MUST_NOT_RECLASSIFY
+
+claim_boundaries:
+  allowed:
+    - Nine-criterion evaluator contract frozen pending HAG-A binding.
+  forbidden:
+    - HAG-A approved.
+    - Interface qualified.
+    - Assembly success demonstrated.
+    - Autonomous on-orbit assembly completed.
